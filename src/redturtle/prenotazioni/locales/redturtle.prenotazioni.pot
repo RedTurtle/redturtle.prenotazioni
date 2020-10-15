@@ -1,0 +1,732 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2017-05-30 07:24+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ./browser/prenotazioni_search.py:56
+#: ./browser/vacations.py:65
+msgid " format (YYYY-MM-DD)"
+msgstr ""
+
+#: ./profiles/default/types/PrenotazioniFolder.xml
+msgid "A folder that will contain booking"
+msgstr ""
+
+#: ./profiles/default/types/PrenotazioniDay.xml
+msgid "A folder that will contain booking for this day"
+msgstr ""
+
+#: ./profiles/default/types/PrenotazioniWeek.xml
+msgid "A folder that will contain booking for this week"
+msgstr ""
+
+#: ./profiles/default/types/PrenotazioniYear.xml
+msgid "A folder that will contain booking for this year"
+msgstr ""
+
+#: ./contentrules/sendMovedPrenotazione.py:139
+msgid "A mail action that sends email notify when a booking is moved in an other slot."
+msgstr ""
+
+#: ./contentrules/sendMovedPrenotazione.py:138
+msgid "Add moved booking Mail Action"
+msgstr ""
+
+#: ./profiles/default/types/Prenotazione.xml
+msgid "Booking"
+msgstr ""
+
+#: ./profiles/default/types/PrenotazioniDay.xml
+msgid "Booking Day Folder"
+msgstr ""
+
+#: ./profiles/default/types/PrenotazioniFolder.xml
+msgid "Booking Folder"
+msgstr ""
+
+#: ./profiles/default/types/PrenotazioniWeek.xml
+msgid "Booking Week Folder"
+msgstr ""
+
+#: ./profiles/default/types/PrenotazioniYear.xml
+msgid "Booking Year Folder"
+msgstr ""
+
+#: ./content/prenotazione.py:65
+msgid "Booking date"
+msgstr ""
+
+#: ./browser/prenotazione.pt:32
+msgid "Booking for"
+msgstr ""
+
+#: ./contentrules/configure.zcml:25
+msgid "Booking moved"
+msgstr ""
+
+#: ./configure.zcml:35
+msgid "Booking product for Plone"
+msgstr ""
+
+#: ./configure.zcml:43
+msgid "Booking product for Plone: default content rules"
+msgstr ""
+
+#: ./browser/prenotazione.pt:58
+#: ./content/prenotazione.py:74
+msgid "Company"
+msgstr ""
+
+#: ./contentrules/sendMovedPrenotazione.py:141
+msgid "Configure element"
+msgstr ""
+
+#: ./browser/prenotazioni_search.pt:141
+msgid "Content listing"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:54
+msgid "Data fine validità"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:42
+msgid "Data inizio validità"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:126
+msgid "Days booking booking is not allowed before"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:33
+msgid "Descrizione Agenda"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:151
+msgid "Duration value"
+msgstr ""
+
+#: ./browser/prenotazione.pt:70
+msgid "E-mail"
+msgstr ""
+
+#: ./contentrules/sendMovedPrenotazione.py:155
+msgid "Edit moved booking Mail Action"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:197
+msgid "Email del responsabile"
+msgstr ""
+
+#: ./contentrules/sendMovedPrenotazione.py:60
+msgid "Email report to prenotazione owner"
+msgstr ""
+
+#: ./browser/prenotazioni_search.pt:17
+msgid "Error"
+msgstr ""
+
+#: ./content/prenotazione.py:95
+msgid "Expiration date booking"
+msgstr ""
+
+#: ./browser/prenotazione.pt:75
+#: ./content/prenotazione.py:85
+msgid "Gate"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:96
+msgid "Giorni festivi"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:72
+msgid "Indicare la composizione della settimana tipo"
+msgstr ""
+
+#: ./browser/prenotazioni_search.pt:22
+msgid "Info"
+msgstr ""
+
+#: ./profiles/default/types/Prenotazione.xml
+msgid "Informations about a single booking"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:198
+msgid "Inserisci l'indirizzo email del responsabile delle prenotazioni"
+msgstr ""
+
+#: ./content/prenotazione.py:75
+msgid "Inserisci la denominazione dell'azienda del richiedente"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:112
+msgid "Max days in the future"
+msgstr ""
+
+#: ./contentrules/sendMovedPrenotazione.py:36
+msgid "Message"
+msgstr ""
+
+#: ./content/prenotazione.py:120
+msgid "Nome e Cognome"
+msgstr ""
+
+#: ./content/prenotazione.py:126
+msgid "Oggetto"
+msgstr ""
+
+#: ./content/prenotazione.py:37
+msgid "Phone number"
+msgstr ""
+
+#: ./browser/prenotazione_print.pt:94
+msgid "Print"
+msgstr ""
+
+#: ./configure.zcml:35
+msgid "Reno Galliera Booking"
+msgstr ""
+
+#: ./configure.zcml:43
+msgid "Reno Galliera Booking Content Rules"
+msgstr ""
+
+#: ./browser/prenotazione.pt:51
+msgid "Reservation date"
+msgstr ""
+
+#: ./browser/prenotazione.pt:47
+msgid "Reservation type"
+msgstr ""
+
+#: ./contentrules/configure.zcml:52
+msgid "Send Email to booking owner when a booking is moved"
+msgstr ""
+
+#: ./contentrules/sendMovedPrenotazione.py:28
+msgid "Sender email"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:71
+msgid "Settimana Tipo"
+msgstr ""
+
+#: ./browser/prenotazione_add.py:325
+msgid "Sorry, this slot is not available anymore."
+msgstr ""
+
+#: ./browser/prenotazione_move.py:127
+msgid "Sorry, this slot is not available or does not fit your booking."
+msgstr ""
+
+#: ./browser/prenotazione_add.py:328
+#: ./browser/prenotazione_move.py:131
+msgid "Sorry, you can not book this slot for now."
+msgstr ""
+
+#: ./content/prenotazione.py:86
+msgid "Sportello a cui presentarsi"
+msgstr ""
+
+#: ./contentrules/sendMovedPrenotazione.py:22
+msgid "Subject"
+msgstr ""
+
+#: ./contentrules/sendMovedPrenotazione.py:23
+msgid "Subject of the message"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:142
+msgid "Tipologie di richiesta"
+msgstr ""
+
+#: ./content/prenotazionifolder.py:148
+msgid "Typology name"
+msgstr ""
+
+#. Default: "Leave empty, and this Booking Folder will never expire"
+#: ./content/prenotazionifolder.py:55
+msgid "aData_help"
+msgstr ""
+
+#. Default: "Book"
+#: ./browser/prenotazione_add.py:351
+#: ./browser/vacations.py:242
+msgid "action_book"
+msgstr ""
+
+#. Default: "Cancel"
+#: ./browser/prenotazione_add.py:367
+#: ./browser/prenotazione_move.py:206
+#: ./browser/prenotazioni_search.py:182
+msgid "action_cancel"
+msgstr ""
+
+#. Default: "Move"
+#: ./browser/prenotazione_move.py:191
+msgid "action_move"
+msgstr ""
+
+#. Default: "Search"
+#: ./browser/prenotazioni_search.py:175
+msgid "action_search"
+msgstr ""
+
+#. Default: "Please select a booking slot."
+#: ./browser/week.pt:29
+msgid "book_it"
+msgstr ""
+
+#. Default: "Bookable time"
+#: ./browser/prenotazione_macros.pt:288
+msgid "bookable_time"
+msgstr ""
+
+#: ./content/prenotazione.py:56
+msgid "booking tipology"
+msgstr ""
+
+#. Default: "Booking confirmed"
+#: ./browser/prenotazione_macros.pt:290
+msgid "booking_confirmed"
+msgstr ""
+
+#: ./browser/prenotazione_add.py:357
+#: ./browser/vacations.py:239
+msgid "booking_created"
+msgstr ""
+
+#: ./browser/prenotazione_move.py:198
+msgid "booking_moved"
+msgstr ""
+
+#. Default: "Booking pending"
+#: ./browser/prenotazione_macros.pt:292
+msgid "booking_pending"
+msgstr ""
+
+#. Default: "Booking refused"
+#: ./browser/prenotazione_macros.pt:294
+msgid "booking_refused"
+msgstr ""
+
+#. Default: "Bookings not in agenda"
+#: ./browser/prenotazione_macros.pt:63
+msgid "bookings_not_in_agenda"
+msgstr ""
+
+#. Default: "Busy"
+#: ./browser/prenotazioni_context_state.py:66
+msgid "busy"
+msgstr ""
+
+#. Default: "Your booking has to be confirmed by the administrators"
+#: ./browser/prenotazione_print.py:17
+msgid "confirm_booking_waiting_message"
+msgstr ""
+
+#. Default: "This day is not valid."
+#: ./browser/vacations.py:196
+msgid "day_error"
+msgstr ""
+
+#. Default: "If you work for an agency please specify its name"
+#: ./browser/prenotazione_add.py:125
+msgid "description_agency"
+msgstr ""
+
+#. Default: "The gate that will be unavailable"
+#: ./browser/vacations.py:58
+msgid "description_gate"
+msgstr ""
+
+#. Default: "This text will appear in the calendar cells"
+#: ./browser/vacations.py:52
+msgid "description_title"
+msgstr ""
+
+#. Default: "Foreseen booking time: ${booking_time}"
+#: ./browser/week.py:229
+msgid "foreseen_booking_time"
+msgstr ""
+
+#: ./browser/prenotazione.pt:52
+msgid "from"
+msgstr ""
+
+#. Default: "Fullname"
+#: ./browser/prenotazione.pt:39
+msgid "fullname"
+msgstr ""
+
+#. Default: "Limit booking in the future to an amount of days in the future starting from the current day. \nKeep 0 to give no limits."
+#: ./content/prenotazionifolder.py:113
+msgid "futureDays"
+msgstr ""
+
+#. Default: "Put gates here (one per line). If you do not fill this field, one gate is assumed"
+#: ./content/prenotazionifolder.py:166
+msgid "gates_help"
+msgstr ""
+
+#. Default: "Gates"
+#: ./content/prenotazionifolder.py:165
+msgid "gates_label"
+msgstr ""
+
+#. Default: "Indicare i giorni festivi (uno per riga) nel formato GG/MM/AAAA. Al posto dell'anno puoi mettere un asterisco per indicare un evento che ricorre annualmente."
+#: ./content/prenotazionifolder.py:97
+msgid "help_holidays"
+msgstr ""
+
+#: ./browser/prenotazione_add.py:240
+msgid "help_prenotazione_add"
+msgstr ""
+
+#. Default: "List of available reservation type for the current agenda"
+#: ./browser/prenotazione_macros.pt:260
+msgid "help_tipologies"
+msgstr ""
+
+#: ./browser/vacations.py:23
+msgid "invalid_date"
+msgstr ""
+
+#. Default: "Invalid email address"
+#: ./browser/prenotazione_add.py:34
+msgid "invalid_email_address"
+msgstr ""
+
+#. Default: "Invalid start or end date"
+#: ./browser/prenotazioni_search.py:21
+msgid "invalid_end:search_date"
+msgstr ""
+
+#. Default: "Invalid phone number"
+#: ./browser/prenotazione_add.py:30
+msgid "invalid_phone_number"
+msgstr ""
+
+#: ./browser/vacations.py:27
+msgid "invalid_time"
+msgstr ""
+
+#. Default: "This date is past"
+#: ./browser/prenotazione_add.py:38
+msgid "is_not_future_date"
+msgstr ""
+
+#. Default: "Agency"
+#: ./browser/prenotazione_add.py:124
+msgid "label_agency"
+msgstr ""
+
+#. Default: "Booking time"
+#: ./browser/prenotazione_add.py:86
+#: ./browser/prenotazione_move.py:27
+msgid "label_booking_time"
+msgstr ""
+
+#. Default: "Type the code from the picture shown below."
+#: ./browser/prenotazione_add.py:131
+msgid "label_captcha"
+msgstr ""
+
+#. Default: "Email"
+#: ./browser/prenotazione_add.py:101
+msgid "label_email"
+msgstr ""
+
+#. Default: "End date"
+#: ./browser/prenotazioni_search.py:62
+msgid "label_end"
+msgstr ""
+
+#. Default: "End time"
+#: ./browser/vacations.py:75
+msgid "label_end_time"
+msgstr ""
+
+#. Default: "Fullname"
+#: ./browser/prenotazione_add.py:97
+#: ./browser/prenotazioni_search.pt:145
+msgid "label_fullname"
+msgstr ""
+
+#. Default: "Gate"
+#: ./browser/prenotazione_move.py:31
+#: ./browser/prenotazioni_search.pt:146
+#: ./browser/prenotazioni_search.py:49
+msgid "label_gate"
+msgstr ""
+
+#. Default: "Mobile number"
+#: ./browser/prenotazione_add.py:113
+msgid "label_mobile"
+msgstr ""
+
+#. Default: "Phone number"
+#: ./browser/prenotazione_add.py:107
+msgid "label_phone"
+msgstr ""
+
+#. Default: "Selected date: ${date} — Time slot: ${slot}"
+#: ./browser/prenotazione_add.py:229
+msgid "label_selected_date"
+msgstr ""
+
+#. Default: "Start date "
+#: ./browser/prenotazioni_search.py:55
+#: ./browser/vacations.py:64
+msgid "label_start"
+msgstr ""
+
+#. Default: "Start time"
+#: ./browser/prenotazioni_search.pt:148
+#: ./browser/vacations.py:69
+msgid "label_start_time"
+msgstr ""
+
+#. Default: "Subject"
+#: ./browser/prenotazione_add.py:119
+msgid "label_subject"
+msgstr ""
+
+#. Default: "Text to search"
+#: ./browser/prenotazioni_search.py:38
+msgid "label_text"
+msgstr ""
+
+#. Default: "Reservation types"
+#: ./browser/prenotazione_macros.pt:259
+msgid "label_tipologies"
+msgstr ""
+
+#. Default: "Tipology"
+#: ./browser/prenotazione_add.py:91
+msgid "label_tipology"
+msgstr ""
+
+#. Default: "Title"
+#: ./browser/vacations.py:51
+msgid "label_title"
+msgstr ""
+
+#. Default: "Legend"
+#: ./browser/prenotazione_macros.pt:281
+msgid "legend"
+msgstr ""
+
+#. Default: "Short description of available action for the booking board"
+#: ./browser/prenotazione_macros.pt:282
+msgid "legend_description"
+msgstr ""
+
+#. Default: "The minimum value of a single slot is 5 minutes. You cannot book a reservation when the needed time exceeds the available time."
+#: ./browser/prenotazione_macros.pt:303
+msgid "legend_note"
+msgstr ""
+
+#. Default: "Type in here the message that you want to mail. Some defined content can be replaced: ${title} will be replaced with booking title (user fullname). ${date} will be replaced with booking new date. ${url} will be replaced by the booking url. ${portal} will be replaced by the title of the portal."
+#: ./contentrules/sendMovedPrenotazione.py:37
+msgid "message_help"
+msgstr ""
+
+#. Default: "Mobile number"
+#: ./browser/prenotazione.pt:62
+#: ./content/prenotazione.py:46
+msgid "mobile"
+msgstr ""
+
+#. Default: "Go back to the calendar"
+#: ./browser/prenotazione.pt:112
+#: ./browser/prenotazione_add.pt:88
+#: ./browser/prenotazione_move.pt:39
+msgid "move_back_message"
+msgstr ""
+
+#. Default: "Move booking"
+#: ./browser/prenotazione.pt:102
+msgid "move_booking"
+msgstr ""
+
+#. Default: "Please move this booking into a new available slot or"
+#: ./browser/prenotazione_move.pt:34
+msgid "move_message"
+msgstr ""
+
+#. Default: "next week"
+#: ./browser/prenotazione_macros.pt:22
+msgid "next-week"
+msgstr ""
+
+#. Default: "Booking is not allowed before the amount of days specified. \nKeep 0 to give no limits."
+#: ./content/prenotazionifolder.py:127
+msgid "notBeforeDays"
+msgstr ""
+
+#. Default: "Siamo spiacenti, è già stato preso un appuntamento nella stessa fascia oraria, premere il pulsante ANNULLA per effettuare una nuova richiesta di prenotazione"
+#: ./content/prenotazione.py:13
+msgid "overbook_message"
+msgstr ""
+
+#. Default: "Phone number"
+#: ./browser/prenotazione.pt:66
+msgid "phone"
+msgstr ""
+
+#. Default: "Please select a time slot"
+#: ./browser/prenotazione_add.py:400
+msgid "please_pick_a_date"
+msgstr ""
+
+#. Default: "Change date/time"
+#: ./profiles/default/actions.xml
+msgid "prenotazione_move"
+msgstr ""
+
+#. Default: "prenotazioni_search"
+#: ./profiles/default/actions.xml
+msgid "prenotazioni_search"
+msgstr ""
+
+#. Default: "previous week"
+#: ./browser/prenotazione_macros.pt:7
+msgid "previous-week"
+msgstr ""
+
+#. Default: "The booking state is \"refused\". If you change it, the booking time may conflict with another one."
+#: ./browser/prenotazione.pt:22
+msgid "refused-review-state-warning"
+msgstr ""
+
+#. Default: "Reservation date"
+#: ./browser/prenotazione_move.pt:28
+#: ./browser/prenotazioni_search.pt:147
+msgid "reservation_date"
+msgstr ""
+
+#. Default: "Booking request for: ${name}"
+#: ./browser/prenotazione_print.py:26
+msgid "reservation_request"
+msgstr ""
+
+#: ./browser/prenotazione_macros.pt:18
+msgid "resize"
+msgstr ""
+
+#. Default: "items matching your search terms."
+#: ./browser/prenotazioni_search.pt:130
+msgid "result_number"
+msgstr ""
+
+#. Default: "Search by gate"
+#: ./browser/prenotazione_macros.pt:299
+msgid "search-by-gate"
+msgstr ""
+
+#. Default: "Search result"
+#: ./browser/prenotazioni_search.pt:127
+msgid "search_result_message"
+msgstr ""
+
+#. Default: "This gate has some booking schedule in this time period."
+#: ./browser/vacations.py:192
+msgid "slot_conflict_error"
+msgstr ""
+
+#. Default: "The email address that sends the email. If no email is provided here, it will use the address from portal."
+#: ./contentrules/sendMovedPrenotazione.py:29
+msgid "source_help"
+msgstr ""
+
+#. Default: "Staff notes"
+#: ./browser/prenotazione.pt:79
+#: ./content/prenotazione.py:108
+msgid "staff_notes_label"
+msgstr ""
+
+#. Default: "Subject"
+#: ./browser/prenotazione.pt:43
+msgid "subject"
+msgstr ""
+
+#. Default: "You cannot book any typology at this time"
+#: ./browser/prenotazione_add.py:404
+msgid "time_slot_to_short"
+msgstr ""
+
+#. Default: "Put booking types there (one per line).\nIf you do not provide this field, not type selection will be available"
+#: ./content/prenotazionifolder.py:143
+msgid "tipologia_help"
+msgstr ""
+
+#. Default: "Name"
+#: ./browser/prenotazione_macros.pt:263
+msgid "tipology_name"
+msgstr ""
+
+#. Default: "Value"
+#: ./browser/prenotazione_macros.pt:264
+msgid "tipology_value"
+msgstr ""
+
+#. Default: "You can select any of the following tipologies:"
+#: ./browser/tipology_radio_widget.pt:24
+msgid "tipology_widget_select_available"
+msgstr ""
+
+#. Default: "You may want to select another time slot"
+#: ./browser/tipology_radio_widget.pt:17
+msgid "tipology_widget_suggest_reselect"
+msgstr ""
+
+#. Default: "The following tipologies will not fit the time you selected:"
+#: ./browser/tipology_radio_widget.pt:7
+msgid "tipology_widget_warn_unavailable"
+msgstr ""
+
+#. Default: "Required"
+#: ./browser/prenotazioni_search.pt:81
+msgid "title_required"
+msgstr ""
+
+#: ./browser/prenotazione.pt:54
+msgid "to"
+msgstr ""
+
+#. Default: "Add a gate here (one per line) if, for some reason, it is not be available.The specified gate will not be taken in to account for slot allocation. Each line should match a corresponding line in the \"Gates\" field"
+#: ./content/prenotazionifolder.py:179
+msgid "unavailable_gates_help"
+msgstr ""
+
+#. Default: "Unavailable gates"
+#: ./content/prenotazionifolder.py:178
+msgid "unavailable_gates_label"
+msgstr ""
+
+#. Default: "Unbookable time"
+#: ./browser/prenotazione_macros.pt:286
+msgid "unbookable_time"
+msgstr ""
+
+#. Default: "vacation_booking"
+#: ./profiles/default/actions.xml
+msgid "vacation_booking"
+msgstr ""
+
+#. Default: "View booking"
+#: ./browser/prenotazione.pt:95
+#: ./browser/prenotazione_macros.pt:297
+msgid "view_booking"
+msgstr ""
