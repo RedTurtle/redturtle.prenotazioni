@@ -103,12 +103,12 @@ class SearchForm(form.Form):
             'path': '/'.join(self.context.getPhysicalPath())
         }
         if data.get('text'):
-            query['SearchableText'] = quote_chars(data['text'].encode('utf8'))
+            query['SearchableText'] = quote_chars(data['text'])
         if data.get('review_state'):
             query['review_state'] = data['review_state']
 
         if data.get('gate'):
-            query['Subject'] = "Gate: %s" % data['gate'].encode('utf8')
+            query['Subject'] = "Gate: %s" % data['gate']
 
         start = data['start']
         end = data['end']

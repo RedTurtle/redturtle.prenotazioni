@@ -270,7 +270,7 @@ class PrenotazioniContextState(BrowserView):
         )
         for key, value in six.iteritems(params):
             if isinstance(value, six.text_type):
-                params[key] = value.encode('utf8')
+                params[key] = value
         return params
 
     @property

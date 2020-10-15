@@ -159,7 +159,7 @@ class VacationBooking(form.Form):
         Get the slots we want to book!
         '''
         start_date = data['start_date']
-        gate = data['gate'].encode('utf8')
+        gate = data['gate']
         vacation_slot = self.get_vacation_slot(data)
         slots = []
         for period in ('morning', 'afternoon'):
@@ -189,7 +189,7 @@ class VacationBooking(form.Form):
         busy_slots = self.prenotazioni.get_busy_slots(start_date)
         if not busy_slots:
             return False
-        gate_busy_slots = busy_slots.get(data['gate'].encode('utf8'), [])
+        gate_busy_slots = busy_slots.get(data['gate'], [])
         if not gate_busy_slots:
             return False
         vacation_slot = self.get_vacation_slot(data)

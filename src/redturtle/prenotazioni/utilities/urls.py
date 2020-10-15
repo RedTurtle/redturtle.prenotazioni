@@ -25,7 +25,7 @@ def urlify(url='', paths=[], params={}):
         if isinstance(params[key], (list, tuple)) and len(value):
             value = value[0]
         if isinstance(value, six.text_type):
-            value = value.encode('utf8')
+            value = value
         params[key] = value
 
     # we cook everything together
