@@ -118,7 +118,7 @@ class BaseSlot(Interval):
         if not value:
             return ''
         hour = str(value // 3600).zfill(2)
-        minute = str((value % 3600) / 60).zfill(2)
+        minute = str(int((value % 3600) / 60)).zfill(2)
         return '%s:%s' % (hour, minute)
 
     def start(self):

@@ -29,20 +29,20 @@
         }
 
         jQuery('.rg-dateinput').each(
-            function(idx, el) {
+            function (idx, el) {
                 var frontend = jQuery(el).removeClass('rg-dateinput');
-                var backend = frontend.clone().attr({type: 'hidden'});
+                var backend = frontend.clone().attr({ type: 'hidden' });
                 jQuery('label[for="' + backend.attr('name') + '"] .formHelp').remove();
                 frontend.after(backend);
                 frontend.dateinput(
                     {
-                        change: function() {
+                        change: function () {
                             sync_inputs(backend, this);
                         }
                     }
                 );
                 frontend.removeClass('date');
-                frontend.attr({name: backend.attr('name') + Math.random()});
+                frontend.attr({ name: backend.attr('name') + Math.random() });
             }
         );
     }

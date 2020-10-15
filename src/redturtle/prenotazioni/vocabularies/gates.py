@@ -13,9 +13,9 @@ class GatesVocabulary(object):
         Return all the gates defined in the PrenotazioniFolder
         '''
         gates = context.getGates()
-        return SimpleVocabulary([SimpleTerm(gate.decode('utf8'),
+        return SimpleVocabulary([SimpleTerm(gate,
                                             str(i),
-                                            gate.decode('utf8'))
+                                            gate)
                                  for i, gate
                                  in enumerate(gates)])
 

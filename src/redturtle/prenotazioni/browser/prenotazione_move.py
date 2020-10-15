@@ -75,7 +75,7 @@ class MoveForm(form.Form):
                                     self.prenotazioni_folder,
                                     self.request)
 
-    @memoize
+    # @memoize se usato rompre la vista
     def slot_styles(self, slot):
         '''
         Return a css to underline the moved slot
@@ -161,7 +161,7 @@ class MoveForm(form.Form):
                        .strftime('%d/%m/%Y'))}
         return urlify(self.prenotazioni_folder.absolute_url(), params=qs)
 
-    @memoize
+    #@memoize se usato rompe la vista
     def move_to_slot_links(self, day, slot, gate):
         '''
         Returns the url to move the booking in this slot

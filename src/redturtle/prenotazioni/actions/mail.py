@@ -19,8 +19,6 @@ from zope.interface.declarations import implements
 import six
 
 
-#from Products.Archetypes.interfaces import IBaseContent
-
 
 @implementer(IExecutable)
 @adapter(IPloneSiteRoot, IMailFromFieldAction, Interface)

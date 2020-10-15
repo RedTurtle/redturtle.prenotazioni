@@ -722,7 +722,7 @@ class PrenotazioniContextState(BrowserView):
         if isinstance(tipology, dict):
             return int(tipology['duration']) * 60
         if isinstance(tipology, six.string_types) and not isinstance(tipology, six.text_type):
-            tipology = tipology.decode('utf8')
+            tipology = tipology
         return self.tipology_durations.get(tipology, 1)
 
     @memoize

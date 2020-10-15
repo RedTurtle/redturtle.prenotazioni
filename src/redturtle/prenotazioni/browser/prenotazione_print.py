@@ -22,7 +22,7 @@ class PrenotazionePrint(BrowserView):
     def label(self):
         ''' The lable of this view
         '''
-        title = self.prenotazione.getPrenotazioniFolder().Title().decode('utf8')  # noqa
+        title = self.prenotazione.getPrenotazioniFolder().Title()  # noqa
         return _(
             'reservation_request',
             u'Booking request for: ${name}',

@@ -68,7 +68,7 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
         ''' Get tipology bookability
         '''
         keys = sorted(self.tipologies_bookability['unbookable'])
-        keys = [key.decode('utf8') for key in keys]
+        keys = [key for key in keys]
         return [self.vocabulary.getTerm(key) for key in keys if key in self.context.terms]
 
 
