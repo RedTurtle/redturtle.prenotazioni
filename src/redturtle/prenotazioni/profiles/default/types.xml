@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object name="portal_types" meta_type="Plone Types Tool">
+  <property name="title">Controls the available contenttypes in your portal</property>
+  <!--<object name="example_ct" meta_type="Dexterity FTI"/>-->
+  <object meta_type="Dexterity FTI" name="PrenotazioniFolder"/>
+  <object meta_type="Dexterity FTI" name="PrenotazioniYear"/>
+  <object meta_type="Dexterity FTI" name="PrenotazioniWeek"/>
+  <object meta_type="Dexterity FTI" name="PrenotazioniDay"/>
+  <object meta_type="Dexterity FTI" name="Prenotazione"/>
+</object>

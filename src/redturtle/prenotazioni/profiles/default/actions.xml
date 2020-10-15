@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+
+ <object name="object" meta_type="CMF Action Category">
+  <property name="title"></property>
+
+  <!-- Vacation Booking -->
+  <object name="vacation-booking" meta_type="CMF Action" i18n:domain="redturtle.prenotazioni">
+   <property name="title" i18n:translate="vacation_booking">vacation_booking</property>
+   <property name="description" i18n:translate=""></property>
+   <property name="url_expr">
+     string:${plone_context_state/canonical_object_url}/@@vacation-booking
+   </property>
+   <property name="icon_expr"></property>
+   <property name="available_expr">object/@@vacation-booking-show|nothing</property>
+   <property name="permissions">
+    <element value="Modify portal content"/>
+   </property>
+   <property name="visible">True</property>
+  </object>
+
+  <!-- Prenotazione Search -->
+  <object name="prenotazioni_search" meta_type="CMF Action" i18n:domain="redturtle.prenotazioni">
+   <property name="title" i18n:translate="prenotazioni_search">prenotazioni_search</property>
+   <property name="description" i18n:translate=""></property>
+   <property name="url_expr">
+     string:${plone_context_state/canonical_object_url}/@@prenotazioni_search
+   </property>
+   <property name="icon_expr"></property>
+   <property name="available_expr">python:getattr(object, "portal_type", "")=='PrenotazioniFolder'</property>
+   <property name="permissions">
+    <element value="Modify portal content"/>
+   </property>
+   <property name="visible">True</property>
+  </object>
+
+  <!-- Prenotazione Move -->
+  <object name="prenotazione_move" meta_type="CMF Action" i18n:domain="redturtle.prenotazioni">
+   <property name="title" i18n:translate="prenotazione_move">Change date/time</property>
+   <property name="description" i18n:translate=""></property>
+   <property name="url_expr">
+     string:${plone_context_state/canonical_object_url}/prenotazione_move
+   </property>
+   <property name="icon_expr"></property>
+   <property name="available_expr">python:getattr(object, "portal_type", "")=='Prenotazione'</property>
+   <property name="permissions">
+    <element value="Modify portal content"/>
+   </property>
+   <property name="visible">True</property>
+  </object>
+
+ </object>
+</object>
+

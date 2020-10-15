@@ -1,0 +1,359 @@
+/*
+ * RG Prenotazioni Styles
+ */
+.floatleft {
+  float:left;
+}
+.floatright {
+  float:right;
+}
+
+#plone-contentmenu-workflow .state-refused {
+  padding: 0 0.5em;
+  background-color: #870000;
+  border: 0.1em solid #870000;
+  color: white !important;
+  border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+}
+
+td.selected {
+  background-color: #fefefe;
+}
+
+.template-prenotazione_add .field input[type="text"] {
+  width: 100%;
+}
+
+#content .tipology_widget p.formHelp {
+  margin:0;
+}
+#content .tipology_widget label {
+  display:block;
+  float:left;
+  width:50%;
+  min-width:200px;
+}
+
+#content .tipology_widget div.value {
+  margin-bottom:1em;
+}
+
+#content .tipology_widget .unbookable {
+  margin: 1em 0;
+  padding: 1em;
+  border: 1px solid #993;
+  background-color: #ffffe3;
+}
+
+#content .tipology_widget .unbookable ul li {
+  float:left;
+  width:50%;
+  min-width:200px;
+}
+
+
+.template-prenotazione_print table.listing {
+  border-top: 1px solid #ddd;
+}
+
+.template-prenotazione_print p {
+  line-height:250%;
+}
+
+.template-prenotazione_print ul.actions {
+  padding-top: 1em;
+}
+
+.template-prenotazione_print ul.actions li {
+  margin-right: 1em;
+}
+
+/** Week view styles **/
+#week-table-wrapper * {
+  box-sizing: border-box;
+}
+#week-table-wrapper {
+  overflow: auto;
+}
+table#week {
+  margin: auto;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  min-width: 50%;
+}
+
+#week caption {
+  padding: 0.3em 1em;
+  margin-bottom: 0.5em;
+  border: 1px solid #DDDDDD;
+}
+
+#week caption a {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+table#week th {
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid #ddd;
+  width: auto;
+}
+
+table#week td {
+  text-align: center;
+  vertical-align:top;
+  border: 1px solid #ddd;
+}
+
+#week td h3 {
+  font-size: 1em;
+  width:100%;
+}
+
+#content #week td div.gate {
+  float: left;
+  vertical-align:middle;
+  background-color: #fff;
+}
+#content #week td div.gate > a {
+  overflow: hidden;
+  display: block;
+  padding:0.3em 5%;
+}
+#week .fromto {
+  background-color:#ddd;
+}
+#week .gatesheader {
+  border-bottom:1px solid #ddd;
+}
+#week .gateswrapper {
+  border-bottom:1px solid #ddd;
+  margin-bottom: 1em;
+}
+#week .gates {
+  margin-left:32px;
+  position:relative;
+}
+
+/* barra ora */
+#week .gates > .hours {
+  width:34px;
+  float:left;
+  position:absolute;
+  left:-34px;
+  overflow:hidden;
+}
+
+#week .gates > .hours > .hour {
+  height: 61px;
+  text-align: center;
+  margin-left: 1px;
+  border: 1px solid #ddd;
+  border-bottom-width:0;
+  position:relative;
+}
+
+#week .gates > .hours > .hour > div {
+  position:absolute;
+  top:20px;
+  width:100%;
+}
+
+#content #week td div.interval, #content #week td div.stormyinterval {
+  font-weight: bold;
+}
+
+/* hide calendar entries */
+dl.portlet ul.navTree li a.contenttype-prenotazioniyear,
+dl.portlet ul.navTree li a.contenttype-prenotazioniweek,
+dl.portlet ul.navTree li a.contenttype-prenotazioniday {
+  display:none;
+}
+
+#week .slot a{
+  text-decoration: none;
+  border-bottom: none;
+}
+
+#week .slot > .unbookable {
+  background-color: #ffa500;
+}
+#week .slot > .refused {
+  background-color: #870000;
+  color:white;
+}
+
+#week .slot > .refused a,
+#week .slot > .published a {
+  color:white;
+}
+
+#week .slot > .pending {
+  background-color: #ffa500;
+  color:white;
+}
+
+#week .slot > .published {
+  background-color: #436976;
+  color:white;
+}
+#week .slot .anonymous_slot {
+  background-color:#fff;
+  text-align:left;
+  min-height: 1em;
+  padding:0.5em;
+  border:none;
+}
+
+#week .slot.slot-odd .anonymous_slot {
+  background-color:#eee;
+}
+
+#week .slot .anonymous_slot .busy_slot {
+  font-weight: normal;
+}
+
+#week .slot .links > * {
+    height:5px;
+    display:block;
+}
+
+#week .slot .links a.oclock {
+    height:6px;
+    display:block;
+    border-top: 1px solid #eee;
+}
+
+#week .slot .links a:link    {background-color:#ddd;}
+#week .slot .links a:visited {background-color:#ddd;}
+#week .slot .links a:hover   {background-color:#666;}
+#week .slot .links > .previous   {background-color:#fff;}
+
+.template-prenotazioni_search #text {
+  width: 90%;
+  min-width: 200px;
+  max-width: 400px;
+}
+.template-prenotazioni_search #formfield-start,
+.template-prenotazioni_search #formfield-end {
+  float:left;
+  clear: none;
+  margin-right: 2em;
+}
+
+.template-prenotazioni_search #formfield-start,
+.template-prenotazioni_search #formfield-end {
+  margin-top: 0;
+  font-size: 100%;
+}
+
+#content .search-result-wrapper {
+    padding-top : 20px;
+}
+
+#content .search-result-wrapper a.link-overlay {
+    border-bottom: none !important;
+}
+
+/** gestione legenda utente **/
+.week-legend {
+  float:left;
+  width:49%;
+  min-width:200px;
+  margin-top:1em;
+}
+.week-legend fieldset {padding : 0px;}
+.week-legend fieldset legend {
+    padding : 0px;
+    font-weight: bold;
+    font-size: 100%;
+}
+#content .week-legend fieldset ul.legend {
+  list-style-type: none;
+}
+.week-legend div.square {
+    display: block;
+    float: left;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px
+}
+.legend li > .bookable {
+  background: #ddd;
+}
+
+.week-legend div.square.unbookable {
+  width: 13px;
+  height: 13px;
+  background: #fff;
+  border:1px solid #999;
+}
+
+.legend-manager li > .pending { background: #ffa500; }
+.legend-manager li > .confirmed { background: #436976; }
+.legend-manager li > .refused { background: #870000; }
+
+#content table.tipology-table {border: 1px solid #ccc;}
+#content table.tipology-table th {background-color: #ddd; padding: 3px 10px;;}
+#content table.tipology-table td {padding: 2px 10px 0px 10px;}
+
+
+#week .fromto {
+    background-color:#ddd;
+}
+
+#content-core #week {
+    font-size: 100%;
+}
+
+#week .gate > .slot > .published {
+    line-height: 0;
+    font-size: 9px;
+    background-color: #6DA7BB;
+}
+
+#week .gate > .slot > .pending {
+  line-height: 0;
+  font-size: 9px;
+  background-color: #ffa500;
+}
+
+#week .slot > .pending > a > div{
+  border: 2px solid #E78B36;
+  display:table;
+  height:100%;
+  width:100%;
+}
+
+#week .slot .links a {
+    height:5px;
+    display:block;
+}
+
+#legend .legend-note {margin-top: 10px;}
+
+#week .slot .pending [class^="icon-"] {
+    color: black;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+#week .slot .published [class^="icon-"] {
+    color: black;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+#week .slot .pending a:hover {background-color: rgb(236, 123, 0)}
+#week .slot .published a:hover {background-color: #9AC2DD;}
+
+dl.refused dd {
+  background-color: #EEBBBB;
+}
+dl.portalMessage.refused dt {
+  background-color: #870000;
+}

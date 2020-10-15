@@ -1,0 +1,26 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <adapter
+      provides=".conflict.IConflictManager"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      factory=".conflict.ConflictManager"
+  />
+
+  <adapter
+      provides=".booker.IBooker"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      factory=".booker.Booker"
+  />
+
+  <adapter for="redturtle.prenotazioni.content.prenotazione.IPrenotazione *"
+           name="plone.contentmenu.actions"
+           factory=".prenotazione_menu.PrenotazioneActionsSubMenuItem"
+           provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
+
+  <adapter
+      provides=".slot.ISlot"
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
+      factory=".slot.Slot"
+  />
+
+</configure>

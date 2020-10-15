@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="redturtle.prenotazioni"
+      >
+
+    <metal:block fill-slot="content-description">
+        <div class="documentDescription-box clear-block">
+            <p class="documentDescription">
+                <tal:block condition="here/description">
+                <div tal:content="here/description">
+                </tal:block>
+            </p>
+        </div>
+
+        <div class="documentDescription-box clear-block" tal:condition="context/descriptionAgenda">
+            <span tal:replace="structure context/descriptionAgenda/raw" />
+        </div>
+    </metal:block>
+
+    <metal:block fill-slot="content-core"
+                 tal:define="week_view nocall:view;
+                             prenotazione_macros nocall:view/prenotazione_macros;
+                             day_period_macro nocall:week_view/day_period_macro;
+                             slot_macro nocall:week_view/slot_macro;">
+
+        <div tal:condition="not:view/prenotazioni/is_anonymous">
+          <p i18n:translate="book_it">
+              Please select a booking slot.
+          </p>
+        </div>
+
+      <metal:block use-macro="prenotazione_macros/week-table" />
+      <div class="week-legends">
+        <metal:block use-macro="prenotazione_macros/week-tipologies-legend" />
+        <tal:legend condition="not:view/prenotazioni/is_anonymous">
+          <metal:block use-macro="prenotazione_macros/week-colors-legend" />
+        </tal:legend>
+        <div class="visualClear"></div>
+      </div>
+    </metal:block>
+
+</html>

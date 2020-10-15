@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<contentrules>
+ <rule name="booking-accepted"
+    title="Send e-mail to user when booking is accepted"
+    description="Viene inviata una mail al richiedente per confermare la sua prenotazione"
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>Prenotazione</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>publish</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.MailFromField">
+    <property name="source"></property>
+    <property
+       name="message">La sua prenotazione "${title}" e' stata accettata:
+                    ${url}</property>
+    <property name="fieldName">email</property>
+    <property name="target">target</property>
+    <property name="subject">Prenotazione accettata</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="booking-moved"
+    title="Send email to user when booking date change"
+    description="Viene inviata una mail al richiedente per avvertire dello spostamento della prenotazione"
+    enabled="True"
+    event="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>Prenotazione</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.MailFromField">
+    <property name="source"></property>
+    <property
+       name="message">L'orario della sua prenotazione "${title}" e' stata modificato:
+                    ${url}</property>
+    <property name="fieldName">email</property>
+    <property name="target">target</property>
+    <property name="subject">Prenotazione modificata</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="booking-created-manager"
+    title="Send email to manager when a booking is created"
+    description="Viene inviata una mail al responsabile per avvertire della creazione di una prenotazione"
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>Prenotazione</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>submit</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.MailFromField">
+    <property name="source"/>
+    <property
+       name="message">E' stata sottoposta una nuova prenotazione: "${title}":
+                    ${url}</property>
+    <property name="fieldName">email_responsabile</property>
+    <property name="target">parent</property>
+    <property name="subject">Nuova prenotazione</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="booking-created-user"
+    title="Send email to user when a booking is created"
+    description="Viene inviata una mail all'utente per avvertirlo della creazione della prenotazione"
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>Prenotazione</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>submit</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.MailFromField">
+    <property name="source"/>
+    <property name="message">La prenotazione è stata creata "${title}":
+                    ${url}</property>
+    <property name="fieldName">email</property>
+    <property name="target">target</property>
+    <property name="subject">Nuova prenotazione</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="booking-refuse"
+    title="Send email to user when booking is refused"
+    description="Viene inviata una mail all'utente per avvisarlo della prenotazione rifiutata"
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>Prenotazione</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>refuse</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.MailFromField">
+    <property name="source"></property>
+    <property name="message">La prenotazione è stata rifiutata "${title}":
+                    ${url}</property>
+    <property name="fieldName">email</property>
+    <property name="target">target</property>
+    <property name="subject">Rifiuto prenotazione</property>
+   </action>
+  </actions>
+ </rule>
+
+</contentrules>

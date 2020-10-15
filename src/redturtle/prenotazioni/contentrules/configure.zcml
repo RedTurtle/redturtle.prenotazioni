@@ -1,0 +1,55 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="redturtle.prenotazioni">
+
+    <include package="plone.contentrules" />
+    <include package="plone.contentrules" file="meta.zcml" />
+    <!-- XXX -->
+    <!--include package="collective.contentrules.mailfromfield" /-->
+
+  <!-- Move prenotazione definition -->
+  <subscriber
+    for="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
+    handler=".handlers.moved"
+    />
+
+  <adapter factory=".sendMovedPrenotazione.MailActionExecutor" />
+
+  <interface
+      interface="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Booking moved"
+      />
+
+  <browser:page
+    for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
+    name="redturtle.prenotazioni.actions.MovedPrenotazione"
+    class=".sendMovedPrenotazione.MovedPrenotazioneAddForm"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    for="redturtle.prenotazioni.contentrules.sendMovedPrenotazione.IMovedPrenotazioneAction"
+    name="edit"
+    class=".sendMovedPrenotazione.MovedPrenotazioneEditForm"
+    permission="cmf.ManagePortal"
+    />
+
+  <plone:ruleAction
+    name="redturtle.prenotazioni.actions.MovedPrenotazione"
+    title="Send Email to booking owner when a booking is moved"
+    description="Send Email to booking owner when a booking is moved"
+    for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
+    event="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
+    addview="redturtle.prenotazioni.actions.MovedPrenotazione"
+    editview="edit"
+    schema=".sendMovedPrenotazione.IMovedPrenotazioneAction"
+    factory=".sendMovedPrenotazione.MovedPrenotazioneAction"
+    i18n:attributes="title; description"
+    />
+
+</configure>

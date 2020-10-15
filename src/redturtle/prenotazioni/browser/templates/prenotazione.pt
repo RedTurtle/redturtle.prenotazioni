@@ -1,0 +1,123 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+xmlns:tal="http://xml.zope.org/namespaces/tal"
+xmlns:metal="http://xml.zope.org/namespaces/metal"
+xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+lang="en"
+metal:use-macro="here/main_template/macros/master"
+i18n:domain="redturtle.prenotazioni">
+    <body>
+        <metal:main fill-slot="main">
+            <tal:main-macro metal:define-macro="main"
+            tal:define="context_state nocall:here/@@plone_context_state;
+                        portal_state nocall:here/@@plone_portal_state;
+                        here_url context_state/object_url;
+                        parent context_state/parent;
+                        member portal_state/member;
+                        anonymous portal_state/anonymous;
+                        putils here/plone_utils;
+                        not_ajax_load python:not request.get('ajax_load', '')">
+                <div class="refused-alert" tal:condition="python:view.review_state=='refused'">
+                  <dl class="portalMessage refused">
+                    <dt><span class="icon-warning-sign fa fa-exclamation-triangle">&nbsp;</span></dt>
+                    <dd i18n:translate="refused-review-state-warning">
+                      The booking state is "refused".
+                      If you change it, the booking time may conflict
+                      with another one.
+                    </dd>
+                  </dl>
+                </div>
+                <div tal:replace="structure provider:plone.abovecontenttitle" />
+                <h1 class="documentFirstHeading">
+                  <a tal:attributes="href context_state/canonical_object_url" tal:omit-tag="not_ajax_load">
+                    <span i18n:translate="">Booking for</span>
+                    <span tal:content="here/title" />
+                  </a>
+                </h1>
+                <div tal:replace="structure provider:plone.belowcontenttitle" tal:condition="not_ajax_load" />
+                <div tal:replace="structure provider:plone.abovecontentbody" tal:condition="not_ajax_load" />
+                <div class="field" tal:condition="here/Title">
+                    <strong i18n:translate="fullname">Fullname</strong>:
+                    <span tal:replace="here/Title" />
+                </div>
+                <div class="field" tal:condition="here/Description">
+                    <strong i18n:translate="subject">Subject</strong>:
+                    <span tal:replace="here/Description" />
+                </div>
+                <div class="field" tal:condition="here/getTipologia_prenotazione">
+                    <strong i18n:translate="">Reservation type</strong>:
+                    <span tal:replace="here/getTipologia_prenotazione" />
+                </div>
+                <div class="field" tal:condition="here/getData_prenotazione">
+                    <strong i18n:translate="">Reservation date</strong>:
+                    <tal:span i18n:translate="">from</tal:span>
+                    <span tal:replace="python:putils.toLocalizedTime(here.getData_prenotazione(), True)" />
+                    <tal:span i18n:translate="">to</tal:span>
+                    <span tal:content="python:putils.toLocalizedTime(here.getData_scadenza(), True)" />
+                </div>
+                <div class="field" tal:condition="here/getAzienda">
+                    <strong i18n:translate="">Company</strong>:
+                    <span tal:replace="here/getAzienda" />
+                </div>
+                <div class="field" tal:condition="here/getMobile">
+                  <strong i18n:translate="mobile">Mobile number</strong>:
+                  <span tal:replace="here/getMobile" />
+                </div>
+                <div class="field" tal:condition="here/getTelefono">
+                    <strong i18n:translate="phone">Phone number</strong>:
+                    <span tal:replace="here/getTelefono" />
+                </div>
+                <div class="field" tal:condition="here/getEmail">
+                    <strong i18n:translate="">E-mail</strong>:
+                    <a tal:attributes="href string:mailto:${here/getEmail}"
+                    tal:content="here/getEmail" />
+                </div>
+                <div class="field" tal:condition="here/getGate">
+                    <strong i18n:translate="">Gate</strong>:
+                    <span tal:content="here/getGate">Gate no. 1</span>
+                </div>
+                <div class="field" tal:condition="here/getStaff_notes">
+                  <strong i18n:translate="staff_notes_label">Staff notes</strong>:
+                  <div tal:define="items python:here.getStaff_notes().splitlines()">
+                    <tal:repeat repeat="item items">
+                      <p tal:content="item">text</p>
+                    </tal:repeat>
+                  </div>
+                </div>
+                <hr />
+                <p>&nbsp;</p>
+                <div class="field" tal:condition="not:not_ajax_load">
+                  <a href=""
+                     tal:attributes="href context_state/canonical_object_url">
+                    <img width="16" height="16"
+                         src="++resource++redturtle.prenotazioni.resources/calendar-icon.png"
+                         tal:attributes="src string:${portal_url}/++plone++redturtle.prenotazioni/calendar-icon.png"
+                         >
+                    <tal:i18n i18n:translate="view_booking">View booking</tal:i18n>
+                  </a>
+                </div>
+                <div class="field">
+                  <a href=""
+                     tal:attributes="href view/move_url">
+                    <img width="16" height="16"
+                         src="++resource++redturtle.prenotazioni.resources/calendar-icon.png"
+                         tal:attributes="src string:${portal_url}/++plone++redturtle.prenotazioni/cross-icon.png"
+                         >
+                    <tal:i18n i18n:translate="move_booking">Move booking</tal:i18n>
+                  </a>
+                </div>
+                <div class="field">
+                  <a href=""
+                     tal:attributes="href view/back_url">
+                    <img width="16" height="16"
+                         src="++resource++redturtle.prenotazioni.resources/calendar-add.png"
+                         tal:attributes="src string:${portal_url}/++plone++redturtle.prenotazioni/calendar-add.png"
+                         >
+                    <tal:i18n i18n:translate="move_back_message">Go back to the calendar</tal:i18n>
+                  </a>
+                </div>
+                <div tal:replace="structure provider:plone.belowcontentbody" tal:condition="not_ajax_load" />
+            </tal:main-macro>
+        </metal:main>
+
+    </body>
+</html>

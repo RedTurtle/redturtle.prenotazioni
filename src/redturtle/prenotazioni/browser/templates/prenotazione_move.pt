@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="redturtle.prenotazioni"
+      >
+
+    <metal:block fill-slot="content-description">
+    </metal:block>
+
+    <tal:comment replace="nothing">
+        In order to make prenotazione_macros available for the context 
+        'prenotazioni_folder' and 'prenotazioni' we replaced the standard 
+        'view' with 'week_view'.
+        Every template which make use of prenotazione_macros has to define week_view
+    </tal:comment>
+
+    <metal:block fill-slot="content-core"
+                 tal:define="prenotazioni_folder nocall:view/prenotazioni_folder;
+                             prenotazione_macros nocall:prenotazioni_folder/@@prenotazione_macros;
+                             week_view nocall:prenotazioni_folder/@@prenotazioni_week_view;
+                             slot_macro nocall:prenotazione_macros/onmove_slot;
+                             day_period_macro nocall:prenotazione_macros/manager_day_period;
+                             here nocall:prenotazioni_folder;">
+
+        <div tal:condition="context/getData_prenotazione">
+          <div class="field" tal:condition="context/getData_prenotazione">
+            <strong i18n:translate="reservation_date">Reservation date</strong>:
+            <span tal:replace="python:week_view.localized_time(context.getData_prenotazione(), True)" />
+            &mdash;
+            <span tal:content="python:week_view.localized_time(context.getData_scadenza(), True)" />
+          </div>
+          <h3>
+              <span i18n:translate="move_message">
+                Please move this booking into a new available slot or
+              </span>
+              <a tal:define="new_date python:request.get('data', '')"
+                tal:attributes="href string:${prenotazioni_folder/absolute_url}?data=${new_date}">
+                  <span i18n:translate="move_back_message">
+                    Go back to the calendar
+                  </span>
+              </a>.
+          </h3>
+
+        </div>
+        <metal:block use-macro="prenotazione_macros/week-table" />
+    </metal:block>
+
+</html>

@@ -1,0 +1,57 @@
+<metal:use use-macro="context/@@ploneform-macros/titlelessform" />
+<div class="search-result-wrapper"
+     i18n:domain="redturtle.prenotazioni"
+     tal:condition="request/buttons.action_search|nothing"
+     tal:define="bookings view/brains;
+                 booking_length python:len(bookings) or 0;
+                 icon_url string:/++plone++redturtle.prenotazioni/calendar-icon.png;">
+  <div class="visualClear"></div>
+  <h2 i18n:translate="search_result_message">Search result</h2>
+  <p>
+    <strong tal:content="string:${booking_length}">1234</strong>
+    <span i18n:translate="result_number">
+      items matching your search terms.</span>
+  </p>
+  <div tal:condition="bookings">
+    <tal:batch
+        define="Batch python:modules['Products.CMFPlone'].Batch;
+                b_size python:25;
+                b_start python:0;
+                b_start request/b_start | b_start;
+                batch_base_url string:${context/absolute_url}/${view/__name__};
+                batch python:Batch(bookings, b_size, int(b_start));">
+        <table class="listing collection-listing" summary="Content listing"
+          i18n:attributes="summary">
+          <thead>
+            <tr>
+              <th i18n:translate="label_fullname">Fullname</th>
+              <th i18n:translate="label_gate">Gate</th>
+              <th i18n:translate="reservation_date">Reservation date</th>
+              <th i18n:translate="label_start_time">Start time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tal:block tal:repeat="item batch">
+              <tr tal:define="oddrow repeat/item/odd;"
+                  tal:attributes="class python:oddrow and 'even' or 'odd'" >
+                <td>
+                  <img src="" tal:attributes="src icon_url"/>
+                  <a href="#"
+                     class=""
+                     tal:attributes="href item/getURL; class string:prenotazioni-popup state-${item/review_state}"
+                     tal:content="item/Title"
+                     >Item title</a>
+                </td>
+                <td tal:content="python:item.getObject().getGate()"></td>
+                <td tal:content="python:view.prenotazioni_week_view.localized_time(item['Date'])"></td>
+                <td tal:content="python:view.prenotazioni_week_view.localized_time(item['Date'], time_only=True)"></td>
+              </tr>
+            </tal:block>
+          </tbody>
+        </table>
+        <tal:batchnavigation define="batchnavigation nocall:context/@@batchnavigation"
+                             replace="structure python:batchnavigation(batch)" />
+    </tal:batch>
+  </div>
+</div>
+

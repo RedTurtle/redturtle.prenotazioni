@@ -1,0 +1,42 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:zcml="http://namespaces.zope.org/zcml"
+  i18n_domain="plone">
+
+  <configure zcml:condition="installed AccessControl.security">
+  <!-- -*- extra stuff goes here -*- -->
+
+    <permission
+        id="redturtle.prenotazioni.AddPrenotazione"
+        title="redturtle.prenotazioni: Add Prenotazione"
+    />
+
+        
+    <permission
+        id="redturtle.prenotazioni.AddPrenotazioniDay"
+        title="redturtle.prenotazioni: Add PrenotazioniDay"
+    />
+
+        
+    <permission
+        id="redturtle.prenotazioni.AddPrenotazioniWeek"
+        title="redturtle.prenotazioni: Add PrenotazioniWeek"
+    />
+
+        
+    <permission
+        id="redturtle.prenotazioni.AddPrenotazioniYear"
+        title="redturtle.prenotazioni: Add PrenotazioniYear"
+    />
+
+        
+    <permission
+        id="redturtle.prenotazioni.AddPrenotazioniFolder"
+        title="redturtle.prenotazioni: Add PrenotazioniFolder"
+    />
+
+        
+
+  </configure>
+
+</configure>
