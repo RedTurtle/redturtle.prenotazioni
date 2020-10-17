@@ -1,3 +1,4 @@
+extra
 .coverage
 *.egg-info
 *.log

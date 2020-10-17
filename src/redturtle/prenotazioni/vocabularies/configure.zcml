@@ -22,5 +22,9 @@
            name="redturtle.prenotazioni.booking_review_states" />
   <utility component=".tipologies.TipologiesVocabularyFactory"
            name="redturtle.prenotazioni.tipologies"/>
+
+  <utility component=".requirable_booking_fields.RequirableBookingFieldsVocabularyFactory"
+           name="redturtle.prenotazioni.requirable_booking_fields"/>
+
         
 </configure>
