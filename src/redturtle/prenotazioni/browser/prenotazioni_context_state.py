@@ -160,6 +160,16 @@ class PrenotazioniContextState(BrowserView):
         """
         return self.today + timedelta(days=1)
 
+
+    @property
+    @memoize
+    def same_day_booking_allowed(self):
+        ''' State if the same day booking is allowed
+        '''
+        value = getattr(self.context, 'same_day_booking_disallowed')
+        return value == 'no' or value == self.today.strftime('%Y/%m/%d')
+
+
     @property
     @memoize
     def first_bookable_day(self):
@@ -167,6 +177,11 @@ class PrenotazioniContextState(BrowserView):
 
         ;return; a datetime.date object
         """
+        if self.same_day_booking_allowed:
+            return max(
+                self.context.getDaData(),
+                self.today
+            )
         return max(
             self.context.getDaData(),
             self.tomorrow
@@ -621,6 +636,7 @@ class PrenotazioniContextState(BrowserView):
          'gate2': [slot2, slot3],
         }
         """
+        #import pdb; pdb.set_trace()
         slots_by_gate = {}
         slots = self.get_busy_slots_in_period(booking_date, period)
         for slot in slots:

@@ -31,7 +31,6 @@ class MailActionExecutor(BaseExecutor):
         extended with the markers:
          - ${gate}
          - ${date}
-         - ${subject}
          - ${time}
          - ${type}
         '''
@@ -42,7 +41,6 @@ class MailActionExecutor(BaseExecutor):
             return mapping
 
         mapping['gate'] = event_obj.getGate() or ''
-        mapping['subject'] = event_obj.Description() or ''
         mapping['type'] = event_obj.getTipologia_prenotazione() or ''
 
         event_obj_date = event_obj.Date()
@@ -55,6 +53,7 @@ class MailActionExecutor(BaseExecutor):
                         "time": plone.toLocalizedTime(date, time_only=True),
                         })
         return mapping
+
 
     def get_target_obj(self):
         '''Get's the target object, i.e. the object that will provide the field

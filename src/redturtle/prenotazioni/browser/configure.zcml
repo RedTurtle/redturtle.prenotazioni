@@ -19,6 +19,9 @@
       directory="static"
       />
 
+  <!--include package=".stats" /-->
+
+
   <browser:page
     for="..content.prenotazioni_folder.IPrenotazioniFolder"
     name="edit"

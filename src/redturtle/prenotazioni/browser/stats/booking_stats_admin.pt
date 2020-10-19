@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:metal="http://xml.zope.org/namespaces/metal"
+xmlns:tal="http://xml.zope.org/namespaces/tal"
+xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+metal:use-macro="context/main_template/macros/master"
+i18n:domain="pd.prenotazioni">
+  <head></head>
+  <body>
+    <metal:main fill-slot="main">
+      <div class="booking-stats">
+        <div>
+          <b>Number of entries</b>: <tal:value content="view/entry_number">0</tal:value>
+        </div>
+        <div>
+          <b>Older entry</b>: <tal:value content="view/older_entry">0</tal:value>
+        </div>
+        <div>
+          <b>By action</b>: <tal:value content="view/entries_by_action">{}</tal:value>
+        </div>
+      </div>
+    </metal:main>
+  </body>
+</html>

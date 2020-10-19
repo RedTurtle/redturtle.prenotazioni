@@ -13,9 +13,10 @@ from redturtle.prenotazioni import _
 from z3c.form import button
 from z3c.form.interfaces import DISPLAY_MODE
 from z3c.form.interfaces import WidgetActionExecutionError
-from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile as Z3VPTF  # noqa
 from zope.event import notify
 from zope.interface import classImplements
+from zope.interface import Invalid
+from z3c.form.interfaces import WidgetActionExecutionError
 from zope.interface import Invalid
 
 import re
@@ -33,9 +34,6 @@ class DefaultEditForm(BaseEdit):
         self.widgets['settimana_tipo'].allow_append = False
         self.widgets['settimana_tipo'].allow_reorder = False
 
-    def datagridUpdateWidgets(self, subform, widgets, widget):
-        if 'giorno' in list(widgets.keys()):
-            widgets['giorno'].template = Z3VPTF('templates/custom_dgf_input.pt')
 
     @button.buttonAndHandler(_dmf(u'Save'), name='save')
     def handleApply(self, action):
@@ -44,6 +42,11 @@ class DefaultEditForm(BaseEdit):
             self.status = self.formErrorsMessage
             return
 
+        if not data.get('tipologia', []):
+            raise WidgetActionExecutionError(
+                'tipologia',
+                Invalid(_(u"Please add at least one tipology."))
+            )
 
         self.applyChanges(data)
         IStatusMessage(self.request).addStatusMessage(
@@ -75,10 +78,6 @@ class DefaultAddForm(BaseAddForm):
         self.widgets['settimana_tipo'].allow_append = False
         self.widgets['settimana_tipo'].allow_reorder = False
 
-    def datagridUpdateWidgets(self, subform, widgets, widget):
-        if 'giorno' in list(widgets.keys()):
-            widgets['giorno'].template = Z3VPTF('templates/custom_dgf_input.pt')
-
 
     @button.buttonAndHandler(_dmf('Save'), name='save')
     def handleAdd(self, action):
@@ -87,6 +86,11 @@ class DefaultAddForm(BaseAddForm):
             self.status = self.formErrorsMessage
             return
 
+        if not data.get('tipologia', []):
+            raise WidgetActionExecutionError(
+                'tipologia',
+                Invalid(_(u"Please add at least one tipology."))
+            )
 
         obj = self.createAndAdd(data)
         if obj is not None:
@@ -95,6 +99,7 @@ class DefaultAddForm(BaseAddForm):
             IStatusMessage(self.request).addStatusMessage(
                 self.success_message, "info"
             )
+            self.request.response.redirect(self.nextURL())
 
     @button.buttonAndHandler(_dmf(u'Cancel'), name='cancel')
     def handleCancel(self, action):

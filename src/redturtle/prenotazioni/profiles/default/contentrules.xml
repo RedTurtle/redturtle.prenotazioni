@@ -54,35 +54,6 @@
    </action>
   </actions>
  </rule>
- <rule name="booking-created-manager"
-    title="Send email to manager when a booking is created"
-    description="Viene inviata una mail al responsabile per avvertire della creazione di una prenotazione"
-    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
-    stop-after="False">
-  <conditions>
-   <condition type="plone.conditions.PortalType">
-    <property name="check_types">
-     <element>Prenotazione</element>
-    </property>
-   </condition>
-   <condition type="plone.conditions.WorkflowTransition">
-    <property name="wf_transitions">
-     <element>submit</element>
-    </property>
-   </condition>
-  </conditions>
-  <actions>
-   <action type="plone.actions.MailFromField">
-    <property name="source"/>
-    <property
-       name="message">E' stata sottoposta una nuova prenotazione: "${title}":
-                    ${url}</property>
-    <property name="fieldName">email_responsabile</property>
-    <property name="target">parent</property>
-    <property name="subject">Nuova prenotazione</property>
-   </action>
-  </actions>
- </rule>
  <rule name="booking-created-user"
     title="Send email to user when a booking is created"
     description="Viene inviata una mail all'utente per avvertirlo della creazione della prenotazione"

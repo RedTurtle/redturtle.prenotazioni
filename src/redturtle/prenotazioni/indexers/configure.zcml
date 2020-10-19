@@ -1,0 +1,7 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="redturtle.prenotazioni">
+
+    <adapter name="SearchableText" factory=".searchable_text.prenotazione" />
+
+</configure>

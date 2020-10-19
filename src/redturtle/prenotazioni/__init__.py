@@ -3,8 +3,9 @@
 from AccessControl import Unauthorized
 from datetime import datetime
 from datetime import timedelta
-from logging import getLogger
+from logging import getLogger, FileHandler, Formatter
 from os import environ
+from App.config import getConfiguration
 from plone import api
 from plone.api.exc import UserNotFoundError
 from redturtle.prenotazioni import config
@@ -16,6 +17,10 @@ import pytz
 
 prenotazioniLogger = getLogger('redturtle.prenotazioni')
 _ = MessageFactory('redturtle.prenotazioni')
+
+prenotazioniMessageFactory = MessageFactory('redturtle.prenotazioni')
+prenotazioniFileLogger = getLogger('redturtle.prenotazioni.file')
+
 
 
 def get_environ_tz(default=pytz.utc):
@@ -70,3 +75,23 @@ def get_or_create_obj(folder, key, portal_type):
             return api.content.create(type=portal_type,
                                       title=key,
                                       container=folder)
+
+
+def init_handler():
+    '''
+    Protect the namespace
+    '''
+    if prenotazioniFileLogger.handlers:
+        return
+    product_config = getattr(getConfiguration(), 'product_config', {})
+    config = product_config.get('redturtle.prenotazioni', {})
+    logfile = config.get('logfile')
+    if not logfile:
+        return
+    hdlr = FileHandler(logfile)
+    formatter = Formatter('%(asctime)s %(levelname)s %(message)s',
+                          "%Y-%m-%d %H:%M:%S")
+    hdlr.setFormatter(formatter)
+    prenotazioniFileLogger.addHandler(hdlr)
+
+init_handler()

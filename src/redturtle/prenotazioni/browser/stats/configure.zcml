@@ -1,0 +1,39 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="redturtle.prenotazioni">
+
+  <!--
+    The following views are similar, but:
+     - the first is in the context of a booking folder
+     - the second is for every context and
+       aggregates the data from the descedant booking folders
+  -->
+  <browser:pages
+    for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+    class=".booking_stats.ContextForm"
+    permission="zope2.View">
+    <browser:page name="booking_stats" template="booking_stats.pt" />
+    <browser:page name="booking_stats.csv" attribute="get_csv" />
+    <browser:page name="booking_stats_admin"
+                  template="booking_stats_admin.pt" />
+  </browser:pages>
+
+  <browser:pages
+    for="*"
+    class=".booking_stats.AggregateForm"
+    permission="zope2.View">
+    <browser:page name="booking_stats" template="booking_stats.pt" />
+    <browser:page name="booking_stats.csv" attribute="get_csv" />
+    <browser:page name="booking_stats_admin"
+                  template="booking_stats_admin.pt" />
+  </browser:pages>
+
+  <browser:page
+    for="*"
+    class=".booking_stats_delete.DeleteForm"
+    permission="cmf.ManagePortal"
+    name="booking_stats_delete"
+  />
+
+</configure>

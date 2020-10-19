@@ -16,5 +16,3 @@ class PrenotazioniDay(Container):
     """
     exclude_from_nav = True
 
-    def email_responsabile(self):
-        return aq_parent(aq_parent(aq_parent(aq_inner(self)))).email_responsabile

@@ -179,6 +179,15 @@ class AddForm(form.AddForm):
         )
         self.widgets['booking_date'].value = bookingdate
 
+        if self.widgets['agency'].__name__ in self.context.required_booking_fields:
+            self.widgets['agency'].required = True
+        if self.widgets['email'].__name__ in self.context.required_booking_fields:
+            self.widgets['email'].required = True
+        if self.widgets['mobile'].__name__ in self.context.required_booking_fields:
+            self.widgets['mobile'].required = True
+        if self.widgets['phone'].__name__ in self.context.required_booking_fields:
+            self.widgets['phone'].required = True
+
     @property
     @memoize
     def localized_time(self):

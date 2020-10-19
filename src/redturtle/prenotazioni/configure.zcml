@@ -12,6 +12,7 @@
   <include package=".browser" />
   <include package=".contentrules" />
   <include package=".vocabularies" />
+  <include package=".indexers" />
 
   <include file="permissions.zcml" />
   <include file="upgrades.zcml" />
@@ -38,6 +39,10 @@
       factory=".setuphandlers.HiddenProfiles"
       name="redturtle.prenotazioni-hiddenprofiles"
       />
+    
+  <subscriber for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+              zope.lifecycleevent.interfaces.IObjectAddedEvent"
+              handler=".event.add_booking_notify_manager" />
 
   <subscriber for=".prenotazione_event.IMovedPrenotazione"
               handler=".event.reallocate_gate" />

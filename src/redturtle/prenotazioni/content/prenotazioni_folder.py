@@ -12,10 +12,17 @@ from plone.supermodel import model
 from plone.supermodel.directives import fieldset
 from redturtle.prenotazioni import _
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from z3c.form.browser.textlines import TextLinesFieldWidget
 from z3c.form.browser.radio import RadioFieldWidget
 from zope import schema
 from zope.interface import implementer
 from zope.interface import Interface
+
+
+
+from datetime import date
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 class ISettimanaTipoRow(model.Schema):
@@ -99,6 +106,43 @@ class IPrenotazioniFolder(model.Schema):
         description=_("aData_help",
                       default=u"Leave empty, and this Booking Folder will never expire"),  # noqa
         required=False
+    )
+
+
+    def get_options():
+        ''' Return the options for this widget
+        '''
+        today = date.today().strftime('%Y/%m/%d')
+        options = [
+            SimpleTerm(
+                value='yes',
+                token='yes',
+                title=_(u'Yes'),
+            ),
+            SimpleTerm(
+                value='no',
+                token='no',
+                title=_(u'No'),
+            ),
+            SimpleTerm(
+                value=today,
+                token=today,
+                title=_(u'No, just for today'),
+            )
+        ]
+       
+        return SimpleVocabulary(options)
+
+    same_day_booking_disallowed = schema.Choice(
+        title=_('label_required_booking_fields', default=u"Required booking fields"),
+        description=_(
+            'help_same_day_booking_disallowed',
+            u"States if it is not allowed to reserve a booking "
+            u"during the current day"
+                ),
+        required=True,
+
+        source=get_options()
     )
 
     settimana_tipo = schema.List(
