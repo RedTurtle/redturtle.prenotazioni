@@ -3,7 +3,7 @@ xmlns:metal="http://xml.zope.org/namespaces/metal"
 xmlns:tal="http://xml.zope.org/namespaces/tal"
 xmlns:i18n="http://xml.zope.org/namespaces/i18n"
 metal:use-macro="context/main_template/macros/master"
-i18n:domain="pd.prenotazioni">
+i18n:domain="redturtle.prenotazioni">
   <head></head>
   <body>
     <metal:main fill-slot="main">

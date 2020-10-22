@@ -2,13 +2,13 @@
 from datetime import date, timedelta
 from five.formlib.formbase import PageForm
 from json import loads
-from pd.prenotazioni import prenotazioniMessageFactory as _
+from redturtle.prenotazioni import prenotazioniMessageFactory as _
 from plone import api
-from plone.app.form.validators import null_validator
 from plone.memoize.view import memoize
 from zope.formlib.form import FormFields, action, setUpWidgets
 from zope.interface import Interface
-from zope.interface.declarations import implements
+from zope.interface import implementer
+
 from zope.schema import Date
 
 
@@ -20,10 +20,10 @@ class IDeleteForm(Interface):
     )
 
 
+@implementer(IDeleteForm)
 class DeleteForm(PageForm):
     ''' View to delete the entries
     '''
-    implements(IDeleteForm)
 
     @property
     @memoize
@@ -113,7 +113,7 @@ class DeleteForm(PageForm):
         )
         return self.redirect(target, msg)
 
-    @action(_(u"action_cancel", u"Cancel"), validator=null_validator, name=u'cancel')  # noqa
+    @action(_(u"action_cancel", u"Cancel"), name=u'cancel')  # noqa
     def action_cancel(self, action, data):
         '''
         Cancel

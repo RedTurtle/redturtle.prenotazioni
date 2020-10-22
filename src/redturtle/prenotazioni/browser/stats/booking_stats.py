@@ -2,7 +2,6 @@
 from BTrees.OOBTree import OOTreeSet
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from io import StringIO
-#from cStringIO import StringIO
 from csv import writer
 from datetime import date, datetime, timedelta
 from five.formlib.formbase import PageForm
@@ -11,7 +10,7 @@ from redturtle.prenotazioni import prenotazioniFileLogger
 from redturtle.prenotazioni import prenotazioniLogger as logger
 from redturtle.prenotazioni import _
 from plone import api
-from plone.app.form.validators import null_validator
+#from plone.app.form.validators import null_validator
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from redturtle.prenotazioni.browser.base import BaseView as PrenotazioniBaseView
@@ -211,7 +210,7 @@ class BaseForm(PageForm):
         '''
         return self.get_csv()
 
-    @action(_(u"action_cancel", u"Cancel"), validator=null_validator, name=u'cancel')  # noqa
+    @action(_(u"action_cancel", u"Cancel"), name=u'cancel')  # noqa
     def action_cancel(self, action, data):
         '''
         Cancel
@@ -415,8 +414,9 @@ class ContextForm(BaseForm, PrenotazioniBaseView):
         ''' Log something, dumping it on a file and storing it in the
         logstorage
         '''
-        self.file_logger.info(self.csvencode([data]))
-        self.add_entry(dumps(data))
+        encoded_data = self.csvencode([data])
+        self.file_logger.info(encoded_data)
+        self.add_entry(dumps(encoded_data))
 
 
 class AggregateForm(BaseForm):

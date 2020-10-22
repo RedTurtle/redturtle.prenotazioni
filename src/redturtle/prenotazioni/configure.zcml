@@ -13,6 +13,7 @@
   <include package=".contentrules" />
   <include package=".vocabularies" />
   <include package=".indexers" />
+  <include package=".events" />
 
   <include file="permissions.zcml" />
   <include file="upgrades.zcml" />

@@ -19,7 +19,7 @@
       directory="static"
       />
 
-  <!--include package=".stats" /-->
+  <include package=".stats" />
 
 
   <browser:page
