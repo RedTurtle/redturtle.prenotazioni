@@ -38,8 +38,8 @@ TZ = get_environ_tz()
 def tznow():
     ''' Return a timezone aware now
     '''
-    return datetime.now(TZ)
-
+    return datetime.now()
+    
 
 def time2timedelta(value):
     '''

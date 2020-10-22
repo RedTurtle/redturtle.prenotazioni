@@ -55,7 +55,7 @@ class DefaultEditForm(BaseEdit):
         self.widgets['settimana_tipo'].allow_reorder = False
 
     def datagridUpdateWidgets(self, subform, widgets, widget):
-        if 'giorno' in widgets.keys():
+        if 'giorno' in list(widgets.keys()):
             widgets['giorno'].template = Z3VPTF('templates/custom_dgf_input.pt')
 
     @button.buttonAndHandler(_dmf(u'Save'), name='save')
@@ -108,7 +108,7 @@ class DefaultAddForm(BaseAddForm):
         self.widgets['settimana_tipo'].allow_reorder = False
 
     def datagridUpdateWidgets(self, subform, widgets, widget):
-        if 'giorno' in widgets.keys():
+        if 'giorno' in list(widgets.keys()):
             widgets['giorno'].template = Z3VPTF('templates/custom_dgf_input.pt')
 
     @button.buttonAndHandler(_dmf('Save'), name='save')

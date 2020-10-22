@@ -87,8 +87,6 @@ def check_is_future_date(value):
     if not value:
         return True
 
-    if not value.tzinfo:
-        value = pytz.utc.localize(value).replace(tzinfo=TZ)
     now = tznow()
 
     if isinstance(value, datetime) and value >= now:
@@ -293,7 +291,6 @@ class AddForm(form.AddForm):
         booking_date = data.get('booking_date', None)
         if not isinstance(booking_date, datetime):
             return False
-
         date_limit = tznow() + timedelta(future_days)
         if not booking_date.tzinfo:
             tzinfo = date_limit.tzinfo
