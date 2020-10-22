@@ -143,6 +143,8 @@ class Prenotazione(Item):
     def Subject(self):
         """ Reuse plone subject to do something useful
         """
-        subject = set(self.getField('subject').get(self))
-        subject.add('Gate: %s' % self.getGate())
-        return sorted(subject)
+        return ""
+        # import pdb; pdb.set_trace()
+        # subject = set(self.getField('subject').get(self))
+        # subject.add('Gate: %s' % self.getGate())
+        # return sorted(subject)

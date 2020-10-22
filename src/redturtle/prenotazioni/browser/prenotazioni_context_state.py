@@ -636,7 +636,6 @@ class PrenotazioniContextState(BrowserView):
          'gate2': [slot2, slot3],
         }
         """
-        #import pdb; pdb.set_trace()
         slots_by_gate = {}
         slots = self.get_busy_slots_in_period(booking_date, period)
         for slot in slots:

@@ -219,7 +219,6 @@ def simple_send_mail(message, addresses, subject, immediate=False):
 
 
 def add_booking_notify_manager(obj, event):
-
     address = []
     address.append(aq_parent(aq_parent(aq_parent(aq_inner(obj)))).email_responsabile)
     message = "E' stata sottoposta una nuova prenotazione {0}: {1}".format(obj.title, obj.absolute_url()) 
