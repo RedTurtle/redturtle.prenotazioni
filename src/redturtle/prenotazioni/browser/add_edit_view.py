@@ -23,7 +23,7 @@ from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile as Z3VPTF
 import re
 
 
-def negative_delta(data):
+def invalid_range(data):
     for interval in data['settimana_tipo']:
         if interval['inizio_m'] and not interval['end_m']:
             return True
@@ -65,7 +65,7 @@ class DefaultEditForm(BaseEdit):
             self.status = self.formErrorsMessage
             return
         
-        if negative_delta(data):
+        if invalid_range(data):
             raise WidgetActionExecutionError(
                 'settimana_tipo',
                 Invalid(_(u"Check time intervals."))
@@ -118,7 +118,7 @@ class DefaultAddForm(BaseAddForm):
             self.status = self.formErrorsMessage
             return
         
-        if negative_delta(data):
+        if invalid_range(data):
             raise WidgetActionExecutionError(
                 'settimana_tipo',
                 Invalid(_(u"Check time intervals."))

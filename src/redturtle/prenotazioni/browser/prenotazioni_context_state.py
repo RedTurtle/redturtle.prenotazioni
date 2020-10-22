@@ -309,7 +309,7 @@ class PrenotazioniContextState(BrowserView):
         times = slot.get_values_hr_every(300, slot_min_size=slot_min_size)
         base_url = self.base_booking_url
         urls = []
-        now_str = tznow().strftime("%Y-%m-%d %H:%M")
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
         for t in times:
             form_booking_date = " ".join((date, t))
             params['form.booking_date'] = form_booking_date

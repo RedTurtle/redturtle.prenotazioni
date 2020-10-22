@@ -10,6 +10,7 @@ from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from email.utils import formataddr
 from email.utils import parseaddr
+from redturtle.prenotazioni import prenotazioniLogger as logger
 
 
 def reallocate_gate(obj):
