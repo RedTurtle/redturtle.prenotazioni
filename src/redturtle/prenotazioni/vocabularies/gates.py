@@ -12,7 +12,7 @@ class GatesVocabulary(object):
         '''
         Return all the gates defined in the PrenotazioniFolder
         '''
-        gates = context.getGates()
+        gates = context.getGates() or []
         return SimpleVocabulary([SimpleTerm(gate,
                                             str(i),
                                             gate)
