@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Init and utils."""
 from AccessControl import Unauthorized
+from App.config import getConfiguration
 from datetime import datetime
 from datetime import timedelta
 from logging import getLogger, FileHandler, Formatter
 from os import environ
-from App.config import getConfiguration
 from plone import api
 from plone.api.exc import UserNotFoundError
-from redturtle.prenotazioni import config
 from six.moves import map
 from zope.i18nmessageid import MessageFactory
 
@@ -67,10 +65,14 @@ def get_or_create_obj(folder, key, portal_type):
         if not userid:
             raise UserNotFoundError()
         with api.env.adopt_user(userid):
-            return api.content.create(type=portal_type, title=key, container=folder)
+            return api.content.create(
+                type=portal_type, title=key, container=folder
+            )
     except (UserNotFoundError, Unauthorized):
         with api.env.adopt_roles(["Manager"]):
-            return api.content.create(type=portal_type, title=key, container=folder)
+            return api.content.create(
+                type=portal_type, title=key, container=folder
+            )
 
 
 def init_handler():
@@ -85,7 +87,9 @@ def init_handler():
     if not logfile:
         return
     hdlr = FileHandler(logfile)
-    formatter = Formatter("%(asctime)s %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S")
+    formatter = Formatter(
+        "%(asctime)s %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S"
+    )
     hdlr.setFormatter(formatter)
     prenotazioniFileLogger.addHandler(hdlr)
 

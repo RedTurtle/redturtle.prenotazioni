@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from datetime import timedelta
-from DateTime import DateTime
-
-# from five.formlib.formbase import PageForm
 from plone import api
-
-# from plone.app.form.validators import null_validator
 from plone.memoize.view import memoize
 from plone.protect.utils import addTokenToUrl
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -19,11 +14,7 @@ from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 from z3c.form.interfaces import ActionExecutionError
-from z3c.form.interfaces import WidgetActionExecutionError
 from zope.event import notify
-
-# from zope.formlib.form import FormFields, action
-# from zope.formlib.interfaces import WidgetInputError
 from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import Invalid
@@ -38,9 +29,11 @@ class IMoveForm(Interface):
     """
 
     booking_date = Datetime(
-        title=_("label_booking_time", u"Booking time"), default=None,
+        title=_("label_booking_time", u"Booking time"), default=None
     )
-    gate = TextLine(title=_("label_gate", u"Gate"), default=u"", required=False)
+    gate = TextLine(
+        title=_("label_gate", u"Gate"), default=u"", required=False
+    )
 
 
 @implementer(IMoveForm)
@@ -72,7 +65,9 @@ class MoveForm(form.Form):
         of prenotazioni_folder
         """
         return api.content.get_view(
-            "prenotazioni_context_state", self.prenotazioni_folder, self.request
+            "prenotazioni_context_state",
+            self.prenotazioni_folder,
+            self.request,
         )
 
     # @memoize se usato rompre la vista
@@ -102,17 +97,6 @@ class MoveForm(form.Form):
         if booking_date <= date_limit:
             return False
         return True
-
-    def set_invariant_error(self, errors, fields, msg):
-        """
-        Set an error with invariant validation to highlights the involved
-        fields
-        """
-        for field in fields:
-            label = self.widgets[field].label
-            error = WidgetInputError(field, label, msg)
-            errors.append(error)
-            self.widgets[field].error = msg
 
     # def validate(self, action, data):
     #     '''
@@ -157,7 +141,9 @@ class MoveForm(form.Form):
     def back_to_booking_url(self):
         """ This goes back to booking view.
         """
-        qs = {"data": (self.context.getData_prenotazione().strftime("%d/%m/%Y"))}
+        qs = {
+            "data": (self.context.getData_prenotazione().strftime("%d/%m/%Y"))
+        }
         return urlify(self.prenotazioni_folder.absolute_url(), params=qs)
 
     # @memoize se usato rompe la vista
@@ -210,7 +196,8 @@ class MoveForm(form.Form):
 
         if conflict_manager.conflicts(data, exclude=exclude):
             msg = _(
-                u"Sorry, this slot is not available or does not fit your " u"booking."
+                u"Sorry, this slot is not available or does not fit your "
+                u"booking."
             )
             api.portal.show_message(msg, self.request, type="error")
             raise ActionExecutionError(Invalid(msg))

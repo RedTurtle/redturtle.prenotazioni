@@ -2,7 +2,6 @@
 
 # from plone import api
 from plone.dexterity.interfaces import IDexterityContent
-from redturtle.prenotazioni import _
 from six.moves import range
 from zope.globalrequest import getRequest
 from zope.interface import implementer
@@ -32,7 +31,9 @@ class VocDurataIncontro(object):
         terms = []
         for item in items:
             terms.append(
-                SimpleTerm(value=item.token, token=str(item.token), title=item.value,)
+                SimpleTerm(
+                    value=item.token, token=str(item.token), title=item.value
+                )
             )
         return SimpleVocabulary(terms)
 

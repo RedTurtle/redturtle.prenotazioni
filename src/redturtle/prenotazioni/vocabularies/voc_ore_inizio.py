@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-
-# from plone import api
 from plone.dexterity.interfaces import IDexterityContent
-from redturtle.prenotazioni import _
 from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
@@ -44,8 +41,7 @@ class VocOreInizio(object):
         for hour in self.HOURS:
             for minute in self.MINUTES:
                 time = hour + ":" + minute
-                index_time = hour + minute
-                items.append(VocabItem(hour + minute, time),)
+                items.append(VocabItem(hour + minute, time))
 
         if not IDexterityContent.providedBy(context):
             req = getRequest()
@@ -54,7 +50,9 @@ class VocOreInizio(object):
         terms = []
         for item in items:
             terms.append(
-                SimpleTerm(value=item.token, token=str(item.token), title=item.value,)
+                SimpleTerm(
+                    value=item.token, token=str(item.token), title=item.value
+                )
             )
         return SimpleVocabulary(terms)
 

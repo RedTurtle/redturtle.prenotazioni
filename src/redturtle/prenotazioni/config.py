@@ -1,5 +1,4 @@
-"""Common configuration constants
-"""
+# -*- coding: utf-8 -*-
 
 PROJECTNAME = "redturtle.prenotazioni"
 

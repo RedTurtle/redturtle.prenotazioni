@@ -70,14 +70,8 @@ class PrenotazioniContextState(BrowserView):
     week_type = "PrenotazioniWeek"
     year_type = "PrenotazioniYear"
 
-    busy_slot_booking_url = {
-        "url": "",
-        "title": _("busy", u"Busy"),
-    }
-    unavailable_slot_booking_url = {
-        "url": "",
-        "title": "&nbsp;",
-    }
+    busy_slot_booking_url = {"url": "", "title": _("busy", u"Busy")}
+    unavailable_slot_booking_url = {"url": "", "title": "&nbsp;"}
 
     @property
     @memoize
@@ -275,8 +269,9 @@ class PrenotazioniContextState(BrowserView):
                 value
                 and key.startswith("form.")
                 and not key.startswith("form.action")
-                and not key in ("form.booking_date",)
-                or key in ("disable_plone.leftcolumn", "disable_plone.rightcolumn")
+                and key not in ("form.booking_date",)
+                or key
+                in ("disable_plone.leftcolumn", "disable_plone.rightcolumn")
             )
         )
         for key, value in six.iteritems(params):
@@ -309,7 +304,9 @@ class PrenotazioniContextState(BrowserView):
         for t in times:
             form_booking_date = " ".join((date, t))
             params["form.booking_date"] = form_booking_date
-            booking_date = DateTime(params["form.booking_date"]).asdatetime()  # noqa
+            booking_date = DateTime(
+                params["form.booking_date"]
+            ).asdatetime()  # noqa
             urls.append(
                 {
                     "title": t,
@@ -511,8 +508,8 @@ class PrenotazioniContextState(BrowserView):
         for key, value in six.iteritems(boundaries):
             boundaries[key] = hm2seconds(value)
         return {
-            "morning": BaseSlot(boundaries["inizio_m"], boundaries["end_m"],),
-            "afternoon": BaseSlot(boundaries["inizio_p"], boundaries["end_p"],),
+            "morning": BaseSlot(boundaries["inizio_m"], boundaries["end_m"]),
+            "afternoon": BaseSlot(boundaries["inizio_p"], boundaries["end_p"]),
         }
 
     @property
@@ -577,7 +574,9 @@ class PrenotazioniContextState(BrowserView):
             for item in day_folder.items()
             if item[1].portal_type == allowed_portal_type
         ]
-        bookings.sort(key=lambda x: (x.getData_prenotazione(), x.getData_scadenza()))
+        bookings.sort(
+            key=lambda x: (x.getData_prenotazione(), x.getData_scadenza())
+        )
         return bookings
 
     @memoize
@@ -594,7 +593,9 @@ class PrenotazioniContextState(BrowserView):
         """ This will show the slots that will not show elsewhere
         """
         morning_slots = self.get_busy_slots_in_period(booking_date, "morning")
-        afternoon_slots = self.get_busy_slots_in_period(booking_date, "afternoon")
+        afternoon_slots = self.get_busy_slots_in_period(
+            booking_date, "afternoon"
+        )
         all_slots = self.get_existing_slots_in_day_folder(booking_date)
         return sorted(
             [
@@ -670,7 +671,10 @@ class PrenotazioniContextState(BrowserView):
         for gate in gates:
             # unavailable gates doesn't have free slots
             # XXX Riprendi da qui:
-            if self.get_unavailable_gates() and gate in self.get_unavailable_gates():
+            if (
+                self.get_unavailable_gates()
+                and gate in self.get_unavailable_gates()
+            ):
                 availability[gate] = []
             else:
                 availability.setdefault(gate, [])
@@ -694,7 +698,8 @@ class PrenotazioniContextState(BrowserView):
         busy = self.get_busy_slots(booking_date, period)
         keys = set(list(free.keys()) + list(busy.keys()))
         return dict(
-            (key, sorted(free.get(key, []) + busy.get(key, []))) for key in keys
+            (key, sorted(free.get(key, []) + busy.get(key, [])))
+            for key in keys
         )
 
     def get_anonymous_slots(self, booking_date, period="day"):
@@ -732,7 +737,8 @@ class PrenotazioniContextState(BrowserView):
         }
         """
         return dict(
-            (x["name"], int(x["duration"])) for x in self.context.getTipologia()
+            (x["name"], int(x["duration"]))
+            for x in self.context.getTipologia()
         )
 
     def get_tipology_duration(self, tipology):
@@ -796,7 +802,8 @@ class PrenotazioniContextState(BrowserView):
         for slots in six.itervalues(availability):
             for slot in slots:
                 if len(slot) >= duration and (
-                    booking_date > self.first_bookable_date or slot.start() >= hm_now
+                    booking_date > self.first_bookable_date
+                    or slot.start() >= hm_now
                 ):
                     good_slots.append(slot)
         if not good_slots:

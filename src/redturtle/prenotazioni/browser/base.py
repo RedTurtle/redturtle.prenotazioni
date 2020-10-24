@@ -3,7 +3,9 @@ from plone import api
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 from redturtle.prenotazioni.adapters.conflict import IConflictManager
-from redturtle.prenotazioni.content.prenotazioni_folder import IPrenotazioniFolder
+from redturtle.prenotazioni.content.prenotazioni_folder import (
+    IPrenotazioniFolder,
+)
 from zExceptions import NotFound
 
 
@@ -31,7 +33,9 @@ class BaseView(BrowserView):
 
         Everyone should know about this!
         """
-        return api.content.get_view("prenotazione_macros", self.context, self.request)
+        return api.content.get_view(
+            "prenotazione_macros", self.context, self.request
+        )
 
     @property
     @memoize

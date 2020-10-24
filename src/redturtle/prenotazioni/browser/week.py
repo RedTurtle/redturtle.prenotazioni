@@ -31,7 +31,9 @@ class View(BaseView):
     def localized_time(self):
         """ Facade for context/@@plone/toLocalizedTime
         """
-        return api.content.get_view("plone", self.context, self.request).toLocalizedTime
+        return api.content.get_view(
+            "plone", self.context, self.request
+        ).toLocalizedTime
 
     def DT2time(self, value):
         """

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_inner
-from Acquisition import aq_parent
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope.interface import implementer

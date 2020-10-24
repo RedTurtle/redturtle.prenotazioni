@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone import api
 from plone.memoize.view import memoize
 from Products.CMFPlone.utils import safe_unicode
@@ -14,6 +15,7 @@ from zope.component import getUtility
 from zope.i18n import translate
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
 
 import zope
 
@@ -66,7 +68,9 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
         keys = sorted(self.tipologies_bookability["unbookable"])
         keys = [key for key in keys]
         return [
-            self.vocabulary.getTerm(key) for key in keys if key in self.context.terms
+            self.vocabulary.getTerm(key)
+            for key in keys
+            if key in self.context.terms
         ]
 
 
@@ -108,7 +112,9 @@ class CustomRadioWidget(RadioWidget):
         """
         keys = sorted(self.tipologies_bookability["bookable"])
         keys = [safe_unicode(key) for key in keys]
-        return [self.vocabulary.getTerm(key) for key in keys if key in self.terms]
+        return [
+            self.vocabulary.getTerm(key) for key in keys if key in self.terms
+        ]
 
     @property
     @memoize
@@ -118,7 +124,9 @@ class CustomRadioWidget(RadioWidget):
         keys = sorted(self.tipologies_bookability["unbookable"])
         keys = [safe_unicode(key) for key in keys]
         return [
-            self.vocabulary.getTerm(key) for key in keys if key in self.context.terms
+            self.vocabulary.getTerm(key)
+            for key in keys
+            if key in self.context.terms
         ]
 
     @property
@@ -133,7 +141,9 @@ class CustomRadioWidget(RadioWidget):
             checked = self.isChecked(term)
             id = "%s-%i" % (self.id, count)
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
-                label = translate(term.title, context=self.request, default=term.title)
+                label = translate(
+                    term.title, context=self.request, default=term.title
+                )
             else:
                 label = util.toUnicode(term.value)
             results.append(
@@ -162,7 +172,12 @@ class CustomRadioWidget(RadioWidget):
         checked = self.isChecked(term)
         # id = '%s-%i' % (self.id, terms.index(term))
         id = "%s-%i" % (self.id, index)
-        item = {"id": id, "name": self.name, "value": term.token, "checked": checked}
+        item = {
+            "id": id,
+            "name": self.name,
+            "value": term.token,
+            "checked": checked,
+        }
         template = zope.component.getMultiAdapter(
             (self.context, self.request, self.form, self.field, self),
             IPageTemplate,

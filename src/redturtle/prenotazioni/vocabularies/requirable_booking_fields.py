@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from redturtle.prenotazioni.browser.prenotazione_add import IAddForm
-from zope.interface.declarations import implements
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import implementer
@@ -12,7 +11,7 @@ class RequirableBookingFieldsVocabulary(object):
     static_voc = SimpleVocabulary(
         [
             SimpleTerm(field, field, IAddForm[field].title)
-            for field in ("email", "mobile", "phone", "subject", "agency",)
+            for field in ("email", "mobile", "phone", "subject", "agency")
         ]
     )
 

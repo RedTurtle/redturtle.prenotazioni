@@ -1,25 +1,16 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
 from DateTime import DateTime
-
-# from five.formlib.formbase import PageForm
 from plone import api
 from plone.memoize.view import memoize
 from plone.z3cform.layout import wrap_form
 from Products.CMFPlone import PloneMessageFactory as __
-
-# from plone.app.form.validators import null_validator
 from Products.CMFPlone.browser.search import quote_chars
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.adapters.conflict import IConflictManager
-
-# from zope.formlib.form import setUpWidgets
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
-
-# from zope.formlib.form import FormFields, action
 from zope.interface import implementer
 from zope.interface import Interface
 from zope.schema import Choice
@@ -38,7 +29,7 @@ class ISearchForm(Interface):
     """
 
     text = TextLine(
-        title=_("label_text", u"Text to search"), default=u"", required=False,
+        title=_("label_text", u"Text to search"), default=u"", required=False
     )
     review_state = Choice(
         title=__("State"),
@@ -117,13 +108,22 @@ class SearchForm(form.Form):
         end = data["end"]
         if start and end:
             query["Date"] = {
-                "query": [DateTime(start.__str__()), DateTime(end.__str__()) + 1],
+                "query": [
+                    DateTime(start.__str__()),
+                    DateTime(end.__str__()) + 1,
+                ],
                 "range": "min:max",
             }
         elif start:
-            query["Date"] = {"query": DateTime(start.__str__()), "range": "min"}
+            query["Date"] = {
+                "query": DateTime(start.__str__()),
+                "range": "min",
+            }
         elif end:
-            query["Date"] = {"query": DateTime(end.__str__()) + 1, "range": "max"}
+            query["Date"] = {
+                "query": DateTime(end.__str__()) + 1,
+                "range": "max",
+            }
         return query
 
     def get_brains(self, data):
@@ -143,42 +143,42 @@ class SearchForm(form.Form):
     #     errors = super(SearchForm, self).validate(action, data)
     #     return errors
 
-    def setUpWidgets(self, ignore_request=False):
-        """
-        From zope.formlib.form.Formbase.
-        """
-        self.adapters = {}
-        fieldnames = [x.__name__ for x in self.form_fields]
-        data = {}
-        for key in fieldnames:
-            form_value = self.request.form.get(key)
-            if form_value is not None and not form_value == u"":
-                field = self.form_fields[key].field
-                if isinstance(field, Choice):
-                    try:
-                        data[key] = (
-                            field.bind(self.context)
-                            .vocabulary.getTermByToken(form_value)
-                            .value
-                        )
-                    except LookupError:
-                        data[key] = form_value
-                else:
-                    data[key] = form_value
-                self.request[key] = form_value
+    # def setUpWidgets(self, ignore_request=False):
+    #     """
+    #     From zope.formlib.form.Formbase.
+    #     """
+    #     self.adapters = {}
+    #     fieldnames = [x.__name__ for x in self.form_fields]
+    #     data = {}
+    #     for key in fieldnames:
+    #         form_value = self.request.form.get(key)
+    #         if form_value is not None and not form_value == u"":
+    #             field = self.form_fields[key].field
+    #             if isinstance(field, Choice):
+    #                 try:
+    #                     data[key] = (
+    #                         field.bind(self.context)
+    #                         .vocabulary.getTermByToken(form_value)
+    #                         .value
+    #                     )
+    #                 except LookupError:
+    #                     data[key] = form_value
+    #             else:
+    #                 data[key] = form_value
+    #             self.request[key] = form_value
 
-        self.widgets = setUpWidgets(
-            self.form_fields,
-            self.prefix,
-            self.context,
-            self.request,
-            form=self,
-            adapters=self.adapters,
-            ignore_request=ignore_request,
-            data=data,
-        )
-        self.widgets["gate"]._messageNoValue = ""
-        self.widgets["review_state"]._messageNoValue = ""
+    #     self.widgets = setUpWidgets(
+    #         self.form_fields,
+    #         self.prefix,
+    #         self.context,
+    #         self.request,
+    #         form=self,
+    #         adapters=self.adapters,
+    #         ignore_request=ignore_request,
+    #         data=data,
+    #     )
+    #     self.widgets["gate"]._messageNoValue = ""
+    #     self.widgets["review_state"]._messageNoValue = ""
 
     @button.buttonAndHandler(_(u"action_search", default=u"Search"))
     def action_search(self, action):

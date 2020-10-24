@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.indexer.decorator import indexer
 from Products.CMFPlone.utils import safe_unicode
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione

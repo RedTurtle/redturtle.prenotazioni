@@ -39,13 +39,15 @@ class PrenotazioniPortalState(BrowserView):
                 if state_folder is not None:
                     for state in state_folder.values():
                         key = "%s:%s" % (state.id, state.title)
-                        if not key in dup_list:
+                        if key not in dup_list:
                             states.append(state)
                         dup_list[key] = 1
         terms = []
         for state in states:
             key = state.getId()
-            title = translate(__(safe_unicode(state.title)), context=self.request)
+            title = translate(
+                __(safe_unicode(state.title)), context=self.request
+            )
             terms.append(SimpleTerm(key, title=title))
         terms.sort(key=lambda x: x.title)
         return SimpleVocabulary(terms)

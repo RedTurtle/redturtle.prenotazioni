@@ -1,22 +1,18 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules.actions import ActionAddForm
 from plone.app.contentrules.actions import ActionEditForm
-from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 from plone.app.contentrules.browser.formhelper import EditForm
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFCore.utils import getToolByName
 from redturtle.prenotazioni import _
-
-# from zope.formlib import form
 from zope import schema
 from zope.component import adapter
-from zope.component import adapts
 from zope.component.interfaces import ComponentLookupError
 from zope.interface import implementer
-from zope.interface import implements
 from zope.interface import Interface
 
 import six
@@ -28,7 +24,9 @@ class IMovedPrenotazioneAction(Interface):
     """
 
     subject = schema.TextLine(
-        title=_(u"Subject"), description=_(u"Subject of the message"), required=True
+        title=_(u"Subject"),
+        description=_(u"Subject of the message"),
+        required=True,
     )
 
     source = schema.TextLine(
@@ -46,7 +44,10 @@ class IMovedPrenotazioneAction(Interface):
         description=_(
             "message_help",
             default=u"Type in here the message that you want to mail. Some "
-            u"defined content can be replaced: ${title} will be replaced with booking title (user fullname). ${date} will be replaced with booking new date. ${url} will be replaced by the booking url. ${portal} will be replaced by the title "
+            u"defined content can be replaced: ${title} will be replaced with"
+            " booking title (user fullname). ${date} will be replaced with "
+            "booking new date. ${url} will be replaced by the booking url. "
+            "${portal} will be replaced by the title "
             u"of the portal.",
         ),
         required=True,
@@ -134,9 +135,13 @@ class MailActionExecutor(object):
         try:
             # sending mail in Plone 4
             mailhost.send(
-                message, mto=dest, mfrom=source, subject=subject, charset=email_charset
+                message,
+                mto=dest,
+                mfrom=source,
+                subject=subject,
+                charset=email_charset,
             )
-        except:
+        except Exception:
             # sending mail in Plone 3
             mailhost.secureSend(
                 message,
@@ -160,7 +165,8 @@ class MovedPrenotazioneAddForm(ActionAddForm):
     schema = IMovedPrenotazioneAction
     label = _(u"Add moved booking Mail Action")
     description = _(
-        u"A mail action that sends email notify when a booking is moved in an other slot."
+        u"A mail action that sends email notify when a booking is moved "
+        u"in an other slot."
     )
     form_name = _(u"Configure element")
     Type = MovedPrenotazioneAction
@@ -179,7 +185,8 @@ class MovedPrenotazioneEditForm(EditForm):
     schema = IMovedPrenotazioneAction
     label = _(u"Edit moved booking Mail Action")
     description = _(
-        u"A mail action that sends email notify when a booking is moved in an other slot."
+        u"A mail action that sends email notify when a booking is moved in "
+        u"an other slot."
     )
     form_name = _(u"Configure element")
 

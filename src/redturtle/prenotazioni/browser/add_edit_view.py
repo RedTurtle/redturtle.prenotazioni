@@ -1,4 +1,5 @@
-from collective.z3cform.datagridfield import BlockDataGridFieldFactory
+# -*- coding: utf-8 -*-
+
 from plone.dexterity.browser.add import DefaultAddForm as BaseAddForm
 from plone.dexterity.browser.add import DefaultAddView as BaseAddView
 from plone.dexterity.browser.edit import DefaultEditForm as BaseEdit
@@ -16,11 +17,7 @@ from z3c.form.interfaces import WidgetActionExecutionError
 from zope.event import notify
 from zope.interface import classImplements
 from zope.interface import Invalid
-from z3c.form.interfaces import WidgetActionExecutionError
-from zope.interface import Invalid
-from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile as Z3VPTF  # noqa
-
-import re
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
 
 def invalid_range(data):
@@ -57,7 +54,9 @@ class DefaultEditForm(BaseEdit):
 
     def datagridUpdateWidgets(self, subform, widgets, widget):
         if "giorno" in list(widgets.keys()):
-            widgets["giorno"].template = Z3VPTF("templates/custom_dgf_input.pt")
+            widgets["giorno"].template = ViewPageTemplateFile(
+                "templates/custom_dgf_input.pt"
+            )
 
     @button.buttonAndHandler(_dmf(u"Save"), name="save")
     def handleApply(self, action):
@@ -77,13 +76,17 @@ class DefaultEditForm(BaseEdit):
             )
 
         self.applyChanges(data)
-        IStatusMessage(self.request).addStatusMessage(_dmf(u"Changes saved"), "info")
+        IStatusMessage(self.request).addStatusMessage(
+            _dmf(u"Changes saved"), "info"
+        )
         self.request.response.redirect(self.nextURL())
         notify(EditFinishedEvent(self.context))
 
     @button.buttonAndHandler(_dmf(u"Cancel"), name="cancel")
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_dmf(u"Edit cancelled"), "info")
+        IStatusMessage(self.request).addStatusMessage(
+            _dmf(u"Edit cancelled"), "info"
+        )
         self.request.response.redirect(self.nextURL())
         notify(EditCancelledEvent(self.context))
 
@@ -107,7 +110,9 @@ class DefaultAddForm(BaseAddForm):
 
     def datagridUpdateWidgets(self, subform, widgets, widget):
         if "giorno" in list(widgets.keys()):
-            widgets["giorno"].template = Z3VPTF("templates/custom_dgf_input.pt")
+            widgets["giorno"].template = ViewPageTemplateFile(
+                "templates/custom_dgf_input.pt"
+            )
 
     @button.buttonAndHandler(_dmf("Save"), name="save")
     def handleAdd(self, action):
@@ -130,7 +135,9 @@ class DefaultAddForm(BaseAddForm):
         if obj is not None:
             # mark only as finished if we get the new object
             self._finishedAdd = True
-            IStatusMessage(self.request).addStatusMessage(self.success_message, "info")
+            IStatusMessage(self.request).addStatusMessage(
+                self.success_message, "info"
+            )
             self.request.response.redirect(self.nextURL())
 
     @button.buttonAndHandler(_dmf(u"Cancel"), name="cancel")

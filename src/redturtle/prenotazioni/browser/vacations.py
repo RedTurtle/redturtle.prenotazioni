@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
-from datetime import date
 from datetime import datetime
 from DateTime import DateTime
-
-# from five.formlib.formbase import PageForm
 from plone import api
-
-# from plone.app.form.validators import null_validator
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
@@ -21,10 +16,6 @@ from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 from z3c.form.interfaces import ActionExecutionError
-from z3c.form.interfaces import WidgetActionExecutionError
-
-# from zope.formlib.form import FormFields, action
-# from zope.formlib.interfaces import WidgetInputError
 from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import Invalid
@@ -57,7 +48,7 @@ def check_time(value):
         assert 0 <= hh <= 23
         assert 0 <= mm <= 59
         return True
-    except:
+    except Exception:
         msg = "Invalid time: %r" % value
         logger.exception(msg)
     raise InvalidTime(value)
@@ -73,7 +64,9 @@ class IVacationBooking(Interface):
     )
     gate = Choice(
         title=_("label_gate", u"Gate"),
-        description=_("description_gate", u"The gate that will be unavailable"),
+        description=_(
+            "description_gate", u"The gate that will be unavailable"
+        ),
         default=u"",
         vocabulary="redturtle.prenotazioni.gates",
     )
@@ -114,7 +107,9 @@ class VacationBooking(form.Form):
 
     def updateWidgets(self):
         super(VacationBooking, self).updateWidgets()
-        self.widgets["start_date"].value = datetime.today().strftime("%Y-%m-%d")
+        self.widgets["start_date"].value = datetime.today().strftime(
+            "%Y-%m-%d"
+        )
 
     def get_parsed_data(self, data):
         """
@@ -256,7 +251,9 @@ class VacationBooking(form.Form):
                 "email": u"",
                 "tipologia_prenotazione": u"",
             }
-            booker.create(slot_data, duration=duration, force_gate=data.get("gate"))
+            booker.create(
+                slot_data, duration=duration, force_gate=data.get("gate")
+            )
 
         msg = _("booking_created")
         IStatusMessage(self.request).add(msg, "info")
@@ -273,7 +270,8 @@ class VacationBooking(form.Form):
         if self.has_slot_conflicts(parsed_data):
             msg = _(
                 "slot_conflict_error",
-                u"This gate has some booking schedule in this time " u"period.",
+                u"This gate has some booking schedule in this time "
+                u"period.",
             )
             raise ActionExecutionError(Invalid(msg))
 
@@ -298,7 +296,9 @@ class VacationBooking(form.Form):
         """ The scripts needed for the dateinput
         """
         view = api.content.get_view(
-            "redturtle.prenotazioni.dateinput.conf.js", self.context, self.request,
+            "redturtle.prenotazioni.dateinput.conf.js",
+            self.context,
+            self.request,
         )
         return view.render() + view.mark_with_class(["#form\\\\.start_date"])
 

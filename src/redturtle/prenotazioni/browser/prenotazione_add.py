@@ -9,13 +9,13 @@ from plone.memoize.view import memoize
 from plone.z3cform.layout import wrap_form
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.statusmessages.interfaces import IStatusMessage
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import TZ
 from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.browser.z3c_custom_widget import CustomRadioFieldWidget
+from redturtle.prenotazioni.browser.z3c_custom_widget import (
+    CustomRadioFieldWidget,
+)
 from redturtle.prenotazioni.utilities.urls import urlify
 from z3c.form import button
 from z3c.form import field
@@ -34,7 +34,6 @@ from zope.schema import Text
 from zope.schema import TextLine
 from zope.schema import ValidationError
 
-import pytz
 import re
 import six
 
@@ -111,7 +110,7 @@ class IAddForm(Interface):
         default=u"",
         vocabulary="redturtle.prenotazioni.tipologies",
     )
-    fullname = TextLine(title=_("label_fullname", u"Fullname"), default=u"",)
+    fullname = TextLine(title=_("label_fullname", u"Fullname"), default=u"")
     email = TextLine(
         title=_("label_email", u"Email"),
         required=True,
@@ -130,11 +129,14 @@ class IAddForm(Interface):
         default=u"",
         constraint=check_phone_number,
     )
-    subject = Text(title=_("label_subject", u"Subject"), default=u"", required=False,)
+    subject = Text(
+        title=_("label_subject", u"Subject"), default=u"", required=False
+    )
     agency = TextLine(
         title=_("label_agency", u"Agency"),
         description=_(
-            "description_agency", u"If you work for an agency please specify its name"
+            "description_agency",
+            u"If you work for an agency please specify its name",
         ),
         default=u"",
         required=False,
@@ -163,17 +165,30 @@ class AddForm(form.AddForm):
         super(AddForm, self).updateWidgets()
         self.widgets["booking_date"].mode = HIDDEN_MODE
         bookingdate = self.request.form.get(
-            "form.booking_date", self.request.form.get("form.widgets.booking_date")
+            "form.booking_date",
+            self.request.form.get("form.widgets.booking_date"),
         )
         self.widgets["booking_date"].value = bookingdate
 
-        if self.widgets["agency"].__name__ in self.context.required_booking_fields:
+        if (
+            self.widgets["agency"].__name__
+            in self.context.required_booking_fields
+        ):
             self.widgets["agency"].required = True
-        if self.widgets["email"].__name__ in self.context.required_booking_fields:
+        if (
+            self.widgets["email"].__name__
+            in self.context.required_booking_fields
+        ):
             self.widgets["email"].required = True
-        if self.widgets["mobile"].__name__ in self.context.required_booking_fields:
+        if (
+            self.widgets["mobile"].__name__
+            in self.context.required_booking_fields
+        ):
             self.widgets["mobile"].required = True
-        if self.widgets["phone"].__name__ in self.context.required_booking_fields:
+        if (
+            self.widgets["phone"].__name__
+            in self.context.required_booking_fields
+        ):
             self.widgets["phone"].required = True
 
     @property
@@ -181,7 +196,9 @@ class AddForm(form.AddForm):
     def localized_time(self):
         """ Facade for context/@@plone/toLocalizedTime
         """
-        return api.content.get_view("plone", self.context, self.request).toLocalizedTime
+        return api.content.get_view(
+            "plone", self.context, self.request
+        ).toLocalizedTime
 
     @property
     @memoize
@@ -216,7 +233,9 @@ class AddForm(form.AddForm):
         booking_date = self.request.form.get("form.booking_date", None)
         # BBB Adapt to z3c without change a lot the code
         if not booking_date:
-            booking_date = self.request.form.get("form.widgets.booking_date", None)
+            booking_date = self.request.form.get(
+                "form.widgets.booking_date", None
+            )
 
         if not booking_date:
             return None
@@ -323,7 +342,9 @@ class AddForm(form.AddForm):
         obj = self.do_book(data)
         if not obj:
             msg = _(u"Sorry, this slot is not available anymore.")
-            api.portal.show_message(message=msg, type="warning", request=self.request)
+            api.portal.show_message(
+                message=msg, type="warning", request=self.request
+            )
             target = self.back_to_booking_url
             return self.request.response.redirect(target)
         msg = _("booking_created")
@@ -331,11 +352,15 @@ class AddForm(form.AddForm):
         booking_date = data["booking_date"].strftime("%d/%m/%Y")
         params = {"data": booking_date, "uid": obj.UID()}
         target = urlify(
-            self.context.absolute_url(), paths=["@@prenotazione_print"], params=params
+            self.context.absolute_url(),
+            paths=["@@prenotazione_print"],
+            params=params,
         )
         return self.request.response.redirect(target)
 
-    @button.buttonAndHandler(_(u"action_cancel", default=u"Cancel"), name="cancel")
+    @button.buttonAndHandler(
+        _(u"action_cancel", default=u"Cancel"), name="cancel"
+    )
     def action_cancel(self, action):
         """
         Cancel
@@ -371,7 +396,10 @@ class AddForm(form.AddForm):
             return self.redirect(self.back_to_booking_url, msg)
         # and if we have it, we should have enough time to do something
         if not self.has_enough_time():
-            msg = _("time_slot_to_short", "You cannot book any typology at this time")
+            msg = _(
+                "time_slot_to_short",
+                "You cannot book any typology at this time",
+            )
             return self.redirect(self.back_to_booking_url, msg)
         return super(AddForm, self).__call__()
 

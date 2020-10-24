@@ -1,25 +1,18 @@
 # -*- coding: utf-8 -*-
 from collective import dexteritytextindexer
-from collective.z3cform.datagridfield import BlockDataGridFieldFactory
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
+from datetime import date
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
-from plone.namedfile import field as namedfile
 from plone.supermodel import model
-from plone.supermodel.directives import fieldset
 from redturtle.prenotazioni import _
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
-from z3c.form.browser.textlines import TextLinesFieldWidget
-from z3c.form.browser.radio import RadioFieldWidget
 from zope import schema
 from zope.interface import implementer
 from zope.interface import Interface
-
-
-from datetime import date
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
@@ -52,7 +45,7 @@ class ISettimanaTipoRow(model.Schema):
 
 
 class ITipologiaRow(Interface):
-    name = schema.TextLine(title=_(u"Typology name"), required=True,)
+    name = schema.TextLine(title=_(u"Typology name"), required=True)
     duration = schema.Choice(
         title=_(u"Duration value"),
         required=True,
@@ -68,12 +61,16 @@ class IPrenotazioniFolder(model.Schema):
     descriptionAgenda = RichText(
         required=False,
         title=_(u"Descrizione Agenda", default=u"Descrizione Agenda"),
-        description=(u"Inserire il testo di presentazione " u"dell'agenda corrente"),
+        description=(
+            u"Inserire il testo di presentazione " u"dell'agenda corrente"
+        ),
     )
 
     directives.widget(required_booking_fields=CheckBoxFieldWidget)
     required_booking_fields = schema.List(
-        title=_("label_required_booking_fields", default=u"Required booking fields"),
+        title=_(
+            "label_required_booking_fields", default=u"Required booking fields"
+        ),
         description=_(
             "help_required_booking_fields",
             u"User will not be able to add a booking unless those "
@@ -89,7 +86,7 @@ class IPrenotazioniFolder(model.Schema):
         ),
     )
 
-    daData = schema.Date(title=_(u"Data inizio validità"),)
+    daData = schema.Date(title=_(u"Data inizio validità"))
 
     aData = schema.Date(
         title=_(u"Data fine validità"),
@@ -105,15 +102,19 @@ class IPrenotazioniFolder(model.Schema):
         """
         today = date.today().strftime("%Y/%m/%d")
         options = [
-            SimpleTerm(value="yes", token="yes", title=_(u"Yes"),),
-            SimpleTerm(value="no", token="no", title=_(u"No"),),
-            SimpleTerm(value=today, token=today, title=_(u"No, just for today"),),
+            SimpleTerm(value="yes", token="yes", title=_(u"Yes")),
+            SimpleTerm(value="no", token="no", title=_(u"No")),
+            SimpleTerm(
+                value=today, token=today, title=_(u"No, just for today")
+            ),
         ]
 
         return SimpleVocabulary(options)
 
     same_day_booking_disallowed = schema.Choice(
-        title=_("label_required_booking_fields", default=u"Required booking fields"),
+        title=_(
+            "label_required_booking_fields", default=u"Required booking fields"
+        ),
         description=_(
             "help_same_day_booking_disallowed",
             u"States if it is not allowed to reserve a booking "
@@ -264,7 +265,8 @@ class IPrenotazioniFolder(model.Schema):
     email_responsabile = schema.TextLine(
         title=_(u"Email del responsabile"),
         description=_(
-            u"Inserisci l'indirizzo email del responsabile " "delle prenotazioni"
+            u"Inserisci l'indirizzo email del responsabile "
+            "delle prenotazioni"
         ),
         required=False,
     )

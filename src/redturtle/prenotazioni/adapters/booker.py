@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
 from datetime import timedelta
 from DateTime import DateTime
 from plone import api
 from plone.memoize.instance import memoize
 from random import choice
-from redturtle.prenotazioni.config import MIN_IN_DAY
 from zope.component import Interface
 from zope.interface import implementer
 
@@ -30,7 +28,9 @@ class Booker(object):
     def prenotazioni(self):
         """ The prenotazioni context state view
         """
-        return self.context.unrestrictedTraverse("@@prenotazioni_context_state")  # noqa
+        return self.context.unrestrictedTraverse(
+            "@@prenotazioni_context_state"
+        )  # noqa
 
     def get_available_gate(self, data_prenotazione, data_scadenza=None):
         """
@@ -60,7 +60,9 @@ class Booker(object):
         else:
             booking_date = data["booking_date"]
 
-        container = self.prenotazioni.get_container(booking_date, create_missing=True)
+        container = self.prenotazioni.get_container(
+            booking_date, create_missing=True
+        )
         tipology = data.get("tipology", "")
         if duration < 0:
             # if we pass a negative duration it will be recalculated
@@ -82,7 +84,9 @@ class Booker(object):
             "tipologia_prenotazione": data.get("tipology", ""),
         }
         if not force_gate:
-            available_gate = self.get_available_gate(booking_date, data_scadenza)
+            available_gate = self.get_available_gate(
+                booking_date, data_scadenza
+            )
             # if not available_gate: #
             if available_gate is None:
                 # there isn't a free slot in any available gates

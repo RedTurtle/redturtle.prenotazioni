@@ -2,22 +2,18 @@
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from collective.contentrules.mailfromfield import logger
-from collective.contentrules.mailfromfield.actions.mail import IMailFromFieldAction
 from collective.contentrules.mailfromfield.actions.mail import (
+    IMailFromFieldAction,
     MailActionExecutor as BaseExecutor,
 )
 from DateTime import DateTime
 from plone.contentrules.rule.interfaces import IExecutable
-
-# from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from redturtle.prenotazioni.content.prenotazione import Prenotazione
 from six.moves import filter
 from zope.component import adapter
-from zope.component._declaration import adapts
 from zope.interface import implementer
 from zope.interface import Interface
-from zope.interface.declarations import implements
 
 import six
 
@@ -109,13 +105,13 @@ class MailActionExecutor(BaseExecutor):
             if not recipients:
                 recipients = obj.getProperty(fieldName, [])
                 if recipients:
-                    logger.debug("getting e-mail from %s CMF property" % fieldName)
+                    logger.debug(
+                        "getting e-mail from %s CMF property" % fieldName
+                    )
             else:
                 logger.debug("getting e-mail from %s AT field" % fieldName)
 
         # now transform recipients in a iterator, if needed
         if type(recipients) == str or type(recipients) == six.text_type:
-            recipients = [
-                str(recipients),
-            ]
+            recipients = [str(recipients)]
         return list(filter(bool, recipients))
