@@ -10,9 +10,10 @@ class IPrenotazioniDay(model.Schema):
     """ Marker interface and Dexterity Python Schema for PrenotazioniDay
     """
 
+
 @implementer(IPrenotazioniDay)
 class PrenotazioniDay(Container):
     """
     """
-    exclude_from_nav = True
 
+    exclude_from_nav = True

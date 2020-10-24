@@ -13,4 +13,5 @@ class IPrenotazioniYear(model.Schema):
 class PrenotazioniYear(Container):
     """
     """
+
     exclude_from_nav = True

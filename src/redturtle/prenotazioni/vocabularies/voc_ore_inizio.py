@@ -21,21 +21,31 @@ class VocOreInizio(object):
     """
     """
 
-    HOURS = ['07', '08', '09', '10', '11', '12', '13',
-             '14', '15', '16', '17', '18', '19', '20']
-    MINUTES = ['00', '15', '30', '45']
-
-
+    HOURS = [
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+    ]
+    MINUTES = ["00", "15", "30", "45"]
 
     def __call__(self, context):
         items = []
         for hour in self.HOURS:
             for minute in self.MINUTES:
-                time = hour + ':' + minute
+                time = hour + ":" + minute
                 index_time = hour + minute
-                items.append(
-                    VocabItem(hour+minute, time),
-                )
+                items.append(VocabItem(hour + minute, time),)
 
         if not IDexterityContent.providedBy(context):
             req = getRequest()
@@ -44,11 +54,7 @@ class VocOreInizio(object):
         terms = []
         for item in items:
             terms.append(
-                SimpleTerm(
-                    value=item.token,
-                    token=str(item.token),
-                    title=item.value,
-                )
+                SimpleTerm(value=item.token, token=str(item.token), title=item.value,)
             )
         return SimpleVocabulary(terms)
 

@@ -14,14 +14,14 @@ from redturtle.prenotazioni import prenotazioniLogger as logger
 
 
 def reallocate_gate(obj):
-    '''
+    """
     We have to reallocate the gate for this object
 
     Skip this step if we have a form.gate parameter in the request
-    '''
+    """
     context = obj.object
 
-    if context.REQUEST.form.get('form.gate', '') and context.getGate():
+    if context.REQUEST.form.get("form.gate", "") and context.getGate():
         return
 
     container = context.getPrenotazioniFolder()
@@ -31,9 +31,9 @@ def reallocate_gate(obj):
 
 
 def reallocate_container(obj):
-    '''
+    """
     If we moved Prenotazione to a new week we should move it
-    '''
+    """
     container = obj.object.getPrenotazioniFolder()
     IBooker(container).fix_container(obj.object)
 
@@ -68,13 +68,14 @@ def simple_send_mail(message, addresses, subject, immediate=False):
     """
     mail_host = get_mail_host()
     if mail_host is None:
-        logger.warn("Cannot send notification email: please configure "
-                    "MailHost correctly.")
+        logger.warn(
+            "Cannot send notification email: please configure " "MailHost correctly."
+        )
         # We print some info, which is perfect for checking in unit
         # tests.
-        print('Subject =', subject)
-        print('Addresses =', addresses)
-        print('Message =')
+        print("Subject =", subject)
+        print("Addresses =", addresses)
+        print("Message =")
         print(message)
         return
 
@@ -90,7 +91,8 @@ def simple_send_mail(message, addresses, subject, immediate=False):
             mfrom=mfrom,
             subject=subject,
             immediate=immediate,
-            charset=header_charset)
+            charset=header_charset,
+        )
 
 
 def get_mail_host():
@@ -102,11 +104,10 @@ def get_mail_host():
     if portal is None:
         return None
     request = portal.REQUEST
-    ctrlOverview = getMultiAdapter((portal, request),
-                                   name='overview-controlpanel')
+    ctrlOverview = getMultiAdapter((portal, request), name="overview-controlpanel")
     mail_settings_correct = not ctrlOverview.mailhost_warning()
     if mail_settings_correct:
-        mail_host = getToolByName(portal, 'MailHost', None)
+        mail_host = getToolByName(portal, "MailHost", None)
         return mail_host
 
 
@@ -126,12 +127,11 @@ def get_charset():
         return DEFAULT_CHARSET
     if IMailSchema is None:
         # Plone 4
-        charset = portal.getProperty('email_charset', '')
+        charset = portal.getProperty("email_charset", "")
     else:
         # Plone 5.0 and higher
         registry = getUtility(IRegistry)
-        mail_settings = registry.forInterface(
-            IMailSchema, prefix='plone', check=False)
+        mail_settings = registry.forInterface(IMailSchema, prefix="plone", check=False)
         charset = mail_settings.email_charset
 
     if not charset:
@@ -142,21 +142,20 @@ def get_charset():
 def get_mail_from_address():
     portal = getSite()
     if portal is None:
-        return ''
+        return ""
     if IMailSchema is None:
         # Plone 4
-        from_address = portal.getProperty('email_from_address', '')
-        from_name = portal.getProperty('email_from_name', '')
+        from_address = portal.getProperty("email_from_address", "")
+        from_name = portal.getProperty("email_from_name", "")
     else:
         # Plone 5.0 and higher
         registry = getUtility(IRegistry)
-        mail_settings = registry.forInterface(
-            IMailSchema, prefix='plone', check=False)
+        mail_settings = registry.forInterface(IMailSchema, prefix="plone", check=False)
         from_address = mail_settings.email_from_address
         from_name = mail_settings.email_from_name
 
     if not from_address:
-        return ''
+        return ""
     from_address = from_address.strip()
     mfrom = formataddr((from_name, from_address))
     if parseaddr(mfrom)[1] != from_address:
@@ -195,13 +194,14 @@ def simple_send_mail(message, addresses, subject, immediate=False):
     """
     mail_host = get_mail_host()
     if mail_host is None:
-        logger.warn("Cannot send notification email: please configure "
-                    "MailHost correctly.")
+        logger.warn(
+            "Cannot send notification email: please configure " "MailHost correctly."
+        )
         # We print some info, which is perfect for checking in unit
         # tests.
-        print('Subject =', subject)
-        print('Addresses =', addresses)
-        print('Message =')
+        print("Subject =", subject)
+        print("Addresses =", addresses)
+        print("Message =")
         print(message)
         return
 
@@ -216,15 +216,16 @@ def simple_send_mail(message, addresses, subject, immediate=False):
             mfrom=mfrom,
             subject=subject,
             immediate=immediate,
-            charset=header_charset)
+            charset=header_charset,
+        )
 
 
 def add_booking_notify_manager(obj, event):
     address = []
     address.append(aq_parent(aq_parent(aq_parent(aq_inner(obj)))).email_responsabile)
-    message = "E' stata sottoposta una nuova prenotazione {0}: {1}".format(obj.title, obj.absolute_url()) 
+    message = "E' stata sottoposta una nuova prenotazione {0}: {1}".format(
+        obj.title, obj.absolute_url()
+    )
     subject = "Nuova prenotazione"
 
     simple_send_mail(message, list(address), subject)
-
-    

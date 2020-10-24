@@ -11,10 +11,9 @@ class BookingReviewStatesVocabulary(object):
 
     def __call__(self, context):
         prenotazioni_portal_state = api.content.get_view(
-            'prenotazioni_portal_state',
-            context,
-            context.REQUEST
+            "prenotazioni_portal_state", context, context.REQUEST
         )
         return prenotazioni_portal_state.booking_review_states
+
 
 BookingReviewStatesVocabularyFactory = BookingReviewStatesVocabulary()  # noqa

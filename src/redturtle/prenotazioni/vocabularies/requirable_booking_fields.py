@@ -11,26 +11,16 @@ class RequirableBookingFieldsVocabulary(object):
 
     static_voc = SimpleVocabulary(
         [
-            SimpleTerm(
-                field,
-                field,
-                IAddForm[field].title
-            )
-            for field
-            in (
-                'email',
-                'mobile',
-                'phone',
-                'subject',
-                'agency',
-            )
+            SimpleTerm(field, field, IAddForm[field].title)
+            for field in ("email", "mobile", "phone", "subject", "agency",)
         ]
     )
 
     def __call__(self, context):
-        '''
+        """
         Return all the gates defined in the PrenotazioniFolder
-        '''
+        """
         return self.static_voc
+
 
 RequirableBookingFieldsVocabularyFactory = RequirableBookingFieldsVocabulary()

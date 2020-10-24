@@ -7,6 +7,7 @@ class IMovedPrenotazione(IObjectEvent):
 
     """Marker interface for prenotazione that is moved"""
 
+
 @implementer(IMovedPrenotazione)
 class MovedPrenotazione(ObjectEvent):
 

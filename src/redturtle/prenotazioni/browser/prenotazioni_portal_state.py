@@ -13,14 +13,15 @@ class PrenotazioniPortalState(BrowserView):
 
     """ Some globals for this package
     """
-    booking_types = ['Prenotazione']
+
+    booking_types = ["Prenotazione"]
 
     @property
     @memoize_contextless
     def plone_tools(self):
         """
         """
-        return api.content.get_view('plone_tools', self.context, self.request)
+        return api.content.get_view("plone_tools", self.context, self.request)
 
     @property
     @memoize_contextless
@@ -34,18 +35,17 @@ class PrenotazioniPortalState(BrowserView):
             wfids = pw._chains_by_type.get(booking_type)
             for wfid in wfids:
                 wf = pw.getWorkflowById(wfid)
-                state_folder = getattr(wf, 'states', None)
+                state_folder = getattr(wf, "states", None)
                 if state_folder is not None:
                     for state in state_folder.values():
-                        key = '%s:%s' % (state.id, state.title)
+                        key = "%s:%s" % (state.id, state.title)
                         if not key in dup_list:
                             states.append(state)
                         dup_list[key] = 1
         terms = []
         for state in states:
             key = state.getId()
-            title = translate(__(safe_unicode(state.title)),
-                              context=self.request)
+            title = translate(__(safe_unicode(state.title)), context=self.request)
             terms.append(SimpleTerm(key, title=title))
         terms.sort(key=lambda x: x.title)
         return SimpleVocabulary(terms)

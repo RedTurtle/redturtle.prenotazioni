@@ -24,69 +24,66 @@ import re
 
 
 def invalid_range(data):
-    for interval in data['settimana_tipo']:
-        if interval['inizio_m'] and not interval['end_m']:
+    for interval in data["settimana_tipo"]:
+        if interval["inizio_m"] and not interval["end_m"]:
             return True
-        if interval['end_m'] and not interval['inizio_m']:
+        if interval["end_m"] and not interval["inizio_m"]:
             return True
-        if interval['inizio_p'] and not interval['end_p']:
+        if interval["inizio_p"] and not interval["end_p"]:
             return True
-        if interval['end_p'] and not interval['inizio_p']:
+        if interval["end_p"] and not interval["inizio_p"]:
             return True
-        if interval['inizio_m'] and interval['end_m']:
-            if interval['inizio_m'] > interval['end_m']:
+        if interval["inizio_m"] and interval["end_m"]:
+            if interval["inizio_m"] > interval["end_m"]:
                 return True
-        if interval['inizio_p'] and interval['end_p']:
-            if interval['inizio_p'] > interval['end_p']:
+        if interval["inizio_p"] and interval["end_p"]:
+            if interval["inizio_p"] > interval["end_p"]:
                 return True
     return False
-    
+
 
 class DefaultEditForm(BaseEdit):
     """
     """
+
     def updateWidgets(self):
         super(DefaultEditForm, self).updateWidgets()
         # XXX day name should be only readable
-        self.widgets['settimana_tipo'].columns[0]['mode'] = DISPLAY_MODE
-        self.widgets['settimana_tipo'].allow_insert = False
-        self.widgets['settimana_tipo'].allow_delete = False
-        self.widgets['settimana_tipo'].allow_append = False
-        self.widgets['settimana_tipo'].allow_reorder = False
+        self.widgets["settimana_tipo"].columns[0]["mode"] = DISPLAY_MODE
+        self.widgets["settimana_tipo"].allow_insert = False
+        self.widgets["settimana_tipo"].allow_delete = False
+        self.widgets["settimana_tipo"].allow_append = False
+        self.widgets["settimana_tipo"].allow_reorder = False
 
     def datagridUpdateWidgets(self, subform, widgets, widget):
-        if 'giorno' in list(widgets.keys()):
-            widgets['giorno'].template = Z3VPTF('templates/custom_dgf_input.pt')
+        if "giorno" in list(widgets.keys()):
+            widgets["giorno"].template = Z3VPTF("templates/custom_dgf_input.pt")
 
-    @button.buttonAndHandler(_dmf(u'Save'), name='save')
+    @button.buttonAndHandler(_dmf(u"Save"), name="save")
     def handleApply(self, action):
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
             return
-        
+
         if invalid_range(data):
             raise WidgetActionExecutionError(
-                'settimana_tipo',
-                Invalid(_(u"Check time intervals."))
+                "settimana_tipo", Invalid(_(u"Check time intervals."))
             )
 
-        if not data.get('tipologia', []):
+        if not data.get("tipologia", []):
             raise WidgetActionExecutionError(
-                'tipologia',
-                Invalid(_(u"Please add at least one tipology."))
+                "tipologia", Invalid(_(u"Please add at least one tipology."))
             )
 
         self.applyChanges(data)
-        IStatusMessage(self.request).addStatusMessage(
-            _dmf(u"Changes saved"), "info")
+        IStatusMessage(self.request).addStatusMessage(_dmf(u"Changes saved"), "info")
         self.request.response.redirect(self.nextURL())
         notify(EditFinishedEvent(self.context))
 
-    @button.buttonAndHandler(_dmf(u'Cancel'), name='cancel')
+    @button.buttonAndHandler(_dmf(u"Cancel"), name="cancel")
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(
-            _dmf(u"Edit cancelled"), "info")
+        IStatusMessage(self.request).addStatusMessage(_dmf(u"Edit cancelled"), "info")
         self.request.response.redirect(self.nextURL())
         notify(EditCancelledEvent(self.context))
 
@@ -98,55 +95,51 @@ classImplements(DefaultEditView, IDexterityEditForm)
 class DefaultAddForm(BaseAddForm):
     """
     """
+
     def updateWidgets(self):
         super(DefaultAddForm, self).updateWidgets()
         # XXX day name should be only readable
-        self.widgets['settimana_tipo'].columns[0]['mode'] = DISPLAY_MODE
-        self.widgets['settimana_tipo'].allow_insert = False
-        self.widgets['settimana_tipo'].allow_delete = False
-        self.widgets['settimana_tipo'].allow_append = False
-        self.widgets['settimana_tipo'].allow_reorder = False
+        self.widgets["settimana_tipo"].columns[0]["mode"] = DISPLAY_MODE
+        self.widgets["settimana_tipo"].allow_insert = False
+        self.widgets["settimana_tipo"].allow_delete = False
+        self.widgets["settimana_tipo"].allow_append = False
+        self.widgets["settimana_tipo"].allow_reorder = False
 
     def datagridUpdateWidgets(self, subform, widgets, widget):
-        if 'giorno' in list(widgets.keys()):
-            widgets['giorno'].template = Z3VPTF('templates/custom_dgf_input.pt')
+        if "giorno" in list(widgets.keys()):
+            widgets["giorno"].template = Z3VPTF("templates/custom_dgf_input.pt")
 
-    @button.buttonAndHandler(_dmf('Save'), name='save')
+    @button.buttonAndHandler(_dmf("Save"), name="save")
     def handleAdd(self, action):
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
             return
-        
+
         if invalid_range(data):
             raise WidgetActionExecutionError(
-                'settimana_tipo',
-                Invalid(_(u"Check time intervals."))
+                "settimana_tipo", Invalid(_(u"Check time intervals."))
             )
 
-        if not data.get('tipologia', []):
+        if not data.get("tipologia", []):
             raise WidgetActionExecutionError(
-                'tipologia',
-                Invalid(_(u"Please add at least one tipology."))
+                "tipologia", Invalid(_(u"Please add at least one tipology."))
             )
 
         obj = self.createAndAdd(data)
         if obj is not None:
             # mark only as finished if we get the new object
             self._finishedAdd = True
-            IStatusMessage(self.request).addStatusMessage(
-                self.success_message, "info"
-            )
+            IStatusMessage(self.request).addStatusMessage(self.success_message, "info")
             self.request.response.redirect(self.nextURL())
 
-    @button.buttonAndHandler(_dmf(u'Cancel'), name='cancel')
+    @button.buttonAndHandler(_dmf(u"Cancel"), name="cancel")
     def handleCancel(self, action):
         IStatusMessage(self.request).addStatusMessage(
             _dmf(u"Add New Item operation cancelled"), "info"
         )
         self.request.response.redirect(self.nextURL())
         notify(AddCancelledEvent(self.context))
-
 
     def nextURL(self):
         return self.context.absolute_url()
@@ -155,4 +148,3 @@ class DefaultAddForm(BaseAddForm):
 class DefaultAddView(BaseAddView):
 
     form = DefaultAddForm
-

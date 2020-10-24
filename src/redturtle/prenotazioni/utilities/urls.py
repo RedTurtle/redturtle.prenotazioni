@@ -4,8 +4,8 @@ from six.moves.urllib.parse import urlencode
 import six
 
 
-def urlify(url='', paths=[], params={}):
-    ''' We take a query string and encode it
+def urlify(url="", paths=[], params={}):
+    """ We take a query string and encode it
 
     :param url: a string
     :param paths: a string or an iterable of path to join, e.g.:
@@ -14,7 +14,7 @@ def urlify(url='', paths=[], params={}):
     :param params: a dict like query string
 
     :return: an url
-    '''
+    """
     # we want path to be iterable at the end
     if isinstance(paths, six.string_types):
         paths = [paths]
@@ -31,10 +31,9 @@ def urlify(url='', paths=[], params={}):
     # we cook everything together
     if url:
         if paths:
-            url = '%s/%s' % (url.rstrip('/'), '/'.join(paths).lstrip('/'))
+            url = "%s/%s" % (url.rstrip("/"), "/".join(paths).lstrip("/"))
     else:
-        url = '/'.join(paths)
+        url = "/".join(paths)
     if params:
         url = "%s?%s" % (url, urlencode(params, doseq=1))
     return url
-

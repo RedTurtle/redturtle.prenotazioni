@@ -8,9 +8,7 @@ from plone.memoize.view import memoize
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import prenotazioniFileLogger
 from redturtle.prenotazioni import prenotazioniLogger as logger
-from redturtle.prenotazioni.browser.base import (
-    BaseView as PrenotazioniBaseView,
-)
+from redturtle.prenotazioni.browser.base import BaseView as PrenotazioniBaseView
 from time import mktime
 from zope.annotation.interfaces import IAnnotations
 from zope.interface import Interface
@@ -36,9 +34,7 @@ class IQueryForm(Interface):
     Interface for querying stuff
     """
 
-    user = TextLine(
-        title=_(u"label_user", "User"), default=u"", required=False
-    )
+    user = TextLine(title=_(u"label_user", "User"), default=u"", required=False)
     start = Date(
         title=_("label_start", u"Start date "),
         description=_(" format (YYYY-MM-DD)"),

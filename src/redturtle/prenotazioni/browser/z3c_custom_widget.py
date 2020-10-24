@@ -27,22 +27,18 @@ class ICustomRadioWidget(IRadioWidget):
 
 
 class RenderWidget(ViewMixinForTemplates, BrowserView):
-    index = VPTF('templates/tipology_radio_widget.pt')
+    index = VPTF("templates/tipology_radio_widget.pt")
 
     @property
     @memoize
     def prenotazione_add(self):
-        ''' Returns the prenotazioni_context_state view.
+        """ Returns the prenotazioni_context_state view.
 
         Everyone should know about this!
-        '''
-        return api.content.get_view('prenotazione_add',
-                                    self.context.context.aq_inner,
-                                    self.request).\
-            form(
-                self.context.context.aq_inner,
-                self.request
-            )
+        """
+        return api.content.get_view(
+            "prenotazione_add", self.context.context.aq_inner, self.request
+        ).form(self.context.context.aq_inner, self.request)
 
     @property
     @memoize
@@ -56,8 +52,8 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
     @property
     @memoize
     def tipologies_bookability(self):
-        ''' Get tipology bookability
-        '''
+        """ Get tipology bookability
+        """
         booking_date = self.prenotazione_add.booking_DateTime.asdatetime()
         prenotazioni = self.prenotazione_add.prenotazioni
         return prenotazioni.tipologies_bookability(booking_date)
@@ -65,45 +61,42 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
     @property
     @memoize
     def unbookable_items(self):
-        ''' Get tipology bookability
-        '''
-        keys = sorted(self.tipologies_bookability['unbookable'])
+        """ Get tipology bookability
+        """
+        keys = sorted(self.tipologies_bookability["unbookable"])
         keys = [key for key in keys]
-        return [self.vocabulary.getTerm(key) for key in keys if key in self.context.terms]
+        return [
+            self.vocabulary.getTerm(key) for key in keys if key in self.context.terms
+        ]
 
 
 @zope.interface.implementer_only(ICustomRadioWidget)
 class CustomRadioWidget(RadioWidget):
     """ """
+
     @property
     @memoize
     def prenotazione_add(self):
-        ''' Returns the prenotazioni_context_state view.
+        """ Returns the prenotazioni_context_state view.
 
         Everyone should know about this!
-        '''
+        """
         return api.content.get_view(
-            'prenotazione_add',
-            self.context,
-            self.request).form(
-                self.context,
-                self.request
-        )
+            "prenotazione_add", self.context, self.request
+        ).form(self.context, self.request)
 
     @property
     @memoize
     def vocabulary(self):
         voc_name = self.field.vocabularyName
         if voc_name:
-            return getUtility(IVocabularyFactory, name=voc_name)(
-                self.context
-            )
+            return getUtility(IVocabularyFactory, name=voc_name)(self.context)
 
     @property
     @memoize
     def tipologies_bookability(self):
-        ''' Get tipology bookability
-        '''
+        """ Get tipology bookability
+        """
         booking_date = self.prenotazione_add.booking_DateTime.asdatetime()
         prenotazioni = self.prenotazione_add.prenotazioni
         return prenotazioni.tipologies_bookability(booking_date)
@@ -111,20 +104,22 @@ class CustomRadioWidget(RadioWidget):
     @property
     @memoize
     def bookable_items(self):
-        ''' Get tipology bookability
-        '''
-        keys = sorted(self.tipologies_bookability['bookable'])
+        """ Get tipology bookability
+        """
+        keys = sorted(self.tipologies_bookability["bookable"])
         keys = [safe_unicode(key) for key in keys]
         return [self.vocabulary.getTerm(key) for key in keys if key in self.terms]
 
     @property
     @memoize
     def unbookable_items(self):
-        ''' Get tipology bookability
-        '''
-        keys = sorted(self.tipologies_bookability['unbookable'])
+        """ Get tipology bookability
+        """
+        keys = sorted(self.tipologies_bookability["unbookable"])
         keys = [safe_unicode(key) for key in keys]
-        return [self.vocabulary.getTerm(key) for key in keys if key in self.context.terms]
+        return [
+            self.vocabulary.getTerm(key) for key in keys if key in self.context.terms
+        ]
 
     @property
     def items(self):
@@ -136,14 +131,21 @@ class CustomRadioWidget(RadioWidget):
         results = []
         for count, term in enumerate(self.bookable_items):
             checked = self.isChecked(term)
-            id = '%s-%i' % (self.id, count)
+            id = "%s-%i" % (self.id, count)
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
-                label = translate(term.title, context=self.request,
-                                  default=term.title)
+                label = translate(term.title, context=self.request, default=term.title)
             else:
                 label = util.toUnicode(term.value)
-            results.append({'id': id, 'name': self.name, 'value': term.token,
-                            'label': label, 'checked': checked, 'index': count})
+            results.append(
+                {
+                    "id": id,
+                    "name": self.name,
+                    "value": term.token,
+                    "label": label,
+                    "checked": checked,
+                    "index": count,
+                }
+            )
         return results
 
     def renderForValue(self, value, index=None):
@@ -159,12 +161,13 @@ class CustomRadioWidget(RadioWidget):
                 raise
         checked = self.isChecked(term)
         # id = '%s-%i' % (self.id, terms.index(term))
-        id = '%s-%i' % (self.id, index)
-        item = {'id': id, 'name': self.name, 'value': term.token,
-                'checked': checked}
+        id = "%s-%i" % (self.id, index)
+        item = {"id": id, "name": self.name, "value": term.token, "checked": checked}
         template = zope.component.getMultiAdapter(
             (self.context, self.request, self.form, self.field, self),
-            IPageTemplate, name=self.mode + '_single')
+            IPageTemplate,
+            name=self.mode + "_single",
+        )
         return template(self, item)
 
 

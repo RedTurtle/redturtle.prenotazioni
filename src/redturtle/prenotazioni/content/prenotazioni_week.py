@@ -13,4 +13,5 @@ class IPrenotazioniWeek(model.Schema):
 class PrenotazioniWeek(Container):
     """
     """
+
     exclude_from_nav = True

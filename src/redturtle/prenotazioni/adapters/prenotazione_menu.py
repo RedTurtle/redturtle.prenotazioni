@@ -4,9 +4,8 @@ from plone.memoize.view import memoize
 
 
 class PrenotazioneActionsSubMenuItem(ActionsSubMenuItem):
-
     @memoize
     def available(self):
-        ''' Never available :)
-        '''
+        """ Never available :)
+        """
         return True

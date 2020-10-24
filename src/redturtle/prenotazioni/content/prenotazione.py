@@ -18,46 +18,30 @@ class IPrenotazione(model.Schema):
     """
 
     # XXX validator
-    email = schema.TextLine(
-        title=_(u"email"),
-    )
-    telefono = schema.TextLine(
-        title=_(u"Phone number"),
-    )
-    mobile = schema.TextLine(
-        title=_("mobile", u"Mobile number"),
-    )
+    email = schema.TextLine(title=_(u"email"),)
+    telefono = schema.TextLine(title=_(u"Phone number"),)
+    mobile = schema.TextLine(title=_("mobile", u"Mobile number"),)
 
     tipologia_prenotazione = schema.Choice(
-        title=_(u"booking tipology"),
-        vocabulary='redturtle.prenotazioni.tipologies',
+        title=_(u"booking tipology"), vocabulary="redturtle.prenotazioni.tipologies",
     )
 
     # XXX visibile solo in view
-    data_prenotazione = schema.Datetime(
-        title=_(u'Booking date'),
-        required=True,
-    )
+    data_prenotazione = schema.Datetime(title=_(u"Booking date"), required=True,)
 
     azienda = schema.TextLine(
         title=_(u"Company"),
-        description=_(u"Inserisci la denominazione dell'azienda "
-                      u"del richiedente"),
+        description=_(u"Inserisci la denominazione dell'azienda " u"del richiedente"),
     )
 
     gate = schema.TextLine(
-        title=_(u"Gate"),
-        description=_(u"Sportello a cui presentarsi"),
+        title=_(u"Gate"), description=_(u"Sportello a cui presentarsi"),
     )
 
-    data_scadenza = schema.Datetime(
-        title=_(u'Expiration date booking'),
-        required=True,
-    )
+    data_scadenza = schema.Datetime(title=_(u"Expiration date booking"), required=True,)
 
     staff_notes = schema.Text(
-        required=False,
-        title=_('staff_notes_label', u"Staff notes")
+        required=False, title=_("staff_notes_label", u"Staff notes")
     )
 
 
@@ -111,8 +95,9 @@ class Prenotazione(Item):
         for parent in self.aq_chain:
             if IPrenotazioniFolder.providedBy(parent):
                 return parent
-        raise Exception("Could not find Prenotazioni Folder "
-                        "in acquisition chain of %r" % self)
+        raise Exception(
+            "Could not find Prenotazioni Folder " "in acquisition chain of %r" % self
+        )
 
     def getEmailResponsabile(self):
         """
@@ -131,8 +116,8 @@ class Prenotazione(Item):
     #         return data_prenotazione.toZone(zone).ISO()
 
     def getDuration(self):
-        ''' Return current duration
-        '''
+        """ Return current duration
+        """
         start = self.getData_prenotazione()
         end = self.getData_scadenza()
         if start and end:
