@@ -322,7 +322,6 @@ class AddForm(form.AddForm):
             raise WidgetActionExecutionError(
                 "booking_date", Invalid(_(u"Please provide a booking date"))
             )
-
         conflict_manager = self.prenotazioni.conflict_manager
         if conflict_manager.conflicts(data):
             msg = _(u"Sorry, this slot is not available anymore.")

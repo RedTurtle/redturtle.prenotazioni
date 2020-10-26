@@ -438,18 +438,19 @@ class PrenotazioniContextState(BrowserView):
             prenotazione = brain._unrestrictedGetObject()
             start = prenotazione.getData_prenotazione()
             end = prenotazione.getData_scadenza()
+            gate = getattr(prenotazione, "gate", "")
             if booking_date < start:
                 # new booking starts before current booking
                 if booking_end_date > start:
                     # new booking intersect current booking
-                    gates.add(prenotazione.getGate())
+                    gates.add(gate)
             elif booking_date == start:
                 # starts at the same time, so disable curretn booking gate
-                gates.add(prenotazione.getGate())
+                gates.add(gate)
             else:
                 if booking_date < end:
                     # new booking starts inside current booking interval
-                    gates.add(prenotazione.getGate())
+                    gates.add(gate)
         return gates
 
     def get_free_gates_in_slot(self, booking_date, booking_end_date=None):
@@ -619,6 +620,8 @@ class PrenotazioniContextState(BrowserView):
         if period == "stormynight":
             return self.get_busy_slots_in_stormynight(booking_date)
         interval = self.get_day_intervals(booking_date)[period]
+        if interval.start() == "" and interval.stop() == "":
+            return []
         allowed_review_states = ["pending", "published"]
         # all slots
         slots = self.get_existing_slots_in_day_folder(booking_date)

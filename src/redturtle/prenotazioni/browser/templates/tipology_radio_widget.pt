@@ -29,7 +29,9 @@
             >field description
         </span>
     </label>
-    <div class="unbookable" tal:condition="view/unbookable_items">
+    <div class="unbookable" 
+         tal:condition="view/unbookable_items"
+         i18n:domain="redturtle.prenotazioni">
       <p class="formHelp" i18n:translate="tipology_widget_warn_unavailable">
         The following tipologies will not fit the time you selected:
       </p>

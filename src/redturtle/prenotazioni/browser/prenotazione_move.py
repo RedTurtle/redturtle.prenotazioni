@@ -98,32 +98,6 @@ class MoveForm(form.Form):
             return False
         return True
 
-    # def validate(self, action, data):
-    #     '''
-    #     Checks if we can book those data
-    #     '''
-    #     # We inject the tipology of this context
-    #     data['tipology'] = self.context.getTipologia_prenotazione()
-    #     errors = super(MoveForm, self).validate(action, data)
-    #     conflict_manager = self.prenotazioni_view.conflict_manager
-    #     current_data = self.context.getData_prenotazione()
-    #     current = {'booking_date': current_data.asdatetime(),
-    #                'tipology': data['tipology']}
-    #     current_slot = conflict_manager.get_choosen_slot(current)
-    #     current_gate = self.context.getGate()
-    #     exclude = {current_gate: [current_slot]}
-
-    #     if conflict_manager.conflicts(data, exclude=exclude):
-    #         msg = _(u'Sorry, this slot is not available or does not fit your '
-    #                 u'booking.')
-    #         self.set_invariant_error(errors, ['booking_date'], msg)
-    #     if self.exceedes_date_limit(data):
-    #         msg = _(u'Sorry, you can not book this slot for now.')
-    #         self.set_invariant_error(errors, ['booking_date'], msg)
-    #     for error in errors:
-    #         api.portal.show_message(error.errors, self.request, type="error")
-    #     return errors
-
     def do_move(self, data):
         """
         Move a Booking!
@@ -133,7 +107,7 @@ class MoveForm(form.Form):
         data_scadenza = booking_date + duration
         self.context.setData_prenotazione(booking_date)
         self.context.setData_scadenza(data_scadenza)
-        self.context.setGate(data["gate"])
+        self.context.gate = data["gate"]
         notify(MovedPrenotazione(self.context))
 
     @property
@@ -191,7 +165,7 @@ class MoveForm(form.Form):
         current_data = self.context.getData_prenotazione()
         current = {"booking_date": current_data, "tipology": data["tipology"]}
         current_slot = conflict_manager.get_choosen_slot(current)
-        current_gate = self.context.getGate()
+        current_gate = getattr(self.context, "gate", "")
         exclude = {current_gate: [current_slot]}
 
         if conflict_manager.conflicts(data, exclude=exclude):

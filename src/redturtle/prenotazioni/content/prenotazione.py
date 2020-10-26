@@ -65,13 +65,6 @@ class Prenotazione(Item):
         self.data_scadenza = date
         return
 
-    def getGate(self):
-        return self.gate
-
-    def setGate(self, gate):
-        self.gate = gate
-        return
-
     def getTipologia_prenotazione(self):
         return self.tipologia_prenotazione
 
@@ -101,11 +94,6 @@ class Prenotazione(Item):
             "in acquisition chain of %r" % self
         )
 
-    def getEmailResponsabile(self):
-        """
-        """
-        return self.getPrenotazioniFolder().getEmail_responsabile()
-
     def getDuration(self):
         """ Return current duration
         """
@@ -120,3 +108,10 @@ class Prenotazione(Item):
         """ Reuse plone subject to do something useful
         """
         return ""
+
+    def Date(self):
+        """
+        Dublin Core element - default date
+        """
+        # Return reservation date
+        return self.getData_prenotazione()

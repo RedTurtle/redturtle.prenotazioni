@@ -42,7 +42,8 @@
                      tal:content="item/Title"
                      >Item title</a>
                 </td>
-                <td tal:content="python:item.getObject().getGate()"></td>
+                <td tal:define="gate python:getattr(item.getObject(), 'gate', '')"
+                    tal:content="gate"></td>
                 <td tal:content="python:view.prenotazioni_week_view.localized_time(item['Date'])"></td>
                 <td tal:content="python:view.prenotazioni_week_view.localized_time(item['Date'], time_only=True)"></td>
               </tr>

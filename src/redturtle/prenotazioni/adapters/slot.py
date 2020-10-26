@@ -192,5 +192,5 @@ class Slot(BaseSlot):
             self,
             context.getData_prenotazione(),
             context.getData_scadenza(),
-            self.context.getGate(),
+            getattr(self.context, "gate", ""),
         )

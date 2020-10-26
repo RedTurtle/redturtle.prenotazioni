@@ -40,23 +40,17 @@
       factory=".setuphandlers.HiddenProfiles"
       name="redturtle.prenotazioni-hiddenprofiles"
       />
-    
-  <subscriber for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
-              zope.lifecycleevent.interfaces.IObjectAddedEvent"
-              handler=".event.add_booking_notify_manager" />
-
-  <subscriber for=".prenotazione_event.IMovedPrenotazione"
-              handler=".event.reallocate_gate" />
-
-  <subscriber for=".prenotazione_event.IMovedPrenotazione"
-              handler=".event.reallocate_container" />
 
   <adapter 
-    factory=".indexes.Subject_prenotazione" 
+    factory=".indexes.Subject_prenotazione"
     name="Subject" />
 
   <adapter 
-    factory=".indexes.SearchableText_prenotazione" 
+    factory=".indexes.SearchableText_prenotazione"
     name="SearchableText" />
+
+  <adapter 
+    factory=".indexes.Date"
+    name="Date" />
 
 </configure>

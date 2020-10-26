@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <contentrules>
  <rule name="booking-accepted"
-    title="Send e-mail to user when booking is accepted"
+    title="Invia un'email all'utente quando la prenotazione è stata accettata"
     description="Viene inviata una mail al richiedente per confermare la sua prenotazione"
     enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
     stop-after="False">
@@ -21,16 +21,17 @@
    <action type="plone.actions.MailFromField">
     <property name="source"></property>
     <property
-       name="message">La sua prenotazione "${title}" e' stata accettata:
-                    ${url}</property>
+       name="message">
+       La prenotazione per ${title} e' stata accettata.
+    </property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
-    <property name="subject">Prenotazione accettata</property>
+    <property name="subject">Prenotazione del ${booking_date} alle ${booking_time} accettata</property>
    </action>
   </actions>
  </rule>
  <rule name="booking-moved"
-    title="Send email to user when booking date change"
+    title="Invia un'email all'utente quando la data della prenotazione viene cambiata"
     description="Viene inviata una mail al richiedente per avvertire dello spostamento della prenotazione"
     enabled="True"
     event="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
@@ -46,16 +47,17 @@
    <action type="plone.actions.MailFromField">
     <property name="source"></property>
     <property
-       name="message">L'orario della sua prenotazione "${title}" e' stata modificato:
-                    ${url}</property>
+       name="message">L&#x27;orario della sua prenotazione &quot;${title}&quot; e&#x27; stata modificato.
+     
+La nuova data è ${booking_date} alle ore ${booking_time}.</property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
-    <property name="subject">Prenotazione modificata</property>
+    <property name="subject">Modifica data di prenotazione per ${title}</property>
    </action>
   </actions>
  </rule>
  <rule name="booking-created-user"
-    title="Send email to user when a booking is created"
+    title="Invia un'email all'utente quando la prenotazione è stata creata"
     description="Viene inviata una mail all'utente per avvertirlo della creazione della prenotazione"
     enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
     stop-after="False">
@@ -74,16 +76,18 @@
   <actions>
    <action type="plone.actions.MailFromField">
     <property name="source"/>
-    <property name="message">La prenotazione è stata creata "${title}":
-                    ${url}</property>
+    <property
+       name="message">La prenotazione per il ${booking_date} alle ${booking_time} è stata creata.
+     
+Riceverete una mail di conferma quando la prenotazione verrà confermata definitivamente.</property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
-    <property name="subject">Nuova prenotazione</property>
+    <property name="subject">Prenotazione creata correttamente per ${title}</property>
    </action>
   </actions>
  </rule>
  <rule name="booking-refuse"
-    title="Send email to user when booking is refused"
+    title="Invia un'email all'utente quando la prenotazione è stata rifiutata"
     description="Viene inviata una mail all'utente per avvisarlo della prenotazione rifiutata"
     enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
     stop-after="False">
@@ -102,11 +106,11 @@
   <actions>
    <action type="plone.actions.MailFromField">
     <property name="source"></property>
-    <property name="message">La prenotazione è stata rifiutata "${title}":
-                    ${url}</property>
+    <property name="message">La prenotazione del ${booking_date} delle ore ${booking_time} è stata rifiutata.
+    </property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
-    <property name="subject">Rifiuto prenotazione</property>
+    <property name="subject">Prenotazione rifiutata per ${title}</property>
    </action>
   </actions>
  </rule>

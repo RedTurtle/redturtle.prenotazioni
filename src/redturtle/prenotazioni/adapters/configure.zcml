@@ -23,4 +23,29 @@
       factory=".slot.Slot"
   />
 
+  <!-- stringinterp -->
+  <adapter
+    for="*"
+    provides="plone.stringinterp.interfaces.IStringSubstitution"
+    factory=".stringinterp.GateSubstitution"
+    name="booking_gate"
+    />
+   <adapter
+    for="*"
+    provides="plone.stringinterp.interfaces.IStringSubstitution"
+    factory=".stringinterp.BookingDateSubstitution"
+    name="booking_date"
+    />
+    <adapter
+        for="*"
+        provides="plone.stringinterp.interfaces.IStringSubstitution"
+        factory=".stringinterp.BookingTimeSubstitution"
+        name="booking_time"
+    />
+    <adapter
+    for="*"
+    provides="plone.stringinterp.interfaces.IStringSubstitution"
+    factory=".stringinterp.BookingTypeSubstitution"
+    name="booking_type"
+    />
 </configure>

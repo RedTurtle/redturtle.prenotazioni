@@ -71,9 +71,9 @@ i18n:domain="redturtle.prenotazioni">
                     <a tal:attributes="href string:mailto:${here/getEmail}"
                     tal:content="here/getEmail" />
                 </div>
-                <div class="field" tal:condition="here/getGate">
+                <div class="field" tal:condition="context/gate">
                     <strong i18n:translate="">Gate</strong>:
-                    <span tal:content="here/getGate">Gate no. 1</span>
+                    <span tal:content="context/gate">Gate no. 1</span>
                 </div>
                 <div class="field" tal:condition="here/getStaff_notes">
                   <strong i18n:translate="staff_notes_label">Staff notes</strong>:

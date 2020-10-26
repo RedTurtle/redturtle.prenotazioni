@@ -31,5 +31,13 @@ def SearchableText_prenotazione(obj):
 @indexer(IPrenotazione)
 def Subject_prenotazione(obj):
     subject = list(obj.subject)
-    subject.append("Gate: %s" % obj.getGate())
+    subject.append("Gate: {}".format(getattr(obj, "gate", "")))
     return sorted(subject)
+
+
+@indexer(IPrenotazione)
+def Date(obj):
+    """
+    Set as data_prenotazione
+    """
+    return obj.Date()

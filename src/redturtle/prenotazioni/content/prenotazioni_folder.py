@@ -263,10 +263,10 @@ class IPrenotazioniFolder(model.Schema):
 
     # XXX validate email
     email_responsabile = schema.TextLine(
-        title=_(u"Email del responsabile"),
+        title=_(u"Responsible email"),
         description=_(
-            u"Inserisci l'indirizzo email del responsabile "
-            "delle prenotazioni"
+            "Insert an email address that will be notified when new bookings "
+            "get created."
         ),
         required=False,
     )

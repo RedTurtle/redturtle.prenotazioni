@@ -82,7 +82,7 @@ i18n:domain="redturtle.prenotazioni">
                         <td>
                             <b>Sportello</b>
                         </td>
-                        <td tal:content="prenotazione/getGate"></td>
+                        <td tal:content="prenotazione/gate"></td>
                     </tr>
                 </tbody>
             </table>

@@ -6,10 +6,8 @@ from collective.contentrules.mailfromfield.actions.mail import (
     IMailFromFieldAction,
     MailActionExecutor as BaseExecutor,
 )
-from DateTime import DateTime
 from plone.contentrules.rule.interfaces import IExecutable
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
-from redturtle.prenotazioni.content.prenotazione import Prenotazione
 from six.moves import filter
 from zope.component import adapter
 from zope.interface import implementer
@@ -23,37 +21,6 @@ import six
 class MailActionExecutor(BaseExecutor):
     """The executor for this action.
     """
-
-    def get_mapping(self):
-        """Return a mapping that will replace markers in the template
-        extended with the markers:
-         - ${gate}
-         - ${date}
-         - ${time}
-         - ${type}
-        """
-        mapping = super(MailActionExecutor, self).get_mapping()
-        event_obj = self.event.object
-
-        if not isinstance(event_obj, Prenotazione):
-            return mapping
-
-        mapping["gate"] = event_obj.getGate() or ""
-        mapping["type"] = event_obj.getTipologia_prenotazione() or ""
-
-        event_obj_date = event_obj.Date()
-        if not event_obj_date:
-            return mapping
-
-        date = DateTime(event_obj.Date())
-        plone = self.context.restrictedTraverse("@@plone")
-        mapping.update(
-            {
-                "date": plone.toLocalizedTime(date),
-                "time": plone.toLocalizedTime(date, time_only=True),
-            }
-        )
-        return mapping
 
     def get_target_obj(self):
         """Get's the target object, i.e. the object that will provide the field
@@ -80,36 +47,13 @@ class MailActionExecutor(BaseExecutor):
         fieldName = str(self.element.fieldName)
         obj = self.get_target_obj()
 
-        # 1: object attribute
-        try:
-            # BBB don't have time to investigate difference between original __getattribute__
-            # and this getattr... _getattribute__ remove the possibility to use objects chain
-            attr = getattr(obj, fieldName)
-            # 3: object method
-            if hasattr(attr, "__call__"):
-                recipients = attr()
-                logger.debug("getting e-mail from %s method" % fieldName)
-            else:
-                recipients = attr
-                logger.debug("getting e-mail from %s attribute" % fieldName)
-        except AttributeError:
-            # 2: try with AT field
-            # if IBaseContent.providedBy(obj):
-            #     field = obj.getField(fieldName)
-            #     if field:
-            #         recipients = field.get(obj)
-            #     else:
-            #         recipients = False
-            # else:
-            recipients = False
-            if not recipients:
-                recipients = obj.getProperty(fieldName, [])
-                if recipients:
-                    logger.debug(
-                        "getting e-mail from %s CMF property" % fieldName
-                    )
-            else:
-                logger.debug("getting e-mail from %s AT field" % fieldName)
+        attr = getattr(obj, fieldName)
+        if hasattr(attr, "__call__"):
+            recipients = attr()
+            logger.debug("getting e-mail from %s method" % fieldName)
+        else:
+            recipients = attr
+            logger.debug("getting e-mail from %s attribute" % fieldName)
 
         # now transform recipients in a iterator, if needed
         if type(recipients) == str or type(recipients) == six.text_type:
