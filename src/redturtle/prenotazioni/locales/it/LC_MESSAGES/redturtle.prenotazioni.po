@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-10-26 14:09+0000\n"
+"POT-Creation-Date: 2020-10-26 18:15+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -29,7 +29,7 @@ msgstr "Una cartella che conterrà le prenotazioni"
 
 #: redturtle/prenotazioni/profiles/default/types/PrenotazioniDay.xml
 msgid "A folder that will contain booking for this day"
-msgstr "Una cartella che conterrà le prenotazioni per questo giorno"
+msgstr "Una cartella che conterrà le prenotazioni per questo day"
 
 #: redturtle/prenotazioni/contentrules/sendMovedPrenotazione.py:167
 msgid "A mail action that sends email notify when a booking is moved in an other slot."
@@ -38,6 +38,10 @@ msgstr "Un'azione che spedisce una mail di notifica quando una prenotazione è s
 #: redturtle/prenotazioni/contentrules/sendMovedPrenotazione.py:166
 msgid "Add moved booking Mail Action"
 msgstr "Aggiungi Mail Action per lo spostamento delle prenotazioni"
+
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:302
+msgid "Afternoon start should not be greater than end."
+msgstr "L'orario di inizio del pomeriggio non può essere successivo alla chiusura."
 
 #: redturtle/prenotazioni/adapters/stringinterp.py:11
 msgid "Booking"
@@ -67,10 +71,6 @@ msgstr "Prenotazione di"
 msgid "Booking moved"
 msgstr "Prenotazione spostata"
 
-#: redturtle/prenotazioni/browser/add_edit_view.py:70
-msgid "Check time intervals."
-msgstr "Controlla gli intervalli temporali."
-
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:58
 #: redturtle/prenotazioni/content/prenotazione.py:30
 msgid "Company"
@@ -84,24 +84,24 @@ msgstr "Configura elemento"
 msgid "Content listing"
 msgstr "Elenco dei contenuti"
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:92
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:98
 msgid "Data fine validità"
 msgstr "Data fine validità"
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:89
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:95
 msgid "Data inizio validità"
 msgstr "Data inizio validità"
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:213
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:220
 msgid "Days booking is not allowed before"
 msgstr "Giorni da cui si può effettuare una prenotazione"
 
 #. Default: "Descrizione Agenda"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:63
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:69
 msgid "Descrizione Agenda"
 msgstr "Descrizione Agenda"
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:50
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:56
 msgid "Duration value"
 msgstr "Durata"
 
@@ -132,18 +132,6 @@ msgstr "Data scandenza prenotazione"
 msgid "Gate"
 msgstr "Sportello"
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:187
-msgid "Giorni festivi"
-msgstr "Giorni festivi"
-
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:22
-msgid "Giorno"
-msgstr "Giorno"
-
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:129
-msgid "Indicare la composizione della settimana tipo"
-msgstr "Indicare la composizione della settimana tipo"
-
 #: redturtle/prenotazioni/profiles/default/types/Prenotazione.xml
 msgid "Informations about a single booking"
 msgstr "Informazioni relativa ad una singola prenotazione"
@@ -152,15 +140,19 @@ msgstr "Informazioni relativa ad una singola prenotazione"
 msgid "Inserisci la denominazione dell'azienda del richiedente"
 msgstr "Inserisci la denominazione dell'azienda del richiedente"
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:267
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:274
 msgid "Insert an email address that will be notified when new bookings get created."
 msgstr "Inserisci un indirizzo email che verrà notificato alla creazione di nuove prenotazioni."
+
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:136
+msgid "Insert week table schema."
+msgstr "Compila la tabella degli orari della settimana."
 
 #: redturtle/prenotazioni/configure.zcml:28
 msgid "Installs the redturtle.prenotazioni add-on."
 msgstr "Install redturtle.prenotazioni"
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:201
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:208
 msgid "Max days in the future"
 msgstr "Massimi giorni nel futuro"
 
@@ -168,37 +160,21 @@ msgstr "Massimi giorni nel futuro"
 msgid "Message"
 msgstr "Messaggio"
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:106
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:297
+msgid "Morning start should not be greater than end."
+msgstr "L'orario di inizio della mattina non può essere successivo alla fine."
+
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:112
 msgid "No"
 msgstr "No"
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:108
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:114
 msgid "No, just for today"
 msgstr "No, solo per oggi"
-
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:29
-msgid "Ora fine mattina"
-msgstr "Ora fine mattina"
-
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:41
-msgid "Ora fine pomeriggio"
-msgstr "Ora fine pomeriggio"
-
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:24
-msgid "Ora inizio mattina"
-msgstr "Ora inizio mattina"
-
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:35
-msgid "Ora inizio pomeriggio"
-msgstr "Ora inizio pomeriggio"
 
 #: redturtle/prenotazioni/content/prenotazione.py:16
 msgid "Phone number"
 msgstr "Numero di telefono"
-
-#: redturtle/prenotazioni/browser/add_edit_view.py:75
-msgid "Please add at least one tipology."
-msgstr "Per favore aggiungi almeno una tipologia."
 
 #: redturtle/prenotazioni/browser/prenotazione_add.py:338
 msgid "Please check the captcha"
@@ -236,7 +212,7 @@ msgstr "Data prenotazione"
 msgid "Reservation type"
 msgstr "Tipo di prenotazione"
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:266
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:273
 msgid "Responsible email"
 msgstr "Email del responsabile"
 
@@ -247,10 +223,6 @@ msgstr "Invia un'email al creatore della prenotazione quando la prenotazione vie
 #: redturtle/prenotazioni/contentrules/sendMovedPrenotazione.py:33
 msgid "Sender email"
 msgstr "Indirizzo mittente"
-
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:128
-msgid "Settimana Tipo"
-msgstr "Settimana Tipo"
 
 #: redturtle/prenotazioni/browser/prenotazione_add.py:327
 msgid "Sorry, this slot is not available anymore."
@@ -293,11 +265,7 @@ msgstr "La tipologia della prenotazione."
 msgid "The gate booked."
 msgstr "Lo sportello prenotato."
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:223
-msgid "Tipologie di richiesta"
-msgstr "Tipologie di richiesta"
-
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:48
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:54
 msgid "Typology name"
 msgstr "tipologia"
 
@@ -311,12 +279,36 @@ msgstr "Disinstall redturtle.prenotazioni"
 msgid "View"
 msgstr "Vista"
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:105
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:135
+msgid "Week table"
+msgstr "Schedulazione settimanale"
+
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:111
 msgid "Yes"
 msgstr "Si"
 
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:293
+msgid "You should set a start time for afternoon."
+msgstr "Devi impostare una data di inizio per il pomeriggio."
+
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:289
+msgid "You should set a start time for morning."
+msgstr "Devi impostare una data di inizio per la mattina."
+
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:291
+msgid "You should set and end time for afternoon."
+msgstr "Devi impostare una data di fine per il pomeriggio."
+
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:287
+msgid "You should set and end time for morning."
+msgstr "Devi impostare una data di fine per la mattina."
+
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:284
+msgid "You should set at least one booking type."
+msgstr "Devi impostare almeno una tipologia di prenotazione."
+
 #. Default: "Leave empty, and this Booking Folder will never expire"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:93
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:99
 msgid "aData_help"
 msgstr "Lascia vuoto, e questa Cartella Prenotazioni non avrà scadenza"
 
@@ -342,6 +334,16 @@ msgstr "Sposta"
 #: redturtle/prenotazioni/browser/prenotazioni_search.py:183
 msgid "action_search"
 msgstr "Cerca"
+
+#. Default: "End time in the afternoon"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:47
+msgid "afternoon_end_label"
+msgstr "Chiusura pomeriggio"
+
+#. Default: "Start time in the afternoon"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:39
+msgid "afternoon_start_label"
+msgstr "Apertura pomeriggio"
 
 #. Default: "Please select a booking slot."
 #: redturtle/prenotazioni/browser/templates/week.pt:28
@@ -382,6 +384,16 @@ msgstr "Prenotazione da confermare"
 msgid "booking_refused"
 msgstr "Prenotazione rifiutata "
 
+#. Default: "Put booking types there (one per line).\nIf you do not provide this field, not type selection will be available"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:231
+msgid "booking_types_help"
+msgstr "Inserisci le tipologie di prenotazioni."
+
+#. Default: "Booking types"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:230
+msgid "booking_types_label"
+msgstr "Tipologie di prenotazioni"
+
 #. Default: "Bookings not in agenda"
 #: redturtle/prenotazioni/browser/templates/prenotazione_macros.pt:63
 msgid "bookings_not_in_agenda"
@@ -400,7 +412,12 @@ msgstr "La tua prenotazione deve essere confermata dagli amministratori"
 #. Default: "This day is not valid."
 #: redturtle/prenotazioni/browser/vacations.py:279
 msgid "day_error"
-msgstr "Questo giorno non è valido"
+msgstr "Questo day non è valido"
+
+#. Default: "Day of week"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:25
+msgid "day_label"
+msgstr "Giorno"
 
 #. Default: "If you work for an agency please specify its name"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:137
@@ -436,36 +453,31 @@ msgid "fullname"
 msgstr "Nome completo"
 
 #. Default: "Limit booking in the future to an amount of days in the future starting from the current day. \nKeep 0 to give no limits."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:202
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:209
 msgid "futureDays"
-msgstr "Limita la prenotazione ad un certo numero di giorni nel futuro partendo dal giorno corrente.Lascia 0 per non dare limiti."
+msgstr "Limita la prenotazione ad un certo numero di giorni nel futuro partendo dal day corrente.Lascia 0 per non dare limiti."
 
 #. Default: "Put gates here (one per line). If you do not fill this field, one gate is assumed"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:236
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:243
 msgid "gates_help"
 msgstr "Inserisci gli sportelli preposti (uno per riga). Se questo campo non è compilato, si assume che esista un unico sportello preposto."
 
 #. Default: "Gates"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:235
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:242
 msgid "gates_label"
 msgstr "Sportelli preposti"
-
-#. Default: "Indicare i giorni festivi (uno per riga) nel formato GG/MM/AAAA. Al posto dell'anno puoi mettere un asterisco per indicare un evento che ricorre annualmente."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:188
-msgid "help_holidays"
-msgstr "Indicare i giorni festivi (uno per riga) nel formato GG/MM/AAAA. Al posto dell'anno puoi mettere un asterisco per indicare un evento che ricorre annualmente."
 
 #: redturtle/prenotazioni/browser/prenotazione_add.py:225
 msgid "help_prenotazione_add"
 msgstr ""
 
 #. Default: "User will not be able to add a booking unless those fields are filled. Remember that, whatever you selected in this list, users have to supply at least one of \"Email\", \"Mobile\", or \"Telephone\""
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:74
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:80
 msgid "help_required_booking_fields"
 msgstr "Gli utenti non saranno in grado di creare una prenotazione senza compilare i seguenti campi. Gli utenti saranno comunque sempre obbligati ad inserire un'email o un recapito telefonico."
 
 #. Default: "States if it is not allowed to reserve a booking during the current day"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:118
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:125
 msgid "help_same_day_booking_disallowed"
 msgstr "Se selezionato, impedisce agli utenti di prenotare per il giorno corrente."
 
@@ -473,6 +485,16 @@ msgstr "Se selezionato, impedisce agli utenti di prenotare per il giorno corrent
 #: redturtle/prenotazioni/browser/templates/prenotazione_macros.pt:260
 msgid "help_tipologies"
 msgstr "Lista dei tipi di prenotazione disponibili per l'agenda corrente"
+
+#. Default: "Set holidays (one for line) in DD/MM/YYYY. you can write * for the year, if this event is yearly."
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:195
+msgid "holidays_help"
+msgstr "Imposta eventuali festività (una per riga) nel formato GG/MM/AAAA. Se la data si ripete ogni anno, puoi scrivere * al posto dell'anno."
+
+#. Default: "Holidays"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:194
+msgid "holidays_label"
+msgstr "Festività"
 
 #. Default: "Date should be in the format YYYY/mm/dd"
 #: redturtle/prenotazioni/browser/vacations.py:31
@@ -556,9 +578,14 @@ msgid "label_phone"
 msgstr "Numero di telefono"
 
 #. Default: "Required booking fields"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:71
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:77
 msgid "label_required_booking_fields"
 msgstr "Campi obbligatori"
+
+#. Default: "Disallow same day booking"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:121
+msgid "label_same_day_booking_disallowed"
+msgstr "Disabilita la prenotazione per lo stesso giorno"
 
 #. Default: "Selected date: ${date} — Time slot: ${slot}"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:213
@@ -634,6 +661,16 @@ msgstr "Inserisci il messaggio che vuoi inviare per mail. E' possibile inserire 
 msgid "mobile"
 msgstr "Numero di cellulare"
 
+#. Default: "End time in the morning"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:33
+msgid "morning_end_label"
+msgstr "Chiusura mattina"
+
+#. Default: "Start time in the morning"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:28
+msgid "morning_start_label"
+msgstr "Apertura mattina"
+
 #. Default: "Go back to the calendar"
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:115
 #: redturtle/prenotazioni/browser/templates/prenotazione_add.pt:88
@@ -652,12 +689,12 @@ msgid "move_message"
 msgstr "Spostare l'appuntamento selezionato in un area libera oppure"
 
 #. Default: "New booking created for \"${name}\": ${url}"
-#: redturtle/prenotazioni/events/prenotazione.py:129
+#: redturtle/prenotazioni/events/prenotazione.py:125
 msgid "new_booking_admin_notify_message"
 msgstr "Nuova prenotazione creata a nome \"${name}\": ${url}"
 
 #. Default: "New booking for ${context}"
-#: redturtle/prenotazioni/events/prenotazione.py:137
+#: redturtle/prenotazioni/events/prenotazione.py:133
 msgid "new_booking_admin_notify_subject"
 msgstr "Nuova prenotazione per ${context}"
 
@@ -667,7 +704,7 @@ msgid "next-week"
 msgstr "Settimana successiva"
 
 #. Default: "Booking is not allowed before the amount of days specified. \nKeep 0 to give no limits."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:214
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:221
 msgid "notBeforeDays"
 msgstr "La prenotazione non e' permessa prima del numero di giorni specificata. Impostare il valore 0 per non imporre limitazioni."
 
@@ -765,11 +802,6 @@ msgstr "Oggetto"
 msgid "time_slot_to_short"
 msgstr "Tempo insufficiente per qualsiasi tipologia di prenotazione"
 
-#. Default: "Put booking types there (one per line).\nIf you do not provide this field, not type selection will be available"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:224
-msgid "tipologia_help"
-msgstr "Inserisci qui i tipi di prenotazione (uno per riga).Se non compilerai questo campo, nessuna selezione del tipo sarà disponibile."
-
 #. Default: "Name"
 #: redturtle/prenotazioni/browser/templates/prenotazione_macros.pt:263
 msgid "tipology_name"
@@ -795,12 +827,12 @@ msgid "to"
 msgstr "a"
 
 #. Default: "Add a gate here (one per line) if, for some reason, it is not be available.The specified gate will not be taken in to account for slot allocation. Each line should match a corresponding line in the \"Gates\" field"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:249
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:256
 msgid "unavailable_gates_help"
-msgstr "Aggiungi uno sportello (uno per riga) se, per qualche motivo, non è disponibile. Lo sportello specificato non sarà considerato per l'allocazione degli appuntamenti. Il righe devono essere uguali a quelle nel campo \"Sportelli preposti\"."
+msgstr "Aggiungi uno sportello (uno per riga) se, per qualche motivo, non è disponibile. Lo sportello specificato non sarà considerato per l'allocazione degli appuntamenti. Le righe devono essere uguali a quelle nel campo \"Sportelli preposti\"."
 
 #. Default: "Unavailable gates"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:248
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:255
 msgid "unavailable_gates_label"
 msgstr "Sportelli non disponibili"
 

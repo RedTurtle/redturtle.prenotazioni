@@ -13,7 +13,7 @@ class TipologiesVocabulary(object):
         """
         if isinstance(context, Prenotazione):
             context = context.getPrenotazioniFolder()
-        return context.getTipologia()
+        return getattr(context, "booking_types", [])
 
     def tipology2term(self, idx, tipology):
         """ return a vocabulary tern with this

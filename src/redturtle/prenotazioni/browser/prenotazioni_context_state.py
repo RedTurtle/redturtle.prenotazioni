@@ -193,7 +193,7 @@ class PrenotazioniContextState(BrowserView):
         """
         year = repr(date.year)
         date_it = date.strftime("%d/%m/%Y")
-        holidays = self.context.getFestivi()
+        holidays = getattr(self.context, "holidays", [])
         if not holidays:
             return False
         for holiday in holidays:
@@ -206,14 +206,14 @@ class PrenotazioniContextState(BrowserView):
         """ Returns True if the day has been configured
         """
         weekday = day.weekday()
-        week_table = self.context.getSettimana_tipo()
+        week_table = getattr(self.context, "week_table", {})
         day_table = week_table[weekday]
         return any(
             (
-                day_table["inizio_m"],
-                day_table["end_m"],
-                day_table["inizio_p"],
-                day_table["end_p"],
+                day_table["morning_start"],
+                day_table["morning_end"],
+                day_table["afternoon_start"],
+                day_table["afternoon_end"],
             )
         )
 
@@ -468,22 +468,22 @@ class PrenotazioniContextState(BrowserView):
         """ Return the time ranges of this day
         """
         weekday = day.weekday()
-        week_table = self.context.getSettimana_tipo()
+        week_table = getattr(self.context, "week_table", {})
         day_table = week_table[weekday]
         # Convert hours to DateTime
-        inizio_m = hm2DT(day, day_table["inizio_m"])
-        end_m = hm2DT(day, day_table["end_m"])
-        inizio_p = hm2DT(day, day_table["inizio_p"])
-        end_p = hm2DT(day, day_table["end_p"])
+        morning_start = hm2DT(day, day_table["morning_start"])
+        morning_end = hm2DT(day, day_table["morning_end"])
+        afternoon_start = hm2DT(day, day_table["afternoon_start"])
+        afternoon_end = hm2DT(day, day_table["afternoon_end"])
         # Get's the daily schedule
-        day_start = inizio_m or inizio_p
-        day_end = end_p or end_m
-        break_start = end_m or end_p
-        break_stop = inizio_p or end_m
+        day_start = morning_start or afternoon_start
+        day_end = afternoon_end or morning_end
+        break_start = morning_end or afternoon_end
+        break_stop = afternoon_start or morning_end
         return {
-            "morning": BaseSlot(inizio_m, end_m),
+            "morning": BaseSlot(morning_start, morning_end),
             "break": BaseSlot(break_start, break_stop),
-            "afternoon": BaseSlot(inizio_p, end_p),
+            "afternoon": BaseSlot(afternoon_start, afternoon_end),
             "day": BaseSlot(day_start, day_end),
             "stormynight": BaseSlot(0, 86400),
         }
@@ -496,21 +496,25 @@ class PrenotazioniContextState(BrowserView):
         return a dict_like {'morning': slot1,
                             'afternoon': slot2}
         """
-        week_table = self.context.getSettimana_tipo()
+        week_table = getattr(self.context, "week_table", {})
         boundaries = {}
-        for key in ("inizio_m", "inizio_p"):
+        for key in ("morning_start", "afternoon_start"):
             boundaries[key] = min(
                 day_table[key] for day_table in week_table if day_table[key]
             )
-        for key in ("end_m", "end_p"):
+        for key in ("morning_end", "afternoon_end"):
             boundaries[key] = max(
                 day_table[key] for day_table in week_table if day_table[key]
             )
         for key, value in six.iteritems(boundaries):
             boundaries[key] = hm2seconds(value)
         return {
-            "morning": BaseSlot(boundaries["inizio_m"], boundaries["end_m"]),
-            "afternoon": BaseSlot(boundaries["inizio_p"], boundaries["end_p"]),
+            "morning": BaseSlot(
+                boundaries["morning_start"], boundaries["morning_end"]
+            ),
+            "afternoon": BaseSlot(
+                boundaries["afternoon_start"], boundaries["afternoon_end"]
+            ),
         }
 
     @property
@@ -741,7 +745,7 @@ class PrenotazioniContextState(BrowserView):
         """
         return dict(
             (x["name"], int(x["duration"]))
-            for x in self.context.getTipologia()
+            for x in getattr(self.context, "booking_types", [])
         )
 
     def get_tipology_duration(self, tipology):
