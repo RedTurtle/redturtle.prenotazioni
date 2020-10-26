@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from datetime import datetime
-from datetime import timedelta
 from DateTime import DateTime
+from datetime import timedelta
+from os import environ
 from plone import api
 from plone.formwidget.recaptcha.widget import ReCaptchaFieldWidget
 from plone.memoize.view import memoize
+from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni import TZ
 from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.browser.z3c_custom_widget import (
@@ -231,7 +232,6 @@ class AddForm(form.AddForm):
         object
         """
         booking_date = self.request.form.get("form.booking_date", None)
-        # BBB Adapt to z3c without change a lot the code
         if not booking_date:
             booking_date = self.request.form.get(
                 "form.widgets.booking_date", None
@@ -239,15 +239,23 @@ class AddForm(form.AddForm):
 
         if not booking_date:
             return None
+        tzname = self.get_timezone()
 
         if len(booking_date) == 16:
-            if TZ._tzname == "RMT":
+            if tzname == "RMT":
                 tzname = "CEST"
-            else:
-                tzname = TZ._tzname
-
             booking_date = " ".join((booking_date, tzname))
         return DateTime(booking_date)
+
+    def get_timezone(self):
+        """
+        get from environment vars or site settings
+        """
+        tz = environ.get("TZ", "")
+        if tz:
+            return tz
+        registry = getUtility(IRegistry)
+        return registry.get("plone.portal_timezone", None)
 
     @property
     @memoize

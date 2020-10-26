@@ -30,13 +30,14 @@
         </span>
     </label>
     <div class="unbookable" 
-         tal:condition="view/unbookable_items"
+         tal:define="unbookable_items nocall:view/unbookable_items"
+         tal:condition="unbookable_items"
          i18n:domain="redturtle.prenotazioni">
       <p class="formHelp" i18n:translate="tipology_widget_warn_unavailable">
         The following tipologies will not fit the time you selected:
       </p>
       <ul>
-        <li tal:repeat="item view/unbookable_items">
+        <li tal:repeat="item unbookable_items">
           <tal:li replace="item/title">Vocabulary title</tal:li>
         </li>
       </ul>

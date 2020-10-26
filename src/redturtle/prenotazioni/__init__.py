@@ -4,13 +4,10 @@ from App.config import getConfiguration
 from datetime import datetime
 from datetime import timedelta
 from logging import getLogger, FileHandler, Formatter
-from os import environ
 from plone import api
 from plone.api.exc import UserNotFoundError
 from six.moves import map
 from zope.i18nmessageid import MessageFactory
-
-import pytz
 
 
 prenotazioniLogger = getLogger("redturtle.prenotazioni")
@@ -18,19 +15,6 @@ _ = MessageFactory("redturtle.prenotazioni")
 
 prenotazioniMessageFactory = MessageFactory("redturtle.prenotazioni")
 prenotazioniFileLogger = getLogger("redturtle.prenotazioni.file")
-
-
-def get_environ_tz(default=pytz.utc):
-    """
-    Return the environ specified timezone or utc
-    """
-    TZ = environ.get("TZ", "")
-    if not TZ:
-        return default
-    return pytz.timezone(TZ)
-
-
-TZ = get_environ_tz()
 
 
 def tznow():

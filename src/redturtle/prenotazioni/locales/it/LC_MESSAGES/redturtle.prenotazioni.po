@@ -844,7 +844,7 @@ msgstr "Tempo non prenotabile "
 #. Default: "vacation_booking"
 #: redturtle/prenotazioni/profiles/default/actions.xml
 msgid "vacation_booking"
-msgstr "Prenotazione risorsa"
+msgstr "Blocco risorsa"
 
 #. Default: "View booking"
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:95
