@@ -171,26 +171,9 @@ class AddForm(form.AddForm):
         )
         self.widgets["booking_date"].value = bookingdate
 
-        if (
-            self.widgets["agency"].__name__
-            in self.context.required_booking_fields
-        ):
-            self.widgets["agency"].required = True
-        if (
-            self.widgets["email"].__name__
-            in self.context.required_booking_fields
-        ):
-            self.widgets["email"].required = True
-        if (
-            self.widgets["mobile"].__name__
-            in self.context.required_booking_fields
-        ):
-            self.widgets["mobile"].required = True
-        if (
-            self.widgets["phone"].__name__
-            in self.context.required_booking_fields
-        ):
-            self.widgets["phone"].required = True
+        for f in self.widgets.values():
+            if f.__name__ in self.context.required_booking_fields:
+                f.required = True
 
     @property
     @memoize
@@ -310,8 +293,8 @@ class AddForm(form.AddForm):
         date_limit = tznow() + timedelta(future_days)
         if not booking_date.tzinfo:
             tzinfo = date_limit.tzinfo
-            booking_date = tzinfo.localize(booking_date)
-
+            if tzinfo:
+                booking_date = tzinfo.localize(booking_date)
         if booking_date <= date_limit:
             return False
         return True
@@ -325,11 +308,17 @@ class AddForm(form.AddForm):
         if errors:
             self.status = self.formErrorsMessage
             return
-
+        required = self.context.required_booking_fields
+        for field_id in self.fields.keys():
+            if field_id in required and not data.get(field_id, ""):
+                raise WidgetActionExecutionError(
+                    field_id, Invalid(_(u"Required input is missing."))
+                )
         if not data.get("booking_date"):
             raise WidgetActionExecutionError(
                 "booking_date", Invalid(_(u"Please provide a booking date"))
             )
+
         conflict_manager = self.prenotazioni.conflict_manager
         if conflict_manager.conflicts(data):
             msg = _(u"Sorry, this slot is not available anymore.")

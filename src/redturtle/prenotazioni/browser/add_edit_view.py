@@ -4,7 +4,6 @@ from plone.dexterity.browser.add import DefaultAddView as BaseAddView
 from plone.dexterity.browser.edit import DefaultEditForm as BaseEdit
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.z3cform import layout
-from z3c.form.interfaces import DISPLAY_MODE
 from zope.interface import classImplements
 
 
@@ -14,7 +13,6 @@ class DefaultEditForm(BaseEdit):
 
     def updateWidgets(self):
         super(DefaultEditForm, self).updateWidgets()
-        self.widgets["week_table"].columns[0]["mode"] = DISPLAY_MODE
         self.widgets["week_table"].allow_insert = False
         self.widgets["week_table"].allow_delete = False
         self.widgets["week_table"].allow_append = False
