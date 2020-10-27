@@ -7,6 +7,9 @@ from zope.component import getUtility
 
 
 def on_create(obj, event):
+    """
+    temporary disabled
+    """
     storage = getUtility(IRuleStorage)
     assignable = IRuleAssignmentManager(obj)
     for rule_id in [

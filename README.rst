@@ -115,7 +115,8 @@ Content Rules (mail notifications)
 There are additional content rules that can be used to notify booking owner when his booking has been created, accepted
 or re-scheduled.
 
-Rules **are automatically** enabled in every Booking Folder. If you don't want to send some notification, you only need to disable them.
+Rules are **NOT automatically** enabled in every Booking Folder.
+If you want to send some notification, you only need to enable them from rules link in Booking folder.
 
 If you set "Responsible email" field, an email will be sent each time a new Booking has been submitted.
 

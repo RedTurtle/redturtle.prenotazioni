@@ -18,10 +18,10 @@
                      zope.lifecycleevent.IObjectModifiedEvent"
                 handler = ".events_logger.on_modify"
                 />
-     <subscriber for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder
+     <!-- <subscriber for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder
                     zope.lifecycleevent.interfaces.IObjectAddedEvent"
                handler = ".prenotazioni_folder.on_create"
-               />
+               /> -->
 
      <subscriber for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
               zope.lifecycleevent.interfaces.IObjectAddedEvent"

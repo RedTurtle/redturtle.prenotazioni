@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from DateTime import DateTime
 from .prenotazioni_folder import IPrenotazioniFolder
 from plone.dexterity.content import Item
 from plone.supermodel import model
@@ -114,4 +115,4 @@ class Prenotazione(Item):
         Dublin Core element - default date
         """
         # Return reservation date
-        return self.getData_prenotazione()
+        return DateTime(self.getData_prenotazione())
