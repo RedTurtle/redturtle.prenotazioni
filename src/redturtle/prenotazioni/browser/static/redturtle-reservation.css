@@ -160,8 +160,10 @@ table#week td {
   position: relative;
 }
 
-#week .gatesheader [class^="icon-"]:before,
-#week .gatesheader [class*=" icon-"]:before {
+#week [class^="icon-"]:before,
+#week [class*=" icon-"]:before,
+.week-legend [class*="icon-"]:before,
+.week-legend [class*=" icon-"]:before {
   font-family: unset;
   font-weight: unset;
 }
