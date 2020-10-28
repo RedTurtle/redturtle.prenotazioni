@@ -2,10 +2,10 @@
  * RG Prenotazioni Styles
  */
 .floatleft {
-  float:left;
+  float: left;
 }
 .floatright {
-  float:right;
+  float: right;
 }
 
 #plone-contentmenu-workflow .state-refused {
@@ -27,17 +27,17 @@ td.selected {
 }
 
 #content .tipology_widget p.formHelp {
-  margin:0;
+  margin: 0;
 }
 #content .tipology_widget label {
-  display:block;
-  float:left;
-  width:50%;
-  min-width:200px;
+  display: block;
+  float: left;
+  width: 50%;
+  min-width: 200px;
 }
 
 #content .tipology_widget div.value {
-  margin-bottom:1em;
+  margin-bottom: 1em;
 }
 
 #content .tipology_widget .unbookable {
@@ -48,26 +48,32 @@ td.selected {
 }
 
 #content .tipology_widget .unbookable ul li {
-  float:left;
-  width:50%;
-  min-width:200px;
+  float: left;
+  width: 50%;
+  min-width: 200px;
 }
-
 
 .template-prenotazione_print table.listing {
   border-top: 1px solid #ddd;
 }
 
 .template-prenotazione_print p {
-  line-height:250%;
+  line-height: 250%;
 }
 
-.template-prenotazione_print ul.actions {
-  padding-top: 1em;
+.template-prenotazione_print .actions {
+  margin: 2em 1em;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.template-prenotazione_print ul.actions li {
-  margin-right: 1em;
+@media print {
+  .template-prenotazione_print #portal-top,
+  .template-prenotazione_print .actions,
+  #viewlet-below-content {
+    display: none;
+  }
 }
 
 /** Week view styles **/
@@ -75,8 +81,9 @@ td.selected {
   box-sizing: border-box;
 }
 #week-table-wrapper {
-  overflow: auto;
+  overflow: scroll;
 }
+
 table#week {
   margin: auto;
   width: 100%;
@@ -88,7 +95,7 @@ table#week {
 #week caption {
   padding: 0.3em 1em;
   margin-bottom: 0.5em;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
 }
 
 #week caption a {
@@ -105,47 +112,67 @@ table#week th {
 
 table#week td {
   text-align: center;
-  vertical-align:top;
+  vertical-align: top;
   border: 1px solid #ddd;
 }
 
 #week td h3 {
   font-size: 1em;
-  width:100%;
+  width: 100%;
 }
 
 #content #week td div.gate {
   float: left;
-  vertical-align:middle;
+  vertical-align: middle;
   background-color: #fff;
+  border-right: 1px solid #fff;
 }
+#content #week td div.gate:last-of-type {
+  border-right: none;
+}
+
 #content #week td div.gate > a {
   overflow: hidden;
   display: block;
-  padding:0.3em 5%;
+  padding: 0.3em 5%;
 }
+#week .navigator {
+  display: flex;
+  justify-content: space-between;
+}
+
+#week .navigator .resize {
+  display: none;
+}
+
 #week .fromto {
-  background-color:#ddd;
+  background-color: #ddd;
 }
 #week .gatesheader {
-  border-bottom:1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 #week .gateswrapper {
-  border-bottom:1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   margin-bottom: 1em;
 }
 #week .gates {
-  margin-left:32px;
-  position:relative;
+  margin-left: 32px;
+  position: relative;
+}
+
+#week .gatesheader [class^="icon-"]:before,
+#week .gatesheader [class*=" icon-"]:before {
+  font-family: unset;
+  font-weight: unset;
 }
 
 /* barra ora */
 #week .gates > .hours {
-  width:34px;
-  float:left;
-  position:absolute;
-  left:-34px;
-  overflow:hidden;
+  width: 34px;
+  float: left;
+  position: absolute;
+  left: -34px;
+  overflow: hidden;
 }
 
 #week .gates > .hours > .hour {
@@ -153,17 +180,18 @@ table#week td {
   text-align: center;
   margin-left: 1px;
   border: 1px solid #ddd;
-  border-bottom-width:0;
-  position:relative;
+  border-bottom-width: 0;
+  position: relative;
 }
 
 #week .gates > .hours > .hour > div {
-  position:absolute;
-  top:20px;
-  width:100%;
+  position: absolute;
+  top: 20px;
+  width: 100%;
 }
 
-#content #week td div.interval, #content #week td div.stormyinterval {
+#content #week td div.interval,
+#content #week td div.stormyinterval {
   font-weight: bold;
 }
 
@@ -171,10 +199,10 @@ table#week td {
 dl.portlet ul.navTree li a.contenttype-prenotazioniyear,
 dl.portlet ul.navTree li a.contenttype-prenotazioniweek,
 dl.portlet ul.navTree li a.contenttype-prenotazioniday {
-  display:none;
+  display: none;
 }
 
-#week .slot a{
+#week .slot a {
   text-decoration: none;
   border-bottom: none;
 }
@@ -184,33 +212,33 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
 }
 #week .slot > .refused {
   background-color: #870000;
-  color:white;
+  color: white;
 }
 
 #week .slot > .refused a,
 #week .slot > .published a {
-  color:white;
+  color: white;
 }
 
 #week .slot > .pending {
   background-color: #ffa500;
-  color:white;
+  color: white;
 }
 
 #week .slot > .published {
   background-color: #436976;
-  color:white;
+  color: white;
 }
 #week .slot .anonymous_slot {
-  background-color:#fff;
-  text-align:left;
+  background-color: #fff;
+  text-align: left;
   min-height: 1em;
-  padding:0.5em;
-  border:none;
+  padding: 0.5em;
+  border: none;
 }
 
 #week .slot.slot-odd .anonymous_slot {
-  background-color:#eee;
+  background-color: #eee;
 }
 
 #week .slot .anonymous_slot .busy_slot {
@@ -218,20 +246,28 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
 }
 
 #week .slot .links > * {
-    height:5px;
-    display:block;
+  height: 5px;
+  display: block;
 }
 
 #week .slot .links a.oclock {
-    height:6px;
-    display:block;
-    border-top: 1px solid #eee;
+  height: 6px;
+  display: block;
+  border-top: 1px solid #eee;
 }
 
-#week .slot .links a:link    {background-color:#ddd;}
-#week .slot .links a:visited {background-color:#ddd;}
-#week .slot .links a:hover   {background-color:#666;}
-#week .slot .links > .previous   {background-color:#fff;}
+#week .slot .links a:link {
+  background-color: #ddd;
+}
+#week .slot .links a:visited {
+  background-color: #ddd;
+}
+#week .slot .links a:hover {
+  background-color: #666;
+}
+#week .slot .links > .previous {
+  background-color: #fff;
+}
 
 .template-prenotazioni_search #text {
   width: 90%;
@@ -240,7 +276,7 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
 }
 .template-prenotazioni_search #formfield-start,
 .template-prenotazioni_search #formfield-end {
-  float:left;
+  float: left;
   clear: none;
   margin-right: 2em;
 }
@@ -252,35 +288,39 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
 }
 
 #content .search-result-wrapper {
-    padding-top : 20px;
+  padding-top: 20px;
 }
 
 #content .search-result-wrapper a.link-overlay {
-    border-bottom: none !important;
+  border-bottom: none !important;
 }
 
 /** gestione legenda utente **/
 .week-legend {
-  float:left;
-  width:49%;
-  min-width:200px;
-  margin-top:1em;
+  float: left;
+  width: 49%;
+  min-width: 200px;
+  margin-top: 1em;
+  padding-right: 2em;
 }
-.week-legend fieldset {padding : 0px;}
+
+.week-legend fieldset {
+  padding: 0px;
+}
 .week-legend fieldset legend {
-    padding : 0px;
-    font-weight: bold;
-    font-size: 100%;
+  padding: 0px;
+  font-weight: bold;
+  font-size: 100%;
 }
 #content .week-legend fieldset ul.legend {
   list-style-type: none;
 }
 .week-legend div.square {
-    display: block;
-    float: left;
-    width: 15px;
-    height: 15px;
-    margin-right: 5px
+  display: block;
+  float: left;
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
 }
 .legend li > .bookable {
   background: #ddd;
@@ -290,30 +330,42 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   width: 13px;
   height: 13px;
   background: #fff;
-  border:1px solid #999;
+  border: 1px solid #999;
 }
 
-.legend-manager li > .pending { background: #ffa500; }
-.legend-manager li > .confirmed { background: #436976; }
-.legend-manager li > .refused { background: #870000; }
+.legend-manager li > .pending {
+  background: #ffa500;
+}
+.legend-manager li > .confirmed {
+  background: #436976;
+}
+.legend-manager li > .refused {
+  background: #870000;
+}
 
-#content table.tipology-table {border: 1px solid #ccc;}
-#content table.tipology-table th {background-color: #ddd; padding: 3px 10px;;}
-#content table.tipology-table td {padding: 2px 10px 0px 10px;}
-
+#content table.tipology-table {
+  border: 1px solid #ccc;
+}
+#content table.tipology-table th {
+  background-color: #ddd;
+  padding: 3px 10px;
+}
+#content table.tipology-table td {
+  padding: 2px 10px 0px 10px;
+}
 
 #week .fromto {
-    background-color:#ddd;
+  background-color: #ddd;
 }
 
 #content-core #week {
-    font-size: 100%;
+  font-size: 100%;
 }
 
 #week .gate > .slot > .published {
-    line-height: 0;
-    font-size: 9px;
-    background-color: #6DA7BB;
+  line-height: 0;
+  font-size: 9px;
+  background-color: #6da7bb;
 }
 
 #week .gate > .slot > .pending {
@@ -322,37 +374,43 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   background-color: #ffa500;
 }
 
-#week .slot > .pending > a > div{
-  border: 2px solid #E78B36;
-  display:table;
-  height:100%;
-  width:100%;
+#week .slot > .pending > a > div {
+  border: 2px solid #e78b36;
+  display: table;
+  height: 100%;
+  width: 100%;
 }
 
 #week .slot .links a {
-    height:5px;
-    display:block;
+  height: 5px;
+  display: block;
 }
 
-#legend .legend-note {margin-top: 10px;}
+#legend .legend-note {
+  margin-top: 10px;
+}
 
 #week .slot .pending [class^="icon-"] {
-    color: black;
-    padding-left: 2px;
-    padding-right: 2px;
+  color: black;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 #week .slot .published [class^="icon-"] {
-    color: black;
-    padding-left: 2px;
-    padding-right: 2px;
+  color: black;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
-#week .slot .pending a:hover {background-color: rgb(236, 123, 0)}
-#week .slot .published a:hover {background-color: #9AC2DD;}
+#week .slot .pending a:hover {
+  background-color: rgb(236, 123, 0);
+}
+#week .slot .published a:hover {
+  background-color: #9ac2dd;
+}
 
 dl.refused dd {
-  background-color: #EEBBBB;
+  background-color: #eebbbb;
 }
 dl.portalMessage.refused dt {
   background-color: #870000;
