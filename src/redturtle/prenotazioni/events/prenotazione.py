@@ -119,8 +119,8 @@ def add_booking_notify_manager(obj, event):
         if getattr(item, "portal_type", "") == "PrenotazioniFolder":
             folder = item
             break
-    responsabile = getattr(folder, "email_responsabile", "")
-    if responsabile:
+    email_list = getattr(folder, "email_responsabile", "")
+    if email_list:
         message = translate(
             _(
                 "new_booking_admin_notify_message",
@@ -137,10 +137,11 @@ def add_booking_notify_manager(obj, event):
             ),
             context=obj.REQUEST,
         )
-
-        api.portal.send_email(
-            recipient=responsabile,
-            sender=get_mail_from_address(),
-            subject=subject,
-            body=message,
-        )
+        for mail in email_list:
+            if mail:
+                api.portal.send_email(
+                    recipient=mail,
+                    sender=get_mail_from_address(),
+                    subject=subject,
+                    body=message,
+                )

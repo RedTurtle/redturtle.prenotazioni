@@ -269,13 +269,15 @@ class IPrenotazioniFolder(model.Schema):
     )
 
     # XXX validate email
-    email_responsabile = schema.TextLine(
+    email_responsabile = schema.List(
         title=_("Responsible email"),
         description=_(
-            "Insert an email address that will be notified when new bookings "
-            "get created."
+            "Insert a list of email addresses that will be notified when new "
+            "bookings get created."
         ),
         required=False,
+        value_type=schema.TextLine(),
+        default=[],
     )
 
     @invariant
