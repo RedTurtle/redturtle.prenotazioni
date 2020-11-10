@@ -101,9 +101,12 @@ i18n:domain="redturtle.prenotazioni">
                     <tal:i18n i18n:translate="view_booking">View booking</tal:i18n>
                   </a>
                 </div>
-                <div class="field">
-                  <a href=""
-                     tal:attributes="href view/move_url">
+                <div class="field"
+                     tal:define="move_url view/move_url"
+                     tal:condition="move_url">
+                  <a href="${move_url}"
+                     i18n:attributes="title"
+                     title="Move booking">
                     <img width="16" height="16"
                          src="++resource++redturtle.prenotazioni.resources/calendar-icon.png"
                          tal:attributes="src string:${portal_url}/++plone++redturtle.prenotazioni/cross-icon.png"
@@ -111,7 +114,9 @@ i18n:domain="redturtle.prenotazioni">
                     <tal:i18n i18n:translate="move_booking">Move booking</tal:i18n>
                   </a>
                 </div>
-                <div class="field" tal:condition="python:review_state == 'published'">
+                <div class="field"
+                     tal:define="reject_url view/reject_url"
+                     tal:condition="python:reject_url and review_state == 'published'">
                   <a href="${view/reject_url}">
                     <img width="16"
                          src="${portal_url}/++plone++redturtle.prenotazioni/times-solid.png"

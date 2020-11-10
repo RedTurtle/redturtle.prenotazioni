@@ -95,7 +95,7 @@ class SearchForm(form.Form):
         """
         query = {
             "sort_on": "Date",
-            "sort_order": "asc",
+            "sort_order": "reverse",
             "path": "/".join(self.context.getPhysicalPath()),
         }
         if data.get("text"):
@@ -113,8 +113,8 @@ class SearchForm(form.Form):
                 query["Subject"] = "Gate: {}".format(term.value)
             except LookupError:
                 pass
-        start = data["start"]
-        end = data["end"]
+        start = data.get("start", None)
+        end = data.get("end", None)
         if start and end:
             query["Date"] = {
                 "query": [

@@ -51,6 +51,11 @@ class PrenotazioneView(BrowserView):
     def move_url(self):
         """ move this booking visiting this url
         """
+        can_move = api.user.has_permission(
+            "Modify portal content", obj=self.context
+        )
+        if not can_move:
+            return ""
         booking_date = self.booking_date
         target = "/".join((self.context.absolute_url(), "prenotazione_move"))
         if booking_date:
@@ -67,6 +72,11 @@ class PrenotazioneView(BrowserView):
 
     @property
     def reject_url(self):
+        can_review = api.user.has_permission(
+            "Review portal content", obj=self.context
+        )
+        if not can_review:
+            return ""
         return "{context_url}/content_status_modify?workflow_action=refuse&_authenticator={token}".format(  # noqa
             context_url=self.context.absolute_url(), token=createToken()
         )
