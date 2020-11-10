@@ -18,17 +18,9 @@
                      zope.lifecycleevent.IObjectModifiedEvent"
                 handler = ".events_logger.on_modify"
                 />
-     <!-- <subscriber for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder
-                    zope.lifecycleevent.interfaces.IObjectAddedEvent"
-               handler = ".prenotazioni_folder.on_create"
-               /> -->
 
-     <subscriber for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
-              zope.lifecycleevent.interfaces.IObjectAddedEvent"
-              handler=".prenotazione.add_booking_notify_manager" />
-
-     <subscriber for="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
-               handler=".prenotazione.reallocate_gate" />
+     <!-- <subscriber for="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
+               handler=".prenotazione.reallocate_gate" /> -->
 
      <subscriber for="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
                handler=".prenotazione.reallocate_container" />

@@ -159,7 +159,6 @@ class MoveForm(form.Form):
         Book this resource
         """
         data, errors = self.extractData()
-
         data["tipology"] = self.context.getTipologia_prenotazione()
         conflict_manager = self.prenotazioni_view.conflict_manager
         current_data = self.context.getData_prenotazione()

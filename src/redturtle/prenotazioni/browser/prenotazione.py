@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from plone.memoize.view import memoize
+from plone.protect.authenticator import createToken
 from Products.Five.browser import BrowserView
 from redturtle.prenotazioni.config import MIN_IN_DAY
 from redturtle.prenotazioni.utilities.urls import urlify
@@ -22,7 +23,9 @@ class PrenotazioneView(BrowserView):
         """ The context state of the parent prenotazioni folder
         """
         return api.content.get_view(
-            "prenotazioni_context_state", self.prenotazioni_folder, self.request
+            "prenotazioni_context_state",
+            self.prenotazioni_folder,
+            self.request,
         )
 
     @property
@@ -61,6 +64,12 @@ class PrenotazioneView(BrowserView):
         """ The review_state of this object
         """
         return self.prenotazioni.get_state(self.context)
+
+    @property
+    def reject_url(self):
+        return "{context_url}/content_status_modify?workflow_action=refuse&_authenticator={token}".format(  # noqa
+            context_url=self.context.absolute_url(), token=createToken()
+        )
 
 
 class ResetDuration(PrenotazioneView):

@@ -1,8 +1,8 @@
 <metal:use use-macro="context/@@ploneform-macros/titlelessform" />
 <div class="search-result-wrapper"
      i18n:domain="redturtle.prenotazioni"
-     tal:condition="request/buttons.action_search|nothing"
-     tal:define="bookings view/brains;
+     tal:condition="python:booking_length"
+     tal:define="bookings view/get_brains;
                  booking_length python:len(bookings) or 0;
                  icon_url string:/++plone++redturtle.prenotazioni/calendar-icon.png;">
   <div class="visualClear"></div>
@@ -26,13 +26,15 @@
             <tr>
               <th i18n:translate="label_fullname">Fullname</th>
               <th i18n:translate="label_gate">Gate</th>
+              <th i18n:translate="label_typology">Typology</th>
               <th i18n:translate="reservation_date">Reservation date</th>
               <th i18n:translate="label_start_time">Start time</th>
             </tr>
           </thead>
           <tbody>
             <tal:block tal:repeat="item batch">
-              <tr tal:define="oddrow repeat/item/odd;"
+              <tr tal:define="oddrow repeat/item/odd;
+                              obj python:item.getObject()"
                   tal:attributes="class python:oddrow and 'even' or 'odd'" >
                 <td>
                   <img src="" tal:attributes="src icon_url"/>
@@ -42,8 +44,10 @@
                      tal:content="item/Title"
                      >Item title</a>
                 </td>
-                <td tal:define="gate python:getattr(item.getObject(), 'gate', '')"
+                <td tal:define="gate python:getattr(obj, 'gate', '')"
                     tal:content="gate"></td>
+                <td tal:define="tipologia_prenotazione python:getattr(obj, 'tipologia_prenotazione', '')"
+                    tal:content="tipologia_prenotazione"></td>
                 <td tal:content="python:view.prenotazioni_week_view.localized_time(item['Date'])"></td>
                 <td tal:content="python:view.prenotazioni_week_view.localized_time(item['Date'], time_only=True)"></td>
               </tr>

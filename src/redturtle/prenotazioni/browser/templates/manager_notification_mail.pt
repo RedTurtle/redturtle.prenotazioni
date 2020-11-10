@@ -1,0 +1,64 @@
+<tal:root define="
+        tipologia_prenotazione options/tipologia_prenotazione|nothing;
+        data_prenotazione options/data_prenotazione|nothing;
+        azienda options/azienda|nothing;
+        gate options/gate|nothing;
+        data_scadenza options/data_scadenza|nothing;
+        staff_notes options/staff_notes|nothing;
+        description options/description|nothing;
+        title options/title|nothing;
+        email options/email|nothing;
+        telefono options/telefono|nothing;
+        mobile options/mobile|nothing;
+        booking_url options/booking_url|nothing;
+        booking_folder options/booking_folder|nothing;
+        toLocalizedTime nocall:context/@@plone/toLocalizedTime"
+        i18n:domain="redturtle.prenotazioni"
+>
+<ul>
+  <li tal:condition="title">
+    <strong><tal:label i18n:translate="label_fullname">Fullname</tal:label>:</strong>
+    ${title}
+  </li>
+  <li tal:condition="description">
+    <strong><tal:label i18n:translate="label_subject">Subject</tal:label>:</strong>
+    ${description}
+  </li>
+  <li tal:condition="tipologia_prenotazione">
+    <strong><tal:label i18n:translate="label_typology">Typology</tal:label>:</strong>
+    ${tipologia_prenotazione}
+  </li>
+  <li tal:condition="python:data_prenotazione and data_scadenza">
+    <strong><tal:label i18n:translate="label_booking_date">Booking date</tal:label>:</strong>
+    <span i18n:translate="label_booking_date_range">
+      <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(data_prenotazione)"></tal:from_date>
+      from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(data_prenotazione, time_only=True)"></tal:from>
+      to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(data_scadenza, time_only=True)"></tal:to>
+    </span>
+  </li>
+  <li tal:condition="azienda">
+    <strong><tal:label i18n:translate="label_agency">Agency</tal:label>:</strong>
+    ${azienda}
+  </li>
+  <li tal:condition="mobile">
+    <strong><tal:label i18n:translate="label_mobile">Mobile number</tal:label>:</strong>
+    ${mobile}
+  </li>
+  <li tal:condition="telefono">
+    <strong><tal:label i18n:translate="label_phone">Phone number</tal:label>:</strong>
+    ${telefono}
+  </li>
+  <li tal:condition="email">
+    <strong><tal:label i18n:translate="label_email">Email</tal:label>:</strong>
+    ${email}
+  </li>
+  <li tal:condition="gate">
+    <strong><tal:label i18n:translate="label_gate">Gate</tal:label>:</strong>
+    ${gate}
+  </li>
+</ul>
+
+<p i18n:translate="label_new_booking_notify_link">
+  Go to the booking to see more details and manage it: <tal:url i18n:name="url">${booking_url}</tal:url>
+</p>
+</tal:root>

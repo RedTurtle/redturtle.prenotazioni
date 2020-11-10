@@ -29,6 +29,12 @@
             >field description
         </span>
     </label>
+    <div class="fieldErrorBox"
+         tal:content="structure error/render|nothing">
+        Error
+    </div>
+    <input type="text" tal:replace="structure widget/render"
+           metal:define-slot="widget" />
     <div class="unbookable" 
          tal:define="unbookable_items nocall:view/unbookable_items"
          tal:condition="unbookable_items"
@@ -45,15 +51,8 @@
       <p class="formHelp">
         <a tal:attributes="href view/prenotazione_add/back_to_booking_url"
           i18n:translate="tipology_widget_suggest_reselect">
-          You may want to select another time slot
+          You may want to select another time slot to book one of these.
         </a>
       </p>
     </div>
-
-    <div class="fieldErrorBox"
-         tal:content="structure error/render|nothing">
-        Error
-    </div>
-    <input type="text" tal:replace="structure widget/render"
-           metal:define-slot="widget" />
 </div>

@@ -15,8 +15,9 @@ i18n:domain="redturtle.prenotazioni">
                         member portal_state/member;
                         anonymous portal_state/anonymous;
                         putils here/plone_utils;
+                        review_state view/review_state;
                         not_ajax_load python:not request.get('ajax_load', '')">
-                <div class="refused-alert" tal:condition="python:view.review_state=='refused'">
+                <div class="refused-alert" tal:condition="python:review_state=='refused'">
                   <dl class="portalMessage refused">
                     <dt><span class="icon-warning-sign fa fa-exclamation-triangle">&nbsp;</span></dt>
                     <dd i18n:translate="refused-review-state-warning">
@@ -35,41 +36,46 @@ i18n:domain="redturtle.prenotazioni">
                 </h1>
                 <div tal:replace="structure provider:plone.belowcontenttitle" tal:condition="not_ajax_load" />
                 <div tal:replace="structure provider:plone.abovecontentbody" tal:condition="not_ajax_load" />
-                <div class="field" tal:condition="here/Title">
+                <div class="field">
                     <strong i18n:translate="fullname">Fullname</strong>:
                     <span tal:replace="here/Title" />
                 </div>
-                <div class="field" tal:condition="here/Description">
-                    <strong i18n:translate="subject">Subject</strong>:
-                    <span tal:replace="here/Description" />
-                </div>
-                <div class="field" tal:condition="here/getTipologia_prenotazione">
-                    <strong i18n:translate="">Reservation type</strong>:
+                <div class="field">
+                    <strong i18n:translate="label_typology">Typology</strong>:
                     <span tal:replace="here/getTipologia_prenotazione" />
-                </div>
-                <div class="field" tal:condition="here/getData_prenotazione">
-                    <strong i18n:translate="">Reservation date</strong>:
-                    <tal:span i18n:translate="">from</tal:span>
-                    <span tal:replace="python:putils.toLocalizedTime(here.getData_prenotazione(), True)" />
-                    <tal:span i18n:translate="">to</tal:span>
-                    <span tal:content="python:putils.toLocalizedTime(here.getData_scadenza(), True)" />
-                </div>
-                <div class="field" tal:condition="here/getAzienda">
-                    <strong i18n:translate="">Company</strong>:
-                    <span tal:replace="here/getAzienda" />
-                </div>
-                <div class="field" tal:condition="here/getMobile">
-                  <strong i18n:translate="mobile">Mobile number</strong>:
-                  <span tal:replace="here/getMobile" />
-                </div>
-                <div class="field" tal:condition="here/getTelefono">
-                    <strong i18n:translate="phone">Phone number</strong>:
-                    <span tal:replace="here/getTelefono" />
                 </div>
                 <div class="field" tal:condition="here/getEmail">
                     <strong i18n:translate="">E-mail</strong>:
                     <a tal:attributes="href string:mailto:${here/getEmail}"
                     tal:content="here/getEmail" />
+                </div>
+                <div class="field" tal:condition="here/getTelefono">
+                    <strong i18n:translate="label_phone">Phone number</strong>:
+                    <span tal:replace="here/getTelefono" />
+                </div>
+                <div class="field">
+                  <strong i18n:translate="label_mobile">Mobile number</strong>:
+                  <span tal:replace="here/getMobile" />
+                </div>
+                <div class="field">
+                    <strong i18n:translate="label_agency">Agency</strong>:
+                    <span tal:replace="here/getAzienda" />
+                </div>
+                <div class="field">
+                    <strong i18n:translate="label_subject">Subject</strong>:
+                    <span tal:replace="here/description" />
+                </div>
+                <div class="field">
+                    <strong i18n:translate="label_booking_date">Booking date</strong>:
+                    <td tal:define="data_prenotazione context/getData_prenotazione|nothing;
+                                        data_scadenza python:getattr(context, 'data_scadenza', '');
+                                        toLocalizedTime nocall:context/@@plone/toLocalizedTime">
+                        <span i18n:translate="label_booking_date_range">
+                        <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(data_prenotazione)"></tal:from_date>
+                        from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(data_prenotazione, time_only=True)"></tal:from>
+                        to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(data_scadenza, time_only=True)"></tal:to>
+                        </span>
+                    </td>
                 </div>
                 <div class="field" tal:condition="context/gate">
                     <strong i18n:translate="">Gate</strong>:
@@ -103,6 +109,14 @@ i18n:domain="redturtle.prenotazioni">
                          tal:attributes="src string:${portal_url}/++plone++redturtle.prenotazioni/cross-icon.png"
                          >
                     <tal:i18n i18n:translate="move_booking">Move booking</tal:i18n>
+                  </a>
+                </div>
+                <div class="field" tal:condition="python:review_state == 'published'">
+                  <a href="${view/reject_url}">
+                    <img width="16"
+                         src="${portal_url}/++plone++redturtle.prenotazioni/times-solid.png"
+                         >
+                    <tal:i18n i18n:translate="reject_booking">Reject booking</tal:i18n>
                   </a>
                 </div>
                 <div class="field">

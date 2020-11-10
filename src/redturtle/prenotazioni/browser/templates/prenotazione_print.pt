@@ -25,12 +25,6 @@ i18n:domain="redturtle.prenotazioni">
             <div class="documentDescription" tal:content="view/description">
               Booking description
             </div>
-            <tal:description condition="prenotazione/Description">
-                <h2>Oggetto:</h2>
-                <p tal:content="prenotazione/Description">
-                    Oggetto
-                </p>
-            </tal:description>
             <p>
                 Gentile <b tal:content="prenotazione/Title">Fullname</b>,
                 di seguito sono elencati i dati relativi alla sua prenotazione:
@@ -39,48 +33,57 @@ i18n:domain="redturtle.prenotazioni">
                  <tbody>
                     <tr>
                         <td>
-                            <b>Email</b>
-                        </td>
-                        <td tal:content="prenotazione/getEmail"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Telefono</b>
-                        </td>
-                        <td tal:content="prenotazione/getTelefono"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Cellulare</b>
-                        </td>
-                        <td tal:content="prenotazione/getMobile"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Tipo</b>
+                            <b i18n:translate="label_typology">Typology</b>
                         </td>
                         <td tal:content="prenotazione/getTipologia_prenotazione"></td>
                     </tr>
                     <tr>
                         <td>
-                            <b>Data</b>
+                            <b i18n:translate="label_email">Email</b>
                         </td>
-                        <td tal:content="python:toLocalizedTime(prenotazione.getData_prenotazione())"></td>
+                        <td tal:content="prenotazione/getEmail"></td>
                     </tr>
                     <tr>
                         <td>
-                            <b>Ora</b>
+                            <b i18n:translate="label_phone">Phone number</b>
                         </td>
+                        <td tal:content="prenotazione/getTelefono"></td>
+                    </tr>
+                    <tr>
                         <td>
-                          Dalle
-                          <tal:from tal:content="python:toLocalizedTime(prenotazione.getData_prenotazione(), time_only=True)" />
-                          alle
-                          <tal:to tal:content="python:toLocalizedTime(prenotazione.getData_scadenza(), time_only=True)" />
+                            <b i18n:translate="label_mobile">Mobile number</b>
+                        </td>
+                        <td tal:content="prenotazione/getMobile"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b i18n:translate="label_subject">Subject</b>
+                        </td>
+                        <td tal:content="prenotazione/description"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b i18n:translate="label_agency">Agency</b>
+                        </td>
+                        <td tal:content="prenotazione/azienda"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b i18n:translate="label_booking_date">Booking date</b>
+                        </td>
+                        <td tal:define="data_prenotazione prenotazione/getData_prenotazione|nothing;
+                                        data_scadenza python:getattr(prenotazione, 'data_scadenza', '');
+                                        toLocalizedTime nocall:context/@@plone/toLocalizedTime">
+                            <span i18n:translate="label_booking_date_range">
+                            <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(data_prenotazione)"></tal:from_date>
+                            from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(data_prenotazione, time_only=True)"></tal:from>
+                            to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(data_scadenza, time_only=True)"></tal:to>
+                            </span>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <b>Sportello</b>
+                            <b i18n:translate="label_gate">Gate</b>
                         </td>
                         <td tal:content="prenotazione/gate"></td>
                     </tr>

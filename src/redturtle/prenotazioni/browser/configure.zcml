@@ -200,4 +200,12 @@
       />
 
 
+  <browser:page
+    for="*"
+    name="manager_notification_mail"
+    template="templates/manager_notification_mail.pt"
+    permission="zope2.View"
+    layer="z3c.form.interfaces.IFormLayer"
+    />
+
 </configure>

@@ -198,7 +198,7 @@ class View(BaseView):
     def get_search_gate_url(self, gate, day):
         """ Search a a gate
         """
-        params = {"start": day, "end": day, "actions.search": 1}
+        params = {"start": day, "end": day}
         vr = getVocabularyRegistry()
         voc = vr.get(self.context, "redturtle.prenotazioni.gates")
 

@@ -17,6 +17,8 @@ from zope.schema import Choice
 from zope.schema import Date
 from zope.schema import TextLine
 from zope.schema import ValidationError
+from zope.component import getUtility
+from zope.schema.interfaces import IVocabularyFactory
 
 
 class InvalidDate(ValidationError):
@@ -93,7 +95,7 @@ class SearchForm(form.Form):
         """
         query = {
             "sort_on": "Date",
-            "sort_order": "reverse",
+            "sort_order": "asc",
             "path": "/".join(self.context.getPhysicalPath()),
         }
         if data.get("text"):
@@ -102,8 +104,15 @@ class SearchForm(form.Form):
             query["review_state"] = data["review_state"]
 
         if data.get("gate"):
-            query["Subject"] = "Gate: %s" % data["gate"]
-
+            factory = getUtility(
+                IVocabularyFactory, "redturtle.prenotazioni.gates"
+            )
+            vocabulary = factory(context=self.context)
+            try:
+                term = vocabulary.getTermByToken(data["gate"])
+                query["Subject"] = "Gate: {}".format(term.value)
+            except LookupError:
+                pass
         start = data["start"]
         end = data["end"]
         if start and end:
@@ -126,13 +135,15 @@ class SearchForm(form.Form):
             }
         return query
 
-    def get_brains(self, data):
+    def get_brains(self, data=None):
         """
         The brains for my search
         """
-        if not self.request.form.get("buttons.action_search"):
-            return []
-        query = self.get_query(data)
+        if self.request.form.get("buttons.action_search", ""):
+            data, errors = self.extractData()
+        else:
+            data = self.request.form
+        query = self.get_query(data=data)
         return self.conflict_manager.unrestricted_prenotazioni(**query)
 
     # Use base form validation
@@ -142,43 +153,11 @@ class SearchForm(form.Form):
     #     '''
     #     errors = super(SearchForm, self).validate(action, data)
     #     return errors
-
-    # def setUpWidgets(self, ignore_request=False):
-    #     """
-    #     From zope.formlib.form.Formbase.
-    #     """
-    #     self.adapters = {}
-    #     fieldnames = [x.__name__ for x in self.form_fields]
-    #     data = {}
-    #     for key in fieldnames:
-    #         form_value = self.request.form.get(key)
-    #         if form_value is not None and not form_value == u"":
-    #             field = self.form_fields[key].field
-    #             if isinstance(field, Choice):
-    #                 try:
-    #                     data[key] = (
-    #                         field.bind(self.context)
-    #                         .vocabulary.getTermByToken(form_value)
-    #                         .value
-    #                     )
-    #                 except LookupError:
-    #                     data[key] = form_value
-    #             else:
-    #                 data[key] = form_value
-    #             self.request[key] = form_value
-
-    #     self.widgets = setUpWidgets(
-    #         self.form_fields,
-    #         self.prefix,
-    #         self.context,
-    #         self.request,
-    #         form=self,
-    #         adapters=self.adapters,
-    #         ignore_request=ignore_request,
-    #         data=data,
-    #     )
-    #     self.widgets["gate"]._messageNoValue = ""
-    #     self.widgets["review_state"]._messageNoValue = ""
+    def updateWidgets(self):
+        super(SearchForm, self).updateWidgets()
+        for k, v in self.request.form.items():
+            if k in self.widgets:
+                self.widgets[k].value = v
 
     @button.buttonAndHandler(_(u"action_search", default=u"Search"))
     def action_search(self, action):
@@ -186,7 +165,9 @@ class SearchForm(form.Form):
         Search in prenotazioni SearchableText
         """
         data, errors = self.extractData()
-        self.brains = self.get_brains(data)
+        if errors:
+            self.status = self.formErrorsMessage
+            return
 
     @button.buttonAndHandler(_(u"action_cancel", default=u"Cancel"))
     def action_cancel(self, action):

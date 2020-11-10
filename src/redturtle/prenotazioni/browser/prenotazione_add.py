@@ -3,6 +3,8 @@ from Acquisition import aq_inner
 from datetime import datetime
 from DateTime import DateTime
 from datetime import timedelta
+from email.utils import formataddr
+from email.utils import parseaddr
 from os import environ
 from plone import api
 from plone.formwidget.recaptcha.widget import ReCaptchaFieldWidget
@@ -11,6 +13,7 @@ from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
@@ -25,7 +28,8 @@ from z3c.form.interfaces import ActionExecutionError
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import WidgetActionExecutionError
 from zope.component import getMultiAdapter
-from zope.component._api import getUtility
+from zope.component import getUtility
+from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import Invalid
@@ -106,7 +110,7 @@ class IAddForm(Interface):
         constraint=check_is_future_date,
     )
     tipology = Choice(
-        title=_("label_tipology", u"Tipology"),
+        title=_("label_typology", u"Typology"),
         required=True,
         default=u"",
         vocabulary="redturtle.prenotazioni.tipologies",
@@ -352,6 +356,7 @@ class AddForm(form.AddForm):
             paths=["@@prenotazione_print"],
             params=params,
         )
+        self.send_email_to_managers(booking=obj)
         return self.request.response.redirect(target)
 
     @button.buttonAndHandler(
@@ -398,6 +403,77 @@ class AddForm(form.AddForm):
             )
             return self.redirect(self.back_to_booking_url, msg)
         return super(AddForm, self).__call__()
+
+    def get_mail_from_address(self):
+        registry = getUtility(IRegistry)
+        mail_settings = registry.forInterface(
+            IMailSchema, prefix="plone", check=False
+        )
+        from_address = mail_settings.email_from_address
+        from_name = mail_settings.email_from_name
+
+        if not from_address:
+            return ""
+        from_address = from_address.strip()
+        mfrom = formataddr((from_name, from_address))
+        if parseaddr(mfrom)[1] != from_address:
+            mfrom = from_address
+        return mfrom
+
+    def send_email_to_managers(self, booking):
+        booking_folder = None
+        for item in booking.aq_chain:
+            if getattr(item, "portal_type", "") == "PrenotazioniFolder":
+                booking_folder = item
+                break
+
+        email_list = getattr(booking_folder, "email_responsabile", "")
+        if email_list:
+            mail_template = api.content.get_view(
+                name="manager_notification_mail",
+                context=booking,
+                request=booking.REQUEST,
+            )
+            parameters = {
+                "azienda": getattr(booking, "azienda", ""),
+                "booking_folder": booking_folder.title,
+                "booking_url": booking.absolute_url(),
+                "data_prenotazione": getattr(booking, "data_prenotazione", ""),
+                "data_scadenza": getattr(booking, "data_scadenza", ""),
+                "description": getattr(booking, "description", ""),
+                "email": getattr(booking, "email", ""),
+                "gate": getattr(booking, "gate", ""),
+                "mobile": getattr(booking, "mobile", ""),
+                "staff_notes": getattr(booking, "staff_notes", ""),
+                "telefono": getattr(booking, "telefono", ""),
+                "tipologia_prenotazione": getattr(
+                    booking, "tipologia_prenotazione", ""
+                ),
+                "title": getattr(booking, "title", ""),
+            }
+            mail_text = mail_template(**parameters)
+
+            mailHost = api.portal.get_tool(name="MailHost")
+            subject = translate(
+                _(
+                    "new_booking_admin_notify_subject",
+                    default="New booking for ${context}",
+                    mapping={"context": booking_folder.title},
+                ),
+                context=booking.REQUEST,
+            )
+
+            for mail in email_list:
+                if mail:
+                    mailHost.send(
+                        mail_text,
+                        mto=mail,
+                        mfrom=self.get_mail_from_address(),
+                        subject=subject,
+                        charset="utf-8",
+                        msg_type="text/html",
+                        immediate=True,
+                    )
 
 
 WrappedAddForm = wrap_form(AddForm)

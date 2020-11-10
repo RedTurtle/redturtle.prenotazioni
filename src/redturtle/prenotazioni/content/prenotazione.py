@@ -18,7 +18,7 @@ class IPrenotazione(model.Schema):
     mobile = schema.TextLine(title=_("mobile", u"Mobile number"))
 
     tipologia_prenotazione = schema.Choice(
-        title=_(u"booking tipology"),
+        title=_(u"label_typology", default="Typology"),
         vocabulary="redturtle.prenotazioni.tipologies",
     )
 
