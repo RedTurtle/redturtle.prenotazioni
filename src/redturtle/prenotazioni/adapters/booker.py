@@ -102,7 +102,7 @@ class Booker(object):
 
         for attribute in at_data.keys():
             setattr(obj, attribute, at_data[attribute])
-
+        obj.reindexObject()
         api.content.transition(obj, "submit")
         return obj
 

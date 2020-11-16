@@ -14,8 +14,10 @@ class IPrenotazione(model.Schema):
 
     # XXX validator
     email = schema.TextLine(title=_(u"email"))
-    telefono = schema.TextLine(title=_(u"Phone number"))
-    mobile = schema.TextLine(title=_("mobile", u"Mobile number"))
+    telefono = schema.TextLine(title=_(u"Phone number"), required=False)
+    mobile = schema.TextLine(
+        title=_("mobile", u"Mobile number"), required=False
+    )
 
     tipologia_prenotazione = schema.Choice(
         title=_(u"label_typology", default="Typology"),
@@ -32,6 +34,7 @@ class IPrenotazione(model.Schema):
         description=_(
             u"Inserisci la denominazione dell'azienda " u"del richiedente"
         ),
+        required=False,
     )
 
     gate = schema.TextLine(
