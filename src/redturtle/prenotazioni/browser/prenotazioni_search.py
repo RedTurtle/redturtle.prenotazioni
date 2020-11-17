@@ -112,7 +112,7 @@ class SearchForm(form.Form):
                 term = vocabulary.getTermByToken(data["gate"])
                 query["Subject"] = "Gate: {}".format(term.value)
             except LookupError:
-                pass
+                query["Subject"] = "Gate: {}".format(data["gate"])
         start = data.get("start", None)
         end = data.get("end", None)
         if start and end:
