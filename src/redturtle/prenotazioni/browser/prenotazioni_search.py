@@ -169,7 +169,9 @@ class SearchForm(form.Form):
             self.status = self.formErrorsMessage
             return
 
-    @button.buttonAndHandler(_(u"action_cancel", default=u"Cancel"))
+    @button.buttonAndHandler(
+        _(u"move_back_message", default=u"Ritorna al calendario")
+    )
     def action_cancel(self, action):
         """
         Cancel and go back to the week view
