@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-11-10 16:28+0000\n"
+"POT-Creation-Date: 2020-11-23 09:54+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -59,7 +59,7 @@ msgstr "Cartella settimana prenotazioni"
 msgid "Booking Year Folder"
 msgstr "Cartella anno prenotazioni"
 
-#: redturtle/prenotazioni/content/prenotazione.py:27
+#: redturtle/prenotazioni/content/prenotazione.py:29
 msgid "Booking date"
 msgstr "Data prenotazione"
 
@@ -71,7 +71,7 @@ msgstr "Prenotazione di"
 msgid "Booking moved"
 msgstr "Prenotazione spostata"
 
-#: redturtle/prenotazioni/content/prenotazione.py:31
+#: redturtle/prenotazioni/content/prenotazione.py:33
 msgid "Company"
 msgstr "Azienda"
 
@@ -122,12 +122,12 @@ msgstr "Modifica Mail Action per lo spostamento delle prenotazioni"
 msgid "Email report to prenotazione owner"
 msgstr "Report email al creatore della prenotazione"
 
-#: redturtle/prenotazioni/content/prenotazione.py:42
+#: redturtle/prenotazioni/content/prenotazione.py:45
 msgid "Expiration date booking"
 msgstr "Data scandenza prenotazione"
 
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:81
-#: redturtle/prenotazioni/content/prenotazione.py:38
+#: redturtle/prenotazioni/content/prenotazione.py:41
 msgid "Gate"
 msgstr "Sportello"
 
@@ -135,7 +135,7 @@ msgstr "Sportello"
 msgid "Informations about a single booking"
 msgstr "Informazioni relativa ad una singola prenotazione"
 
-#: redturtle/prenotazioni/content/prenotazione.py:32
+#: redturtle/prenotazioni/content/prenotazione.py:34
 msgid "Inserisci la denominazione dell'azienda del richiedente"
 msgstr "Inserisci la denominazione dell'azienda del richiedente"
 
@@ -236,7 +236,7 @@ msgstr "Ci dispiace questo intervallo di tempo non è disponibile o non è adatt
 msgid "Sorry, you can not book this slot for now."
 msgstr "Ci dispiace, ma questo intervallo di tempo non è al momento disponibile"
 
-#: redturtle/prenotazioni/content/prenotazione.py:38
+#: redturtle/prenotazioni/content/prenotazione.py:41
 msgid "Sportello a cui presentarsi"
 msgstr "Sportello a cui presentarsi"
 
@@ -320,7 +320,7 @@ msgstr "Prenota"
 #. Default: "Cancel"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:363
 #: redturtle/prenotazioni/browser/prenotazione_move.py:194
-#: redturtle/prenotazioni/browser/prenotazioni_search.py:172
+#: redturtle/prenotazioni/browser/vacations.py:287
 msgid "action_cancel"
 msgstr "Cancella"
 
@@ -330,7 +330,7 @@ msgid "action_move"
 msgstr "Sposta"
 
 #. Default: "Search"
-#: redturtle/prenotazioni/browser/prenotazioni_search.py:162
+#: redturtle/prenotazioni/browser/prenotazioni_search.py:174
 msgid "action_search"
 msgstr "Cerca"
 
@@ -619,10 +619,15 @@ msgid "label_start"
 msgstr "Data inizio"
 
 #. Default: "Start time"
-#: redturtle/prenotazioni/browser/templates/prenotazioni_search.pt:31
+#: redturtle/prenotazioni/browser/templates/prenotazioni_search.pt:32
 #: redturtle/prenotazioni/browser/vacations.py:79
 msgid "label_start_time"
 msgstr "Ora inizio"
+
+#. Default: "State"
+#: redturtle/prenotazioni/browser/templates/prenotazioni_search.pt:28
+msgid "label_state"
+msgstr "Stato"
 
 #. Default: "Subject"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:138
@@ -679,7 +684,7 @@ msgid "message_help"
 msgstr "Inserisci il messaggio che vuoi inviare per mail. E' possibile inserire alcuni marcatori che verranno sostituiti con dei valori presi dall'applicazione.\"${title}\" sarà sostituito con il titolo della prenotazione (il nome e cognome dell'utente). \"${date}\" sarà sostituito con la data della prenotazione. \"${url}\" sarà sostituito  dall'url della prenotazione. ${portal} sarà sostituito  con il titolo del portale. "
 
 #. Default: "Mobile number"
-#: redturtle/prenotazioni/content/prenotazione.py:18
+#: redturtle/prenotazioni/content/prenotazione.py:19
 msgid "mobile"
 msgstr "Numero di cellulare"
 
@@ -694,9 +699,9 @@ msgid "morning_start_label"
 msgstr "Apertura mattina"
 
 #. Default: "Go back to the calendar"
+#: redturtle/prenotazioni/browser/prenotazioni_search.py:185
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:134
 #: redturtle/prenotazioni/browser/templates/prenotazione_add.pt:88
-#: redturtle/prenotazioni/browser/templates/prenotazione_move.pt:39
 msgid "move_back_message"
 msgstr "Ritorna al calendario"
 
@@ -765,7 +770,7 @@ msgstr "Rifiuta la prenotazione"
 
 #. Default: "Reservation date"
 #: redturtle/prenotazioni/browser/templates/prenotazione_move.pt:28
-#: redturtle/prenotazioni/browser/templates/prenotazioni_search.pt:30
+#: redturtle/prenotazioni/browser/templates/prenotazioni_search.pt:31
 msgid "reservation_date"
 msgstr "Data prenotazione"
 
@@ -805,7 +810,7 @@ msgstr "Il mittente della mail. Se nessun indirizzo viene inserito verrà utiliz
 
 #. Default: "Staff notes"
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:85
-#: redturtle/prenotazioni/content/prenotazione.py:46
+#: redturtle/prenotazioni/content/prenotazione.py:49
 msgid "staff_notes_label"
 msgstr "Note del personale"
 

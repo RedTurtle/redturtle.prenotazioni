@@ -25,6 +25,7 @@
           <thead>
             <tr>
               <th i18n:translate="label_fullname">Fullname</th>
+              <th i18n:translate="label_state">State</th>
               <th i18n:translate="label_gate">Gate</th>
               <th i18n:translate="label_typology">Typology</th>
               <th i18n:translate="reservation_date">Reservation date</th>
@@ -44,6 +45,8 @@
                      tal:content="item/Title"
                      >Item title</a>
                 </td>
+                <td tal:define="state python:view.get_prenotazione_state(obj)"
+                    tal:content="state"></td>
                 <td tal:define="gate python:getattr(obj, 'gate', '')"
                     tal:content="gate"></td>
                 <td tal:define="tipologia_prenotazione python:getattr(obj, 'tipologia_prenotazione', '')"

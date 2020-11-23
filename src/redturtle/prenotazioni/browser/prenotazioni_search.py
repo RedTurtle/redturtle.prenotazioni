@@ -11,13 +11,13 @@ from redturtle.prenotazioni.adapters.conflict import IConflictManager
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
+from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Interface
 from zope.schema import Choice
 from zope.schema import Date
 from zope.schema import TextLine
 from zope.schema import ValidationError
-from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
 
@@ -89,6 +89,18 @@ class SearchForm(form.Form):
         return api.content.get_view(
             "prenotazioni_week_view", self.context, self.request
         )
+
+    def get_prenotazione_state(self, item):
+        factory = getUtility(
+            IVocabularyFactory, "redturtle.prenotazioni.booking_review_states"
+        )
+        vocabulary = factory(item)
+        if not vocabulary:
+            return ""
+        term = vocabulary.getTerm(api.content.get_state(obj=item))
+        if not term:
+            return ""
+        return term.title
 
     def get_query(self, data):
         """ The query we requested
@@ -170,7 +182,7 @@ class SearchForm(form.Form):
             return
 
     @button.buttonAndHandler(
-        _(u"move_back_message", default=u"Ritorna al calendario")
+        _(u"move_back_message", default=u"Go back to the calendar")
     )
     def action_cancel(self, action):
         """
