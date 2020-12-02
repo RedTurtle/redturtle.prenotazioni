@@ -8,8 +8,8 @@
         description options/description|nothing;
         title options/title|nothing;
         email options/email|nothing;
-        telefono options/telefono|nothing;
-        mobile options/mobile|nothing;
+        phone options/phone|nothing;
+        fiscalcode options/fiscalcode|nothing;
         booking_url options/booking_url|nothing;
         booking_folder options/booking_folder|nothing;
         toLocalizedTime nocall:context/@@plone/toLocalizedTime"
@@ -40,17 +40,17 @@
     <strong><tal:label i18n:translate="label_agency">Agency</tal:label>:</strong>
     ${azienda}
   </li>
-  <li tal:condition="mobile">
-    <strong><tal:label i18n:translate="label_mobile">Mobile number</tal:label>:</strong>
-    ${mobile}
-  </li>
-  <li tal:condition="telefono">
+  <li tal:condition="phone">
     <strong><tal:label i18n:translate="label_phone">Phone number</tal:label>:</strong>
-    ${telefono}
+    ${phone}
   </li>
   <li tal:condition="email">
     <strong><tal:label i18n:translate="label_email">Email</tal:label>:</strong>
     ${email}
+  </li>
+  <li tal:condition="fiscalcode">
+    <strong><tal:label i18n:translate="label_fiscalcode">Fiscal code</tal:label>:</strong>
+    ${fiscalcode}
   </li>
   <li tal:condition="gate">
     <strong><tal:label i18n:translate="label_gate">Gate</tal:label>:</strong>

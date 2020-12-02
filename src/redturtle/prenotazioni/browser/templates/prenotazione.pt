@@ -53,9 +53,9 @@ i18n:domain="redturtle.prenotazioni">
                     <strong i18n:translate="label_phone">Phone number</strong>:
                     <span tal:replace="here/getTelefono" />
                 </div>
-                <div class="field">
-                  <strong i18n:translate="label_mobile">Mobile number</strong>:
-                  <span tal:replace="here/getMobile" />
+                <div class="field" tal:condition="here/getFiscalcode">
+                    <strong i18n:translate="label_fiscalcode">Fiscal code</strong>:
+                    <span tal:replace="here/getFiscalcode" />
                 </div>
                 <div class="field">
                     <strong i18n:translate="label_agency">Agency</strong>:

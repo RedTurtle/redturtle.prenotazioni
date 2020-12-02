@@ -14,10 +14,11 @@ class IPrenotazione(model.Schema):
 
     # XXX validator
     email = schema.TextLine(title=_(u"email"))
-    telefono = schema.TextLine(title=_(u"Phone number"), required=False)
-    mobile = schema.TextLine(
-        title=_("mobile", u"Mobile number"), required=False
+    phone = schema.TextLine(
+        title=_("phone", u"Phone number"), required=False
     )
+
+    fiscalcode = schema.TextLine(title=_(u"fiscalcode"), required=False)
 
     tipologia_prenotazione = schema.Choice(
         title=_(u"label_typology", default="Typology"),
@@ -75,11 +76,11 @@ class Prenotazione(Item):
     def getAzienda(self):
         return self.azienda
 
-    def getMobile(self):
-        return self.mobile
+    def getFiscalcode(self):
+        return self.fiscalcode
 
-    def getTelefono(self):
-        return self.telefono
+    def getPhone(self):
+        return self.phone
 
     def getEmail(self):
         return self.email

@@ -57,9 +57,8 @@ def on_modify(obj, event):
         "description",
         "email",
         "gate",
-        "mobile",
+        "phone",
         "staff_notes",
-        "telefono",
         "tipologia_prenotazione",
         "title",
     ]
