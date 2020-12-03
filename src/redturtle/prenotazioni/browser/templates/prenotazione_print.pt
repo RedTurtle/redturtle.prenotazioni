@@ -49,12 +49,6 @@ i18n:domain="redturtle.prenotazioni">
                         </td>
                         <td tal:content="prenotazione/getPhone"></td>
                     </tr>
-                    <tr tal:condition="prenotazione/getFiscalcode">
-                        <td>
-                            <b i18n:translate="label_fiscalcode">Fiscal code</b>
-                        </td>
-                        <td tal:content="prenotazione/getFiscalcode"></td>
-                    </tr>
                     <tr>
                         <td>
                             <b i18n:translate="label_subject">Subject</b>
@@ -66,6 +60,12 @@ i18n:domain="redturtle.prenotazioni">
                             <b i18n:translate="label_agency">Agency</b>
                         </td>
                         <td tal:content="prenotazione/azienda"></td>
+                    </tr>
+                    <tr tal:condition="prenotazione/getFiscalcode">
+                        <td>
+                            <b i18n:translate="label_fiscalcode">Fiscal code</b>
+                        </td>
+                        <td tal:content="prenotazione/getFiscalcode"></td>
                     </tr>
                     <tr>
                         <td>
