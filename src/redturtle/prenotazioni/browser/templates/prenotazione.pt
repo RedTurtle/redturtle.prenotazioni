@@ -89,6 +89,10 @@ i18n:domain="redturtle.prenotazioni">
                     </tal:repeat>
                   </div>
                 </div>
+                <div class="field">
+                    <strong i18n:translate="label_booking_code">Booking code</strong>:
+                    <span tal:replace="here/getBookingCode" />
+                </div>
                 <hr />
                 <p>&nbsp;</p>
                 <div class="field" tal:condition="not:not_ajax_load">

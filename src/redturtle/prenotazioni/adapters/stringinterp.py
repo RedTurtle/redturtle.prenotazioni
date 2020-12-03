@@ -51,3 +51,16 @@ class BookingTypeSubstitution(BaseSubstitution):
 
     def safe_call(self):
         return getattr(self.context, "tipologia_prenotazione", "")
+
+
+@adapter(Interface)
+class BookingCodeSubstitution(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(u"The booking code.")
+
+    def safe_call(self):
+        code = self.context.getBookingCode()
+        if not code:
+            return ""
+        return code

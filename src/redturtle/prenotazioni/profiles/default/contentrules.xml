@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <contentrules>
  <rule name="booking-accepted"
-    title="Invia un'email all'utente quando la prenotazione è stata accettata"
+    title="Invia un'email all'utente quando la prenotazione e' stata accettata"
     description="Viene inviata una mail al richiedente per confermare la sua prenotazione"
     enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
     stop-after="False">
@@ -22,7 +22,7 @@
     <property name="source"></property>
     <property
        name="message">
-       La prenotazione per ${title} e' stata accettata.
+       La prenotazione per ${title} e' stata accettata. Il codice di prenotazione e' ${booking_code}
     </property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
@@ -49,7 +49,7 @@
     <property
        name="message">L&#x27;orario della sua prenotazione &quot;${title}&quot; e&#x27; stata modificato.
      
-La nuova data è ${booking_date} alle ore ${booking_time}.</property>
+La nuova data e' ${booking_date} alle ore ${booking_time}.</property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
     <property name="subject">Modifica data di prenotazione per ${title}</property>
@@ -57,7 +57,7 @@ La nuova data è ${booking_date} alle ore ${booking_time}.</property>
   </actions>
  </rule>
  <rule name="booking-created-user"
-    title="Invia un'email all'utente quando la prenotazione è stata creata"
+    title="Invia un'email all'utente quando la prenotazione e' stata creata"
     description="Viene inviata una mail all'utente per avvertirlo della creazione della prenotazione"
     enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
     stop-after="False">
@@ -77,9 +77,9 @@ La nuova data è ${booking_date} alle ore ${booking_time}.</property>
    <action type="plone.actions.MailFromField">
     <property name="source"/>
     <property
-       name="message">La prenotazione per il ${booking_date} alle ${booking_time} è stata creata.
+       name="message">La prenotazione per il ${booking_date} alle ${booking_time} e' stata creata.
      
-Riceverete una mail di conferma quando la prenotazione verrà confermata definitivamente.</property>
+Riceverete una mail di conferma quando la prenotazione verra' confermata definitivamente.</property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
     <property name="subject">Prenotazione creata correttamente per ${title}</property>
@@ -87,7 +87,7 @@ Riceverete una mail di conferma quando la prenotazione verrà confermata definit
   </actions>
  </rule>
  <rule name="booking-refuse"
-    title="Invia un'email all'utente quando la prenotazione è stata rifiutata"
+    title="Invia un'email all'utente quando la prenotazione e' stata rifiutata"
     description="Viene inviata una mail all'utente per avvisarlo della prenotazione rifiutata"
     enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
     stop-after="False">
@@ -106,7 +106,7 @@ Riceverete una mail di conferma quando la prenotazione verrà confermata definit
   <actions>
    <action type="plone.actions.MailFromField">
     <property name="source"></property>
-    <property name="message">La prenotazione del ${booking_date} delle ore ${booking_time} è stata rifiutata.
+    <property name="message">La prenotazione del ${booking_date} delle ore ${booking_time} e' stata rifiutata.
     </property>
     <property name="fieldName">email</property>
     <property name="target">target</property>

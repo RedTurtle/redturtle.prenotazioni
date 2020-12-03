@@ -6,6 +6,7 @@ from plone.supermodel import model
 from redturtle.prenotazioni import _
 from zope import schema
 from zope.interface import implementer
+import hashlib
 
 
 class IPrenotazione(model.Schema):
@@ -119,3 +120,10 @@ class Prenotazione(Item):
         """
         # Return reservation date
         return DateTime(self.getData_prenotazione())
+
+    def getBookingCode(self):
+        date = self.data_prenotazione.isoformat()
+        hash_obj = hashlib.blake2b(
+            bytes(date, encoding='utf8'), digest_size=3
+        )
+        return hash_obj.hexdigest().upper()
