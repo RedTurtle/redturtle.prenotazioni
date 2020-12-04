@@ -76,10 +76,10 @@ class Booker(object):
             "title": data["fullname"],
             "description": data["subject"] or "",
             "azienda": data["agency"] or "",
+            "fiscalcode": data["fiscalcode"] or "",
             "data_prenotazione": booking_date,
             "data_scadenza": data_scadenza,
-            "telefono": data.get("phone", ""),
-            "mobile": data.get("mobile", ""),
+            "phone": data.get("phone", ""),
             "email": data["email"] or "",
             "tipologia_prenotazione": data.get("tipology", ""),
         }

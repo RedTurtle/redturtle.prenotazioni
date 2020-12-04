@@ -92,6 +92,29 @@ class IPrenotazioniFolder(model.Schema):
         ),
     )
 
+    directives.widget(required_booking_fields=CheckBoxFieldWidget)
+
+    visible_booking_fields = schema.List(
+        title=_(
+            "label_visible_booking_fields", default="Visible booking fields"
+        ),
+        description=_(
+            "help_visible_booking_fields",
+            "User will not be able to add a booking unless those "
+            "fields are filled. "
+            "Remember that, "
+            "whatever you selected in this list, "
+            "users have to supply at least one "
+            u'of "Email" or "Telephone"',
+        ),
+        required=False,
+        default=["email", "phone", "subject"],
+        value_type=schema.Choice(
+            vocabulary="redturtle.prenotazioni.requirable_booking_fields"
+        ),
+    )
+    directives.widget(visible_booking_fields=CheckBoxFieldWidget)
+
     daData = schema.Date(title=_("Data inizio validità"))
 
     aData = schema.Date(
