@@ -3,19 +3,11 @@
 # Andrea Cecchi <cekk@darthmaulcekk2.station>, 2020.
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: \n"
-"POT-Creation-Date: 2020-12-03 10:00+0000\n"
-"PO-Revision-Date: 2014-05-27 09:47+0200\n"
-"Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
-"Language-Team: American English <kde-i18n-doc@kde.org>\n"
-=======
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-12-03 15:15+0000\n"
+"POT-Creation-Date: 2020-12-04 09:47+0000\n"
 "PO-Revision-Date: 2020-12-03 16:12+0100\n"
 "Last-Translator: Andrea Cecchi <cekk@darthmaulcekk2.station>\n"
 "Language-Team: English\n"
->>>>>>> master
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -68,7 +60,7 @@ msgstr "Booking Week Folder"
 msgid "Booking Year Folder"
 msgstr "Booking Year Folder"
 
-#: redturtle/prenotazioni/content/prenotazione.py:30
+#: redturtle/prenotazioni/content/prenotazione.py:31
 msgid "Booking date"
 msgstr "Booking date"
 
@@ -80,7 +72,7 @@ msgstr "Booking for"
 msgid "Booking moved"
 msgstr "Booking moved"
 
-#: redturtle/prenotazioni/content/prenotazione.py:34
+#: redturtle/prenotazioni/content/prenotazione.py:35
 msgid "Company"
 msgstr "Company"
 
@@ -127,12 +119,12 @@ msgstr "Edit moved booking Mail Action"
 msgid "Email report to prenotazione owner"
 msgstr "Email report to prenotazione owner"
 
-#: redturtle/prenotazioni/content/prenotazione.py:46
+#: redturtle/prenotazioni/content/prenotazione.py:47
 msgid "Expiration date booking"
 msgstr "Expiration date booking"
 
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:81
-#: redturtle/prenotazioni/content/prenotazione.py:42
+#: redturtle/prenotazioni/content/prenotazione.py:43
 msgid "Gate"
 msgstr "Gate"
 
@@ -140,7 +132,7 @@ msgstr "Gate"
 msgid "Informations about a single booking"
 msgstr "Informations about a single booking"
 
-#: redturtle/prenotazioni/content/prenotazione.py:35
+#: redturtle/prenotazioni/content/prenotazione.py:36
 msgid "Inserisci la denominazione dell'azienda del richiedente"
 msgstr "Inserisci la denominazione dell'azienda del richiedente"
 
@@ -180,15 +172,7 @@ msgstr "No"
 msgid "No, just for today"
 msgstr "No, just for today"
 
-<<<<<<< HEAD
-#: redturtle/prenotazioni/content/prenotazione.py:18
-msgid "Phone number"
-msgstr ""
-
-#: redturtle/prenotazioni/browser/prenotazione_add.py:339
-=======
 #: redturtle/prenotazioni/browser/prenotazione_add.py:347
->>>>>>> master
 msgid "Please check the captcha"
 msgstr "Please check the captcha"
 
@@ -245,7 +229,7 @@ msgstr "Sorry, this slot is not available or does not fit your booking."
 msgid "Sorry, you can not book this slot for now."
 msgstr "Sorry, you can not book this slot for now."
 
-#: redturtle/prenotazioni/content/prenotazione.py:42
+#: redturtle/prenotazioni/content/prenotazione.py:43
 msgid "Sportello a cui presentarsi"
 msgstr "Sportello a cui presentarsi"
 
@@ -266,11 +250,11 @@ msgid "The booked time."
 msgstr "The booked time."
 
 #: redturtle/prenotazioni/adapters/stringinterp.py:60
-msgid "The booking print url."
-msgstr "The booking print url."
-
-#: redturtle/prenotazioni/adapters/stringinterp.py:60
 msgid "The booking code."
+msgstr ""
+
+#: redturtle/prenotazioni/adapters/stringinterp.py:73
+msgid "The booking print url."
 msgstr ""
 
 #: redturtle/prenotazioni/adapters/stringinterp.py:50
@@ -445,15 +429,9 @@ msgstr "description_gate"
 msgid "description_title"
 msgstr "description_title"
 
-<<<<<<< HEAD
-#: redturtle/prenotazioni/content/prenotazione.py:17
-msgid "email"
-msgstr ""
-=======
-#: redturtle/prenotazioni/content/prenotazione.py:21
+#: redturtle/prenotazioni/content/prenotazione.py:22
 msgid "fiscalcode"
-msgstr "fiscalcode"
->>>>>>> master
+msgstr ""
 
 #. Default: "Foreseen booking time: ${booking_time}"
 #: redturtle/prenotazioni/browser/week.py:228
@@ -717,16 +695,7 @@ msgstr "legend_note"
 #. Default: "Type in here the message that you want to mail. Some defined content can be replaced: ${title} will be replaced with booking title (user fullname). ${date} will be replaced with booking new date. ${url} will be replaced by the booking url. ${portal} will be replaced by the title of the portal."
 #: redturtle/prenotazioni/contentrules/sendMovedPrenotazione.py:44
 msgid "message_help"
-<<<<<<< HEAD
 msgstr ""
-
-#. Default: "Mobile number"
-#: redturtle/prenotazioni/content/prenotazione.py:20
-msgid "mobile"
-msgstr ""
-=======
-msgstr "message_help"
->>>>>>> master
 
 #. Default: "End time in the morning"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:33
@@ -850,7 +819,7 @@ msgstr "source_help"
 
 #. Default: "Staff notes"
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:85
-#: redturtle/prenotazioni/content/prenotazione.py:50
+#: redturtle/prenotazioni/content/prenotazione.py:51
 msgid "staff_notes_label"
 msgstr "staff_notes_label"
 

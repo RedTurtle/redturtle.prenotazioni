@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-12-03 15:15+0000\n"
+"POT-Creation-Date: 2020-12-04 09:47+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -59,7 +59,7 @@ msgstr "Cartella settimana prenotazioni"
 msgid "Booking Year Folder"
 msgstr "Cartella anno prenotazioni"
 
-#: redturtle/prenotazioni/content/prenotazione.py:30
+#: redturtle/prenotazioni/content/prenotazione.py:31
 msgid "Booking date"
 msgstr "Data prenotazione"
 
@@ -71,7 +71,7 @@ msgstr "Prenotazione di"
 msgid "Booking moved"
 msgstr "Prenotazione spostata"
 
-#: redturtle/prenotazioni/content/prenotazione.py:34
+#: redturtle/prenotazioni/content/prenotazione.py:35
 msgid "Company"
 msgstr "Azienda"
 
@@ -118,12 +118,12 @@ msgstr "Modifica Mail Action per lo spostamento delle prenotazioni"
 msgid "Email report to prenotazione owner"
 msgstr "Report email al creatore della prenotazione"
 
-#: redturtle/prenotazioni/content/prenotazione.py:46
+#: redturtle/prenotazioni/content/prenotazione.py:47
 msgid "Expiration date booking"
 msgstr "Data scandenza prenotazione"
 
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:81
-#: redturtle/prenotazioni/content/prenotazione.py:42
+#: redturtle/prenotazioni/content/prenotazione.py:43
 msgid "Gate"
 msgstr "Sportello"
 
@@ -131,7 +131,7 @@ msgstr "Sportello"
 msgid "Informations about a single booking"
 msgstr "Informazioni relativa ad una singola prenotazione"
 
-#: redturtle/prenotazioni/content/prenotazione.py:35
+#: redturtle/prenotazioni/content/prenotazione.py:36
 msgid "Inserisci la denominazione dell'azienda del richiedente"
 msgstr "Inserisci la denominazione dell'azienda del richiedente"
 
@@ -171,11 +171,6 @@ msgstr "No"
 msgid "No, just for today"
 msgstr "No, solo per oggi"
 
-#: redturtle/prenotazioni/content/prenotazione.py:18
-msgid "Phone number"
-msgstr "Numero di telefono"
-
-#: redturtle/prenotazioni/browser/prenotazione_add.py:339
 #: redturtle/prenotazioni/browser/prenotazione_add.py:347
 msgid "Please check the captcha"
 msgstr "Per favore controlla il captcha"
@@ -233,7 +228,7 @@ msgstr "Ci dispiace questo intervallo di tempo non è disponibile o non è adatt
 msgid "Sorry, you can not book this slot for now."
 msgstr "Ci dispiace, ma questo intervallo di tempo non è al momento disponibile"
 
-#: redturtle/prenotazioni/content/prenotazione.py:42
+#: redturtle/prenotazioni/content/prenotazione.py:43
 msgid "Sportello a cui presentarsi"
 msgstr "Sportello a cui presentarsi"
 
@@ -255,9 +250,11 @@ msgstr "L'orario di prenotazione"
 
 #: redturtle/prenotazioni/adapters/stringinterp.py:60
 msgid "The booking code."
-msgstr "Il codice associato alla prenotazione."
+msgstr "Il codice di prenotazione"
+
+#: redturtle/prenotazioni/adapters/stringinterp.py:73
 msgid "The booking print url."
-msgstr "L'url per la stampa della prenotazione."
+msgstr "L'url per stampare la prenotazione"
 
 #: redturtle/prenotazioni/adapters/stringinterp.py:50
 msgid "The booking type."
@@ -432,12 +429,9 @@ msgstr "Lo sportello che non sarà disponibile"
 msgid "description_title"
 msgstr "Questo testo apparirà nelle celle del calendario."
 
-#: redturtle/prenotazioni/content/prenotazione.py:17
-msgid "email"
-msgstr "email"
-#: redturtle/prenotazioni/content/prenotazione.py:21
+#: redturtle/prenotazioni/content/prenotazione.py:22
 msgid "fiscalcode"
-msgstr "Codice fiscale"
+msgstr ""
 
 #. Default: "Foreseen booking time: ${booking_time}"
 #: redturtle/prenotazioni/browser/week.py:228
@@ -485,7 +479,6 @@ msgstr "Lista dei tipi di prenotazione disponibili per l'agenda corrente"
 
 #. Default: "User will not be able to add a booking unless those fields are filled. Remember that, whatever you selected in this list, users have to supply at least one of \"Email\" or \"Telephone\""
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:101
-#, fuzzy
 msgid "help_visible_booking_fields"
 msgstr "Gli utenti vedranno solo i campi selezionati all'atto della creazione della prenotazione."
 
@@ -706,11 +699,6 @@ msgstr "L'unità di tempo minima è 5 minuti. La tua prenotazione non può ecced
 msgid "message_help"
 msgstr "Inserisci il messaggio che vuoi inviare per mail. E' possibile inserire alcuni marcatori che verranno sostituiti con dei valori presi dall'applicazione.\"${title}\" sarà sostituito con il titolo della prenotazione (il nome e cognome dell'utente). \"${date}\" sarà sostituito con la data della prenotazione. \"${url}\" sarà sostituito  dall'url della prenotazione. ${portal} sarà sostituito  con il titolo del portale. "
 
-#. Default: "Mobile number"
-#: redturtle/prenotazioni/content/prenotazione.py:20
-msgid "mobile"
-msgstr "Numero di cellulare"
-
 #. Default: "End time in the morning"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:33
 msgid "morning_end_label"
@@ -833,7 +821,7 @@ msgstr "Il mittente della mail. Se nessun indirizzo viene inserito verrà utiliz
 
 #. Default: "Staff notes"
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:85
-#: redturtle/prenotazioni/content/prenotazione.py:50
+#: redturtle/prenotazioni/content/prenotazione.py:51
 msgid "staff_notes_label"
 msgstr "Note del personale"
 

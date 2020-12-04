@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-12-03 15:15+0000\n"
+"POT-Creation-Date: 2020-12-04 09:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,7 +59,7 @@ msgstr ""
 msgid "Booking Year Folder"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazione.py:30
+#: redturtle/prenotazioni/content/prenotazione.py:31
 msgid "Booking date"
 msgstr ""
 
@@ -71,7 +71,7 @@ msgstr ""
 msgid "Booking moved"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazione.py:34
+#: redturtle/prenotazioni/content/prenotazione.py:35
 msgid "Company"
 msgstr ""
 
@@ -118,12 +118,12 @@ msgstr ""
 msgid "Email report to prenotazione owner"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazione.py:46
+#: redturtle/prenotazioni/content/prenotazione.py:47
 msgid "Expiration date booking"
 msgstr ""
 
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:81
-#: redturtle/prenotazioni/content/prenotazione.py:42
+#: redturtle/prenotazioni/content/prenotazione.py:43
 msgid "Gate"
 msgstr ""
 
@@ -131,7 +131,7 @@ msgstr ""
 msgid "Informations about a single booking"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazione.py:35
+#: redturtle/prenotazioni/content/prenotazione.py:36
 msgid "Inserisci la denominazione dell'azienda del richiedente"
 msgstr ""
 
@@ -171,11 +171,6 @@ msgstr ""
 msgid "No, just for today"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazione.py:18
-msgid "Phone number"
-msgstr ""
-
-#: redturtle/prenotazioni/browser/prenotazione_add.py:339
 #: redturtle/prenotazioni/browser/prenotazione_add.py:347
 msgid "Please check the captcha"
 msgstr ""
@@ -233,7 +228,7 @@ msgstr ""
 msgid "Sorry, you can not book this slot for now."
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazione.py:42
+#: redturtle/prenotazioni/content/prenotazione.py:43
 msgid "Sportello a cui presentarsi"
 msgstr ""
 
@@ -255,6 +250,9 @@ msgstr ""
 
 #: redturtle/prenotazioni/adapters/stringinterp.py:60
 msgid "The booking code."
+msgstr ""
+
+#: redturtle/prenotazioni/adapters/stringinterp.py:73
 msgid "The booking print url."
 msgstr ""
 
@@ -430,9 +428,7 @@ msgstr ""
 msgid "description_title"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazione.py:17
-msgid "email"
-#: redturtle/prenotazioni/content/prenotazione.py:21
+#: redturtle/prenotazioni/content/prenotazione.py:22
 msgid "fiscalcode"
 msgstr ""
 
@@ -700,11 +696,6 @@ msgstr ""
 msgid "message_help"
 msgstr ""
 
-#. Default: "Mobile number"
-#: redturtle/prenotazioni/content/prenotazione.py:20
-msgid "mobile"
-msgstr ""
-
 #. Default: "End time in the morning"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:33
 msgid "morning_end_label"
@@ -827,7 +818,7 @@ msgstr ""
 
 #. Default: "Staff notes"
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:85
-#: redturtle/prenotazioni/content/prenotazione.py:50
+#: redturtle/prenotazioni/content/prenotazione.py:51
 msgid "staff_notes_label"
 msgstr ""
 
