@@ -60,7 +60,7 @@ class IsNotfutureDate(ValidationError):
 
 class InvalidFiscalcode(ValidationError):
     __doc__ = _("invalid_fiscalcode", u"Invalid fiscal code")
-    
+
 
 def check_phone_number(value):
     """
@@ -93,14 +93,12 @@ def check_valid_fiscalcode(value):
         return True
     value = value.upper()
     if not len(value) == 16:
-        #return "La lunghezza del codice fiscale dovrebbe essere lungo esattamente 16 caratteri."
         raise InvalidFiscalcode(value)
 
     validi = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     for c in value:
         if c not in validi:
-                raise InvalidFiscalcode(value)
-                #return "Il codice fiscale contiene un carattere non valido: %s" % c
+            raise InvalidFiscalcode(value)
 
     set1 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     set2 = "ABCDEFGHIJABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -113,9 +111,8 @@ def check_valid_fiscalcode(value):
     for i in range(0, 15, 2):
         s += setdisp.find(set2[set1.find(value[i])])
 
-    if s % 26 != (ord(value[15])-ord('A'[0])):
+    if s % 26 != (ord(value[15]) - ord('A'[0])):
         raise InvalidFiscalcode(value)
-        #return "Il codice fiscale non è corretto: il codice di controllo non corrisponde"
 
     return True
 
