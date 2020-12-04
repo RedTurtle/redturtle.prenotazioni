@@ -51,3 +51,16 @@ class BookingTypeSubstitution(BaseSubstitution):
 
     def safe_call(self):
         return getattr(self.context, "tipologia_prenotazione", "")
+
+
+@adapter(Interface)
+class BookingUrlSubstitution(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(u"The booking print url.")
+
+    def safe_call(self):
+        return "{folder}/@@prenotazione_print?uid={uid}".format(
+            folder=self.context.getPrenotazioniFolder().absolute_url(),
+            uid=self.context.UID(),
+        )

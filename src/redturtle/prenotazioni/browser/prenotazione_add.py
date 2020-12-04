@@ -128,12 +128,6 @@ class IAddForm(Interface):
         default=u"",
         constraint=check_phone_number,
     )
-    mobile = TextLine(
-        title=_("label_mobile", u"Mobile number"),
-        required=False,
-        default=u"",
-        constraint=check_phone_number,
-    )
     subject = Text(
         title=_("label_subject", u"Subject"), default=u"", required=False
     )
@@ -145,6 +139,11 @@ class IAddForm(Interface):
         ),
         default=u"",
         required=False,
+    )
+    fiscalcode = TextLine(
+        title=_("label_fiscalcode", u"Fiscal code"),
+        required=False,
+        default=u"",
     )
     captcha = TextLine(title=u" ", description=u"", required=False)
 
@@ -175,9 +174,18 @@ class AddForm(form.AddForm):
         )
         self.widgets["booking_date"].value = bookingdate
 
+        possibly_visible_fields = [
+            "email", "phone", "subject", "agency", "fiscalcode"
+        ]
+
         for f in self.widgets.values():
+            if f.__name__ == 'tipology':
+                continue
             if f.__name__ in self.context.required_booking_fields:
                 f.required = True
+            if f.__name__ in possibly_visible_fields and \
+               f.__name__ not in self.context.visible_booking_fields:
+                f.mode = 'hidden'
 
     @property
     @memoize
@@ -442,10 +450,10 @@ class AddForm(form.AddForm):
                 "data_scadenza": getattr(booking, "data_scadenza", ""),
                 "description": getattr(booking, "description", ""),
                 "email": getattr(booking, "email", ""),
+                "fiscalcode": getattr(booking, "fiscalcode", ""),
                 "gate": getattr(booking, "gate", ""),
-                "mobile": getattr(booking, "mobile", ""),
+                "phone": getattr(booking, "phone", ""),
                 "staff_notes": getattr(booking, "staff_notes", ""),
-                "telefono": getattr(booking, "telefono", ""),
                 "tipologia_prenotazione": getattr(
                     booking, "tipologia_prenotazione", ""
                 ),

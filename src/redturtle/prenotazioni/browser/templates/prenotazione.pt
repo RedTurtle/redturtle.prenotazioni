@@ -44,26 +44,26 @@ i18n:domain="redturtle.prenotazioni">
                     <strong i18n:translate="label_typology">Typology</strong>:
                     <span tal:replace="here/getTipologia_prenotazione" />
                 </div>
-                <div class="field" tal:condition="here/getEmail">
-                    <strong i18n:translate="">E-mail</strong>:
+                <div class="field">
+                    <strong i18n:translate="label_email">Email</strong>:
                     <a tal:attributes="href string:mailto:${here/getEmail}"
                     tal:content="here/getEmail" />
                 </div>
-                <div class="field" tal:condition="here/getTelefono">
+                <div class="field">
                     <strong i18n:translate="label_phone">Phone number</strong>:
-                    <span tal:replace="here/getTelefono" />
+                    <span tal:replace="here/phone" />
                 </div>
                 <div class="field">
-                  <strong i18n:translate="label_mobile">Mobile number</strong>:
-                  <span tal:replace="here/getMobile" />
+                    <strong i18n:translate="label_subject">Subject</strong>:
+                    <span tal:replace="here/description" />
                 </div>
                 <div class="field">
                     <strong i18n:translate="label_agency">Agency</strong>:
                     <span tal:replace="here/getAzienda" />
                 </div>
                 <div class="field">
-                    <strong i18n:translate="label_subject">Subject</strong>:
-                    <span tal:replace="here/description" />
+                    <strong i18n:translate="label_fiscalcode">Fiscal code</strong>:
+                    <span tal:replace="here/getFiscalcode" />
                 </div>
                 <div class="field">
                     <strong i18n:translate="label_booking_date">Booking date</strong>:

@@ -20,9 +20,10 @@
   <actions>
    <action type="plone.actions.MailFromField">
     <property name="source"></property>
-    <property
-       name="message">
-       La prenotazione per ${title} e' stata accettata.
+    <property name="message">
+La prenotazione per ${title} e' stata accettata.
+
+Se non hai salvato o stampato il promemoria, puoi visualizzarlo a questo link: ${booking_print_url}
     </property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
@@ -47,9 +48,13 @@
    <action type="plone.actions.MailFromField">
     <property name="source"></property>
     <property
-       name="message">L&#x27;orario della sua prenotazione &quot;${title}&quot; e&#x27; stata modificato.
+       name="message">
+L&#x27;orario della sua prenotazione &quot;${title}&quot; e&#x27; stata modificato.
      
-La nuova data è ${booking_date} alle ore ${booking_time}.</property>
+La nuova data è ${booking_date} alle ore ${booking_time}.
+
+Controlla o stampa il nuovo promemoria a questo link: ${booking_print_url}
+</property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
     <property name="subject">Modifica data di prenotazione per ${title}</property>
@@ -76,10 +81,13 @@ La nuova data è ${booking_date} alle ore ${booking_time}.</property>
   <actions>
    <action type="plone.actions.MailFromField">
     <property name="source"/>
-    <property
-       name="message">La prenotazione per il ${booking_date} alle ${booking_time} è stata creata.
+    <property name="message">
+La prenotazione per il ${booking_date} alle ${booking_time} è stata creata.
      
-Riceverete una mail di conferma quando la prenotazione verrà confermata definitivamente.</property>
+Riceverete una mail di conferma quando la prenotazione verrà confermata definitivamente.
+
+Se non hai salvato o stampato il promemoria, puoi visualizzarlo a questo link: ${booking_print_url}
+    </property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
     <property name="subject">Prenotazione creata correttamente per ${title}</property>
