@@ -43,17 +43,11 @@ i18n:domain="redturtle.prenotazioni">
                         </td>
                         <td tal:content="prenotazione/getEmail"></td>
                     </tr>
-                    <tr>
+                    <tr tal:condition="prenotazione/getPhone">
                         <td>
                             <b i18n:translate="label_phone">Phone number</b>
                         </td>
-                        <td tal:content="prenotazione/getTelefono"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b i18n:translate="label_mobile">Mobile number</b>
-                        </td>
-                        <td tal:content="prenotazione/getMobile"></td>
+                        <td tal:content="prenotazione/getPhone"></td>
                     </tr>
                     <tr>
                         <td>
@@ -61,11 +55,17 @@ i18n:domain="redturtle.prenotazioni">
                         </td>
                         <td tal:content="prenotazione/description"></td>
                     </tr>
-                    <tr>
+                    <tr tal:condition="prenotazione/azienda">
                         <td>
                             <b i18n:translate="label_agency">Agency</b>
                         </td>
                         <td tal:content="prenotazione/azienda"></td>
+                    </tr>
+                    <tr tal:condition="prenotazione/getFiscalcode">
+                        <td>
+                            <b i18n:translate="label_fiscalcode">Fiscal code</b>
+                        </td>
+                        <td tal:content="prenotazione/getFiscalcode"></td>
                     </tr>
                     <tr>
                         <td>

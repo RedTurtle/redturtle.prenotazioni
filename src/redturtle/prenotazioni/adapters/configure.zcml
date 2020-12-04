@@ -43,10 +43,16 @@
         name="booking_time"
     />
     <adapter
-    for="*"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".stringinterp.BookingTypeSubstitution"
-    name="booking_type"
+        for="*"
+        provides="plone.stringinterp.interfaces.IStringSubstitution"
+        factory=".stringinterp.BookingTypeSubstitution"
+        name="booking_type"
+    />
+    <adapter
+        for="*"
+        provides="plone.stringinterp.interfaces.IStringSubstitution"
+        factory=".stringinterp.BookingUrlSubstitution"
+        name="booking_print_url"
     />
     <adapter
     for="*"

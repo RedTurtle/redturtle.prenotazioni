@@ -246,8 +246,7 @@ class VacationBooking(form.Form):
                 "subject": u"",
                 "agency": u"",
                 "booking_date": booking_date,
-                "telefono": u"",
-                "mobile": u"",
+                "phone": u"",
                 "email": u"",
                 "tipologia_prenotazione": u"",
             }
