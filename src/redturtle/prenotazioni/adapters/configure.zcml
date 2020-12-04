@@ -54,4 +54,10 @@
         factory=".stringinterp.BookingUrlSubstitution"
         name="booking_print_url"
     />
+    <adapter
+    for="*"
+    provides="plone.stringinterp.interfaces.IStringSubstitution"
+    factory=".stringinterp.BookingCodeSubstitution"
+    name="booking_code"
+    />
 </configure>

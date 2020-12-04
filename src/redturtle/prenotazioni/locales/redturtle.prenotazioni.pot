@@ -159,7 +159,7 @@ msgstr ""
 msgid "Morning start should not be greater than end."
 msgstr ""
 
-#: redturtle/prenotazioni/browser/templates/prenotazione.pt:107
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:111
 msgid "Move booking"
 msgstr ""
 
@@ -171,6 +171,11 @@ msgstr ""
 msgid "No, just for today"
 msgstr ""
 
+#: redturtle/prenotazioni/content/prenotazione.py:18
+msgid "Phone number"
+msgstr ""
+
+#: redturtle/prenotazioni/browser/prenotazione_add.py:339
 #: redturtle/prenotazioni/browser/prenotazione_add.py:347
 msgid "Please check the captcha"
 msgstr ""
@@ -195,7 +200,7 @@ msgstr ""
 msgid "PrenotazioniYear"
 msgstr ""
 
-#: redturtle/prenotazioni/browser/templates/prenotazione_print.pt:103
+#: redturtle/prenotazioni/browser/templates/prenotazione_print.pt:109
 msgid "Print"
 msgstr ""
 
@@ -249,6 +254,7 @@ msgid "The booked time."
 msgstr ""
 
 #: redturtle/prenotazioni/adapters/stringinterp.py:60
+msgid "The booking code."
 msgid "The booking print url."
 msgstr ""
 
@@ -424,6 +430,8 @@ msgstr ""
 msgid "description_title"
 msgstr ""
 
+#: redturtle/prenotazioni/content/prenotazione.py:17
+msgid "email"
 #: redturtle/prenotazioni/content/prenotazione.py:21
 msgid "fiscalcode"
 msgstr ""
@@ -521,6 +529,12 @@ msgstr ""
 #: redturtle/prenotazioni/browser/templates/manager_notification_mail.pt:40
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:61
 msgid "label_agency"
+msgstr ""
+
+#. Default: "Booking code"
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:93
+#: redturtle/prenotazioni/browser/templates/prenotazione_print.pt:92
+msgid "label_booking_code"
 msgstr ""
 
 #. Default: "Booking date"
@@ -686,6 +700,11 @@ msgstr ""
 msgid "message_help"
 msgstr ""
 
+#. Default: "Mobile number"
+#: redturtle/prenotazioni/content/prenotazione.py:20
+msgid "mobile"
+msgstr ""
+
 #. Default: "End time in the morning"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:33
 msgid "morning_end_label"
@@ -698,13 +717,13 @@ msgstr ""
 
 #. Default: "Go back to the calendar"
 #: redturtle/prenotazioni/browser/prenotazioni_search.py:185
-#: redturtle/prenotazioni/browser/templates/prenotazione.pt:134
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:138
 #: redturtle/prenotazioni/browser/templates/prenotazione_add.pt:88
 msgid "move_back_message"
 msgstr ""
 
 #. Default: "Move booking"
-#: redturtle/prenotazioni/browser/templates/prenotazione.pt:114
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:118
 msgid "move_booking"
 msgstr ""
 
@@ -762,7 +781,7 @@ msgid "refused-review-state-warning"
 msgstr ""
 
 #. Default: "Reject booking"
-#: redturtle/prenotazioni/browser/templates/prenotazione.pt:124
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:128
 msgid "reject_booking"
 msgstr ""
 
@@ -858,7 +877,7 @@ msgid "vacation_booking"
 msgstr ""
 
 #. Default: "View booking"
-#: redturtle/prenotazioni/browser/templates/prenotazione.pt:101
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:105
 #: redturtle/prenotazioni/browser/templates/prenotazione_macros.pt:296
 msgid "view_booking"
 msgstr ""

@@ -159,7 +159,7 @@ msgstr "Messaggio"
 msgid "Morning start should not be greater than end."
 msgstr "L'orario di inizio della mattina non può essere successivo alla fine."
 
-#: redturtle/prenotazioni/browser/templates/prenotazione.pt:107
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:111
 msgid "Move booking"
 msgstr "Sposta la prenotazione"
 
@@ -171,6 +171,11 @@ msgstr "No"
 msgid "No, just for today"
 msgstr "No, solo per oggi"
 
+#: redturtle/prenotazioni/content/prenotazione.py:18
+msgid "Phone number"
+msgstr "Numero di telefono"
+
+#: redturtle/prenotazioni/browser/prenotazione_add.py:339
 #: redturtle/prenotazioni/browser/prenotazione_add.py:347
 msgid "Please check the captcha"
 msgstr "Per favore controlla il captcha"
@@ -195,7 +200,7 @@ msgstr "PrenotazioniWeek"
 msgid "PrenotazioniYear"
 msgstr "PrenotazioniYear"
 
-#: redturtle/prenotazioni/browser/templates/prenotazione_print.pt:103
+#: redturtle/prenotazioni/browser/templates/prenotazione_print.pt:109
 msgid "Print"
 msgstr "Stampa"
 
@@ -249,6 +254,8 @@ msgid "The booked time."
 msgstr "L'orario di prenotazione"
 
 #: redturtle/prenotazioni/adapters/stringinterp.py:60
+msgid "The booking code."
+msgstr "Il codice associato alla prenotazione."
 msgid "The booking print url."
 msgstr "L'url per la stampa della prenotazione."
 
@@ -425,6 +432,9 @@ msgstr "Lo sportello che non sarà disponibile"
 msgid "description_title"
 msgstr "Questo testo apparirà nelle celle del calendario."
 
+#: redturtle/prenotazioni/content/prenotazione.py:17
+msgid "email"
+msgstr "email"
 #: redturtle/prenotazioni/content/prenotazione.py:21
 msgid "fiscalcode"
 msgstr "Codice fiscale"
@@ -526,6 +536,12 @@ msgstr "La data è nel passato."
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:61
 msgid "label_agency"
 msgstr "Azienda"
+
+#. Default: "Booking code"
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:93
+#: redturtle/prenotazioni/browser/templates/prenotazione_print.pt:92
+msgid "label_booking_code"
+msgstr "Codice prenotazione"
 
 #. Default: "Booking date"
 #: redturtle/prenotazioni/browser/templates/manager_notification_mail.pt:48
@@ -690,6 +706,11 @@ msgstr "L'unità di tempo minima è 5 minuti. La tua prenotazione non può ecced
 msgid "message_help"
 msgstr "Inserisci il messaggio che vuoi inviare per mail. E' possibile inserire alcuni marcatori che verranno sostituiti con dei valori presi dall'applicazione.\"${title}\" sarà sostituito con il titolo della prenotazione (il nome e cognome dell'utente). \"${date}\" sarà sostituito con la data della prenotazione. \"${url}\" sarà sostituito  dall'url della prenotazione. ${portal} sarà sostituito  con il titolo del portale. "
 
+#. Default: "Mobile number"
+#: redturtle/prenotazioni/content/prenotazione.py:20
+msgid "mobile"
+msgstr "Numero di cellulare"
+
 #. Default: "End time in the morning"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:33
 msgid "morning_end_label"
@@ -702,13 +723,13 @@ msgstr "Apertura mattina"
 
 #. Default: "Go back to the calendar"
 #: redturtle/prenotazioni/browser/prenotazioni_search.py:185
-#: redturtle/prenotazioni/browser/templates/prenotazione.pt:134
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:138
 #: redturtle/prenotazioni/browser/templates/prenotazione_add.pt:88
 msgid "move_back_message"
 msgstr "Ritorna al calendario"
 
 #. Default: "Move booking"
-#: redturtle/prenotazioni/browser/templates/prenotazione.pt:114
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:118
 msgid "move_booking"
 msgstr "Sposta la prenotazione"
 
@@ -766,7 +787,7 @@ msgid "refused-review-state-warning"
 msgstr "Lo stato della prenotazione è \"rifiutato\". Se lo cambi, questa prenotazione potrebbe entrare in conflitto con un'altra."
 
 #. Default: "Reject booking"
-#: redturtle/prenotazioni/browser/templates/prenotazione.pt:124
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:128
 msgid "reject_booking"
 msgstr "Rifiuta la prenotazione"
 
@@ -862,7 +883,7 @@ msgid "vacation_booking"
 msgstr "Blocco risorsa"
 
 #. Default: "View booking"
-#: redturtle/prenotazioni/browser/templates/prenotazione.pt:101
+#: redturtle/prenotazioni/browser/templates/prenotazione.pt:105
 #: redturtle/prenotazioni/browser/templates/prenotazione_macros.pt:296
 msgid "view_booking"
 msgstr "Vedi la prenotazione"

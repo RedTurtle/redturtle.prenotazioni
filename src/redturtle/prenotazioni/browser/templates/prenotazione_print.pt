@@ -87,6 +87,12 @@ i18n:domain="redturtle.prenotazioni">
                         </td>
                         <td tal:content="prenotazione/gate"></td>
                     </tr>
+                    <tr>
+                        <td>
+                            <b i18n:translate="label_booking_code">Booking code</b>
+                        </td>
+                        <td tal:content="prenotazione/getBookingCode"></td>
+                    </tr>
                 </tbody>
             </table>
 

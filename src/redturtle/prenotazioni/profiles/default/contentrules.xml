@@ -20,6 +20,10 @@
   <actions>
    <action type="plone.actions.MailFromField">
     <property name="source"></property>
+    <property
+       name="message">
+       La prenotazione per ${title} è stata accettata. Il codice di prenotazione è ${booking_code}
+    </property>
     <property name="message">
 La prenotazione per ${title} e' stata accettata.
 
