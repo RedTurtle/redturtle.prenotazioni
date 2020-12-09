@@ -161,9 +161,14 @@ class IAddForm(Interface):
         default=u"",
         constraint=check_phone_number,
     )
-    subject = Text(
-        title=_("label_subject", u"Subject"), default=u"", required=False
+
+    fiscalcode = TextLine(
+        title=_("label_fiscalcode", u"Fiscal code"),
+        required=False,
+        default=u"",
+        constraint=check_valid_fiscalcode,
     )
+
     agency = TextLine(
         title=_("label_agency", u"Agency"),
         description=_(
@@ -173,12 +178,11 @@ class IAddForm(Interface):
         default=u"",
         required=False,
     )
-    fiscalcode = TextLine(
-        title=_("label_fiscalcode", u"Fiscal code"),
-        required=False,
-        default=u"",
-        constraint=check_valid_fiscalcode,
+    
+    subject = Text(
+        title=_("label_subject", u"Subject"), default=u"", required=False
     )
+    
     captcha = TextLine(title=u" ", description=u"", required=False)
 
 

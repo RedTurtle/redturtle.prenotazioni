@@ -11,7 +11,7 @@ class RequirableBookingFieldsVocabulary(object):
     static_voc = SimpleVocabulary(
         [
             SimpleTerm(field, field, IAddForm[field].title)
-            for field in ("email", "phone", "subject", "agency", "fiscalcode")
+            for field in ("email", "phone", "fiscalcode", "agency", "subject")
         ]
     )
 
