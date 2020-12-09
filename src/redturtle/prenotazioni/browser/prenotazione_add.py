@@ -178,11 +178,11 @@ class IAddForm(Interface):
         default=u"",
         required=False,
     )
-    
+
     subject = Text(
         title=_("label_subject", u"Subject"), default=u"", required=False
     )
-    
+
     captcha = TextLine(title=u" ", description=u"", required=False)
 
 
