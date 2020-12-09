@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.2 (unreleased)
+1.0.2 (2020-12-09)
 ------------------
 
 - Changed fields order for prenotazione ct.
