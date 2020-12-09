@@ -19,7 +19,7 @@ class IPrenotazione(model.Schema):
         title=_("label_phone", u"Phone number"), required=False
     )
 
-    fiscalcode = schema.TextLine(title=_(u"fiscalcode"), required=False)
+    fiscalcode = schema.TextLine(title=_(u"label_fiscalcode"), default=u"", required=False)
 
     tipologia_prenotazione = schema.Choice(
         title=_(u"label_typology", default="Typology"),
