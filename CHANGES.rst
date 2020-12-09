@@ -5,8 +5,8 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Changed fields order for prenotazione ct.
+  [daniele]
 
 1.0.1 (2020-12-09)
 ------------------

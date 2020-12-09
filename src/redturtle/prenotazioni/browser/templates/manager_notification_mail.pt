@@ -32,10 +32,6 @@
     <strong><tal:label i18n:translate="label_phone">Phone number</tal:label>:</strong>
     ${phone}
   </li>
-  <li tal:condition="description">
-    <strong><tal:label i18n:translate="label_subject">Subject</tal:label>:</strong>
-    ${description}
-  </li>
   <li tal:condition="azienda">
     <strong><tal:label i18n:translate="label_agency">Agency</tal:label>:</strong>
     ${azienda}
@@ -43,6 +39,10 @@
   <li tal:condition="fiscalcode">
     <strong><tal:label i18n:translate="label_fiscalcode">Fiscal code</tal:label>:</strong>
     ${fiscalcode}
+  </li>
+  <li tal:condition="description">
+    <strong><tal:label i18n:translate="label_subject">Subject</tal:label>:</strong>
+    ${description}
   </li>
   <li tal:condition="python:data_prenotazione and data_scadenza">
     <strong><tal:label i18n:translate="label_booking_date">Booking date</tal:label>:</strong>
