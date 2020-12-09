@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.1 (unreleased)
+1.0.1 (2020-12-09)
 ------------------
 
 - Added logic to generate booking code on the fly.
