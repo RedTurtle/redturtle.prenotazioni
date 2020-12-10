@@ -16,35 +16,35 @@
         i18n:domain="redturtle.prenotazioni"
 >
 <ul>
-  <li tal:condition="title">
+  <li>
     <strong><tal:label i18n:translate="label_fullname">Fullname</tal:label>:</strong>
     ${title}
   </li>
-  <li tal:condition="tipologia_prenotazione">
+  <li>
     <strong><tal:label i18n:translate="label_typology">Typology</tal:label>:</strong>
     ${tipologia_prenotazione}
   </li>
-  <li tal:condition="email">
+  <li>
     <strong><tal:label i18n:translate="label_email">Email</tal:label>:</strong>
     ${email}
   </li>
-  <li tal:condition="phone">
+  <li>
     <strong><tal:label i18n:translate="label_phone">Phone number</tal:label>:</strong>
     ${phone}
   </li>
-  <li tal:condition="azienda">
+  <li>
     <strong><tal:label i18n:translate="label_agency">Agency</tal:label>:</strong>
     ${azienda}
   </li>
-  <li tal:condition="fiscalcode">
+  <li>
     <strong><tal:label i18n:translate="label_fiscalcode">Fiscal code</tal:label>:</strong>
     ${fiscalcode}
   </li>
-  <li tal:condition="description">
+  <li>
     <strong><tal:label i18n:translate="label_subject">Subject</tal:label>:</strong>
     ${description}
   </li>
-  <li tal:condition="python:data_prenotazione and data_scadenza">
+  <li>
     <strong><tal:label i18n:translate="label_booking_date">Booking date</tal:label>:</strong>
     <span i18n:translate="label_booking_date_range">
       <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(data_prenotazione)"></tal:from_date>
@@ -52,7 +52,7 @@
       to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(data_scadenza, time_only=True)"></tal:to>
     </span>
   </li>
-  <li tal:condition="gate">
+  <li>
     <strong><tal:label i18n:translate="label_gate">Gate</tal:label>:</strong>
     ${gate}
   </li>

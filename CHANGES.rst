@@ -5,7 +5,8 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix return url when click Cancel button.
+  [cekk]
 
 
 1.0.2 (2020-12-09)

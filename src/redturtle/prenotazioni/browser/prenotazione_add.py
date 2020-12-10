@@ -111,7 +111,7 @@ def check_valid_fiscalcode(value):
     for i in range(0, 15, 2):
         s += setdisp.find(set2[set1.find(value[i])])
 
-    if s % 26 != (ord(value[15]) - ord('A'[0])):
+    if s % 26 != (ord(value[15]) - ord("A"[0])):
         raise InvalidFiscalcode(value)
 
     return True
@@ -213,17 +213,23 @@ class AddForm(form.AddForm):
         self.widgets["booking_date"].value = bookingdate
 
         possibly_visible_fields = [
-            "email", "phone", "subject", "agency", "fiscalcode"
+            "email",
+            "phone",
+            "subject",
+            "agency",
+            "fiscalcode",
         ]
 
         for f in self.widgets.values():
-            if f.__name__ == 'tipology':
+            if f.__name__ == "tipology":
                 continue
             if f.__name__ in self.context.required_booking_fields:
                 f.required = True
-            if f.__name__ in possibly_visible_fields and \
-               f.__name__ not in self.context.visible_booking_fields:
-                f.mode = 'hidden'
+            if (
+                f.__name__ in possibly_visible_fields
+                and f.__name__ not in self.context.visible_booking_fields
+            ):
+                f.mode = "hidden"
 
     @property
     @memoize
@@ -323,8 +329,8 @@ class AddForm(form.AddForm):
     def back_to_booking_url(self):
         """ This goes back to booking view.
         """
-        params = self.prenotazioni.remembered_params.copy()
         b_date = self.booking_DateTime
+        params = {}
         if b_date:
             params["data"] = b_date.strftime("%d/%m/%Y")
         target = urlify(self.context.absolute_url(), params=params)
