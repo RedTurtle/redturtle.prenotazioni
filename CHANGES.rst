@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.3 (unreleased)
+1.0.3 (2020-12-10)
 ------------------
 
 - Fix return url when click Cancel button.
