@@ -193,9 +193,12 @@
           <tal:bookable condition="bookable">
             <tal:future condition="link/future">
               <a href=""
-               title="Foreseen booking time"
-               tal:attributes="href link/url;
-                               title python:week_view.get_foreseen_booking_time(day, slot)"
+                 data-title="Foreseen booking time"
+                 aria-label="Forseen booking time"
+                 class="reservation-tooltip"
+                 tal:attributes="href link/url;
+                                 data-title python:week_view.get_foreseen_booking_time(day, slot);
+                                 aria-label python:week_view.get_foreseen_booking_time(day, slot)"
               >+</a>
             </tal:future>
             <tal:past condition="not:link/future">
