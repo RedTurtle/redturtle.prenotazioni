@@ -5,7 +5,8 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- feat: tooltip on add button
+  [nzambello]
 
 
 1.0.3 (2020-12-10)
