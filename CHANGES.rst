@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.4 (unreleased)
+1.1.0 (2020-12-15)
 ------------------
 
 - feat: tooltip on add button
