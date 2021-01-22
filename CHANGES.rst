@@ -5,7 +5,8 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- [new] Add contact fields to booking folder [lucabel]
+  [new] Add string interpolation adapters for new fields [lucabel]
 
 
 1.1.0 (2020-12-15)
