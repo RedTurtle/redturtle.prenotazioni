@@ -123,7 +123,7 @@ class BookingUrlSubstitution(BaseSubstitution):
 @adapter(Interface)
 class BookingUserPhoneSubstitution(BaseSubstitution):
 
-    category = _(u"User phone")
+    category = _(u"Booking")
     description = _(u"The phone number of the user who made the reservation.")
 
     def safe_call(self):
@@ -133,7 +133,7 @@ class BookingUserPhoneSubstitution(BaseSubstitution):
 @adapter(Interface)
 class BookingUserEmailSubstitution(BaseSubstitution):
 
-    category = _(u"User email")
+    category = _(u"Booking")
     description = _(u"The email address of the user who made the reservation.")
 
     def safe_call(self):
