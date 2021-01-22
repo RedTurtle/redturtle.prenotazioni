@@ -40,3 +40,4 @@ reports/
 !.gitkeep
 !.travis.yml
 !src/redturtle
+.Python

@@ -4,6 +4,19 @@ from redturtle.prenotazioni import _
 from zope.component import adapter
 from zope.interface import Interface
 
+try:
+    from plone.app.event.base import spell_date
+
+    have_spell_date = True
+except ImportError:
+    from redturtle.prenotazioni import prenotazioniLogger as logger
+
+    have_spell_date = False
+    logger.exception(
+        "\n\nImpossibile importare spell_date da plone.app.event; non si potrà"
+        " usare ${booking_human_readable_start} nel markup content rules\n\n"
+    )
+
 
 @adapter(Interface)
 class GateSubstitution(BaseSubstitution):
@@ -30,6 +43,20 @@ class BookingDateSubstitution(BaseSubstitution):
 
 
 @adapter(Interface)
+class BookingEndDateSubstitution(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(u"The booked end date.")
+
+    def safe_call(self):
+        plone = self.context.restrictedTraverse("@@plone")
+        date = getattr(self.context, "data_scadenza", "")
+        if not date:
+            return ""
+        return plone.toLocalizedTime(date)
+
+
+@adapter(Interface)
 class BookingTimeSubstitution(BaseSubstitution):
 
     category = _(u"Booking")
@@ -38,6 +65,20 @@ class BookingTimeSubstitution(BaseSubstitution):
     def safe_call(self):
         plone = self.context.restrictedTraverse("@@plone")
         date = getattr(self.context, "data_prenotazione", "")
+        if not date:
+            return ""
+        return plone.toLocalizedTime(date, time_only=True)
+
+
+@adapter(Interface)
+class BookingTimeEndSubstitution(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(u"The booking time end.")
+
+    def safe_call(self):
+        plone = self.context.restrictedTraverse("@@plone")
+        date = getattr(self.context, "data_scadenza", "")
         if not date:
             return ""
         return plone.toLocalizedTime(date, time_only=True)
@@ -77,3 +118,111 @@ class BookingUrlSubstitution(BaseSubstitution):
             folder=self.context.getPrenotazioniFolder().absolute_url(),
             uid=self.context.UID(),
         )
+
+
+@adapter(Interface)
+class BookingUserPhoneSubstitution(BaseSubstitution):
+
+    category = _(u"User phone")
+    description = _(u"The phone number of the user who made the reservation.")
+
+    def safe_call(self):
+        return getattr(self.context, "phone", "")
+
+
+@adapter(Interface)
+class BookingUserEmailSubstitution(BaseSubstitution):
+
+    category = _(u"User email")
+    description = _(u"The email address of the user who made the reservation.")
+
+    def safe_call(self):
+        return getattr(self.context, "email", "")
+
+
+@adapter(Interface)
+class BookingOfficeContactPhoneSubstitution(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(u"The booking office contact phone.")
+
+    def safe_call(self):
+        prenotazioni_folder = self.context.getPrenotazioniFolder()
+        return getattr(prenotazioni_folder, "phone", "")
+
+
+@adapter(Interface)
+class BookingOfficeContactPecSubstitution(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(u"The booking office contact pec address.")
+
+    def safe_call(self):
+        prenotazioni_folder = self.context.getPrenotazioniFolder()
+        return getattr(prenotazioni_folder, "pec", "")
+
+
+@adapter(Interface)
+class BookingOfficeContactFaxSubstitution(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(u"The booking office contact fax.")
+
+    def safe_call(self):
+        prenotazioni_folder = self.context.getPrenotazioniFolder()
+        return getattr(prenotazioni_folder, "fax", "")
+
+
+@adapter(Interface)
+class BookingHowToGetToOfficeSubsitution(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(
+        u"The information to reach the office where user book a" " reservation"
+    )
+
+    def safe_call(self):
+        prenotazioni_folder = self.context.getPrenotazioniFolder()
+        return getattr(prenotazioni_folder, "how_to_get_here", "")
+
+
+@adapter(Interface)
+class BookingOfficeCompleteAddressSubstitution(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(
+        u"The complete address information of the office where"
+        "user book a reservation"
+    )
+
+    def safe_call(self):
+        prenotazioni_folder = self.context.getPrenotazioniFolder()
+        return getattr(prenotazioni_folder, "complete_address", "")
+
+
+@adapter(Interface)
+class BookingHRDateStartSubstitution(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(u"The booking human readable date")
+
+    def safe_call(self):
+        # we need something like martedì 8 settembre 2020 alle ore 11:15
+
+        date = getattr(self.context, "data_prenotazione", "")
+        if not date:
+            return ""
+
+        if not have_spell_date:
+            return "SPELL_DATE_NOT_AVAILABLE"
+
+        info = spell_date(self.context.data_prenotazione, self.context)
+        day = "{day_name} {day_number} {month_name} {year} alle ore {hour}:{minute}".format(  # noqa
+            day_name=info["wkday_name"],
+            day_number=info["day"],
+            month_name=info["month_name"],
+            year=info["year"],
+            hour=info["hour"],
+            minute=info["minute2"],
+        )
+        return day
