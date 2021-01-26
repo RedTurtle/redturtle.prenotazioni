@@ -9,6 +9,10 @@ from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni.adapters.slot import (
+    interval_is_contained,
+    is_intervals_overlapping,
+)
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.interface import implementer
@@ -17,6 +21,43 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.interface import Invalid
 from zope.interface import invariant
+from zope.component import provideAdapter
+from z3c.form import validator
+
+
+def get_dgf_values_from_request(request, fieldname, columns=[]):
+    """
+    Validator with datagridfield works in a fuzzy way. We need to extract
+    values from request to be sure we are validating correct data.
+    """
+
+    def get_from_form(form, fieldname):
+        value = form.get(fieldname, None)
+        if value:
+            if isinstance(value, list):
+                return value[0]
+            if isinstance(value, str):
+                return value
+        return None
+
+    number_of_entry = request.form.get(
+        "form.widgets.{}.count".format(fieldname)
+    )
+    data = []
+    prefix = "form.widgets.{}".format(fieldname)
+    for counter in range(int(number_of_entry)):
+        row_data = {}
+        for column in columns:
+            indexed_prefix = "{}.{}.widgets.".format(prefix, counter)
+            row_data.update(
+                {
+                    column: get_from_form(
+                        request.form, "{}{}".format(indexed_prefix, column)
+                    )
+                }
+            )
+        data.append(row_data)
+    return data
 
 
 class IWeekTableRow(model.Schema):
@@ -45,6 +86,39 @@ class IWeekTableRow(model.Schema):
 
     afternoon_end = schema.Choice(
         title=_("afternoon_end_label", default="End time in the afternoon"),
+        vocabulary="redturtle.prenotazioni.VocOreInizio",
+        required=False,
+    )
+
+
+class IPauseTableRow(model.Schema):
+    def get_options():  # noqa
+        """ Return the options for the day widget
+        """
+        options = [
+            SimpleTerm(value=None, token=None, title=_("Select a day")),
+            SimpleTerm(value=0, token=0, title=_("Monday")),
+            SimpleTerm(value=1, token=1, title=_("Tuesday")),
+            SimpleTerm(value=2, token=2, title=_("Wednesday")),
+            SimpleTerm(value=3, token=3, title=_("Thursday")),
+            SimpleTerm(value=4, token=4, title=_("Friday")),
+            SimpleTerm(value=5, token=5, title=_("Saturday")),
+            SimpleTerm(value=6, token=6, title=_("Sunday")),
+        ]
+        return SimpleVocabulary(options)
+
+    day = schema.Choice(
+        title=_("day_label", default="Day of week"),
+        required=True,
+        source=get_options(),
+    )
+    pause_start = schema.Choice(
+        title=_("pause_start_label", default="Pause start"),
+        vocabulary="redturtle.prenotazioni.VocOreInizio",
+        required=False,
+    )
+    pause_end = schema.Choice(
+        title=_("pause_end_label", default="Pause end"),
         vocabulary="redturtle.prenotazioni.VocOreInizio",
         required=False,
     )
@@ -213,6 +287,14 @@ class IPrenotazioniFolder(model.Schema):
     )
     form.widget(week_table=DataGridFieldFactory)
 
+    pause_table = schema.List(
+        title=_("Pause table"),
+        description=_("Insert pause table schema."),
+        required=False,
+        value_type=DictRow(title="Pause row", schema=IPauseTableRow),
+    )
+    form.widget(pause_table=DataGridFieldFactory)
+
     holidays = schema.List(
         title=_("holidays_label", default="Holidays"),
         description=_(
@@ -338,7 +420,7 @@ class IPrenotazioniFolder(model.Schema):
         label=_("contacts_label", default=u"Contacts"),
         description=_(
             "contacts_help",
-            default=u"Show here contacts information that will be used by authomatic mail system",
+            default=u"Show here contacts information that will be used by authomatic mail system",  # noqa
         ),
         fields=["how_to_get_here", "phone", "fax", "pec", "complete_address"],
     )
@@ -366,6 +448,93 @@ class IPrenotazioniFolder(model.Schema):
                     raise Invalid(
                         _(u"Afternoon start should not be greater than end.")
                     )
+
+
+class PauseValidator(validator.SimpleFieldValidator):
+    """z3c.form validator class for international phone numbers
+    """
+
+    def validate(self, pause_table):
+        """Validate international phone number on input
+        """
+        super(PauseValidator, self).validate(pause_table)
+        pause_table = get_dgf_values_from_request(
+            self.context.REQUEST,
+            "pause_table",
+            ["day", "pause_start", "pause_end"],
+        )
+        if not pause_table:
+            return
+
+        week_table = get_dgf_values_from_request(
+            self.context.REQUEST,
+            "week_table",
+            [
+                "day",
+                "morning_start",
+                "morning_end",
+                "afternoon_start",
+                "afternoon_end",
+            ],
+        )
+
+        # validate pauses
+        groups_of_pause = {}
+        for pause in pause_table:
+            groups_of_pause.setdefault(pause["day"], []).append(pause)
+
+        for day in groups_of_pause:
+            day_hours = week_table[int(day)]
+            for pause in groups_of_pause[day]:
+                #  0. Of course if we don't have a correct interval we can't do
+                # more steps
+                if (
+                    pause["pause_end"] == "--NOVALUE--"
+                    or pause["pause_start"] == "--NOVALUE--"
+                ):
+                    raise Invalid(_(u"You must set both start and end"))
+
+                # 1. Pause starts should always be bigger than pause ends
+                if not (pause["pause_end"] > pause["pause_start"]):
+                    raise Invalid(
+                        _(u"Pause end should be greater than pause start")
+                    )
+                interval = [pause["pause_start"], pause["pause_end"]]
+                # 2. a pause interval should always be contained in the morning
+                # or afternoon defined for these days
+                if not (
+                    interval_is_contained(
+                        interval,
+                        day_hours["morning_start"],
+                        day_hours["morning_end"],
+                    )
+                    or interval_is_contained(
+                        interval,
+                        day_hours["afternoon_start"],
+                        day_hours["afternoon_end"],
+                    )
+                ):
+                    raise Invalid(
+                        _(
+                            u"Pause should be included in morning slot or afternoon slot"  # noqa
+                        )
+                    )
+            # 3. two pause interval on the same day should not overlap
+            if is_intervals_overlapping(
+                [
+                    (pause["pause_start"], pause["pause_end"])
+                    for pause in groups_of_pause[day]
+                ]
+            ):
+                raise Invalid(
+                    _(u"In the same day there are overlapping intervals")
+                )  # noqa
+
+
+validator.WidgetValidatorDiscriminators(
+    PauseValidator, field=IPrenotazioniFolder["pause_table"]
+)
+provideAdapter(PauseValidator)
 
 
 @implementer(IPrenotazioniFolder)

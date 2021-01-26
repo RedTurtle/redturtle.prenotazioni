@@ -7,6 +7,58 @@ from zope.component import Interface
 from zope.interface import implementer
 
 
+def is_intervals_overlapping(intervals):
+    """
+    utility function to determine if in a list of intervals there is some
+    overlapping.
+    We could sort the intervals by start date. Then iterate the sublist of
+    intervals starting from the second element.
+    Iterating on this sublist, if the start of the current interval it's less
+    than the end of the previous interval in the original sorted array, then
+    we have overlap
+    """
+    if len(intervals) < 2:
+        return False
+
+    intervals_sorted_by_starts = sorted(intervals, key=lambda x: x[0])
+
+    for i, interval in enumerate(intervals_sorted_by_starts[1:]):
+        # we can use i 'cause skipping the first element, i always refer to
+        # the previous element in the original array
+        if interval[0] < intervals_sorted_by_starts[i][1]:
+            return True
+    return False
+
+
+def interval_is_contained(interval, lower_bound, upper_bound):
+    """
+    utility function to determine if an interval is contained between two
+    bounds.
+    :param interval: something like ['0700', '0800']
+    :param lower_bound: something like '0700'
+    :param upper_bound: something like '1300'
+
+    Basically we use time interval to define that an office is open between two
+    hours. we need to know if a given interval it's smaller and cointaned in
+    the other.
+
+    We assume that the start could coincide with lower_bound but not with the
+    upper_bound. Viceversa the end could coincide with the upper_bound but not
+    with the lower_bound.
+
+    We also assume that we have an increasing interval
+    """
+    I0 = interval[0]
+    I1 = interval[1]
+    assert I0 < I1
+    return (
+        I0 >= lower_bound
+        and I0 < upper_bound
+        and I1 > lower_bound
+        and I1 <= upper_bound
+    )
+
+
 def slots_to_points(slots):
     """ Return a list of point starting from the slots
     """

@@ -9,13 +9,17 @@ from Products.Five.browser import BrowserView
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import get_or_create_obj
 from redturtle.prenotazioni import tznow
+from redturtle.prenotazioni.config import PAUSE_SLOT, PAUSE_PORTAL_TYPE
+from redturtle.prenotazioni.content.pause import Pause
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.adapters.conflict import IConflictManager
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.adapters.slot import ISlot
 from redturtle.prenotazioni.utilities.urls import urlify
+
 from six.moves import map
 from six.moves import range
+
 
 import six
 
@@ -255,6 +259,8 @@ class PrenotazioniContextState(BrowserView):
         """
         if not context:
             return
+        if context.portal_type == PAUSE_PORTAL_TYPE:
+            return PAUSE_SLOT
         return api.content.get_state(context)
 
     @property
@@ -585,14 +591,37 @@ class PrenotazioniContextState(BrowserView):
         return bookings
 
     @memoize
+    def get_pauses_in_day_folder(self, booking_date):
+        """
+        This method takes all pauses from the week table and convert it on slot
+        :param booking_date: a date as a datetime or a string
+        """
+        weekday = booking_date.weekday()
+        pause_table = self.context.pause_table
+        today_pauses = [row for row in pause_table if row["day"] == weekday]
+        pauses = []
+        if today_pauses:
+            for pause in today_pauses:
+                pause = Pause(
+                    pause["pause_start"][:2] + ":" + pause["pause_start"][2:],
+                    pause["pause_end"][:2] + ":" + pause["pause_end"][2:],
+                    "",
+                )
+                pauses.append(pause)
+        return pauses
+
+    @memoize
     def get_existing_slots_in_day_folder(self, booking_date):
         """
-        The Prenotazione objects for today
+        The Prenotazione objects and eventually the pauses for today
 
         :param booking_date: a date as a datetime or a string
         """
         bookings = self.get_bookings_in_day_folder(booking_date)
-        return list(map(ISlot, bookings))
+        pauses = self.get_pauses_in_day_folder(booking_date)
+        bookins_list = list(map(ISlot, bookings))
+        pauses_list = list(map(ISlot, pauses))
+        return bookins_list + pauses_list
 
     def get_busy_slots_in_stormynight(self, booking_date):
         """ This will show the slots that will not show elsewhere
@@ -626,7 +655,7 @@ class PrenotazioniContextState(BrowserView):
         interval = self.get_day_intervals(booking_date)[period]
         if interval.start() == "" and interval.stop() == "":
             return []
-        allowed_review_states = ["pending", "published"]
+        allowed_review_states = ["pending", "published", PAUSE_SLOT]
         # all slots
         slots = self.get_existing_slots_in_day_folder(booking_date)
         # the ones in the interval

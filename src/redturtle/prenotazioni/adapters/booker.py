@@ -72,15 +72,16 @@ class Booker(object):
         else:
             # in this case we need to deal with seconds converted in days
             data_scadenza = booking_date + timedelta(days=duration)
+
         at_data = {
             "title": data["fullname"],
             "description": data["subject"] or "",
-            "azienda": data["agency"] or "",
-            "fiscalcode": data["fiscalcode"] or "",
+            "azienda": data.get("agency", ""),
+            "fiscalcode": data.get("fiscalcode", ""),
             "data_prenotazione": booking_date,
             "data_scadenza": data_scadenza,
             "phone": data.get("phone", ""),
-            "email": data["email"] or "",
+            "email": data.get("email", ""),
             "tipologia_prenotazione": data.get("tipology", ""),
         }
         if not force_gate:

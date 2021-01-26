@@ -31,12 +31,16 @@ class TestSetup(unittest.TestCase):
 
     def test_product_installed(self):
         """Test if redturtle.prenotazioni is installed."""
-        self.assertTrue(self.installer.isProductInstalled("redturtle.prenotazioni"))
+        self.assertTrue(
+            self.installer.isProductInstalled("redturtle.prenotazioni")
+        )
 
     def test_browserlayer(self):
         """Test that IRedturtlePrenotazioniLayer is registered."""
         from plone.browserlayer import utils
-        from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
+        from redturtle.prenotazioni.interfaces import (
+            IRedturtlePrenotazioniLayer,
+        )
 
         self.assertIn(IRedturtlePrenotazioniLayer, utils.registered_layers())
 
@@ -58,11 +62,17 @@ class TestUninstall(unittest.TestCase):
 
     def test_product_uninstalled(self):
         """Test if redturtle.prenotazioni is cleanly uninstalled."""
-        self.assertFalse(self.installer.isProductInstalled("redturtle.prenotazioni"))
+        self.assertFalse(
+            self.installer.isProductInstalled("redturtle.prenotazioni")
+        )
 
     def test_browserlayer_removed(self):
         """Test that IRedturtlePrenotazioniLayer is removed."""
         from plone.browserlayer import utils
-        from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
+        from redturtle.prenotazioni.interfaces import (
+            IRedturtlePrenotazioniLayer,
+        )
 
-        self.assertNotIn(IRedturtlePrenotazioniLayer, utils.registered_layers())
+        self.assertNotIn(
+            IRedturtlePrenotazioniLayer, utils.registered_layers()
+        )

@@ -23,6 +23,12 @@
       factory=".slot.Slot"
   />
 
+  <adapter
+      provides=".slot.ISlot"
+      for="redturtle.prenotazioni.interfaces.IPause"
+      factory=".slot.Slot"
+  />
+
   <!-- stringinterp -->
   <adapter
     for="*"
