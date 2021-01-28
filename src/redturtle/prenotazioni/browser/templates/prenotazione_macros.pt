@@ -7,7 +7,7 @@
       <tal:i18n i18n:translate="previous-week">previous week</tal:i18n>
     </a>
 
-    <strong><tal:month i18n:domain="plonelocales"
+    <strong class="table-title"><tal:month i18n:domain="plonelocales"
                        i18n:translate=""
                        content="week_view/actual_translated_month" />
             <tal:year content="week_view/actual_date/year" /></strong>
@@ -113,7 +113,7 @@
           <a href=""
             class="prenotazioni-popup pat-plone-modal"
             tal:attributes="href string:${booking/absolute_url}?ajax_load=true;
-                            title booking/Title">
+                            title python:week_view.get_booked_prenotation_message(day, booking);">
             <div><span class="icon-search fa fa-search"></span></div>
           </a>
         </tal:is_real_booking>
@@ -122,7 +122,7 @@
             <tal:urls repeat="link python:week_view.prenotazioni.get_booking_urls(day, slot)">
               <tal:future condition="link/future">
                 <a tal:attributes="href link/url;
-                                  title link/title;
+                                  title python:week_view.get_prenotation_message(day, link);
                                   class link/class">&nbsp;</a>
               </tal:future>
               <tal:past condition="not:link/future">
@@ -162,8 +162,8 @@
           <tal:future condition="link/future">
             <a href=""
                tal:attributes="href link/url;
-                               title link/title;
-                               class link/class">&nbsp;</a>
+                                title link/title;
+                               class link/class">&nbsp;</a>                   
           </tal:future>
           <tal:past condition="not:link/future">
             <span>&nbsp;</span>
@@ -205,7 +205,10 @@
               <span>&nbsp;</span>
             </tal:past>
           </tal:bookable>
-          <div class="busy_slot"></div>
+          <tal:bookable condition="not:bookable">
+            <div class="busy_slot" tal:attributes="data-title python:week_view.get_busy_message(day, slot);
+                                                   aria-label python:week_view.get_busy_message(day, slot)"></div>
+          </tal:bookable>
         </div>
       </div>
     </div>
@@ -236,15 +239,15 @@
       <tbody>
         <tr>
           <tal:days repeat="day week_view/actual_week_days">
-              <td class="day"
-                  tal:condition="python:week_view.show_day_column(day)"
-                  tal:attributes="class python:day==week_view.actual_date and 'day selected' or 'day';">
-                  <tal:periods repeat="period week_view/periods">
-                    <tal:define define="interval python:week_view.prenotazioni.get_day_intervals(day)[period]">
-                      <metal:macro metal:use-macro="day_period_macro" />
-                    </tal:define>
-                  </tal:periods>
-              </td>
+            <td class="day"
+                tal:condition="python:week_view.show_day_column(day)"
+                tal:attributes="class python:day==week_view.actual_date and 'day selected' or 'day';">
+              <tal:periods repeat="period week_view/periods">
+                <tal:define define="interval python:week_view.prenotazioni.get_day_intervals(day)[period]">
+                  <metal:macro metal:use-macro="day_period_macro" />
+                </tal:define>
+              </tal:periods>
+            </td>
           </tal:days>
         </tr>
       </tbody>

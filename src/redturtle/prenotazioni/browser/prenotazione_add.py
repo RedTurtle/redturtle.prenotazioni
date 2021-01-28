@@ -387,9 +387,9 @@ class AddForm(form.AddForm):
             (aq_inner(self.context), self.request), name="recaptcha"
         )
 
-        if "captcha" in data and not captcha.verify():
-            msg = _(u"Please check the captcha")
-            raise ActionExecutionError(Invalid(msg))
+        # if "captcha" in data and not captcha.verify():
+        #     msg = _(u"Please check the captcha")
+        #     raise ActionExecutionError(Invalid(msg))
 
         obj = self.do_book(data)
         if not obj:

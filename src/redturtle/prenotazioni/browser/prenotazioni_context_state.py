@@ -71,7 +71,7 @@ class PrenotazioniContextState(BrowserView):
     year_type = "PrenotazioniYear"
 
     busy_slot_booking_url = {"url": "", "title": _("busy", u"Busy")}
-    unavailable_slot_booking_url = {"url": "", "title": "&nbsp;"}
+    unavailable_slot_booking_url = {"url": "", "title": ""}
 
     @property
     @memoize
@@ -371,6 +371,7 @@ class PrenotazioniContextState(BrowserView):
         # Otherwise we check if the URL fits the slot boundaries
         slot_start = slot.start()
         slot_stop = slot.stop()
+
         for booking_url in all_booking_urls:
             if slot_start <= booking_url["title"] < slot_stop:
                 if self.is_booking_date_bookable(booking_url["booking_date"]):
