@@ -153,9 +153,7 @@ table#week td {
 #week .fromto {
     background-color: #ddd;
 }
-#week .gatesheader {
-    /* border-bottom: 1px solid #ddd; */
-}
+
 #week .gateswrapper {
     border-bottom: 1px solid #ddd;
     margin-bottom: 1em;
@@ -176,7 +174,6 @@ table#week td {
 /* barra ora */
 #week .gates > .hours {
     width: 34px;
-    /* float: left; */
     position: absolute;
     left: -34px;
     overflow: hidden;
