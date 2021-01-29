@@ -257,16 +257,19 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   display: block;
   border-top: 1px solid #eee;
 }
-
+#week .timeslot a:link,
 #week .slot .links a:link {
   background-color: #ddd;
 }
+#week .timeslot a:visited,
 #week .slot .links a:visited {
   background-color: #ddd;
 }
+#week .timeslot a:hover,
 #week .slot .links a:hover {
   background-color: #666;
 }
+
 #week .slot .links > .previous {
   background-color: #fff;
 }
@@ -375,14 +378,12 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   font-size: 9px;
   background-color: #ffa500;
 }
-
 #week .gate > .slot > .pause_slot {
   line-height: 0;
   font-size: 9px;
   background-color: #e8e578;
   padding: 10px;
 }
-
 #week .slot > .pending > a > div {
   border: 2px solid #e78b36;
   display: table;
@@ -390,6 +391,7 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   width: 100%;
 }
 
+#week .timeslot a,
 #week .slot .links a {
   height: 5px;
   display: block;
@@ -442,4 +444,20 @@ a.reservation-tooltip:focus::before {
   z-index: 1000;
   box-shadow: 0 0 5px #ccc;
   padding: 1rem;
+}
+
+#week .timeslot .pending a.booking {
+  line-height: 0;
+  font-size: 9px;
+  background-color: #ffa500;
+  position: absolute;
+  width: 90%;
+}
+
+#week .timeslot .slot_container.pause_slot .pause {
+  line-height: 0;
+  font-size: 9px;
+  background-color: #e8e578;
+  padding: 10px;
+  position: absolute;
 }

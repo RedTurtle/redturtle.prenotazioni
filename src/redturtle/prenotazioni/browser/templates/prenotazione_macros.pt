@@ -103,7 +103,7 @@
 
 <!-- This is the html for a slot when we are in the week view and
      we can edit the prenotazione folder -->
-<metal:macro metal:define-macro="manager_slot" i18n:domain="redturtle.prenotazioni">
+<metal:macro metal:define-macro="manager_slot_old" i18n:domain="redturtle.prenotazioni">
   <div class="slot" tal:repeat="slot python:slots[gate]">
     <tal:define define="booking nocall:slot/context;
                         real_booking python:bool(booking) and not getattr(booking, 'is_pause', False)">
@@ -137,6 +137,90 @@
       </div>
     </tal:define>
   </div>
+</metal:macro>
+
+<!-- Draw pause timeslots -->
+<metal:macro metal:define-macro="timeslot_pause">
+  <div tal:define="class_status python:'pause_slot'; tag_class python: tag_class + ' ' + class_status"
+       tal:attributes="title timeslot/title; 
+                      class tag_class">
+    <a class="pause" 
+      href="javascript:;" 
+      tal:define="tag_class timeslot/class; 
+                  tag_class python: tag_class and tag_class + ' pause' or 'pause';
+                  slot_style python: is_first and slot.css_styles or ''"
+      tal:attributes="style slot_style; class tag_class; title timeslot/title;">
+      <tal:tag_content tal:condition="is_first">${booking/Title}</tal:tag_content>
+      <tal:tag_content tal:condition="not:is_first">&nbsp;</tal:tag_content>
+    </a>
+  </div>
+</metal:macro>
+
+<!-- Draw booking timeslots -->
+<metal:macro metal:define-macro="timeslot_booking">
+  <div tal:define="class_status python:week_view.prenotazioni.get_state(booking); tag_class python: tag_class + ' ' + class_status"
+      tal:attributes="title timeslot/title; 
+                      class tag_class" 
+      tal:condition="repeat/timeslot/start">
+    <a href=""
+      tal:condition="is_first"
+      class="booking prenotazioni-popup pat-plone-modal"
+      tal:attributes="href string:${booking/absolute_url}?ajax_load=true;
+                    title booking/Title; style slot/css_styles">
+      <div><span class="icon-search fa fa-search"></span></div>
+    </a>
+    <a href="javascript:;" 
+       tal:attributes="title timeslot/title; class timeslot/class" 
+       tal:condition="not:is_first">&nbsp;</a>
+  </div>
+  
+</metal:macro>
+
+<!-- 
+Rembmer we draw timeslots as sum of pause, booking and non reserved time,
+so when we have a slot that is a booking or a pause, "first" is always the 
+start of a pause or booking
+-->
+<metal:macro metal:define-macro="time_slots">
+    <tal:comment condition="nothing" >
+      We take advantage of get_booking_urls to get all slice of time for every 
+      case. Then we draw in slots bookings and pauses
+    </tal:comment>
+    <tal:timeslots repeat="timeslot python:week_view.prenotazioni.get_booking_urls(day, slot)">
+      <tal:globals tal:define="is_first repeat/timeslot/start">
+        <tal:future condition="timeslot/future">
+          <div class="timeslot" 
+               tal:define="timeslot_class timeslot/class;
+                           tag_class python: timeslot_class and timeslot_class or ' ';
+                           tag_class python: is_first and 'slot_container ' + tag_class or tag_class">
+            <tal:is_pause tal:condition="is_pause">
+              <metal:macro metal:use-macro="prenotazione_macros/timeslot_pause" />
+            </tal:is_pause>
+            <tal:is_real_booking tal:condition="is_booking" >
+              <metal:macro metal:use-macro="prenotazione_macros/timeslot_booking" />
+            </tal:is_real_booking>
+            <tal:not_real_booking tal:condition="python:not is_booking and not is_pause" >
+              <a tal:attributes="href timeslot/url; title timeslot/title; class timeslot/class">&nbsp;</a>
+            </tal:not_real_booking>
+          </div>
+        </tal:future>
+        <tal:past condition="not:timeslot/future">
+          <div class="past">
+            <span>&nbsp;</span>
+          </div>
+        </tal:past>
+      </tal:globals>
+    </tal:timeslots>
+</metal:macro>
+
+<metal:macro metal:define-macro="manager_slot" i18n:domain="redturtle.prenotazioni">
+  <tal:bookable_interval tal:repeat="slot python:slots[gate]">
+    <tal:define define="booking nocall:slot/context;
+                        is_pause python: getattr(booking, 'is_pause', False);
+                        is_booking python:bool(booking) and not is_pause">
+      <metal:macro metal:use-macro="prenotazione_macros/time_slots" />
+    </tal:define>
+  </tal:bookable_interval>
 </metal:macro>
 
 <!-- This is the html for a slot in the stormynight period -->
