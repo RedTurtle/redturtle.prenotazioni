@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-01-26 15:13+0000\n"
+"POT-Creation-Date: 2021-01-27 11:48+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -143,6 +143,11 @@ msgstr "Data scandenza prenotazione"
 msgid "Friday"
 msgstr "Venerdì"
 
+#. Default: "Campo"
+#: ../browser/z3c_custom_widget.py:161
+msgid "Field"
+msgstr "Campo"
+
 #: ../browser/templates/prenotazione.pt:81
 #: ../content/prenotazione.py:43
 msgid "Gate"
@@ -269,7 +274,7 @@ msgstr "PrenotazioniWeek"
 msgid "PrenotazioniYear"
 msgstr "PrenotazioniYear"
 
-#: ../browser/templates/prenotazione_print.pt:109
+#: ../browser/templates/prenotazione_print.pt:108
 msgid "Print"
 msgstr "Stampa"
 
@@ -492,12 +497,17 @@ msgid "book_it"
 msgstr "Per favore seleziona uno slot per la prenotazione"
 
 #. Default: "Bookable time"
-#: ../browser/templates/prenotazione_macros.pt:294
+#: ../browser/templates/prenotazione_macros.pt:300
 msgid "bookable_time"
 msgstr "Tempo prenotabile "
 
+#. Default: "${day} ${booking_time} prenotato da ${booked_by}"
+#: ../browser/week.py:269
+msgid "booked_prenotation_message"
+msgstr ""
+
 #. Default: "Booking confirmed"
-#: ../browser/templates/prenotazione_macros.pt:296
+#: ../browser/templates/prenotazione_macros.pt:302
 msgid "booking_confirmed"
 msgstr "Prenotazione confermata"
 
@@ -512,12 +522,12 @@ msgid "booking_moved"
 msgstr "Prenotazione spostata correttamente"
 
 #. Default: "Booking pending"
-#: ../browser/templates/prenotazione_macros.pt:298
+#: ../browser/templates/prenotazione_macros.pt:304
 msgid "booking_pending"
 msgstr "Prenotazione da confermare"
 
 #. Default: "Booking refused"
-#: ../browser/templates/prenotazione_macros.pt:300
+#: ../browser/templates/prenotazione_macros.pt:306
 msgid "booking_refused"
 msgstr "Prenotazione rifiutata "
 
@@ -584,7 +594,13 @@ msgstr "Questo testo apparirà nelle celle del calendario."
 #. Default: "Foreseen booking time: ${booking_time}"
 #: ../browser/week.py:228
 msgid "foreseen_booking_time"
-msgstr "Orario previsto per la prenotazione: ${booking_time}"
+msgstr "Data previsto per la prenotazione: ${booking_time}, ora ${day}"
+
+#. Default: "${booking_time} busy"
+#: ../browser/week.py:240
+#, fuzzy
+msgid "foreseen_busy_time"
+msgstr "${booking_time}, Orario non disponibile"
 
 #. Default: "Fullname"
 #: ../browser/templates/prenotazione.pt:40
@@ -621,7 +637,7 @@ msgid "help_same_day_booking_disallowed"
 msgstr "Se selezionato, impedisce agli utenti di prenotare per il giorno corrente."
 
 #. Default: "List of available reservation type for the current agenda"
-#: ../browser/templates/prenotazione_macros.pt:266
+#: ../browser/templates/prenotazione_macros.pt:272
 msgid "help_tipologies"
 msgstr "Lista dei tipi di prenotazione disponibili per l'agenda corrente"
 
@@ -685,21 +701,21 @@ msgstr "Azienda"
 
 #. Default: "Booking code"
 #: ../browser/templates/prenotazione.pt:93
-#: ../browser/templates/prenotazione_print.pt:92
+#: ../browser/templates/prenotazione_print.pt:93
 msgid "label_booking_code"
 msgstr "Codice prenotazione"
 
 #. Default: "Booking date"
 #: ../browser/templates/manager_notification_mail.pt:48
 #: ../browser/templates/prenotazione.pt:69
-#: ../browser/templates/prenotazione_print.pt:72
+#: ../browser/templates/prenotazione_print.pt:73
 msgid "label_booking_date"
 msgstr "Data prenotazione"
 
 #. Default: "${from_date} from ${from} to ${to}"
 #: ../browser/templates/manager_notification_mail.pt:52
 #: ../browser/templates/prenotazione.pt:76
-#: ../browser/templates/prenotazione_print.pt:80
+#: ../browser/templates/prenotazione_print.pt:81
 msgid "label_booking_date_range"
 msgstr "${from_date} dalle ${from} alle ${to}"
 
@@ -806,7 +822,7 @@ msgid "label_text"
 msgstr "Testo da ricercare"
 
 #. Default: "Reservation types"
-#: ../browser/templates/prenotazione_macros.pt:265
+#: ../browser/templates/prenotazione_macros.pt:271
 msgid "label_tipologies"
 msgstr "Tipi di prenotazione"
 
@@ -833,17 +849,17 @@ msgid "label_visible_booking_fields"
 msgstr "Campi da visualizzare"
 
 #. Default: "Legend"
-#: ../browser/templates/prenotazione_macros.pt:287
+#: ../browser/templates/prenotazione_macros.pt:293
 msgid "legend"
 msgstr "Legenda"
 
 #. Default: "Short description of available action for the booking board"
-#: ../browser/templates/prenotazione_macros.pt:288
+#: ../browser/templates/prenotazione_macros.pt:294
 msgid "legend_description"
 msgstr "Breve descrizione delle azioni disponibili per l'agenda"
 
 #. Default: "The minimum value of a single slot is 5 minutes. You cannot book a reservation when the needed time exceeds the available time."
-#: ../browser/templates/prenotazione_macros.pt:309
+#: ../browser/templates/prenotazione_macros.pt:315
 msgid "legend_note"
 msgstr "L'unità di tempo minima è 5 minuti. La tua prenotazione non può eccedere il tempo disponibile."
 
@@ -909,6 +925,11 @@ msgstr "Inizio pausa"
 msgid "please_pick_a_date"
 msgstr "Selezionare una data"
 
+#. Default: "${day} ${booking_time}"
+#: ../browser/week.py:253
+msgid "prenotation_slot_message"
+msgstr ""
+
 #. Default: "Change date/time"
 #: ../profiles/default/actions.xml
 msgid "prenotazione_move"
@@ -963,7 +984,7 @@ msgid "result_number"
 msgstr "elementi trovati"
 
 #. Default: "Search by gate"
-#: ../browser/templates/prenotazione_macros.pt:305
+#: ../browser/templates/prenotazione_macros.pt:311
 msgid "search-by-gate"
 msgstr "Ricerca per sportello"
 
@@ -971,6 +992,11 @@ msgstr "Ricerca per sportello"
 #: ../browser/templates/prenotazioni_search.pt:9
 msgid "search_result_message"
 msgstr "Risultato della ricerca"
+
+#. Default: "seleziona l'opzione desiderata dal gruppo di radio button sottostante"
+#: ../browser/z3c_custom_widget.py:161
+msgid "select-option"
+msgstr "seleziona l'opzione desiderata dal gruppo di campi seguente"
 
 #. Default: "This gate has some booking schedule in this time period."
 #: ../browser/vacations.py:270
@@ -994,22 +1020,22 @@ msgid "time_slot_to_short"
 msgstr "Tempo insufficiente per qualsiasi tipologia di prenotazione"
 
 #. Default: "Name"
-#: ../browser/templates/prenotazione_macros.pt:269
+#: ../browser/templates/prenotazione_macros.pt:275
 msgid "tipology_name"
 msgstr "Nome"
 
 #. Default: "Value"
-#: ../browser/templates/prenotazione_macros.pt:270
+#: ../browser/templates/prenotazione_macros.pt:276
 msgid "tipology_value"
 msgstr "Durata"
 
 #. Default: "You may want to select another time slot to book one of these."
-#: ../browser/templates/tipology_radio_widget.pt:52
+#: ../browser/templates/tipology_radio_widget.pt:55
 msgid "tipology_widget_suggest_reselect"
 msgstr "Prova a selezionare un'orario differente per prenotarle."
 
 #. Default: "The following tipologies will not fit the time you selected:"
-#: ../browser/templates/tipology_radio_widget.pt:42
+#: ../browser/templates/tipology_radio_widget.pt:45
 msgid "tipology_widget_warn_unavailable"
 msgstr "Le seguenti tipologie non sono selezionabili nell'orario selezionato:"
 
@@ -1024,7 +1050,7 @@ msgid "unavailable_gates_label"
 msgstr "Sportelli non disponibili"
 
 #. Default: "Unbookable time"
-#: ../browser/templates/prenotazione_macros.pt:292
+#: ../browser/templates/prenotazione_macros.pt:298
 msgid "unbookable_time"
 msgstr "Tempo non prenotabile "
 
@@ -1035,6 +1061,7 @@ msgstr "Blocco risorsa"
 
 #. Default: "View booking"
 #: ../browser/templates/prenotazione.pt:105
-#: ../browser/templates/prenotazione_macros.pt:303
+#: ../browser/templates/prenotazione_macros.pt:309
 msgid "view_booking"
 msgstr "Vedi la prenotazione"
+

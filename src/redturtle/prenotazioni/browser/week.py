@@ -228,7 +228,54 @@ class View(BaseView):
         message = _(
             "foreseen_booking_time",
             default=u"Foreseen booking time: ${booking_time}",
+            mapping={"booking_time": booking_url["title"], "day": "{} {}".format(self.context.translate(self.get_day_msgid(day), domain="plonelocales"), day.strftime('%d'))},
+        )
+        return message
+
+    def get_busy_message(self, day, slot):
+        """ Return busy message
+        """
+
+        booking_url = self.prenotazioni.get_anonymous_booking_url(day, slot)
+        message = _(
+            "foreseen_busy_time",
+            default=u"${booking_time}, Orario non disponibile",
             mapping={"booking_time": booking_url["title"]},
+        )
+        return message
+
+    def get_prenotation_message(self, day, link):
+        """ Return prenotation slot
+        """
+        """ Return the foreseen booking time message
+        """
+
+        message = _(
+            "prenotation_slot_message",
+            default=u"${day}, ore ${booking_time}",
+            mapping={
+                "booking_time": link['title'],
+                "day": "{} {}".format(self.context.translate(self.get_day_msgid(day), domain="plonelocales"), day.strftime('%d'))
+            },
+        )
+        return message
+
+    def get_booked_prenotation_message(self, day, booking):
+        """ Return prenotation slot
+        """
+        """ Return the foreseen booking time message
+        """
+
+        message = _(
+            "booked_prenotation_message",
+            default=u"${day}, ore ${booking_time}, prenotato da ${booked_by}, prenotazione: ${type_prenotation} durata: ${duration} minuti",
+            mapping={
+                "booking_time": booking.Date().strftime('%H:%M'),
+                "day": "{} {}".format(self.context.translate(self.get_day_msgid(day), domain="plonelocales"), day.strftime('%d')),
+                "booked_by": booking.Title(),
+                "duration": (booking.getDuration().seconds // 60) % 60,
+                "type_prenotation": booking.getTipologia_prenotazione()
+            },
         )
         return message
 

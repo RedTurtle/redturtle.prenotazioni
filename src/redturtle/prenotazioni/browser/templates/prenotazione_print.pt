@@ -19,85 +19,84 @@ i18n:domain="redturtle.prenotazioni">
                                    prenotazioni_folder prenotazione/getPrenotazioniFolder;
                                    toLocalizedTime nocall:context/@@plone/toLocalizedTime"
         >
-            <h1 class="documentFirstHeading" tal:content="view/label">
-              Booking request
-            </h1>
-            <div class="documentDescription" tal:content="view/description">
-              Booking description
+            <div tabindex="0">
+                <h1 class="documentFirstHeading" tal:content="view/label">
+                Booking request
+                </h1>
+                <div class="documentDescription" tal:content="view/description">
+                Booking description
+                </div>
+                <p>
+                    Gentile <b tal:content="prenotazione/Title">Fullname</b>,
+                    di seguito sono elencati i dati relativi alla sua prenotazione:
+                </p>
+                <table class="listing">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b i18n:translate="label_typology">Typology</b>
+                            </td>
+                            <td tal:content="prenotazione/getTipologia_prenotazione"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b i18n:translate="label_email">Email</b>
+                            </td>
+                            <td tal:content="prenotazione/getEmail"></td>
+                        </tr>
+                        <tr tal:condition="prenotazione/getPhone">
+                            <td>
+                                <b i18n:translate="label_phone">Phone number</b>
+                            </td>
+                            <td tal:content="prenotazione/getPhone"></td>
+                        </tr>
+                        <tr tal:condition="prenotazione/azienda">
+                            <td>
+                                <b i18n:translate="label_agency">Agency</b>
+                            </td>
+                            <td tal:content="prenotazione/azienda"></td>
+                        </tr>
+                        <tr tal:condition="prenotazione/getFiscalcode">
+                            <td>
+                                <b i18n:translate="label_fiscalcode">Fiscal code</b>
+                            </td>
+                            <td tal:content="prenotazione/getFiscalcode"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b i18n:translate="label_subject">Subject</b>
+                            </td>
+                            <td tal:content="prenotazione/description"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b i18n:translate="label_booking_date">Booking date</b>
+                            </td>
+                            <td tal:define="data_prenotazione prenotazione/getData_prenotazione|nothing;
+                                            data_scadenza python:getattr(prenotazione, 'data_scadenza', '');
+                                            toLocalizedTime nocall:context/@@plone/toLocalizedTime">
+                                <span i18n:translate="label_booking_date_range">
+                                <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(data_prenotazione)"></tal:from_date>
+                                from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(data_prenotazione, time_only=True)"></tal:from>
+                                to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(data_scadenza, time_only=True)"></tal:to>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b i18n:translate="label_gate">Gate</b>
+                            </td>
+                            <td tal:content="prenotazione/gate"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b i18n:translate="label_booking_code">Booking code</b>
+                            </td>
+                            <td tal:content="prenotazione/getBookingCode"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <p>
-                Gentile <b tal:content="prenotazione/Title">Fullname</b>,
-                di seguito sono elencati i dati relativi alla sua prenotazione:
-            </p>
-             <table class="listing">
-                 <tbody>
-                    <tr>
-                        <td>
-                            <b i18n:translate="label_typology">Typology</b>
-                        </td>
-                        <td tal:content="prenotazione/getTipologia_prenotazione"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b i18n:translate="label_email">Email</b>
-                        </td>
-                        <td tal:content="prenotazione/getEmail"></td>
-                    </tr>
-                    <tr tal:condition="prenotazione/getPhone">
-                        <td>
-                            <b i18n:translate="label_phone">Phone number</b>
-                        </td>
-                        <td tal:content="prenotazione/getPhone"></td>
-                    </tr>
-                    <tr tal:condition="prenotazione/azienda">
-                        <td>
-                            <b i18n:translate="label_agency">Agency</b>
-                        </td>
-                        <td tal:content="prenotazione/azienda"></td>
-                    </tr>
-                    <tr tal:condition="prenotazione/getFiscalcode">
-                        <td>
-                            <b i18n:translate="label_fiscalcode">Fiscal code</b>
-                        </td>
-                        <td tal:content="prenotazione/getFiscalcode"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b i18n:translate="label_subject">Subject</b>
-                        </td>
-                        <td tal:content="prenotazione/description"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b i18n:translate="label_booking_date">Booking date</b>
-                        </td>
-                        <td tal:define="data_prenotazione prenotazione/getData_prenotazione|nothing;
-                                        data_scadenza python:getattr(prenotazione, 'data_scadenza', '');
-                                        toLocalizedTime nocall:context/@@plone/toLocalizedTime">
-                            <span i18n:translate="label_booking_date_range">
-                            <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(data_prenotazione)"></tal:from_date>
-                            from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(data_prenotazione, time_only=True)"></tal:from>
-                            to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(data_scadenza, time_only=True)"></tal:to>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b i18n:translate="label_gate">Gate</b>
-                        </td>
-                        <td tal:content="prenotazione/gate"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b i18n:translate="label_booking_code">Booking code</b>
-                        </td>
-                        <td tal:content="prenotazione/getBookingCode"></td>
-                    </tr>
-                </tbody>
-            </table>
-
-
-
 
 
 

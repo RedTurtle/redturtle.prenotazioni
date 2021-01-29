@@ -37,3 +37,16 @@ jobs:
       - name: Run tests
         run: |
           bin/test
+      - name: Update staging on Rancher
+        uses: redturtle/rancher-deploy-action@v0.1.0
+        with:
+          host: ${{ secrets.RANCHER_HOST }}
+          api-username: ${{ secrets.RANCHER_API_USERNAME }}
+          api-password: ${{ secrets.RANCHER_API_PASSWORD }}
+          cluster-id: ${{ secrets.RANCHER_CLUSTER_ID }}
+          project-id: ${{ secrets.RANCHER_PROJECT_ID }}
+          namespace: ${{ secrets.RANCHER_NAMESPACE }}
+          workload: ${{ secrets.RANCHER_WORKLOAD }}
+          image: eikichi18/plone:5.2.2-rt-ldap
+          slack-hook-url: ${{ secrets.RANCHER_SLACK_HOOK_URL }}
+

@@ -14,8 +14,11 @@
                    data-fieldname widget/name;
                    id string:formfield-${widget/id};">
     <label for="" class="horizontal"
-        tal:attributes="for widget/id"
-        tal:condition="python: not hidden and widget.label">
+        tal:attributes="for widget/id;
+                        aria-label python: widget.get_radio_message(widget.label)"
+        tal:condition="python: not hidden and widget.label"
+        tabindex="0"
+        aria-label="Selezionare un elemento dalla check list seguente">
         <span i18n:translate="" tal:replace="widget/label">label</span>
         <span class="required horizontal" title="Required"
               tal:condition="python:widget.required and widget.mode == 'input'"
