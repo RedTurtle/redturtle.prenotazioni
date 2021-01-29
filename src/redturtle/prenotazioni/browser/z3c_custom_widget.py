@@ -16,7 +16,7 @@ from zope.i18n import translate
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
-
+from redturtle.prenotazioni import _
 import zope
 
 
@@ -157,6 +157,10 @@ class CustomRadioWidget(RadioWidget):
                 }
             )
         return results
+
+    def get_radio_message(self, label):
+        message = "{} {}, {}".format(self.context.translate(_('Field', 'Campo')), self.context.translate(label), self.context.translate(_('select-option', "seleziona l'opzione desiderata dal gruppo di radio button seguente")))
+        return message
 
     def renderForValue(self, value, index=None):
         # customize 'cause we need to pass index

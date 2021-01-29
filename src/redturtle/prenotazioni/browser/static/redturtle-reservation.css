@@ -84,6 +84,10 @@ td.selected {
     overflow: scroll;
 }
 
+#week-table-wrapper .table-title {
+    color: #525252;
+}
+
 table#week {
     margin: auto;
     width: 100%;
@@ -103,11 +107,12 @@ table#week {
     border-bottom: none;
 }
 
-table#week th {
+table#week div.table_header {
     text-align: center;
     font-weight: bold;
-    border: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     width: auto;
+    padding-bottom: 14px;
 }
 
 table#week td {
@@ -148,9 +153,7 @@ table#week td {
 #week .fromto {
     background-color: #ddd;
 }
-#week .gatesheader {
-    border-bottom: 1px solid #ddd;
-}
+
 #week .gateswrapper {
     border-bottom: 1px solid #ddd;
     margin-bottom: 1em;
@@ -171,7 +174,6 @@ table#week td {
 /* barra ora */
 #week .gates > .hours {
     width: 34px;
-    float: left;
     position: absolute;
     left: -34px;
     overflow: hidden;
