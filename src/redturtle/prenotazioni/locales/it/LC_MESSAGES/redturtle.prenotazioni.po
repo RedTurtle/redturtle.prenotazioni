@@ -536,7 +536,7 @@ msgstr "Data previsto per la prenotazione: ${booking_time}, ora ${day}"
 #: ../browser/week.py:240
 #, fuzzy
 msgid "foreseen_busy_time"
-msgstr "${booking_time} Orario non disponibile"
+msgstr "${booking_time}, Orario non disponibile"
 
 #. Default: "Fullname"
 #: ../browser/templates/prenotazione.pt:40

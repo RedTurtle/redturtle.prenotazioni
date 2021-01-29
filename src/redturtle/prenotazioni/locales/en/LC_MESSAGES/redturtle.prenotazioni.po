@@ -535,7 +535,7 @@ msgstr "foreseen_booking_time"
 #. Default: "${booking_time} busy"
 #: ../browser/week.py:240
 msgid "foreseen_busy_time"
-msgstr ""
+msgstr "${booking_time}, Time not avaiable"
 
 #. Default: "Fullname"
 #: ../browser/templates/prenotazione.pt:40

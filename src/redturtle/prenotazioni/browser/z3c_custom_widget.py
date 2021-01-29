@@ -73,6 +73,7 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
             if key in self.context.terms
         ]
 
+
 @zope.interface.implementer_only(ICustomRadioWidget)
 class CustomRadioWidget(RadioWidget):
     """ """

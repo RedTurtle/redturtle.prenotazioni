@@ -162,8 +162,8 @@
           <tal:future condition="link/future">
             <a href=""
                tal:attributes="href link/url;
-                                title link/title;
-                               class link/class">&nbsp;</a>                   
+                               title link/title;
+                               class link/class">&nbsp;</a>
           </tal:future>
           <tal:past condition="not:link/future">
             <span>&nbsp;</span>
