@@ -296,6 +296,13 @@ class PrenotazioniContextState(BrowserView):
         """ Returns, if possible, the booking urls
         """
         # we have some conditions to check
+        '''
+        print(
+            "{day}: {start} -> {stop}".format(
+                day=day, start=slot.start(), stop=slot.stop()
+            )
+        )
+        '''
         if not self.is_valid_day(day):
             return []
         if self.maximum_bookable_date:

@@ -104,15 +104,49 @@
 <!-- This is the html for a slot when we are in the week view and
      we can edit the prenotazione folder -->
 <metal:macro metal:define-macro="manager_slot" i18n:domain="redturtle.prenotazioni">
-  <div class="slot" tal:repeat="slot python:slots[gate]">
+  <tal:slots tal:repeat="slot python:slots[gate]">
     <tal:define define="booking nocall:slot/context;
-                        real_booking python:bool(booking) and not getattr(booking, 'is_pause', False)">
-      <div tal:attributes="class python:week_view.prenotazioni.get_state(booking);
-                           style slot/css_styles">
-        <tal:is_pause tal:condition="python:getattr(booking, 'is_pause', False)" >
+                        is_pause python: getattr(booking, 'is_pause', False);
+                        is_booking python:bool(booking) and not is_pause;
+                        links_per_slot python:week_view.prenotazioni.get_booking_urls(day, slot);
+                        slot_state python:week_view.prenotazioni.get_state(booking);">
+
+        <tal:five_minutes_slot tal:repeat="link links_per_slot">
+          <div class="time_slot"
+               tal:define="time_slot_class link/class; 
+                           tag_class python: time_slot_class and 'time_slot ' + time_slot_class or 'time_slot'"
+               tal:attributes="class tag_class; title python:week_view.get_prenotation_message(day, link);">
+            
+            <!--tal:is_pause tal:condition="nothing" >
+              <div class="pause"
+                   tal:condition="repeat/link/start"
+                   tal:attributes="style slot/css_styles">
+                <span>${booking/Title}</span>
+              </div>
+            </tal:is_pause>
+
+            <tal:is_real_booking tal:condition="nothing" >
+              <a href=""
+                tal:condition="repeat/link/start"
+                class="prenotazioni-popup pat-plone-modal"
+                tal:attributes="class python: slot_state and slot_state + ' prenotazioni-popup pat-plone-modal' or 'prenotazioni-popup pat-plone-modal';
+                                href string:${booking/absolute_url}?ajax_load=true;
+                                title python:week_view.get_booked_prenotation_message(day, booking);
+                                style slot/css_styles">
+                <div><span class="icon-search fa fa-search"></span></div>
+              </a>
+            </tal:is_real_booking-->
+
+
+          </div>
+        </tal:five_minutes_slot>
+      
+        <tal:remove condition="nothing">
+        <!--tal:is_pause tal:condition="python:getattr(booking, 'is_pause', False)" >
             <div><span>${booking/Title}</span></div>
         </tal:is_pause>
-        <tal:is_real_booking tal:condition="real_booking" >
+
+        <tal:is_real_booking tal:condition="is_booking" >
           <a href=""
             class="prenotazioni-popup pat-plone-modal"
             tal:attributes="href string:${booking/absolute_url}?ajax_load=true;
@@ -120,7 +154,9 @@
             <div><span class="icon-search fa fa-search"></span></div>
           </a>
         </tal:is_real_booking>
-        <tal:not_real_booking tal:condition="python:not real_booking and not getattr(booking, 'is_pause', False)" >
+
+
+        <tal:not_real_booking tal:condition="python:not is_booking and not is_pause" >
           <div class="links">
             <tal:urls repeat="link python:week_view.prenotazioni.get_booking_urls(day, slot)">
               <tal:future condition="link/future">
@@ -133,10 +169,12 @@
               </tal:past>
             </tal:urls>
           </div>
-        </tal:not_real_booking>
-      </div>
+        </tal:not_real_booking-->
+        </tal:remove>
+
+      <!--/div-->
     </tal:define>
-  </div>
+  </tal:slots>
 </metal:macro>
 
 <!-- This is the html for a slot in the stormynight period -->

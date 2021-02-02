@@ -85,7 +85,7 @@ td.selected {
 }
 
 #week-table-wrapper .table-title {
-    color: #525252;
+  color: #525252;
 }
 
 table#week {
@@ -114,11 +114,11 @@ table#week th {
   width: auto;
 }
 table#week div.table_header {
-    text-align: center;
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
-    width: auto;
-    padding-bottom: 14px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  width: auto;
+  padding-bottom: 14px;
 }
 
 table#week td {
@@ -181,10 +181,10 @@ table#week td {
 
 /* barra ora */
 #week .gates > .hours {
-    width: 34px;
-    position: absolute;
-    left: -34px;
-    overflow: hidden;
+  width: 34px;
+  position: absolute;
+  left: -34px;
+  overflow: hidden;
 }
 
 #week .gates > .hours > .hour {
@@ -452,4 +452,44 @@ a.reservation-tooltip:focus::before {
   z-index: 1000;
   box-shadow: 0 0 5px #ccc;
   padding: 1rem;
+}
+
+.time_slot {
+  height: 5px;
+  background-color: #ddd;
+}
+.time_slot:hover {
+  height: 5px;
+  background-color: #666;
+}
+.time_slot.oclock {
+  height: 6px;
+  border-top: 1px solid #eee;
+}
+
+.time_slot .pause {
+  line-height: 0;
+  font-size: 9px;
+  background-color: #e8e578;
+  padding: 10px;
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+}
+
+.time_slot .published {
+  line-height: 0;
+  font-size: 9px;
+  background-color: #6da7bb;
+}
+
+.time_slot .pending {
+  line-height: 0;
+  font-size: 9px;
+  background-color: #ffa500;
+  z-index: 3;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
 }
