@@ -42,6 +42,9 @@
       <role name="Contributor"/>
     </permission>
 
-        
+    <permission name="redturtle.prenotazioni: search prenotazioni" acquire="True">
+      <role name="Reader"/>
+    </permission>
+
   </permissions>
 </rolemap>
