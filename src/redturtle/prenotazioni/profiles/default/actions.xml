@@ -30,7 +30,7 @@
    <property name="icon_expr"></property>
    <property name="available_expr">python:getattr(object, "portal_type", "")=='PrenotazioniFolder'</property>
    <property name="permissions">
-    <element value="Modify portal content"/>
+    <element value="redturtle.prenotazioni: search prenotazioni"/>
    </property>
    <property name="visible">True</property>
   </object>

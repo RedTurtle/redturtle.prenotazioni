@@ -35,7 +35,10 @@
         title="redturtle.prenotazioni: Add PrenotazioniFolder"
     />
 
-        
+    <permission
+        id="redturtle.prenotazioni.SearchPrenotazioni"
+        title="redturtle.prenotazioni: search prenotazioni"
+    />
 
   </configure>
 

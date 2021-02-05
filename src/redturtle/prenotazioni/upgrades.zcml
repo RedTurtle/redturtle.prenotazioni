@@ -3,14 +3,14 @@
   xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
 
   <!-- -*- extra stuff goes here -*- -->
-  <!--<genericsetup:upgradeStep
-    source="*"
+
+  <genericsetup:upgradeStep
+    source="1000"
     destination="1001"
-    title="Reload GS profiles"
+    title="Upgrade to 1001"
     description=""
     profile="redturtle.prenotazioni:default"
-    handler=".upgrades.reload_gs_profile"
-    />-->
-
+    handler=".upgrades.to_1001"
+    />
 
 </configure>
