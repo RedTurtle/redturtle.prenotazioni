@@ -5,8 +5,10 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- [chg] tuning permission to allow reader to see everything
+  [chg] tuning css for mobile
+  [new] add pause to prenotazioni folder
+  [chg] add some accessibility to prenotazioni folder
 
 1.1.0 (2020-12-15)
 ------------------
