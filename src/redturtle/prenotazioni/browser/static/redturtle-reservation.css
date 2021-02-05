@@ -102,6 +102,21 @@ table#week {
   border: 1px solid #dddddd;
 }
 
+#week .day {
+    min-width: 150px;
+}
+
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 390px) {
+    .actions .button {
+       margin-bottom: 18px;
+    }
+}
+
 #week caption a {
   text-decoration: none;
   border-bottom: none;
@@ -133,10 +148,10 @@ table#week td {
 }
 
 #content #week td div.gate {
-  float: left;
-  vertical-align: middle;
-  background-color: #fff;
-  border-right: 1px solid #fff;
+    /* float: left; */
+    vertical-align: middle;
+    background-color: #fff;
+    border-right: 1px solid #fff;
 }
 #content #week td div.gate:last-of-type {
   border-right: none;
@@ -314,6 +329,15 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   min-width: 200px;
   margin-top: 1em;
   padding-right: 2em;
+}
+
+@media screen and (max-width: 460px) {
+    .week-legend {
+       width: 100%;
+    }
+    .legend.legend-manager {
+        padding: 0;
+    }
 }
 
 .week-legend fieldset {

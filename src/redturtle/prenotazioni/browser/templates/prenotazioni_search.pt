@@ -29,7 +29,6 @@
               <th i18n:translate="label_gate">Gate</th>
               <th i18n:translate="label_typology">Typology</th>
               <th i18n:translate="reservation_date">Reservation date</th>
-              <th i18n:translate="label_start_time">Start time</th>
             </tr>
           </thead>
           <tbody>
@@ -51,8 +50,7 @@
                     tal:content="gate"></td>
                 <td tal:define="tipologia_prenotazione python:getattr(obj, 'tipologia_prenotazione', '')"
                     tal:content="tipologia_prenotazione"></td>
-                <td tal:content="python:view.prenotazioni_week_view.localized_time(item['Date'])"></td>
-                <td tal:content="python:view.prenotazioni_week_view.localized_time(item['Date'], time_only=True)"></td>
+                <td tal:content="python:view.prenotazioni_week_view.localized_time(item['Date']) + ' - ' + view.prenotazioni_week_view.localized_time(item['Date'], time_only=True)"></td>
               </tr>
             </tal:block>
           </tbody>
