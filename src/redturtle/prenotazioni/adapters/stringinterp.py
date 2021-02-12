@@ -3,6 +3,8 @@ from plone.stringinterp.adapters import BaseSubstitution
 from redturtle.prenotazioni import _
 from zope.component import adapter
 from zope.interface import Interface
+from zope.annotation.interfaces import IAnnotations
+from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
 
 try:
     from plone.app.event.base import spell_date
@@ -121,6 +123,25 @@ class BookingUrlSubstitution(BaseSubstitution):
 
 
 @adapter(Interface)
+class BookingPrintUrlWithDeleteTokenSubstitution(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(u"The booking print url with delete token.")
+
+    def safe_call(self):
+        annotations = IAnnotations(self.context)
+        token = annotations.get(DELETE_TOKEN_KEY, None)
+        if not token:
+            return ""
+        return "{folder}/@@prenotazione_print?uid={uid}&{delete_token_key}={token}".format(  # noqa
+            folder=self.context.getPrenotazioniFolder().absolute_url(),
+            uid=self.context.UID(),
+            delete_token_key=DELETE_TOKEN_KEY,
+            token=token,
+        )
+
+
+@adapter(Interface)
 class BookingUserPhoneSubstitution(BaseSubstitution):
 
     category = _(u"Booking")
@@ -226,3 +247,23 @@ class BookingHRDateStartSubstitution(BaseSubstitution):
             minute=info["minute2"],
         )
         return day
+
+
+@adapter(Interface)
+class BookingUrlWithDeleteToken(BaseSubstitution):
+
+    category = _(u"Booking")
+    description = _(u"The booking url with delete token")
+
+    def safe_call(self):
+        annotations = IAnnotations(self.context)
+        token = annotations.get(DELETE_TOKEN_KEY, None)
+        if not token:
+            return ""
+
+        return "{booking_url}/@@delete_reservation?uid={uid}&{delete_token_key}={token}".format(
+            booking_url=self.context.getPrenotazioniFolder().absolute_url(),
+            delete_token_key=DELETE_TOKEN_KEY,
+            uid=self.context.UID(),
+            token=token,
+        )

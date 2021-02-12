@@ -19,7 +19,11 @@ class IPrenotazione(model.Schema):
         title=_("label_phone", u"Phone number"), required=False
     )
 
-    fiscalcode = schema.TextLine(title=_(u"label_fiscalcode", u"Fiscal code"), default=u"", required=False)
+    fiscalcode = schema.TextLine(
+        title=_(u"label_fiscalcode", u"Fiscal code"),
+        default=u"",
+        required=False,
+    )
 
     tipologia_prenotazione = schema.Choice(
         title=_(u"label_typology", default="Typology"),
@@ -124,7 +128,5 @@ class Prenotazione(Item):
 
     def getBookingCode(self):
         date = self.data_prenotazione.isoformat()
-        hash_obj = hashlib.blake2b(
-            bytes(date, encoding='utf8'), digest_size=3
-        )
+        hash_obj = hashlib.blake2b(bytes(date, encoding="utf8"), digest_size=3)
         return hash_obj.hexdigest().upper()

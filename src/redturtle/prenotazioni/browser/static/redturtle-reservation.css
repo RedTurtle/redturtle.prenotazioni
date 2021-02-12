@@ -85,7 +85,7 @@ td.selected {
 }
 
 #week-table-wrapper .table-title {
-    color: #525252;
+  color: #525252;
 }
 
 table#week {
@@ -103,18 +103,18 @@ table#week {
 }
 
 #week .day {
-    min-width: 150px;
+  min-width: 150px;
 }
 
 .flex-wrap {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 @media screen and (max-width: 390px) {
-    .actions .button {
-       margin-bottom: 18px;
-    }
+  .actions .button {
+    margin-bottom: 18px;
+  }
 }
 
 #week caption a {
@@ -129,11 +129,11 @@ table#week th {
   width: auto;
 }
 table#week div.table_header {
-    text-align: center;
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
-    width: auto;
-    padding-bottom: 14px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  width: auto;
+  padding-bottom: 14px;
 }
 
 table#week td {
@@ -148,10 +148,10 @@ table#week td {
 }
 
 #content #week td div.gate {
-    /* float: left; */
-    vertical-align: middle;
-    background-color: #fff;
-    border-right: 1px solid #fff;
+  /* float: left; */
+  vertical-align: middle;
+  background-color: #fff;
+  border-right: 1px solid #fff;
 }
 #content #week td div.gate:last-of-type {
   border-right: none;
@@ -196,10 +196,10 @@ table#week td {
 
 /* barra ora */
 #week .gates > .hours {
-    width: 34px;
-    position: absolute;
-    left: -34px;
-    overflow: hidden;
+  width: 34px;
+  position: absolute;
+  left: -34px;
+  overflow: hidden;
 }
 
 #week .gates > .hours > .hour {
@@ -332,12 +332,12 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
 }
 
 @media screen and (max-width: 460px) {
-    .week-legend {
-       width: 100%;
-    }
-    .legend.legend-manager {
-        padding: 0;
-    }
+  .week-legend {
+    width: 100%;
+  }
+  .legend.legend-manager {
+    padding: 0;
+  }
 }
 
 .week-legend fieldset {
@@ -476,4 +476,9 @@ a.reservation-tooltip:focus::before {
   z-index: 1000;
   box-shadow: 0 0 5px #ccc;
   padding: 1rem;
+}
+
+.template-delete_reservation .actions {
+  text-align: center;
+  margin-top: 15px;
 }

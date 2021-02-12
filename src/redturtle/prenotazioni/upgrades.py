@@ -44,3 +44,7 @@ def reload_gs_profile(context):
 def to_1001(context):
     update_rolemap(context)
     update_actions(context)
+
+
+def to_1002(context):
+    update_registry(context)

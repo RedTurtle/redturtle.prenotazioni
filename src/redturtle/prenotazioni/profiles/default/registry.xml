@@ -41,4 +41,12 @@
     </value>
   </record>
 
+
+  <record name="redturtle.prenotazioni.secret_cancellazione">
+      <field type="plone.registry.field.TextLine">
+          <title>Secret Cancellazione</title>
+      </field>
+      <value>whatever</value>
+  </record>
+
 </registry>

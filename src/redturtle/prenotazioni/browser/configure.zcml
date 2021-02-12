@@ -90,6 +90,14 @@
 
   <browser:page
     for="..content.prenotazioni_folder.IPrenotazioniFolder"
+    name="delete_reservation"
+    class=".delete_reservation.DeleteReservation"
+    template="templates/delete_reservation.pt"
+    permission="zope.Public"
+  />
+
+  <browser:page
+    for="..content.prenotazioni_folder.IPrenotazioniFolder"
     name="vacation-booking-show"
     class=".vacations.VacationBookingShow"
     permission="cmf.ModifyPortalContent"

@@ -16,19 +16,34 @@ i18n:domain="redturtle.prenotazioni">
 
         <metal:content fill-slot="main"
                        tal:define="prenotazione nocall:view/prenotazione;
-                                   prenotazioni_folder prenotazione/getPrenotazioniFolder;
                                    toLocalizedTime nocall:context/@@plone/toLocalizedTime"
         >
+        <tal:no_prenotazione tal:condition="not:prenotazione">
             <div tabindex="0">
+                <h1 i18n:translate="damn"></h1>
+                <p class="documentFirstHeading" tal:content="view/no_reservation_label">
+                    Seems we are not able to find your reservation
+                </p>
+            </div>
+        </tal:no_prenotazione>
+        <tal:prenotazione tal:condition="prenotazione">
+            <div tabindex="0" tal:condition="view/deleted_procedure_ended">
+                <h1 class="documentFirstHeading" tal:content="view/deleted_label">
+                    Your booking has been deleted
+                </h1>
+
+            </div>
+            <div tabindex="0" tal:condition="not:view/deleted_procedure_ended">
                 <h1 class="documentFirstHeading" tal:content="view/label">
                 Booking request
                 </h1>
-                <div class="documentDescription" tal:content="view/description">
+                <!-- <div class="documentDescription" tal:content="view/description">
                 Booking description
-                </div>
+                </div> -->
                 <p>
                     Gentile <b tal:content="prenotazione/Title">Fullname</b>,
-                    di seguito sono elencati i dati relativi alla sua prenotazione:
+                    di seguito sono elencati i dati relativi alla sua prenotazione.<br/>
+                    Verifichi se si tratta della prenotazione corretta e confermi la cancellazione.
                 </p>
                 <table class="listing">
                     <tbody>
@@ -97,21 +112,18 @@ i18n:domain="redturtle.prenotazioni">
                     </tbody>
                 </table>
             </div>
-
-
-
-            <div class="actions">
-
-                    <a href="javascript:this.print();" title=""
-                        tal:attributes="href view/print_action" class="button btn btn-primary">
-                        <span i18n:translate="">Print</span>
-                    </a>
-                    <a tal:condition="request/delete_token|nothing"
-                        title="Cancella Prenotazione" href="delete" class="button btn btn-danger"
-                        tal:attributes="href string:${prenotazioni_folder/absolute_url}/@@delete_reservation?${request/QUERY_STRING}&confirm=True">Cancella questa prenotazione</a>
+        </tal:prenotazione>
+        <div class="actions">
+            <div class="actions" tal:condition="python:view.deleted_procedure_ended or not prenotazione">
                     <a title="Prenotazioni" href="prenotazioni" class="button btn btn-default"
-                    tal:attributes="href string:${prenotazioni_folder/absolute_url}?data=${request/data|nothing}">Ritorna alle prenotazioni</a>
+                    tal:attributes="href string:${context/absolute_url}?data=${request/data|nothing}">Ritorna alle prenotazioni</a>
             </div>
+            <tal:not_deleted tal:condition="python:view.deleted_procedure_ended and prenotazione">
+                <a tal:condition="request/delete_token|nothing"
+                title="Cancella Prenotazione" href="delete" class="button btn btn-danger"
+                tal:attributes="href string:${context/absolute_url}/@@delete_reservation?${request/QUERY_STRING}&confirm=True">Cancella questa prenotazione</a>
+            </tal:not_deleted>
+        </div>
         </metal:content>
     </body>
 </html>

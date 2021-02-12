@@ -38,7 +38,8 @@ from zope.schema import Datetime
 from zope.schema import Text
 from zope.schema import TextLine
 from zope.schema import ValidationError
-
+from zope.annotation.interfaces import IAnnotations
+from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
 import re
 import six
 
@@ -402,7 +403,13 @@ class AddForm(form.AddForm):
         msg = _("booking_created")
         api.portal.show_message(message=msg, type="info", request=self.request)
         booking_date = data["booking_date"].strftime("%d/%m/%Y")
-        params = {"data": booking_date, "uid": obj.UID()}
+
+        delete_token = IAnnotations(obj).get(DELETE_TOKEN_KEY, "")
+        params = {
+            "data": booking_date,
+            "uid": obj.UID(),
+            "delete_token": delete_token,
+        }
         target = urlify(
             self.context.absolute_url(),
             paths=["@@prenotazione_print"],

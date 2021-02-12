@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from redturtle.prenotazioni.adapters.booker import IBooker
-
 import logging
 
 logger = logging.getLogger(__name__)

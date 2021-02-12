@@ -6,6 +6,10 @@ from plone.memoize.instance import memoize
 from random import choice
 from zope.component import Interface
 from zope.interface import implementer
+from redturtle.prenotazioni.adapters.prenotazione import IDeleteTokenProvider
+from zope.annotation.interfaces import IAnnotations
+from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
+from datetime import datetime, time
 
 
 class IBooker(Interface):
@@ -103,6 +107,15 @@ class Booker(object):
 
         for attribute in at_data.keys():
             setattr(obj, attribute, at_data[attribute])
+
+        # set delete token
+        expiration = datetime.combine(
+            obj.data_prenotazione.date(), time(0, 0, 0)
+        )
+        token = IDeleteTokenProvider(obj).generate_token(expiration=expiration)
+        annotations = IAnnotations(obj)
+        annotations[DELETE_TOKEN_KEY] = token.decode("utf-8")
+
         obj.reindexObject()
         api.content.transition(obj, "submit")
         return obj

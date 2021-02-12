@@ -24,6 +24,12 @@
   />
 
   <adapter
+      provides=".prenotazione.IDeleteTokenProvider"
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
+      factory=".prenotazione.DeleteToken"
+  />
+
+  <adapter
       provides=".slot.ISlot"
       for="redturtle.prenotazioni.interfaces.IPause"
       factory=".slot.Slot"
@@ -66,6 +72,14 @@
         factory=".stringinterp.BookingUrlSubstitution"
         name="booking_print_url"
     />
+
+    <adapter
+        for="*"
+        provides="plone.stringinterp.interfaces.IStringSubstitution"
+        factory=".stringinterp.BookingPrintUrlWithDeleteTokenSubstitution"
+        name="booking_print_url_with_delete_token"
+    />
+
     <adapter
         for="*"
         provides="plone.stringinterp.interfaces.IStringSubstitution"
@@ -128,6 +142,13 @@
         provides="plone.stringinterp.interfaces.IStringSubstitution"
         factory=".stringinterp.BookingOfficeCompleteAddressSubstitution"
         name="booking_office_complete_address"
+        />
+
+    <adapter
+        for="*"
+        provides="plone.stringinterp.interfaces.IStringSubstitution"
+        factory=".stringinterp.BookingUrlWithDeleteToken"
+        name="booking_url_with_delete_token"
         />
 
 </configure>

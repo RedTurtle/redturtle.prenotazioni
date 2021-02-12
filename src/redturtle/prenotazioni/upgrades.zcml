@@ -12,5 +12,12 @@
     profile="redturtle.prenotazioni:default"
     handler=".upgrades.to_1001"
     />
-
+  <genericsetup:upgradeStep
+    source="1001"
+    destination="1002"
+    title="Upgrade to 1001"
+    description=""
+    profile="redturtle.prenotazioni:default"
+    handler=".upgrades.to_1002"
+    />
 </configure>
