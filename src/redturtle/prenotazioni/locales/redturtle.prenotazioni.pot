@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-02-12 10:06+0000\n"
+"POT-Creation-Date: 2021-02-12 15:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -204,6 +204,14 @@ msgstr ""
 
 #: ../configure.zcml:28
 msgid "Installs the redturtle.prenotazioni add-on."
+msgstr ""
+
+#: ../browser/templates/delete_reservation.pt:32
+msgid "Is not possible to delete your reservation"
+msgstr ""
+
+#: ../browser/templates/delete_reservation.pt:35
+msgid "It's not possbile to delete your reservation. The url is broken or it's to late to delete it"
 msgstr ""
 
 #: ../content/prenotazioni_folder.py:313
@@ -437,11 +445,11 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: ../browser/delete_reservation.py:90
+#: ../browser/delete_reservation.py:89
 msgid "You can't delete your reservation; it's too late"
 msgstr ""
 
-#: ../browser/delete_reservation.py:71
+#: ../browser/delete_reservation.py:70
 msgid "You can't delete your reservation; please contact the office"
 msgstr ""
 
@@ -600,12 +608,12 @@ msgid "day_label"
 msgstr ""
 
 #. Default: "Delete reservation request for: ${name}"
-#: ../browser/delete_reservation.py:22
+#: ../browser/delete_reservation.py:20
 msgid "delete_reservation_request"
 msgstr ""
 
 #. Default: "Your reservation has been deleted"
-#: ../browser/delete_reservation.py:42
+#: ../browser/delete_reservation.py:40
 msgid "deleted_reservation"
 msgstr ""
 
@@ -724,27 +732,27 @@ msgstr ""
 
 #. Default: "Agency"
 #: ../browser/prenotazione_add.py:174
-#: ../browser/templates/delete_reservation.pt:70
+#: ../browser/templates/delete_reservation.pt:77
 #: ../browser/templates/manager_notification_mail.pt:36
 msgid "label_agency"
 msgstr ""
 
 #. Default: "Booking code"
-#: ../browser/templates/delete_reservation.pt:108
+#: ../browser/templates/delete_reservation.pt:115
 #: ../browser/templates/prenotazione.pt:93
 #: ../browser/templates/prenotazione_print.pt:93
 msgid "label_booking_code"
 msgstr ""
 
 #. Default: "Booking date"
-#: ../browser/templates/delete_reservation.pt:88
+#: ../browser/templates/delete_reservation.pt:95
 #: ../browser/templates/manager_notification_mail.pt:48
 #: ../browser/templates/prenotazione.pt:69
 msgid "label_booking_date"
 msgstr ""
 
 #. Default: "${from_date} from ${from} to ${to}"
-#: ../browser/templates/delete_reservation.pt:96
+#: ../browser/templates/delete_reservation.pt:103
 #: ../browser/templates/manager_notification_mail.pt:52
 #: ../browser/templates/prenotazione.pt:76
 msgid "label_booking_date_range"
@@ -758,7 +766,7 @@ msgstr ""
 
 #. Default: "Email"
 #: ../browser/prenotazione_add.py:154
-#: ../browser/templates/delete_reservation.pt:58
+#: ../browser/templates/delete_reservation.pt:65
 #: ../browser/templates/manager_notification_mail.pt:28
 msgid "label_email"
 msgstr ""
@@ -776,7 +784,7 @@ msgstr ""
 
 #. Default: "Fiscal code"
 #: ../browser/prenotazione_add.py:167
-#: ../browser/templates/delete_reservation.pt:76
+#: ../browser/templates/delete_reservation.pt:83
 #: ../browser/templates/manager_notification_mail.pt:40
 msgid "label_fiscalcode"
 msgstr ""
@@ -791,7 +799,7 @@ msgstr ""
 #. Default: "Gate"
 #: ../browser/prenotazione_move.py:35
 #: ../browser/prenotazioni_search.py:43
-#: ../browser/templates/delete_reservation.pt:102
+#: ../browser/templates/delete_reservation.pt:109
 msgid "label_gate"
 msgstr ""
 
@@ -802,7 +810,7 @@ msgstr ""
 
 #. Default: "Phone number"
 #: ../browser/prenotazione_add.py:160
-#: ../browser/templates/delete_reservation.pt:64
+#: ../browser/templates/delete_reservation.pt:71
 #: ../browser/templates/manager_notification_mail.pt:32
 msgid "label_phone"
 msgstr ""
@@ -841,7 +849,7 @@ msgstr ""
 
 #. Default: "Subject"
 #: ../browser/prenotazione_add.py:184
-#: ../browser/templates/delete_reservation.pt:82
+#: ../browser/templates/delete_reservation.pt:89
 #: ../browser/templates/manager_notification_mail.pt:44
 msgid "label_subject"
 msgstr ""
@@ -863,7 +871,7 @@ msgstr ""
 
 #. Default: "Typology"
 #: ../browser/prenotazione_add.py:147
-#: ../browser/templates/delete_reservation.pt:52
+#: ../browser/templates/delete_reservation.pt:59
 #: ../browser/templates/manager_notification_mail.pt:24
 msgid "label_typology"
 msgstr ""
@@ -936,7 +944,7 @@ msgid "next-week"
 msgstr ""
 
 #. Default: "Seems your reservation is not existing"
-#: ../browser/delete_reservation.py:34
+#: ../browser/delete_reservation.py:32
 msgid "no_reservation"
 msgstr ""
 

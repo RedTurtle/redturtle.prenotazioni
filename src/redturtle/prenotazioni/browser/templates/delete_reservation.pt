@@ -28,10 +28,17 @@ i18n:domain="redturtle.prenotazioni">
         </tal:no_prenotazione>
         <tal:prenotazione tal:condition="prenotazione">
             <div tabindex="0" tal:condition="view/deleted_procedure_ended">
-                <h1 class="documentFirstHeading" tal:content="view/deleted_label">
+                <tal:not_delete tal:condition="not:view/reservation_deleted">
+                    <h1 class="documentFirstHeading" i18n:translate="">
+                        Is not possible to delete your reservation
+                    </h1>
+                    <p i18n:translate="">
+                        It's not possbile to delete your reservation. The url is broken or it's to late to delete it
+                    </p>
+                </tal:not_delete>
+                <h1 class="documentFirstHeading" tal:condition="view/reservation_deleted" tal:content="view/deleted_label">
                     Your booking has been deleted
                 </h1>
-
             </div>
             <div tabindex="0" tal:condition="not:view/deleted_procedure_ended">
                 <h1 class="documentFirstHeading" tal:content="view/label">
@@ -118,7 +125,7 @@ i18n:domain="redturtle.prenotazioni">
                     <a title="Prenotazioni" href="prenotazioni" class="button btn btn-default"
                     tal:attributes="href string:${context/absolute_url}?data=${request/data|nothing}">Ritorna alle prenotazioni</a>
             </div>
-            <tal:not_deleted tal:condition="python:view.deleted_procedure_ended and prenotazione">
+            <tal:not_deleted tal:condition="python:not view.deleted_procedure_ended and prenotazione">
                 <a tal:condition="request/delete_token|nothing"
                 title="Cancella Prenotazione" href="delete" class="button btn btn-danger"
                 tal:attributes="href string:${context/absolute_url}/@@delete_reservation?${request/QUERY_STRING}&confirm=True">Cancella questa prenotazione</a>

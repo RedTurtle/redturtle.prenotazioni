@@ -63,6 +63,7 @@ class DeleteReservation(BrowserView):
         )
 
     def delete_reservation(self):
+        self.reservation_deleted = False
         prenotazione = self.prenotazione
         if not prenotazione:
             self.say_status(
@@ -91,6 +92,7 @@ class DeleteReservation(BrowserView):
         else:
             with api.env.adopt_roles(["Manager", "Member"]):
                 api.content.delete(obj=prenotazione)
+                self.reservation_deleted = True
                 self.say_status(_("Your reservation has been deleted"), "info")
 
     def __call__(self):
