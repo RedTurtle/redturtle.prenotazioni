@@ -9,6 +9,7 @@ Changelog
   [chg] tuning css for mobile
   [new] add pause to prenotazioni folder
   [chg] add some accessibility to prenotazioni folder
+  [new] add logic to delete reservation using a link sendable by mail
 
 1.1.0 (2020-12-15)
 ------------------
