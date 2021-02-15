@@ -216,4 +216,11 @@
     layer="z3c.form.interfaces.IFormLayer"
     />
 
+  <browser:page
+    for="*"
+    name="download_reservation"
+    class=".prenotazioni_search.DownloadReservation"
+    permission="zope2.View"
+    />
+
 </configure>

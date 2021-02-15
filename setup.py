@@ -60,6 +60,7 @@ setup(
         "plone.formwidget.recaptcha",
         "collective.dexteritytextindexer",
         "collective.z3cform.datagridfield",
+        "pyexcel_ods3",
     ],
     extras_require={
         "test": [

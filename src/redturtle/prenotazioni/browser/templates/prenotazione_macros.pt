@@ -50,7 +50,7 @@
               <div class="visualClear"></div>
             </div>
             <div class="gateswrapper">
-              <div class="gates" tal:attributes="style interval/css_styles|nothing">
+              <div class="gates" tal:attributes="style python:getattr(interval, 'css_styles', None) and interval.css_styles(is_interval=True) or None">
                 <metal:macro use-macro="prenotazione_macros/hours_column" />
                 <div class="gate" tal:repeat="gate python:sorted(slots.keys())"
                      tal:attributes="style string:width:${gate_ccs_width}%">
@@ -93,7 +93,7 @@
 <!-- This is the macro to show the hours left of the day period -->
 <metal:macro metal:define-macro="hours_column" i18n:domain="redturtle.prenotazioni">
   <div class="hours" style="top:0"
-        tal:attributes="style interval/css_styles|nothing"
+        tal:attributes="style python:getattr(interval, 'css_styles', None) and interval.css_styles(is_interval=True) or None"
         tal:define="hour_style python:'top:-%spx' % (float(interval._lower_value)/60 + interval._lower_value / 3600)">
     <div tal:repeat="hour python:range(24)" class="hour" tal:attributes="style hour_style">
       <div tal:content="python:str(hour).zfill(2)" />

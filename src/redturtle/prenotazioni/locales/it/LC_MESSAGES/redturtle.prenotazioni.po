@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-02-12 15:38+0000\n"
+"POT-Creation-Date: 2021-02-15 07:42+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -96,7 +96,7 @@ msgstr "Numero di FAX per il contatto"
 msgid "Contact phone"
 msgstr "Numero di telefono per il contatto"
 
-#: ../browser/templates/prenotazioni_search.pt:23
+#: ../browser/templates/prenotazioni_search.pt:27
 msgid "Content listing"
 msgstr "Elenco dei contenuti"
 
@@ -258,6 +258,10 @@ msgstr "Le pause devono essere comprese tra l'orario di inizio o di termine dell
 msgid "Pause table"
 msgstr "Schedulazione delle pause"
 
+#: ../browser/prenotazione_add.py:392
+msgid "Please check the captcha"
+msgstr "Verifica il Captcha"
+
 #: ../browser/prenotazione_add.py:376
 msgid "Please provide a booking date"
 msgstr "Per favore seleziona una data."
@@ -294,6 +298,10 @@ msgstr "Email del responsabile"
 msgid "Saturday"
 msgstr "Sabato"
 
+#: ../browser/templates/prenotazioni_search.pt:11
+msgid "Search for"
+msgstr "Parametri di ricerca"
+
 #: ../content/prenotazioni_folder.py:99
 msgid "Select a day"
 msgstr "Seleziona un giorno"
@@ -308,7 +316,7 @@ msgstr "Indirizzo mittente"
 
 #: ../browser/delete_reservation.py:109
 msgid "Some information to delete your reservation is missing"
-msgstr ""
+msgstr "Ci sono informazioni mancanti per la cancellazione della tua prenotazione"
 
 #: ../browser/prenotazione_add.py:381
 msgid "Sorry, this slot is not available anymore."
@@ -373,7 +381,7 @@ msgstr "Il telefono per contattare l'ufficio"
 
 #: ../adapters/stringinterp.py:129
 msgid "The booking print url with delete token."
-msgstr ""
+msgstr "L'url per la cancellazione della prenotazione"
 
 #: ../adapters/stringinterp.py:116
 msgid "The booking print url."
@@ -505,7 +513,7 @@ msgid "action_move"
 msgstr "Sposta"
 
 #. Default: "Search"
-#: ../browser/prenotazioni_search.py:174
+#: ../browser/prenotazioni_search.py:222
 msgid "action_search"
 msgstr "Cerca"
 
@@ -796,7 +804,7 @@ msgstr "Codice fiscale"
 #. Default: "Fullname"
 #: ../browser/prenotazione_add.py:152
 #: ../browser/templates/manager_notification_mail.pt:20
-#: ../browser/templates/prenotazioni_search.pt:27
+#: ../browser/templates/prenotazioni_search.pt:31
 msgid "label_fullname"
 msgstr "Nome completo"
 
@@ -847,7 +855,7 @@ msgid "label_start_time"
 msgstr "Ora inizio"
 
 #. Default: "State"
-#: ../browser/templates/prenotazioni_search.pt:28
+#: ../browser/templates/prenotazioni_search.pt:32
 msgid "label_state"
 msgstr "Stato"
 
@@ -921,7 +929,7 @@ msgid "morning_start_label"
 msgstr "Apertura mattina"
 
 #. Default: "Go back to the calendar"
-#: ../browser/prenotazioni_search.py:185
+#: ../browser/prenotazioni_search.py:233
 #: ../browser/templates/prenotazione.pt:138
 #: ../browser/templates/prenotazione_add.pt:88
 msgid "move_back_message"
@@ -1010,9 +1018,14 @@ msgstr "Lo stato della prenotazione è \"rifiutato\". Se lo cambi, questa prenot
 msgid "reject_booking"
 msgstr "Rifiuta la prenotazione"
 
+#. Default: "Code"
+#: ../browser/templates/prenotazioni_search.pt:37
+msgid "reservation_code"
+msgstr "Codice prenotazione"
+
 #. Default: "Reservation date"
 #: ../browser/templates/prenotazione_move.pt:28
-#: ../browser/templates/prenotazioni_search.pt:31
+#: ../browser/templates/prenotazioni_search.pt:36
 msgid "reservation_date"
 msgstr "Data prenotazione"
 
@@ -1026,7 +1039,7 @@ msgid "resize"
 msgstr "Ridimensiona"
 
 #. Default: "items matching your search terms."
-#: ../browser/templates/prenotazioni_search.pt:12
+#: ../browser/templates/prenotazioni_search.pt:16
 msgid "result_number"
 msgstr "elementi trovati"
 

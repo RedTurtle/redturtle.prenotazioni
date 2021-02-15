@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-02-12 15:38+0000\n"
+"POT-Creation-Date: 2021-02-15 07:42+0000\n"
 "PO-Revision-Date: 2020-12-03 16:12+0100\n"
 "Last-Translator: Andrea Cecchi <cekk@darthmaulcekk2.station>\n"
 "Language-Team: English\n"
@@ -97,7 +97,7 @@ msgstr ""
 msgid "Contact phone"
 msgstr ""
 
-#: ../browser/templates/prenotazioni_search.pt:23
+#: ../browser/templates/prenotazioni_search.pt:27
 msgid "Content listing"
 msgstr "Content listing"
 
@@ -259,6 +259,10 @@ msgstr ""
 msgid "Pause table"
 msgstr ""
 
+#: ../browser/prenotazione_add.py:392
+msgid "Please check the captcha"
+msgstr ""
+
 #: ../browser/prenotazione_add.py:376
 msgid "Please provide a booking date"
 msgstr "Please provide a booking date"
@@ -293,6 +297,10 @@ msgstr "Responsible email"
 
 #: ../content/prenotazioni_folder.py:105
 msgid "Saturday"
+msgstr ""
+
+#: ../browser/templates/prenotazioni_search.pt:11
+msgid "Search for"
 msgstr ""
 
 #: ../content/prenotazioni_folder.py:99
@@ -506,7 +514,7 @@ msgid "action_move"
 msgstr "action_move"
 
 #. Default: "Search"
-#: ../browser/prenotazioni_search.py:174
+#: ../browser/prenotazioni_search.py:222
 msgid "action_search"
 msgstr "action_search"
 
@@ -794,7 +802,7 @@ msgstr "Fiscalcode"
 #. Default: "Fullname"
 #: ../browser/prenotazione_add.py:152
 #: ../browser/templates/manager_notification_mail.pt:20
-#: ../browser/templates/prenotazioni_search.pt:27
+#: ../browser/templates/prenotazioni_search.pt:31
 msgid "label_fullname"
 msgstr "label_fullname"
 
@@ -845,7 +853,7 @@ msgid "label_start_time"
 msgstr "label_start_time"
 
 #. Default: "State"
-#: ../browser/templates/prenotazioni_search.pt:28
+#: ../browser/templates/prenotazioni_search.pt:32
 msgid "label_state"
 msgstr "label_state"
 
@@ -919,7 +927,7 @@ msgid "morning_start_label"
 msgstr "morning_start_label"
 
 #. Default: "Go back to the calendar"
-#: ../browser/prenotazioni_search.py:185
+#: ../browser/prenotazioni_search.py:233
 #: ../browser/templates/prenotazione.pt:138
 #: ../browser/templates/prenotazione_add.pt:88
 msgid "move_back_message"
@@ -1008,9 +1016,14 @@ msgstr "refused-review-state-warning"
 msgid "reject_booking"
 msgstr "reject_booking"
 
+#. Default: "Code"
+#: ../browser/templates/prenotazioni_search.pt:37
+msgid "reservation_code"
+msgstr ""
+
 #. Default: "Reservation date"
 #: ../browser/templates/prenotazione_move.pt:28
-#: ../browser/templates/prenotazioni_search.pt:31
+#: ../browser/templates/prenotazioni_search.pt:36
 msgid "reservation_date"
 msgstr "reservation_date"
 
@@ -1024,7 +1037,7 @@ msgid "resize"
 msgstr "resize"
 
 #. Default: "items matching your search terms."
-#: ../browser/templates/prenotazioni_search.pt:12
+#: ../browser/templates/prenotazioni_search.pt:16
 msgid "result_number"
 msgstr "result_number"
 

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-02-12 15:38+0000\n"
+"POT-Creation-Date: 2021-02-15 07:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,7 +96,7 @@ msgstr ""
 msgid "Contact phone"
 msgstr ""
 
-#: ../browser/templates/prenotazioni_search.pt:23
+#: ../browser/templates/prenotazioni_search.pt:27
 msgid "Content listing"
 msgstr ""
 
@@ -258,6 +258,10 @@ msgstr ""
 msgid "Pause table"
 msgstr ""
 
+#: ../browser/prenotazione_add.py:392
+msgid "Please check the captcha"
+msgstr ""
+
 #: ../browser/prenotazione_add.py:376
 msgid "Please provide a booking date"
 msgstr ""
@@ -292,6 +296,10 @@ msgstr ""
 
 #: ../content/prenotazioni_folder.py:105
 msgid "Saturday"
+msgstr ""
+
+#: ../browser/templates/prenotazioni_search.pt:11
+msgid "Search for"
 msgstr ""
 
 #: ../content/prenotazioni_folder.py:99
@@ -505,7 +513,7 @@ msgid "action_move"
 msgstr ""
 
 #. Default: "Search"
-#: ../browser/prenotazioni_search.py:174
+#: ../browser/prenotazioni_search.py:222
 msgid "action_search"
 msgstr ""
 
@@ -792,7 +800,7 @@ msgstr ""
 #. Default: "Fullname"
 #: ../browser/prenotazione_add.py:152
 #: ../browser/templates/manager_notification_mail.pt:20
-#: ../browser/templates/prenotazioni_search.pt:27
+#: ../browser/templates/prenotazioni_search.pt:31
 msgid "label_fullname"
 msgstr ""
 
@@ -843,7 +851,7 @@ msgid "label_start_time"
 msgstr ""
 
 #. Default: "State"
-#: ../browser/templates/prenotazioni_search.pt:28
+#: ../browser/templates/prenotazioni_search.pt:32
 msgid "label_state"
 msgstr ""
 
@@ -917,7 +925,7 @@ msgid "morning_start_label"
 msgstr ""
 
 #. Default: "Go back to the calendar"
-#: ../browser/prenotazioni_search.py:185
+#: ../browser/prenotazioni_search.py:233
 #: ../browser/templates/prenotazione.pt:138
 #: ../browser/templates/prenotazione_add.pt:88
 msgid "move_back_message"
@@ -1006,9 +1014,14 @@ msgstr ""
 msgid "reject_booking"
 msgstr ""
 
+#. Default: "Code"
+#: ../browser/templates/prenotazioni_search.pt:37
+msgid "reservation_code"
+msgstr ""
+
 #. Default: "Reservation date"
 #: ../browser/templates/prenotazione_move.pt:28
-#: ../browser/templates/prenotazioni_search.pt:31
+#: ../browser/templates/prenotazioni_search.pt:36
 msgid "reservation_date"
 msgstr ""
 
@@ -1022,7 +1035,7 @@ msgid "resize"
 msgstr ""
 
 #. Default: "items matching your search terms."
-#: ../browser/templates/prenotazioni_search.pt:12
+#: ../browser/templates/prenotazioni_search.pt:16
 msgid "result_number"
 msgstr ""
 

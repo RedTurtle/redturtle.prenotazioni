@@ -68,11 +68,24 @@ td.selected {
   flex-wrap: wrap;
 }
 
+.template-prenotazioni_search .search_parameters {
+  display: none;
+}
+
+.template-prenotazioni_search .download {
+  float: right;
+}
+
 @media print {
   .template-prenotazione_print #portal-top,
   .template-prenotazione_print .actions,
-  #viewlet-below-content {
+  #viewlet-below-content,
+  .view-name-prenotazioni_search,
+  .search-result-wrapper h2 {
     display: none;
+  }
+  .template-prenotazioni_search .search_parameters {
+    display: block;
   }
 }
 
@@ -411,10 +424,10 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
 }
 
 #week .gate > .slot > .pause_slot {
-  line-height: 0;
+  /* line-height: 0; */
   font-size: 9px;
   background-color: #e8e578;
-  padding: 10px;
+  /* padding: 10px; */
 }
 
 #week .slot > .pending > a > div {
@@ -481,4 +494,8 @@ a.reservation-tooltip:focus::before {
 .template-delete_reservation .actions {
   text-align: center;
   margin-top: 15px;
+}
+
+div.field input[type="radio"].required:after {
+  content: "";
 }

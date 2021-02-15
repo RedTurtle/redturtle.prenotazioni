@@ -188,7 +188,39 @@ class BaseSlot(Interval):
         """
         return self.value_hr(self._upper_value)
 
-    def css_styles(self):
+    def get_offset(self, is_interval):
+        """
+        We have two case to handle
+
+        In case we have a slot crossing over hours, we need to add a pixel for
+        every hour we change. e.g. if we have pause or appointment between 8.45
+        and 9.15 we need to add 1px.
+        If we have pause or appointment between 8.55 and 10.05, we need to add
+        2px.
+        This is caused by the border we add when we draw under every free hour
+
+        We check if we have context, so we are sure we are dealing with a pause
+        or with a reserveation. Then we take start and stop that are human
+        readable hours (like 8:00). With this we can take just hours splitting
+        the string and then make a difference between stop and start.
+
+        Second case. If we have BaseSlot we are drawing the gate columns. We
+        need to add a pixel offset 'cause if we don't stop at the end of the
+        hour, in the table the box with the hour is half cutted
+        """
+        if self.context:
+            start = int(self.start().split(":")[0])
+            stop = int(self.stop().split(":")[0])
+            return (stop - start) * 1.0
+
+        if is_interval:
+            stop = self.stop().split(":")[1]
+            if stop in ("15", "30", "45"):
+                offset = {"15": 45.0, "30": 30.0, "45": 15.0}[stop]
+                return offset
+        return 0.0
+
+    def css_styles(self, is_interval=False):
         """ the css styles for this slot
 
         The height of the interval in pixel is equal
@@ -199,6 +231,8 @@ class BaseSlot(Interval):
             # we add 1px for each hour to account for the border
             # between the slots
             height = len(self) / 60 * 1.0 + len(self) / 3600
+            offset = self.get_offset(is_interval)
+            height = height + offset
             styles.append("height:%dpx" % height)
         styles.extend(self.extra_css_styles)
         return ";".join(styles)

@@ -7,6 +7,14 @@
                  icon_url string:/++plone++redturtle.prenotazioni/calendar-icon.png;">
   <div class="visualClear"></div>
   <h2 i18n:translate="search_result_message">Search result</h2>
+  <div class="search_parameters" tal:condition="view/search_string">
+    <h3 i18n:translate="">Search for</h3>
+    <p tal:content="structure view/search_string"/>
+  </div>
+  <div class="download float-right">
+  <i class="fa fa-download"></i>
+  <a tal:attributes="href view/download_url">Download prenotazioni</a>
+  </div>
   <p>
     <strong tal:content="string:${booking_length}">1234</strong>
     <span i18n:translate="result_number">
@@ -28,13 +36,22 @@
               <th i18n:translate="label_state">State</th>
               <th i18n:translate="label_gate">Gate</th>
               <th i18n:translate="label_typology">Typology</th>
+              <th i18n:translate="label_email">Email</th>
               <th i18n:translate="reservation_date">Reservation date</th>
+              <th i18n:translate="reservation_code">Code</th>
             </tr>
           </thead>
           <tbody>
             <tal:block tal:repeat="item batch">
               <tr tal:define="oddrow repeat/item/odd;
-                              obj python:item.getObject()"
+                              obj python:item.getObject();
+                              state python:view.get_prenotazione_state(obj);
+                              gate python:getattr(obj, 'gate', '');
+                              tipologia_prenotazione python:getattr(obj, 'tipologia_prenotazione', '');
+                              email python:getattr(obj, 'email', '');
+                              booking_code python:obj.getBookingCode();
+                              date_time python:view.prenotazioni_week_view.localized_time(item['Date']) + ' - ' + view.prenotazioni_week_view.localized_time(item['Date'], time_only=True);
+                              subject python: ' '.join(filter(bool, [tipologia_prenotazione, 'del', date_time ]))"
                   tal:attributes="class python:oddrow and 'even' or 'odd'" >
                 <td>
                   <img src="" tal:attributes="src icon_url"/>
@@ -44,13 +61,15 @@
                      tal:content="item/Title"
                      >Item title</a>
                 </td>
-                <td tal:define="state python:view.get_prenotazione_state(obj)"
-                    tal:content="state"></td>
-                <td tal:define="gate python:getattr(obj, 'gate', '')"
-                    tal:content="gate"></td>
-                <td tal:define="tipologia_prenotazione python:getattr(obj, 'tipologia_prenotazione', '')"
-                    tal:content="tipologia_prenotazione"></td>
-                <td tal:content="python:view.prenotazioni_week_view.localized_time(item['Date']) + ' - ' + view.prenotazioni_week_view.localized_time(item['Date'], time_only=True)"></td>
+                <td tal:content="state"></td>
+                <td tal:content="gate"></td>
+                <td tal:content="tipologia_prenotazione"></td>
+                <td>
+                  <tal:email tal:condition="email">
+                    <a href="mailto:${email}?subject=${subject}"
+                       tal:content="email"></a></tal:email></td>
+                <td tal:content="date_time"></td>
+                <td tal:content="booking_code"></td>
               </tr>
             </tal:block>
           </tbody>

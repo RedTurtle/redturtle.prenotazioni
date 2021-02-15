@@ -19,6 +19,10 @@ from zope.schema import Date
 from zope.schema import TextLine
 from zope.schema import ValidationError
 from zope.schema.interfaces import IVocabularyFactory
+from redturtle.prenotazioni.utilities.urls import urlify
+import tempfile
+from pyexcel_ods3 import save_data
+from ZPublisher.Iterators import filestream_iterator
 
 
 class InvalidDate(ValidationError):
@@ -105,6 +109,7 @@ class SearchForm(form.Form):
     def get_query(self, data):
         """ The query we requested
         """
+        self.query_data = {}
         query = {
             "sort_on": "Date",
             "sort_order": "reverse",
@@ -114,7 +119,6 @@ class SearchForm(form.Form):
             query["SearchableText"] = quote_chars(data["text"])
         if data.get("review_state"):
             query["review_state"] = data["review_state"]
-
         if data.get("gate"):
             factory = getUtility(
                 IVocabularyFactory, "redturtle.prenotazioni.gates"
@@ -147,6 +151,59 @@ class SearchForm(form.Form):
             }
         return query
 
+    def set_search_string(self, data):
+        result = []
+        MARKUP = "<strong>{}:</strong> {}"
+        if "text" in data and data.get("text", None):
+            result.append(
+                MARKUP.format(
+                    self.context.translate(_("label_text", u"Text to search")),
+                    data["text"],
+                )
+            )
+        if "review_state" in data and data.get("review_state", None):
+            result.append(
+                MARKUP.format(
+                    self.context.translate(__("State"),),
+                    self.context.translate(__(data["review_state"])),
+                )
+            )
+
+        if "gate" in data and data.get("gate", None):
+            result.append(
+                MARKUP.format(
+                    self.context.translate(_("label_gate", u"Gate"),),
+                    data["gate"],
+                )
+            )
+
+        if "start" in data and data.get("start", None):
+            result.append(
+                MARKUP.format(
+                    self.context.translate(_("label_start", u"Start date ")),
+                    data["start"].strftime("%d/%m/%Y"),
+                )
+            )
+
+        if "end" in data and data.get("end", None):
+            result.append(
+                MARKUP.format(
+                    self.context.translate(_("label_end", u"End date")),
+                    data["end"].strftime("%d/%m/%Y"),
+                )
+            )
+        search_string = ""
+        if result:
+            search_string = "; ".join(result)
+            search_string = "<p>{}</p>".format(search_string)
+        return search_string
+
+    def set_download_url(self, data):
+        return urlify(
+            "{}/@@download_reservation".format(self.context.absolute_url()),
+            params=data,
+        )
+
     def get_brains(self, data=None):
         """
         The brains for my search
@@ -156,6 +213,8 @@ class SearchForm(form.Form):
         else:
             data = self.request.form
         query = self.get_query(data=data)
+        self.search_string = self.set_search_string(data)
+        self.download_url = self.set_download_url(data)
         return self.conflict_manager.unrestricted_prenotazioni(**query)
 
     # Use base form validation
@@ -193,3 +252,66 @@ class SearchForm(form.Form):
 
 
 WrappedSearchForm = wrap_form(SearchForm)
+
+
+class DownloadReservation(SearchForm):
+    def __call__(self):
+        data = {
+            "sort_on": "Date",
+            "sort_order": "reverse",
+            "path": "/".join(self.context.getPhysicalPath()),
+        }
+        for k in self.request.form:
+            v = self.request.form.get(k, None)
+            if v and v != "None":
+                data[k] = v
+        if data:
+            query = self.get_query(data=data)
+            brains = self.conflict_manager.unrestricted_prenotazioni(**query)
+        else:
+            brains = []
+        data = {
+            "Sheet 1": [
+                [
+                    "Nome completo",
+                    "Stato",
+                    "Sportello",
+                    "Tipologia prenotazione",
+                    "Email",
+                    "Data prenotazione",
+                    "Codice prenotazione",
+                ]
+            ]
+        }
+        for brain in brains:
+            obj = brain.getObject()
+            data["Sheet 1"].append(
+                [
+                    brain.Title,
+                    self.get_prenotazione_state(obj),
+                    getattr(obj, "gate", ""),
+                    getattr(obj, "tipologia_prenotazione", ""),
+                    getattr(obj, "email", ""),
+                    self.prenotazioni_week_view.localized_time(brain["Date"])
+                    + " - "
+                    + self.prenotazioni_week_view.localized_time(
+                        brain["Date"], time_only=True
+                    ),
+                    obj.getBookingCode(),
+                ]
+            )
+
+        now = DateTime()
+        filename = "prenotazioni_{}.ods".format(now.strftime("%Y%m%d%H%M%S"))
+        filepath = "{0}/{1}".format(tempfile.mkdtemp(), filename)
+        save_data(filepath, data)
+        streamed = filestream_iterator(filepath)
+        mime = "application/vnd.oasis.opendocument.spreadsheet"
+        self.request.RESPONSE.setHeader(
+            "Content-type", "{0};charset={1}".format(mime, "utf-8")
+        )
+        self.request.RESPONSE.setHeader("Content-Length", str(len(streamed)))
+        self.request.RESPONSE.setHeader(
+            "Content-Disposition", 'attachment; filename="{}"'.format(filename)
+        )
+        return streamed
