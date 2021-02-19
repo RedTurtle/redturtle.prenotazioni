@@ -12,8 +12,7 @@
     <p tal:content="structure view/search_string"/>
   </div>
   <div class="download float-right">
-  <i class="fa fa-download"></i>
-  <a tal:attributes="href view/download_url">Download prenotazioni</a>
+  <a tal:attributes="href view/download_url"> <i class="fas fa-download" aria-hidden="true"></i> Download prenotazioni</a>
   </div>
   <p>
     <strong tal:content="string:${booking_length}">1234</strong>

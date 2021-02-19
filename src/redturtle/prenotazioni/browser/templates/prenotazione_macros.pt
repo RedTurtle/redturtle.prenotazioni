@@ -3,7 +3,7 @@
   <div class="navigator">
     <a class="floatleft" href="#" rel="nofollow"
       tal:attributes="href week_view/prev_week_url">
-      <span class="icon-step-backward fa fa-step-backward"></span>
+      <span class="icon-step-backward fa fa-chevron-left"></span>
       <tal:i18n i18n:translate="previous-week">previous week</tal:i18n>
     </a>
 
@@ -20,7 +20,7 @@
     <a class="floatright" href="#" rel="nofollow"
        tal:attributes="href week_view/next_week_url">
        <tal:i18n i18n:translate="next-week">next week</tal:i18n>
-       <span class="icon-step-forward fa fa-step-forward"></span></a>
+       <span class="icon-step-forward fa fa-chevron-right"></span></a>
  </div>
  <div class="visualClear"></div>
 </metal:macro>
