@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.1 (unreleased)
+1.1.1 (2021-02-19)
 ------------------
 
 - [chg] tuning permission to allow reader to see everything
