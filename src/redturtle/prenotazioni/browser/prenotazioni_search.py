@@ -180,7 +180,7 @@ class SearchForm(form.Form):
 
         if "start" in data and data.get("start", None):
             if isinstance(data.get("start"), str):
-                data["start"] = datetime.datetime.strptime(
+                data["start"] = datetime.strptime(
                     data.get("start"), "%Y-%m-%d"
                 )
             result.append(
@@ -192,9 +192,7 @@ class SearchForm(form.Form):
 
         if "end" in data and data.get("end", None):
             if isinstance(data.get("end"), str):
-                data["end"] = datetime.datetime.strptime(
-                    data.get("end"), "%Y-%m-%d"
-                )
+                data["end"] = datetime.strptime(data.get("end"), "%Y-%m-%d")
             result.append(
                 MARKUP.format(
                     self.context.translate(_("label_end", u"End date")),
