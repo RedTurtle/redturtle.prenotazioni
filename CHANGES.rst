@@ -5,7 +5,7 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- [fix] fix search reservation accessing by gate icon
 
 
 1.1.2 (2021-02-22)
