@@ -162,7 +162,7 @@ table#week td {
 }
 
 #content #week td div.gate {
-  /* float: left; */
+  float: left;
   vertical-align: middle;
   background-color: #fff;
   border-right: 1px solid #fff;
@@ -194,6 +194,7 @@ table#week td {
 #week .gateswrapper {
   border-bottom: 1px solid #ddd;
   margin-bottom: 1em;
+  clear: both;
 }
 #week .gates {
   margin-left: 32px;

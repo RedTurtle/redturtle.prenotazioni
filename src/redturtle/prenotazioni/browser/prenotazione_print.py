@@ -5,6 +5,7 @@ from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.utilities.urls import urlify
+from plone.protect.utils import addTokenToUrl
 
 
 class PrenotazionePrint(BrowserView):
@@ -64,3 +65,6 @@ class PrenotazionePrint(BrowserView):
             return self.request.response.redirect(target)
         else:
             return super(PrenotazionePrint, self).__call__()
+
+    def protect_url(self, url):
+        return addTokenToUrl(url)

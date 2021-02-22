@@ -683,7 +683,11 @@ class PrenotazioniContextState(BrowserView):
         slots_by_gate = {}
         slots = self.get_busy_slots_in_period(booking_date, period)
         for slot in slots:
-            slots_by_gate.setdefault(slot.gate, []).append(slot)
+            if slot.context.portal_type == PAUSE_PORTAL_TYPE:
+                for gate in self.get_gates():
+                    slots_by_gate.setdefault(gate, []).append(slot)
+            else:
+                slots_by_gate.setdefault(slot.gate, []).append(slot)
         return slots_by_gate
 
     @memoize

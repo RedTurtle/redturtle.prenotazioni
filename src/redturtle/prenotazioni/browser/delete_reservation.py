@@ -6,6 +6,7 @@ from plone.memoize.view import memoize
 from redturtle.prenotazioni import _
 from plone import api
 from redturtle.prenotazioni.adapters.prenotazione import IDeleteTokenProvider
+from plone.protect.utils import addTokenToUrl
 
 
 class DeleteReservation(BrowserView):
@@ -91,7 +92,9 @@ class DeleteReservation(BrowserView):
 
         else:
             with api.env.adopt_roles(["Manager", "Member"]):
-                api.content.delete(obj=prenotazione)
+                # api.content.delete(obj=prenotazione)
+                day_folder = prenotazione.aq_parent
+                day_folder.manage_delObjects(prenotazione.id)
                 self.reservation_deleted = True
                 self.say_status(_("Your reservation has been deleted"), "info")
 
@@ -112,3 +115,6 @@ class DeleteReservation(BrowserView):
                 message=msg, type="error", request=self.request
             )
         return self.template()
+
+    def protect_url(self, url):
+        return addTokenToUrl(url)

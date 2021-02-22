@@ -127,8 +127,9 @@ i18n:domain="redturtle.prenotazioni">
             </div>
             <tal:not_deleted tal:condition="python:not view.deleted_procedure_ended and prenotazione">
                 <a tal:condition="request/delete_token|nothing"
-                title="Cancella Prenotazione" href="delete" class="button btn btn-danger"
-                tal:attributes="href string:${context/absolute_url}/@@delete_reservation?${request/QUERY_STRING}&confirm=True">Cancella questa prenotazione</a>
+                    title="Cancella Prenotazione" href="delete" class="button btn btn-danger"
+                    tal:define="url string:${context/absolute_url}/@@delete_reservation?${request/QUERY_STRING}&confirm=True"
+                    tal:attributes="href python:view.protect_url(url)">Cancella questa prenotazione</a>
             </tal:not_deleted>
         </div>
         </metal:content>

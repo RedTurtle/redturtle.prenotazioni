@@ -47,7 +47,6 @@
                   </a>
                 </div>
               </div>
-              <div class="visualClear"></div>
             </div>
             <div class="gateswrapper">
               <div class="gates" tal:attributes="style python:getattr(interval, 'css_styles', None) and interval.css_styles(is_interval=True) or None">
