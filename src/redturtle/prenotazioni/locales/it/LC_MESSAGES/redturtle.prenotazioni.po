@@ -151,7 +151,7 @@ msgstr "Venerdì"
 #: ../browser/templates/prenotazione.pt:81
 #: ../content/prenotazione.py:47
 msgid "Gate"
-msgstr "Sportello"
+msgstr "Postazione"
 
 #. Default: "How to get here"
 #: ../content/prenotazioni_folder.py:390
@@ -333,7 +333,7 @@ msgstr "Ci dispiace, ma questo intervallo di tempo non è al momento disponibile
 
 #: ../content/prenotazione.py:47
 msgid "Sportello a cui presentarsi"
-msgstr "Sportello a cui presentarsi"
+msgstr "Postazione a cui presentarsi"
 
 #: ../contentrules/sendMovedPrenotazione.py:27
 msgid "Subject"
@@ -409,7 +409,7 @@ msgstr "L'indirizzo email dell'utente che ha fatto la prenotazione"
 
 #: ../adapters/stringinterp.py:27
 msgid "The gate booked."
-msgstr "Lo sportello prenotato."
+msgstr "La postazione prenotata."
 
 #: ../adapters/stringinterp.py:201
 msgid "The information to reach the office where user book a reservation"
@@ -634,7 +634,7 @@ msgstr "Se lavori per un'azienda compila questo campo"
 #. Default: "The gate that will be unavailable"
 #: ../browser/vacations.py:67
 msgid "description_gate"
-msgstr "Lo sportello che non sarà disponibile"
+msgstr "La postazione che non sarà disponibile"
 
 #. Default: "This text will appear in the calendar cells"
 #: ../browser/vacations.py:60
@@ -665,12 +665,12 @@ msgstr "Limita la prenotazione ad un certo numero di giorni nel futuro partendo 
 #. Default: "Put gates here (one per line). If you do not fill this field, one gate is assumed"
 #: ../content/prenotazioni_folder.py:348
 msgid "gates_help"
-msgstr "Inserisci gli sportelli preposti (uno per riga). Se questo campo non è compilato, si assume che esista un unico sportello preposto."
+msgstr "Inserisci le psotazioni preposte (uno per riga). Se questo campo non è compilato, si assume che esista un unica postazione preposta."
 
 #. Default: "Gates"
 #: ../content/prenotazioni_folder.py:347
 msgid "gates_label"
-msgstr "Sportelli preposti"
+msgstr "Postazioni preposte"
 
 #: ../browser/prenotazione_add.py:266
 msgid "help_prenotazione_add"
@@ -813,7 +813,7 @@ msgstr "Nome completo"
 #: ../browser/prenotazioni_search.py:43
 #: ../browser/templates/delete_reservation.pt:109
 msgid "label_gate"
-msgstr "Sportello"
+msgstr "Postazione"
 
 #. Default: "Go to the booking to see more details and manage it: ${url}"
 #: ../browser/templates/manager_notification_mail.pt:62
@@ -1046,7 +1046,7 @@ msgstr "elementi trovati"
 #. Default: "Search by gate"
 #: ../browser/templates/prenotazione_macros.pt:308
 msgid "search-by-gate"
-msgstr "Ricerca per sportello"
+msgstr "Ricerca per postazione"
 
 #. Default: "Search result"
 #: ../browser/templates/prenotazioni_search.pt:9
@@ -1062,7 +1062,7 @@ msgstr "seleziona l'opzione desiderata dal gruppo di campi seguente"
 #. Default: "This gate has some booking schedule in this time period."
 #: ../browser/vacations.py:270
 msgid "slot_conflict_error"
-msgstr "Questo sportello ha già appuntamenti schedulati in questo periodo."
+msgstr "Questa postazione ha già appuntamenti schedulati in questo periodo."
 
 #. Default: "The email address that sends the email. If no email is provided here, it will use the address from portal."
 #: ../contentrules/sendMovedPrenotazione.py:34
@@ -1103,12 +1103,12 @@ msgstr "Le seguenti tipologie non sono selezionabili nell'orario selezionato:"
 #. Default: "Add a gate here (one per line) if, for some reason, it is not be available.The specified gate will not be taken in to account for slot allocation. Each line should match a corresponding line in the \"Gates\" field"
 #: ../content/prenotazioni_folder.py:361
 msgid "unavailable_gates_help"
-msgstr "Aggiungi uno sportello (uno per riga) se, per qualche motivo, non è disponibile. Lo sportello specificato non sarà considerato per l'allocazione degli appuntamenti. Le righe devono essere uguali a quelle nel campo \"Sportelli preposti\"."
+msgstr "Aggiungi una postazione (uno per riga) se, per qualche motivo, non è disponibile. La postazione specificata non sarà considerata per l'allocazione degli appuntamenti. Le righe devono essere uguali a quelle nel campo \"Postazioni preposte\"."
 
 #. Default: "Unavailable gates"
 #: ../content/prenotazioni_folder.py:360
 msgid "unavailable_gates_label"
-msgstr "Sportelli non disponibili"
+msgstr "Postazioni non disponibili"
 
 #. Default: "Unbookable time"
 #: ../browser/templates/prenotazione_macros.pt:295

@@ -79,6 +79,7 @@ td.selected {
 @media print {
   .template-prenotazione_print #portal-top,
   .template-prenotazione_print .actions,
+  .template-prenotazioni_search .download,
   #viewlet-below-content,
   .view-name-prenotazioni_search,
   .search-result-wrapper h2 {

@@ -334,7 +334,7 @@ msgstr "Sorry, you can not book this slot for now."
 
 #: ../content/prenotazione.py:47
 msgid "Sportello a cui presentarsi"
-msgstr "Sportello a cui presentarsi"
+msgstr "Postazione a cui presentarsi"
 
 #: ../contentrules/sendMovedPrenotazione.py:27
 msgid "Subject"

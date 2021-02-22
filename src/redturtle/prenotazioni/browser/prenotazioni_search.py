@@ -275,7 +275,7 @@ class DownloadReservation(SearchForm):
                 [
                     "Nome completo",
                     "Stato",
-                    "Sportello",
+                    "Postazione",
                     "Tipologia prenotazione",
                     "Email",
                     "Data prenotazione",
