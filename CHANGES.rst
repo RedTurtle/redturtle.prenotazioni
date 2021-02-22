@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.2 (unreleased)
+1.1.2 (2021-02-22)
 ------------------
 
 - [chg] change 'sportello' label with 'postazione'
