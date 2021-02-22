@@ -5,7 +5,11 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- [chg] change 'sportello' label with 'postazione'
+  [fix] now we can handle more gates and layout is safe
+  [fix] fix insufficient permission deleting reservation
+  [fix] pauses are spread over more gate if more gate are available
+  [fix] hide "download" link in search reservation print 
 
 
 1.1.1 (2021-02-19)
