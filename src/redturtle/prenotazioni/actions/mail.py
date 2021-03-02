@@ -58,4 +58,6 @@ class MailActionExecutor(BaseExecutor):
         # now transform recipients in a iterator, if needed
         if type(recipients) == str or type(recipients) == six.text_type:
             recipients = [str(recipients)]
+        if not recipients:
+            return []
         return list(filter(bool, recipients))

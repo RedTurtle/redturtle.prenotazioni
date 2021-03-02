@@ -985,8 +985,8 @@ msgstr ""
 
 #. Default: "Change date/time"
 #: ../profiles/default/actions.xml
-msgid "prenotazione_move"
-msgstr "prenotazione_move"
+msgid "Change date/time"
+msgstr "Change date/time"
 
 #. Default: "prenotazioni_search"
 #: ../profiles/default/actions.xml

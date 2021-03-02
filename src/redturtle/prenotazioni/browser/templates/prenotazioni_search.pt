@@ -19,7 +19,8 @@
     <span i18n:translate="result_number">
       items matching your search terms.</span>
   </p>
-  <div tal:condition="bookings">
+  <div tal:condition="bookings" 
+       tal:define="prenotazioni_states view/get_prenotazioni_states;">
     <tal:batch
         define="Batch python:modules['Products.CMFPlone'].Batch;
                 b_size python:25;
@@ -32,7 +33,7 @@
           <thead>
             <tr>
               <th i18n:translate="label_fullname">Fullname</th>
-              <th i18n:translate="label_state">State</th>
+              <th i18n:translate="label_phone">Phone</th>
               <th i18n:translate="label_gate">Gate</th>
               <th i18n:translate="label_typology">Typology</th>
               <th i18n:translate="label_email">Email</th>
@@ -44,14 +45,18 @@
             <tal:block tal:repeat="item batch">
               <tr tal:define="oddrow repeat/item/odd;
                               obj python:item.getObject();
-                              state python:view.get_prenotazione_state(obj);
+                              review_state item/review_state;
+                              state python:prenotazioni_states[item.review_state];
                               gate python:getattr(obj, 'gate', '');
+                              phone python:getattr(obj, 'phone', '');
                               tipologia_prenotazione python:getattr(obj, 'tipologia_prenotazione', '');
                               email python:getattr(obj, 'email', '');
                               booking_code python:obj.getBookingCode();
                               date_time python:view.prenotazioni_week_view.localized_time(item['Date']) + ' - ' + view.prenotazioni_week_view.localized_time(item['Date'], time_only=True);
-                              subject python: ' '.join(filter(bool, [tipologia_prenotazione, 'del', date_time ]))"
-                  tal:attributes="class python:oddrow and 'even' or 'odd'" >
+                              subject python: ' '.join(filter(bool, [tipologia_prenotazione, 'del', date_time ]));
+                              row_class python:oddrow and 'even' or 'odd';
+                              class_and_state python: row_class + ' ' + review_state"
+                  tal:attributes="class class_and_state" >
                 <td>
                   <img src="" tal:attributes="src icon_url"/>
                   <a href="#"
@@ -60,7 +65,7 @@
                      tal:content="item/Title"
                      >Item title</a>
                 </td>
-                <td tal:content="state"></td>
+                <td tal:content="phone"></td>
                 <td tal:content="gate"></td>
                 <td tal:content="tipologia_prenotazione"></td>
                 <td>
@@ -76,6 +81,14 @@
         <tal:batchnavigation define="batchnavigation nocall:context/@@batchnavigation"
                              replace="structure python:batchnavigation(batch)" />
     </tal:batch>
+    <div class="search_states">
+      <h4>Stato delle prenotazioni</h4>
+      <ul>
+        <li class="pending" tal:content="python:prenotazioni_states['pending']"></li>
+        <li class="published" tal:content="python:prenotazioni_states['published']"></li>
+        <li class="refused" tal:content="python:prenotazioni_states['refused']"></li>
+      </ul>
+    </div>
   </div>
 </div>
 

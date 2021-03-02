@@ -95,17 +95,16 @@ class SearchForm(form.Form):
             "prenotazioni_week_view", self.context, self.request
         )
 
-    def get_prenotazione_state(self, item):
+    def get_prenotazioni_states(self):
         factory = getUtility(
             IVocabularyFactory, "redturtle.prenotazioni.booking_review_states"
         )
-        vocabulary = factory(item)
+        vocabulary = factory(self.context)
         if not vocabulary:
             return ""
-        term = vocabulary.getTerm(api.content.get_state(obj=item))
-        if not term:
-            return ""
-        return term.title
+        return {
+            k: v.title for (k, v) in factory(self.context).by_token.items()
+        }
 
     def get_query(self, data):
         """ The query we requested

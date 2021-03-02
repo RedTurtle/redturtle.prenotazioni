@@ -68,8 +68,39 @@ td.selected {
   flex-wrap: wrap;
 }
 
+.template-prenotazioni_search #widgets-review_state option[value="private"],
 .template-prenotazioni_search .search_parameters {
   display: none;
+}
+
+.template-prenotazioni_search table tr.pending {
+  border-left: 2px solid #e2e721;
+}
+.template-prenotazioni_search table tr.published {
+  border-left: 2px solid #007bb3;
+}
+.template-prenotazioni_search table tr.refused {
+  border-left: 2px solid #870000;
+}
+.template-prenotazioni_search .search_states ul {
+  list-style: none;
+}
+.template-prenotazioni_search .search_states ul li::before {
+  content: "\2022";
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+  font-size: 20px;
+}
+.template-prenotazioni_search .search_states ul li.pending::before {
+  color: #e2e721;
+}
+.template-prenotazioni_search .search_states ul li.published::before {
+  color: #007bb3;
+}
+.template-prenotazioni_search .search_states ul li.refused::before {
+  color: #870000;
 }
 
 .template-prenotazioni_search .download {
@@ -77,6 +108,7 @@ td.selected {
 }
 
 @media print {
+  .template-prenotazioni_search .search_states,
   .template-prenotazione_print #portal-top,
   .template-prenotazione_print .actions,
   .template-prenotazioni_search .download,
@@ -87,6 +119,9 @@ td.selected {
   }
   .template-prenotazioni_search .search_parameters {
     display: block;
+  }
+  .template-prenotazioni_search table tr {
+    border-left: none !important;
   }
 }
 

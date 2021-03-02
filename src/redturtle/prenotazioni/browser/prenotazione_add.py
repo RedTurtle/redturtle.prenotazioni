@@ -40,6 +40,7 @@ from zope.schema import TextLine
 from zope.schema import ValidationError
 from zope.annotation.interfaces import IAnnotations
 from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
+from zope.schema.interfaces import IVocabularyFactory
 import re
 import six
 
@@ -145,14 +146,16 @@ class IAddForm(Interface):
     )
     tipology = Choice(
         title=_("label_typology", u"Typology"),
-        required=True,
+        required=False,
         default=u"",
         vocabulary="redturtle.prenotazioni.tipologies",
     )
-    fullname = TextLine(title=_("label_fullname", u"Fullname"), default=u"")
+    fullname = TextLine(
+        title=_("label_fullname", u"Fullname"), default=u"", required=False
+    )
     email = TextLine(
         title=_("label_email", u"Email"),
-        required=True,
+        required=False,
         default=u"",
         constraint=check_valid_email,
     )
@@ -212,7 +215,14 @@ class AddForm(form.AddForm):
             self.request.form.get("form.widgets.booking_date"),
         )
         self.widgets["booking_date"].value = bookingdate
-
+        required_fields_factory = getUtility(
+            IVocabularyFactory,
+            "redturtle.prenotazioni.requirable_booking_fields",
+        )
+        required_fields_vocabulary = required_fields_factory(self.context)
+        possibly_required_fields = [
+            x.token for x in required_fields_vocabulary._terms
+        ]
         possibly_visible_fields = [
             "email",
             "phone",
@@ -222,10 +232,24 @@ class AddForm(form.AddForm):
         ]
 
         for f in self.widgets.values():
+            # If you have a field required by schema, when you fill the field
+            # and then empty it you have a red alert without submit the form.
+            # In this way all the possibly requred field have the same
+            # behaviour: you see the red alert frame only after a submit
             if f.__name__ == "tipology":
-                continue
-            if f.__name__ in self.context.required_booking_fields:
                 f.required = True
+            if f.__name__ == "fullname":
+                f.required = True
+
+            if f.__name__ in possibly_required_fields:
+                # Zen of python: "Explicit is better than implicit."
+                # we could set False this field in schema, but parts of code
+                # lines below would be necessary anyway. so I prefer explicit
+                # what we are doning
+                if f.__name__ in self.context.required_booking_fields:
+                    f.required = True
+                else:
+                    f.required = False
             if (
                 f.__name__ in possibly_visible_fields
                 and f.__name__ not in self.context.visible_booking_fields

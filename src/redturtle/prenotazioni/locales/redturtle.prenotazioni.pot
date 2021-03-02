@@ -983,7 +983,7 @@ msgstr ""
 
 #. Default: "Change date/time"
 #: ../profiles/default/actions.xml
-msgid "prenotazione_move"
+msgid "Change date/time"
 msgstr ""
 
 #. Default: "prenotazioni_search"
