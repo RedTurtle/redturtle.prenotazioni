@@ -19,7 +19,7 @@ i18n:domain="redturtle.prenotazioni">
                         not_ajax_load python:not request.get('ajax_load', '')">
                 <div class="refused-alert" tal:condition="python:review_state=='refused'">
                   <dl class="portalMessage refused">
-                    <dt><span class="icon-warning-sign fa fa-exclamation-triangle">&nbsp;</span></dt>
+                    <dt><span i18n:translate="Attention">Attention</span></dt>
                     <dd i18n:translate="refused-review-state-warning">
                       The booking state is "refused".
                       If you change it, the booking time may conflict

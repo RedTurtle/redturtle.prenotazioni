@@ -1125,3 +1125,6 @@ msgstr "Blocco risorsa"
 #: ../browser/templates/prenotazione_macros.pt:306
 msgid "view_booking"
 msgstr "Vedi la prenotazione"
+
+msgid "Attention"
+msgstr "Attenzione!"

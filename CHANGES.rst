@@ -5,8 +5,11 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- [fix] fix translations
+  [chg] change prenotazioni search adding phone number and removing state
+  [fix] fix problem with sending mail if mail not compiled
+  [fix] allow to not use not required fields
+  [lucabel]
 
 1.1.3 (2021-02-22)
 ------------------

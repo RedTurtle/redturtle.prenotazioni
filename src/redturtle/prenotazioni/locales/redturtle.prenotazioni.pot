@@ -1120,3 +1120,6 @@ msgstr ""
 #: ../browser/templates/prenotazione_macros.pt:306
 msgid "view_booking"
 msgstr ""
+
+msgid "Attention"
+msgstr ""

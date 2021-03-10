@@ -504,9 +504,12 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
 
 dl.refused dd {
   background-color: #eebbbb;
+  padding: 5px;
 }
 dl.portalMessage.refused dt {
   background-color: #870000;
+  color: white;
+  padding: 5px;
 }
 
 a.reservation-tooltip {
