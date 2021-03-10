@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.4 (unreleased)
+1.1.4 (2021-03-10)
 ------------------
 
 - [fix] fix translations
