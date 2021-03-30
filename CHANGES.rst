@@ -5,7 +5,8 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- [fix] Reindex subject on move
+        [lucabel]
 
 
 1.1.4 (2021-03-10)
