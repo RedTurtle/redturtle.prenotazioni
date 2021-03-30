@@ -5,7 +5,9 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- [fix] force gate on authenticated reservation
+  [fix] fix slot dimension in case of confirmed reservation
+        [lucabel]
 
 
 1.1.4 (2021-03-10)

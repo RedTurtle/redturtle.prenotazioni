@@ -16,7 +16,6 @@ from redturtle.prenotazioni.adapters.conflict import IConflictManager
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.adapters.slot import ISlot
 from redturtle.prenotazioni.utilities.urls import urlify
-
 from six.moves import map
 from six.moves import range
 
@@ -292,7 +291,7 @@ class PrenotazioniContextState(BrowserView):
         """
         return "%s/%s" % (self.context.absolute_url(), self.add_view)
 
-    def get_booking_urls(self, day, slot, slot_min_size=0):
+    def get_booking_urls(self, day, slot, slot_min_size=0, gate=None):
         """ Returns, if possible, the booking urls
         """
         # we have some conditions to check
@@ -310,6 +309,8 @@ class PrenotazioniContextState(BrowserView):
         for t in times:
             form_booking_date = " ".join((date, t))
             params["form.booking_date"] = form_booking_date
+            if gate:
+                params["gate"] = gate
             booking_date = DateTime(
                 params["form.booking_date"]
             ).asdatetime()  # noqa
