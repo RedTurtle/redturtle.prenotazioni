@@ -6,18 +6,18 @@ Changelog
 ------------------
 
 - [fix] force gate on authenticated reservation
-  [fix] fix slot dimension in case of confirmed reservation
+- [fix] fix slot dimension in case of confirmed reservation
 - [fix] Reindex subject on move
-        [lucabel]
+  [lucabel]
 
 
 1.1.4 (2021-03-10)
 ------------------
 
 - [fix] fix translations
-  [chg] change prenotazioni search adding phone number and removing state
-  [fix] fix problem with sending mail if mail not compiled
-  [fix] allow to not use not required fields
+- [chg] change prenotazioni search adding phone number and removing state
+- [fix] fix problem with sending mail if mail not compiled
+- [fix] allow to not use not required fields
   [lucabel]
 
 1.1.3 (2021-02-22)
@@ -30,20 +30,20 @@ Changelog
 ------------------
 
 - [chg] change 'sportello' label with 'postazione'
-  [fix] now we can handle more gates and layout is safe
-  [fix] fix insufficient permission deleting reservation
-  [fix] pauses are spread over more gate if more gate are available
-  [fix] hide "download" link in search reservation print 
+- [fix] now we can handle more gates and layout is safe
+- [fix] fix insufficient permission deleting reservation
+- [fix] pauses are spread over more gate if more gate are available
+- [fix] hide "download" link in search reservation print 
 
 
 1.1.1 (2021-02-19)
 ------------------
 
 - [chg] tuning permission to allow reader to see everything
-  [chg] tuning css for mobile
-  [new] add pause to prenotazioni folder
-  [chg] add some accessibility to prenotazioni folder
-  [new] add logic to delete reservation using a link sendable by mail
+- [chg] tuning css for mobile
+- [new] add pause to prenotazioni folder
+- [chg] add some accessibility to prenotazioni folder
+- [new] add logic to delete reservation using a link sendable by mail
 
 1.1.0 (2020-12-15)
 ------------------
