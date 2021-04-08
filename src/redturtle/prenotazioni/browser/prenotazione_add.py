@@ -21,7 +21,7 @@ from redturtle.prenotazioni.browser.z3c_custom_widget import (
     CustomRadioFieldWidget,
 )
 from redturtle.prenotazioni.utilities.urls import urlify
-from urllib.parse import urlparse, parse_qs
+from six.moves.urllib.parse import urlparse, parse_qs
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
