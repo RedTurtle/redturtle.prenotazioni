@@ -108,6 +108,7 @@ class MoveForm(form.Form):
         self.context.setData_prenotazione(booking_date)
         self.context.setData_scadenza(data_scadenza)
         self.context.gate = data["gate"]
+        self.context.reindexObject(idxs=["Subject"])
         notify(MovedPrenotazione(self.context))
 
     @property
