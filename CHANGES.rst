@@ -7,6 +7,7 @@ Changelog
 
 - [fix] force gate on authenticated reservation
   [fix] fix slot dimension in case of confirmed reservation
+- [fix] Reindex subject on move
         [lucabel]
 
 
