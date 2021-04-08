@@ -21,6 +21,7 @@ from redturtle.prenotazioni.browser.z3c_custom_widget import (
     CustomRadioFieldWidget,
 )
 from redturtle.prenotazioni.utilities.urls import urlify
+from six.moves.urllib.parse import urlparse, parse_qs
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
@@ -347,6 +348,12 @@ class AddForm(form.AddForm):
         Create a Booking!
         """
         booker = IBooker(self.context.aq_inner)
+        referer = self.request.get("HTTP_REFERER", None)
+        if referer:
+            parsed_url = urlparse(referer)
+            params = parse_qs(parsed_url.query)
+            if "gate" in params:
+                return booker.create(data, force_gate=params["gate"][0])
         return booker.create(data)
 
     @property
