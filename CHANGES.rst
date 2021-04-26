@@ -5,7 +5,9 @@ Changelog
 1.1.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- [fix] fix reservation download. ods writer can't cast none to
+        empty string
+        [lucabel]
 
 
 1.1.5 (2021-04-26)

@@ -313,9 +313,9 @@ class DownloadReservation(SearchForm):
                 [
                     brain.Title,
                     self.get_prenotazione_state(obj),
-                    getattr(obj, "gate", ""),
-                    getattr(obj, "tipologia_prenotazione", ""),
-                    getattr(obj, "email", ""),
+                    getattr(obj, "gate", "") or "",
+                    getattr(obj, "tipologia_prenotazione", "") or "",
+                    getattr(obj, "email", "") or "",
                     self.prenotazioni_week_view.localized_time(brain["Date"])
                     + " - "
                     + self.prenotazioni_week_view.localized_time(
