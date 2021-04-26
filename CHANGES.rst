@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.6 (unreleased)
+1.1.6 (2021-04-26)
 ------------------
 
 - [fix] fix reservation download. ods writer can't cast none to
