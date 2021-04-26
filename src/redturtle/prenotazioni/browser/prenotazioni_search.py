@@ -24,6 +24,7 @@ import tempfile
 from pyexcel_ods3 import save_data
 from ZPublisher.Iterators import filestream_iterator
 from datetime import datetime
+from plone.api.content import get_state
 
 
 class InvalidDate(ValidationError):
@@ -261,6 +262,23 @@ WrappedSearchForm = wrap_form(SearchForm)
 
 
 class DownloadReservation(SearchForm):
+
+    @memoize
+    def get_prenotazioni_states(self):
+        factory = getUtility(
+            IVocabularyFactory, "redturtle.prenotazioni.booking_review_states"
+        )
+        vocabulary = factory(self.context)
+        if not vocabulary:
+            return ""
+        return {
+            k: v.title for (k, v) in factory(self.context).by_token.items()
+        }
+
+    def get_prenotazione_state(self, obj):
+        states = self.get_prenotazioni_states()
+        return states.get(get_state(obj), '')
+
     def __call__(self):
         data = {
             "sort_on": "Date",
