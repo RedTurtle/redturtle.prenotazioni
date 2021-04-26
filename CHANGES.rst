@@ -8,6 +8,8 @@ Changelog
 - [fix] force gate on authenticated reservation
 - [fix] fix slot dimension in case of confirmed reservation
 - [fix] Reindex subject on move
+- [fix] download reservation after search give error calculating
+        review_state
   [lucabel]
 
 
