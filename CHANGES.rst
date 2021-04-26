@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.5 (unreleased)
+1.1.5 (2021-04-26)
 ------------------
 
 - [fix] force gate on authenticated reservation
