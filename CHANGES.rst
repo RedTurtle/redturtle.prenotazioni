@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.7 (unreleased)
+1.1.7 (2021-05-27)
 ------------------
 
 - [fix] changelog syntax
