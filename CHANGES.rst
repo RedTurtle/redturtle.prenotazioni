@@ -5,15 +5,13 @@ Changelog
 1.1.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- [fix] changelog
 
 
 1.1.6 (2021-04-26)
 ------------------
 
-- [fix] fix reservation download. ods writer can't cast none to
-        empty string
-        [lucabel]
+- [fix] fix reservation download. ods writer can't cast none to empty string
 
 
 1.1.5 (2021-04-26)
@@ -22,9 +20,7 @@ Changelog
 - [fix] force gate on authenticated reservation
 - [fix] fix slot dimension in case of confirmed reservation
 - [fix] Reindex subject on move
-- [fix] download reservation after search give error calculating
-        review_state
-  [lucabel]
+- [fix] download reservation after search give error calculating review_state
 
 
 1.1.4 (2021-03-10)
