@@ -35,7 +35,7 @@ setup(
     keywords="Python Plone",
     author="Daniele Andreotti",
     author_email="daniele.andreotti@redturtle.it",
-    url="https://github.com/collective/redturtle.prenotazioni",
+    url="https://github.com/redturtle/redturtle.prenotazioni",
     project_urls={
         "PyPI": "https://pypi.org/project/redturtle.prenotazioni",
         "Source": "https://github.com/redturtle/redturtle.prenotazioni",
