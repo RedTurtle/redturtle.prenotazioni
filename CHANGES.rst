@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.8 (unreleased)
+1.1.8 (2021-05-27)
 ------------------
 
 - [fix] project urls in setup.py
