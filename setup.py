@@ -37,9 +37,9 @@ setup(
     author_email="daniele.andreotti@redturtle.it",
     url="https://github.com/collective/redturtle.prenotazioni",
     project_urls={
-        "PyPI": "https://pypi.python.org/pypi/redturtle.prenotazioni",
-        "Source": "https://github.com/collective/redturtle.prenotazioni",
-        "Tracker": "https://github.com/collective/redturtle.prenotazioni/issues",
+        "PyPI": "https://pypi.org/project/redturtle.prenotazioni",
+        "Source": "https://github.com/redturtle/redturtle.prenotazioni",
+        "Tracker": "https://github.com/redturtle/redturtle.prenotazioni/issues",
         # 'Documentation': 'https://redturtle.prenotazioni.readthedocs.io/en/latest/',
     },
     license="GPL version 2",
