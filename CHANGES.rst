@@ -5,7 +5,8 @@ Changelog
 1.1.7 (unreleased)
 ------------------
 
-- [fix] changelog
+- [fix] changelog syntax
+- [chg] project urls in setup.py
 
 
 1.1.6 (2021-04-26)
@@ -45,7 +46,7 @@ Changelog
 - [fix] now we can handle more gates and layout is safe
 - [fix] fix insufficient permission deleting reservation
 - [fix] pauses are spread over more gate if more gate are available
-- [fix] hide "download" link in search reservation print 
+- [fix] hide "download" link in search reservation print
 
 
 1.1.1 (2021-02-19)
