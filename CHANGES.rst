@@ -5,7 +5,7 @@ Changelog
 1.1.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- [fix] project urls in setup.py
 
 
 1.1.7 (2021-05-27)
