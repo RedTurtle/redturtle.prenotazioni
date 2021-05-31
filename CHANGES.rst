@@ -5,8 +5,10 @@ Changelog
 1.1.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- [fix] handle reservation move without any gate set
+  [cekk]
+- [new] dependency with collective.z3cform.datagridfield>=2.0
+  [cekk]
 
 1.1.8 (2021-05-27)
 ------------------

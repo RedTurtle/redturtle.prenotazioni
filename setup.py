@@ -59,7 +59,7 @@ setup(
         "pyinter",
         "plone.formwidget.recaptcha",
         "collective.dexteritytextindexer",
-        "collective.z3cform.datagridfield",
+        "collective.z3cform.datagridfield>=2.0",
         "pyexcel_ods3",
     ],
     extras_require={
