@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.9 (unreleased)
+1.2.0 (2021-05-31)
 ------------------
 
 - [fix] handle reservation move without any gate set
