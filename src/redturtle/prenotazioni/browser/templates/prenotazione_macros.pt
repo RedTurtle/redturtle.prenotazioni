@@ -41,9 +41,10 @@
                      tal:attributes="style string:width:${gate_ccs_width}%">
                   <a
                      tal:omit-tag="python:not (gate and week_view.prenotazioni.user_can_search)"
+                     tal:condition="gate"
                      tal:attributes="href python:week_view.get_search_gate_url(gate, day);
                                      title gate;">
-                    <span class="icon-list-ul fa fa-list-ul"></span>
+                    <span class="icon-list-ul fa fa-list-ul" aria-hidden="true" aria-label="${gate}"></span>
                   </a>
                 </div>
               </div>
@@ -227,7 +228,7 @@
       <thead>
           <tr>
               <tal:days repeat="day week_view/actual_week_days">
-              
+
                 <th scope="col"
                     tal:condition="python:week_view.show_day_column(day)">
                   <tal:dayname
