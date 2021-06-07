@@ -347,11 +347,9 @@ class IPrenotazioniFolder(model.Schema):
         title=_("gates_label", "Gates"),
         description=_(
             "gates_help",
-            default="Put gates here (one per line). "
-            "If you do not fill this field, "
-            "one gate is assumed",
+            default="Put gates here (one per line)."
         ),
-        required=False,
+        required=True,
         value_type=schema.TextLine(),
         default=[],
     )

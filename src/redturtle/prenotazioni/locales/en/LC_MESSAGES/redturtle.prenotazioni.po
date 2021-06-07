@@ -662,10 +662,10 @@ msgstr "fullname"
 msgid "futureDays"
 msgstr "futureDays"
 
-#. Default: "Put gates here (one per line). If you do not fill this field, one gate is assumed"
+#. Default: "Put gates here (one per line)."
 #: ../content/prenotazioni_folder.py:348
 msgid "gates_help"
-msgstr "gates_help"
+msgstr "Put gates here (one per line)."
 
 #. Default: "Gates"
 #: ../content/prenotazioni_folder.py:347

@@ -665,7 +665,7 @@ msgstr "Limita la prenotazione ad un certo numero di giorni nel futuro partendo 
 #. Default: "Put gates here (one per line). If you do not fill this field, one gate is assumed"
 #: ../content/prenotazioni_folder.py:348
 msgid "gates_help"
-msgstr "Inserisci le psotazioni preposte (uno per riga). Se questo campo non è compilato, si assume che esista un unica postazione preposta."
+msgstr "Inserisci le postazioni preposte (uno per riga)."
 
 #. Default: "Gates"
 #: ../content/prenotazioni_folder.py:347
