@@ -5,7 +5,12 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- [fix] translations
+  [nzambello]
+- [chg] prenotazioni slot as required
+  [nzambello]
+- [fix] slot prenotazione search button
+  [nzambello]
 
 
 1.2.0 (2021-05-31)
