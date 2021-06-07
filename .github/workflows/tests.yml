@@ -1,6 +1,9 @@
 name: Tests
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -47,6 +50,6 @@ jobs:
           project-id: ${{ secrets.RANCHER_PROJECT_ID }}
           namespace: ${{ secrets.RANCHER_NAMESPACE }}
           workload: ${{ secrets.RANCHER_WORKLOAD }}
-          image: eikichi18/plone:5.2.2-rt-ldap
+          image: redturtletech/plone:5.2.4-debian
           slack-hook-url: ${{ secrets.RANCHER_SLACK_HOOK_URL }}
 
