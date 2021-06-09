@@ -397,6 +397,10 @@ class AddForm(form.AddForm):
             self.status = self.formErrorsMessage
             return
         required = self.context.required_booking_fields
+
+        # la tipologia di una prenotazione deve essere obbligatoria ticket: 19131
+        required.append("tipology")
+
         for field_id in self.fields.keys():
             if field_id in required and not data.get(field_id, ""):
                 raise WidgetActionExecutionError(
