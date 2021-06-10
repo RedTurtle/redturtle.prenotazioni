@@ -5,7 +5,8 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Booking tipology as required
+  [eikichi18]
 
 
 1.3.0 (2021-06-07)
