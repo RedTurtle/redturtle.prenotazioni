@@ -68,7 +68,7 @@ i18n:domain="redturtle.prenotazioni">
                 <div class="field">
                     <strong i18n:translate="label_booking_date">Booking date</strong>:
                     <td tal:define="data_prenotazione context/getData_prenotazione|nothing;
-                                        data_scadenza python:getattr(context, 'data_scadenza', '');
+                                        data_scadenza context/getData_scadenza|nothing;
                                         toLocalizedTime nocall:context/@@plone/toLocalizedTime">
                         <span i18n:translate="label_booking_date_range">
                         <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(data_prenotazione)"></tal:from_date>
