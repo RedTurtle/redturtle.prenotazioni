@@ -5,7 +5,8 @@ Changelog
 1.3.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Prevented booking without gate
+  [eikichi18]
 
 
 1.3.1 (2021-06-14)
