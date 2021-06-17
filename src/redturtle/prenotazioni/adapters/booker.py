@@ -46,7 +46,7 @@ class Booker(object):
             data_prenotazione, data_scadenza
         )
         if len(available_gates) == 0:
-            return []
+            return None
         if len(available_gates) == 1:
             return available_gates.pop()
         return choice(self.prenotazioni.get_less_used_gates(data_prenotazione))
