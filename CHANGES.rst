@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.3 (unreleased)
+1.3.3 (2021-08-09)
 ------------------
 
 - [chg] autofill data from user context
