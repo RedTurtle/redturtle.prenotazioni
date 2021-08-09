@@ -5,7 +5,8 @@ Changelog
 1.3.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- [chg] autofill data from user context
+  [mamico]
 
 
 1.3.2 (2021-06-17)

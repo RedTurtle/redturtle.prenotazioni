@@ -257,6 +257,14 @@ class AddForm(form.AddForm):
             ):
                 f.mode = "hidden"
 
+        if not api.user.is_anonymous():
+            user = api.user.get_current()
+            for field in self.widgets:
+                value = user.getProperty(field, "")
+                if value:
+                    self.widgets[field].value = value
+                    self.widgets[field].readonly = "readonly"
+
     @property
     @memoize
     def localized_time(self):
@@ -325,12 +333,7 @@ class AddForm(form.AddForm):
     @property
     @memoize
     def is_anonymous(self):
-        """
-        Check if user is anonymous
-        """
-        return api.content.get_view(
-            "plone_portal_state", self.context, self.request
-        ).anonymous()
+        return api.user.is_anonymous()
 
     @property
     @memoize
