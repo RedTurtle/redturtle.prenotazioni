@@ -257,7 +257,7 @@ class AddForm(form.AddForm):
             ):
                 f.mode = "hidden"
 
-        if not api.user.is_anonymous():
+        if not api.user.is_anonymous() and not api.user.has_permission("Modify portal content", obj=self.context):
             user = api.user.get_current()
             for f in self.widgets:
                 value = user.getProperty(f, "")
