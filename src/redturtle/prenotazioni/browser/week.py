@@ -55,8 +55,7 @@ class View(BaseView):
         """
         if api.user.is_anonymous():
             return False
-        permissions = api.user.get_permissions(obj=self.context)
-        return permissions.get("Modify portal content", False)
+        return api.user.has_permission("Modify portal content", obj=self.context)
 
     @property
     @memoize
@@ -68,7 +67,8 @@ class View(BaseView):
             return False
         if self.prenotazioni.user_can_manage:
             return True
-        return u"Reader" in api.user.get_roles(obj=self.context)
+        # return u"Reader" in api.user.get_roles(obj=self.context)
+        return False
 
     @property
     @memoize

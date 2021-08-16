@@ -86,13 +86,6 @@ class PrenotazioniContextState(BrowserView):
 
     @property
     @memoize
-    def user_permissions(self):
-        """ The dict with the user permissions
-        """
-        return api.user.get_permissions(obj=self.context)
-
-    @property
-    @memoize
     def user_roles(self):
         """ The dict with the user permissions
         """
@@ -105,9 +98,7 @@ class PrenotazioniContextState(BrowserView):
         """
         if self.is_anonymous:
             return False
-        if self.user_permissions.get("Modify portal content", False):
-            return True
-        return False
+        return api.user.has_permission("Modify portal content", obj=self.context)
 
     @property
     @memoize
@@ -118,8 +109,8 @@ class PrenotazioniContextState(BrowserView):
             return False
         if self.user_can_manage:
             return True
-        if u"Reader" in self.user_roles:
-            return True
+        # if u"Reader" in self.user_roles:
+        #     return True
         return False
 
     @property

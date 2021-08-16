@@ -1,4 +1,5 @@
 extra
+pyvenv.cfg
 .coverage
 .python-version
 *.egg-info

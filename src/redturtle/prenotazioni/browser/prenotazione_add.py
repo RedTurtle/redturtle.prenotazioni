@@ -257,13 +257,13 @@ class AddForm(form.AddForm):
             ):
                 f.mode = "hidden"
 
-        if not api.user.is_anonymous():
+        if not api.user.is_anonymous() and not api.user.has_permission("Modify portal content", obj=self.context):
             user = api.user.get_current()
-            for field in self.widgets:
-                value = user.getProperty(field, "")
+            for f in self.widgets:
+                value = user.getProperty(f, "")
                 if value:
-                    self.widgets[field].value = value
-                    self.widgets[field].readonly = "readonly"
+                    self.widgets[f].value = value
+                    self.widgets[f].readonly = "readonly"
 
     @property
     @memoize
