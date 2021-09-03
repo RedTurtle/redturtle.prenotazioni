@@ -24,6 +24,11 @@ from zope.interface import invariant
 from zope.component import provideAdapter
 from z3c.form import validator
 
+from zope.interface import provider
+from zope.schema.interfaces import IContextAwareDefaultFactory
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
+
 
 def get_dgf_values_from_request(request, fieldname, columns=[]):
     """
@@ -58,6 +63,14 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
             )
         data.append(row_data)
     return data
+
+
+@provider(IContextAwareDefaultFactory)
+def availableHolidays(context):
+    """ Portal holidays """
+    registry = getUtility(IRegistry)
+    items = registry.get('redturtle.prenotazioni.holidays')
+    return items
 
 
 class IWeekTableRow(model.Schema):
@@ -305,7 +318,7 @@ class IPrenotazioniFolder(model.Schema):
         ),
         required=False,
         value_type=schema.TextLine(),
-        default=[],
+        defaultFactory=availableHolidays,
     )
 
     futureDays = schema.Int(

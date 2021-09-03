@@ -49,4 +49,17 @@
       <value>whatever</value>
   </record>
 
+    <record name="redturtle.prenotazioni.holidays">
+      <field type="plone.registry.field.List">
+        <title>Holidays</title>
+        <description>A list of holidays</description>
+        <value_type type="plone.registry.field.TextLine" />
+      </field>
+      <value purge="false">
+        <element>01/01/*</element>
+        <element>15/08/*</element>
+        <element>25/12/*</element>
+      </value>
+    </record>  
+  
 </registry>

@@ -273,7 +273,8 @@ class View(BaseView):
                 "booking_time": booking.Date().strftime('%H:%M'),
                 "day": "{} {}".format(self.context.translate(self.get_day_msgid(day), domain="plonelocales"), day.strftime('%d')),
                 "booked_by": booking.Title(),
-                "duration": (booking.getDuration().seconds // 60) % 60,
+                #"duration": (booking.getDuration().seconds // 60) % 60,
+                "duration": (booking.getDuration().seconds // 60),
                 "type_prenotation": booking.getTipologia_prenotazione()
             },
         )

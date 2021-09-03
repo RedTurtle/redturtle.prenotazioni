@@ -82,6 +82,13 @@
   />
 
   <browser:page
+    for="..content.prenotazioni_rooms_folder.IPrenotazioniRoomsFolder"
+    name="prenotazione_add"
+    class=".prenotazione_room_add.WrappedAddForm"
+    permission="zope2.View"
+  />
+
+  <browser:page
     for="..content.prenotazioni_folder.IPrenotazioniFolder"
     name="prenotazioni_search"
     class=".prenotazioni_search.WrappedSearchForm"

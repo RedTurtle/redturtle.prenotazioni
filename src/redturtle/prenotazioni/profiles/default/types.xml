@@ -3,6 +3,7 @@
   <property name="title">Controls the available contenttypes in your portal</property>
   <!--<object name="example_ct" meta_type="Dexterity FTI"/>-->
   <object meta_type="Dexterity FTI" name="PrenotazioniFolder"/>
+  <object meta_type="Dexterity FTI" name="PrenotazioniRoomsFolder"/>
   <object meta_type="Dexterity FTI" name="PrenotazioniYear"/>
   <object meta_type="Dexterity FTI" name="PrenotazioniWeek"/>
   <object meta_type="Dexterity FTI" name="PrenotazioniDay"/>
