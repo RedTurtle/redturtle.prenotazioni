@@ -28,7 +28,7 @@
      string:${plone_context_state/canonical_object_url}/@@prenotazioni_search
    </property>
    <property name="icon_expr"></property>
-   <property name="available_expr">python:getattr(object, "portal_type", "")=='PrenotazioniFolder'</property>
+   <property name="available_expr">python:getattr(object, "portal_type", "") in ['PrenotazioniFolder', 'PrenotazioniRoomsFolder']</property>
    <property name="permissions">
     <element value="redturtle.prenotazioni: search prenotazioni"/>
    </property>
