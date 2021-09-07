@@ -39,6 +39,7 @@
               <th i18n:translate="label_email">Email</th>
               <th i18n:translate="reservation_date">Reservation date</th>
               <th i18n:translate="reservation_code">Code</th>
+              <th i18n:translate="staff_notes_label">Staff notes</th>
             </tr>
           </thead>
           <tbody>
@@ -52,6 +53,7 @@
                               tipologia_prenotazione python:getattr(obj, 'tipologia_prenotazione', '');
                               email python:getattr(obj, 'email', '');
                               booking_code python:obj.getBookingCode();
+                              staff_notes python:obj.getStaff_notes();
                               date_time python:view.prenotazioni_week_view.localized_time(item['Date']) + ' - ' + view.prenotazioni_week_view.localized_time(item['Date'], time_only=True);
                               subject python: ' '.join(filter(bool, [tipologia_prenotazione, 'del', date_time ]));
                               row_class python:oddrow and 'even' or 'odd';
@@ -74,6 +76,7 @@
                        tal:content="email"></a></tal:email></td>
                 <td tal:content="date_time"></td>
                 <td tal:content="booking_code"></td>
+                <td tal:content="staff_notes">some notes</td>
               </tr>
             </tal:block>
           </tbody>
