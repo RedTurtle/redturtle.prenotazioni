@@ -28,6 +28,7 @@
 La prenotazione per ${title} e' stata accettata.
 
 Se non hai salvato o stampato il promemoria, puoi visualizzarlo a questo link: ${booking_print_url}
+Puoi cancellare l'appuntamento a questo link: ${booking_print_url_with_delete_token}
     </property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
