@@ -7,6 +7,8 @@ Changelog
 
 - [chg] only editor/manager can view booking data
   [mamico]
+- [fix] fix check title on vacation booking
+  [eikichi18]
 
 
 1.3.3 (2021-08-09)
