@@ -48,11 +48,9 @@ require(["jquery"], function ($) {
 
         if ($form.data('submitted') === true) {
           // Previously submitted - don't submit again
-          console.log("not submitted");
           e.preventDefault();
         } else {
           // Mark it so that the next submit can be ignored
-          console.log("submitted");
           $form.data('submitted', true);
         }
 
