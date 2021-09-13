@@ -39,5 +39,25 @@ require(["jquery"], function ($) {
 
       actionBook.addClass("context");
     }
+
+    // disable book button on submit
+    if ($("body").hasClass("template-prenotazione_add")) {
+      $("form.view-name-prenotazione_add").on("submit", function (e) {
+
+        var $form = $(this);
+
+        if ($form.data('submitted') === true) {
+          // Previously submitted - don't submit again
+          console.log("not submitted");
+          e.preventDefault();
+        } else {
+          // Mark it so that the next submit can be ignored
+          console.log("submitted");
+          $form.data('submitted', true);
+        }
+
+      })
+    }
+
   });
 });
