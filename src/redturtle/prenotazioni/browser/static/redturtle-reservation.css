@@ -130,7 +130,7 @@ td.selected {
   box-sizing: border-box;
 }
 #week-table-wrapper {
-  overflow: scroll;
+  overflow: auto;
 }
 
 #week-table-wrapper .table-title {
