@@ -103,7 +103,7 @@ i18n:domain="redturtle.prenotazioni">
             <div class="actions">
 
                     <a href="javascript:this.print();" title=""
-                        tal:attributes="href view/print_action" class="button btn btn-primary">
+                        tal:attributes="href view/print_action" class="button btn btn-info">
                         <span i18n:translate="">Print</span>
                     </a>
                     <a tal:condition="request/delete_token|nothing"
