@@ -141,9 +141,7 @@ class IPrenotazioniFolder(model.Schema):
     descriptionAgenda = RichText(
         required=False,
         title=_("Descrizione Agenda", default="Descrizione Agenda"),
-        description=(
-            "Inserire il testo di presentazione " "dell'agenda corrente"
-        ),
+        description=_("Inserire il testo di presentazione dell'agenda corrente"),
     )
 
     directives.widget(required_booking_fields=CheckBoxFieldWidget)
@@ -155,10 +153,9 @@ class IPrenotazioniFolder(model.Schema):
             "help_required_booking_fields",
             "User will not be able to add a booking unless those "
             "fields are filled. "
-            "Remember that, "
-            "whatever you selected in this list, "
+            "Remember that, whatever you selected in this list, "
             "users have to supply at least one "
-            u'of "Email", "Mobile", or "Telephone"',
+            'of "Email", "Mobile", or "Telephone"',
         ),
         required=False,
         value_type=schema.Choice(
@@ -176,10 +173,9 @@ class IPrenotazioniFolder(model.Schema):
             "help_visible_booking_fields",
             "User will not be able to add a booking unless those "
             "fields are filled. "
-            "Remember that, "
-            "whatever you selected in this list, "
+            "Remember that, whatever you selected in this list, "
             "users have to supply at least one "
-            u'of "Email" or "Telephone"',
+            'of "Email" or "Telephone"',
         ),
         required=False,
         default=["email", "phone", "subject"],
@@ -446,6 +442,20 @@ class IPrenotazioniFolder(model.Schema):
                     raise Invalid(
                         _(u"Afternoon start should not be greater than end.")
                     )
+
+    # TODO: definire o descrivere quando avviee la notifica
+    app_io_enabled = schema.Bool(
+        title=_("App IO notification"),
+        default=False,
+    )
+
+    # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?
+
+    model.fieldset(
+        "Reminders",
+        label=_("reminders_label", default=u"Reminders"),
+        fields=["app_io_enabled", ],
+    )
 
 
 class PauseValidator(validator.SimpleFieldValidator):

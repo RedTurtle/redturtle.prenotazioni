@@ -1,0 +1,4 @@
+<h1>aaaaaaaaaaaaaaaaaa</h1>
+<ul>
+<li tal:repeat="k view/logs" tal:content="k" />
+</ul>

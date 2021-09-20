@@ -7,7 +7,7 @@ from json import dumps
 from plone.memoize.view import memoize
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import prenotazioniFileLogger
-from redturtle.prenotazioni import prenotazioniLogger as logger
+from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.browser.base import BaseView as PrenotazioniBaseView
 from time import mktime
 from zope.annotation.interfaces import IAnnotations

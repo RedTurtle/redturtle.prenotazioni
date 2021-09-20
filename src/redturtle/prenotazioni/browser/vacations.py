@@ -6,11 +6,12 @@ from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni import prenotazioniLogger as logger
+from redturtle.prenotazioni import logger
 from redturtle.prenotazioni import time2timedelta
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.utilities.urls import urlify
+import six
 from six.moves import map
 from z3c.form import button
 from z3c.form import field
@@ -23,8 +24,6 @@ from zope.schema import Choice
 from zope.schema import Date
 from zope.schema import TextLine
 from zope.schema import ValidationError
-
-import six
 
 
 class InvalidDate(ValidationError):

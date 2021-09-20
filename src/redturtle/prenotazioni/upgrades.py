@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone.app.upgrade.utils import loadMigrationProfile
-import logging
 
-logger = logging.getLogger(__name__)
 
 DEFAULT_PROFILE = "profile-redturtle.prenotazioni:default"
 

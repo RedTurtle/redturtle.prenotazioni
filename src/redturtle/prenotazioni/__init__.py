@@ -10,7 +10,7 @@ from six.moves import map
 from zope.i18nmessageid import MessageFactory
 
 
-prenotazioniLogger = getLogger("redturtle.prenotazioni")
+logger = getLogger("redturtle.prenotazioni")
 _ = MessageFactory("redturtle.prenotazioni")
 
 prenotazioniMessageFactory = MessageFactory("redturtle.prenotazioni")
