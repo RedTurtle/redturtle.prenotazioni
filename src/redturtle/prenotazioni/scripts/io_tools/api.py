@@ -12,6 +12,7 @@ A message is conceptually very similar to an email and, in its simplest form, is
 # from bravado.swagger_model import load_file
 from bravado.client import SwaggerClient
 from bravado.requests_client import RequestsClient
+from bravado.exception import HTTPForbidden
 from datetime import datetime
 from pytz import timezone
 from . import logger
@@ -124,14 +125,15 @@ class Api(object):
             )
         # 2. verifica se il destinatario è abilitato o meno a ricevere il messaggio
         try:
-            profile = (
-                self.api.profiles.getProfile(fiscal_code=fiscal_code).response().result
-            )
+            profile = self.api.profiles.getProfile(fiscal_code=fiscal_code).response().result
+        except HTTPForbidden:
+            self.storage.update_message(key, status=PROFILE_NOT_FOUND)
+            logger.error("profile for user %s not found (access forbidden to api)", fiscal_code)
+            return None
         except Exception:
             self.storage.update_message(key, status=PROFILE_NOT_FOUND)
-            logger.warning("profile for user %s not found", fiscal_code)
+            logger.exception("profile for user %s not found (generic error)", fiscal_code)
             return None
-
         if profile and profile.sender_allowed:
             # PaymentData non definito nello swagger, payment_data come dizionario
             # è comunque sufficiente
@@ -164,7 +166,7 @@ class Api(object):
                 msgid = data["id"]
                 self.storage.update_message(key, msgid=msgid, status=QUEUED)
                 logger.info(
-                    "message % queued for %s (msgid %s)", subject, fiscal_code, msgid
+                    "message %s queued for %s (msgid %s)", subject, fiscal_code, msgid
                 )
                 return msgid
             else:

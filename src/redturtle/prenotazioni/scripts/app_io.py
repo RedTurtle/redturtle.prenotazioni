@@ -3,6 +3,7 @@ import click
 from datetime import datetime
 from datetime import timedelta
 import logging
+import locale
 from plone import api
 from redturtle.prenotazioni.config import NOTIFICATIONS_LOGS
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
@@ -11,9 +12,11 @@ import transaction
 from zope.annotation.interfaces import IAnnotations
 
 from .io_tools.api import Api
+from .io_tools.storage import logstorage
 
 
 logger = logging.getLogger('redturtle.prenotazioni.app_io')
+locale.setlocale(locale.LC_ALL, 'it_IT.UTF-8')
 
 
 def days_before(obj, days=1):
@@ -31,9 +34,25 @@ def notifica_app_io(obj, api_io, msg_type, commit=False, verbose=False):
             obj.absolute_url())
         return False
     if fiscal_code:
-        subject = "%s %s" % (obj.Title(), msg_type)
+        # TODO: spostare i template di messaggi in una configurazione esterna
+        # allo script
+        # TODO: esisteono definite delle stringiterp plone, valutare se usare quelle
+        subject = "Promemoria appuntamento"
+        folder = obj.getPrenotazioniFolder()
+        complete_address = getattr(folder, "complete_address", None) or ""
+        # how_to_get_here = getattr(folder, "how_to_get_here", "")
         # BODY: markdown, 'maxLength': 10000, 'minLength': 80
-        body = "##%s\n" % msg_type + ("* TODO\n" * 20)
+        body = (
+            u"Il Comune le ricorda il suo appuntamento di {day} "
+            u"alle ore {time} presso {complete_address}{sportello}."
+            u"{booking_code}"
+        ).format(
+            day=obj.data_prenotazione.strftime("%d %B %Y"),
+            time=obj.data_prenotazione.strftime("%H:%M"),
+            complete_address=complete_address,
+            sportello=u" sportello %s" % obj.gate if obj.gate else "",
+            booking_code=u"\n\nIl codice della prenotazione è %s" % obj.getBookingCode() if obj.getBookingCode() else ""
+        )
         key = "%s_%s" % (obj.UID(), msg_type)
         msg = api_io.storage.get_message(key=key)
         if msg and msg.msgid:
@@ -102,8 +121,9 @@ class Storage(object):
 @click.option('--commit/--dry-run', is_flag=True, default=False)
 @click.option('--verbose', is_flag=True, help="Will print verbose messages.")
 @click.option('--io-secret')
-def _main(commit, verbose, io_secret):
-
+@click.option('--test-message', is_flag=True, default=False)
+@click.option('--test-message-cf')
+def _main(commit, verbose, io_secret, test_message, test_message_cf):
     if verbose:
         logging.getLogger().setLevel(logging.INFO)
 
@@ -111,9 +131,23 @@ def _main(commit, verbose, io_secret):
         print("Missing --io-secret")  # NOQA
         return -1
 
-    catalog = api.portal.get_tool('portal_catalog')
     api_io = Api(secret=io_secret)
 
+    if test_message and test_message_cf:
+        if not io_secret:
+            print("Missing --io-secret")  # NOQA
+            return -1
+        api_io.storage = logstorage
+        msgid = api_io.send_message(
+            fiscal_code=test_message_cf,
+            subject='Messaggio di prova',
+            body='0123456789 ' * 9,
+        )
+        return bool(msgid)
+
+    catalog = api.portal.get_tool('portal_catalog')
+
+    # TODO: spostare la configurazione in un file fuori dallo script
     actions = (
         (
             days_before, {"days": 5},
