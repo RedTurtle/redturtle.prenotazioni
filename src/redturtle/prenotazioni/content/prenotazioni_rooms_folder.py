@@ -14,22 +14,16 @@ from redturtle.prenotazioni import _
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 
+from plone.z3cform.textlines import TextLinesFieldWidget
 
-class IBookingRoomTypeRow(Interface):
-    name = schema.TextLine(
-        title=_("Typology name"),
-        required=True)
-    duration = schema.Choice(
-        title=_("Duration value"),
-        required=True,
-        values=["0",],
-    )
 
 class IPrenotazioniRoomsFolder(IPrenotazioniFolder):
     """ Marker interface and Dexterity Python Schema for PrenotazioniFolder
     """
 
-    # can we remove the field?
+    # hide the booking_types field
+    booking_types = schema.TextLine(required=False)
+    form.widget(booking_types=TextLinesFieldWidget)
     form.mode(booking_types='hidden')
 
     gates = schema.List(
@@ -42,8 +36,6 @@ class IPrenotazioniRoomsFolder(IPrenotazioniFolder):
         value_type=schema.TextLine(),
         default=[],
     )
-
-    #unavailable_gates...
 
     @invariant
     def data_validation(data):
@@ -58,6 +50,13 @@ class PrenotazioniRoomsFolder(PrenotazioniFolder):
 
     @property
     def booking_types(self):
+        # add gate based on context or request?
+
+        #btypes = []
+        #for g in self.gates:
+            #btypes.append({"name":"Reserved Room %s"%g, "duration":"0"})
+        #return btypes
+
         return [{"name":"Reserved Room", "duration":"0"},]
 
     @booking_types.setter
