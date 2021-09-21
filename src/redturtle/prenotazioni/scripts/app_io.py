@@ -163,6 +163,9 @@ def _main(commit, verbose, io_secret, test_message, test_message_cf):
     # XXX: valutare un filtro più preciso sulle ricerche e degli indici/metadati sul catalogo
     for brain in catalog.unrestrictedSearchResults(portal_type="Prenotazione", review_state="published"):
         obj = brain.getObject()
+        if not obj.app_io_enabled:
+            logger.info("App IO reminder disabled for %s", brain.getPath())
+            continue
         api_io.storage = Storage(obj)
         # api_io.storage.cleanup()
         for action in actions:

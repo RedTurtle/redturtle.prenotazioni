@@ -11,7 +11,7 @@
     class=".app_io.Viewlet"
     manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
     template="templates/app_io.pt"
-    permission="zope2.View"
+    permission="cmf.ModifyPortalContent"
     />
 
 </configure>
