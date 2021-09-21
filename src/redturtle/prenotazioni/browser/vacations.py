@@ -241,7 +241,7 @@ class VacationBooking(form.Form):
             duration = float(len(slot)) / 86400
             # duration = float(len(slot)) / 60
             slot_data = {
-                "fullname": data["title"],
+                "fullname": data.get("title", u""),
                 "subject": u"",
                 "agency": u"",
                 "booking_date": booking_date,
