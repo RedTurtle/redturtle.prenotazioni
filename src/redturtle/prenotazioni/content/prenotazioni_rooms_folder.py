@@ -26,6 +26,10 @@ class IPrenotazioniRoomsFolder(IPrenotazioniFolder):
     form.widget(booking_types=TextLinesFieldWidget)
     form.mode(booking_types='hidden')
 
+    booking_type = schema.TextLine(
+                      title=_("booking_type_label", default="Resource type"),
+                      required=True)
+
     gates = schema.List(
         title=_("rooms_label", "Rooms"),
         description=_(
@@ -40,7 +44,9 @@ class IPrenotazioniRoomsFolder(IPrenotazioniFolder):
     @invariant
     def data_validation(data):
         ## modification of prenotazioni_folder.IPrenotazioniFolder.data_validation
-        data.booking_types = [{"name":"Reserved Room", "duration":"0"}]
+        value = data.booking_types
+        data.booking_types = [{"name": value, "duration":"0"}]
+        pass
 
 
 @implementer(IPrenotazioniRoomsFolder)
@@ -50,15 +56,10 @@ class PrenotazioniRoomsFolder(PrenotazioniFolder):
 
     @property
     def booking_types(self):
-        # add gate based on context or request?
-
-        #btypes = []
-        #for g in self.gates:
-            #btypes.append({"name":"Reserved Room %s"%g, "duration":"0"})
-        #return btypes
-
-        return [{"name":"Reserved Room", "duration":"0"},]
+        """ """
+        return [{"name":self.booking_type, "duration":"0"},]
 
     @booking_types.setter
     def booking_types(self, value):
-        return
+        """ """
+        pass

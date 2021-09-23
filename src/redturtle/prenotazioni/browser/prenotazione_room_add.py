@@ -79,7 +79,6 @@ class AddRoomForm(AddForm):
     def fields(self):
         fields = field.Fields(IAddRoomForm)
         fields["captcha"].widgetFactory = ReCaptchaFieldWidget
-        fields["tipology"].widgetFactory = CustomRadioFieldWidget
         if api.user.is_anonymous():
             return fields
         return fields.omit("captcha")
@@ -87,8 +86,9 @@ class AddRoomForm(AddForm):
     def updateWidgets(self):
         super(AddRoomForm, self).updateWidgets()
 
-        #self.widgets["tipology"].mode = DISPLAY_MODE
-        self.widgets["tipology"].value = "Reserved Room"
+        self.widgets["tipology"].mode = HIDDEN_MODE
+        value = self.context.booking_type
+        self.widgets["tipology"].value = value
 
         bookingdate = self.widgets["booking_date"].value
         start_date = datetime.strptime(bookingdate, '%Y-%m-%d %H:%M')
