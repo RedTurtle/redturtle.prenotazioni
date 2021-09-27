@@ -44,7 +44,7 @@
                      tal:condition="gate"
                      tal:attributes="href python:week_view.get_search_gate_url(gate, day);
                                      title gate;">
-                    <span class="icon-list-ul fa fa-list-ul" aria-hidden="true" aria-label="${gate}"></span>
+                    <span class="icon-list-ul fa fa-list-ul" aria-hidden="true" aria-label="${gate}" tal:content="gate"></span>
                   </a>
                 </div>
               </div>

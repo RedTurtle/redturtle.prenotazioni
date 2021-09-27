@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-09-14 08:02+0000\n"
+"POT-Creation-Date: 2021-09-27 15:40+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 
 #: ../browser/prenotazioni_search.py:56
+#: ../browser/prenotazioni_search_all.py:34
 #: ../browser/stats/booking_stats.py:40
-#: ../browser/vacations.py:75
 msgid " format (YYYY-MM-DD)"
 msgstr "Formato (AAAA-MM-GG)"
 
@@ -135,7 +135,6 @@ msgid "Descrizione Agenda"
 msgstr "Descrizione Agenda"
 
 #: ../content/prenotazioni_folder.py:143
-#: ../content/prenotazioni_rooms_folder.py:23
 msgid "Duration value"
 msgstr "Durata"
 
@@ -446,7 +445,6 @@ msgid "Tuesday"
 msgstr "Martedì"
 
 #: ../content/prenotazioni_folder.py:141
-#: ../content/prenotazioni_rooms_folder.py:20
 msgid "Typology name"
 msgstr "tipologia"
 
@@ -533,6 +531,7 @@ msgstr "Sposta"
 
 #. Default: "Search"
 #: ../browser/prenotazioni_search.py:240
+#: ../browser/prenotazioni_search_all.py:56
 msgid "action_search"
 msgstr "Cerca"
 
@@ -545,6 +544,11 @@ msgstr "Chiusura pomeriggio"
 #: ../content/prenotazioni_folder.py:93
 msgid "afternoon_start_label"
 msgstr "Apertura pomeriggio"
+
+#. Default: "all_prenotazioni_search"
+#: ../profiles/default/actions.xml
+msgid "all_prenotazioni_search"
+msgstr "Ricerca tutte le prenotazioni"
 
 #. Default: "Please select a booking slot."
 #: ../browser/templates/week.pt:28
@@ -585,6 +589,11 @@ msgstr "Prenotazione da confermare"
 #: ../browser/templates/prenotazione_macros.pt:303
 msgid "booking_refused"
 msgstr "Prenotazione rifiutata "
+
+#. Default: "Resource type"
+#: ../content/prenotazioni_rooms_folder.py:30
+msgid "booking_type_label"
+msgstr ""
 
 #. Default: "Put booking types there (one per line).\nIf you do not provide this field, not type selection will be available"
 #: ../content/prenotazioni_folder.py:349
@@ -805,6 +814,7 @@ msgstr "Email"
 
 #. Default: "End date"
 #: ../browser/prenotazioni_search.py:61
+#: ../browser/prenotazioni_search_all.py:39
 #: ../browser/stats/booking_stats.py:46
 msgid "label_end"
 msgstr "Data fine"
@@ -838,7 +848,7 @@ msgstr "Nome completo"
 #: ../browser/prenotazioni_search.py:49
 #: ../browser/templates/delete_reservation.pt:109
 msgid "label_gate"
-msgstr "Postazione"
+msgstr "Postazione/Risorsa"
 
 #. Default: "Go to the booking to see more details and manage it: ${url}"
 #: ../browser/templates/manager_notification_mail.pt:62
@@ -869,8 +879,8 @@ msgstr "Data selezionata: ${date} — Fascia oraria: ${slot}"
 
 #. Default: "Start date "
 #: ../browser/prenotazioni_search.py:55
+#: ../browser/prenotazioni_search_all.py:33
 #: ../browser/stats/booking_stats.py:39
-#: ../browser/vacations.py:74
 msgid "label_start"
 msgstr "Data inizio"
 
@@ -888,6 +898,7 @@ msgstr "Note"
 
 #. Default: "Text to search"
 #: ../browser/prenotazioni_search.py:40
+#: ../browser/prenotazioni_search_all.py:24
 msgid "label_text"
 msgstr "Testo da ricercare"
 
@@ -1059,12 +1070,12 @@ msgid "result_number"
 msgstr "elementi trovati"
 
 #. Default: "Put rooms here (one per line)."
-#: ../content/prenotazioni_rooms_folder.py:37
+#: ../content/prenotazioni_rooms_folder.py:35
 msgid "rooms_help"
 msgstr "Inserisci le risorse preposte (uno per riga)."
 
 #. Default: "Rooms"
-#: ../content/prenotazioni_rooms_folder.py:36
+#: ../content/prenotazioni_rooms_folder.py:34
 msgid "rooms_label"
 msgstr "Risorse"
 

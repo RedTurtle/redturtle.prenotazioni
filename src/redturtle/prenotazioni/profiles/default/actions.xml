@@ -35,6 +35,21 @@
    <property name="visible">True</property>
   </object>
 
+  <!-- All Prenotazione Search -->
+  <object name="all_prenotazioni_search" meta_type="CMF Action" i18n:domain="redturtle.prenotazioni">
+   <property name="title" i18n:translate="all_prenotazioni_search">all_prenotazioni_search</property>
+   <property name="description" i18n:translate=""></property>
+   <property name="url_expr">
+     string:${globals_view/navigationRootUrl}/@@all_prenotazioni_search
+   </property>
+   <property name="icon_expr"></property>
+   <property name="available_expr"/>
+   <property name="permissions">
+    <element value="redturtle.prenotazioni: search prenotazioni"/>
+   </property>
+   <property name="visible">True</property>
+  </object>
+
   <!-- Prenotazione Move -->
   <object name="prenotazione_move" meta_type="CMF Action" i18n:domain="redturtle.prenotazioni">
    <property name="title" i18n:translate="Change date/time">Change date/time</property>
@@ -51,5 +66,6 @@
   </object>
 
  </object>
+
 </object>
 

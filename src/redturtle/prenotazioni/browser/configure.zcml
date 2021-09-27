@@ -75,6 +75,14 @@
   />
 
   <browser:page
+    for="Products.CMFPlone.Portal.PloneSite"
+    name="prenotazioni_week_view"
+    class=".week.View"
+    template="templates/week.pt"
+    permission="zope2.View"
+  />
+  
+  <browser:page
     for="..content.prenotazioni_folder.IPrenotazioniFolder"
     name="prenotazione_add"
     class=".prenotazione_add.WrappedAddForm"
@@ -101,8 +109,13 @@
     class=".prenotazioni_search.WrappedSearchForm"
     permission="zope.Public"
   />
-  
-  
+
+  <browser:page
+    name="all_prenotazioni_search"
+    class=".prenotazioni_search_all.WrappedSearchAllForm"
+    permission="zope.Public"
+  />
+
   <browser:page
     for="..content.prenotazioni_folder.IPrenotazioniFolder"
     name="delete_reservation"

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-09-14 08:02+0000\n"
+"POT-Creation-Date: 2021-09-27 15:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "Domain: redturtle.prenotazioni\n"
 
 #: ../browser/prenotazioni_search.py:56
+#: ../browser/prenotazioni_search_all.py:34
 #: ../browser/stats/booking_stats.py:40
-#: ../browser/vacations.py:75
 msgid " format (YYYY-MM-DD)"
 msgstr ""
 
@@ -135,7 +135,6 @@ msgid "Descrizione Agenda"
 msgstr ""
 
 #: ../content/prenotazioni_folder.py:143
-#: ../content/prenotazioni_rooms_folder.py:23
 msgid "Duration value"
 msgstr ""
 
@@ -446,7 +445,6 @@ msgid "Tuesday"
 msgstr ""
 
 #: ../content/prenotazioni_folder.py:141
-#: ../content/prenotazioni_rooms_folder.py:20
 msgid "Typology name"
 msgstr ""
 
@@ -533,6 +531,7 @@ msgstr ""
 
 #. Default: "Search"
 #: ../browser/prenotazioni_search.py:240
+#: ../browser/prenotazioni_search_all.py:56
 msgid "action_search"
 msgstr ""
 
@@ -544,6 +543,11 @@ msgstr ""
 #. Default: "Start time in the afternoon"
 #: ../content/prenotazioni_folder.py:93
 msgid "afternoon_start_label"
+msgstr ""
+
+#. Default: "all_prenotazioni_search"
+#: ../profiles/default/actions.xml
+msgid "all_prenotazioni_search"
 msgstr ""
 
 #. Default: "Please select a booking slot."
@@ -583,6 +587,11 @@ msgstr ""
 #. Default: "Booking refused"
 #: ../browser/templates/prenotazione_macros.pt:303
 msgid "booking_refused"
+msgstr ""
+
+#. Default: "Resource type"
+#: ../content/prenotazioni_rooms_folder.py:30
+msgid "booking_type_label"
 msgstr ""
 
 #. Default: "Put booking types there (one per line).\nIf you do not provide this field, not type selection will be available"
@@ -800,6 +809,7 @@ msgstr ""
 
 #. Default: "End date"
 #: ../browser/prenotazioni_search.py:61
+#: ../browser/prenotazioni_search_all.py:39
 #: ../browser/stats/booking_stats.py:46
 msgid "label_end"
 msgstr ""
@@ -864,8 +874,8 @@ msgstr ""
 
 #. Default: "Start date "
 #: ../browser/prenotazioni_search.py:55
+#: ../browser/prenotazioni_search_all.py:33
 #: ../browser/stats/booking_stats.py:39
-#: ../browser/vacations.py:74
 msgid "label_start"
 msgstr ""
 
@@ -883,6 +893,7 @@ msgstr ""
 
 #. Default: "Text to search"
 #: ../browser/prenotazioni_search.py:40
+#: ../browser/prenotazioni_search_all.py:24
 msgid "label_text"
 msgstr ""
 
@@ -1054,12 +1065,12 @@ msgid "result_number"
 msgstr ""
 
 #. Default: "Put rooms here (one per line)."
-#: ../content/prenotazioni_rooms_folder.py:37
+#: ../content/prenotazioni_rooms_folder.py:35
 msgid "rooms_help"
 msgstr ""
 
 #. Default: "Rooms"
-#: ../content/prenotazioni_rooms_folder.py:36
+#: ../content/prenotazioni_rooms_folder.py:34
 msgid "rooms_label"
 msgstr ""
 

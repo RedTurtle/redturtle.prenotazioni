@@ -7,6 +7,12 @@
   />
 
   <adapter
+      provides=".conflict.IConflictManager"
+      for="Products.CMFPlone.Portal.PloneSite"
+      factory=".conflict.ConflictManager"
+  />
+
+  <adapter
       provides=".booker.IBooker"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
       factory=".booker.Booker"
