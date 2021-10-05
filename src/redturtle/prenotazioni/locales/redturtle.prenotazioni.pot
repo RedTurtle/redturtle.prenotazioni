@@ -592,7 +592,7 @@ msgstr ""
 #. Default: "Resource type"
 #: ../content/prenotazioni_rooms_folder.py:30
 msgid "booking_type_label"
-msgstr ""
+msgstr "Tipo di risorsa"
 
 #. Default: "Put booking types there (one per line).\nIf you do not provide this field, not type selection will be available"
 #: ../content/prenotazioni_folder.py:349
