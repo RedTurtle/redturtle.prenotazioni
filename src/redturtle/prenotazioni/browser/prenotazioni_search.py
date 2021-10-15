@@ -304,7 +304,8 @@ class DownloadReservation(SearchForm):
                     "Email",
                     "Data prenotazione",
                     "Codice prenotazione",
-                    "Note",
+                    "Note prenotante",
+                    "Note del personale",
                 ]
             ]
         }
@@ -323,7 +324,8 @@ class DownloadReservation(SearchForm):
                         brain["Date"], time_only=True
                     ),
                     obj.getBookingCode(),
-                    obj.getStaff_notes() or '',
+                    getattr(obj, "description", "") or "",
+                    obj.getStaff_notes() or "",
                 ]
             )
 

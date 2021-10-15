@@ -2,11 +2,21 @@ Changelog
 =========
 
 
-1.3.4 (unreleased)
+1.3.5 (unreleased)
+------------------
+
+- [new] Added field "Note prenotante" e "Note del personale" inside the
+  exported .ods file.
+  [arsenico13]
+
+
+1.3.4 (2021-09-08)
 ------------------
 
 - [chg] only editor/manager can view booking data
   [mamico]
+- [fix] fix check title on vacation booking
+  [eikichi18]
 
 
 1.3.3 (2021-08-09)
