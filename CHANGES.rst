@@ -5,7 +5,8 @@ Changelog
 1.3.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- [new] Added field "Note prenotazione" inside the exported .ods file.
+  [arsenico13]
 
 
 1.3.4 (2021-09-08)
