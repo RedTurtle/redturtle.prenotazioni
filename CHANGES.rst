@@ -5,7 +5,8 @@ Changelog
 1.3.5 (unreleased)
 ------------------
 
-- [new] Added field "Note prenotazione" inside the exported .ods file.
+- [new] Added field "Note prenotante" e "Note del personale" inside the
+  exported .ods file.
   [arsenico13]
 
 
