@@ -304,7 +304,8 @@ class DownloadReservation(SearchForm):
                     "Email",
                     "Data prenotazione",
                     "Codice prenotazione",
-                    "Note prenotazione",
+                    "Note prenotante",
+                    "Note del personale",
                 ]
             ]
         }
@@ -324,6 +325,7 @@ class DownloadReservation(SearchForm):
                     ),
                     obj.getBookingCode(),
                     getattr(obj, "description", "") or "",
+                    obj.getStaff_notes() or "",
                 ]
             )
 
