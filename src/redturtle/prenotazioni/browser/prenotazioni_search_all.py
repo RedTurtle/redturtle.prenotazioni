@@ -50,9 +50,6 @@ class SearchAllForm(SearchForm):
     """
     fields = field.Fields(ISearchAllForm)
 
-    def set_download_url(self, data):
-        return Exception("Not Implemented")
-
     @button.buttonAndHandler(_(u"action_search", default=u"Search"))
     def action_search(self, action):
         """
