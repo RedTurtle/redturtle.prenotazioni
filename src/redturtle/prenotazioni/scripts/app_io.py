@@ -19,10 +19,22 @@ logger = logging.getLogger('redturtle.prenotazioni.app_io')
 locale.setlocale(locale.LC_ALL, 'it_IT.UTF-8')
 
 
-def days_before(obj, days=1):
-    if timedelta() < obj.data_prenotazione - datetime.now() < timedelta(days=days):
-        return True
+def days_before(obj, days=1, as_date=True):
+    if as_date:
+        if timedelta() < obj.data_prenotazione.date() - datetime.now().date() < timedelta(days=days):
+            return True
+    else:
+        if timedelta() < obj.data_prenotazione - datetime.now() < timedelta(days=days):
+            return True
     return False
+
+
+MSGS = {
+    "1day": u"""
+Il Comune le ricorda il suo appuntamento di domani {day}
+alle ore {time} presso {complete_address}{sportello}.
+{booking_code}"""
+}
 
 
 def notifica_app_io(obj, api_io, msg_type, commit=False, verbose=False):
@@ -36,17 +48,13 @@ def notifica_app_io(obj, api_io, msg_type, commit=False, verbose=False):
     if fiscal_code:
         # TODO: spostare i template di messaggi in una configurazione esterna
         # allo script
-        # TODO: esisteono definite delle stringiterp plone, valutare se usare quelle
+        # TODO: esistono definite delle stringiterp plone, valutare se usare quelle
         subject = "Promemoria appuntamento"
         folder = obj.getPrenotazioniFolder()
         complete_address = getattr(folder, "complete_address", None) or ""
         # how_to_get_here = getattr(folder, "how_to_get_here", "")
         # BODY: markdown, 'maxLength': 10000, 'minLength': 80
-        body = (
-            u"Il Comune le ricorda il suo appuntamento di {day} "
-            u"alle ore {time} presso {complete_address}{sportello}."
-            u"{booking_code}"
-        ).format(
+        body = (MSGS[msg_type]).format(
             day=obj.data_prenotazione.strftime("%d %B %Y"),
             time=obj.data_prenotazione.strftime("%H:%M"),
             complete_address=complete_address,
@@ -150,10 +158,10 @@ def _main(commit, verbose, io_secret, test_message, test_message_cf):
     # TODO: spostare la configurazione in un file fuori dallo script
     actions = (
         (
-            days_before, {"days": 5},
+            days_before, {"days": 1, "as_date": True},
             notifica_app_io, {
                 "api_io": api_io,
-                "msg_type": "5days",
+                "msg_type": "1day",
                 "commit": commit,
                 "verbose": verbose
             },
