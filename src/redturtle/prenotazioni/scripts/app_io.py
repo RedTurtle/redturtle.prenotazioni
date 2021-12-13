@@ -58,7 +58,8 @@ def notifica_app_io(obj, api_io, msg_type, commit=False, verbose=False):
             day=obj.data_prenotazione.strftime("%d %B %Y"),
             time=obj.data_prenotazione.strftime("%H:%M"),
             how_to_get_here=how_to_get_here,
-            sportello=u" sportello %s" % obj.gate if obj.gate else "",
+            # sportello=u" sportello %s" % obj.gate if obj.gate else "",
+            sportello=u" - %s" % obj.gate if obj.gate else "",
             booking_code=u"\n\nIl codice della prenotazione è %s" % obj.getBookingCode() if obj.getBookingCode() else ""
         )
         key = "%s_%s" % (obj.UID(), msg_type)
