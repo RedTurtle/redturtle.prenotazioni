@@ -1,0 +1,20 @@
+
+E' possibile testare l'invio di un messaggio inserendo il secret fornito da https://developer.io.italia.it/openapi.html e un codice fiscale.
+
+::
+
+  bin/instance1 -Oprenotazioni run bin/app_io --verbose --io-secret aaaaaaaaaa --test-message --test-message-cf AAAAAA00A00A000A
+
+Le prenotazioni notificate nell'app IO devono essere in un folder dove sono state abilitate le notifiche su app io e devono essere state inserite
+da un'utenza non anonima (in genere autenticata con SPID e quindi con un codice fiscale verificato).
+
+Va messo in cron lo script per l'invio delle notifiche.
+
+::
+
+  bin/instance1 -Oprenotazioni run bin/app_io --verbose --io-secret aaaaaaaaaa --commit
+
+
+TODO
+
+* prevedere in configurazione le tipologie di messaggi da inviare

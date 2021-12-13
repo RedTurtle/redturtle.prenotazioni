@@ -61,6 +61,7 @@ setup(
         "collective.dexteritytextindexer",
         "collective.z3cform.datagridfield>=2.0",
         "pyexcel_ods3",
+        "click",
     ],
     extras_require={
         "test": [
@@ -71,6 +72,10 @@ setup(
             "plone.testing>=5.0.0",
             "plone.app.contenttypes",
             "plone.app.robotframework[debug]",
+        ],
+        "app_io": [
+            "bravado",
+            "pytz",
         ]
     },
     entry_points="""
@@ -78,5 +83,6 @@ setup(
     target = plone
     [console_scripts]
     update_locale = redturtle.prenotazioni.locales.update:update_locale
+    app_io = redturtle.prenotazioni.scripts.app_io:main
     """,
 )

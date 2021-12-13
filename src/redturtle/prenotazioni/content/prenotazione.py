@@ -15,6 +15,7 @@ class IPrenotazione(model.Schema):
 
     # XXX validator
     email = schema.TextLine(title=_("label_email", default=u"Email"))
+
     phone = schema.TextLine(
         title=_("label_phone", u"Phone number"), required=False
     )

@@ -1,0 +1,29 @@
+<div tal:condition="view/available">
+<h1><!-- TODO --></h1>
+<table class="listing" style="overflow: scroll;display: block;">
+  <thead>
+      <th>Codice Fiscale</th>
+      <th>Titolo</th>
+      <th>Messaggio</th>
+      <th>ID Messaggio</th>
+      <th>Data invio</th>
+      <th>Stato</th>
+      <th>Notifiche</th>
+      <th>Info</th>
+  </thead>
+  <tbody>
+    <tr tal:repeat="row view/logs">
+      <td tal:condition="nothing"><pre tal:content="row/notification" /></td>
+      <td tal:condition="nothing" tal:content="row/key|nothing" />
+      <td tal:content="row/fiscal_code|nothing" />
+      <td tal:content="row/subject|nothing" />
+      <td tal:content="row/body|nothing" />
+      <td tal:content="row/msgid|nothing" />
+      <td tal:content="row/message/created_at|nothing" />
+      <td tal:content="row/status|nothing" />
+      <td tal:content="row/notification|nothing" />
+      <td tal:content="row/info|nothing" />
+    </tr>
+  </tbody>
+</table>
+</div>

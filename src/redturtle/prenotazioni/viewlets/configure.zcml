@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="redturtle.prenotazioni">
+
+<browser:viewlet
+    for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
+    name="redturtle.prenotazioni.app_io"
+    class=".app_io.Viewlet"
+    manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+    template="templates/app_io.pt"
+    permission="cmf.ModifyPortalContent"
+    />
+
+</configure>

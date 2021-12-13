@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+from datetime import time
 from datetime import timedelta
 from DateTime import DateTime
 from plone import api
 from plone.memoize.instance import memoize
 from random import choice
+from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.adapters.prenotazione import IDeleteTokenProvider
+from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
+from redturtle.prenotazioni.config import VERIFIED_BOOKING
+from zope.annotation.interfaces import IAnnotations
 from zope.component import Interface
 from zope.interface import implementer
-from redturtle.prenotazioni.adapters.prenotazione import IDeleteTokenProvider
-from zope.annotation.interfaces import IAnnotations
-from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
-from datetime import datetime, time
 
 
 class IBooker(Interface):
@@ -115,6 +118,14 @@ class Booker(object):
         token = IDeleteTokenProvider(obj).generate_token(expiration=expiration)
         annotations = IAnnotations(obj)
         annotations[DELETE_TOKEN_KEY] = token.decode("utf-8")
+
+        annotations[VERIFIED_BOOKING] = False
+        if not api.user.is_anonymous():
+            user = api.user.get_current()
+            fiscalcode = at_data['fiscalcode'].upper()
+            if fiscalcode and (user.getProperty('fiscalcode') or "").upper() == fiscalcode:
+                logger.info("booking %s verified", at_data)
+                annotations[VERIFIED_BOOKING] = True
 
         obj.reindexObject()
         api.content.transition(obj, "submit")
