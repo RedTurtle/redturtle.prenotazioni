@@ -32,7 +32,7 @@ def days_before(obj, days=1, as_date=True):
 MSGS = {
     "1day": u"""
 Il Comune le ricorda il suo appuntamento di domani {day}
-alle ore {time} presso {complete_address}{sportello}.
+alle ore {time} presso {how_to_get_here}{sportello}.
 {booking_code}"""
 }
 
@@ -51,13 +51,13 @@ def notifica_app_io(obj, api_io, msg_type, commit=False, verbose=False):
         # TODO: esistono definite delle stringiterp plone, valutare se usare quelle
         subject = "Promemoria appuntamento"
         folder = obj.getPrenotazioniFolder()
-        complete_address = getattr(folder, "complete_address", None) or ""
+        how_to_get_here = getattr(folder, "how_to_get_here", None) or ""
         # how_to_get_here = getattr(folder, "how_to_get_here", "")
         # BODY: markdown, 'maxLength': 10000, 'minLength': 80
         body = (MSGS[msg_type]).format(
             day=obj.data_prenotazione.strftime("%d %B %Y"),
             time=obj.data_prenotazione.strftime("%H:%M"),
-            complete_address=complete_address,
+            how_to_get_here=how_to_get_here,
             sportello=u" sportello %s" % obj.gate if obj.gate else "",
             booking_code=u"\n\nIl codice della prenotazione è %s" % obj.getBookingCode() if obj.getBookingCode() else ""
         )
