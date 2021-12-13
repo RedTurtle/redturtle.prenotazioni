@@ -21,10 +21,10 @@ locale.setlocale(locale.LC_ALL, 'it_IT.UTF-8')
 
 def days_before(obj, days=1, as_date=True):
     if as_date:
-        if timedelta() < obj.data_prenotazione.date() - datetime.now().date() < timedelta(days=days):
+        if timedelta() < obj.data_prenotazione.date() - datetime.now().date() <= timedelta(days=days):
             return True
     else:
-        if timedelta() < obj.data_prenotazione - datetime.now() < timedelta(days=days):
+        if timedelta() < obj.data_prenotazione - datetime.now() <= timedelta(days=days):
             return True
     return False
 
