@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_inner
-
 from datetime import datetime
 from datetime import timedelta
-
 from DateTime import DateTime
-
-from six.moves.urllib.parse import urlparse, parse_qs
-
 from email.utils import formataddr
 from email.utils import parseaddr
 from os import environ
 from plone import api
+from plone.formwidget.recaptcha.widget import ReCaptchaFieldWidget
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
@@ -23,34 +19,39 @@ from redturtle.prenotazioni import _
 from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
 
-from plone.formwidget.recaptcha.widget import ReCaptchaFieldWidget
+# from redturtle.prenotazioni.utilities.urls import urlify
+from redturtle.prenotazioni.browser.prenotazione_add import AddForm
+from redturtle.prenotazioni.browser.prenotazione_add import check_is_future_date
+from redturtle.prenotazioni.browser.prenotazione_add import IAddForm
 
-from redturtle.prenotazioni.browser.z3c_custom_widget import (
-    CustomRadioFieldWidget,
-)
-
-#from redturtle.prenotazioni.utilities.urls import urlify
-from redturtle.prenotazioni.browser.prenotazione_add import IAddForm, AddForm, check_is_future_date
-
-from z3c.form.interfaces import HIDDEN_MODE, DISPLAY_MODE, INPUT_MODE
-
+# from redturtle.prenotazioni.browser.prenotazione_add import prenotazioni
+from redturtle.prenotazioni.browser.z3c_custom_widget import CustomRadioFieldWidget
+from six.moves.urllib.parse import parse_qs
+from six.moves.urllib.parse import urlparse
+from z3c.form import field
+from z3c.form.interfaces import DISPLAY_MODE
+from z3c.form.interfaces import HIDDEN_MODE
+from z3c.form.interfaces import INPUT_MODE
+from z3c.form.interfaces import WidgetActionExecutionError
 from zope.component import getUtility
 from zope.interface import implementer
-from z3c.form import field
+from zope.interface import Invalid
 
-#from zope.interface import Interface
-#from zope.interface import Invalid
+# from zope.schema import Text
+# from zope.schema import TextLine
+# from zope.interface import Interface
+# from zope.interface import Invalid
 from zope.schema import Choice
 from zope.schema import Datetime
-#from zope.schema import Text
-#from zope.schema import TextLine
 from zope.schema import ValidationError
-#from zope.annotation.interfaces import IAnnotations
-#from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
-from zope.schema.interfaces import IVocabularyFactory
-#import re
-#import six
 
+# from zope.annotation.interfaces import IAnnotations
+# from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
+from zope.schema.interfaces import IVocabularyFactory
+
+
+# import re
+# import six
 
 
 class IAddRoomForm(IAddForm):
@@ -63,14 +64,13 @@ class IAddRoomForm(IAddForm):
         title=_("label_ending_booking_time", u"Ending Booking time"),
         default=None,
         constraint=check_is_future_date,
-        required=True
+        required=True,
     )
 
 
 @implementer(IAddRoomForm)
 class AddRoomForm(AddForm):
-    """
-    """
+    """ """
 
     render_form = False
     ignoreContext = True
@@ -91,9 +91,9 @@ class AddRoomForm(AddForm):
         self.widgets["tipology"].value = value
 
         bookingdate = self.widgets["booking_date"].value
-        start_date = datetime.strptime(bookingdate, '%Y-%m-%d %H:%M')
+        start_date = datetime.strptime(bookingdate, "%Y-%m-%d %H:%M")
         end_date = start_date + timedelta(hours=1)
-        self.widgets["ending_booking_date"].value = end_date.strftime('%Y-%m-%d %H:%M')
+        self.widgets["ending_booking_date"].value = end_date.strftime("%Y-%m-%d %H:%M")
 
     def do_book(self, data):
         """
@@ -103,11 +103,23 @@ class AddRoomForm(AddForm):
         referer = self.request.get("HTTP_REFERER", None)
         duration_delta = data["ending_booking_date"] - data["booking_date"]
         duration = duration_delta.seconds / (60 * 60 * 24)
+
+        conflict_manager = self.prenotazioni.conflict_manager
+
+        slot = conflict_manager.get_choosen_slot(data)
+        prenotazioni = self.context.restrictedTraverse("@@prenotazioni_context_state")
+
+        if prenotazioni.is_slot_busy(data["booking_date"], slot):
+            msg = _(u"Sorry, this slot is not available anymore.")
+            raise WidgetActionExecutionError("booking_date", Invalid(msg))
+
         if referer:
             parsed_url = urlparse(referer)
             params = parse_qs(parsed_url.query)
             if "gate" in params:
-                return booker.create(data, duration=duration, force_gate=params["gate"][0])
+                return booker.create(
+                    data, duration=duration, force_gate=params["gate"][0]
+                )
         return booker.create(data, duration=duration)
 
 

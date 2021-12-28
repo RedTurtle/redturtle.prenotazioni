@@ -24,7 +24,7 @@ import six
 
 
 def hm2handm(hm):
-    """ This is a utility function that will return the hour and date of day
+    """This is a utility function that will return the hour and date of day
     to the value passed in the string hm
 
     :param hm: a string in the format "%H%m"
@@ -35,7 +35,7 @@ def hm2handm(hm):
 
 
 def hm2DT(day, hm):
-    """ This is a utility function that will return the hour and date of day
+    """This is a utility function that will return the hour and date of day
     to the value passed in the string hm
 
     :param day: a datetime date
@@ -50,7 +50,7 @@ def hm2DT(day, hm):
 
 
 def hm2seconds(hm):
-    """ This is a utility function that will return
+    """This is a utility function that will return
     to the value passed in the string hm
 
     :param hm: a string in the format "%H%m"
@@ -87,15 +87,13 @@ class PrenotazioniContextState(BrowserView):
     @property
     @memoize
     def user_roles(self):
-        """ The dict with the user permissions
-        """
+        """The dict with the user permissions"""
         return api.user.get_roles(obj=self.context)
 
     @property
     @memoize
     def user_can_manage(self):
-        """ States if the authenticated user can manage this context
-        """
+        """States if the authenticated user can manage this context"""
         if self.is_anonymous:
             return False
         return api.user.has_permission("Modify portal content", obj=self.context)
@@ -103,8 +101,7 @@ class PrenotazioniContextState(BrowserView):
     @property
     @memoize
     def user_can_view(self):
-        """ States if the authenticated user can manage this context
-        """
+        """States if the authenticated user can manage this context"""
         if self.is_anonymous:
             return False
         if self.user_can_manage:
@@ -116,8 +113,7 @@ class PrenotazioniContextState(BrowserView):
     @property
     @memoize
     def user_can_search(self):
-        """ States if the user can see the search button
-        """
+        """States if the user can see the search button"""
         return self.user_can_manage
 
     @property
@@ -131,36 +127,32 @@ class PrenotazioniContextState(BrowserView):
     @property
     @memoize
     def today(self):
-        """ Cache for today date
-        """
+        """Cache for today date"""
         return date.today()
 
     @property
     @memoize
     def yesterday(self):
-        """ Cache for today date
-        """
+        """Cache for today date"""
         return self.today - timedelta(days=1)
 
     @property
     @memoize
     def tomorrow(self):
-        """ Cache for today date
-        """
+        """Cache for today date"""
         return self.today + timedelta(days=1)
 
     @property
     @memoize
     def same_day_booking_allowed(self):
-        """ State if the same day booking is allowed
-        """
+        """State if the same day booking is allowed"""
         value = getattr(self.context, "same_day_booking_disallowed")
         return value == "no" or value == self.today.strftime("%Y/%m/%d")
 
     @property
     @memoize
     def first_bookable_day(self):
-        """ The first day when you can book stuff
+        """The first day when you can book stuff
 
         ;return; a datetime.date object
         """
@@ -171,7 +163,7 @@ class PrenotazioniContextState(BrowserView):
     @property
     @memoize
     def last_bookable_day(self):
-        """ The last day (if set) when you can book stuff
+        """The last day (if set) when you can book stuff
 
         ;return; a datetime.date object or None
         """
@@ -197,8 +189,7 @@ class PrenotazioniContextState(BrowserView):
 
     @memoize
     def is_configured_day(self, day):
-        """ Returns True if the day has been configured
-        """
+        """Returns True if the day has been configured"""
         weekday = day.weekday()
         week_table = getattr(self.context, "week_table", {})
         day_table = week_table[weekday]
@@ -212,8 +203,7 @@ class PrenotazioniContextState(BrowserView):
         )
 
     def is_before_allowed_period(self, day):
-        """ Returns True if the day is before the first bookable day
-        """
+        """Returns True if the day is before the first bookable day"""
         date_limit = self.minimum_bookable_date
         if not date_limit:
             return False
@@ -223,8 +213,7 @@ class PrenotazioniContextState(BrowserView):
 
     @memoize
     def is_valid_day(self, day):
-        """ Returns True if the day is valid
-        """
+        """Returns True if the day is valid"""
         if day < self.first_bookable_day:
             return False
         if self.is_vacation_day(day):
@@ -245,8 +234,7 @@ class PrenotazioniContextState(BrowserView):
 
     @memoize
     def get_state(self, context):
-        """ Facade to the api get_state method
-        """
+        """Facade to the api get_state method"""
         if not context:
             return
         if context.portal_type == PAUSE_PORTAL_TYPE:
@@ -256,8 +244,7 @@ class PrenotazioniContextState(BrowserView):
     @property
     @memoize
     def remembered_params(self):
-        """ We want to remember some parameters
-        """
+        """We want to remember some parameters"""
         params = dict(
             (key, value)
             for key, value in six.iteritems(self.request.form)
@@ -266,8 +253,7 @@ class PrenotazioniContextState(BrowserView):
                 and key.startswith("form.")
                 and not key.startswith("form.action")
                 and key not in ("form.booking_date",)
-                or key
-                in ("disable_plone.leftcolumn", "disable_plone.rightcolumn")
+                or key in ("disable_plone.leftcolumn", "disable_plone.rightcolumn")
             )
         )
         for key, value in six.iteritems(params):
@@ -278,13 +264,11 @@ class PrenotazioniContextState(BrowserView):
     @property
     @memoize
     def base_booking_url(self):
-        """ Return the base booking url (no parameters) for this context
-        """
+        """Return the base booking url (no parameters) for this context"""
         return "%s/%s" % (self.context.absolute_url(), self.add_view)
 
     def get_booking_urls(self, day, slot, slot_min_size=0, gate=None):
-        """ Returns, if possible, the booking urls
-        """
+        """Returns, if possible, the booking urls"""
         # we have some conditions to check
         if not self.is_valid_day(day):
             return []
@@ -302,9 +286,7 @@ class PrenotazioniContextState(BrowserView):
             params["form.booking_date"] = form_booking_date
             if gate:
                 params["gate"] = gate
-            booking_date = DateTime(
-                params["form.booking_date"]
-            ).asdatetime()  # noqa
+            booking_date = DateTime(params["form.booking_date"]).asdatetime()  # noqa
             urls.append(
                 {
                     "title": t,
@@ -317,8 +299,7 @@ class PrenotazioniContextState(BrowserView):
         return urls
 
     def get_all_booking_urls_by_gate(self, day, slot_min_size=0):
-        """ Get all the booking urls divided by gate
-        """
+        """Get all the booking urls divided by gate"""
         slots_by_gate = self.get_free_slots(day)
         urls = {}
         for gate in slots_by_gate:
@@ -331,7 +312,7 @@ class PrenotazioniContextState(BrowserView):
         return urls
 
     def get_all_booking_urls(self, day, slot_min_size=0):
-        """ Get all the booking urls
+        """Get all the booking urls
 
         Not divided by gate
         """
@@ -343,8 +324,7 @@ class PrenotazioniContextState(BrowserView):
         return sorted(six.itervalues(urls), key=lambda x: x["title"])
 
     def is_slot_busy(self, day, slot):
-        """ Check if a slot is busy (i.e. the is no free slot overlapping it)
-        """
+        """Check if a slot is busy (i.e. the is no free slot overlapping it)"""
         free_slots = self.get_free_slots(day)
         for gate in free_slots:
             for free_slot in free_slots[gate]:
@@ -356,8 +336,7 @@ class PrenotazioniContextState(BrowserView):
 
     @memoize
     def get_anonymous_booking_url(self, day, slot, slot_min_size=0):
-        """ Returns, the the booking url for an anonymous user
-        """
+        """Returns, the the booking url for an anonymous user"""
         # First we check if we have booking urls
         all_booking_urls = self.get_all_booking_urls(day, slot_min_size)
         if not all_booking_urls:
@@ -464,8 +443,7 @@ class PrenotazioniContextState(BrowserView):
 
     @memoize
     def get_day_intervals(self, day):
-        """ Return the time ranges of this day
-        """
+        """Return the time ranges of this day"""
         weekday = day.weekday()
         week_table = getattr(self.context, "week_table", {})
         day_table = week_table[weekday]
@@ -490,7 +468,7 @@ class PrenotazioniContextState(BrowserView):
     @property
     @memoize
     def weektable_boundaries(self):
-        """ Return the boundaries to draw the week table
+        """Return the boundaries to draw the week table
 
         return a dict_like {'morning': slot1,
                             'afternoon': slot2}
@@ -508,9 +486,7 @@ class PrenotazioniContextState(BrowserView):
         for key, value in six.iteritems(boundaries):
             boundaries[key] = hm2seconds(value)
         return {
-            "morning": BaseSlot(
-                boundaries["morning_start"], boundaries["morning_end"]
-            ),
+            "morning": BaseSlot(boundaries["morning_start"], boundaries["morning_end"]),
             "afternoon": BaseSlot(
                 boundaries["afternoon_start"], boundaries["afternoon_end"]
             ),
@@ -519,7 +495,7 @@ class PrenotazioniContextState(BrowserView):
     @property
     @memoize
     def maximum_bookable_date(self):
-        """ Return the maximum bookable date
+        """Return the maximum bookable date
 
         return a datetime or None
         """
@@ -532,7 +508,7 @@ class PrenotazioniContextState(BrowserView):
     @property
     @memoize
     def minimum_bookable_date(self):
-        """ Return the minimum bookable date
+        """Return the minimum bookable date
 
         return a datetime or None
         """
@@ -543,7 +519,7 @@ class PrenotazioniContextState(BrowserView):
         return date_limit
 
     def get_container(self, booking_date, create_missing=False):
-        """ Return the container for bookings in this date
+        """Return the container for bookings in this date
 
         :param booking_date: a date as a string, DateTime or datetime
         :param create_missing: if set to True and the container is missing,
@@ -578,9 +554,7 @@ class PrenotazioniContextState(BrowserView):
             for item in day_folder.items()
             if item[1].portal_type == allowed_portal_type
         ]
-        bookings.sort(
-            key=lambda x: (x.getData_prenotazione(), x.getData_scadenza())
-        )
+        bookings.sort(key=lambda x: (x.getData_prenotazione(), x.getData_scadenza()))
         return bookings
 
     @memoize
@@ -617,12 +591,9 @@ class PrenotazioniContextState(BrowserView):
         return bookins_list + pauses_list
 
     def get_busy_slots_in_stormynight(self, booking_date):
-        """ This will show the slots that will not show elsewhere
-        """
+        """This will show the slots that will not show elsewhere"""
         morning_slots = self.get_busy_slots_in_period(booking_date, "morning")
-        afternoon_slots = self.get_busy_slots_in_period(
-            booking_date, "afternoon"
-        )
+        afternoon_slots = self.get_busy_slots_in_period(booking_date, "afternoon")
         all_slots = self.get_existing_slots_in_day_folder(booking_date)
         return sorted(
             [
@@ -663,7 +634,7 @@ class PrenotazioniContextState(BrowserView):
 
     @memoize
     def get_busy_slots(self, booking_date, period="day"):
-        """ This will return the busy slots divided by gate:
+        """This will return the busy slots divided by gate:
 
         :param booking_date: a datetime object
         :param period: a string
@@ -684,7 +655,7 @@ class PrenotazioniContextState(BrowserView):
 
     @memoize
     def get_free_slots(self, booking_date, period="day"):
-        """ This will return the free slots divided by gate
+        """This will return the free slots divided by gate
 
         :param booking_date: a datetime object
         :param period: a string
@@ -704,10 +675,7 @@ class PrenotazioniContextState(BrowserView):
         for gate in gates:
             # unavailable gates doesn't have free slots
             # XXX Riprendi da qui:
-            if (
-                self.get_unavailable_gates()
-                and gate in self.get_unavailable_gates()
-            ):
+            if self.get_unavailable_gates() and gate in self.get_unavailable_gates():
                 availability[gate] = []
             else:
                 availability.setdefault(gate, [])
@@ -718,7 +686,7 @@ class PrenotazioniContextState(BrowserView):
         return availability
 
     def get_freebusy_slots(self, booking_date, period="day"):
-        """ This will return all the slots (free and busy) divided by gate
+        """This will return all the slots (free and busy) divided by gate
 
         :param booking_date: a datetime object
         :param period: a string
@@ -731,12 +699,11 @@ class PrenotazioniContextState(BrowserView):
         busy = self.get_busy_slots(booking_date, period)
         keys = set(list(free.keys()) + list(busy.keys()))
         return dict(
-            (key, sorted(free.get(key, []) + busy.get(key, [])))
-            for key in keys
+            (key, sorted(free.get(key, []) + busy.get(key, []))) for key in keys
         )
 
     def get_anonymous_slots(self, booking_date, period="day"):
-        """ This will return all the slots under the fake name
+        """This will return all the slots under the fake name
         anonymous_gate
 
         :param booking_date: a datetime object
@@ -761,7 +728,7 @@ class PrenotazioniContextState(BrowserView):
     @property
     @memoize
     def tipology_durations(self):
-        """ The durations of all known tipologies
+        """The durations of all known tipologies
 
         @return a dict like this:
         {'tipology1': 10,
@@ -775,8 +742,7 @@ class PrenotazioniContextState(BrowserView):
         )
 
     def get_tipology_duration(self, tipology):
-        """ Return the seconds for this tipology
-        """
+        """Return the seconds for this tipology"""
         if isinstance(tipology, dict):
             return int(tipology["duration"]) * 60
         if isinstance(tipology, six.string_types) and not isinstance(
@@ -809,7 +775,7 @@ class PrenotazioniContextState(BrowserView):
 
     @memoize
     def is_booking_date_bookable(self, booking_date):
-        """ Check if we have enough time to book this date
+        """Check if we have enough time to book this date
 
         :param booking_date: a date as a datetime
         """
@@ -835,8 +801,7 @@ class PrenotazioniContextState(BrowserView):
         for slots in six.itervalues(availability):
             for slot in slots:
                 if len(slot) >= duration and (
-                    booking_date > self.first_bookable_date
-                    or slot.start() >= hm_now
+                    booking_date > self.first_bookable_date or slot.start() >= hm_now
                 ):
                     good_slots.append(slot)
         if not good_slots:
@@ -860,6 +825,5 @@ class PrenotazioniContextState(BrowserView):
         return free_time_map[max_free_time]
 
     def __call__(self):
-        """ Return itself
-        """
+        """Return itself"""
         return self
