@@ -81,10 +81,14 @@ class ConflictManager(object):
         tipology = data.get("tipology", "")
         tipology_duration = self.prenotazioni.get_tipology_duration(tipology)
         start = data.get("booking_date", "")
-        if not tipology_duration:
-            end = data.get("ending_booking_date", "")
-        else:
+
+        if tipology_duration:
             end = start + timedelta(seconds=tipology_duration * 60)
+        elif data.get("ending_booking_date", None):
+            end = data.get("ending_booking_date")
+        else:
+            end = start + timedelta(seconds=60 * 60)
+
         slot = BaseSlot(start, end)
         return slot
 

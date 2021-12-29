@@ -763,9 +763,6 @@ class PrenotazioniContextState(BrowserView):
 
         Bookability is calculated from the booking_date and the available slots
         """
-        import pdb
-
-        pdb.set_trace()
         data = {"booking_date": booking_date}
         bookability = {"bookable": [], "unbookable": []}
         for tipology in self.tipology_durations:
