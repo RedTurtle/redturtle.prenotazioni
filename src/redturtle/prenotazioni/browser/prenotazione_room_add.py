@@ -1,22 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from Acquisition import aq_inner
 from datetime import datetime
 from datetime import timedelta
-from DateTime import DateTime
-from email.utils import formataddr
-from email.utils import parseaddr
-from os import environ
 from plone import api
 from plone.formwidget.recaptcha.widget import ReCaptchaFieldWidget
-from plone.memoize.view import memoize
-from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
-from Products.CMFCore.interfaces import ISiteRoot
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
 
 # from redturtle.prenotazioni.utilities.urls import urlify
@@ -25,15 +14,11 @@ from redturtle.prenotazioni.browser.prenotazione_add import check_is_future_date
 from redturtle.prenotazioni.browser.prenotazione_add import IAddForm
 
 # from redturtle.prenotazioni.browser.prenotazione_add import prenotazioni
-from redturtle.prenotazioni.browser.z3c_custom_widget import CustomRadioFieldWidget
 from six.moves.urllib.parse import parse_qs
 from six.moves.urllib.parse import urlparse
 from z3c.form import field
-from z3c.form.interfaces import DISPLAY_MODE
 from z3c.form.interfaces import HIDDEN_MODE
-from z3c.form.interfaces import INPUT_MODE
 from z3c.form.interfaces import WidgetActionExecutionError
-from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Invalid
 
@@ -41,13 +26,10 @@ from zope.interface import Invalid
 # from zope.schema import TextLine
 # from zope.interface import Interface
 # from zope.interface import Invalid
-from zope.schema import Choice
 from zope.schema import Datetime
-from zope.schema import ValidationError
 
 # from zope.annotation.interfaces import IAnnotations
 # from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
-from zope.schema.interfaces import IVocabularyFactory
 
 
 # import re
