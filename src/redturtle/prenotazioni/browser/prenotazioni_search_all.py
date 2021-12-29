@@ -41,13 +41,22 @@ class ISearchAllForm(Interface):
         default=None,
         required=False,
     )
+    order_by_date = Choice(
+        title=_("label_order_by_date", u"Order by date"),
+        description=_(
+            "Descending to show more recent first, Ascending to show less recent first."
+        ),
+        default=("Discendente"),
+        required=False,
+        values=("Ascendente", "Discendente"),
+    )
 
 
 @implementer(ISearchAllForm)
 class SearchAllForm(SearchForm):
 
-    """
-    """
+    """ """
+
     fields = field.Fields(ISearchAllForm)
 
     @button.buttonAndHandler(_(u"action_search", default=u"Search"))

@@ -63,13 +63,21 @@ class ISearchForm(Interface):
         default=None,
         required=False,
     )
+    order_by_date = Choice(
+        title=_("label_order_by_date", u"Order by date"),
+        description=_(
+            "Descending to show more recent first, Ascending to show less recent first."
+        ),
+        default=("Discendente"),
+        required=False,
+        values=("Ascendente", "Discendente"),
+    )
 
 
 @implementer(ISearchForm)
 class SearchForm(form.Form):
 
-    """
-    """
+    """ """
 
     ignoreContext = True
     template = ViewPageTemplateFile("templates/prenotazioni_search.pt")
@@ -103,27 +111,24 @@ class SearchForm(form.Form):
         vocabulary = factory(self.context)
         if not vocabulary:
             return ""
-        return {
-            k: v.title for (k, v) in factory(self.context).by_token.items()
-        }
+        return {k: v.title for (k, v) in factory(self.context).by_token.items()}
 
     def get_query(self, data):
-        """ The query we requested
-        """
+        """The query we requested"""
         self.query_data = {}
         query = {
             "sort_on": "Date",
             "sort_order": "reverse",
             "path": "/".join(self.context.getPhysicalPath()),
         }
+        if data.get("order_by_date") == "Ascendente":
+            query["sort_order"] = "ascending"
         if data.get("text"):
             query["SearchableText"] = quote_chars(data["text"])
         if data.get("review_state"):
             query["review_state"] = data["review_state"]
         if data.get("gate"):
-            factory = getUtility(
-                IVocabularyFactory, "redturtle.prenotazioni.gates"
-            )
+            factory = getUtility(IVocabularyFactory, "redturtle.prenotazioni.gates")
             vocabulary = factory(context=self.context)
             try:
                 term = vocabulary.getTermByToken(data["gate"])
@@ -165,7 +170,9 @@ class SearchForm(form.Form):
         if "review_state" in data and data.get("review_state", None):
             result.append(
                 MARKUP.format(
-                    self.context.translate(__("State"),),
+                    self.context.translate(
+                        __("State"),
+                    ),
                     self.context.translate(__(data["review_state"])),
                 )
             )
@@ -173,16 +180,16 @@ class SearchForm(form.Form):
         if "gate" in data and data.get("gate", None):
             result.append(
                 MARKUP.format(
-                    self.context.translate(_("label_gate", u"Gate"),),
+                    self.context.translate(
+                        _("label_gate", u"Gate"),
+                    ),
                     data["gate"],
                 )
             )
 
         if "start" in data and data.get("start", None):
             if isinstance(data.get("start"), str):
-                data["start"] = datetime.strptime(
-                    data.get("start"), "%Y-%m-%d"
-                )
+                data["start"] = datetime.strptime(data.get("start"), "%Y-%m-%d")
             result.append(
                 MARKUP.format(
                     self.context.translate(_("label_start", u"Start date ")),
@@ -262,7 +269,6 @@ WrappedSearchForm = wrap_form(SearchForm)
 
 
 class DownloadReservation(SearchForm):
-
     @memoize
     def get_prenotazioni_states(self):
         factory = getUtility(
@@ -271,13 +277,11 @@ class DownloadReservation(SearchForm):
         vocabulary = factory(self.context)
         if not vocabulary:
             return ""
-        return {
-            k: v.title for (k, v) in factory(self.context).by_token.items()
-        }
+        return {k: v.title for (k, v) in factory(self.context).by_token.items()}
 
     def get_prenotazione_state(self, obj):
         states = self.get_prenotazioni_states()
-        return states.get(get_state(obj), '')
+        return states.get(get_state(obj), "")
 
     def __call__(self):
         data = {
