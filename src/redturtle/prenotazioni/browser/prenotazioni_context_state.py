@@ -564,7 +564,7 @@ class PrenotazioniContextState(BrowserView):
         :param booking_date: a date as a datetime or a string
         """
         weekday = booking_date.weekday()
-        pause_table = self.context.pause_table
+        pause_table = self.context.pause_table or []
         today_pauses = [row for row in pause_table if row["day"] == weekday]
         pauses = []
         if today_pauses:

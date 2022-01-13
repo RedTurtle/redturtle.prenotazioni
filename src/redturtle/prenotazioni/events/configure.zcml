@@ -2,37 +2,43 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    i18n_domain="redturtle.prenotazioni">
+    i18n_domain="redturtle.prenotazioni"
+    >
 
-    <subscriber for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
-                     Products.CMFCore.interfaces.IActionSucceededEvent"
-                handler = ".events_logger.on_workflow_change"
-                />
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           Products.CMFCore.interfaces.IActionSucceededEvent"
+      handler=".events_logger.on_workflow_change"
+      />
 
-    <subscriber for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
-                     redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
-                handler = ".events_logger.on_move"
-                />
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
+      handler=".events_logger.on_move"
+      />
 
-    <subscriber for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
-                     zope.lifecycleevent.IObjectModifiedEvent"
-                handler = ".events_logger.on_modify"
-                />
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           zope.lifecycleevent.IObjectModifiedEvent"
+      handler=".events_logger.on_modify"
+      />
 
-     <!-- <subscriber for="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
+  <!-- <subscriber for="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
                handler=".prenotazione.reallocate_gate" /> -->
 
-     <subscriber for="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
-               handler=".prenotazione.reallocate_container" />
+  <subscriber
+      for="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
+      handler=".prenotazione.reallocate_container"
+      />
 
-     <subscriber
-          for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder
-               zope.lifecycleevent.IObjectCreatedEvent"
-          handler=".prenotazioni_folder.sort_on_creation_or_change"
-     />
-     <subscriber
-          for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder
-               zope.lifecycleevent.IObjectModifiedEvent"
-          handler=".prenotazioni_folder.sort_on_creation_or_change"
-     />
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder
+           zope.lifecycleevent.IObjectCreatedEvent"
+      handler=".prenotazioni_folder.sort_on_creation_or_change"
+      />
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder
+           zope.lifecycleevent.IObjectModifiedEvent"
+      handler=".prenotazioni_folder.sort_on_creation_or_change"
+      />
 </configure>

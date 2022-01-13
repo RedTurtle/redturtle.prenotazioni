@@ -5,13 +5,13 @@ from zope.component import adapter
 from zope.interface import Interface
 from zope.annotation.interfaces import IAnnotations
 from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
+from redturtle.prenotazioni import logger
 
 try:
     from plone.app.event.base import spell_date
 
     have_spell_date = True
 except ImportError:
-    from redturtle.prenotazioni import prenotazioniLogger as logger
 
     have_spell_date = False
     logger.exception(

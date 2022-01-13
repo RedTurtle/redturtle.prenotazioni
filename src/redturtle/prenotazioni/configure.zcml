@@ -3,7 +3,8 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="redturtle.prenotazioni">
+    i18n_domain="redturtle.prenotazioni"
+    >
 
   <i18n:registerTranslations directory="locales" />
 
@@ -12,6 +13,7 @@
   <include package=".browser" />
   <include package=".contentrules" />
   <include package=".vocabularies" />
+  <include package=".viewlets" />
   <include package=".indexers" />
   <include package=".events" />
 
@@ -21,18 +23,18 @@
   <genericsetup:registerProfile
       name="default"
       title="redturtle.prenotazioni"
-      directory="profiles/default"
       description="Installs the redturtle.prenotazioni add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
       post_handler=".setuphandlers.post_install"
       />
 
   <genericsetup:registerProfile
       name="uninstall"
       title="redturtle.prenotazioni (uninstall)"
-      directory="profiles/uninstall"
       description="Uninstalls the redturtle.prenotazioni add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/uninstall"
       post_handler=".setuphandlers.uninstall"
       />
 
@@ -41,16 +43,19 @@
       name="redturtle.prenotazioni-hiddenprofiles"
       />
 
-  <adapter 
-    factory=".indexes.Subject_prenotazione"
-    name="Subject" />
+  <adapter
+      factory=".indexes.Subject_prenotazione"
+      name="Subject"
+      />
 
-  <adapter 
-    factory=".indexes.SearchableText_prenotazione"
-    name="SearchableText" />
+  <adapter
+      factory=".indexes.SearchableText_prenotazione"
+      name="SearchableText"
+      />
 
-  <adapter 
-    factory=".indexes.Date"
-    name="Date" />
+  <adapter
+      factory=".indexes.Date"
+      name="Date"
+      />
 
 </configure>

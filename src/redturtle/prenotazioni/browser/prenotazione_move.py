@@ -31,16 +31,13 @@ class IMoveForm(Interface):
     booking_date = Datetime(
         title=_("label_booking_time", u"Booking time"), default=None
     )
-    gate = TextLine(
-        title=_("label_gate", u"Gate"), default=u"", required=False
-    )
+    gate = TextLine(title=_("label_gate", u"Gate"), default=u"", required=False)
 
 
 @implementer(IMoveForm)
 class MoveForm(form.Form):
 
-    """ Controller for moving a booking
-    """
+    """Controller for moving a booking"""
 
     ignoreContext = True
 
@@ -114,11 +111,8 @@ class MoveForm(form.Form):
     @property
     @memoize
     def back_to_booking_url(self):
-        """ This goes back to booking view.
-        """
-        qs = {
-            "data": (self.context.getData_prenotazione().strftime("%d/%m/%Y"))
-        }
+        """This goes back to booking view."""
+        qs = {"data": (self.context.getData_prenotazione().strftime("%d/%m/%Y"))}
         return urlify(self.prenotazioni_folder.absolute_url(), params=qs)
 
     # @memoize se usato rompe la vista
@@ -170,8 +164,7 @@ class MoveForm(form.Form):
 
         if conflict_manager.conflicts(data, exclude=exclude):
             msg = _(
-                u"Sorry, this slot is not available or does not fit your "
-                u"booking."
+                u"Sorry, this slot is not available or does not fit your " u"booking."
             )
             api.portal.show_message(msg, self.request, type="error")
             raise ActionExecutionError(Invalid(msg))
@@ -180,8 +173,7 @@ class MoveForm(form.Form):
             api.portal.show_message(msg, self.request, type="error")
             raise ActionExecutionError(Invalid(msg))
 
-        obj = self.do_move(data)
-        obj  # pyflakes
+        self.do_move(data)
         msg = _("booking_moved")
         IStatusMessage(self.request).add(msg, "info")
         booking_date = data["booking_date"].strftime("%d/%m/%Y")
@@ -201,8 +193,7 @@ class MoveForm(form.Form):
         return self.request.response.redirect(target)
 
     def __call__(self):
-        """ Hide the portlets before serving the template
-        """
+        """Hide the portlets before serving the template"""
         self.request.set("disable_plone.leftcolumn", 1)
         self.request.set("disable_plone.rightcolumn", 1)
         return super(MoveForm, self).__call__()

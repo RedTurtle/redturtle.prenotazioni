@@ -10,14 +10,12 @@ import hashlib
 
 
 class IPrenotazione(model.Schema):
-    """ Marker interface and Dexterity Python Schema for Prenotazione
-    """
+    """Marker interface and Dexterity Python Schema for Prenotazione"""
 
     # XXX validator
     email = schema.TextLine(title=_("label_email", default=u"Email"))
-    phone = schema.TextLine(
-        title=_("label_phone", u"Phone number"), required=False
-    )
+
+    phone = schema.TextLine(title=_("label_phone", u"Phone number"), required=False)
 
     fiscalcode = schema.TextLine(
         title=_(u"label_fiscalcode", u"Fiscal code"),
@@ -31,15 +29,11 @@ class IPrenotazione(model.Schema):
     )
 
     # XXX visibile solo in view
-    data_prenotazione = schema.Datetime(
-        title=_(u"Booking date"), required=True
-    )
+    data_prenotazione = schema.Datetime(title=_(u"Booking date"), required=True)
 
     azienda = schema.TextLine(
         title=_(u"Company"),
-        description=_(
-            u"Inserisci la denominazione dell'azienda " u"del richiedente"
-        ),
+        description=_(u"Inserisci la denominazione dell'azienda " u"del richiedente"),
         required=False,
     )
 
@@ -47,9 +41,7 @@ class IPrenotazione(model.Schema):
         title=_(u"Gate"), description=_(u"Sportello a cui presentarsi")
     )
 
-    data_scadenza = schema.Datetime(
-        title=_(u"Expiration date booking"), required=True
-    )
+    data_scadenza = schema.Datetime(title=_(u"Expiration date booking"), required=True)
 
     staff_notes = schema.Text(
         required=False, title=_("staff_notes_label", u"Staff notes")
@@ -58,8 +50,7 @@ class IPrenotazione(model.Schema):
 
 @implementer(IPrenotazione)
 class Prenotazione(Item):
-    """
-    """
+    """ """
 
     def getData_prenotazione(self):
         return self.data_prenotazione
@@ -100,13 +91,11 @@ class Prenotazione(Item):
             if IPrenotazioniFolder.providedBy(parent):
                 return parent
         raise Exception(
-            "Could not find Prenotazioni Folder "
-            "in acquisition chain of %r" % self
+            "Could not find Prenotazioni Folder " "in acquisition chain of %r" % self
         )
 
     def getDuration(self):
-        """ Return current duration
-        """
+        """Return current duration"""
         start = self.getData_prenotazione()
         end = self.getData_scadenza()
         if start and end:
@@ -115,8 +104,7 @@ class Prenotazione(Item):
             return 1
 
     def Subject(self):
-        """ Reuse plone subject to do something useful
-        """
+        """Reuse plone subject to do something useful"""
         return ""
 
     def Date(self):

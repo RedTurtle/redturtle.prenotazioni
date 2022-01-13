@@ -5,8 +5,7 @@ from json import dumps
 
 
 def log_data_for_booking(obj, data):
-    """ Log the given data for a booking
-    """
+    """Log the given data for a booking"""
     prenotazioni_folder = obj.getPrenotazioniFolder()
     user = api.user.get_current()
     booking_stats = api.content.get_view(

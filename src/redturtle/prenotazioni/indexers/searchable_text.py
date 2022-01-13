@@ -7,8 +7,7 @@ import six
 
 @indexer(IPrenotazione)
 def prenotazione(context, **kw):
-    """ Reindex prenotazione
-    """
+    """Reindex prenotazione"""
     parts = set(
         (
             context.SearchableText(),

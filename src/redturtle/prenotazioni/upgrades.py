@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone.app.upgrade.utils import loadMigrationProfile
-import logging
 
-logger = logging.getLogger(__name__)
 
 DEFAULT_PROFILE = "profile-redturtle.prenotazioni:default"
 
@@ -37,7 +35,8 @@ def update_rolemap(context):
 
 def reload_gs_profile(context):
     loadMigrationProfile(
-        context, DEFAULT_PROFILE,
+        context,
+        DEFAULT_PROFILE,
     )
 
 

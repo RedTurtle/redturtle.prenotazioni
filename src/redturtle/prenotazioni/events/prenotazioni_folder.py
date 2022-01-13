@@ -21,9 +21,7 @@ def on_create(obj, event):
 
         assignable[rule_id] = RuleAssignment(rule_id)
         assignable[rule_id].bubbles = True
-        get_assignments(storage[rule_id]).insert(
-            "/".join(obj.getPhysicalPath())
-        )
+        get_assignments(storage[rule_id]).insert("/".join(obj.getPhysicalPath()))
 
 
 def sort_on_creation_or_change(obj, event):

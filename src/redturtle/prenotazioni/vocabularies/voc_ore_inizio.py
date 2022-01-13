@@ -15,8 +15,7 @@ class VocabItem(object):
 
 @implementer(IVocabularyFactory)
 class VocOreInizio(object):
-    """
-    """
+    """ """
 
     HOURS = [
         "07",
@@ -50,9 +49,7 @@ class VocOreInizio(object):
         terms = []
         for item in items:
             terms.append(
-                SimpleTerm(
-                    value=item.token, token=str(item.token), title=item.value
-                )
+                SimpleTerm(value=item.token, token=str(item.token), title=item.value)
             )
         return SimpleVocabulary(terms)
 

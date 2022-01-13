@@ -34,7 +34,7 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
     @property
     @memoize
     def prenotazione_add(self):
-        """ Returns the prenotazioni_context_state view.
+        """Returns the prenotazioni_context_state view.
 
         Everyone should know about this!
         """
@@ -54,8 +54,7 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
     @property
     @memoize
     def tipologies_bookability(self):
-        """ Get tipology bookability
-        """
+        """Get tipology bookability"""
         booking_date = self.prenotazione_add.booking_DateTime.asdatetime()
         prenotazioni = self.prenotazione_add.prenotazioni
         return prenotazioni.tipologies_bookability(booking_date)
@@ -63,14 +62,11 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
     @property
     @memoize
     def unbookable_items(self):
-        """ Get tipology bookability
-        """
+        """Get tipology bookability"""
         keys = sorted(self.tipologies_bookability["unbookable"])
         keys = [key for key in keys]
         return [
-            self.vocabulary.getTerm(key)
-            for key in keys
-            if key in self.context.terms
+            self.vocabulary.getTerm(key) for key in keys if key in self.context.terms
         ]
 
 
@@ -81,7 +77,7 @@ class CustomRadioWidget(RadioWidget):
     @property
     @memoize
     def prenotazione_add(self):
-        """ Returns the prenotazioni_context_state view.
+        """Returns the prenotazioni_context_state view.
 
         Everyone should know about this!
         """
@@ -99,8 +95,7 @@ class CustomRadioWidget(RadioWidget):
     @property
     @memoize
     def tipologies_bookability(self):
-        """ Get tipology bookability
-        """
+        """Get tipology bookability"""
         booking_date = self.prenotazione_add.booking_DateTime.asdatetime()
         prenotazioni = self.prenotazione_add.prenotazioni
         return prenotazioni.tipologies_bookability(booking_date)
@@ -108,25 +103,19 @@ class CustomRadioWidget(RadioWidget):
     @property
     @memoize
     def bookable_items(self):
-        """ Get tipology bookability
-        """
+        """Get tipology bookability"""
         keys = sorted(self.tipologies_bookability["bookable"])
         keys = [safe_unicode(key) for key in keys]
-        return [
-            self.vocabulary.getTerm(key) for key in keys if key in self.terms
-        ]
+        return [self.vocabulary.getTerm(key) for key in keys if key in self.terms]
 
     @property
     @memoize
     def unbookable_items(self):
-        """ Get tipology bookability
-        """
+        """Get tipology bookability"""
         keys = sorted(self.tipologies_bookability["unbookable"])
         keys = [safe_unicode(key) for key in keys]
         return [
-            self.vocabulary.getTerm(key)
-            for key in keys
-            if key in self.context.terms
+            self.vocabulary.getTerm(key) for key in keys if key in self.context.terms
         ]
 
     @property
@@ -141,9 +130,7 @@ class CustomRadioWidget(RadioWidget):
             checked = self.isChecked(term)
             id = "%s-%i" % (self.id, count)
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
-                label = translate(
-                    term.title, context=self.request, default=term.title
-                )
+                label = translate(term.title, context=self.request, default=term.title)
             else:
                 label = util.toUnicode(term.value)
             results.append(
@@ -159,7 +146,16 @@ class CustomRadioWidget(RadioWidget):
         return results
 
     def get_radio_message(self, label):
-        message = "{} {}, {}".format(self.context.translate(_('Field', 'Campo')), self.context.translate(label), self.context.translate(_('select-option', "seleziona l'opzione desiderata dal gruppo di radio button seguente")))
+        message = "{} {}, {}".format(
+            self.context.translate(_("Field", "Campo")),
+            self.context.translate(label),
+            self.context.translate(
+                _(
+                    "select-option",
+                    "seleziona l'opzione desiderata dal gruppo di radio button seguente",
+                )
+            ),
+        )
         return message
 
     def renderForValue(self, value, index=None):

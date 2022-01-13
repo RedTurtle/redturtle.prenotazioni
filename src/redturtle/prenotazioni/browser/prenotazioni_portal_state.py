@@ -11,23 +11,20 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 class PrenotazioniPortalState(BrowserView):
 
-    """ Some globals for this package
-    """
+    """Some globals for this package"""
 
     booking_types = ["Prenotazione"]
 
     @property
     @memoize_contextless
     def plone_tools(self):
-        """
-        """
+        """ """
         return api.content.get_view("plone_tools", self.context, self.request)
 
     @property
     @memoize_contextless
     def booking_review_states(self):
-        """ Heavily inspired by workflowtool listWFStatesByTitle
-        """
+        """Heavily inspired by workflowtool listWFStatesByTitle"""
         pw = self.plone_tools.workflow()
         states = []
         dup_list = {}
@@ -45,9 +42,7 @@ class PrenotazioniPortalState(BrowserView):
         terms = []
         for state in states:
             key = state.getId()
-            title = translate(
-                __(safe_unicode(state.title)), context=self.request
-            )
+            title = translate(__(safe_unicode(state.title)), context=self.request)
             terms.append(SimpleTerm(key, title=title))
         terms.sort(key=lambda x: x.title)
         return SimpleVocabulary(terms)

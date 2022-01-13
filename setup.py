@@ -16,11 +16,12 @@ long_description = "\n\n".join(
 
 setup(
     name="redturtle.prenotazioni",
-    version="1.3.5.dev0",
+    version="1.3.6.dev0",
     description="An add-on for Plone",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: Addon",
@@ -61,6 +62,7 @@ setup(
         "collective.dexteritytextindexer",
         "collective.z3cform.datagridfield>=2.0",
         "pyexcel_ods3",
+        "click",
     ],
     extras_require={
         "test": [
@@ -71,12 +73,17 @@ setup(
             "plone.testing>=5.0.0",
             "plone.app.contenttypes",
             "plone.app.robotframework[debug]",
-        ]
+        ],
+        "app_io": [
+            "bravado",
+            "pytz",
+        ],
     },
     entry_points="""
     [z3c.autoinclude.plugin]
     target = plone
     [console_scripts]
     update_locale = redturtle.prenotazioni.locales.update:update_locale
+    app_io = redturtle.prenotazioni.scripts.app_io:main
     """,
 )

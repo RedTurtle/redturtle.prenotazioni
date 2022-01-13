@@ -7,7 +7,7 @@ from json import dumps
 from plone.memoize.view import memoize
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import prenotazioniFileLogger
-from redturtle.prenotazioni import prenotazioniLogger as logger
+from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.browser.base import BaseView as PrenotazioniBaseView
 from time import mktime
 from zope.annotation.interfaces import IAnnotations
@@ -52,8 +52,7 @@ class IQueryForm(Interface):
 
 
 def date2timestamp(value, delta=0):
-    """ Conerts a date in the format "%Y-%m-%d" to a unix timestamp
-    """
+    """Conerts a date in the format "%Y-%m-%d" to a unix timestamp"""
     try:
         value = datetime.strptime(value, "%Y-%m-%d")
         value = value + timedelta(delta)
@@ -64,8 +63,7 @@ def date2timestamp(value, delta=0):
 
 
 def timestamp2date(value, date_format="%Y/%m/%d %H:%M"):
-    """ Converts a timestamp to date_format
-    """
+    """Converts a timestamp to date_format"""
     return datetime.fromtimestamp(value).strftime(date_format)
 
 
@@ -80,21 +78,18 @@ class ContextForm(PrenotazioniBaseView):
     @property
     @memoize
     def logstorage(self):
-        """ This is an annotation OOTreeSet where we can store log entries
-        """
+        """This is an annotation OOTreeSet where we can store log entries"""
         annotations = IAnnotations(self.context)
         if self.logstorage_key not in annotations:
             annotations[self.logstorage_key] = OOTreeSet()
         return annotations[self.logstorage_key]
 
     def add_entry(self, entry):
-        """ Add an entry to the logstorage
-        """
+        """Add an entry to the logstorage"""
         return self.logstorage.add(entry)
 
     def remove_entry(self, entry):
-        """ Remove an entry from the logstorage
-        """
+        """Remove an entry from the logstorage"""
         try:
             return self.logstorage.remove(entry)
         except KeyError:
@@ -121,7 +116,7 @@ class ContextForm(PrenotazioniBaseView):
         return dummy_file.getvalue().strip("\r\n")
 
     def csvlog(self, data):
-        """ Log something, dumping it on a file and storing it in the
+        """Log something, dumping it on a file and storing it in the
         logstorage
         """
         encoded_data = self.csvencode([data])

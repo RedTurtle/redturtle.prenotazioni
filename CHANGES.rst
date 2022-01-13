@@ -2,7 +2,15 @@ Changelog
 =========
 
 
-1.3.5 (unreleased)
+1.3.6 (unreleased)
+------------------
+
+- Better manage fiscalcode.
+  [cekk]
+- Add github actions for code quality and fix black/zpretty/flake8 linting.
+  [cekk]
+
+1.3.5 (2021-10-15)
 ------------------
 
 - [new] Added field "Note prenotante" e "Note del personale" inside the

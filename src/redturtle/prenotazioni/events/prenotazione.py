@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 from redturtle.prenotazioni.adapters.booker import IBooker
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 def reallocate_gate(obj):
@@ -15,9 +12,7 @@ def reallocate_gate(obj):
     """
     context = obj.object
 
-    if context.REQUEST.form.get("form.gate", "") and getattr(
-        context, "gate", ""
-    ):
+    if context.REQUEST.form.get("form.gate", "") and getattr(context, "gate", ""):
         return
 
     container = context.getPrenotazioniFolder()
