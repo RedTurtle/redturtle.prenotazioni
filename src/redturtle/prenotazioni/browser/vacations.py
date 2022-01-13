@@ -63,9 +63,7 @@ class IVacationBooking(Interface):
     )
     gate = Choice(
         title=_("label_gate", u"Gate"),
-        description=_(
-            "description_gate", u"The gate that will be unavailable"
-        ),
+        description=_("description_gate", u"The gate that will be unavailable"),
         default=u"",
         vocabulary="redturtle.prenotazioni.gates",
     )
@@ -106,9 +104,7 @@ class VacationBooking(form.Form):
 
     def updateWidgets(self):
         super(VacationBooking, self).updateWidgets()
-        self.widgets["start_date"].value = datetime.today().strftime(
-            "%Y-%m-%d"
-        )
+        self.widgets["start_date"].value = datetime.today().strftime("%Y-%m-%d")
 
     def get_parsed_data(self, data):
         """
@@ -131,7 +127,7 @@ class VacationBooking(form.Form):
         )
 
     def get_start_time(self, data):
-        """ The requested start time
+        """The requested start time
 
         :returns: a datetime
         """
@@ -140,15 +136,14 @@ class VacationBooking(form.Form):
         )  # noqa
 
     def get_end_time(self, data):
-        """ The requested end time
+        """The requested end time
 
         :returns: a datetime
         """
         return datetime(*data["start_date"].timetuple()[:6]) + data["end_time"]
 
     def get_vacation_slot(self, data):
-        """ The requested vacation slot
-        """
+        """The requested vacation slot"""
         start_time = self.get_start_time(data)
         end_time = self.get_end_time(data)
         return BaseSlot(start_time, end_time)
@@ -183,7 +178,7 @@ class VacationBooking(form.Form):
     #         self.widgets[field].error = msg
 
     def has_slot_conflicts(self, data):
-        """ We want the operator to handle conflicts:
+        """We want the operator to handle conflicts:
         no other booking can be created if we already have stuff
         """
         start_date = data["start_date"]
@@ -249,9 +244,7 @@ class VacationBooking(form.Form):
                 "email": u"",
                 "tipologia_prenotazione": u"",
             }
-            booker.create(
-                slot_data, duration=duration, force_gate=data.get("gate")
-            )
+            booker.create(slot_data, duration=duration, force_gate=data.get("gate"))
 
         msg = _("booking_created")
         IStatusMessage(self.request).add(msg, "info")
@@ -268,8 +261,7 @@ class VacationBooking(form.Form):
         if self.has_slot_conflicts(parsed_data):
             msg = _(
                 "slot_conflict_error",
-                u"This gate has some booking schedule in this time "
-                u"period.",
+                u"This gate has some booking schedule in this time " u"period.",
             )
             raise ActionExecutionError(Invalid(msg))
 
@@ -291,8 +283,7 @@ class VacationBooking(form.Form):
         return self.request.response.redirect(target)
 
     def extra_script(self):
-        """ The scripts needed for the dateinput
-        """
+        """The scripts needed for the dateinput"""
         view = api.content.get_view(
             "redturtle.prenotazioni.dateinput.conf.js",
             self.context,
@@ -308,6 +299,5 @@ class VacationBookingShow(BrowserView):
     """
 
     def __call__(self):
-        """ Return True for the time being
-        """
+        """Return True for the time being"""
         return True

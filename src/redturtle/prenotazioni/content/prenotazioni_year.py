@@ -5,13 +5,11 @@ from zope.interface import implementer
 
 
 class IPrenotazioniYear(model.Schema):
-    """ Marker interface and Dexterity Python Schema for PrenotazioniYear
-    """
+    """Marker interface and Dexterity Python Schema for PrenotazioniYear"""
 
 
 @implementer(IPrenotazioniYear)
 class PrenotazioniYear(Container):
-    """
-    """
+    """ """
 
     exclude_from_nav = True

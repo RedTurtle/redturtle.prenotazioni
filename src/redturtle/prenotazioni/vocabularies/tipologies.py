@@ -9,15 +9,13 @@ from zope.schema.vocabulary import SimpleVocabulary
 @implementer(IVocabularyFactory)
 class TipologiesVocabulary(object):
     def get_tipologies(self, context):
-        """ Return the tipologies in the PrenotazioniFolder
-        """
+        """Return the tipologies in the PrenotazioniFolder"""
         if isinstance(context, Prenotazione):
             context = context.getPrenotazioniFolder()
         return getattr(context, "booking_types", [])
 
     def tipology2term(self, idx, tipology):
-        """ return a vocabulary tern with this
-        """
+        """return a vocabulary tern with this"""
         idx = str(idx)
         name = tipology.get("name", "")
         if isinstance(name, str):
@@ -36,8 +34,7 @@ class TipologiesVocabulary(object):
         return term
 
     def get_terms(self, context):
-        """ The vocabulary terms
-        """
+        """The vocabulary terms"""
         return [
             self.tipology2term(idx, tipology)
             for idx, tipology in enumerate(self.get_tipologies(context))

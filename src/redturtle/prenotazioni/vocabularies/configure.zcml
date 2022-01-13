@@ -1,30 +1,39 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    i18n_domain="redturtle.prenotazioni">
+    i18n_domain="redturtle.prenotazioni"
+    >
 
-    <!-- -*- extra stuff goes here -*- -->
+  <!-- -*- extra stuff goes here -*- -->
 
-    <utility
-        component=".voc_durata_incontro.VocDurataIncontroFactory"
-        name="redturtle.prenotazioni.VocDurataIncontro"
-    />
-
-        
-    <utility
-        component=".voc_ore_inizio.VocOreInizioFactory"
-        name="redturtle.prenotazioni.VocOreInizio"
-    />
+  <utility
+      name="redturtle.prenotazioni.VocDurataIncontro"
+      component=".voc_durata_incontro.VocDurataIncontroFactory"
+      />
 
 
-  <utility component=".gates.GatesVocabularyFactory"
-           name="redturtle.prenotazioni.gates"/>
-  <utility component=".review_states.BookingReviewStatesVocabularyFactory"
-           name="redturtle.prenotazioni.booking_review_states" />
-  <utility component=".tipologies.TipologiesVocabularyFactory"
-           name="redturtle.prenotazioni.tipologies"/>
+  <utility
+      name="redturtle.prenotazioni.VocOreInizio"
+      component=".voc_ore_inizio.VocOreInizioFactory"
+      />
 
-  <utility component=".requirable_booking_fields.RequirableBookingFieldsVocabularyFactory"
-           name="redturtle.prenotazioni.requirable_booking_fields"/>
 
-        
+  <utility
+      name="redturtle.prenotazioni.gates"
+      component=".gates.GatesVocabularyFactory"
+      />
+  <utility
+      name="redturtle.prenotazioni.booking_review_states"
+      component=".review_states.BookingReviewStatesVocabularyFactory"
+      />
+  <utility
+      name="redturtle.prenotazioni.tipologies"
+      component=".tipologies.TipologiesVocabularyFactory"
+      />
+
+  <utility
+      name="redturtle.prenotazioni.requirable_booking_fields"
+      component=".requirable_booking_fields.RequirableBookingFieldsVocabularyFactory"
+      />
+
+
 </configure>

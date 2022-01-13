@@ -35,7 +35,8 @@ def update_rolemap(context):
 
 def reload_gs_profile(context):
     loadMigrationProfile(
-        context, DEFAULT_PROFILE,
+        context,
+        DEFAULT_PROFILE,
     )
 
 

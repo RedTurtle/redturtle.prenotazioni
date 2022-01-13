@@ -24,8 +24,7 @@ class PrenotazionePrint(BrowserView):
     @property
     @memoize
     def label(self):
-        """ The lable of this view
-        """
+        """The lable of this view"""
         title = self.prenotazione.getPrenotazioniFolder().Title()  # noqa
         return _(
             "reservation_request",

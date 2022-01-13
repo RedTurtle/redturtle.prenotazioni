@@ -6,8 +6,7 @@ from plone.app.content.browser.folderfactories import (
 
 class FolderFactoriesView(BaseView):
 
-    """The folder_factories view - show addable types
-    """
+    """The folder_factories view - show addable types"""
 
     hidden_types = ("Prenotazione",)
 

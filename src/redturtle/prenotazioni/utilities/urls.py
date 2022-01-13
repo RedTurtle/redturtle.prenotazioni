@@ -5,7 +5,7 @@ import six
 
 
 def urlify(url="", paths=[], params={}):
-    """ We take a query string and encode it
+    """We take a query string and encode it
 
     :param url: a string
     :param paths: a string or an iterable of path to join, e.g.:

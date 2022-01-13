@@ -21,6 +21,7 @@ setup(
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: Addon",
@@ -76,7 +77,7 @@ setup(
         "app_io": [
             "bravado",
             "pytz",
-        ]
+        ],
     },
     entry_points="""
     [z3c.autoinclude.plugin]

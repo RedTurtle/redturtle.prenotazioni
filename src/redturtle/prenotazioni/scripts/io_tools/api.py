@@ -61,7 +61,8 @@ class Api(object):
         # )
 
     def update_message_status(
-        self, key,
+        self,
+        key,
     ):
         """[summary]
 
@@ -72,12 +73,19 @@ class Api(object):
         if msg and msg.status not in PERMANENT_STATUS:
             fiscal_code = msg.fiscal_code
             msgid = msg.msgid
-            res = self.api.messages.getMessage(fiscal_code=fiscal_code, id=msgid)._get_incoming_response()
+            res = self.api.messages.getMessage(
+                fiscal_code=fiscal_code, id=msgid
+            )._get_incoming_response()
             if res.status_code == 200:
                 self.storage.update_message(key, **res.json())
                 return True
             else:
-                logger.warning("unable to get message %s %s - %s", fiscal_code, msgid, res.status_code)
+                logger.warning(
+                    "unable to get message %s %s - %s",
+                    fiscal_code,
+                    msgid,
+                    res.status_code,
+                )
                 return False
         return False
 
@@ -98,13 +106,19 @@ class Api(object):
         """
         # 0. validazione argomenti
         if len(subject) < 10 or len(subject) > 120:
-            logger.error("la lunghezza dell'oggetto del messaggio deve stare tra i 10 e i 120 caratteri")
+            logger.error(
+                "la lunghezza dell'oggetto del messaggio deve stare tra i 10 e i 120 caratteri"
+            )
             return None
         if len(body) < 80 or len(body) > 10000:
-            logger.error("la lunghezza del contenuto del messaggio deve stare tra i 80 e i 10.000 caratteri")
+            logger.error(
+                "la lunghezza del contenuto del messaggio deve stare tra i 80 e i 10.000 caratteri"
+            )
             return None
         if due_date and not isinstance(due_date, datetime):
-            logger.error("il campo con la data, se valorizzato, deve essere di tipo datetime")
+            logger.error(
+                "il campo con la data, se valorizzato, deve essere di tipo datetime"
+            )
             return None
         if key is None:
             if payment_data:
@@ -125,14 +139,20 @@ class Api(object):
             )
         # 2. verifica se il destinatario è abilitato o meno a ricevere il messaggio
         try:
-            profile = self.api.profiles.getProfile(fiscal_code=fiscal_code).response().result
+            profile = (
+                self.api.profiles.getProfile(fiscal_code=fiscal_code).response().result
+            )
         except HTTPForbidden:
             self.storage.update_message(key, status=PROFILE_NOT_FOUND)
-            logger.error("profile for user %s not found (access forbidden to api)", fiscal_code)
+            logger.error(
+                "profile for user %s not found (access forbidden to api)", fiscal_code
+            )
             return None
         except Exception:
             self.storage.update_message(key, status=PROFILE_NOT_FOUND)
-            logger.exception("profile for user %s not found (generic error)", fiscal_code)
+            logger.exception(
+                "profile for user %s not found (generic error)", fiscal_code
+            )
             return None
         if profile and profile.sender_allowed:
             # PaymentData non definito nello swagger, payment_data come dizionario
@@ -144,7 +164,9 @@ class Api(object):
             if isinstance(due_date, datetime):
                 # https://stackoverflow.com/questions/2150739/iso-time-iso-8601-in-python
                 # due_date = due_date.astimezone().isoformat()
-                due_date = due_date.astimezone(timezone('utc')).strftime('%Y-%m-%dT%H:%M:%S.000Z')
+                due_date = due_date.astimezone(timezone("utc")).strftime(
+                    "%Y-%m-%dT%H:%M:%S.000Z"
+                )
             message = self.api.get_model("NewMessage")(
                 # time_to_live
                 # default_addresses=None

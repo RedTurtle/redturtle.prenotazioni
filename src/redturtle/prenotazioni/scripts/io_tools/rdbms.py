@@ -36,11 +36,11 @@ class Storage(Base):
 
     @staticmethod
     @orm.db_session
-    def get_data(query,params=None):
+    def get_data(query, params=None):
         """
         ritorna i dati per costruire i messaggi con una query sul db
         """
-        return db.select(query,params)
+        return db.select(query, params)
 
     @staticmethod
     @orm.db_session
