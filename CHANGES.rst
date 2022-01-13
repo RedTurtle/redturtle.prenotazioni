@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.6 (unreleased)
+1.4.0 (2022-01-13)
 ------------------
 
 - Better manage fiscalcode.
