@@ -7,10 +7,10 @@
       />
 
   <adapter
+      factory=".conflict.ConflictManager"
       provides=".conflict.IConflictManager"
       for="Products.CMFPlone.Portal.PloneSite"
-      factory=".conflict.ConflictManager"
-  />
+      />
 
   <adapter
       factory=".booker.Booker"

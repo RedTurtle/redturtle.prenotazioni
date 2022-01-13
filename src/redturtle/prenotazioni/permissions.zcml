@@ -39,8 +39,8 @@
     <permission
         id="redturtle.prenotazioni.AddPrenotazioniRoomsFolder"
         title="redturtle.prenotazioni: Add PrenotazioniRoomsFolder"
-    />
-    
+        />
+
     <permission
         id="redturtle.prenotazioni.SearchPrenotazioni"
         title="redturtle.prenotazioni: search prenotazioni"
