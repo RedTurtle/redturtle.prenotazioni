@@ -5,7 +5,8 @@ Changelog
 1.3.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Better manage fiscalcode.
+  [cekk]
 
 
 1.3.5 (2021-10-15)
