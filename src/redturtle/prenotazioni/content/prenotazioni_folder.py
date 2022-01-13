@@ -65,9 +65,9 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
 
 @provider(IContextAwareDefaultFactory)
 def availableHolidays(context):
-    """ Portal holidays """
+    """Portal holidays"""
     registry = getUtility(IRegistry)
-    items = registry.get('redturtle.prenotazioni.holidays')
+    items = registry.get("redturtle.prenotazioni.holidays")
     return items
 
 
