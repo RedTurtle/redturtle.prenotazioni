@@ -1,154 +1,157 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
   <adapter
+      factory=".conflict.ConflictManager"
       provides=".conflict.IConflictManager"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
-      factory=".conflict.ConflictManager"
-  />
+      />
 
   <adapter
+      factory=".booker.Booker"
       provides=".booker.IBooker"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
-      factory=".booker.Booker"
-  />
-
-  <adapter for="redturtle.prenotazioni.content.prenotazione.IPrenotazione *"
-           name="plone.contentmenu.actions"
-           factory=".prenotazione_menu.PrenotazioneActionsSubMenuItem"
-           provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
+      />
 
   <adapter
+      factory=".prenotazione_menu.PrenotazioneActionsSubMenuItem"
+      provides="plone.app.contentmenu.interfaces.IContentMenuItem"
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           *"
+      name="plone.contentmenu.actions"
+      />
+
+  <adapter
+      factory=".slot.Slot"
       provides=".slot.ISlot"
       for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
-      factory=".slot.Slot"
-  />
+      />
 
   <adapter
+      factory=".prenotazione.DeleteToken"
       provides=".prenotazione.IDeleteTokenProvider"
       for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
-      factory=".prenotazione.DeleteToken"
-  />
+      />
 
   <adapter
+      factory=".slot.Slot"
       provides=".slot.ISlot"
       for="redturtle.prenotazioni.interfaces.IPause"
-      factory=".slot.Slot"
-  />
+      />
 
   <!-- stringinterp -->
   <adapter
-    for="*"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".stringinterp.GateSubstitution"
-    name="booking_gate"
-    />
-   <adapter
-    for="*"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".stringinterp.BookingDateSubstitution"
-    name="booking_date"
-    />
-   <adapter
-    for="*"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".stringinterp.BookingEndDateSubstitution"
-    name="booking_end_date"
-    />
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingTimeSubstitution"
-        name="booking_time"
-    />
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingTypeSubstitution"
-        name="booking_type"
-    />
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingUrlSubstitution"
-        name="booking_print_url"
-    />
+      factory=".stringinterp.GateSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_gate"
+      />
+  <adapter
+      factory=".stringinterp.BookingDateSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_date"
+      />
+  <adapter
+      factory=".stringinterp.BookingEndDateSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_end_date"
+      />
+  <adapter
+      factory=".stringinterp.BookingTimeSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_time"
+      />
+  <adapter
+      factory=".stringinterp.BookingTypeSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_type"
+      />
+  <adapter
+      factory=".stringinterp.BookingUrlSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_print_url"
+      />
 
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingPrintUrlWithDeleteTokenSubstitution"
-        name="booking_print_url_with_delete_token"
-    />
+  <adapter
+      factory=".stringinterp.BookingPrintUrlWithDeleteTokenSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_print_url_with_delete_token"
+      />
 
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingUserPhoneSubstitution"
-        name="booking_user_phone"
-    />
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingUserEmailSubstitution"
-        name="booking_user_email"
-    />
-    <adapter
-    for="*"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".stringinterp.BookingCodeSubstitution"
-    name="booking_code"
-    />
+  <adapter
+      factory=".stringinterp.BookingUserPhoneSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_user_phone"
+      />
+  <adapter
+      factory=".stringinterp.BookingUserEmailSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_user_email"
+      />
+  <adapter
+      factory=".stringinterp.BookingCodeSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_code"
+      />
 
-    <adapter
-    for="*"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".stringinterp.BookingTimeEndSubstitution"
-    name="booking_time_end"
-    />
-    <adapter
-    for="*"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".stringinterp.BookingHRDateStartSubstitution"
-    name="booking_human_readable_start"
-    />
+  <adapter
+      factory=".stringinterp.BookingTimeEndSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_time_end"
+      />
+  <adapter
+      factory=".stringinterp.BookingHRDateStartSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_human_readable_start"
+      />
 
-    <!-- Office contact fields stringinterp -->
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingOfficeContactPhoneSubstitution"
-        name="booking_office_contact_phone"
-        />
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingOfficeContactPecSubstitution"
-        name="booking_office_contact_pec"
-        />
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingOfficeContactFaxSubstitution"
-        name="booking_office_contact_fax"
-        />
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingHowToGetToOfficeSubsitution"
-        name="booking_how_to_get_to_office"
-        />
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingOfficeCompleteAddressSubstitution"
-        name="booking_office_complete_address"
-        />
+  <!-- Office contact fields stringinterp -->
+  <adapter
+      factory=".stringinterp.BookingOfficeContactPhoneSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_office_contact_phone"
+      />
+  <adapter
+      factory=".stringinterp.BookingOfficeContactPecSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_office_contact_pec"
+      />
+  <adapter
+      factory=".stringinterp.BookingOfficeContactFaxSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_office_contact_fax"
+      />
+  <adapter
+      factory=".stringinterp.BookingHowToGetToOfficeSubsitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_how_to_get_to_office"
+      />
+  <adapter
+      factory=".stringinterp.BookingOfficeCompleteAddressSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_office_complete_address"
+      />
 
-    <adapter
-        for="*"
-        provides="plone.stringinterp.interfaces.IStringSubstitution"
-        factory=".stringinterp.BookingUrlWithDeleteToken"
-        name="booking_url_with_delete_token"
-        />
+  <adapter
+      factory=".stringinterp.BookingUrlWithDeleteToken"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_url_with_delete_token"
+      />
 
 </configure>
