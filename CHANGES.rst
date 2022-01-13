@@ -7,7 +7,8 @@ Changelog
 
 - Better manage fiscalcode.
   [cekk]
-
+- Add github actions for code quality and fix black/zpretty/flake8 linting.
+  [cekk]
 
 1.3.5 (2021-10-15)
 ------------------
