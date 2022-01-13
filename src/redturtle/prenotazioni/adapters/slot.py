@@ -60,8 +60,7 @@ def interval_is_contained(interval, lower_bound, upper_bound):
 
 
 def slots_to_points(slots):
-    """ Return a list of point starting from the slots
-    """
+    """Return a list of point starting from the slots"""
     points = []
     [points.extend([x.lower_value, x.upper_value]) for x in slots]
     return sorted(points)
@@ -76,21 +75,18 @@ class ISlot(Interface):
 
 class LowerEndpoint(int):
 
-    """ Lower Endpoint
-    """
+    """Lower Endpoint"""
 
 
 class UpperEndpoint(int):
 
-    """ Upper Endpoint
-    """
+    """Upper Endpoint"""
 
 
 @implementer(ISlot)
 class BaseSlot(Interval):
 
-    """ Overrides and simplifies pyinter.Interval
-    """
+    """Overrides and simplifies pyinter.Interval"""
 
     _lower = Interval.CLOSED
     _upper = Interval.CLOSED
@@ -127,29 +123,20 @@ class BaseSlot(Interval):
         self.gate = gate
 
     def __len__(self):
-        """ The length of this object
-        """
-        if (
-            self._upper_value is None
-            or self.lower_value is None
-            or self.empty()
-        ):
+        """The length of this object"""
+        if self._upper_value is None or self.lower_value is None or self.empty():
             return 0
         return self._upper_value - self.lower_value
 
     def __nonzero__(self):
-        """ Check if this should be True
-        """
-        if isinstance(self._lower_value, int) and isinstance(
-            self._upper_value, int
-        ):
+        """Check if this should be True"""
+        if isinstance(self._lower_value, int) and isinstance(self._upper_value, int):
             return 1
         else:
             return 0
 
     def __sub__(self, value):
-        """ Subtract something from this
-        """
+        """Subtract something from this"""
         if isinstance(value, Interval):
             value = [value]
 
@@ -170,8 +157,7 @@ class BaseSlot(Interval):
         return intervals
 
     def value_hr(self, value):
-        """ format value in a human readable fashion
-        """
+        """format value in a human readable fashion"""
         if not value:
             return ""
         hour = str(value // 3600).zfill(2)
@@ -179,13 +165,11 @@ class BaseSlot(Interval):
         return "%s:%s" % (hour, minute)
 
     def start(self):
-        """ Return the starting time
-        """
+        """Return the starting time"""
         return self.value_hr(self._lower_value)
 
     def stop(self):
-        """ Return the starting time
-        """
+        """Return the starting time"""
         return self.value_hr(self._upper_value)
 
     def get_offset(self, is_interval):
@@ -221,7 +205,7 @@ class BaseSlot(Interval):
         return 0.0
 
     def css_styles(self, is_interval=False):
-        """ the css styles for this slot
+        """the css styles for this slot
 
         The height of the interval in pixel is equal
         to the interval length in minnutes
@@ -238,7 +222,7 @@ class BaseSlot(Interval):
         return ";".join(styles)
 
     def get_values_hr_every(self, width, slot_min_size=0):
-        """ This partitions this slot if pieces of length width and
+        """This partitions this slot if pieces of length width and
         return the human readable value of the starts
 
         If slot is [0, 1000]
@@ -263,11 +247,8 @@ class BaseSlot(Interval):
 @implementer(ISlot)
 class Slot(BaseSlot):
     def __eq__(self, other):
-        """ We need to compare also the context before comparing the boundaries
-        """
-        return self.context == other.context and super(Slot, self).__eq__(
-            other
-        )
+        """We need to compare also the context before comparing the boundaries"""
+        return self.context == other.context and super(Slot, self).__eq__(other)
 
     def __init__(self, context):
         """

@@ -32,8 +32,7 @@ class ConflictManager(object):
     @property
     @memoize
     def prenotazioni(self):
-        """ The prenotazioni context state view
-        """
+        """The prenotazioni context state view"""
         return self.context.restrictedTraverse("@@prenotazioni_context_state")
 
     @property
@@ -78,8 +77,7 @@ class ConflictManager(object):
         return self.unrestricted_prenotazioni(**query)
 
     def get_choosen_slot(self, data):
-        """ Get's the slot requested by the user
-        """
+        """Get's the slot requested by the user"""
         tipology = data.get("tipology", "")
         tipology_duration = self.prenotazioni.get_tipology_duration(tipology)
         start = data.get("booking_date", "")
@@ -88,22 +86,19 @@ class ConflictManager(object):
         return slot
 
     def extend_availability(self, slots, gate_slots):
-        """ We add slots to the gate_slots list and we make unions
+        """We add slots to the gate_slots list and we make unions
         when they overlap.
         """
         for i in range(len(gate_slots)):
             for slot in slots:
                 if gate_slots[i].overlaps(slot):
                     interval = gate_slots[i].union(slot)
-                    gate_slots[i] = BaseSlot(
-                        interval.lower_value, interval.upper_value
-                    )
+                    gate_slots[i] = BaseSlot(interval.lower_value, interval.upper_value)
 
         return gate_slots + slots
 
     def add_exclude(self, exclude, availability):
-        """ Extends the availability list adding the slot we are moving
-        """
+        """Extends the availability list adding the slot we are moving"""
         for key in six.iterkeys(exclude):
             if availability.get(key, None):
                 availability[key] = self.extend_availability(

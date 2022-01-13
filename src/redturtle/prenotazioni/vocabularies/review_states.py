@@ -6,8 +6,7 @@ from zope.schema.interfaces import IVocabularyFactory
 
 @implementer(IVocabularyFactory)
 class BookingReviewStatesVocabulary(object):
-    """Vocabulary factory for workflow states of a Prenotazione
-    """
+    """Vocabulary factory for workflow states of a Prenotazione"""
 
     def __call__(self, context):
         prenotazioni_portal_state = api.content.get_view(

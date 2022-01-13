@@ -19,8 +19,7 @@ import six
 @implementer(IExecutable)
 @adapter(IPloneSiteRoot, IMailFromFieldAction, Interface)
 class MailActionExecutor(BaseExecutor):
-    """The executor for this action.
-    """
+    """The executor for this action."""
 
     def get_target_obj(self):
         """Get's the target object, i.e. the object that will provide the field

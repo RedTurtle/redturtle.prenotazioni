@@ -40,9 +40,7 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
                 return value
         return None
 
-    number_of_entry = request.form.get(
-        "form.widgets.{}.count".format(fieldname)
-    )
+    number_of_entry = request.form.get("form.widgets.{}.count".format(fieldname))
     data = []
     prefix = "form.widgets.{}".format(fieldname)
     for counter in range(int(number_of_entry)):
@@ -77,9 +75,7 @@ class IWeekTableRow(model.Schema):
     )
 
     afternoon_start = schema.Choice(
-        title=_(
-            "afternoon_start_label", default="Start time in the afternoon"
-        ),
+        title=_("afternoon_start_label", default="Start time in the afternoon"),
         vocabulary="redturtle.prenotazioni.VocOreInizio",
         required=False,
     )
@@ -93,8 +89,7 @@ class IWeekTableRow(model.Schema):
 
 class IPauseTableRow(model.Schema):
     def get_options():  # noqa
-        """ Return the options for the day widget
-        """
+        """Return the options for the day widget"""
         options = [
             SimpleTerm(value=None, token=None, title=_("Select a day")),
             SimpleTerm(value=0, token=0, title=_("Monday")),
@@ -134,8 +129,7 @@ class IBookingTypeRow(Interface):
 
 
 class IPrenotazioniFolder(model.Schema):
-    """ Marker interface and Dexterity Python Schema for PrenotazioniFolder
-    """
+    """Marker interface and Dexterity Python Schema for PrenotazioniFolder"""
 
     dexteritytextindexer.searchable("descriptionAgenda")
     descriptionAgenda = RichText(
@@ -146,9 +140,7 @@ class IPrenotazioniFolder(model.Schema):
 
     directives.widget(required_booking_fields=CheckBoxFieldWidget)
     required_booking_fields = schema.List(
-        title=_(
-            "label_required_booking_fields", default="Required booking fields"
-        ),
+        title=_("label_required_booking_fields", default="Required booking fields"),
         description=_(
             "help_required_booking_fields",
             "User will not be able to add a booking unless those "
@@ -166,9 +158,7 @@ class IPrenotazioniFolder(model.Schema):
     directives.widget(required_booking_fields=CheckBoxFieldWidget)
 
     visible_booking_fields = schema.List(
-        title=_(
-            "label_visible_booking_fields", default="Visible booking fields"
-        ),
+        title=_("label_visible_booking_fields", default="Visible booking fields"),
         description=_(
             "help_visible_booking_fields",
             "User will not be able to add a booking unless those "
@@ -197,15 +187,12 @@ class IPrenotazioniFolder(model.Schema):
     )
 
     def get_options():
-        """ Return the options for this widget
-        """
+        """Return the options for this widget"""
         today = date.today().strftime("%Y/%m/%d")
         options = [
             SimpleTerm(value="yes", token="yes", title=_("Yes")),
             SimpleTerm(value="no", token="no", title=_("No")),
-            SimpleTerm(
-                value=today, token=today, title=_("No, just for today")
-            ),
+            SimpleTerm(value=today, token=today, title=_("No, just for today")),
         ]
 
         return SimpleVocabulary(options)
@@ -341,10 +328,7 @@ class IPrenotazioniFolder(model.Schema):
 
     gates = schema.List(
         title=_("gates_label", "Gates"),
-        description=_(
-            "gates_help",
-            default="Put gates here (one per line)."
-        ),
+        description=_("gates_help", default="Put gates here (one per line)."),
         required=True,
         value_type=schema.TextLine(),
         default=[],
@@ -434,14 +418,10 @@ class IPrenotazioniFolder(model.Schema):
                 raise Invalid(_(u"You should set a start time for afternoon."))
             if interval["morning_start"] and interval["morning_end"]:
                 if interval["morning_start"] > interval["morning_end"]:
-                    raise Invalid(
-                        _(u"Morning start should not be greater than end.")
-                    )
+                    raise Invalid(_(u"Morning start should not be greater than end."))
             if interval["afternoon_start"] and interval["afternoon_end"]:
                 if interval["afternoon_start"] > interval["afternoon_end"]:
-                    raise Invalid(
-                        _(u"Afternoon start should not be greater than end.")
-                    )
+                    raise Invalid(_(u"Afternoon start should not be greater than end."))
 
     # TODO: definire o descrivere quando avviee la notifica
     app_io_enabled = schema.Bool(
@@ -454,17 +434,17 @@ class IPrenotazioniFolder(model.Schema):
     model.fieldset(
         "Reminders",
         label=_("reminders_label", default=u"Reminders"),
-        fields=["app_io_enabled", ],
+        fields=[
+            "app_io_enabled",
+        ],
     )
 
 
 class PauseValidator(validator.SimpleFieldValidator):
-    """z3c.form validator class for international phone numbers
-    """
+    """z3c.form validator class for international phone numbers"""
 
     def validate(self, pause_table):
-        """Validate international phone number on input
-        """
+        """Validate international phone number on input"""
         super(PauseValidator, self).validate(pause_table)
         pause_table = get_dgf_values_from_request(
             self.context.REQUEST,
@@ -504,9 +484,7 @@ class PauseValidator(validator.SimpleFieldValidator):
 
                 # 1. Pause starts should always be bigger than pause ends
                 if not (pause["pause_end"] > pause["pause_start"]):
-                    raise Invalid(
-                        _(u"Pause end should be greater than pause start")
-                    )
+                    raise Invalid(_(u"Pause end should be greater than pause start"))
                 interval = [pause["pause_start"], pause["pause_end"]]
                 # 2. a pause interval should always be contained in the morning
                 # or afternoon defined for these days
@@ -547,8 +525,7 @@ provideAdapter(PauseValidator)
 
 @implementer(IPrenotazioniFolder)
 class PrenotazioniFolder(Container):
-    """
-    """
+    """ """
 
     def getDescriptionAgenda(self):
         return self.descriptionAgenda

@@ -18,8 +18,7 @@ prenotazioniFileLogger = getLogger("redturtle.prenotazioni.file")
 
 
 def tznow():
-    """ Return a timezone aware now
-    """
+    """Return a timezone aware now"""
     return datetime.now()
 
 
@@ -49,14 +48,10 @@ def get_or_create_obj(folder, key, portal_type):
         if not userid:
             raise UserNotFoundError()
         with api.env.adopt_user(userid):
-            return api.content.create(
-                type=portal_type, title=key, container=folder
-            )
+            return api.content.create(type=portal_type, title=key, container=folder)
     except (UserNotFoundError, Unauthorized):
         with api.env.adopt_roles(["Manager"]):
-            return api.content.create(
-                type=portal_type, title=key, container=folder
-            )
+            return api.content.create(type=portal_type, title=key, container=folder)
 
 
 def init_handler():
@@ -71,9 +66,7 @@ def init_handler():
     if not logfile:
         return
     hdlr = FileHandler(logfile)
-    formatter = Formatter(
-        "%(asctime)s %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S"
-    )
+    formatter = Formatter("%(asctime)s %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S")
     hdlr.setFormatter(formatter)
     prenotazioniFileLogger.addHandler(hdlr)
 

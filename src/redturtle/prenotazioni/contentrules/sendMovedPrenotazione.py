@@ -20,8 +20,7 @@ import six
 
 class IMovedPrenotazioneAction(Interface):
 
-    """Definition of the configuration available for a mail action
-    """
+    """Definition of the configuration available for a mail action"""
 
     subject = schema.TextLine(
         title=_(u"Subject"),

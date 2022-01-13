@@ -11,8 +11,7 @@ from jwt.exceptions import DecodeError
 
 
 class IDeleteTokenProvider(Interface):
-    """ Interface for a reservation
-    """
+    """Interface for a reservation"""
 
 
 @implementer(IDeleteTokenProvider)
@@ -28,9 +27,7 @@ class DeleteToken(object):
         @param time: eventual expiration date or time
         @return a new JWT token
         """
-        secret = api.portal.get_registry_record(
-            self.registry_record, default=None
-        )
+        secret = api.portal.get_registry_record(self.registry_record, default=None)
         if not secret:
             """
             We miss a parameter
@@ -52,9 +49,7 @@ class DeleteToken(object):
         @param token: the JWT token we have to decrypt
         @return: the JWT token payload
         """
-        secret = api.portal.get_registry_record(
-            self.registry_record, default=None
-        )
+        secret = api.portal.get_registry_record(self.registry_record, default=None)
         if not secret:
             """
             We miss a parameter

@@ -15,13 +15,17 @@ from .io_tools.api import Api
 from .io_tools.storage import logstorage
 
 
-logger = logging.getLogger('redturtle.prenotazioni.app_io')
-locale.setlocale(locale.LC_ALL, 'it_IT.UTF-8')
+logger = logging.getLogger("redturtle.prenotazioni.app_io")
+locale.setlocale(locale.LC_ALL, "it_IT.UTF-8")
 
 
 def days_before(obj, days=1, as_date=True):
     if as_date:
-        if timedelta() < obj.data_prenotazione.date() - datetime.now().date() <= timedelta(days=days):
+        if (
+            timedelta()
+            < obj.data_prenotazione.date() - datetime.now().date()
+            <= timedelta(days=days)
+        ):
             return True
     else:
         if timedelta() < obj.data_prenotazione - datetime.now() <= timedelta(days=days):
@@ -43,7 +47,8 @@ def notifica_app_io(obj, api_io, msg_type, commit=False, verbose=False):
     if not annotations.get(VERIFIED_BOOKING):
         logger.info(
             "Prenotazione %s non verificata per invio notifiche App IO",
-            obj.absolute_url())
+            obj.absolute_url(),
+        )
         return False
     if fiscal_code:
         # TODO: spostare i template di messaggi in una configurazione esterna
@@ -60,7 +65,9 @@ def notifica_app_io(obj, api_io, msg_type, commit=False, verbose=False):
             how_to_get_here=how_to_get_here,
             # sportello=u" sportello %s" % obj.gate if obj.gate else "",
             sportello=u" - %s" % obj.gate if obj.gate else "",
-            booking_code=u"\n\nIl codice della prenotazione è %s" % obj.getBookingCode() if obj.getBookingCode() else ""
+            booking_code=u"\n\nIl codice della prenotazione è %s" % obj.getBookingCode()
+            if obj.getBookingCode()
+            else "",
         )
         key = "%s_%s" % (obj.UID(), msg_type)
         msg = api_io.storage.get_message(key=key)
@@ -77,12 +84,20 @@ def notifica_app_io(obj, api_io, msg_type, commit=False, verbose=False):
             logger.info("Notifica %s per %s - %s", msgid, fiscal_code, subject)
             return bool(msgid)
         else:
-            logger.warning("<DEBUG> TO:%s SUBJECT:%s BODY:%s, KEY:%s",
-                           fiscal_code, subject, body, key)
+            logger.warning(
+                "<DEBUG> TO:%s SUBJECT:%s BODY:%s, KEY:%s",
+                fiscal_code,
+                subject,
+                body,
+                key,
+            )
             return True
     else:
-        logger.info("prenotazione %s fiscal_code=%s non presente",
-                    obj.absolute_url(), fiscal_code)
+        logger.info(
+            "prenotazione %s fiscal_code=%s non presente",
+            obj.absolute_url(),
+            fiscal_code,
+        )
         return False
 
 
@@ -127,11 +142,11 @@ class Storage(object):
 
 
 @click.command()
-@click.option('--commit/--dry-run', is_flag=True, default=False)
-@click.option('--verbose', is_flag=True, help="Will print verbose messages.")
-@click.option('--io-secret')
-@click.option('--test-message', is_flag=True, default=False)
-@click.option('--test-message-cf')
+@click.option("--commit/--dry-run", is_flag=True, default=False)
+@click.option("--verbose", is_flag=True, help="Will print verbose messages.")
+@click.option("--io-secret")
+@click.option("--test-message", is_flag=True, default=False)
+@click.option("--test-message-cf")
 def _main(commit, verbose, io_secret, test_message, test_message_cf):
     if verbose:
         logging.getLogger().setLevel(logging.INFO)
@@ -149,28 +164,32 @@ def _main(commit, verbose, io_secret, test_message, test_message_cf):
         api_io.storage = logstorage
         msgid = api_io.send_message(
             fiscal_code=test_message_cf,
-            subject='Messaggio di prova',
-            body='0123456789 ' * 9,
+            subject="Messaggio di prova",
+            body="0123456789 " * 9,
         )
         return bool(msgid)
 
-    catalog = api.portal.get_tool('portal_catalog')
+    catalog = api.portal.get_tool("portal_catalog")
 
     # TODO: spostare la configurazione in un file fuori dallo script
     actions = (
         (
-            days_before, {"days": 1, "as_date": True},
-            notifica_app_io, {
+            days_before,
+            {"days": 1, "as_date": True},
+            notifica_app_io,
+            {
                 "api_io": api_io,
                 "msg_type": "1day",
                 "commit": commit,
-                "verbose": verbose
+                "verbose": verbose,
             },
         ),
     )
 
     # XXX: valutare un filtro più preciso sulle ricerche e degli indici/metadati sul catalogo
-    for brain in catalog.unrestrictedSearchResults(portal_type="Prenotazione", review_state="published"):
+    for brain in catalog.unrestrictedSearchResults(
+        portal_type="Prenotazione", review_state="published"
+    ):
         obj = brain.getObject()
         if not obj.app_io_enabled:
             logger.info("App IO reminder disabled for %s", brain.getPath())
@@ -193,7 +212,7 @@ def _main(commit, verbose, io_secret, test_message, test_message_cf):
 
 
 def main():
-    if '-c' in sys.argv:
+    if "-c" in sys.argv:
         _main(sys.argv[3:])
     else:
         _main()

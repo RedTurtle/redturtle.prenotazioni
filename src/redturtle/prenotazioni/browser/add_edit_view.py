@@ -8,8 +8,7 @@ from zope.interface import classImplements
 
 
 class DefaultEditForm(BaseEdit):
-    """
-    """
+    """ """
 
     def updateWidgets(self):
         super(DefaultEditForm, self).updateWidgets()
@@ -25,8 +24,7 @@ classImplements(DefaultEditView, IDexterityEditForm)
 
 
 class DefaultAddForm(BaseAddForm):
-    """
-    """
+    """ """
 
     def updateWidgets(self):
         super(DefaultAddForm, self).updateWidgets()
