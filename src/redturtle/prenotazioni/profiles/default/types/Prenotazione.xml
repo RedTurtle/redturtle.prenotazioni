@@ -40,7 +40,8 @@
     <element value="plone.app.lockingbehavior.behaviors.ILocking" />
     <!--<element value="plone.app.contenttypes.behaviors.leadimage.ILeadImage"/>-->
     <!--<element value="plone.app.relationfield.behavior.IRelatedItems"/>-->
-    <!--<element value="plone.app.versioningbehavior.behaviors.IVersionable" />-->
+    <!-- <element value="plone.app.versioningbehavior.behaviors.IVersionable" /> -->
+    <element value="plone.versioning"/>
     <!--<element value="plone.app.contenttypes.behaviors.tableofcontents.ITableOfContents"/>-->
     <!--<element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>-->
   </property>
