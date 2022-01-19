@@ -407,13 +407,29 @@ class AddForm(form.AddForm):
             raise WidgetActionExecutionError(
                 "booking_date", Invalid(_(u"Please provide a booking date"))
             )
+        gate = ""
+        referer = self.request.get("HTTP_REFERER", None)
+        if referer:
+            parsed_url = urlparse(referer)
+            params = parse_qs(parsed_url.query)
+            if "gate" in params:
+                gate = params.get("gate")[0]
+
+        if gate:
+            data.update({"gate": gate})
 
         conflict_manager = self.prenotazioni.conflict_manager
         if conflict_manager.conflicts(data):
             msg = _(u"Sorry, this slot is not available anymore.")
+            api.portal.show_message(message=msg, request=self.request, type="error")
+            response = self.request.response
+            response.redirect(referer, status=301)
             raise WidgetActionExecutionError("booking_date", Invalid(msg))
         if self.exceedes_date_limit(data):
             msg = _(u"Sorry, you can not book this slot for now.")
+            api.portal.show_message(message=msg, request=self.request, type="error")
+            response = self.request.response
+            response.redirect(referer, status=301)
             raise WidgetActionExecutionError("booking_date", Invalid(msg))
 
         captcha = getMultiAdapter(
