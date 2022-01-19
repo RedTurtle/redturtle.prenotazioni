@@ -36,7 +36,7 @@ class IPrenotazioniRoomsFolder(IPrenotazioniFolder):
 
     @invariant
     def data_validation(data):
-        ## modification of prenotazioni_folder.IPrenotazioniFolder.data_validation
+        # modification of prenotazioni_folder.IPrenotazioniFolder.data_validation
         value = data.booking_types
         data.booking_types = [{"name": value, "duration": "0"}]
         pass
