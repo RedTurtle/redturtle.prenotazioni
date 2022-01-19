@@ -224,6 +224,19 @@ class IPrenotazioniFolder(model.Schema):
         source=get_options(),
     )
 
+    bookable_by_anonymous = schema.Bool(
+        title=_(
+            "label_bookable_by_anonymous",
+            default="Can anonymous booking",
+        ),
+        description=_(
+            "help_bookable_by_anonymous",
+            "States if it is allowed to reserve a booking for anonymous",
+        ),
+        required=True,
+        default=False,
+    )
+
     week_table = schema.List(
         title=_("Week table"),
         description=_("Insert week table schema."),
