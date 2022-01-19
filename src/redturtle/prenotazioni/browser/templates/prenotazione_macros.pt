@@ -41,7 +41,7 @@
                      tal:attributes="style string:width:${gate_ccs_width}%">
                   <a
                      tal:omit-tag="python:not (gate and week_view.prenotazioni.user_can_search)"
-                     tal:condition="gate"
+                     tal:condition="python: gate and not week_view.prenotazioni.is_anonymous"
                      tal:attributes="href python:week_view.get_search_gate_url(gate, day);
                                      title gate;">
                     <span class="icon-list-ul fa fa-list-ul" aria-hidden="true" aria-label="${gate}" tal:content="gate"></span>
@@ -112,7 +112,7 @@
         <tal:is_pause tal:condition="python:getattr(booking, 'is_pause', False)" >
             <div><span>${booking/Title}</span></div>
         </tal:is_pause>
-        <tal:is_real_booking tal:condition="real_booking" >
+        <tal:is_real_booking tal:condition="python:real_booking and not week_view.prenotazioni.is_anonymous" >
           <a href=""
             class="prenotazioni-popup pat-plone-modal"
             tal:attributes="href string:${booking/absolute_url}?ajax_load=true;
