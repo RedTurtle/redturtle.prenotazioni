@@ -78,9 +78,7 @@ class View(BaseView):
             return prenotazione_macros["manager_day_period"]
         if self.prenotazioni.user_can_view:
             return prenotazione_macros["manager_day_period"]
-        if not self.context.bookable_by_anonymous:
-            return prenotazione_macros["manager_day_period"]
-        return prenotazione_macros["anonymous_day_period"]
+        return prenotazione_macros["manager_day_period"]
 
     @property
     @memoize
@@ -91,9 +89,7 @@ class View(BaseView):
             return prenotazione_macros["manager_slot"]
         if self.prenotazioni.user_can_view:
             return prenotazione_macros["manager_slot"]
-        if not self.context.bookable_by_anonymous:
-            return prenotazione_macros["manager_slot"]
-        return self.prenotazione_macros["anonymous_slot"]
+        return self.prenotazione_macros["manager_slot"]
 
     @property
     @memoize

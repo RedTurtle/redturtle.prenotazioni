@@ -155,7 +155,7 @@ class IAddForm(Interface):
         vocabulary="redturtle.prenotazioni.tipologies",
     )
     fullname = TextLine(
-        title=_("label_fullname", u"Fullname"), default=u"", required=False
+        title=_("label_fullname", u"Fullname"), default=u"", required=True
     )
     email = TextLine(
         title=_("label_email", u"Email"),
@@ -384,6 +384,13 @@ class AddForm(form.AddForm):
             return False
         return True
 
+    # def build_querystring(self, form):
+    #     qs = ""
+    #     for key in form.keys():
+    #         part = key + "=" + form[key]
+    #         qs = qs + "&" + part
+    #     return qs
+
     @button.buttonAndHandler(_(u"action_book", u"Book"))
     def action_book(self, action):
         """
@@ -423,12 +430,14 @@ class AddForm(form.AddForm):
             msg = _(u"Sorry, this slot is not available anymore.")
             api.portal.show_message(message=msg, request=self.request, type="error")
             response = self.request.response
+            # referer += self.build_querystring(self.request.form)
             response.redirect(referer, status=301)
             raise WidgetActionExecutionError("booking_date", Invalid(msg))
         if self.exceedes_date_limit(data):
             msg = _(u"Sorry, you can not book this slot for now.")
             api.portal.show_message(message=msg, request=self.request, type="error")
             response = self.request.response
+            # referer += self.build_querystring(self.request.form)
             response.redirect(referer, status=301)
             raise WidgetActionExecutionError("booking_date", Invalid(msg))
 
