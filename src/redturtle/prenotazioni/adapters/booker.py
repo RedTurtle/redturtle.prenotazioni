@@ -113,7 +113,10 @@ class Booker(object):
         if not api.user.is_anonymous():
             user = api.user.get_current()
             data_fiscalcode = at_data.get("fiscalcode", "")
-            fiscalcode = data_fiscalcode.upper()
+            if data_fiscalcode:
+                fiscalcode = data_fiscalcode.upper()
+            else:
+                fiscalcode = ""
             if fiscalcode and (
                 user.getProperty("fiscalcode", "").upper() == fiscalcode
             ):
