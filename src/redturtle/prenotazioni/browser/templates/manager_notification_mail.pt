@@ -1,9 +1,9 @@
 <tal:root define="
-        tipologia_prenotazione options/tipologia_prenotazione|nothing;
-        data_prenotazione options/data_prenotazione|nothing;
-        azienda options/azienda|nothing;
+        booking_type options/booking_type|nothing;
+        booking_date options/booking_date|nothing;
+        company options/company|nothing;
         gate options/gate|nothing;
-        data_scadenza options/data_scadenza|nothing;
+        booking_expiration_date options/booking_expiration_date|nothing;
         staff_notes options/staff_notes|nothing;
         description options/description|nothing;
         title options/title|nothing;
@@ -17,39 +17,39 @@
 >
 <ul>
   <li>
-    <strong><tal:label i18n:translate="label_fullname">Fullname</tal:label>:</strong>
+    <strong><tal:label i18n:translate="label_booking_title">Fullname</tal:label>:</strong>
     ${title}
   </li>
   <li>
-    <strong><tal:label i18n:translate="label_typology">Typology</tal:label>:</strong>
-    ${tipologia_prenotazione}
+    <strong><tal:label i18n:translate="label_booking_type">Booking type</tal:label>:</strong>
+    ${booking_type}
   </li>
   <li>
-    <strong><tal:label i18n:translate="label_email">Email</tal:label>:</strong>
+    <strong><tal:label i18n:translate="label_booking_email">Email</tal:label>:</strong>
     ${email}
   </li>
   <li>
-    <strong><tal:label i18n:translate="label_phone">Phone number</tal:label>:</strong>
+    <strong><tal:label i18n:translate="label_booking_phone">Phone number</tal:label>:</strong>
     ${phone}
   </li>
   <li>
-    <strong><tal:label i18n:translate="label_agency">Agency</tal:label>:</strong>
-    ${azienda}
+    <strong><tal:label i18n:translate="label_booking_company">Agency</tal:label>:</strong>
+    ${company}
   </li>
   <li>
-    <strong><tal:label i18n:translate="label_fiscalcode">Fiscal code</tal:label>:</strong>
+    <strong><tal:label i18n:translate="label_booking_fiscalcode">Fiscal code</tal:label>:</strong>
     ${fiscalcode}
   </li>
   <li>
-    <strong><tal:label i18n:translate="label_subject">Subject</tal:label>:</strong>
+    <strong><tal:label i18n:translate="label_booking_description">Subject</tal:label>:</strong>
     ${description}
   </li>
   <li>
     <strong><tal:label i18n:translate="label_booking_date">Booking date</tal:label>:</strong>
     <span i18n:translate="label_booking_date_range">
-      <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(data_prenotazione)"></tal:from_date>
-      from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(data_prenotazione, time_only=True)"></tal:from>
-      to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(data_scadenza, time_only=True)"></tal:to>
+      <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(booking_date)"></tal:from_date>
+      from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(booking_date, time_only=True)"></tal:from>
+      to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(booking_expiration_date, time_only=True)"></tal:to>
     </span>
   </li>
   <li>

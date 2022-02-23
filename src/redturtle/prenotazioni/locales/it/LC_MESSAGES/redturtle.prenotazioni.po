@@ -167,8 +167,8 @@ msgid "Informations about a single booking"
 msgstr "Informazioni relativa ad una singola prenotazione"
 
 #: ../content/prenotazione.py:40
-msgid "Inserisci la denominazione dell'azienda del richiedente"
-msgstr "Inserisci la denominazione dell'azienda del richiedente"
+msgid "Inserisci la denominazione dell'company del richiedente"
+msgstr "Inserisci la denominazione dell'company del richiedente"
 
 #: ../content/prenotazioni_folder.py:379
 msgid "Insert a list of email addresses that will be notified when new bookings get created."
@@ -428,7 +428,7 @@ msgid "Tuesday"
 msgstr "Martedì"
 
 #: ../content/prenotazioni_folder.py:128
-msgid "Typology name"
+msgid "Booking type name"
 msgstr "tipologia"
 
 #: ../configure.zcml:37
@@ -626,10 +626,10 @@ msgstr "Cancella la richiesta di prenotazione per: ${name}"
 msgid "deleted_reservation"
 msgstr "La tua prenotazione è stata cancellata"
 
-#. Default: "If you work for an agency please specify its name"
+#. Default: "If you work for an company please specify its name"
 #: ../browser/prenotazione_add.py:175
-msgid "description_agency"
-msgstr "Se lavori per un'azienda compila questo campo"
+msgid "description_company"
+msgstr "Se lavori per un'company compila questo campo"
 
 #. Default: "The gate that will be unavailable"
 #: ../browser/vacations.py:67
@@ -746,7 +746,7 @@ msgstr "La data è nel passato."
 #: ../browser/prenotazione_add.py:174
 #: ../browser/templates/delete_reservation.pt:77
 #: ../browser/templates/manager_notification_mail.pt:36
-msgid "label_agency"
+msgid "label_booking_company"
 msgstr "Azienda"
 
 #. Default: "Booking code"
@@ -780,7 +780,7 @@ msgstr "Data e ora"
 #: ../browser/prenotazione_add.py:154
 #: ../browser/templates/delete_reservation.pt:65
 #: ../browser/templates/manager_notification_mail.pt:28
-msgid "label_email"
+msgid "label_booking_email"
 msgstr "Email"
 
 #. Default: "End date"
@@ -798,14 +798,14 @@ msgstr "Ora fine"
 #: ../browser/prenotazione_add.py:167
 #: ../browser/templates/delete_reservation.pt:83
 #: ../browser/templates/manager_notification_mail.pt:40
-msgid "label_fiscalcode"
+msgid "label_booking_fiscalcode"
 msgstr "Codice fiscale"
 
 #. Default: "Fullname"
 #: ../browser/prenotazione_add.py:152
 #: ../browser/templates/manager_notification_mail.pt:20
 #: ../browser/templates/prenotazioni_search.pt:31
-msgid "label_fullname"
+msgid "label_booking_title"
 msgstr "Nome completo"
 
 #. Default: "Gate"
@@ -824,7 +824,7 @@ msgstr "Vai alla prenotazione per gestirla e vedere maggiori dettagli: ${url}"
 #: ../browser/prenotazione_add.py:160
 #: ../browser/templates/delete_reservation.pt:71
 #: ../browser/templates/manager_notification_mail.pt:32
-msgid "label_phone"
+msgid "label_booking_phone"
 msgstr "Numero di telefono"
 
 #. Default: "Required booking fields"
@@ -863,7 +863,7 @@ msgstr "Stato"
 #: ../browser/prenotazione_add.py:184
 #: ../browser/templates/delete_reservation.pt:89
 #: ../browser/templates/manager_notification_mail.pt:44
-msgid "label_subject"
+msgid "label_booking_description"
 msgstr "Note"
 
 #. Default: "Text to search"
@@ -881,11 +881,11 @@ msgstr "Tipi di prenotazione"
 msgid "label_title"
 msgstr "Etichetta"
 
-#. Default: "Typology"
+#. Default: "Booking type"
 #: ../browser/prenotazione_add.py:147
 #: ../browser/templates/delete_reservation.pt:59
 #: ../browser/templates/manager_notification_mail.pt:24
-msgid "label_typology"
+msgid "label_booking_type"
 msgstr "Tipologia prenotazione"
 
 #. Default: "User"
@@ -1072,32 +1072,32 @@ msgstr "Il mittente della mail. Se nessun indirizzo viene inserito verrà utiliz
 #. Default: "Staff notes"
 #: ../browser/templates/prenotazione.pt:85
 #: ../content/prenotazione.py:55
-msgid "staff_notes_label"
+msgid "label_booking_staff_notes"
 msgstr "Note del personale"
 
-#. Default: "You cannot book any typology at this time"
+#. Default: "You cannot book any booking_type at this time"
 #: ../browser/prenotazione_add.py:459
 msgid "time_slot_to_short"
 msgstr "Tempo insufficiente per qualsiasi tipologia di prenotazione"
 
 #. Default: "Name"
 #: ../browser/templates/prenotazione_macros.pt:272
-msgid "tipology_name"
+msgid "booking_type_name"
 msgstr "Nome"
 
 #. Default: "Value"
 #: ../browser/templates/prenotazione_macros.pt:273
-msgid "tipology_value"
+msgid "booking_type_value"
 msgstr "Durata"
 
 #. Default: "You may want to select another time slot to book one of these."
-#: ../browser/templates/tipology_radio_widget.pt:55
-msgid "tipology_widget_suggest_reselect"
+#: ../browser/templates/booking_type_radio_widget.pt:55
+msgid "booking_type_widget_suggest_reselect"
 msgstr "Prova a selezionare un'orario differente per prenotarle."
 
 #. Default: "The following tipologies will not fit the time you selected:"
-#: ../browser/templates/tipology_radio_widget.pt:45
-msgid "tipology_widget_warn_unavailable"
+#: ../browser/templates/booking_type_radio_widget.pt:45
+msgid "booking_type_widget_warn_unavailable"
 msgstr "Le seguenti tipologie non sono selezionabili nell'orario selezionato:"
 
 #. Default: "Add a gate here (one per line) if, for some reason, it is not be available.The specified gate will not be taken in to account for slot allocation. Each line should match a corresponding line in the \"Gates\" field"

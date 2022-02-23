@@ -101,9 +101,9 @@ class MoveForm(form.Form):
         """
         booking_date = data["booking_date"]
         duration = self.context.getDuration()
-        data_scadenza = booking_date + duration
-        self.context.setData_prenotazione(booking_date)
-        self.context.setData_scadenza(data_scadenza)
+        booking_expiration_date = booking_date + duration
+        self.context.setBooking_date(booking_date)
+        self.context.setBooking_expiration_date(booking_expiration_date)
         self.context.gate = data["gate"] or ""
         self.context.reindexObject(idxs=["Subject"])
         notify(MovedPrenotazione(self.context))
@@ -112,7 +112,7 @@ class MoveForm(form.Form):
     @memoize
     def back_to_booking_url(self):
         """This goes back to booking view."""
-        qs = {"data": (self.context.getData_prenotazione().strftime("%d/%m/%Y"))}
+        qs = {"data": (self.context.getBooking_date().strftime("%d/%m/%Y"))}
         return urlify(self.prenotazioni_folder.absolute_url(), params=qs)
 
     # @memoize se usato rompe la vista
@@ -154,10 +154,10 @@ class MoveForm(form.Form):
         Book this resource
         """
         data, errors = self.extractData()
-        data["tipology"] = self.context.getTipologia_prenotazione()
+        data["booking_type"] = self.context.getBooking_type()
         conflict_manager = self.prenotazioni_view.conflict_manager
-        current_data = self.context.getData_prenotazione()
-        current = {"booking_date": current_data, "tipology": data["tipology"]}
+        current_data = self.context.getBooking_date()
+        current = {"booking_date": current_data, "booking_type": data["booking_type"]}
         current_slot = conflict_manager.get_choosen_slot(current)
         current_gate = getattr(self.context, "gate", "")
         exclude = {current_gate: [current_slot]}

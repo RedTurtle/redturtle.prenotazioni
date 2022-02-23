@@ -52,13 +52,13 @@ def on_modify(obj, event):
 
     # Below a list of fields to be logged to
     fnames = [
-        "azienda",
+        "company",
         "description",
         "email",
         "gate",
         "phone",
         "staff_notes",
-        "tipologia_prenotazione",
+        "booking_type",
         "title",
     ]
     pr = api.portal.get_tool(name="portal_repository")

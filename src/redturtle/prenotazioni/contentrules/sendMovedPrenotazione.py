@@ -120,7 +120,7 @@ class MailActionExecutor(object):
         dest = obj.getEmail()
         message = self.element.message
         message = message.replace(
-            "${date}", plone_view.toLocalizedTime(obj.getData_prenotazione())
+            "${date}", plone_view.toLocalizedTime(obj.getBooking_date())
         )
         message = message.replace("${url}", obj.absolute_url())
         message = message.replace("${title}", self.check_uni(obj.Title()))

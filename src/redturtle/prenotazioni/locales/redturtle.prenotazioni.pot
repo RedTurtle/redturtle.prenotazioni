@@ -167,7 +167,7 @@ msgid "Informations about a single booking"
 msgstr ""
 
 #: ../content/prenotazione.py:40
-msgid "Inserisci la denominazione dell'azienda del richiedente"
+msgid "Inserisci la denominazione dell'company del richiedente"
 msgstr ""
 
 #: ../content/prenotazioni_folder.py:379
@@ -428,7 +428,7 @@ msgid "Tuesday"
 msgstr ""
 
 #: ../content/prenotazioni_folder.py:128
-msgid "Typology name"
+msgid "Booking type name"
 msgstr ""
 
 #: ../configure.zcml:37
@@ -625,9 +625,9 @@ msgstr ""
 msgid "deleted_reservation"
 msgstr ""
 
-#. Default: "If you work for an agency please specify its name"
+#. Default: "If you work for an company please specify its name"
 #: ../browser/prenotazione_add.py:175
-msgid "description_agency"
+msgid "description_company"
 msgstr ""
 
 #. Default: "The gate that will be unavailable"
@@ -742,7 +742,7 @@ msgstr ""
 #: ../browser/prenotazione_add.py:174
 #: ../browser/templates/delete_reservation.pt:77
 #: ../browser/templates/manager_notification_mail.pt:36
-msgid "label_agency"
+msgid "label_booking_company"
 msgstr ""
 
 #. Default: "Booking code"
@@ -776,7 +776,7 @@ msgstr ""
 #: ../browser/prenotazione_add.py:154
 #: ../browser/templates/delete_reservation.pt:65
 #: ../browser/templates/manager_notification_mail.pt:28
-msgid "label_email"
+msgid "label_booking_email"
 msgstr ""
 
 #. Default: "End date"
@@ -794,14 +794,14 @@ msgstr ""
 #: ../browser/prenotazione_add.py:167
 #: ../browser/templates/delete_reservation.pt:83
 #: ../browser/templates/manager_notification_mail.pt:40
-msgid "label_fiscalcode"
+msgid "label_booking_fiscalcode"
 msgstr ""
 
 #. Default: "Fullname"
 #: ../browser/prenotazione_add.py:152
 #: ../browser/templates/manager_notification_mail.pt:20
 #: ../browser/templates/prenotazioni_search.pt:31
-msgid "label_fullname"
+msgid "label_booking_title"
 msgstr ""
 
 #. Default: "Gate"
@@ -820,7 +820,7 @@ msgstr ""
 #: ../browser/prenotazione_add.py:160
 #: ../browser/templates/delete_reservation.pt:71
 #: ../browser/templates/manager_notification_mail.pt:32
-msgid "label_phone"
+msgid "label_booking_phone"
 msgstr ""
 
 #. Default: "Required booking fields"
@@ -859,7 +859,7 @@ msgstr ""
 #: ../browser/prenotazione_add.py:184
 #: ../browser/templates/delete_reservation.pt:89
 #: ../browser/templates/manager_notification_mail.pt:44
-msgid "label_subject"
+msgid "label_booking_description"
 msgstr ""
 
 #. Default: "Text to search"
@@ -877,11 +877,11 @@ msgstr ""
 msgid "label_title"
 msgstr ""
 
-#. Default: "Typology"
+#. Default: "Booking type"
 #: ../browser/prenotazione_add.py:147
 #: ../browser/templates/delete_reservation.pt:59
 #: ../browser/templates/manager_notification_mail.pt:24
-msgid "label_typology"
+msgid "label_booking_type"
 msgstr ""
 
 #. Default: "User"
@@ -1067,32 +1067,32 @@ msgstr ""
 #. Default: "Staff notes"
 #: ../browser/templates/prenotazione.pt:85
 #: ../content/prenotazione.py:55
-msgid "staff_notes_label"
+msgid "label_booking_staff_notes"
 msgstr ""
 
-#. Default: "You cannot book any typology at this time"
+#. Default: "You cannot book any booking_type at this time"
 #: ../browser/prenotazione_add.py:459
 msgid "time_slot_to_short"
 msgstr ""
 
 #. Default: "Name"
 #: ../browser/templates/prenotazione_macros.pt:272
-msgid "tipology_name"
+msgid "booking_type_name"
 msgstr ""
 
 #. Default: "Value"
 #: ../browser/templates/prenotazione_macros.pt:273
-msgid "tipology_value"
+msgid "booking_type_value"
 msgstr ""
 
 #. Default: "You may want to select another time slot to book one of these."
-#: ../browser/templates/tipology_radio_widget.pt:55
-msgid "tipology_widget_suggest_reselect"
+#: ../browser/templates/booking_type_radio_widget.pt:55
+msgid "booking_type_widget_suggest_reselect"
 msgstr ""
 
 #. Default: "The following tipologies will not fit the time you selected:"
-#: ../browser/templates/tipology_radio_widget.pt:45
-msgid "tipology_widget_warn_unavailable"
+#: ../browser/templates/booking_type_radio_widget.pt:45
+msgid "booking_type_widget_warn_unavailable"
 msgstr ""
 
 #. Default: "Add a gate here (one per line) if, for some reason, it is not be available.The specified gate will not be taken in to account for slot allocation. Each line should match a corresponding line in the \"Gates\" field"

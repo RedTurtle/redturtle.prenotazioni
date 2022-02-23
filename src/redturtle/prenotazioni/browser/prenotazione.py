@@ -29,7 +29,7 @@ class PrenotazioneView(BrowserView):
     @property
     def booking_date(self):
         """The parent prenotazioni folder"""
-        return self.context.getData_prenotazione()
+        return self.context.getBooking_date()
 
     @property
     @memoize
@@ -79,14 +79,14 @@ class ResetDuration(PrenotazioneView):
         """Reset the duration for this booking object
 
         Tries to get the duration information from the request,
-        fallbacks to the tipology, and finally to 1 minute
+        fallbacks to the booking_type, and finally to 1 minute
         """
-        tipology = self.context.getTipologia_prenotazione()
+        booking_type = self.context.getBooking_type()
         duration = self.request.form.get("duration", 0)
         if not duration:
-            duration = self.prenotazioni.get_tipology_duration(tipology)
+            duration = self.prenotazioni.get_booking_type_duration(booking_type)
         duration = float(duration) / MIN_IN_DAY
-        self.context.setData_scadenza(self.booking_date + duration)
+        self.context.setBooking_expiration_date(self.booking_date + duration)
 
     def __call__(self):
         """Reset the dates"""

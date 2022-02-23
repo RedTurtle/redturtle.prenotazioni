@@ -56,37 +56,37 @@ i18n:domain="redturtle.prenotazioni">
                     <tbody>
                         <tr>
                             <td>
-                                <b i18n:translate="label_typology">Typology</b>
+                                <b i18n:translate="label_booking_type">Booking type</b>
                             </td>
-                            <td tal:content="prenotazione/getTipologia_prenotazione"></td>
+                            <td tal:content="prenotazione/getBooking_type"></td>
                         </tr>
                         <tr>
                             <td>
-                                <b i18n:translate="label_email">Email</b>
+                                <b i18n:translate="label_booking_email">Email</b>
                             </td>
                             <td tal:content="prenotazione/getEmail"></td>
                         </tr>
                         <tr tal:condition="prenotazione/getPhone">
                             <td>
-                                <b i18n:translate="label_phone">Phone number</b>
+                                <b i18n:translate="label_booking_phone">Phone number</b>
                             </td>
                             <td tal:content="prenotazione/getPhone"></td>
                         </tr>
-                        <tr tal:condition="prenotazione/azienda">
+                        <tr tal:condition="prenotazione/company">
                             <td>
-                                <b i18n:translate="label_agency">Agency</b>
+                                <b i18n:translate="label_booking_company">Agency</b>
                             </td>
-                            <td tal:content="prenotazione/azienda"></td>
+                            <td tal:content="prenotazione/company"></td>
                         </tr>
                         <tr tal:condition="prenotazione/getFiscalcode">
                             <td>
-                                <b i18n:translate="label_fiscalcode">Fiscal code</b>
+                                <b i18n:translate="label_booking_fiscalcode">Fiscal code</b>
                             </td>
                             <td tal:content="prenotazione/getFiscalcode"></td>
                         </tr>
                         <tr>
                             <td>
-                                <b i18n:translate="label_subject">Subject</b>
+                                <b i18n:translate="label_booking_description">Subject</b>
                             </td>
                             <td tal:content="prenotazione/description"></td>
                         </tr>
@@ -94,13 +94,13 @@ i18n:domain="redturtle.prenotazioni">
                             <td>
                                 <b i18n:translate="label_booking_date">Booking date</b>
                             </td>
-                            <td tal:define="data_prenotazione prenotazione/getData_prenotazione|nothing;
-                                            data_scadenza python:getattr(prenotazione, 'data_scadenza', '');
+                            <td tal:define="booking_date prenotazione/getBooking_date|nothing;
+                                            booking_expiration_date python:getattr(prenotazione, 'booking_expiration_date', '');
                                             toLocalizedTime nocall:context/@@plone/toLocalizedTime">
                                 <span i18n:translate="label_booking_date_range">
-                                <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(data_prenotazione)"></tal:from_date>
-                                from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(data_prenotazione, time_only=True)"></tal:from>
-                                to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(data_scadenza, time_only=True)"></tal:to>
+                                <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(booking_date)"></tal:from_date>
+                                from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(booking_date, time_only=True)"></tal:from>
+                                to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(booking_expiration_date, time_only=True)"></tal:to>
                                 </span>
                             </td>
                         </tr>

@@ -147,9 +147,9 @@
          tal:attributes="class python:week_view.prenotazioni.get_state(booking);">
       <a href="${booking/absolute_url}"
          title="${booking/Title}">
-        <tal:from replace="python:week_view.DT2time(booking.getData_prenotazione())" />
+        <tal:from replace="python:week_view.DT2time(booking.getBooking_date())" />
         &mdash;
-        <tal:to replace="python:week_view.DT2time(booking.getData_scadenza())" />
+        <tal:to replace="python:week_view.DT2time(booking.getBooking_expiration_date())" />
     </a>
     </div>
   </div>
@@ -262,20 +262,20 @@
 <!-- This is the html the legend for -->
 <metal:macro metal:define-macro="week-tipologies-legend" i18n:domain="redturtle.prenotazioni">
   <div class="week-legend"
-        tal:define="tipology_durations view/prenotazioni/tipology_durations;
-                    keys python:sorted(tipology_durations.keys())">
+        tal:define="booking_type_durations view/prenotazioni/booking_type_durations;
+                    keys python:sorted(booking_type_durations.keys())">
     <fieldset>
       <legend i18n:translate="label_tipologies">Reservation types</legend>
       <p i18n:translate="help_tipologies">List of available reservation type for the current agenda</p>
-      <table class="tipology-table">
+      <table class="booking_type-table">
         <tr>
-          <th i18n:translate="tipology_name">Name</th>
-          <th i18n:translate="tipology_value">Value</th>
+          <th i18n:translate="booking_type_name">Name</th>
+          <th i18n:translate="booking_type_value">Value</th>
         </tr>
         <tal:repeat repeat="key keys">
           <tr>
             <td><span tal:replace="key" /></td>
-            <td><span tal:replace="python:tipology_durations[key]" /></td>
+            <td><span tal:replace="python:booking_type_durations[key]" /></td>
           </tr>
         </tal:repeat>
       </table>

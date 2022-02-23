@@ -120,7 +120,7 @@ class IPauseTableRow(model.Schema):
 
 
 class IBookingTypeRow(Interface):
-    name = schema.TextLine(title=_("Typology name"), required=True)
+    name = schema.TextLine(title=_("Booking type name"), required=True)
     duration = schema.Choice(
         title=_("Duration value"),
         required=True,
@@ -168,7 +168,7 @@ class IPrenotazioniFolder(model.Schema):
             'of "Email" or "Telephone"',
         ),
         required=False,
-        default=["email", "phone", "subject"],
+        default=["email", "phone", "description"],
         value_type=schema.Choice(
             vocabulary="redturtle.prenotazioni.requirable_booking_fields"
         ),

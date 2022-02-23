@@ -41,39 +41,39 @@ i18n:domain="redturtle.prenotazioni">
                     <span tal:replace="here/Title" />
                 </div>
                 <div class="field">
-                    <strong i18n:translate="label_typology">Typology</strong>:
-                    <span tal:replace="here/getTipologia_prenotazione" />
+                    <strong i18n:translate="label_booking_type">Booking type</strong>:
+                    <span tal:replace="here/getBooking_type" />
                 </div>
                 <div class="field">
-                    <strong i18n:translate="label_email">Email</strong>:
+                    <strong i18n:translate="label_booking_email">Email</strong>:
                     <a tal:attributes="href string:mailto:${here/getEmail}"
                     tal:content="here/getEmail" />
                 </div>
                 <div class="field">
-                    <strong i18n:translate="label_phone">Phone number</strong>:
+                    <strong i18n:translate="label_booking_phone">Phone number</strong>:
                     <span tal:replace="here/phone" />
                 </div>
                 <div class="field">
-                    <strong i18n:translate="label_agency">Agency</strong>:
-                    <span tal:replace="here/getAzienda" />
+                    <strong i18n:translate="label_booking_company">Agency</strong>:
+                    <span tal:replace="here/getCompany" />
                 </div>
                 <div class="field">
-                    <strong i18n:translate="label_fiscalcode">Fiscal code</strong>:
+                    <strong i18n:translate="label_booking_fiscalcode">Fiscal code</strong>:
                     <span tal:replace="here/getFiscalcode" />
                 </div>
                 <div class="field">
-                    <strong i18n:translate="label_subject">Subject</strong>:
+                    <strong i18n:translate="label_booking_description">Subject</strong>:
                     <span tal:replace="here/description" />
                 </div>
                 <div class="field">
                     <strong i18n:translate="label_booking_date">Booking date</strong>:
-                    <td tal:define="data_prenotazione context/getData_prenotazione|nothing;
-                                        data_scadenza context/getData_scadenza|nothing;
+                    <td tal:define="booking_date context/getBooking_date|nothing;
+                                        booking_expiration_date context/getBooking_expiration_date|nothing;
                                         toLocalizedTime nocall:context/@@plone/toLocalizedTime">
                         <span i18n:translate="label_booking_date_range">
-                        <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(data_prenotazione)"></tal:from_date>
-                        from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(data_prenotazione, time_only=True)"></tal:from>
-                        to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(data_scadenza, time_only=True)"></tal:to>
+                        <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(booking_date)"></tal:from_date>
+                        from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(booking_date, time_only=True)"></tal:from>
+                        to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(booking_expiration_date, time_only=True)"></tal:to>
                         </span>
                     </td>
                 </div>
@@ -82,7 +82,7 @@ i18n:domain="redturtle.prenotazioni">
                     <span tal:content="context/gate">Gate no. 1</span>
                 </div>
                 <div class="field" tal:condition="here/getStaff_notes">
-                  <strong i18n:translate="staff_notes_label">Staff notes</strong>:
+                  <strong i18n:translate="label_booking_staff_notes">Staff notes</strong>:
                   <div tal:define="items python:here.getStaff_notes().splitlines()">
                     <tal:repeat repeat="item items">
                       <p tal:content="item">text</p>

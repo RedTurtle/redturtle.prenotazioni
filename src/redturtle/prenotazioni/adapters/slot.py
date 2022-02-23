@@ -257,7 +257,7 @@ class Slot(BaseSlot):
         self.context = context
         BaseSlot.__init__(
             self,
-            context.getData_prenotazione(),
-            context.getData_scadenza(),
+            context.getBooking_date(),
+            context.getBooking_expiration_date(),
             getattr(self.context, "gate", ""),
         )

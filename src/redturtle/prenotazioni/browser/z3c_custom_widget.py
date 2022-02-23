@@ -29,7 +29,7 @@ class ICustomRadioWidget(IRadioWidget):
 
 
 class RenderWidget(ViewMixinForTemplates, BrowserView):
-    index = VPTF("templates/tipology_radio_widget.pt")
+    index = VPTF("templates/booking_type_radio_widget.pt")
 
     @property
     @memoize
@@ -53,17 +53,17 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
 
     @property
     @memoize
-    def tipologies_bookability(self):
-        """Get tipology bookability"""
+    def booking_types_bookability(self):
+        """Get booking_type bookability"""
         booking_date = self.prenotazione_add.booking_DateTime.asdatetime()
         prenotazioni = self.prenotazione_add.prenotazioni
-        return prenotazioni.tipologies_bookability(booking_date)
+        return prenotazioni.booking_types_bookability(booking_date)
 
     @property
     @memoize
     def unbookable_items(self):
-        """Get tipology bookability"""
-        keys = sorted(self.tipologies_bookability["unbookable"])
+        """Get booking_type bookability"""
+        keys = sorted(self.booking_types_bookability["unbookable"])
         keys = [key for key in keys]
         return [
             self.vocabulary.getTerm(key) for key in keys if key in self.context.terms
@@ -94,25 +94,25 @@ class CustomRadioWidget(RadioWidget):
 
     @property
     @memoize
-    def tipologies_bookability(self):
-        """Get tipology bookability"""
+    def booking_types_bookability(self):
+        """Get booking_type bookability"""
         booking_date = self.prenotazione_add.booking_DateTime.asdatetime()
         prenotazioni = self.prenotazione_add.prenotazioni
-        return prenotazioni.tipologies_bookability(booking_date)
+        return prenotazioni.booking_types_bookability(booking_date)
 
     @property
     @memoize
     def bookable_items(self):
-        """Get tipology bookability"""
-        keys = sorted(self.tipologies_bookability["bookable"])
+        """Get booking_type bookability"""
+        keys = sorted(self.booking_types_bookability["bookable"])
         keys = [safe_unicode(key) for key in keys]
         return [self.vocabulary.getTerm(key) for key in keys if key in self.terms]
 
     @property
     @memoize
     def unbookable_items(self):
-        """Get tipology bookability"""
-        keys = sorted(self.tipologies_bookability["unbookable"])
+        """Get booking_type bookability"""
+        keys = sorted(self.booking_types_bookability["unbookable"])
         keys = [safe_unicode(key) for key in keys]
         return [
             self.vocabulary.getTerm(key) for key in keys if key in self.context.terms
@@ -120,7 +120,6 @@ class CustomRadioWidget(RadioWidget):
 
     @property
     def items(self):
-
         bookable = self.bookable_items
 
         if not bookable:

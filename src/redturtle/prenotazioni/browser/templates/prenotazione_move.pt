@@ -23,12 +23,12 @@
                              day_period_macro nocall:prenotazione_macros/manager_day_period;
                              here nocall:prenotazioni_folder;">
 
-        <div tal:condition="context/getData_prenotazione">
-          <div class="field" tal:condition="context/getData_prenotazione">
+        <div tal:condition="context/getBooking_date">
+          <div class="field" tal:condition="context/getBooking_date">
             <strong i18n:translate="reservation_date">Reservation date</strong>:
-            <span tal:replace="python:week_view.localized_time(context.getData_prenotazione(), True)" />
+            <span tal:replace="python:week_view.localized_time(context.getBooking_date(), True)" />
             &mdash;
-            <span tal:content="python:week_view.localized_time(context.getData_scadenza(), True)" />
+            <span tal:content="python:week_view.localized_time(context.getBooking_expiration_date(), True)" />
           </div>
           <h3>
               <span i18n:translate="move_message">

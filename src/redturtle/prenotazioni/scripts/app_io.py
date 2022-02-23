@@ -23,12 +23,12 @@ def days_before(obj, days=1, as_date=True):
     if as_date:
         if (
             timedelta()
-            < obj.data_prenotazione.date() - datetime.now().date()
+            < obj.booking_date.date() - datetime.now().date()
             <= timedelta(days=days)
         ):
             return True
     else:
-        if timedelta() < obj.data_prenotazione - datetime.now() <= timedelta(days=days):
+        if timedelta() < obj.booking_date - datetime.now() <= timedelta(days=days):
             return True
     return False
 
@@ -60,8 +60,8 @@ def notifica_app_io(obj, api_io, msg_type, commit=False, verbose=False):
         # how_to_get_here = getattr(folder, "how_to_get_here", "")
         # BODY: markdown, 'maxLength': 10000, 'minLength': 80
         body = (MSGS[msg_type]).format(
-            day=obj.data_prenotazione.strftime("%d %B %Y"),
-            time=obj.data_prenotazione.strftime("%H:%M"),
+            day=obj.booking_date.strftime("%d %B %Y"),
+            time=obj.booking_date.strftime("%H:%M"),
             how_to_get_here=how_to_get_here,
             # sportello=u" sportello %s" % obj.gate if obj.gate else "",
             sportello=u" - %s" % obj.gate if obj.gate else "",

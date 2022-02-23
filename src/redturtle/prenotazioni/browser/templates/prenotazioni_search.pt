@@ -32,11 +32,11 @@
           i18n:attributes="summary">
           <thead>
             <tr>
-              <th i18n:translate="label_fullname">Fullname</th>
-              <th i18n:translate="label_phone">Phone</th>
+              <th i18n:translate="label_booking_title">Fullname</th>
+              <th i18n:translate="label_booking_phone">Phone</th>
               <th i18n:translate="label_gate">Gate</th>
-              <th i18n:translate="label_typology">Typology</th>
-              <th i18n:translate="label_email">Email</th>
+              <th i18n:translate="label_booking_type">Booking type</th>
+              <th i18n:translate="label_booking_email">Email</th>
               <th i18n:translate="reservation_date">Reservation date</th>
               <th i18n:translate="reservation_code">Code</th>
             </tr>
@@ -49,11 +49,11 @@
                               state python:prenotazioni_states[item.review_state];
                               gate python:getattr(obj, 'gate', '');
                               phone python:getattr(obj, 'phone', '');
-                              tipologia_prenotazione python:getattr(obj, 'tipologia_prenotazione', '');
+                              booking_type python:getattr(obj, 'booking_type', '');
                               email python:getattr(obj, 'email', '');
                               booking_code python:obj.getBookingCode();
                               date_time python:view.prenotazioni_week_view.localized_time(item['Date']) + ' - ' + view.prenotazioni_week_view.localized_time(item['Date'], time_only=True);
-                              subject python: ' '.join(filter(bool, [tipologia_prenotazione, 'del', date_time ]));
+                              subject python: ' '.join(filter(bool, [booking_type, 'del', date_time ]));
                               row_class python:oddrow and 'even' or 'odd';
                               class_and_state python: row_class + ' ' + review_state"
                   tal:attributes="class class_and_state" >
@@ -67,7 +67,7 @@
                 </td>
                 <td tal:content="phone"></td>
                 <td tal:content="gate"></td>
-                <td tal:content="tipologia_prenotazione"></td>
+                <td tal:content="booking_type"></td>
                 <td>
                   <tal:email tal:condition="email">
                     <a href="mailto:${email}?subject=${subject}"

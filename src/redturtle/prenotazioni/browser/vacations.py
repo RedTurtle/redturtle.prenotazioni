@@ -238,11 +238,11 @@ class VacationBooking(form.Form):
             slot_data = {
                 "fullname": data.get("title", u""),
                 "subject": u"",
-                "agency": u"",
+                "company": u"",
                 "booking_date": booking_date,
                 "phone": u"",
                 "email": u"",
-                "tipologia_prenotazione": u"",
+                "booking_type": u"",
             }
             booker.create(slot_data, duration=duration, force_gate=data.get("gate"))
 
