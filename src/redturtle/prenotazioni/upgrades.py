@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from plone.app.upgrade.utils import loadMigrationProfile
+from plone import api
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 DEFAULT_PROFILE = "profile-redturtle.prenotazioni:default"
 
@@ -47,3 +51,27 @@ def to_1001(context):
 
 def to_1002(context):
     update_registry(context)
+
+
+def to_1100(context):
+
+    brains = api.content.find(portal_type="Prenotazione")
+    tot = len(brains)
+
+    logger.info("Remapping fields")
+
+    i = 0
+    for brain in brains:
+        i += 1
+        obj = brain.getObject()
+        if i % 100 == 0:
+            logger.info("%s/%s" % (i, tot))
+        obj.booking_type = obj.tipologia_prenotazione
+        obj.booking_date = obj.data_prenotazione
+        obj.company = obj.azienda
+        obj.booking_expiration_date = obj.data_scadenza
+
+        obj.tipologia_prenotazione = None
+        obj.data_prenotazione = None
+        obj.azienda = None
+        obj.data_scadenza = None
