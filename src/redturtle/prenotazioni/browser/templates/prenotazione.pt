@@ -54,7 +54,7 @@ i18n:domain="redturtle.prenotazioni">
                     <span tal:replace="here/phone" />
                 </div>
                 <div class="field">
-                    <strong i18n:translate="label_booking_company">Agency</strong>:
+                    <strong i18n:translate="label_booking_company">Company</strong>:
                     <span tal:replace="here/getCompany" />
                 </div>
                 <div class="field">

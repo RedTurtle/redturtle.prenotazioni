@@ -33,7 +33,7 @@
           <thead>
             <tr>
               <th i18n:translate="label_booking_title">Fullname</th>
-              <th i18n:translate="label_booking_phone">Phone</th>
+              <th i18n:translate="label_booking_phone">Phone number</th>
               <th i18n:translate="label_gate">Gate</th>
               <th i18n:translate="label_booking_type">Booking type</th>
               <th i18n:translate="label_booking_email">Email</th>

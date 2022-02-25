@@ -33,7 +33,7 @@
     ${phone}
   </li>
   <li>
-    <strong><tal:label i18n:translate="label_booking_company">Agency</tal:label>:</strong>
+    <strong><tal:label i18n:translate="label_booking_company">Company</tal:label>:</strong>
     ${company}
   </li>
   <li>

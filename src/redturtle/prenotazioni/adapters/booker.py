@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from copy import deepcopy
 from datetime import datetime
 from datetime import time
 from datetime import timedelta
@@ -59,8 +58,8 @@ class Booker(object):
         :param force_gate: by default gates are assigned randomly except if you
                            pass this parameter.
         """
-        params = deepcopy(data)
-
+        # remove empty fields
+        params = {k: v for k, v in data.items() if v}
         if isinstance(params["booking_date"], DateTime):
             params["booking_date"] = params["booking_date"].asdatetime()
         else:
@@ -94,6 +93,7 @@ class Booker(object):
             gate = available_gate
         else:
             gate = force_gate
+
         obj = api.content.create(
             type="Prenotazione",
             container=container,

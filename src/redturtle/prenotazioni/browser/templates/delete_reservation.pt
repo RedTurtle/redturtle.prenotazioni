@@ -74,7 +74,7 @@ i18n:domain="redturtle.prenotazioni">
                         </tr>
                         <tr tal:condition="prenotazione/company">
                             <td>
-                                <b i18n:translate="label_booking_company">Agency</b>
+                                <b i18n:translate="label_booking_company">Company</b>
                             </td>
                             <td tal:content="prenotazione/company"></td>
                         </tr>
