@@ -371,7 +371,7 @@ class PrenotazioniContextState(BrowserView):
         """
         Get's the gates, available and unavailable
         """
-        return self.context.getGates() or [""]
+        return [x.strip() for x in self.context.getGates()]
 
     @memoize
     def get_unavailable_gates(self):
