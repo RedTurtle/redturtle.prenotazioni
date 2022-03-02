@@ -61,9 +61,13 @@ i18n:domain="redturtle.prenotazioni">
                     <strong i18n:translate="label_fiscalcode">Fiscal code</strong>:
                     <span tal:replace="here/getFiscalcode" />
                 </div>
-                <div class="field">
+                <div class="field" tal:condition="here/description">
                     <strong i18n:translate="label_subject">Subject</strong>:
-                    <span tal:replace="here/description" />
+                    <div tal:define="items python:here.description.splitlines()">
+                    <tal:repeat repeat="item items">
+                      <p tal:content="item">text</p>
+                    </tal:repeat>
+                  </div>
                 </div>
                 <div class="field">
                     <strong i18n:translate="label_booking_date">Booking date</strong>:

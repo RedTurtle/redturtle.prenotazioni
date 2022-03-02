@@ -78,7 +78,7 @@ class View(BaseView):
             return prenotazione_macros["manager_day_period"]
         if self.prenotazioni.user_can_view:
             return prenotazione_macros["manager_day_period"]
-        return prenotazione_macros["anonymous_day_period"]
+        return prenotazione_macros["manager_day_period"]
 
     @property
     @memoize
@@ -89,7 +89,7 @@ class View(BaseView):
             return prenotazione_macros["manager_slot"]
         if self.prenotazioni.user_can_view:
             return prenotazione_macros["manager_slot"]
-        return self.prenotazione_macros["anonymous_slot"]
+        return self.prenotazione_macros["manager_slot"]
 
     @property
     @memoize
@@ -266,7 +266,8 @@ class View(BaseView):
                     day.strftime("%d"),
                 ),
                 "booked_by": booking.Title(),
-                "duration": (booking.getDuration().seconds // 60) % 60,
+                # "duration": (booking.getDuration().seconds // 60) % 60,
+                "duration": (booking.getDuration().seconds // 60),
                 "type_prenotation": booking.getTipologia_prenotazione(),
             },
         )

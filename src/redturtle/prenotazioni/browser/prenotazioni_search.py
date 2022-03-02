@@ -63,6 +63,15 @@ class ISearchForm(Interface):
         default=None,
         required=False,
     )
+    order_by_date = Choice(
+        title=_("label_order_by_date", u"Order by date"),
+        description=_(
+            "Descending to show more recent first, Ascending to show less recent first."
+        ),
+        default=("Discendente"),
+        required=False,
+        values=("Ascendente", "Discendente"),
+    )
 
 
 @implementer(ISearchForm)
@@ -112,6 +121,8 @@ class SearchForm(form.Form):
             "sort_order": "reverse",
             "path": "/".join(self.context.getPhysicalPath()),
         }
+        if data.get("order_by_date") == "Ascendente":
+            query["sort_order"] = "ascending"
         if data.get("text"):
             query["SearchableText"] = quote_chars(data["text"])
         if data.get("review_state"):

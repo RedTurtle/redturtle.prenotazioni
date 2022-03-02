@@ -81,7 +81,14 @@ class ConflictManager(object):
         tipology = data.get("tipology", "")
         tipology_duration = self.prenotazioni.get_tipology_duration(tipology)
         start = data.get("booking_date", "")
-        end = start + timedelta(seconds=tipology_duration * 60)
+
+        if tipology_duration:
+            end = start + timedelta(seconds=tipology_duration * 60)
+        elif data.get("ending_booking_date", None):
+            end = data.get("ending_booking_date")
+        else:
+            end = start + timedelta(seconds=60 * 60)
+
         slot = BaseSlot(start, end)
         return slot
 
@@ -125,8 +132,11 @@ class ConflictManager(object):
         if exclude:
             availability = self.add_exclude(exclude, availability)
 
-        for gate_slots in six.itervalues(availability):
-            for gate_slot in gate_slots:
-                if slot in gate_slot:
+        for gate in availability.keys():
+            if gate != data.get("gate", ""):
+                continue
+
+            for free_slot in availability[gate]:
+                if slot in free_slot:
                     return False
-        return True
+            return True

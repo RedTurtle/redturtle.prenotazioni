@@ -151,6 +151,12 @@ class PrenotazioniContextState(BrowserView):
 
     @property
     @memoize
+    def bookable_by_anonymous(self):
+        """States if it is allowed to reserve a booking for anonymous"""
+        return getattr(self.context, "bookable_by_anonymous")
+
+    @property
+    @memoize
     def first_bookable_day(self):
         """The first day when you can book stuff
 
@@ -270,6 +276,7 @@ class PrenotazioniContextState(BrowserView):
     def get_booking_urls(self, day, slot, slot_min_size=0, gate=None):
         """Returns, if possible, the booking urls"""
         # we have some conditions to check
+
         if not self.is_valid_day(day):
             return []
         if self.maximum_bookable_date:
@@ -360,7 +367,7 @@ class PrenotazioniContextState(BrowserView):
         """
         Get's the gates, available and unavailable
         """
-        return self.context.getGates() or [""]
+        return [x.strip() for x in self.context.getGates()]
 
     @memoize
     def get_unavailable_gates(self):
@@ -698,6 +705,7 @@ class PrenotazioniContextState(BrowserView):
         free = self.get_free_slots(booking_date, period)
         busy = self.get_busy_slots(booking_date, period)
         keys = set(list(free.keys()) + list(busy.keys()))
+
         return dict(
             (key, sorted(free.get(key, []) + busy.get(key, []))) for key in keys
         )

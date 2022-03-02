@@ -112,11 +112,13 @@ class Booker(object):
         annotations[VERIFIED_BOOKING] = False
         if not api.user.is_anonymous():
             user = api.user.get_current()
-            data_fiscalcode = at_data.get("fiscalcode", "") or ""
-            fiscalcode = data_fiscalcode.upper()
-            if (
-                fiscalcode
-                and (user.getProperty("fiscalcode") or "").upper() == fiscalcode
+            data_fiscalcode = at_data.get("fiscalcode", "")
+            if data_fiscalcode:
+                fiscalcode = data_fiscalcode.upper()
+            else:
+                fiscalcode = ""
+            if fiscalcode and (
+                user.getProperty("fiscalcode", "").upper() == fiscalcode
             ):
                 logger.info("booking %s verified", at_data)
                 annotations[VERIFIED_BOOKING] = True

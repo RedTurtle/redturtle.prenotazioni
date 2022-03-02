@@ -79,16 +79,40 @@
       />
 
   <browser:page
+      name="prenotazioni_week_view"
+      for="Products.CMFPlone.Portal.PloneSite"
+      class=".week.View"
+      template="templates/week.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="prenotazione_add"
       for="..content.prenotazioni_folder.IPrenotazioniFolder"
       class=".prenotazione_add.WrappedAddForm"
       permission="zope2.View"
       />
-
+  <browser:page
+      name="prenotazione_add"
+      for="..content.prenotazioni_rooms_folder.IPrenotazioniRoomsFolder"
+      class=".prenotazione_room_add.WrappedAddForm"
+      permission="zope2.View"
+      />
   <browser:page
       name="prenotazioni_search"
       for="..content.prenotazioni_folder.IPrenotazioniFolder"
       class=".prenotazioni_search.WrappedSearchForm"
+      permission="zope.Public"
+      />
+  <browser:page
+      name="prenotazioni_search"
+      for="..content.prenotazioni_rooms_folder.IPrenotazioniRoomsFolder"
+      class=".prenotazioni_search.WrappedSearchForm"
+      permission="zope.Public"
+      />
+  <browser:page
+      name="all_prenotazioni_search"
+      class=".prenotazioni_search_all.WrappedSearchAllForm"
       permission="zope.Public"
       />
 

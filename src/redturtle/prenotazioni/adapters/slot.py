@@ -116,9 +116,9 @@ class BaseSlot(Interval):
         :param stop:
         :param gate:
         """
-        if start is not None:
+        if start:
             self._lower_value = LowerEndpoint(self.time2seconds(start))
-        if stop is not None:
+        if stop:
             self._upper_value = UpperEndpoint(self.time2seconds(stop))
         self.gate = gate
 
