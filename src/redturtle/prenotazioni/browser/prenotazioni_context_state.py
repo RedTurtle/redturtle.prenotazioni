@@ -277,10 +277,6 @@ class PrenotazioniContextState(BrowserView):
         """Returns, if possible, the booking urls"""
         # we have some conditions to check
 
-        if self.is_anonymous:
-            if not self.bookable_by_anonymous:
-                return []
-
         if not self.is_valid_day(day):
             return []
         if self.maximum_bookable_date:

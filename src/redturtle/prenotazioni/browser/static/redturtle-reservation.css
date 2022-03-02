@@ -333,8 +333,19 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   border-top: 1px solid #eee;
 }
 
+#week .slot .links span.oclock {
+  height: 6px;
+  display: block;
+  border-top: 1px solid #eee;
+}
+
 #week .slot .links a:link {
   background-color: #ddd;
+}
+#week .slot .links span{
+  background-color: #ddd;
+  height: 5px;
+  display: block;
 }
 #week .slot .links a:visited {
   background-color: #ddd;

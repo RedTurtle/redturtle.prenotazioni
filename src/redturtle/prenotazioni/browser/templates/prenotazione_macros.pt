@@ -44,7 +44,7 @@
                      tal:condition="python: gate and not week_view.prenotazioni.is_anonymous"
                      tal:attributes="href python:week_view.get_search_gate_url(gate, day);
                                      title gate;">
-                    <span class="icon-list-ul fa fa-list-ul" aria-hidden="true" aria-label="${gate}" tal:content="gate"></span>
+                    <span class="icon-list-ul fa fa-list-ul" aria-hidden="true" aria-label="${gate}" tal:content=""></span>
                   </a>
                 </div>
               </div>
@@ -122,16 +122,29 @@
         </tal:is_real_booking>
         <tal:not_real_booking tal:condition="python:not real_booking and not getattr(booking, 'is_pause', False)" >
           <div class="links">
-            <tal:urls repeat="link python:week_view.prenotazioni.get_booking_urls(day, slot, gate=gate)">
-              <tal:future condition="link/future">
-                <a tal:attributes="href link/url;
-                                  title python:week_view.get_prenotation_message(day, link);
-                                  class link/class">&nbsp;</a>
-              </tal:future>
-              <tal:past condition="not:link/future">
-                <span>&nbsp;</span>
-              </tal:past>
-            </tal:urls>
+            <tal_manager tal:condition="not:week_view/prenotazioni/is_anonymous">
+              <tal:urls repeat="link python:week_view.prenotazioni.get_booking_urls(day, slot, gate=gate)">
+                <tal:future condition="link/future">
+                  <a tal:attributes="href link/url;
+                                    title python:week_view.get_prenotation_message(day, link);
+                                    class link/class">&nbsp;</a>
+                </tal:future>
+                <tal:past condition="not:link/future">
+                  <span>&nbsp;</span>
+                </tal:past>
+              </tal:urls>
+            </tal_manager>
+            <tal_anonymous tal:condition="week_view/prenotazioni/is_anonymous">
+              <tal:urls repeat="link python:week_view.prenotazioni.get_booking_urls(day, slot, gate=gate)">
+                <tal:future condition="link/future">
+                  <span tal:attributes="
+                                    class link/class">&nbsp;</span>
+                </tal:future>
+                <tal:past condition="not:link/future">
+                  <span>&nbsp;</span>
+                </tal:past>
+              </tal:urls>
+            </tal_anonymous>
           </div>
         </tal:not_real_booking>
       </div>
