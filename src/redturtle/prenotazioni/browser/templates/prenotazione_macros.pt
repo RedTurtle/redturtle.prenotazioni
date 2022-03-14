@@ -122,7 +122,7 @@
         </tal:is_real_booking>
         <tal:not_real_booking tal:condition="python:not real_booking and not getattr(booking, 'is_pause', False)" >
           <div class="links">
-            <tal_manager tal:condition="not:week_view/prenotazioni/is_anonymous">
+            <tal_manager tal:condition="python: not week_view.prenotazioni.is_anonymous or week_view.prenotazioni.bookable_by_anonymous">
               <tal:urls repeat="link python:week_view.prenotazioni.get_booking_urls(day, slot, gate=gate)">
                 <tal:future condition="link/future">
                   <a tal:attributes="href link/url;
@@ -134,7 +134,7 @@
                 </tal:past>
               </tal:urls>
             </tal_manager>
-            <tal_anonymous tal:condition="week_view/prenotazioni/is_anonymous">
+            <tal_anonymous tal:condition="python: week_view.prenotazioni.is_anonymous and not week_view.prenotazioni.bookable_by_anonymous">
               <tal:urls repeat="link python:week_view.prenotazioni.get_booking_urls(day, slot, gate=gate)">
                 <tal:future condition="link/future">
                   <span tal:attributes="
@@ -313,11 +313,11 @@
               <div class="square confirmed">&nbsp;</div></li>
           <li><i18n:tag translate="booking_pending">Booking pending</i18n:tag>
               <div class="square pending">&nbsp;</div></li>
-          <li><i18n:tag translate="booking_refused">Booking refused</i18n:tag>
+          <li tal:condition="python: not week_view.prenotazioni.is_anonymous"><i18n:tag translate="booking_refused">Booking refused</i18n:tag>
               <div class="square refused">&nbsp;</div></li>
-          <li><span class="icon-search fa fa-search"></span>
+          <li tal:condition="python: not week_view.prenotazioni.is_anonymous"><span class="icon-search fa fa-search"></span>
               <i18n:tag translate="view_booking">View booking</i18n:tag></li>
-          <li><span class="icon-list-ul fa fa-list-ul"></span>
+          <li tal:condition="python: not week_view.prenotazioni.is_anonymous"><span class="icon-list-ul fa fa-list-ul"></span>
               <i18n:tag translate="search-by-gate">Search by gate</i18n:tag></li>
       </ul>
       <p class="legend-note">
