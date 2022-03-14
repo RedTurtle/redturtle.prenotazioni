@@ -326,7 +326,11 @@ class DownloadReservation(SearchForm):
                     + " - "
                     + self.prenotazioni_week_view.localized_time(
                         brain["Date"], time_only=True
-                    ),
+                    )
+                    + "->"
+                    + str(obj.data_scadenza.hour).zfill(2)
+                    + ":"
+                    + str(obj.data_scadenza.minute).zfill(2),
                     obj.getBookingCode(),
                     getattr(obj, "description", "") or "",
                     obj.getStaff_notes() or "",
