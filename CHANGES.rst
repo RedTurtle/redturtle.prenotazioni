@@ -5,7 +5,10 @@ Changelog
 1.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Standardize fields between schema and creation form.
+  [cekk]
+- Improve extensibility of add form and required fields.
+  [cekk]
 
 
 1.4.0 (2022-01-13)
