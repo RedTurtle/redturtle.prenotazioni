@@ -235,15 +235,8 @@ class VacationBooking(form.Form):
             slot.__class__ = BaseSlot
             duration = float(len(slot)) / 86400
             # duration = float(len(slot)) / 60
-            slot_data = {
-                "fullname": data.get("title", u""),
-                "subject": u"",
-                "company": u"",
-                "booking_date": booking_date,
-                "phone": u"",
-                "email": u"",
-                "booking_type": u"",
-            }
+            slot_data = {k: v for k, v in data.items() if k != "gate"}
+            slot_data["booking_date"] = booking_date
             booker.create(slot_data, duration=duration, force_gate=data.get("gate"))
 
         msg = _("booking_created")

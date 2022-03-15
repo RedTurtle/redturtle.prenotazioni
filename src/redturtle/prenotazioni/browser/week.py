@@ -266,8 +266,8 @@ class View(BaseView):
                     day.strftime("%d"),
                 ),
                 "booked_by": booking.Title(),
-                "duration": (booking.getDuration().seconds // 60) % 60,
-                "booking_type": booking.getBooking_type(),
+                "duration": booking.getDuration().seconds // 60,
+                "booking_type": booking.getBooking_type() or "",
             },
         )
         return message

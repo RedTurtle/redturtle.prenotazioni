@@ -93,7 +93,6 @@ class Booker(object):
             gate = available_gate
         else:
             gate = force_gate
-
         obj = api.content.create(
             type="Prenotazione",
             container=container,
