@@ -111,6 +111,7 @@ class VacationBooking(form.Form):
         Return the data already parsed for our convenience
         """
         parsed_data = data.copy()
+        parsed_data["gate"] = data["gate"].strip()
         parsed_data["start_date"] = data["start_date"]  # noqa
         parsed_data["start_time"] = time2timedelta(data["start_time"])
         parsed_data["end_time"] = time2timedelta(data["end_time"])
