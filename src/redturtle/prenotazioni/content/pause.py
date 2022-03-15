@@ -40,13 +40,13 @@ class Pause(object):
     def Title(self):
         return _("Pause")
 
-    def getData_prenotazione(self):
+    def getBooking_date(self):
         # we use as base date 1970/01/01
         # we pass these data to a method that convert it to a day agnostic
         # number
         return datetime.strptime("1970/01/01 {}".format(self.start), "%Y/%m/%d %H:%M")
 
-    def getData_scadenza(self):
+    def getBooking_expiration_date(self):
         # we use as base date 1970/01/01
         # we pass these data to a method that convert it to a day agnostic
         # number

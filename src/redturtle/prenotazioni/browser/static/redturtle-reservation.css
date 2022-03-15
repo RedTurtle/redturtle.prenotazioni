@@ -26,28 +26,28 @@ td.selected {
   width: 100%;
 }
 
-#content .tipology_widget p.formHelp {
+#content .booking_type_widget p.formHelp {
   margin: 0;
 }
-#content .tipology_widget label {
+#content .booking_type_widget label {
   display: block;
   float: left;
   width: 50%;
   min-width: 200px;
 }
 
-#content .tipology_widget div.value {
+#content .booking_type_widget div.value {
   margin-bottom: 1em;
 }
 
-#content .tipology_widget .unbookable {
+#content .booking_type_widget .unbookable {
   margin: 1em 0;
   padding: 1em;
   border: 1px solid #993;
   background-color: #ffffe3;
 }
 
-#content .tipology_widget .unbookable ul li {
+#content .booking_type_widget .unbookable ul li {
   float: left;
   width: 50%;
   min-width: 200px;
@@ -429,14 +429,14 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   background: #870000;
 }
 
-#content table.tipology-table {
+#content table.booking_type-table {
   border: 1px solid #ccc;
 }
-#content table.tipology-table th {
+#content table.booking_type-table th {
   background-color: #ddd;
   padding: 3px 10px;
 }
-#content table.tipology-table td {
+#content table.booking_type-table td {
   padding: 2px 10px 0px 10px;
 }
 
@@ -473,12 +473,11 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   height: 100%;
   width: 100%;
 }
-#week .slot > .published > a > div {;
+#week .slot > .published > a > div {
   display: table;
   height: 100%;
   width: 100%;
 }
-
 
 #week .slot .links a {
   height: 5px;

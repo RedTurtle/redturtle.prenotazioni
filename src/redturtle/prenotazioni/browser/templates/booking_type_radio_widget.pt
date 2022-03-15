@@ -42,7 +42,7 @@
          tal:define="unbookable_items nocall:view/unbookable_items"
          tal:condition="unbookable_items"
          i18n:domain="redturtle.prenotazioni">
-      <p class="formHelp" i18n:translate="tipology_widget_warn_unavailable">
+      <p class="formHelp" i18n:translate="booking_type_widget_warn_unavailable">
         The following tipologies will not fit the time you selected:
       </p>
       <ul>
@@ -53,7 +53,7 @@
       <div class="visualClear"></div>
       <p class="formHelp">
         <a tal:attributes="href view/prenotazione_add/back_to_booking_url"
-          i18n:translate="tipology_widget_suggest_reselect">
+          i18n:translate="booking_type_widget_suggest_reselect">
           You may want to select another time slot to book one of these.
         </a>
       </p>

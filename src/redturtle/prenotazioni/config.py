@@ -8,3 +8,10 @@ PAUSE_PORTAL_TYPE = "DayPause"
 DELETE_TOKEN_KEY = "delete_token"
 VERIFIED_BOOKING = "redturtle.prenotazioni.verified_booking"
 NOTIFICATIONS_LOGS = "redturtle.prenotazioni.notifications_logs"
+REQUIRABLE_AND_VISIBLE_FIELDS = [
+    "email",
+    "phone",
+    "fiscalcode",
+    "company",
+    "description",
+]

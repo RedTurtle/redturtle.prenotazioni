@@ -42,3 +42,4 @@ reports/
 !.travis.yml
 !src/redturtle
 .Python
+src/redturtle/prenotazioni/locales/__pycache__/

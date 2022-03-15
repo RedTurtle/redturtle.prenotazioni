@@ -16,7 +16,7 @@ def reallocate_gate(obj):
         return
 
     container = context.getPrenotazioniFolder()
-    booking_date = context.getData_prenotazione()
+    booking_date = context.getBooking_date()
     new_gate = IBooker(container).get_available_gate(booking_date)
     if new_gate:
         context.gate = new_gate

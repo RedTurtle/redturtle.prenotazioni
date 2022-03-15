@@ -414,8 +414,8 @@ class PrenotazioniContextState(BrowserView):
         gates = set()
         for brain in prenotazioni:
             prenotazione = brain._unrestrictedGetObject()
-            start = prenotazione.getData_prenotazione()
-            end = prenotazione.getData_scadenza()
+            start = prenotazione.getBooking_date()
+            end = prenotazione.getBooking_expiration_date()
             gate = getattr(prenotazione, "gate", "")
             if booking_date < start:
                 # new booking starts before current booking
@@ -554,7 +554,9 @@ class PrenotazioniContextState(BrowserView):
             for item in day_folder.items()
             if item[1].portal_type == allowed_portal_type
         ]
-        bookings.sort(key=lambda x: (x.getData_prenotazione(), x.getData_scadenza()))
+        bookings.sort(
+            key=lambda x: (x.getBooking_date(), x.getBooking_expiration_date())
+        )
         return bookings
 
     @memoize
@@ -727,12 +729,12 @@ class PrenotazioniContextState(BrowserView):
 
     @property
     @memoize
-    def tipology_durations(self):
+    def booking_type_durations(self):
         """The durations of all known tipologies
 
         @return a dict like this:
-        {'tipology1': 10,
-         'tipology2': 20,
+        {'booking_type1': 10,
+         'booking_type2': 20,
          ...
         }
         """
@@ -741,36 +743,36 @@ class PrenotazioniContextState(BrowserView):
             for x in getattr(self.context, "booking_types", [])
         )
 
-    def get_tipology_duration(self, tipology):
-        """Return the seconds for this tipology"""
-        if isinstance(tipology, dict):
-            return int(tipology["duration"]) * 60
-        if isinstance(tipology, six.string_types) and not isinstance(
-            tipology, six.text_type
+    def get_booking_type_duration(self, booking_type):
+        """Return the seconds for this booking_type"""
+        if isinstance(booking_type, dict):
+            return int(booking_type["duration"]) * 60
+        if isinstance(booking_type, six.string_types) and not isinstance(
+            booking_type, six.text_type
         ):
-            tipology = tipology
-        return self.tipology_durations.get(tipology, 1)
+            booking_type = booking_type
+        return self.booking_type_durations.get(booking_type, 1)
 
     @memoize
-    def tipologies_bookability(self, booking_date):
+    def booking_types_bookability(self, booking_date):
         """
         :param  booking_date: a datetime object
 
         Return a dictionary like this:
-        {'bookable': ['tipology 00', 'tipology 01', ...],
-         'unbookable': ['tipology 10', 'tipology 10', ...],
+        {'bookable': ['booking_type 00', 'booking_type 01', ...],
+         'unbookable': ['booking_type 10', 'booking_type 10', ...],
         }
 
         Bookability is calculated from the booking_date and the available slots
         """
         data = {"booking_date": booking_date}
         bookability = {"bookable": [], "unbookable": []}
-        for tipology in self.tipology_durations:
-            data["tipology"] = tipology
+        for booking_type in self.booking_type_durations:
+            data["booking_type"] = booking_type
             if self.conflict_manager.conflicts(data):
-                bookability["unbookable"].append(tipology)
+                bookability["unbookable"].append(booking_type)
             else:
-                bookability["bookable"].append(tipology)
+                bookability["bookable"].append(booking_type)
         return bookability
 
     @memoize
@@ -779,14 +781,14 @@ class PrenotazioniContextState(BrowserView):
 
         :param booking_date: a date as a datetime
         """
-        bookability = self.tipologies_bookability(booking_date)
+        bookability = self.booking_types_bookability(booking_date)
         return bool(bookability["bookable"])
 
-    def get_first_slot(self, tipology, booking_date, period="day"):
+    def get_first_slot(self, booking_type, booking_date, period="day"):
         """
         The Prenotazione objects for today
 
-        :param tipology: a dict with name and duration
+        :param booking_type: a dict with name and duration
         :param booking_date: a date as a datetime or a string
         :param period: a DateTime object
         """
@@ -794,7 +796,7 @@ class PrenotazioniContextState(BrowserView):
             return
         availability = self.get_free_slots(booking_date, period)
         good_slots = []
-        duration = self.get_tipology_duration(tipology)
+        duration = self.get_booking_type_duration(booking_type)
 
         hm_now = datetime.now().strftime("%H:%m")
 

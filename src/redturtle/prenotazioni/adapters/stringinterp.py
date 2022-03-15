@@ -38,7 +38,7 @@ class BookingDateSubstitution(BaseSubstitution):
 
     def safe_call(self):
         plone = self.context.restrictedTraverse("@@plone")
-        date = getattr(self.context, "data_prenotazione", "")
+        date = getattr(self.context, "booking_date", "")
         if not date:
             return ""
         return plone.toLocalizedTime(date)
@@ -52,7 +52,7 @@ class BookingEndDateSubstitution(BaseSubstitution):
 
     def safe_call(self):
         plone = self.context.restrictedTraverse("@@plone")
-        date = getattr(self.context, "data_scadenza", "")
+        date = getattr(self.context, "booking_expiration_date", "")
         if not date:
             return ""
         return plone.toLocalizedTime(date)
@@ -66,7 +66,7 @@ class BookingTimeSubstitution(BaseSubstitution):
 
     def safe_call(self):
         plone = self.context.restrictedTraverse("@@plone")
-        date = getattr(self.context, "data_prenotazione", "")
+        date = getattr(self.context, "booking_date", "")
         if not date:
             return ""
         return plone.toLocalizedTime(date, time_only=True)
@@ -80,7 +80,7 @@ class BookingTimeEndSubstitution(BaseSubstitution):
 
     def safe_call(self):
         plone = self.context.restrictedTraverse("@@plone")
-        date = getattr(self.context, "data_scadenza", "")
+        date = getattr(self.context, "booking_expiration_date", "")
         if not date:
             return ""
         return plone.toLocalizedTime(date, time_only=True)
@@ -93,7 +93,7 @@ class BookingTypeSubstitution(BaseSubstitution):
     description = _(u"The booking type.")
 
     def safe_call(self):
-        return getattr(self.context, "tipologia_prenotazione", "")
+        return getattr(self.context, "booking_type", "")
 
 
 @adapter(Interface)
@@ -230,14 +230,14 @@ class BookingHRDateStartSubstitution(BaseSubstitution):
     def safe_call(self):
         # we need something like martedì 8 settembre 2020 alle ore 11:15
 
-        date = getattr(self.context, "data_prenotazione", "")
+        date = getattr(self.context, "booking_date", "")
         if not date:
             return ""
 
         if not have_spell_date:
             return "SPELL_DATE_NOT_AVAILABLE"
 
-        info = spell_date(self.context.data_prenotazione, self.context)
+        info = spell_date(self.context.booking_date, self.context)
         day = "{day_name} {day_number} {month_name} {year} alle ore {hour}:{minute}".format(  # noqa
             day_name=info["wkday_name"],
             day_number=info["day"],

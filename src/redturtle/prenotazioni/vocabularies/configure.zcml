@@ -26,8 +26,8 @@
       component=".review_states.BookingReviewStatesVocabularyFactory"
       />
   <utility
-      name="redturtle.prenotazioni.tipologies"
-      component=".tipologies.TipologiesVocabularyFactory"
+      name="redturtle.prenotazioni.booking_types"
+      component=".tipologies.BookingTypesVocabularyFactory"
       />
 
   <utility

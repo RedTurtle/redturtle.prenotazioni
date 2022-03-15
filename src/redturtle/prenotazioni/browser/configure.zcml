@@ -224,7 +224,7 @@
       name="download_reservation"
       for="*"
       class=".prenotazioni_search.DownloadReservation"
-      permission="zope2.View"
+      permission="redturtle.prenotazioni.SearchPrenotazioni"
       />
 
 </configure>

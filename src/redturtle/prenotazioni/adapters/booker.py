@@ -35,76 +35,75 @@ class Booker(object):
         """The prenotazioni context state view"""
         return self.context.unrestrictedTraverse("@@prenotazioni_context_state")  # noqa
 
-    def get_available_gate(self, data_prenotazione, data_scadenza=None):
+    def get_available_gate(self, booking_date, booking_expiration_date=None):
         """
         Find which gate is free to serve this booking
         """
         if not self.prenotazioni.get_gates():
             return ""
         available_gates = self.prenotazioni.get_free_gates_in_slot(
-            data_prenotazione, data_scadenza
+            booking_date, booking_expiration_date
         )
         if len(available_gates) == 0:
             return None
         if len(available_gates) == 1:
             return available_gates.pop()
-        return choice(self.prenotazioni.get_less_used_gates(data_prenotazione))
+        return choice(self.prenotazioni.get_less_used_gates(booking_date))
 
     def _create(self, data, duration=-1, force_gate=""):
         """Create a Booking object
 
         :param duration: used to force a duration. If it is negative it will be
-                         calculated using the tipology
+                         calculated using the booking_type
         :param force_gate: by default gates are assigned randomly except if you
                            pass this parameter.
         """
-        if isinstance(data["booking_date"], DateTime):
-            booking_date = data["booking_date"].asdatetime()
+        # remove empty fields
+        params = {k: v for k, v in data.items() if v}
+        if isinstance(params["booking_date"], DateTime):
+            params["booking_date"] = params["booking_date"].asdatetime()
         else:
-            booking_date = data["booking_date"]
+            params["booking_date"] = params["booking_date"]
 
-        container = self.prenotazioni.get_container(booking_date, create_missing=True)
-        tipology = data.get("tipology", "")
+        container = self.prenotazioni.get_container(
+            params["booking_date"], create_missing=True
+        )
+        booking_type = params.get("booking_type", "")
         if duration < 0:
             # if we pass a negative duration it will be recalculated
-            duration = self.prenotazioni.get_tipology_duration(tipology)
+            duration = self.prenotazioni.get_booking_type_duration(booking_type)
             # duration = (float(duration) / MIN_IN_DAY)
-            data_scadenza = booking_date + timedelta(minutes=duration)
+            booking_expiration_date = params["booking_date"] + timedelta(
+                minutes=duration
+            )
         else:
             # in this case we need to deal with seconds converted in days
-            data_scadenza = booking_date + timedelta(days=duration)
+            booking_expiration_date = params["booking_date"] + timedelta(days=duration)
 
-        at_data = {
-            "title": data["fullname"],
-            "description": data["subject"] or "",
-            "azienda": data.get("agency", ""),
-            "fiscalcode": data.get("fiscalcode", ""),
-            "data_prenotazione": booking_date,
-            "data_scadenza": data_scadenza,
-            "phone": data.get("phone", ""),
-            "email": data.get("email", ""),
-            "tipologia_prenotazione": data.get("tipology", ""),
-        }
+        gate = ""
         if not force_gate:
-            available_gate = self.get_available_gate(booking_date, data_scadenza)
+            available_gate = self.get_available_gate(
+                params["booking_date"], booking_expiration_date
+            )
             # if not available_gate: #
             if available_gate is None:
                 # there isn't a free slot in any available gates
                 return None
             # else assign the gate to the booking
-            at_data["gate"] = available_gate
+            gate = available_gate
         else:
-            at_data["gate"] = force_gate
+            gate = force_gate
 
         obj = api.content.create(
-            type="Prenotazione", title=at_data["title"], container=container
+            type="Prenotazione",
+            container=container,
+            booking_expiration_date=booking_expiration_date,
+            gate=gate,
+            **params
         )
 
-        for attribute in at_data.keys():
-            setattr(obj, attribute, at_data[attribute])
-
         # set delete token
-        expiration = datetime.combine(obj.data_prenotazione.date(), time(0, 0, 0))
+        expiration = datetime.combine(obj.booking_date.date(), time(0, 0, 0))
         token = IDeleteTokenProvider(obj).generate_token(expiration=expiration)
         annotations = IAnnotations(obj)
         annotations[DELETE_TOKEN_KEY] = token.decode("utf-8")
@@ -112,13 +111,13 @@ class Booker(object):
         annotations[VERIFIED_BOOKING] = False
         if not api.user.is_anonymous():
             user = api.user.get_current()
-            data_fiscalcode = at_data.get("fiscalcode", "") or ""
+            data_fiscalcode = getattr(obj, "fiscalcode", "") or ""
             fiscalcode = data_fiscalcode.upper()
             if (
                 fiscalcode
                 and (user.getProperty("fiscalcode") or "").upper() == fiscalcode
             ):
-                logger.info("booking %s verified", at_data)
+                logger.info("Booking verified: {}".format(obj.absolute_url()))
                 annotations[VERIFIED_BOOKING] = True
 
         obj.reindexObject()
@@ -137,7 +136,7 @@ class Booker(object):
 
     def fix_container(self, booking):
         """Take a booking and move it to the right date"""
-        booking_date = booking.getData_prenotazione()
+        booking_date = booking.getBooking_date()
         old_container = booking.aq_parent
         new_container = self.prenotazioni.get_container(
             booking_date, create_missing=True

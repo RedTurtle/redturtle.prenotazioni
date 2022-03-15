@@ -78,10 +78,12 @@ class ConflictManager(object):
 
     def get_choosen_slot(self, data):
         """Get's the slot requested by the user"""
-        tipology = data.get("tipology", "")
-        tipology_duration = self.prenotazioni.get_tipology_duration(tipology)
+        booking_type = data.get("booking_type", "")
+        booking_type_duration = self.prenotazioni.get_booking_type_duration(
+            booking_type
+        )
         start = data.get("booking_date", "")
-        end = start + timedelta(seconds=tipology_duration * 60)
+        end = start + timedelta(seconds=booking_type_duration * 60)
         slot = BaseSlot(start, end)
         return slot
 

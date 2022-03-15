@@ -8,6 +8,7 @@
 
   <i18n:registerTranslations directory="locales" />
 
+  <include file="permissions.zcml" />
   <include package=".actions" />
   <include package=".adapters" />
   <include package=".browser" />
@@ -17,7 +18,6 @@
   <include package=".indexers" />
   <include package=".events" />
 
-  <include file="permissions.zcml" />
   <include file="upgrades.zcml" />
 
   <genericsetup:registerProfile

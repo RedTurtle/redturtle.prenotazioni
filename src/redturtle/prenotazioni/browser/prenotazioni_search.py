@@ -28,7 +28,7 @@ from plone.api.content import get_state
 
 
 class InvalidDate(ValidationError):
-    __doc__ = _("invalid_end:search_date", u"Invalid start or end date")
+    __doc__ = _("invalid_end:search_date", "Invalid start or end date")
 
 
 class ISearchForm(Interface):
@@ -36,9 +36,7 @@ class ISearchForm(Interface):
     Interface for creating a prenotazione
     """
 
-    text = TextLine(
-        title=_("label_text", u"Text to search"), default=u"", required=False
-    )
+    text = TextLine(title=_("label_text", "Text to search"), default="", required=False)
     review_state = Choice(
         title=__("State"),
         default="",
@@ -46,19 +44,19 @@ class ISearchForm(Interface):
         source="redturtle.prenotazioni.booking_review_states",
     )
     gate = Choice(
-        title=_("label_gate", u"Gate"),
+        title=_("label_gate", "Gate"),
         default="",
         required=False,
         source="redturtle.prenotazioni.gates",
     )
     start = Date(
-        title=_("label_start", u"Start date "),
+        title=_("label_start", "Start date "),
         description=_(" format (YYYY-MM-DD)"),
         default=None,
         required=False,
     )
     end = Date(
-        title=_("label_end", u"End date"),
+        title=_("label_end", "End date"),
         description=_(" format (YYYY-MM-DD)"),
         default=None,
         required=False,
@@ -152,7 +150,7 @@ class SearchForm(form.Form):
         if "text" in data and data.get("text", None):
             result.append(
                 MARKUP.format(
-                    self.context.translate(_("label_text", u"Text to search")),
+                    self.context.translate(_("label_text", "Text to search")),
                     data["text"],
                 )
             )
@@ -170,7 +168,7 @@ class SearchForm(form.Form):
             result.append(
                 MARKUP.format(
                     self.context.translate(
-                        _("label_gate", u"Gate"),
+                        _("label_gate", "Gate"),
                     ),
                     data["gate"],
                 )
@@ -181,7 +179,7 @@ class SearchForm(form.Form):
                 data["start"] = datetime.strptime(data.get("start"), "%Y-%m-%d")
             result.append(
                 MARKUP.format(
-                    self.context.translate(_("label_start", u"Start date ")),
+                    self.context.translate(_("label_start", "Start date ")),
                     data["start"].strftime("%d/%m/%Y"),
                 )
             )
@@ -191,7 +189,7 @@ class SearchForm(form.Form):
                 data["end"] = datetime.strptime(data.get("end"), "%Y-%m-%d")
             result.append(
                 MARKUP.format(
-                    self.context.translate(_("label_end", u"End date")),
+                    self.context.translate(_("label_end", "End date")),
                     data["end"].strftime("%d/%m/%Y"),
                 )
             )
@@ -233,7 +231,7 @@ class SearchForm(form.Form):
             if k in self.widgets:
                 self.widgets[k].value = v
 
-    @button.buttonAndHandler(_(u"action_search", default=u"Search"))
+    @button.buttonAndHandler(_("action_search", default="Search"))
     def action_search(self, action):
         """
         Search in prenotazioni SearchableText
@@ -243,9 +241,7 @@ class SearchForm(form.Form):
             self.status = self.formErrorsMessage
             return
 
-    @button.buttonAndHandler(
-        _(u"move_back_message", default=u"Go back to the calendar")
-    )
+    @button.buttonAndHandler(_("move_back_message", default="Go back to the calendar"))
     def action_cancel(self, action):
         """
         Cancel and go back to the week view
@@ -258,6 +254,20 @@ WrappedSearchForm = wrap_form(SearchForm)
 
 
 class DownloadReservation(SearchForm):
+
+    columns = [
+        "Nome completo",
+        "Stato",
+        "Postazione",
+        "Tipologia prenotazione",
+        "Email",
+        "Telefono",
+        "Data prenotazione",
+        "Codice prenotazione",
+        "Note prenotante",
+        "Note del personale",
+    ]
+
     @memoize
     def get_prenotazioni_states(self):
         factory = getUtility(
@@ -287,40 +297,9 @@ class DownloadReservation(SearchForm):
             brains = self.conflict_manager.unrestricted_prenotazioni(**query)
         else:
             brains = []
-        data = {
-            "Sheet 1": [
-                [
-                    "Nome completo",
-                    "Stato",
-                    "Postazione",
-                    "Tipologia prenotazione",
-                    "Email",
-                    "Data prenotazione",
-                    "Codice prenotazione",
-                    "Note prenotante",
-                    "Note del personale",
-                ]
-            ]
-        }
+        data = {"Sheet 1": [self.columns]}
         for brain in brains:
-            obj = brain.getObject()
-            data["Sheet 1"].append(
-                [
-                    brain.Title,
-                    self.get_prenotazione_state(obj),
-                    getattr(obj, "gate", "") or "",
-                    getattr(obj, "tipologia_prenotazione", "") or "",
-                    getattr(obj, "email", "") or "",
-                    self.prenotazioni_week_view.localized_time(brain["Date"])
-                    + " - "
-                    + self.prenotazioni_week_view.localized_time(
-                        brain["Date"], time_only=True
-                    ),
-                    obj.getBookingCode(),
-                    getattr(obj, "description", "") or "",
-                    obj.getStaff_notes() or "",
-                ]
-            )
+            data["Sheet 1"].append(self.get_row_data(brain=brain))
 
         now = DateTime()
         filename = "prenotazioni_{}.ods".format(now.strftime("%Y%m%d%H%M%S"))
@@ -336,3 +315,20 @@ class DownloadReservation(SearchForm):
             "Content-Disposition", 'attachment; filename="{}"'.format(filename)
         )
         return streamed
+
+    def get_row_data(self, brain):
+        obj = brain.getObject()
+        return [
+            brain.Title,
+            self.get_prenotazione_state(obj),
+            getattr(obj, "gate", "") or "",
+            getattr(obj, "booking_type", "") or "",
+            getattr(obj, "email", "") or "",
+            getattr(obj, "phone", "") or "",
+            self.prenotazioni_week_view.localized_time(brain["Date"])
+            + " - "
+            + self.prenotazioni_week_view.localized_time(brain["Date"], time_only=True),
+            obj.getBookingCode(),
+            getattr(obj, "description", "") or "",
+            obj.getStaff_notes() or "",
+        ]

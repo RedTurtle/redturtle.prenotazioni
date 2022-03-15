@@ -11,15 +11,13 @@ from plone.formwidget.recaptcha.widget import ReCaptchaFieldWidget
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
-from Products.CMFCore.interfaces import ISiteRoot
-from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.browser.z3c_custom_widget import (
-    CustomRadioFieldWidget,
-)
+from redturtle.prenotazioni.browser.z3c_custom_widget import CustomRadioFieldWidget
+from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
+from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.utilities.urls import urlify
 from six.moves.urllib.parse import urlparse, parse_qs
 from z3c.form import button
@@ -28,166 +26,32 @@ from z3c.form import form
 from z3c.form.interfaces import ActionExecutionError
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import WidgetActionExecutionError
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.i18n import translate
 from zope.interface import implementer
-from zope.interface import Interface
 from zope.interface import Invalid
-from zope.schema import Choice
-from zope.schema import Datetime
 from zope.schema import Text
 from zope.schema import TextLine
-from zope.schema import ValidationError
-from zope.annotation.interfaces import IAnnotations
-from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
 from zope.schema.interfaces import IVocabularyFactory
-import re
-import six
+from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
+
+DEFAULT_REQUIRED_FIELDS = []
 
 
-TELEPHONE_PATTERN = re.compile(r"^(\+){0,1}([0-9]| )*$")
-
-
-class InvalidPhone(ValidationError):
-    __doc__ = _("invalid_phone_number", u"Invalid phone number")
-
-
-class InvalidEmailAddress(ValidationError):
-    __doc__ = _("invalid_email_address", u"Invalid email address")
-
-
-class IsNotfutureDate(ValidationError):
-    __doc__ = _("is_not_future_date", u"This date is past")
-
-
-class InvalidFiscalcode(ValidationError):
-    __doc__ = _("invalid_fiscalcode", u"Invalid fiscal code")
-
-
-def check_phone_number(value):
-    """
-    If value exist it should match TELEPHONE_PATTERN
-    """
-    if not value:
-        return True
-    if isinstance(value, six.string_types):
-        value = value.strip()
-    if TELEPHONE_PATTERN.match(value) is not None:
-        return True
-    raise InvalidPhone(value)
-
-
-def check_valid_email(value):
-    """Check if value is a valid email address"""
-    if not value:
-        return True
-    portal = getUtility(ISiteRoot)
-
-    reg_tool = getToolByName(portal, "portal_registration")
-    if value and reg_tool.isValidEmail(value):
-        return True
-    else:
-        raise InvalidEmailAddress
-
-
-def check_valid_fiscalcode(value):
-    # fiscal code development
-    if value == "AAAAAA00A00A000A":
-        return True
-    if not value:
-        return True
-    value = value.upper()
-    if not len(value) == 16:
-        raise InvalidFiscalcode(value)
-
-    validi = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    for c in value:
-        if c not in validi:
-            raise InvalidFiscalcode(value)
-
-    set1 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    set2 = "ABCDEFGHIJABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    setpari = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    setdisp = "BAKPLCQDREVOSFTGUHMINJWZYX"
-    s = 0
-
-    for i in range(1, 14, 2):
-        s += setpari.find(set2[set1.find(value[i])])
-    for i in range(0, 15, 2):
-        s += setdisp.find(set2[set1.find(value[i])])
-
-    if s % 26 != (ord(value[15]) - ord("A"[0])):
-        raise InvalidFiscalcode(value)
-
-    return True
-
-
-def check_is_future_date(value):
-    """
-    Check if this date is in the future
-    """
-    if not value:
-        return True
-
-    now = tznow()
-
-    if isinstance(value, datetime) and value >= now:
-        return True
-    raise IsNotfutureDate
-
-
-class IAddForm(Interface):
+class IAddForm(IPrenotazione):
 
     """
     Interface for creating a prenotazione
     """
 
-    booking_date = Datetime(
-        title=_("label_booking_time", u"Booking time"),
-        default=None,
-        constraint=check_is_future_date,
+    title = TextLine(
+        title=_("label_booking_title", u"Fullname"), default=u"", required=True
     )
-    tipology = Choice(
-        title=_("label_typology", u"Typology"),
-        required=False,
-        default=u"",
-        vocabulary="redturtle.prenotazioni.tipologies",
+    description = Text(
+        title=_("label_booking_description", u"Subject"), default=u"", required=False
     )
-    fullname = TextLine(
-        title=_("label_fullname", u"Fullname"), default=u"", required=False
-    )
-    email = TextLine(
-        title=_("label_email", u"Email"),
-        required=False,
-        default=u"",
-        constraint=check_valid_email,
-    )
-    phone = TextLine(
-        title=_("label_phone", u"Phone number"),
-        required=False,
-        default=u"",
-        constraint=check_phone_number,
-    )
-
-    fiscalcode = TextLine(
-        title=_("label_fiscalcode", u"Fiscal code"),
-        required=False,
-        default=u"",
-        constraint=check_valid_fiscalcode,
-    )
-
-    agency = TextLine(
-        title=_("label_agency", u"Agency"),
-        description=_(
-            "description_agency",
-            u"If you work for an agency please specify its name",
-        ),
-        default=u"",
-        required=False,
-    )
-
-    subject = Text(title=_("label_subject", u"Subject"), default=u"", required=False)
 
     captcha = TextLine(title=u" ", description=u"", required=False)
 
@@ -200,10 +64,23 @@ class AddForm(form.AddForm):
     ignoreContext = True
 
     @property
+    def fields_schema(self):
+        return field.Fields(IAddForm)
+
+    @property
     def fields(self):
-        fields = field.Fields(IAddForm)
+        fields = self.fields_schema
         fields["captcha"].widgetFactory = ReCaptchaFieldWidget
-        fields["tipology"].widgetFactory = CustomRadioFieldWidget
+        fields["booking_type"].widgetFactory = CustomRadioFieldWidget
+
+        # omit some fields
+        fields = fields.omit("gate").omit("booking_expiration_date").omit("staff_notes")
+
+        # move title on top (after the type)
+        ids = [x for x in fields.keys()]
+        ids.insert(2, ids.pop(ids.index("title")))
+        fields = fields.select(*ids)
+
         if api.user.is_anonymous():
             return fields
         return fields.omit("captcha")
@@ -222,36 +99,28 @@ class AddForm(form.AddForm):
         )
         required_fields_vocabulary = required_fields_factory(self.context)
         possibly_required_fields = [x.token for x in required_fields_vocabulary._terms]
-        possibly_visible_fields = [
-            "email",
-            "phone",
-            "subject",
-            "agency",
-            "fiscalcode",
-        ]
 
         for f in self.widgets.values():
             # If you have a field required by schema, when you fill the field
             # and then empty it you have a red alert without submit the form.
             # In this way all the possibly requred field have the same
             # behaviour: you see the red alert frame only after a submit
-            if f.__name__ == "tipology":
-                f.required = True
-            if f.__name__ == "fullname":
+            name = f.__name__
+            if name in DEFAULT_REQUIRED_FIELDS:
                 f.required = True
 
-            if f.__name__ in possibly_required_fields:
+            if name in possibly_required_fields:
                 # Zen of python: "Explicit is better than implicit."
                 # we could set False this field in schema, but parts of code
                 # lines below would be necessary anyway. so I prefer explicit
                 # what we are doning
-                if f.__name__ in self.context.required_booking_fields:
+                if name in self.context.required_booking_fields:
                     f.required = True
                 else:
                     f.required = False
             if (
-                f.__name__ in possibly_visible_fields
-                and f.__name__ not in self.context.visible_booking_fields
+                name in REQUIRABLE_AND_VISIBLE_FIELDS
+                and name not in self.context.visible_booking_fields
             ):
                 f.mode = "hidden"
 
@@ -396,7 +265,8 @@ class AddForm(form.AddForm):
         required = self.context.required_booking_fields
 
         # la tipologia di una prenotazione deve essere obbligatoria ticket: 19131
-        required.append("tipology")
+        if "booking_type" not in required:
+            required.append("booking_type")
 
         for field_id in self.fields.keys():
             if field_id in required and not data.get(field_id, ""):
@@ -482,7 +352,7 @@ class AddForm(form.AddForm):
         if not self.has_enough_time():
             msg = _(
                 "time_slot_to_short",
-                "You cannot book any typology at this time",
+                "You cannot book any booking_type at this time",
             )
             return self.redirect(self.back_to_booking_url, msg)
         return super(AddForm, self).__call__()
@@ -516,20 +386,20 @@ class AddForm(form.AddForm):
                 request=booking.REQUEST,
             )
             parameters = {
-                "azienda": getattr(booking, "azienda", ""),
+                "company": getattr(booking, "company", ""),
                 "booking_folder": booking_folder.title,
                 "booking_url": booking.absolute_url(),
-                "data_prenotazione": getattr(booking, "data_prenotazione", ""),
-                "data_scadenza": getattr(booking, "data_scadenza", ""),
+                "booking_date": getattr(booking, "booking_date", ""),
+                "booking_expiration_date": getattr(
+                    booking, "booking_expiration_date", ""
+                ),
                 "description": getattr(booking, "description", ""),
                 "email": getattr(booking, "email", ""),
                 "fiscalcode": getattr(booking, "fiscalcode", ""),
                 "gate": getattr(booking, "gate", ""),
                 "phone": getattr(booking, "phone", ""),
                 "staff_notes": getattr(booking, "staff_notes", ""),
-                "tipologia_prenotazione": getattr(
-                    booking, "tipologia_prenotazione", ""
-                ),
+                "booking_type": getattr(booking, "booking_type", ""),
                 "title": getattr(booking, "title", ""),
             }
             mail_text = mail_template(**parameters)

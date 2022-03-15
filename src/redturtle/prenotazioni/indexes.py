@@ -18,8 +18,8 @@ def SearchableText_prenotazione(obj):
             safe_unicode(obj.description) or u"",
             safe_unicode(obj.email or u""),
             safe_unicode(obj.phone or u""),
-            safe_unicode(obj.tipologia_prenotazione or u""),
-            safe_unicode(obj.azienda or u""),
+            safe_unicode(obj.booking_type or u""),
+            safe_unicode(obj.company or u""),
             safe_unicode(obj.gate or u""),
             safe_unicode(obj.staff_notes or u""),
             subject,
@@ -37,6 +37,6 @@ def Subject_prenotazione(obj):
 @indexer(IPrenotazione)
 def Date(obj):
     """
-    Set as data_prenotazione
+    Set as booking_date
     """
     return obj.Date()

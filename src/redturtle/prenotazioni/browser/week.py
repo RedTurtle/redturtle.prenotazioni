@@ -256,7 +256,7 @@ class View(BaseView):
 
         message = _(
             "booked_prenotation_message",
-            default=u"${day}, ore ${booking_time}, prenotato da ${booked_by}, prenotazione: ${type_prenotation} durata: ${duration} minuti",
+            default=u"${day}, ore ${booking_time}, prenotato da ${booked_by}, prenotazione: ${booking_type} durata: ${duration} minuti",
             mapping={
                 "booking_time": booking.Date().strftime("%H:%M"),
                 "day": "{} {}".format(
@@ -267,7 +267,7 @@ class View(BaseView):
                 ),
                 "booked_by": booking.Title(),
                 "duration": (booking.getDuration().seconds // 60) % 60,
-                "type_prenotation": booking.getTipologia_prenotazione(),
+                "booking_type": booking.getBooking_type(),
             },
         )
         return message
