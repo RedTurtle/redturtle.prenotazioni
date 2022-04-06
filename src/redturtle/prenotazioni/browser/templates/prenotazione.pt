@@ -123,6 +123,16 @@ i18n:domain="redturtle.prenotazioni">
                   </a>
                 </div>
                 <div class="field"
+                     tal:define="approve_url view/approve_url"
+                     tal:condition="python:approve_url and review_state == 'pending'">
+                  <a href="${view/approve_url}">
+                    <img width="16"
+                         src="${portal_url}/++plone++redturtle.prenotazioni/calendar-icon.png"
+                         >
+                    <tal:i18n i18n:translate="approve_booking">Approve booking</tal:i18n>
+                  </a>
+                </div>
+                <div class="field"
                      tal:define="reject_url view/reject_url"
                      tal:condition="python:reject_url and review_state == 'published'">
                   <a href="${view/reject_url}">

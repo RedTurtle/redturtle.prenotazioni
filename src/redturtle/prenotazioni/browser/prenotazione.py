@@ -71,6 +71,15 @@ class PrenotazioneView(BrowserView):
             context_url=self.context.absolute_url(), token=createToken()
         )
 
+    @property
+    def approve_url(self):
+        can_review = api.user.has_permission("Review portal content", obj=self.context)
+        if not can_review:
+            return ""
+        return "{context_url}/content_status_modify?workflow_action=publish&_authenticator={token}".format(  # noqa
+            context_url=self.context.absolute_url(), token=createToken()
+        )
+
 
 class ResetDuration(PrenotazioneView):
     """Reset data scadenza prenotazione: sometime is needed :p"""
