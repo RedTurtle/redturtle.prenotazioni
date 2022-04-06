@@ -556,3 +556,13 @@ a.reservation-tooltip:focus::before {
 div.field input[type="radio"].required:after {
   content: "";
 }
+
+button.btn.btn-xs.btn-info.pattern-pickadate-now {
+  display: none;
+}
+
+input[type="text"].pattern-pickadate-date.picker__input {
+  pointer-events: none;
+  background: white;
+  background-color: white;
+}

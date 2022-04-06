@@ -26,7 +26,9 @@ from zope.interface import Invalid
 # from zope.schema import TextLine
 # from zope.interface import Interface
 # from zope.interface import Invalid
+
 from zope.schema import Datetime
+
 
 # from zope.annotation.interfaces import IAnnotations
 # from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
@@ -41,6 +43,12 @@ class IAddRoomForm(IAddForm):
     """
     Interface for creating a prenotazione of room
     """
+
+    starting_booking_date = Datetime(
+        title=_("label_starting_booking_time", u"Starting Booking time"),
+        default=None,
+        required=True,
+    )
 
     ending_booking_date = Datetime(
         title=_("label_ending_booking_time", u"Ending Booking time"),
@@ -75,6 +83,9 @@ class AddRoomForm(AddForm):
         bookingdate = self.widgets["booking_date"].value
         start_date = datetime.strptime(bookingdate, "%Y-%m-%d %H:%M")
         end_date = start_date + timedelta(hours=1)
+        self.widgets["starting_booking_date"].value = start_date.strftime(
+            "%Y-%m-%d %H:%M"
+        )
         self.widgets["ending_booking_date"].value = end_date.strftime("%Y-%m-%d %H:%M")
 
     def do_book(self, data):
