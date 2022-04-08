@@ -134,7 +134,7 @@ i18n:domain="redturtle.prenotazioni">
                 </div>
                 <div class="field"
                      tal:define="reject_url view/reject_url"
-                     tal:condition="python:reject_url and review_state == 'published'">
+                     tal:condition="python:reject_url and (review_state == 'published' or review_state == 'pending')">
                   <a href="${view/reject_url}">
                     <img width="16"
                          src="${portal_url}/++plone++redturtle.prenotazioni/times-solid.png"
