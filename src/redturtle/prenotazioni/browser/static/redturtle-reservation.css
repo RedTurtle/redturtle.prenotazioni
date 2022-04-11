@@ -4,6 +4,7 @@
 .floatleft {
   float: left;
 }
+
 .floatright {
   float: right;
 }
@@ -29,6 +30,7 @@ td.selected {
 #content .tipology_widget p.formHelp {
   margin: 0;
 }
+
 #content .tipology_widget label {
   display: block;
   float: left;
@@ -76,15 +78,19 @@ td.selected {
 .template-prenotazioni_search table tr.pending {
   border-left: 2px solid #e2e721;
 }
+
 .template-prenotazioni_search table tr.published {
   border-left: 2px solid #007bb3;
 }
+
 .template-prenotazioni_search table tr.refused {
   border-left: 2px solid #870000;
 }
+
 .template-prenotazioni_search .search_states ul {
   list-style: none;
 }
+
 .template-prenotazioni_search .search_states ul li::before {
   content: "\2022";
   font-weight: bold;
@@ -93,12 +99,15 @@ td.selected {
   margin-left: -1em;
   font-size: 20px;
 }
+
 .template-prenotazioni_search .search_states ul li.pending::before {
   color: #e2e721;
 }
+
 .template-prenotazioni_search .search_states ul li.published::before {
   color: #007bb3;
 }
+
 .template-prenotazioni_search .search_states ul li.refused::before {
   color: #870000;
 }
@@ -108,6 +117,7 @@ td.selected {
 }
 
 @media print {
+
   .template-prenotazioni_search .search_states,
   .template-prenotazione_print #portal-top,
   .template-prenotazione_print .actions,
@@ -117,9 +127,11 @@ td.selected {
   .search-result-wrapper h2 {
     display: none;
   }
+
   .template-prenotazioni_search .search_parameters {
     display: block;
   }
+
   .template-prenotazioni_search table tr {
     border-left: none !important;
   }
@@ -129,6 +141,7 @@ td.selected {
 #week-table-wrapper * {
   box-sizing: border-box;
 }
+
 #week-table-wrapper {
   overflow: auto;
 }
@@ -177,6 +190,7 @@ table#week th {
   border: 1px solid #ddd;
   width: auto;
 }
+
 table#week div.table_header {
   text-align: center;
   font-weight: bold;
@@ -202,15 +216,17 @@ table#week td {
   background-color: #fff;
   border-right: 1px solid #fff;
 }
+
 #content #week td div.gate:last-of-type {
   border-right: none;
 }
 
-#content #week td div.gate > a {
+#content #week td div.gate>a {
   overflow: hidden;
   display: block;
   padding: 0.3em 5%;
 }
+
 #week .navigator {
   display: flex;
   justify-content: space-between;
@@ -223,14 +239,17 @@ table#week td {
 #week .fromto {
   background-color: #ddd;
 }
+
 #week .gatesheader {
   border-bottom: 1px solid #ddd;
 }
+
 #week .gateswrapper {
   border-bottom: 1px solid #ddd;
   margin-bottom: 1em;
   clear: both;
 }
+
 #week .gates {
   margin-left: 32px;
   position: relative;
@@ -245,14 +264,14 @@ table#week td {
 }
 
 /* barra ora */
-#week .gates > .hours {
+#week .gates>.hours {
   width: 34px;
   position: absolute;
   left: -34px;
   overflow: hidden;
 }
 
-#week .gates > .hours > .hour {
+#week .gates>.hours>.hour {
   height: 61px;
   text-align: center;
   margin-left: 1px;
@@ -261,7 +280,7 @@ table#week td {
   position: relative;
 }
 
-#week .gates > .hours > .hour > div {
+#week .gates>.hours>.hour>div {
   position: absolute;
   top: 20px;
   width: 100%;
@@ -284,28 +303,30 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   border-bottom: none;
 }
 
-#week .slot > .unbookable {
+#week .slot>.unbookable {
   background-color: #ffa500;
 }
-#week .slot > .refused {
+
+#week .slot>.refused {
   background-color: #870000;
   color: white;
 }
 
-#week .slot > .refused a,
-#week .slot > .published a {
+#week .slot>.refused a,
+#week .slot>.published a {
   color: white;
 }
 
-#week .slot > .pending {
+#week .slot>.pending {
   background-color: #ffa500;
   color: white;
 }
 
-#week .slot > .published {
+#week .slot>.published {
   background-color: #436976;
   color: white;
 }
+
 #week .slot .anonymous_slot {
   background-color: #fff;
   text-align: left;
@@ -322,7 +343,7 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   font-weight: normal;
 }
 
-#week .slot .links > * {
+#week .slot .links>* {
   height: 5px;
   display: block;
 }
@@ -342,18 +363,22 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
 #week .slot .links a:link {
   background-color: #ddd;
 }
-#week .slot .links span{
+
+#week .slot .links span {
   background-color: #ddd;
   height: 5px;
   display: block;
 }
+
 #week .slot .links a:visited {
   background-color: #ddd;
 }
+
 #week .slot .links a:hover {
   background-color: #666;
 }
-#week .slot .links > .previous {
+
+#week .slot .links>.previous {
   background-color: #fff;
 }
 
@@ -362,6 +387,7 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   min-width: 200px;
   max-width: 400px;
 }
+
 .template-prenotazioni_search #formfield-start,
 .template-prenotazioni_search #formfield-end {
   float: left;
@@ -396,6 +422,7 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   .week-legend {
     width: 100%;
   }
+
   .legend.legend-manager {
     padding: 0;
   }
@@ -404,14 +431,17 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
 .week-legend fieldset {
   padding: 0px;
 }
+
 .week-legend fieldset legend {
   padding: 0px;
   font-weight: bold;
   font-size: 100%;
 }
+
 #content .week-legend fieldset ul.legend {
   list-style-type: none;
 }
+
 .week-legend div.square {
   display: block;
   float: left;
@@ -419,7 +449,8 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   height: 15px;
   margin-right: 5px;
 }
-.legend li > .bookable {
+
+.legend li>.bookable {
   background: #ddd;
 }
 
@@ -430,23 +461,27 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   border: 1px solid #999;
 }
 
-.legend-manager li > .pending {
+.legend-manager li>.pending {
   background: #ffa500;
 }
-.legend-manager li > .confirmed {
+
+.legend-manager li>.confirmed {
   background: #436976;
 }
-.legend-manager li > .refused {
+
+.legend-manager li>.refused {
   background: #870000;
 }
 
 #content table.tipology-table {
   border: 1px solid #ccc;
 }
+
 #content table.tipology-table th {
   background-color: #ddd;
   padding: 3px 10px;
 }
+
 #content table.tipology-table td {
   padding: 2px 10px 0px 10px;
 }
@@ -459,32 +494,34 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
   font-size: 100%;
 }
 
-#week .gate > .slot > .published {
+#week .gate>.slot>.published {
   line-height: 0;
   font-size: 9px;
   background-color: #6da7bb;
 }
 
-#week .gate > .slot > .pending {
+#week .gate>.slot>.pending {
   line-height: 0;
   font-size: 9px;
   background-color: #ffa500;
 }
 
-#week .gate > .slot > .pause_slot {
+#week .gate>.slot>.pause_slot {
   /* line-height: 0; */
   font-size: 9px;
   background-color: #e8e578;
   /* padding: 10px; */
 }
 
-#week .slot > .pending > a > div {
+#week .slot>.pending>a>div {
   border: 2px solid #e78b36;
   display: table;
   height: 100%;
   width: 100%;
 }
-#week .slot > .published > a > div {;
+
+#week .slot>.published>a>div {
+  ;
   display: table;
   height: 100%;
   width: 100%;
@@ -515,6 +552,7 @@ dl.portlet ul.navTree li a.contenttype-prenotazioniday {
 #week .slot .pending a:hover {
   background-color: rgb(236, 123, 0);
 }
+
 #week .slot .published a:hover {
   background-color: #9ac2dd;
 }
@@ -523,6 +561,7 @@ dl.refused dd {
   background-color: #eebbbb;
   padding: 5px;
 }
+
 dl.portalMessage.refused dt {
   background-color: #870000;
   color: white;
@@ -561,7 +600,13 @@ button.btn.btn-xs.btn-info.pattern-pickadate-now {
   display: none;
 }
 
-input[type="text"].pattern-pickadate-date.picker__input {
+#formfield-form-widgets-starting_booking_date input[type="text"].pattern-pickadate-date.picker__input {
+  pointer-events: none;
+  background: white;
+  background-color: white;
+}
+
+#formfield-form-widgets-ending_booking_date input[type="text"].pattern-pickadate-date.picker__input {
   pointer-events: none;
   background: white;
   background-color: white;
