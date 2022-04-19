@@ -128,11 +128,14 @@ class AddForm(form.AddForm):
             "Modify portal content", obj=self.context
         ):
             user = api.user.get_current()
-            for f in self.widgets:
-                value = user.getProperty(f, "")
+            for field_name in self.widgets:
+                if field_name == "title":
+                    value = user.getProperty("fullname", "")
+                else:
+                    value = user.getProperty(field_name, "")
                 if value:
-                    self.widgets[f].value = value
-                    self.widgets[f].readonly = "readonly"
+                    self.widgets[field_name].value = value
+                    self.widgets[field_name].readonly = "readonly"
 
     @property
     @memoize

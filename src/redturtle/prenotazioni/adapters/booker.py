@@ -112,12 +112,10 @@ class Booker(object):
             user = api.user.get_current()
             data_fiscalcode = getattr(obj, "fiscalcode", "") or ""
             fiscalcode = data_fiscalcode.upper()
-            if (
-                fiscalcode
-                and (user.getProperty("fiscalcode") or "").upper() == fiscalcode
-            ):
-                logger.info("Booking verified: {}".format(obj.absolute_url()))
-                annotations[VERIFIED_BOOKING] = True
+            if user.hasProperty("fiscalcode") and fiscalcode:
+                if (user.getProperty("fiscalcode") or "").upper() == fiscalcode:
+                    logger.info("Booking verified: {}".format(obj.absolute_url()))
+                    annotations[VERIFIED_BOOKING] = True
 
         obj.reindexObject()
         api.content.transition(obj, "submit")

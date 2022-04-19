@@ -9,7 +9,8 @@ Changelog
   [cekk]
 - Improve extensibility of add form and required fields.
   [cekk]
-
+- Handle (do not broke) non existent fiscalcode member field.
+  [cekk]
 
 1.4.0 (2022-01-13)
 ------------------
