@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.1 (unreleased)
+1.4.1 (2022-05-04)
 ------------------
 
 - Standardize fields between schema and creation form.
