@@ -137,7 +137,7 @@ class IPrenotazione(model.Schema):
     fiscalcode = schema.TextLine(
         title=_(u"label_booking_fiscalcode", default=u"Fiscal code"),
         default=u"",
-        constraint=check_valid_fiscalcode,
+        # constraint=check_valid_fiscalcode,
         required=False,
     )
 

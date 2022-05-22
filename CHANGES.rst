@@ -5,7 +5,8 @@ Changelog
 1.4.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Disable check_valid_fiscalcode constraint.
+  [cekk]
 
 
 1.4.1 (2022-05-04)
