@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.2 (unreleased)
+1.4.2 (2022-05-22)
 ------------------
 
 - Disable check_valid_fiscalcode constraint.
