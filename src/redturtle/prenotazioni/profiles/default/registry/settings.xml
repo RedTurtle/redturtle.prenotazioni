@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<registry>
+  <record name="plone.types_not_searched" 
+          interface="Products.CMFPlone.interfaces.controlpanel.ISearchSchema" 
+          field="types_not_searched">
+    <value purge="False">
+        <element>Prenotazione</element>
+        <element>PrenotazioniDay</element>
+        <element>PrenotazioniWeek</element>
+        <element>PrenotazioniYear</element>
+    </value>
+  </record>
+
+  <record name="plone.parent_types_not_to_query" 
+          interface="Products.CMFPlone.interfaces.controlpanel.INavigationSchema" 
+          field="parent_types_not_to_query">
+    <value purge="False">
+      <element>Prenotazione</element>
+    </value>
+  </record>
+
+
+  <record name="redturtle.prenotazioni.secret_cancellazione">
+      <field type="plone.registry.field.TextLine">
+          <title>Secret Cancellazione</title>
+      </field>
+      <value>whatever</value>
+  </record>
+
+</registry>

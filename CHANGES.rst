@@ -5,7 +5,8 @@ Changelog
 1.4.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add caching profile and enable it on install.
+  [cekk]
 
 
 1.4.2 (2022-05-22)
