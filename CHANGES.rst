@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.3 (unreleased)
+1.4.3 (2022-08-01)
 ------------------
 
 - Add caching profile and enable it on install.
