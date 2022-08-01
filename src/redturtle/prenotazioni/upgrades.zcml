@@ -29,7 +29,7 @@
       destination="1100"
       handler=".upgrades.to_1100"
       />
-    <genericsetup:upgradeStep
+  <genericsetup:upgradeStep
       title="Upgrade to 1200"
       description="Enable p.a.caching"
       profile="redturtle.prenotazioni:default"
