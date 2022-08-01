@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<registry>
+  <record name="redturtle.prenotazioni.secret_cancellazione" remove="True" />
+</registry>
