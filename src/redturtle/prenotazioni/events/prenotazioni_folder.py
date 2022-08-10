@@ -29,6 +29,8 @@ def sort_on_creation_or_change(obj, event):
     There is no way yet to sort correctly pause on prenotazioni folder using
     datagrid widget. I prefer to reorder the rows to have a more readable table
     """
+    if not getattr(obj, "pause_table", []):
+        return []
     pauses = obj.pause_table[:]
     pauses.sort(key=lambda x: (x["day"], x["pause_start"]))
     obj.pause_table = pauses
