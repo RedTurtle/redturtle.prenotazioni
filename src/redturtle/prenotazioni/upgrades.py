@@ -66,12 +66,23 @@ def to_1100(context):
         obj = brain.getObject()
         if i % 100 == 0:
             logger.info("%s/%s" % (i, tot))
-        obj.booking_type = obj.tipologia_prenotazione
-        obj.booking_date = obj.data_prenotazione
-        obj.company = obj.azienda
-        obj.booking_expiration_date = obj.data_scadenza
+        tipologia_prenotazione = getattr(obj, "tipologia_prenotazione", None)
+        data_prenotazione = getattr(obj, "data_prenotazione", None)
+        azienda = getattr(obj, "azienda", None)
+        data_scadenza = getattr(obj, "data_scadenza", None)
 
-        obj.tipologia_prenotazione = None
-        obj.data_prenotazione = None
-        obj.azienda = None
-        obj.data_scadenza = None
+        if tipologia_prenotazione:
+            obj.booking_type = tipologia_prenotazione
+            obj.tipologia_prenotazione = None
+
+        if data_prenotazione:
+            obj.booking_date = data_prenotazione
+            obj.data_prenotazione = None
+
+        if azienda:
+            obj.company = azienda
+            obj.azienda = None
+
+        if data_scadenza:
+            obj.booking_expiration_date = data_scadenza
+            obj.data_scadenza = None

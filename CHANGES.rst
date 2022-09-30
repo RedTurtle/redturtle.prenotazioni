@@ -5,7 +5,8 @@ Changelog
 1.4.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix upgrade-step.
+  [cekk]
 
 
 1.4.3 (2022-08-01)
