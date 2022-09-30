@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.4 (unreleased)
+1.4.4 (2022-09-30)
 ------------------
 
 - Fix upgrade-step.
