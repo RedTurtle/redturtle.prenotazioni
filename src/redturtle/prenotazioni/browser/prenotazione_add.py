@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_inner
 from datetime import datetime
 from DateTime import DateTime
 from datetime import timedelta
@@ -7,7 +6,6 @@ from email.utils import formataddr
 from email.utils import parseaddr
 from os import environ
 from plone import api
-from plone.formwidget.recaptcha.widget import ReCaptchaFieldWidget
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
@@ -17,17 +15,16 @@ from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.browser.z3c_custom_widget import CustomRadioFieldWidget
 from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
+from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.utilities.urls import urlify
 from six.moves.urllib.parse import urlparse, parse_qs
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
-from z3c.form.interfaces import ActionExecutionError
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import WidgetActionExecutionError
 from zope.annotation.interfaces import IAnnotations
-from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.i18n import translate
 from zope.interface import implementer
@@ -35,7 +32,6 @@ from zope.interface import Invalid
 from zope.schema import Text
 from zope.schema import TextLine
 from zope.schema.interfaces import IVocabularyFactory
-from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
 
 DEFAULT_REQUIRED_FIELDS = []
 
@@ -53,8 +49,6 @@ class IAddForm(IPrenotazione):
         title=_("label_booking_description", u"Subject"), default=u"", required=False
     )
 
-    captcha = TextLine(title=u" ", description=u"", required=False)
-
 
 @implementer(IAddForm)
 class AddForm(form.AddForm):
@@ -70,7 +64,6 @@ class AddForm(form.AddForm):
     @property
     def fields(self):
         fields = self.fields_schema
-        fields["captcha"].widgetFactory = ReCaptchaFieldWidget
         fields["booking_type"].widgetFactory = CustomRadioFieldWidget
 
         # omit some fields
@@ -81,9 +74,7 @@ class AddForm(form.AddForm):
         ids.insert(2, ids.pop(ids.index("title")))
         fields = fields.select(*ids)
 
-        if api.user.is_anonymous():
-            return fields
-        return fields.omit("captcha")
+        return fields
 
     def updateWidgets(self):
         super(AddForm, self).updateWidgets()
@@ -288,14 +279,6 @@ class AddForm(form.AddForm):
         if self.exceedes_date_limit(data):
             msg = _(u"Sorry, you can not book this slot for now.")
             raise WidgetActionExecutionError("booking_date", Invalid(msg))
-
-        captcha = getMultiAdapter(
-            (aq_inner(self.context), self.request), name="recaptcha"
-        )
-
-        if "captcha" in data and not captcha.verify():
-            msg = _(u"Please check the captcha")
-            raise ActionExecutionError(Invalid(msg))
 
         obj = self.do_book(data)
         if not obj:

@@ -268,10 +268,6 @@ msgstr ""
 msgid "Pause table"
 msgstr ""
 
-#: redturtle/prenotazioni/browser/prenotazione_add.py:294
-msgid "Please check the captcha"
-msgstr ""
-
 #: redturtle/prenotazioni/browser/prenotazione_add.py:278
 msgid "Please provide a booking date"
 msgstr "Please provide a booking date"

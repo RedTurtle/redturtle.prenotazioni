@@ -18,9 +18,10 @@ Add **redturtle.prenotazioni** to the egg section of your instance:
       ...
       redturtle.prenotazioni
 
-There is a recaptcha validation for anonymous users.
+To avoid spam, there is a background validation with `collective.honeypot`_ .
 
-You need to set recaptcha keys in **@@recaptcha-settings** control panel.
+.. _collective.honeypot: https://pypi.org/project/collective.honeypot
+
 
 Introduction
 ============
