@@ -267,10 +267,6 @@ msgstr "Le pause devono essere comprese tra l'orario di inizio o di termine dell
 msgid "Pause table"
 msgstr "Schedulazione delle pause"
 
-#: redturtle/prenotazioni/browser/prenotazione_add.py:294
-msgid "Please check the captcha"
-msgstr "Verifica il Captcha"
-
 #: redturtle/prenotazioni/browser/prenotazione_add.py:278
 msgid "Please provide a booking date"
 msgstr "Per favore seleziona una data."

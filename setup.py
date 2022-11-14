@@ -58,7 +58,7 @@ setup(
         "plone.restapi",
         "collective.contentrules.mailfromfield",
         "pyinter",
-        "plone.formwidget.recaptcha",
+        "collective.honeypot",
         "collective.dexteritytextindexer",
         "collective.z3cform.datagridfield>=2.0",
         "pyexcel_ods3",
