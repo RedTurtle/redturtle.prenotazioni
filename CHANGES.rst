@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.5 (unreleased)
+1.5.0 (2022-11-14)
 ------------------
 
 - [BREAKING CHANGE] Remove recaptcha dependency and use collective.honeypot. UNINSTALL plone.formwidget.recaptcha before upgrading to this version.
