@@ -669,7 +669,7 @@ msgstr "Questo testo apparirà nelle celle del calendario."
 #. Default: "Foreseen booking time: ${booking_time}"
 #: redturtle/prenotazioni/browser/week.py:206
 msgid "foreseen_booking_time"
-msgstr "Data previsto per la prenotazione: ${booking_time}, ora ${day}."
+msgstr "Data prevista per la prenotazione: ${day}, alle ore ${booking_time}."
 
 #. Default: "${booking_time}, Orario non disponibile"
 #: redturtle/prenotazioni/browser/week.py:225
@@ -792,7 +792,7 @@ msgstr "Data prenotazione"
 #: redturtle/prenotazioni/browser/templates/manager_notification_mail.pt:52
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:76
 msgid "label_booking_date_range"
-msgstr "${from_date} dalle ${from} alle ${to}"
+msgstr "${from_date} alle ore ${at}"
 
 #. Default: "Subject"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:53
