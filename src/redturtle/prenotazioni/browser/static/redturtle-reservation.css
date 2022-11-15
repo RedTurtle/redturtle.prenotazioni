@@ -129,8 +129,11 @@ td.selected {
 #week-table-wrapper * {
   box-sizing: border-box;
 }
-#week-table-wrapper {
-  overflow: scroll;
+
+@media screen and (max-width: 768px) {
+  #week-table-wrapper {
+    overflow-x: auto;
+  }
 }
 
 #week-table-wrapper .table-title {
@@ -519,6 +522,8 @@ dl.portalMessage.refused dt {
 
 a.reservation-tooltip {
   position: relative;
+  font-size: 2.2rem;
+  margin-left: 0.5rem;
 }
 
 a.reservation-tooltip:hover::before,
@@ -534,6 +539,7 @@ a.reservation-tooltip:focus::before {
   z-index: 1000;
   box-shadow: 0 0 5px #ccc;
   padding: 1rem;
+  font-size: initial;
 }
 
 .template-delete_reservation .actions {
