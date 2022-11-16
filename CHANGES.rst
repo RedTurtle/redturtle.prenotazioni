@@ -5,7 +5,7 @@ Changelog
 1.4.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- fix: fixed booking labels [sara]
 
 
 1.4.4 (2022-09-30)
