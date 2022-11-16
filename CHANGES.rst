@@ -5,7 +5,7 @@ Changelog
 1.5.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- fix: fixed booking labels [sara]
 
 
 1.5.0 (2022-11-14)

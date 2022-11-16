@@ -72,8 +72,7 @@ i18n:domain="redturtle.prenotazioni">
                                         toLocalizedTime nocall:context/@@plone/toLocalizedTime">
                         <span i18n:translate="label_booking_date_range">
                         <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(booking_date)"></tal:from_date>
-                        from <tal:from i18n:name="from" tal:content="python:toLocalizedTime(booking_date, time_only=True)"></tal:from>
-                        to <tal:to i18n:name="to" tal:content="python:toLocalizedTime(booking_expiration_date, time_only=True)"></tal:to>
+                        at <tal:from i18n:name="at" tal:content="python:toLocalizedTime(booking_date, time_only=True)"></tal:from>
                         </span>
                     </td>
                 </div>
