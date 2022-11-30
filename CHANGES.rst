@@ -5,7 +5,8 @@ Changelog
 1.5.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- fix: export all visible fields in the ods report.
+  [cekk]
 
 
 1.5.1 (2022-11-16)

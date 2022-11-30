@@ -25,6 +25,7 @@ from pyexcel_ods3 import save_data
 from ZPublisher.Iterators import filestream_iterator
 from datetime import datetime
 from plone.api.content import get_state
+from zope.i18n import translate
 
 
 class InvalidDate(ValidationError):
@@ -254,19 +255,47 @@ WrappedSearchForm = wrap_form(SearchForm)
 
 
 class DownloadReservation(SearchForm):
+    @property
+    def columns(self):
+        custom_fields = [
+            translate(_("label_booking_{}".format(x)), context=self.request)
+            for x in self.context.visible_booking_fields
+        ]
+        return (
+            ["Nome completo", "Stato", "Postazione", "Tipologia prenotazione"]
+            + custom_fields
+            + [
+                "Data prenotazione",
+                "Codice prenotazione",
+                "Note del personale",
+            ]
+        )
 
-    columns = [
-        "Nome completo",
-        "Stato",
-        "Postazione",
-        "Tipologia prenotazione",
-        "Email",
-        "Telefono",
-        "Data prenotazione",
-        "Codice prenotazione",
-        "Note prenotante",
-        "Note del personale",
-    ]
+    def get_row_data(self, brain):
+        obj = brain.getObject()
+
+        custom_fields = [
+            getattr(obj, x, "") or "" for x in self.context.visible_booking_fields
+        ]
+
+        return (
+            [
+                brain.Title,
+                self.get_prenotazione_state(obj),
+                getattr(obj, "gate", "") or "",
+                getattr(obj, "booking_type", "") or "",
+            ]
+            + custom_fields
+            + [
+                self.prenotazioni_week_view.localized_time(brain["Date"])
+                + " - "
+                + self.prenotazioni_week_view.localized_time(
+                    brain["Date"], time_only=True
+                ),
+                obj.getBookingCode(),
+                obj.getStaff_notes() or "",
+            ]
+        )
 
     @memoize
     def get_prenotazioni_states(self):
@@ -315,20 +344,3 @@ class DownloadReservation(SearchForm):
             "Content-Disposition", 'attachment; filename="{}"'.format(filename)
         )
         return streamed
-
-    def get_row_data(self, brain):
-        obj = brain.getObject()
-        return [
-            brain.Title,
-            self.get_prenotazione_state(obj),
-            getattr(obj, "gate", "") or "",
-            getattr(obj, "booking_type", "") or "",
-            getattr(obj, "email", "") or "",
-            getattr(obj, "phone", "") or "",
-            self.prenotazioni_week_view.localized_time(brain["Date"])
-            + " - "
-            + self.prenotazioni_week_view.localized_time(brain["Date"], time_only=True),
-            obj.getBookingCode(),
-            getattr(obj, "description", "") or "",
-            obj.getStaff_notes() or "",
-        ]
