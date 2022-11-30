@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.2 (unreleased)
+1.5.2 (2022-11-30)
 ------------------
 
 - fix: export all visible fields in the ods report.
