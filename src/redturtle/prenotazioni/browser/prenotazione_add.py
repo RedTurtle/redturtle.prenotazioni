@@ -149,7 +149,7 @@ class AddForm(form.AddForm):
             u"Selected date: ${date} — Time: ${slot}",
             mapping={
                 "date": localized_date,
-                "slot": self.localized_time(booking_date, time_only=True),
+                "slot": booking_date.strftime("%H:%M"),
             },
         )
 

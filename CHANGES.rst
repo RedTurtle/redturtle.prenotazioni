@@ -5,8 +5,8 @@ Changelog
 1.5.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+fix: booking hour.
+  [cekk]
 
 1.5.4 (2022-12-06)
 ------------------
