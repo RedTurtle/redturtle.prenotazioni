@@ -5,7 +5,8 @@ Changelog
 1.5.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- fix: now handle differente dst in prenotazione_add booking_date.
+  [cekk]
 
 
 1.5.5 (2022-12-06)
