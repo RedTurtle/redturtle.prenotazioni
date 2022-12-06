@@ -5,7 +5,8 @@ Changelog
 1.5.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- chore: updated time label of booking add view
+  [sara]
 
 
 1.5.2 (2022-11-30)

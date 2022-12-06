@@ -881,10 +881,10 @@ msgstr "Campi obbligatori"
 msgid "label_same_day_booking_disallowed"
 msgstr "Disabilita la prenotazione per lo stesso giorno"
 
-#. Default: "Selected date: ${date} — Time slot: ${slot}"
+#. Default: "Selected date: ${date} — Time: ${slot}"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:153
 msgid "label_selected_date"
-msgstr "Data selezionata: ${date} — Fascia oraria: ${slot}"
+msgstr "Data selezionata: ${date} — Alle ore: ${slot}"
 
 #. Default: "Start date "
 #: redturtle/prenotazioni/browser/prenotazioni_search.py:53

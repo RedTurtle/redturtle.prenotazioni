@@ -878,7 +878,7 @@ msgstr ""
 msgid "label_same_day_booking_disallowed"
 msgstr ""
 
-#. Default: "Selected date: ${date} — Time slot: ${slot}"
+#. Default: "Selected date: ${date} — Time: ${slot}"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:153
 msgid "label_selected_date"
 msgstr ""
