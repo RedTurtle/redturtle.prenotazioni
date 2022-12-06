@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.4 (unreleased)
+1.5.4 (2022-12-06)
 ------------------
 
 - fix: show actual booking hour un prenotazione_add view.
