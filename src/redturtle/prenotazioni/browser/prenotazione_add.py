@@ -147,7 +147,10 @@ class AddForm(form.AddForm):
         return _(
             "label_selected_date",
             u"Selected date: ${date} — Time: ${slot}",
-            mapping={"date": localized_date, "slot": booking_date.hour()},
+            mapping={
+                "date": localized_date,
+                "slot": self.localized_time(booking_date, time_only=True),
+            },
         )
 
     @property

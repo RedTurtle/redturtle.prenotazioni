@@ -5,7 +5,8 @@ Changelog
 1.5.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- fix: show actual booking hour un prenotazione_add view.
+  [cekk]
 
 
 1.5.3 (2022-12-06)
