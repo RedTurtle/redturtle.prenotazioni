@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.6 (unreleased)
+1.5.6 (2022-12-06)
 ------------------
 
 - fix: now handle differente dst in prenotazione_add booking_date.
