@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.3 (unreleased)
+1.5.3 (2022-12-06)
 ------------------
 
 - chore: updated time label of booking add view
