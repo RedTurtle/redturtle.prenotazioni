@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.7 (unreleased)
+1.5.7 (2022-12-29)
 ------------------
 
 - updated mail sent to the final user to show report with delete option for accepted booking.
