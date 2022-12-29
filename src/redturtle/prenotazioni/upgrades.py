@@ -37,6 +37,10 @@ def update_rolemap(context):
     update_profile(context, "rolemap")
 
 
+def update_contentrules(context):
+    update_profile(context, "contentrules")
+
+
 def reload_gs_profile(context):
     loadMigrationProfile(
         context,

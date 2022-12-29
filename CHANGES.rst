@@ -5,8 +5,8 @@ Changelog
 1.5.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- updated mail sent to the final user to show report with delete option for accepted booking.
+  [daniele]
 
 1.5.6 (2022-12-06)
 ------------------
