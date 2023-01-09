@@ -13,7 +13,7 @@
    </condition>
    <condition type="plone.conditions.WorkflowTransition">
     <property name="wf_transitions">
-     <element>publish</element>
+     <element>confirm</element>
     </property>
    </condition>
   </conditions>
@@ -54,7 +54,7 @@ Se desideri visualizzare, stampare o cancellare questa prenotazione puoi utilizz
     <property
        name="message">
 L&#x27;orario della sua prenotazione &quot;${title}&quot; e&#x27; stata modificato.
-     
+
 La nuova data è ${booking_date} alle ore ${booking_time}.
 
 Controlla o stampa il nuovo promemoria a questo link: ${booking_print_url}
@@ -87,7 +87,7 @@ Controlla o stampa il nuovo promemoria a questo link: ${booking_print_url}
     <property name="source"/>
     <property name="message">
 La prenotazione per il ${booking_date} alle ${booking_time} è stata creata.
-     
+
 Riceverete una mail di conferma quando la prenotazione verrà confermata definitivamente.
 
 Se non hai salvato o stampato il promemoria, puoi visualizzarlo a questo link: ${booking_print_url}

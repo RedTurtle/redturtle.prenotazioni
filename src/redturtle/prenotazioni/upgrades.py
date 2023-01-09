@@ -96,6 +96,7 @@ def to_1100(context):
 def to_1400(context):
     """Upgrade the prenotazioni_workflow"""
     update_profile(context, "workflow")
+    update_contentrules(context)
 
     workflow_state_map = {
         "published": "confirmed",
