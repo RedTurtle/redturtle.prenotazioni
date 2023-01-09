@@ -76,7 +76,7 @@ td.selected {
 .template-prenotazioni_search table tr.pending {
   border-left: 2px solid #e2e721;
 }
-.template-prenotazioni_search table tr.published {
+.template-prenotazioni_search table tr.confirmed {
   border-left: 2px solid #007bb3;
 }
 .template-prenotazioni_search table tr.refused {
