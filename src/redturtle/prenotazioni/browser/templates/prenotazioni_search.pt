@@ -19,7 +19,7 @@
     <span i18n:translate="result_number">
       items matching your search terms.</span>
   </p>
-  <div tal:condition="bookings" 
+  <div tal:condition="bookings"
        tal:define="prenotazioni_states view/get_prenotazioni_states;">
     <tal:batch
         define="Batch python:modules['Products.CMFPlone'].Batch;
@@ -39,6 +39,7 @@
               <th i18n:translate="label_booking_email">Email</th>
               <th i18n:translate="reservation_date">Reservation date</th>
               <th i18n:translate="reservation_code">Code</th>
+              <th i18n:translate="" i18n:domain="plone">State</th>
             </tr>
           </thead>
           <tbody>
@@ -74,6 +75,7 @@
                        tal:content="email"></a></tal:email></td>
                 <td tal:content="date_time"></td>
                 <td tal:content="booking_code"></td>
+                <td tal:content="review_state" i18n:translate="" i18n:domain="plone"></td>
               </tr>
             </tal:block>
           </tbody>
