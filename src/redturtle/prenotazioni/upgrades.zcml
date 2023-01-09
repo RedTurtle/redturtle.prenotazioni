@@ -45,4 +45,12 @@
       destination="1300"
       handler=".upgrades.update_contentrules"
       />
+  <genericsetup:upgradeStep
+      title="Upgrade to 1400"
+      description="Upgrade prenotazioni_workflow"
+      profile="redturtle.prenotazioni:default"
+      source="1300"
+      destination="1400"
+      handler=".upgrades.to_1400"
+      />
 </configure>

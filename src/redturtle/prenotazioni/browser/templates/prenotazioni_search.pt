@@ -75,7 +75,7 @@
                        tal:content="email"></a></tal:email></td>
                 <td tal:content="date_time"></td>
                 <td tal:content="booking_code"></td>
-                <td tal:content="review_state" i18n:translate="" i18n:domain="plone"></td>
+                <td tal:content="review_state" i18n:translate=""></td>
               </tr>
             </tal:block>
           </tbody>

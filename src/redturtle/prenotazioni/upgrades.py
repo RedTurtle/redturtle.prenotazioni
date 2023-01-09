@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone.app.upgrade.utils import loadMigrationProfile
+from plone.app.workflow.remap import remap_workflow
 from plone import api
 
 import logging
@@ -90,3 +91,20 @@ def to_1100(context):
         if data_scadenza:
             obj.booking_expiration_date = data_scadenza
             obj.data_scadenza = None
+
+
+def to_1400(context):
+    """Upgrade the prenotazioni_workflow"""
+    update_profile(context, "workflow")
+
+    workflow_state_map = {
+        "published": "confirmed",
+        "private": "private",
+        "pending": "pending",
+        "refused": "refused",
+    }
+
+    # if we find the exception the code must fail
+    remap_workflow(
+        context, ("Prenotazione",), ("prenotazioni_workflow",), workflow_state_map
+    )

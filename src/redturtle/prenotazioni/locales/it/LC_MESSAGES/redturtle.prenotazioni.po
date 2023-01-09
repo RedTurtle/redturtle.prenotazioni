@@ -17,6 +17,19 @@ msgstr ""
 "Language: en_US\n"
 "X-Generator: Lokalize 1.5\n"
 
+# Workflow prenotazioni_workflow states translation
+msgid "confirmed"
+msgstr "Confermato"
+
+msgid "refused"
+msgstr "Rifiutato"
+
+msgid "pending"
+msgstr "In attesa"
+
+msgid "private"
+msgstr "Privato"
+
 #: redturtle/prenotazioni/browser/prenotazioni_search.py:54
 #: redturtle/prenotazioni/browser/stats/booking_stats.py:40
 #: redturtle/prenotazioni/browser/vacations.py:72
