@@ -5,8 +5,8 @@ Changelog
 1.5.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Show review state column of prenotations (#37119)
+  [foxtrot-dfm1]
 
 1.5.7 (2022-12-29)
 ------------------
