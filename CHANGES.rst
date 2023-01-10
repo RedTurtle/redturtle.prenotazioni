@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.8 (unreleased)
+1.6.0 (2023-01-10)
 ------------------
 
 - The workflow state 'public' of prenotazioni_workflow was renamed to 'confirmed'
