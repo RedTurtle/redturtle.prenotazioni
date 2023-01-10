@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
+from zope.component import queryUtility
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
+from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
 from plone import api
 
 import logging
@@ -109,3 +113,30 @@ def to_1400(context):
     remap_workflow(
         context, ("Prenotazione",), ("prenotazioni_workflow",), workflow_state_map
     )
+
+    rule_storage = queryUtility(IRuleStorage)
+
+    for rule in rule_storage.items():
+        rule = rule[1]
+
+        if "Prenotazione" in getattr(rule.conditions[0], "check_types", []):
+            if len(rule.conditions) > 1:
+                if isinstance(
+                    rule.conditions[1],
+                    WorkflowTransitionCondition,
+                ):
+                    wf_states = rule.conditions[1].wf_transitions
+
+                    if "publish" in wf_states:
+                        wf_states.remove("publish")
+                        wf_states.append("confirm")
+
+                if isinstance(
+                    rule.conditions[1],
+                    WorkflowStateCondition,
+                ):
+                    wf_states = rule.conditions[1].wf_states
+
+                    if "publish" in wf_states:
+                        wf_states.remove("published")
+                        wf_states.append("confirmed")
