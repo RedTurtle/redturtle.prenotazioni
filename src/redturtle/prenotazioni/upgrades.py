@@ -125,18 +125,22 @@ def to_1400(context):
                     rule.conditions[1],
                     WorkflowTransitionCondition,
                 ):
-                    wf_states = rule.conditions[1].wf_transitions
+                    wf_states = list(rule.conditions[1].wf_transitions)
 
                     if "publish" in wf_states:
                         wf_states.remove("publish")
                         wf_states.append("confirm")
 
+                        rule.conditions[1].wf_transitions = set(wf_states)
+
                 if isinstance(
                     rule.conditions[1],
                     WorkflowStateCondition,
                 ):
-                    wf_states = rule.conditions[1].wf_states
+                    wf_states = list(rule.conditions[1].wf_states)
 
                     if "publish" in wf_states:
                         wf_states.remove("published")
                         wf_states.append("confirmed")
+
+                        rule.conditions[1].wf_states = set(wf_states)
