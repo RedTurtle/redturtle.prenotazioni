@@ -5,6 +5,8 @@ Changelog
 1.5.8 (unreleased)
 ------------------
 
+- The workflow state 'public' of prenotazioni_workflow was renamed to 'confirmed'
+  [foxtrot-dfm1]
 - Show review state column of prenotations (#37119)
   [foxtrot-dfm1]
 
