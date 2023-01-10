@@ -107,6 +107,8 @@ def to_1400(context):
         "private": "private",
         "pending": "pending",
         "refused": "refused",
+        # handle case of the upgrade step double run
+        "confirmed": "confirmed",
     }
 
     # if we find the exception the code must fail
