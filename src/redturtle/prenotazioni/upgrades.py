@@ -119,7 +119,9 @@ def to_1400(context):
     for rule in rule_storage.items():
         rule = rule[1]
 
-        if "Prenotazione" in getattr(rule.conditions[0], "check_types", []):
+        if "Prenotazione" in getattr(
+            rule.conditions and rule.conditions[0], "check_types", []
+        ):
             if len(rule.conditions) > 1:
                 if isinstance(
                     rule.conditions[1],
