@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
+from zope.component import queryUtility
 from plone.app.upgrade.utils import loadMigrationProfile
+from plone.app.workflow.remap import remap_workflow
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
+from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
+from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone import api
 
 import logging
@@ -90,3 +96,66 @@ def to_1100(context):
         if data_scadenza:
             obj.booking_expiration_date = data_scadenza
             obj.data_scadenza = None
+
+
+def to_1400(context):
+    """Upgrade the prenotazioni_workflow"""
+    update_profile(context, "workflow")
+    update_contentrules(context)
+
+    workflow_state_map = {
+        "published": "confirmed",
+        "private": "private",
+        "pending": "pending",
+        "refused": "refused",
+        # handle case of the upgrade step double run
+        "confirmed": "confirmed",
+    }
+
+    # if we find the exception the code must fail
+    remap_workflow(
+        context, ("Prenotazione",), ("prenotazioni_workflow",), workflow_state_map
+    )
+
+    rule_storage = queryUtility(IRuleStorage)
+
+    for rule in rule_storage.items():
+        rule = rule[1]
+
+        portal_type_conditions = filter(
+            lambda item: isinstance(item, PortalTypeCondition), rule.conditions
+        )
+
+        workflow_state_conditions = filter(
+            lambda item: isinstance(item, WorkflowStateCondition), rule.conditions
+        )
+
+        workflow_transition_conditions = filter(
+            lambda item: isinstance(item, WorkflowTransitionCondition), rule.conditions
+        )
+
+        for portal_type_condition in portal_type_conditions:
+            if "Prenotazione" in getattr(portal_type_condition, "check_types", []):
+                for workflow_transition_condition in workflow_transition_conditions:
+                    if isinstance(
+                        workflow_transition_condition, WorkflowTransitionCondition
+                    ):
+                        wf_states = list(workflow_transition_condition.wf_transitions)
+
+                        if "publish" in wf_states:
+                            wf_states.remove("publish")
+                            wf_states.append("confirm")
+
+                            workflow_transition_condition.wf_transitions = set(
+                                wf_states
+                            )
+
+                for workflow_state_condition in workflow_state_conditions:
+                    if isinstance(workflow_state_condition, WorkflowStateCondition):
+                        wf_states = list(workflow_state_condition.wf_states)
+
+                        if "publish" in wf_states:
+                            wf_states.remove("published")
+                            wf_states.append("confirmed")
+
+                            workflow_state_condition.wf_states = set(wf_states)
