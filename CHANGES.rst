@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.6.1 (unreleased)
+1.6.1 (2023-01-11)
 ------------------
 
 - Handle confirmed state instead of published.
