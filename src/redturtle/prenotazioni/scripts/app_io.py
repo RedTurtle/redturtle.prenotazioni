@@ -188,7 +188,7 @@ def _main(commit, verbose, io_secret, test_message, test_message_cf):
 
     # XXX: valutare un filtro più preciso sulle ricerche e degli indici/metadati sul catalogo
     for brain in catalog.unrestrictedSearchResults(
-        portal_type="Prenotazione", review_state="published"
+        portal_type="Prenotazione", review_state="confirmed"
     ):
         obj = brain.getObject()
         if not obj.app_io_enabled:

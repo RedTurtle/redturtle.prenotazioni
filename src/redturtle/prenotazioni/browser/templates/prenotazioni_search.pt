@@ -87,7 +87,7 @@
       <h4>Stato delle prenotazioni</h4>
       <ul>
         <li class="pending" tal:content="python:prenotazioni_states['pending']"></li>
-        <li class="published" tal:content="python:prenotazioni_states['published']"></li>
+        <li class="confirmed" tal:content="python:prenotazioni_states['confirmed']"></li>
         <li class="refused" tal:content="python:prenotazioni_states['refused']"></li>
       </ul>
     </div>

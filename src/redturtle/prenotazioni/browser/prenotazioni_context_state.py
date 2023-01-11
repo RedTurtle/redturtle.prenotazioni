@@ -67,7 +67,7 @@ class PrenotazioniContextState(BrowserView):
     This is a view to for checking prenotazioni context state
     """
 
-    active_review_state = ["published", "pending"]
+    active_review_state = ["confirmed", "pending"]
     add_view = "prenotazione_add"
     day_type = "PrenotazioniDay"
     week_type = "PrenotazioniWeek"
@@ -387,7 +387,7 @@ class PrenotazioniContextState(BrowserView):
 
         :param booking_date: a DateTime object
         """
-        active_review_states = ["published", "pending"]
+        active_review_states = ["confirmed", "pending"]
         brains = self.conflict_manager.unrestricted_prenotazioni(
             Date={
                 "query": [
@@ -621,7 +621,7 @@ class PrenotazioniContextState(BrowserView):
         interval = self.get_day_intervals(booking_date)[period]
         if interval.start() == "" and interval.stop() == "":
             return []
-        allowed_review_states = ["pending", "published", PAUSE_SLOT]
+        allowed_review_states = ["pending", "confirmed", PAUSE_SLOT]
         # all slots
         slots = self.get_existing_slots_in_day_folder(booking_date)
         # the ones in the interval

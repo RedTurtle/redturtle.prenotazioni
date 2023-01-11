@@ -21,7 +21,7 @@ class ConflictManager(object):
     portal_type = "Prenotazione"
     # We consider only those state as active. I.e.: prenotazioni rejected are
     # not counted!
-    active_review_state = ["published", "pending"]
+    active_review_state = ["confirmed", "pending"]
 
     def __init__(self, context):
         """

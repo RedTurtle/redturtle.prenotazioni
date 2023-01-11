@@ -288,7 +288,7 @@ class VacationBooking(form.Form):
 class VacationBookingShow(BrowserView):
 
     """
-    Should this functionality be published?
+    Should this functionality be confirmed?
     """
 
     def __call__(self):

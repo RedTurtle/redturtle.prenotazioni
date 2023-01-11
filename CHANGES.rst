@@ -5,7 +5,8 @@ Changelog
 1.6.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Handle confirmed state instead of published.
+  [cekk]
 
 
 1.6.0 (2023-01-10)
