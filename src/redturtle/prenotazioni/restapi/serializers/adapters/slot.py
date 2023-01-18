@@ -4,7 +4,6 @@ from zope.component import adapter
 from plone.restapi.interfaces import ISerializeToJson
 
 from redturtle.prenotazioni.adapters.slot import ISlot
-from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 
 
 @implementer(ISerializeToJson)
