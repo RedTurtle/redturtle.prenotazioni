@@ -28,7 +28,7 @@
 
   <!-- Schema, class and security -->
   <property name="add_permission">plone.app.contenttypes.addFolder</property>
-  <property name="klass">plone.app.contenttypes.content.Folder</property>
+  <property name="klass">redturtle.prenotazioni.content.prenotazioni_folder_container.PrenotazioniFolderContainer</property>
   <property name="model_file">plone.app.contenttypes.schema:folder.xml</property>
   <property name="model_source"></property>
   <property name="schema"></property>
