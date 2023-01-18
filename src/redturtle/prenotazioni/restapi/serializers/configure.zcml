@@ -3,6 +3,6 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     >
 
-  <include pakcage=".adapters" />
+  <include package=".adapters" />
 
 </configure>

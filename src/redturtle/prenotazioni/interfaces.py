@@ -10,4 +10,8 @@ class IRedturtlePrenotazioniLayer(IDefaultBrowserLayer):
 
 
 class IPause(Interface):
-    """Merker interface that defines a pause fake type object"""
+    """Marker interface that defines a pause fake type object"""
+
+
+class IDataGridList(Interface):
+    """Marker interfeace for list field which uses datagridfield widget"""

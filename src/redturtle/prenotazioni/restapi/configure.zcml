@@ -4,5 +4,6 @@
     >
 
   <include package=".services" />
+  <include package=".serializers" />
 
 </configure>
