@@ -60,7 +60,7 @@ require(["jquery"], function ($) {
     let arr = $('input[name^="form.widgets.booking_type"]');
     let booking_type_cookie = getCookie('TipologiaPrenotazione_cookie');
 
-    if(!preselcted_booking_type){
+    if(!booking_type_cookie){
       return;
     }
 
