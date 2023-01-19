@@ -40,7 +40,10 @@ require(["jquery"], function ($) {
       actionBook.addClass("context");
     }
   });
+
   $(document).ready(function() {
+    const TIPOLOGIA_PRENOTAZIONE_COOKIE = "TipologiaPrenotazione_cookie";
+
     // check if we have preselected bookin_type
     function getCookie(name) {
       let cookie = {};
@@ -50,12 +53,15 @@ require(["jquery"], function ($) {
       })
       return decodeURI(cookie[name]);
     }
+    function eraseCookie(name) {
+      document.cookie = name+'=; Max-Age=-99999999;';
+    }
 
     let arr = $('input[name^="form.widgets.booking_type"]');
-    let preselcted_booking_type = getCookie('TipologiaPrenotazione_cookie');
+    let booking_type_cookie = getCookie('TipologiaPrenotazione_cookie');
 
     // sanitize type
-    preselcted_booking_type = preselcted_booking_type.trim().slice(1, preselcted_booking_type.length - 1)
+    preselcted_booking_type = booking_type_cookie.trim().slice(1, booking_type_cookie.length - 1)
 
     if(!preselcted_booking_type){
       return;
@@ -66,6 +72,8 @@ require(["jquery"], function ($) {
         $(arr[i]).prop('checked', true);
       }
     };
+
+    eraseCookie(TIPOLOGIA_PRENOTAZIONE_COOKIE);
 
   })
 });
