@@ -310,7 +310,7 @@ class View(BaseView):
                 TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE,
                 str(prenotation_type),
                 expires=expires,
-                path="/".join(api.portal.get().getPhysicalPath()),
+                path="/",
             )
 
     def __call__(self):

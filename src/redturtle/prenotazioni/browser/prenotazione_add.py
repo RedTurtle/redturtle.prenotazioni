@@ -310,7 +310,7 @@ class AddForm(form.AddForm):
 
         self.request.response.expireCookie(
             TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE,
-            path="/".join(api.portal.get().getPhysicalPath()),
+            path="/",
         )
 
         return self.request.response.redirect(target)
