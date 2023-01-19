@@ -60,12 +60,12 @@ require(["jquery"], function ($) {
     let arr = $('input[name^="form.widgets.booking_type"]');
     let booking_type_cookie = getCookie('TipologiaPrenotazione_cookie');
 
-    // sanitize type
-    preselcted_booking_type = booking_type_cookie.trim().slice(1, booking_type_cookie.length - 1)
-
     if(!preselcted_booking_type){
       return;
     }
+
+    // sanitize type
+    preselcted_booking_type = booking_type_cookie.trim().slice(1, booking_type_cookie.length - 1)
 
     for(let i = 0; i < arr.length; i++){
       if(arr[i].value.includes(preselcted_booking_type)){
