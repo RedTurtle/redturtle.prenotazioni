@@ -48,41 +48,8 @@ require(["jquery"], function ($) {
       return;
     }
 
-    // check if we have preselected bookin_type
-    function getCookie(name) {
-      let cookie = {};
-      document.cookie.split(';').forEach(function(el) {
-        let [k,v] = el.split('=');
-        cookie[k.trim()] = v;
-      })
-      return decodeURI(cookie[name]);
-    }
-    function setCookie(key, value, expireDays, expireHours, expireMinutes, expireSeconds) {
-      var expireDate = new Date();
-      if (expireDays) {
-          expireDate.setDate(expireDate.getDate() + expireDays);
-      }
-      if (expireHours) {
-          expireDate.setHours(expireDate.getHours() + expireHours);
-      }
-      if (expireMinutes) {
-          expireDate.setMinutes(expireDate.getMinutes() + expireMinutes);
-      }
-      if (expireSeconds) {
-          expireDate.setSeconds(expireDate.getSeconds() + expireSeconds);
-      }
-      document.cookie = key +"="+ escape(value) +
-          ";domain="+ window.location.hostname +
-          ";path=/"+
-          ";expires="+expireDate.toUTCString();
-    }
-
-    function deleteCookie(name) {
-        setCookie(name, "", null , null , null, 1);
-    }
-
     let arr = $('input[name^="form.widgets.booking_type"]');
-    let booking_type_cookie = getCookie(TIPOLOGIA_PRENOTAZIONE_COOKIE);
+    let booking_type_cookie = $.cookie(TIPOLOGIA_PRENOTAZIONE_COOKIE);
 
     if(!booking_type_cookie){
       return;
@@ -97,7 +64,7 @@ require(["jquery"], function ($) {
       }
     };
 
-    deleteCookie(TIPOLOGIA_PRENOTAZIONE_COOKIE);
+    document.cookie = TIPOLOGIA_PRENOTAZIONE_COOKIE +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 
   })
 });
