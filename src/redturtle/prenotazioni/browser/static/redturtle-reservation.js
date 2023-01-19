@@ -44,6 +44,10 @@ require(["jquery"], function ($) {
   $(document).ready(function() {
     const TIPOLOGIA_PRENOTAZIONE_COOKIE = "TipologiaPrenotazione_cookie";
 
+    if(!$("form.kssattr-formname-prenotazione_add").length){
+      return;
+    }
+
     // check if we have preselected bookin_type
     function getCookie(name) {
       let cookie = {};
