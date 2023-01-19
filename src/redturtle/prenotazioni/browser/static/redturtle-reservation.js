@@ -53,12 +53,32 @@ require(["jquery"], function ($) {
       })
       return decodeURI(cookie[name]);
     }
-    function eraseCookie(name) {
-      document.cookie = name+'=; Max-Age=-99999999;';
+    function setCookie(key, value, expireDays, expireHours, expireMinutes, expireSeconds) {
+      var expireDate = new Date();
+      if (expireDays) {
+          expireDate.setDate(expireDate.getDate() + expireDays);
+      }
+      if (expireHours) {
+          expireDate.setHours(expireDate.getHours() + expireHours);
+      }
+      if (expireMinutes) {
+          expireDate.setMinutes(expireDate.getMinutes() + expireMinutes);
+      }
+      if (expireSeconds) {
+          expireDate.setSeconds(expireDate.getSeconds() + expireSeconds);
+      }
+      document.cookie = key +"="+ escape(value) +
+          ";domain="+ window.location.hostname +
+          ";path=/"+
+          ";expires="+expireDate.toUTCString();
+    }
+
+    function deleteCookie(name) {
+        setCookie(name, "", null , null , null, 1);
     }
 
     let arr = $('input[name^="form.widgets.booking_type"]');
-    let booking_type_cookie = getCookie('TipologiaPrenotazione_cookie');
+    let booking_type_cookie = getCookie(TIPOLOGIA_PRENOTAZIONE_COOKIE);
 
     if(!booking_type_cookie){
       return;
@@ -73,7 +93,7 @@ require(["jquery"], function ($) {
       }
     };
 
-    eraseCookie(TIPOLOGIA_PRENOTAZIONE_COOKIE);
+    deleteCookie(TIPOLOGIA_PRENOTAZIONE_COOKIE);
 
   })
 });
