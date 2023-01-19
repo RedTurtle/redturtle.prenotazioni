@@ -5,7 +5,8 @@ Changelog
 1.6.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Handle prenotation type passed by url.
+  [foxtrot-dfm1]
 
 
 1.6.1 (2023-01-11)

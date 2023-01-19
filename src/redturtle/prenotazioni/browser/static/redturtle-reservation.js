@@ -40,4 +40,32 @@ require(["jquery"], function ($) {
       actionBook.addClass("context");
     }
   });
+  $(document).ready(function() {
+    // check if we have preselected bookin_type
+    function getCookie(name) {
+      let cookie = {};
+      document.cookie.split(';').forEach(function(el) {
+        let [k,v] = el.split('=');
+        cookie[k.trim()] = v;
+      })
+      return decodeURI(cookie[name]);
+    }
+
+    let arr = $('input[name^="form.widgets.booking_type"]');
+    let preselcted_booking_type = getCookie('TipologiaPrenotazione_cookie');
+
+    // sanitize type
+    preselcted_booking_type = preselcted_booking_type.trim().slice(1, preselcted_booking_type.length - 1)
+
+    if(!preselcted_booking_type){
+      return;
+    }
+
+    for(let i = 0; i < arr.length; i++){
+      if(arr[i].value.includes(preselcted_booking_type)){
+        $(arr[i]).prop('checked', true);
+      }
+    };
+
+  })
 });

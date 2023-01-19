@@ -11,6 +11,7 @@
             <p class="documentDescription" tal:condition="context/description">
               ${context/description}
             </p>
+            <h3>${view/get_prenotation_type}</h3>
         </div>
 
         <div class="documentDescription-box clear-block" tal:condition="context/descriptionAgenda">
