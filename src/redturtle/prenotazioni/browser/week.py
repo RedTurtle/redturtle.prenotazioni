@@ -205,7 +205,7 @@ class View(BaseView):
         booking_url = self.prenotazioni.get_anonymous_booking_url(day, slot)
         message = _(
             "foreseen_booking_time",
-            default=u"Foreseen booking time: ${booking_time}",
+            default="Foreseen booking time: ${booking_time}",
             mapping={
                 "booking_time": booking_url["title"],
                 "day": "{} {}".format(
@@ -224,7 +224,7 @@ class View(BaseView):
         booking_url = self.prenotazioni.get_anonymous_booking_url(day, slot)
         message = _(
             "foreseen_busy_time",
-            default=u"${booking_time}, Orario non disponibile",
+            default="${booking_time}, Orario non disponibile",
             mapping={"booking_time": booking_url["title"]},
         )
         return message
@@ -236,7 +236,7 @@ class View(BaseView):
 
         message = _(
             "prenotation_slot_message",
-            default=u"${day}, ore ${booking_time}",
+            default="${day}, ore ${booking_time}",
             mapping={
                 "booking_time": link["title"],
                 "day": "{} {}".format(
@@ -256,7 +256,7 @@ class View(BaseView):
 
         message = _(
             "booked_prenotation_message",
-            default=u"${day}, ore ${booking_time}, prenotato da ${booked_by}, prenotazione: ${booking_type} durata: ${duration} minuti",
+            default="${day}, ore ${booking_time}, prenotato da ${booked_by}, prenotazione: ${booking_type} durata: ${duration} minuti",
             mapping={
                 "booking_time": booking.Date().strftime("%H:%M"),
                 "day": "{} {}".format(

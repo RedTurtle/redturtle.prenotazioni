@@ -28,10 +28,8 @@ class IMoveForm(Interface):
     Interface for moving a prenotazione
     """
 
-    booking_date = Datetime(
-        title=_("label_booking_time", u"Booking time"), default=None
-    )
-    gate = TextLine(title=_("label_gate", u"Gate"), default=u"", required=False)
+    booking_date = Datetime(title=_("label_booking_time", "Booking time"), default=None)
+    gate = TextLine(title=_("label_gate", "Gate"), default="", required=False)
 
 
 @implementer(IMoveForm)
@@ -148,7 +146,7 @@ class MoveForm(form.Form):
             )
         return urls
 
-    @button.buttonAndHandler(_(u"action_move", u"Move"))
+    @button.buttonAndHandler(_("action_move", "Move"))
     def action_move(self, action):
         """
         Book this resource
@@ -164,12 +162,12 @@ class MoveForm(form.Form):
 
         if conflict_manager.conflicts(data, exclude=exclude):
             msg = _(
-                u"Sorry, this slot is not available or does not fit your " u"booking."
+                "Sorry, this slot is not available or does not fit your " "booking."
             )
             api.portal.show_message(msg, self.request, type="error")
             raise ActionExecutionError(Invalid(msg))
         if self.exceedes_date_limit(data):
-            msg = _(u"Sorry, you can not book this slot for now.")
+            msg = _("Sorry, you can not book this slot for now.")
             api.portal.show_message(msg, self.request, type="error")
             raise ActionExecutionError(Invalid(msg))
 
@@ -184,7 +182,7 @@ class MoveForm(form.Form):
         )
         return self.request.response.redirect(target)
 
-    @button.buttonAndHandler(_(u"action_cancel", u"Cancel"))
+    @button.buttonAndHandler(_("action_cancel", "Cancel"))
     def action_cancel(self, action):
         """
         Cancel

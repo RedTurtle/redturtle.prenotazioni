@@ -17,7 +17,7 @@ import six
 
 
 class InvalidDate(ValidationError):
-    __doc__ = _("invalid_end:search_date", u"Invalid start or end date")
+    __doc__ = _("invalid_end:search_date", "Invalid start or end date")
 
 
 def check_date(value):
@@ -34,16 +34,16 @@ class IQueryForm(Interface):
     Interface for querying stuff
     """
 
-    user = TextLine(title=_(u"label_user", "User"), default=u"", required=False)
+    user = TextLine(title=_("label_user", "User"), default="", required=False)
     start = Date(
-        title=_("label_start", u"Start date "),
+        title=_("label_start", "Start date "),
         description=_(" format (YYYY-MM-DD)"),
         default=None,
         constraint=check_date,
         required=False,
     )
     end = Date(
-        title=_("label_end", u"End date"),
+        title=_("label_end", "End date"),
         description=_(" format (YYYY-MM-DD)"),
         default=None,
         constraint=check_date,
