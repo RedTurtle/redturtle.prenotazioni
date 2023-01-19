@@ -12,7 +12,7 @@
               ${context/description}
             </p>
         </div>
-        <h3>${view/get_prenotation_type}</h3>
+        <h3>Tipo di prenotazione: ${view/get_prenotation_type}</h3>
         <div class="documentDescription-box clear-block" tal:condition="context/descriptionAgenda">
             <span tal:replace="structure context/descriptionAgenda/raw" />
         </div>
