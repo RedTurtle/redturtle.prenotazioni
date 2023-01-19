@@ -65,7 +65,7 @@ require(["jquery"], function ($) {
     }
 
     // sanitize type
-    preselcted_booking_type = booking_type_cookie.trim().slice(1, booking_type_cookie.length - 1)
+    let preselcted_booking_type = booking_type_cookie.trim().slice(1, booking_type_cookie.length - 1)
 
     for(let i = 0; i < arr.length; i++){
       if(arr[i].value.includes(preselcted_booking_type)){
