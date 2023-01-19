@@ -14,7 +14,7 @@ class IConflictManager(Interface):
     """
     Interface for a booker
     """
-    
+
     def conflicts(data, exclude=None):
         """Check for conflicts"""
 
