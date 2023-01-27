@@ -62,7 +62,7 @@ require(["jquery"], function ($) {
         return '';
       }
 
-      return decodeURI(cookie_str);
+      return decodeURIComponent(cookie_str);
     }
 
     if(!$("form.kssattr-formname-prenotazione_add").length){
