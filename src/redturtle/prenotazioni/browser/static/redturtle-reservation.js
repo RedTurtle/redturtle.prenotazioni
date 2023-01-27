@@ -52,9 +52,17 @@ require(["jquery"], function ($) {
       let cookie = {};
       document.cookie.split(';').forEach(function(el) {
         let [k,v] = el.split('=');
-        cookie[k.trim()] = v;
+        cookie[k.trim("'")] = v;
       })
-      return UnicodeDecodeB64(cookie[name].replace(/(^"|"$)/g, ''));
+      let cookie_str = cookie[name]
+
+      if (cookie_str){
+        cookie_str = cookie_str.replace(/(^"|"$)/g, '');
+      } else {
+        return '';
+      }
+
+      return decodeURI(cookie_str);
     }
 
     if(!$("form.kssattr-formname-prenotazione_add").length){
