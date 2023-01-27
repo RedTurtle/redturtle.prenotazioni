@@ -15,7 +15,7 @@ from zope.interface import implementer
 from zope.schema.vocabulary import getVocabularyRegistry
 
 import time
-
+import base64
 
 TIPOLOGIA_PRENOTAZIONE_NAME = "TipologiaPrenotazione"
 TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE = "TipologiaPrenotazione_cookie"
@@ -308,7 +308,7 @@ class View(BaseView):
             expires = formatdate(expiration_seconds, usegmt=True)
             self.request.response.setCookie(
                 TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE,
-                str(prenotation_type),
+                base64.b64encode(prenotation_type.encode("utf-8")),
                 expires=expires,
                 path="/",
             )

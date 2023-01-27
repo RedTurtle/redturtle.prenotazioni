@@ -44,13 +44,17 @@ require(["jquery"], function ($) {
   $(document).ready(function() {
     const TIPOLOGIA_PRENOTAZIONE_COOKIE = "TipologiaPrenotazione_cookie";
 
+    function UnicodeDecodeB64(str) {
+      return decodeURIComponent(atob(str));
+    }
+
     function getCookie(name) {
       let cookie = {};
       document.cookie.split(';').forEach(function(el) {
         let [k,v] = el.split('=');
         cookie[k.trim()] = v;
       })
-      return decodeURI(cookie[name]);
+      return UnicodeDecodeB64(cookie[name].replace(/(^"|"$)/g, ''));
     }
 
     if(!$("form.kssattr-formname-prenotazione_add").length){
