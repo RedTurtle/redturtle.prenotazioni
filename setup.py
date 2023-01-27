@@ -59,7 +59,6 @@ setup(
         "collective.contentrules.mailfromfield",
         "pyinter",
         "collective.honeypot",
-        "collective.dexteritytextindexer",
         "collective.z3cform.datagridfield>=3.0.0",
         "pyexcel_ods3",
         "click",

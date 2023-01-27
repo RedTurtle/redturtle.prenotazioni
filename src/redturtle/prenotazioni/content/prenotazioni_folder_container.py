@@ -7,4 +7,4 @@ from plone.app.contenttypes.content import Folder
 class PrenotazioniFolderContainer(Folder):
     @property
     def exclude_from_nav(self):
-        return False
+        return True
