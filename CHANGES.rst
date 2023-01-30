@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.6.2 (unreleased)
+1.6.2 (2023-01-30)
 ------------------
 
 - Handle prenotation type passed by url.
