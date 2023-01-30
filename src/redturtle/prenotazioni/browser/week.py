@@ -15,7 +15,6 @@ from zope.interface import implementer
 from zope.schema.vocabulary import getVocabularyRegistry
 
 import time
-import base64
 
 TIPOLOGIA_PRENOTAZIONE_NAME = "TipologiaPrenotazione"
 TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE = "TipologiaPrenotazione_cookie"
