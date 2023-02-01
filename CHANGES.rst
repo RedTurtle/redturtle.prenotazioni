@@ -5,7 +5,8 @@ Changelog
 1.6.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix cookies encoding
+  [foxtrot-dfm1]
 
 
 1.6.2 (2023-01-30)
