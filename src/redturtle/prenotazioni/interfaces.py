@@ -10,4 +10,4 @@ class IRedturtlePrenotazioniLayer(IDefaultBrowserLayer):
 
 
 class IPause(Interface):
-    """Merker interface that defines a pause fake type object"""
+    """Marker interface that defines a pause fake type object"""

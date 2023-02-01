@@ -43,10 +43,10 @@ class IAddForm(IPrenotazione):
     """
 
     title = TextLine(
-        title=_("label_booking_title", u"Fullname"), default=u"", required=True
+        title=_("label_booking_title", "Fullname"), default="", required=True
     )
     description = Text(
-        title=_("label_booking_description", u"Subject"), default=u"", required=False
+        title=_("label_booking_description", "Subject"), default="", required=False
     )
 
 
@@ -146,7 +146,7 @@ class AddForm(form.AddForm):
         localized_date = self.localized_time(booking_date)
         return _(
             "label_selected_date",
-            u"Selected date: ${date} — Time: ${slot}",
+            "Selected date: ${date} — Time: ${slot}",
             mapping={
                 "date": localized_date,
                 "slot": booking_date.asdatetime().strftime("%H:%M"),
@@ -159,7 +159,7 @@ class AddForm(form.AddForm):
         """
         Check if user is anonymous
         """
-        return _("help_prenotazione_add", u"")
+        return _("help_prenotazione_add", "")
 
     @property
     @memoize
@@ -250,7 +250,7 @@ class AddForm(form.AddForm):
             return False
         return True
 
-    @button.buttonAndHandler(_(u"action_book", u"Book"))
+    @button.buttonAndHandler(_("action_book", "Book"))
     def action_book(self, action):
         """
         Book this resource
@@ -268,24 +268,24 @@ class AddForm(form.AddForm):
         for field_id in self.fields.keys():
             if field_id in required and not data.get(field_id, ""):
                 raise WidgetActionExecutionError(
-                    field_id, Invalid(_(u"Required input is missing."))
+                    field_id, Invalid(_("Required input is missing."))
                 )
         if not data.get("booking_date"):
             raise WidgetActionExecutionError(
-                "booking_date", Invalid(_(u"Please provide a booking date"))
+                "booking_date", Invalid(_("Please provide a booking date"))
             )
 
         conflict_manager = self.prenotazioni.conflict_manager
         if conflict_manager.conflicts(data):
-            msg = _(u"Sorry, this slot is not available anymore.")
+            msg = _("Sorry, this slot is not available anymore.")
             raise WidgetActionExecutionError("booking_date", Invalid(msg))
         if self.exceedes_date_limit(data):
-            msg = _(u"Sorry, you can not book this slot for now.")
+            msg = _("Sorry, you can not book this slot for now.")
             raise WidgetActionExecutionError("booking_date", Invalid(msg))
 
         obj = self.do_book(data)
         if not obj:
-            msg = _(u"Sorry, this slot is not available anymore.")
+            msg = _("Sorry, this slot is not available anymore.")
             api.portal.show_message(message=msg, type="warning", request=self.request)
             target = self.back_to_booking_url
             return self.request.response.redirect(target)
@@ -307,7 +307,7 @@ class AddForm(form.AddForm):
         self.send_email_to_managers(booking=obj)
         return self.request.response.redirect(target)
 
-    @button.buttonAndHandler(_(u"action_cancel", default=u"Cancel"), name="cancel")
+    @button.buttonAndHandler(_("action_cancel", default="Cancel"), name="cancel")
     def action_cancel(self, action):
         """
         Cancel

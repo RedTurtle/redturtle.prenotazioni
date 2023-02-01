@@ -49,7 +49,7 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
-    python_requires="==2.7, >=3.6",
+    python_requires=">=2.7, >=3.6",
     install_requires=[
         "setuptools",
         # -*- Extra requirements: -*-
@@ -59,8 +59,7 @@ setup(
         "collective.contentrules.mailfromfield",
         "pyinter",
         "collective.honeypot",
-        "collective.dexteritytextindexer",
-        "collective.z3cform.datagridfield>=2.0",
+        "collective.z3cform.datagridfield>=3.0.0",
         "pyexcel_ods3",
         "click",
         "plone.app.caching>2.1.0",

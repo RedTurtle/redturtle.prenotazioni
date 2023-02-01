@@ -159,3 +159,7 @@ def to_1400(context):
                             wf_states.append("confirmed")
 
                             workflow_state_condition.wf_states = set(wf_states)
+
+
+def to_1401(context):
+    update_types(context)
