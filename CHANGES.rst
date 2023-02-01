@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.6.3 (unreleased)
+1.6.3 (2023-02-01)
 ------------------
 
 - Fix cookies encoding
