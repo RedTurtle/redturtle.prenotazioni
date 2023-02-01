@@ -307,7 +307,7 @@ class View(BaseView):
             expires = formatdate(expiration_seconds, usegmt=True)
             self.request.response.setCookie(
                 TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE,
-                prenotation_type.strip().encode("ascii"),
+                prenotation_type.strip().encode("utf-8"),
                 expires=expires,
                 path="/",
             )
