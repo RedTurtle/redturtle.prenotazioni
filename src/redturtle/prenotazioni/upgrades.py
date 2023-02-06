@@ -168,10 +168,18 @@ def to_1401(context):
     for rule in rule_storage.items():
         rule = rule[1]
 
-        workflow_transition_conditions = filter(
+        workflow_action_conditions = filter(
             lambda item: isinstance(item, WorkflowAction), rule.actions
         )
+        portal_type_conditions = filter(
+            lambda item: isinstance(item, PortalTypeCondition), rule.conditions
+        )
 
-        for workflow_action in workflow_transition_conditions:
-            if workflow_action.transition == "publish":
-                workflow_action.transition = "confirm"
+        if [
+            condition
+            for condition in portal_type_conditions
+            if "Prenotazione" in getattr(condition, "check_types", [])
+        ]:
+            for workflow_action in workflow_action_conditions:
+                if workflow_action.transition == "publish":
+                    workflow_action.transition = "confirm"

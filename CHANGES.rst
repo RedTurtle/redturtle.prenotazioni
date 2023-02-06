@@ -5,8 +5,8 @@ Changelog
 1.6.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fix the upgrade step of release 1.6.4
+  [foxtrot-dfm1]
 
 1.6.4 (2023-02-06)
 ------------------
