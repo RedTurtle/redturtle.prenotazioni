@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.6.4 (unreleased)
+1.6.4 (2023-02-06)
 ------------------
 
 - Fix the upgrade step of release 1.6.1
