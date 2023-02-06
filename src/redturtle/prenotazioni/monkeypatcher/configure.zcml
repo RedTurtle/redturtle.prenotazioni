@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:monkey="http://namespaces.plone.org/monkey"
+    i18n_domain="collective.monkeypatcher">
+
+    <include package="collective.monkeypatcher" />
+
+    <monkey:patch
+        description="Fix the plone.app.contentrules workflow action edit form"
+        class="plone.app.contentrules.actions.workflow.WorkflowEditFormView"
+        original="form"
+        replacement="plone.app.contentrules.actions.workflow.WorkflowEditForm"
+        />
+
+</configure>

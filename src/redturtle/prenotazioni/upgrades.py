@@ -5,6 +5,7 @@ from plone.app.workflow.remap import remap_workflow
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
 from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
+from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone import api
 
@@ -159,3 +160,18 @@ def to_1400(context):
                             wf_states.append("confirmed")
 
                             workflow_state_condition.wf_states = set(wf_states)
+
+
+def to_1401(context):
+    rule_storage = queryUtility(IRuleStorage)
+
+    for rule in rule_storage.items():
+        rule = rule[1]
+
+        workflow_transition_conditions = filter(
+            lambda item: isinstance(item, WorkflowAction), rule.actions
+        )
+
+        for workflow_action in workflow_transition_conditions:
+            if workflow_action.transition == "publish":
+                workflow_action.transition = "confirm"
