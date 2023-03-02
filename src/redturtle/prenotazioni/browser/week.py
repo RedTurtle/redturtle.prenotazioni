@@ -9,9 +9,15 @@ from redturtle.prenotazioni.browser.base import BaseView
 from redturtle.prenotazioni.browser.interfaces import IDontFollowMe
 from redturtle.prenotazioni.utilities.urls import urlify
 from six.moves import range
+from email.utils import formatdate
 from zope.deprecation import deprecate
 from zope.interface import implementer
 from zope.schema.vocabulary import getVocabularyRegistry
+
+import time
+
+TIPOLOGIA_PRENOTAZIONE_NAME = "TipologiaPrenotazione"
+TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE = "TipologiaPrenotazione_cookie"
 
 
 @implementer(IDontFollowMe)
@@ -145,6 +151,12 @@ class View(BaseView):
         """The link to the previous week"""
         qs = {"data": self.prev_week}
         qs.update(self.prenotazioni.remembered_params)
+
+        prenotation_type = self.get_prenotation_type()
+
+        if prenotation_type:
+            qs[TIPOLOGIA_PRENOTAZIONE_NAME] = prenotation_type
+
         return urlify(self.request.getURL(), params=qs)
 
     @property
@@ -153,6 +165,12 @@ class View(BaseView):
         """The link to the next week"""
         qs = {"data": self.next_week}
         qs.update(self.prenotazioni.remembered_params)
+
+        prenotation_type = self.get_prenotation_type()
+
+        if prenotation_type:
+            qs[TIPOLOGIA_PRENOTAZIONE_NAME] = prenotation_type
+
         return urlify(self.request.getURL(), params=qs)
 
     @property
@@ -205,7 +223,7 @@ class View(BaseView):
         booking_url = self.prenotazioni.get_anonymous_booking_url(day, slot)
         message = _(
             "foreseen_booking_time",
-            default=u"Foreseen booking time: ${booking_time}",
+            default="Foreseen booking time: ${booking_time}",
             mapping={
                 "booking_time": booking_url["title"],
                 "day": "{} {}".format(
@@ -224,7 +242,7 @@ class View(BaseView):
         booking_url = self.prenotazioni.get_anonymous_booking_url(day, slot)
         message = _(
             "foreseen_busy_time",
-            default=u"${booking_time}, Orario non disponibile",
+            default="${booking_time}, Orario non disponibile",
             mapping={"booking_time": booking_url["title"]},
         )
         return message
@@ -236,7 +254,7 @@ class View(BaseView):
 
         message = _(
             "prenotation_slot_message",
-            default=u"${day}, ore ${booking_time}",
+            default="${day}, ore ${booking_time}",
             mapping={
                 "booking_time": link["title"],
                 "day": "{} {}".format(
@@ -256,7 +274,7 @@ class View(BaseView):
 
         message = _(
             "booked_prenotation_message",
-            default=u"${day}, ore ${booking_time}, prenotato da ${booked_by}, prenotazione: ${booking_type} durata: ${duration} minuti",
+            default="${day}, ore ${booking_time}, prenotato da ${booked_by}, prenotazione: ${booking_type} durata: ${duration} minuti",
             mapping={
                 "booking_time": booking.Date().strftime("%H:%M"),
                 "day": "{} {}".format(
@@ -272,8 +290,31 @@ class View(BaseView):
         )
         return message
 
+    def get_prenotation_type(self):
+        """Returns the prenotation type passed by url"""
+        return self.request.get(TIPOLOGIA_PRENOTAZIONE_NAME, "")
+
+    def set_cookies(self):
+        self.set_prenotation_type()
+
+    def set_prenotation_type(self):
+        prenotation_type = self.get_prenotation_type()
+        cookie_value = self.request.cookies.get(TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE, "")
+
+        if prenotation_type and not cookie_value:
+            # set expiring cookies
+            expiration_seconds = time.time() + (30 * 60)
+            expires = formatdate(expiration_seconds, usegmt=True)
+            self.request.response.setCookie(
+                TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE,
+                prenotation_type.strip().encode("utf-8"),
+                expires=expires,
+                path="/",
+            )
+
     def __call__(self):
         """Hide the portlets before serving the template"""
         # self.request.set('disable_plone.leftcolumn', 1)
         # self.request.set('disable_plone.rightcolumn', 1)
+        self.set_cookies()
         return super(View, self).__call__()

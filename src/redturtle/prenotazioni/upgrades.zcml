@@ -53,4 +53,12 @@
       destination="1400"
       handler=".upgrades.to_1400"
       />
+  <genericsetup:upgradeStep
+      title="Upgrade to 1401"
+      description="Upgrade prenotazioni_workflow"
+      profile="redturtle.prenotazioni:default"
+      source="1400"
+      destination="1401"
+      handler=".upgrades.to_1401"
+      />
 </configure>
