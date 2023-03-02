@@ -63,8 +63,8 @@ setup(
         "collective.z3cform.datagridfield>=2.0",
         "pyexcel_ods3",
         "click",
-# FIXME: se si rimuove il profilo di caching da qui (perchè c'è?), si può togliere anche questo pin
-# 3.0.0a14 e successive richiedono plone.base che è solo su plone 6
+        # FIXME: se si rimuove il profilo di caching da qui (perchè c'è?), si può togliere anche questo pin
+        # 3.0.0a14 e successive richiedono plone.base che è solo su plone 6
         "plone.app.caching>=3.0.0a1",
     ],
     extras_require={
