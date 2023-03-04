@@ -23,31 +23,31 @@ class IMovedPrenotazioneAction(Interface):
     """Definition of the configuration available for a mail action"""
 
     subject = schema.TextLine(
-        title=_(u"Subject"),
-        description=_(u"Subject of the message"),
+        title=_("Subject"),
+        description=_("Subject of the message"),
         required=True,
     )
 
     source = schema.TextLine(
-        title=_(u"Sender email"),
+        title=_("Sender email"),
         description=_(
             "source_help",
-            default=u"The email address that sends the email. If no email is "
-            u"provided here, it will use the address from portal.",
+            default="The email address that sends the email. If no email is "
+            "provided here, it will use the address from portal.",
         ),
         required=False,
     )
 
     message = schema.Text(
-        title=_(u"Message"),
+        title=_("Message"),
         description=_(
             "message_help",
-            default=u"Type in here the message that you want to mail. Some "
-            u"defined content can be replaced: ${title} will be replaced with"
+            default="Type in here the message that you want to mail. Some "
+            "defined content can be replaced: ${title} will be replaced with"
             " booking title (user fullname). ${date} will be replaced with "
             "booking new date. ${url} will be replaced by the booking url. "
             "${portal} will be replaced by the title "
-            u"of the portal.",
+            "of the portal.",
         ),
         required=True,
     )
@@ -60,16 +60,16 @@ class MovedPrenotazioneAction(SimpleItem):
     The implementation of the action defined before
     """
 
-    subject = u""
-    source = u""
-    message = u""
-    dest_addr = u""  # XXX ?
+    subject = ""
+    source = ""
+    message = ""
+    dest_addr = ""  # XXX ?
 
     element = "redturtle.prenotazioni.actions.MovedPrenotazione"
 
     @property
     def summary(self):
-        return _(u"Email report to prenotazione owner")
+        return _("Email report to prenotazione owner")
 
 
 @implementer(IExecutable)
@@ -162,12 +162,12 @@ class MovedPrenotazioneAddForm(ActionAddForm):
     """
 
     schema = IMovedPrenotazioneAction
-    label = _(u"Add moved booking Mail Action")
+    label = _("Add moved booking Mail Action")
     description = _(
-        u"A mail action that sends email notify when a booking is moved "
-        u"in an other slot."
+        "A mail action that sends email notify when a booking is moved "
+        "in an other slot."
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
     Type = MovedPrenotazioneAction
 
 
@@ -182,12 +182,12 @@ class MovedPrenotazioneEditForm(EditForm):
     """
 
     schema = IMovedPrenotazioneAction
-    label = _(u"Edit moved booking Mail Action")
+    label = _("Edit moved booking Mail Action")
     description = _(
-        u"A mail action that sends email notify when a booking is moved in "
-        u"an other slot."
+        "A mail action that sends email notify when a booking is moved in "
+        "an other slot."
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
 
 
 class MovedPrenotazioneEditFormView(ActionEditForm):

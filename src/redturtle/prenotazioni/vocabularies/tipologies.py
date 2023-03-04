@@ -27,7 +27,7 @@ class BookingTypesVocabulary(object):
         if not duration:
             title = name
         else:
-            title = u"%s (%s min)" % (name, duration)
+            title = "%s (%s min)" % (name, duration)
         # fix for buggy implementation
         term = SimpleTerm(name, token="changeme", title=title)
         term.token = name

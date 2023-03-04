@@ -33,7 +33,9 @@ class TestSetup(unittest.TestCase):
         """Test if redturtle.prenotazioni is installed."""
         if hasattr(self.installer, "is_product_installed"):
             # Plone 6
-            self.assertTrue(self.installer.is_product_installed("redturtle.prenotazioni"))
+            self.assertTrue(
+                self.installer.is_product_installed("redturtle.prenotazioni")
+            )
         else:
             self.assertTrue(self.installer.isProductInstalled("redturtle.prenotazioni"))
 
@@ -48,7 +50,6 @@ class TestSetup(unittest.TestCase):
 
 
 class TestUninstall(unittest.TestCase):
-
     layer = REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 
     def setUp(self):
@@ -70,9 +71,13 @@ class TestUninstall(unittest.TestCase):
         """Test if redturtle.prenotazioni is cleanly uninstalled."""
         if hasattr(self.installer, "is_product_installed"):
             # Plone 6
-            self.assertFalse(self.installer.is_product_installed("redturtle.prenotazioni"))
+            self.assertFalse(
+                self.installer.is_product_installed("redturtle.prenotazioni")
+            )
         else:
-            self.assertFalse(self.installer.isProductInstalled("redturtle.prenotazioni"))
+            self.assertFalse(
+                self.installer.isProductInstalled("redturtle.prenotazioni")
+            )
 
     def test_browserlayer_removed(self):
         """Test that IRedturtlePrenotazioniLayer is removed."""

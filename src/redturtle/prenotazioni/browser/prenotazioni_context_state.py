@@ -73,7 +73,7 @@ class PrenotazioniContextState(BrowserView):
     week_type = "PrenotazioniWeek"
     year_type = "PrenotazioniYear"
 
-    busy_slot_booking_url = {"url": "", "title": _("busy", u"Busy")}
+    busy_slot_booking_url = {"url": "", "title": _("busy", "Busy")}
     unavailable_slot_booking_url = {"url": "", "title": ""}
 
     @property

@@ -12,7 +12,6 @@ try:
 
     have_spell_date = True
 except ImportError:
-
     have_spell_date = False
     logger.exception(
         "\n\nImpossibile importare spell_date da plone.app.event; non si potrà"
@@ -22,9 +21,8 @@ except ImportError:
 
 @adapter(Interface)
 class GateSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The gate booked.")
+    category = _("Booking")
+    description = _("The gate booked.")
 
     def safe_call(self):
         return getattr(self.context, "gate", "")
@@ -32,9 +30,8 @@ class GateSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingDateSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booked date.")
+    category = _("Booking")
+    description = _("The booked date.")
 
     def safe_call(self):
         plone = self.context.restrictedTraverse("@@plone")
@@ -46,9 +43,8 @@ class BookingDateSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingEndDateSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booked end date.")
+    category = _("Booking")
+    description = _("The booked end date.")
 
     def safe_call(self):
         plone = self.context.restrictedTraverse("@@plone")
@@ -60,9 +56,8 @@ class BookingEndDateSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingTimeSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booked time.")
+    category = _("Booking")
+    description = _("The booked time.")
 
     def safe_call(self):
         plone = self.context.restrictedTraverse("@@plone")
@@ -74,9 +69,8 @@ class BookingTimeSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingTimeEndSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booking time end.")
+    category = _("Booking")
+    description = _("The booking time end.")
 
     def safe_call(self):
         plone = self.context.restrictedTraverse("@@plone")
@@ -88,9 +82,8 @@ class BookingTimeEndSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingTypeSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booking type.")
+    category = _("Booking")
+    description = _("The booking type.")
 
     def safe_call(self):
         return getattr(self.context, "booking_type", "")
@@ -98,9 +91,8 @@ class BookingTypeSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingCodeSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booking code.")
+    category = _("Booking")
+    description = _("The booking code.")
 
     def safe_call(self):
         code = self.context.getBookingCode()
@@ -111,9 +103,8 @@ class BookingCodeSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingUrlSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booking print url.")
+    category = _("Booking")
+    description = _("The booking print url.")
 
     def safe_call(self):
         return "{folder}/@@prenotazione_print?uid={uid}".format(
@@ -124,9 +115,8 @@ class BookingUrlSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingPrintUrlWithDeleteTokenSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booking print url with delete token.")
+    category = _("Booking")
+    description = _("The booking print url with delete token.")
 
     def safe_call(self):
         annotations = IAnnotations(self.context)
@@ -143,9 +133,8 @@ class BookingPrintUrlWithDeleteTokenSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingUserPhoneSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The phone number of the user who made the reservation.")
+    category = _("Booking")
+    description = _("The phone number of the user who made the reservation.")
 
     def safe_call(self):
         return getattr(self.context, "phone", "")
@@ -153,9 +142,8 @@ class BookingUserPhoneSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingUserEmailSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The email address of the user who made the reservation.")
+    category = _("Booking")
+    description = _("The email address of the user who made the reservation.")
 
     def safe_call(self):
         return getattr(self.context, "email", "")
@@ -163,9 +151,8 @@ class BookingUserEmailSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingOfficeContactPhoneSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booking office contact phone.")
+    category = _("Booking")
+    description = _("The booking office contact phone.")
 
     def safe_call(self):
         prenotazioni_folder = self.context.getPrenotazioniFolder()
@@ -174,9 +161,8 @@ class BookingOfficeContactPhoneSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingOfficeContactPecSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booking office contact pec address.")
+    category = _("Booking")
+    description = _("The booking office contact pec address.")
 
     def safe_call(self):
         prenotazioni_folder = self.context.getPrenotazioniFolder()
@@ -185,9 +171,8 @@ class BookingOfficeContactPecSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingOfficeContactFaxSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booking office contact fax.")
+    category = _("Booking")
+    description = _("The booking office contact fax.")
 
     def safe_call(self):
         prenotazioni_folder = self.context.getPrenotazioniFolder()
@@ -196,10 +181,9 @@ class BookingOfficeContactFaxSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingHowToGetToOfficeSubsitution(BaseSubstitution):
-
-    category = _(u"Booking")
+    category = _("Booking")
     description = _(
-        u"The information to reach the office where user book a" " reservation"
+        "The information to reach the office where user book a" " reservation"
     )
 
     def safe_call(self):
@@ -209,11 +193,9 @@ class BookingHowToGetToOfficeSubsitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingOfficeCompleteAddressSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
+    category = _("Booking")
     description = _(
-        u"The complete address information of the office where"
-        "user book a reservation"
+        "The complete address information of the office where" "user book a reservation"
     )
 
     def safe_call(self):
@@ -223,9 +205,8 @@ class BookingOfficeCompleteAddressSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingHRDateStartSubstitution(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booking human readable date")
+    category = _("Booking")
+    description = _("The booking human readable date")
 
     def safe_call(self):
         # we need something like martedì 8 settembre 2020 alle ore 11:15
@@ -251,9 +232,8 @@ class BookingHRDateStartSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingUrlWithDeleteToken(BaseSubstitution):
-
-    category = _(u"Booking")
-    description = _(u"The booking url with delete token")
+    category = _("Booking")
+    description = _("The booking url with delete token")
 
     def safe_call(self):
         annotations = IAnnotations(self.context)
