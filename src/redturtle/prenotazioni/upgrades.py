@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-from zope.component import queryUtility
+from plone import api
+from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
+from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
+from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
 from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
-from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
-from plone import api
+from zope.component import queryUtility
 
 import logging
+
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +65,6 @@ def to_1002(context):
 
 
 def to_1100(context):
-
     brains = api.content.find(portal_type="Prenotazione")
     tot = len(brains)
 

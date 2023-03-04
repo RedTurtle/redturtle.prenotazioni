@@ -11,7 +11,6 @@ from redturtle.prenotazioni import time2timedelta
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.utilities.urls import urlify
-import six
 from six.moves import map
 from z3c.form import button
 from z3c.form import field
@@ -24,6 +23,8 @@ from zope.schema import Choice
 from zope.schema import Date
 from zope.schema import TextLine
 from zope.schema import ValidationError
+
+import six
 
 
 class InvalidDate(ValidationError):

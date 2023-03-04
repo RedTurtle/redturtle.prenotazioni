@@ -1,7 +1,7 @@
-from zope.component import getMultiAdapter
+from plone import api
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
-from plone import api
+from zope.component import getMultiAdapter
 
 
 class WeekSlots(Service):

@@ -1,6 +1,6 @@
-from zope.interface import implementer
-from plone.app.contenttypes.interfaces import IFolder
 from plone.app.contenttypes.content import Folder
+from plone.app.contenttypes.interfaces import IFolder
+from zope.interface import implementer
 
 
 @implementer(IFolder)

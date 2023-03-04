@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from plone.app.content.browser.folderfactories import (
-    FolderFactoriesView as BaseView,
-)
+from plone.app.content.browser.folderfactories import FolderFactoriesView as BaseView
 
 
 class FolderFactoriesView(BaseView):

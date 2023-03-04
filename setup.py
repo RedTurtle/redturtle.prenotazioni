@@ -59,7 +59,7 @@ setup(
         "collective.contentrules.mailfromfield",
         "pyinter",
         "collective.honeypot",
-        "collective.z3cform.datagridfield>=3.0.0",
+        "collective.z3cform.datagridfield>=2.0",
         "pyexcel_ods3",
         "click",
         "plone.app.caching>2.1.0",

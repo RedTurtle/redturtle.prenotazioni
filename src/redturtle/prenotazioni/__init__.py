@@ -3,7 +3,9 @@ from AccessControl import Unauthorized
 from App.config import getConfiguration
 from datetime import datetime
 from datetime import timedelta
-from logging import getLogger, FileHandler, Formatter
+from logging import FileHandler
+from logging import Formatter
+from logging import getLogger
 from plone import api
 from plone.api.exc import UserNotFoundError
 from six.moves import map

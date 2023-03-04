@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
+from plone import api
+from plone.memoize.view import memoize
+from plone.protect.utils import addTokenToUrl
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.utils import getToolByName
-from plone.memoize.view import memoize
 from redturtle.prenotazioni import _
-from plone import api
 from redturtle.prenotazioni.adapters.prenotazione import IDeleteTokenProvider
-from plone.protect.utils import addTokenToUrl
 
 
 class DeleteReservation(BrowserView):
@@ -94,7 +94,6 @@ class DeleteReservation(BrowserView):
                 self.say_status(_("Your reservation has been deleted"), "info")
 
     def __call__(self):
-
         form = self.request.form
         self.uid = form.get("uid", None)
         self.delete_token = form.get("delete_token", None)

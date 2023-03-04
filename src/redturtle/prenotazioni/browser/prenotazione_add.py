@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from DateTime import DateTime
 from datetime import timedelta
+from DateTime import DateTime
 from email.utils import formataddr
 from email.utils import parseaddr
 from os import environ
@@ -18,7 +18,8 @@ from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
 from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.utilities.urls import urlify
-from six.moves.urllib.parse import urlparse, parse_qs
+from six.moves.urllib.parse import parse_qs
+from six.moves.urllib.parse import urlparse
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
@@ -32,6 +33,7 @@ from zope.interface import Invalid
 from zope.schema import Text
 from zope.schema import TextLine
 from zope.schema.interfaces import IVocabularyFactory
+
 
 DEFAULT_REQUIRED_FIELDS = []
 

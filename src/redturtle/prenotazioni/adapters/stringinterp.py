@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 from plone.stringinterp.adapters import BaseSubstitution
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
+from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
 from zope.interface import Interface
-from zope.annotation.interfaces import IAnnotations
-from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
-from redturtle.prenotazioni import logger
+
 
 try:
     from plone.app.event.base import spell_date
 
     have_spell_date = True
 except ImportError:
-
     have_spell_date = False
     logger.exception(
         "\n\nImpossibile importare spell_date da plone.app.event; non si potrà"
@@ -22,7 +22,6 @@ except ImportError:
 
 @adapter(Interface)
 class GateSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The gate booked.")
 
@@ -32,7 +31,6 @@ class GateSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingDateSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booked date.")
 
@@ -46,7 +44,6 @@ class BookingDateSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingEndDateSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booked end date.")
 
@@ -60,7 +57,6 @@ class BookingEndDateSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingTimeSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booked time.")
 
@@ -74,7 +70,6 @@ class BookingTimeSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingTimeEndSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booking time end.")
 
@@ -88,7 +83,6 @@ class BookingTimeEndSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingTypeSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booking type.")
 
@@ -98,7 +92,6 @@ class BookingTypeSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingCodeSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booking code.")
 
@@ -111,7 +104,6 @@ class BookingCodeSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingUrlSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booking print url.")
 
@@ -124,7 +116,6 @@ class BookingUrlSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingPrintUrlWithDeleteTokenSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booking print url with delete token.")
 
@@ -143,7 +134,6 @@ class BookingPrintUrlWithDeleteTokenSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingUserPhoneSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The phone number of the user who made the reservation.")
 
@@ -153,7 +143,6 @@ class BookingUserPhoneSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingUserEmailSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The email address of the user who made the reservation.")
 
@@ -163,7 +152,6 @@ class BookingUserEmailSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingOfficeContactPhoneSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booking office contact phone.")
 
@@ -174,7 +162,6 @@ class BookingOfficeContactPhoneSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingOfficeContactPecSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booking office contact pec address.")
 
@@ -185,7 +172,6 @@ class BookingOfficeContactPecSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingOfficeContactFaxSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booking office contact fax.")
 
@@ -196,7 +182,6 @@ class BookingOfficeContactFaxSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingHowToGetToOfficeSubsitution(BaseSubstitution):
-
     category = _("Booking")
     description = _(
         "The information to reach the office where user book a" " reservation"
@@ -209,7 +194,6 @@ class BookingHowToGetToOfficeSubsitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingOfficeCompleteAddressSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _(
         "The complete address information of the office where" "user book a reservation"
@@ -222,7 +206,6 @@ class BookingOfficeCompleteAddressSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingHRDateStartSubstitution(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booking human readable date")
 
@@ -250,7 +233,6 @@ class BookingHRDateStartSubstitution(BaseSubstitution):
 
 @adapter(Interface)
 class BookingUrlWithDeleteToken(BaseSubstitution):
-
     category = _("Booking")
     description = _("The booking url with delete token")
 

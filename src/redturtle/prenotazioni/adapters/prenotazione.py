@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-from zope.component import Interface
-from zope.interface import implementer
+from datetime import datetime
+from jwt.exceptions import DecodeError
 from plone import api
 from plone.api.exc import MissingParameterError
-from zope.annotation.interfaces import IAnnotations
 from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
-from datetime import datetime
+from zope.annotation.interfaces import IAnnotations
+from zope.component import Interface
+from zope.interface import implementer
+
 import jwt
-from jwt.exceptions import DecodeError
 
 
 class IDeleteTokenProvider(Interface):

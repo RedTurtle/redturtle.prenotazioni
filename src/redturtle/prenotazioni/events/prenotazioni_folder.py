@@ -18,7 +18,6 @@ def on_create(obj, event):
         "booking-created-user",
         "booking-refuse",
     ]:
-
         assignable[rule_id] = RuleAssignment(rule_id)
         assignable[rule_id].bubbles = True
         get_assignments(storage[rule_id]).insert("/".join(obj.getPhysicalPath()))

@@ -3,9 +3,7 @@
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING,
-)  # noqa: E501
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING  # noqa: E501
 
 import unittest
 
@@ -36,15 +34,12 @@ class TestSetup(unittest.TestCase):
     def test_browserlayer(self):
         """Test that IRedturtlePrenotazioniLayer is registered."""
         from plone.browserlayer import utils
-        from redturtle.prenotazioni.interfaces import (
-            IRedturtlePrenotazioniLayer,
-        )
+        from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 
         self.assertIn(IRedturtlePrenotazioniLayer, utils.registered_layers())
 
 
 class TestUninstall(unittest.TestCase):
-
     layer = REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 
     def setUp(self):
@@ -65,8 +60,6 @@ class TestUninstall(unittest.TestCase):
     def test_browserlayer_removed(self):
         """Test that IRedturtlePrenotazioniLayer is removed."""
         from plone.browserlayer import utils
-        from redturtle.prenotazioni.interfaces import (
-            IRedturtlePrenotazioniLayer,
-        )
+        from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 
         self.assertNotIn(IRedturtlePrenotazioniLayer, utils.registered_layers())

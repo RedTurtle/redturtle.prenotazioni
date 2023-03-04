@@ -1,18 +1,23 @@
 # -*- coding: utf-8 -*-
 from BTrees.OOBTree import OOTreeSet
 from csv import writer
-from datetime import date, datetime, timedelta
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 from io import StringIO
 from json import dumps
 from plone.memoize.view import memoize
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni import prenotazioniFileLogger
 from redturtle.prenotazioni import logger
+from redturtle.prenotazioni import prenotazioniFileLogger
 from redturtle.prenotazioni.browser.base import BaseView as PrenotazioniBaseView
 from time import mktime
 from zope.annotation.interfaces import IAnnotations
 from zope.interface import Interface
-from zope.schema import Date, TextLine, ValidationError
+from zope.schema import Date
+from zope.schema import TextLine
+from zope.schema import ValidationError
+
 import six
 
 

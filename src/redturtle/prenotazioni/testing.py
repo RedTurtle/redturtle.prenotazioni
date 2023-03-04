@@ -7,13 +7,12 @@ from plone.app.testing import PloneSandboxLayer
 
 import collective.contentrules.mailfromfield
 import collective.z3cform.datagridfield
+import plone.app.caching
 import plone.restapi
 import redturtle.prenotazioni
-import plone.app.caching
 
 
 class RedturtlePrenotazioniLayer(PloneSandboxLayer):
-
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):

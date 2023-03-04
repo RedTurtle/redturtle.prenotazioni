@@ -1,28 +1,26 @@
 # -*- coding: utf-8 -*-
-from plone.app.dexterity import textindexer
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 from datetime import date
+from plone.app.dexterity import textindexer
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.slot import (
-    interval_is_contained,
-    is_intervals_overlapping,
-)
+from redturtle.prenotazioni.adapters.slot import interval_is_contained
+from redturtle.prenotazioni.adapters.slot import is_intervals_overlapping
+from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
+from zope.component import provideAdapter
 from zope.interface import implementer
 from zope.interface import Interface
-from zope.schema.vocabulary import SimpleTerm
-from zope.schema.vocabulary import SimpleVocabulary
 from zope.interface import Invalid
 from zope.interface import invariant
-from zope.component import provideAdapter
-from z3c.form import validator
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 def get_dgf_values_from_request(request, fieldname, columns=[]):
@@ -59,7 +57,6 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
 
 
 class IWeekTableRow(model.Schema):
-
     day = schema.TextLine(
         title=_("day_label", default="Day of week"), required=True, default=""
     )
