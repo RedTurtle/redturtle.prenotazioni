@@ -16,7 +16,7 @@ long_description = "\n\n".join(
 
 setup(
     name="redturtle.prenotazioni",
-    version="1.6.6.dev0",
+    version="1.7.0.dev0",
     description="An add-on for Plone",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -26,16 +26,19 @@ setup(
         "Framework :: Plone",
         "Framework :: Plone :: Addon",
         "Framework :: Plone :: 5.2",
+        "Framework :: Plone :: 6.0",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
     keywords="Python Plone",
-    author="Daniele Andreotti",
-    author_email="daniele.andreotti@redturtle.it",
+    author="RedTurtle Technology",
+    author_email="sviluppoplone@redturtle.it",
     url="https://github.com/redturtle/redturtle.prenotazioni",
     project_urls={
         "PyPI": "https://pypi.org/project/redturtle.prenotazioni",
@@ -49,7 +52,7 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
-    python_requires="==2.7, >=3.6",
+    python_requires=">=3.7",
     install_requires=[
         "setuptools",
         # -*- Extra requirements: -*-
@@ -63,7 +66,9 @@ setup(
         "collective.z3cform.datagridfield>=2.0",
         "pyexcel_ods3",
         "click",
-        "plone.app.caching>2.1.0",
+        # FIXME: se si rimuove il profilo di caching da qui (perchè c'è?), si può togliere anche questo pin
+        # 3.0.0a14 e successive richiedono plone.base che è solo su plone 6
+        "plone.app.caching>=3.0.0a1",
     ],
     extras_require={
         "test": [

@@ -65,7 +65,6 @@ def to_1002(context):
 
 
 def to_1100(context):
-
     brains = api.content.find(portal_type="Prenotazione")
     tot = len(brains)
 

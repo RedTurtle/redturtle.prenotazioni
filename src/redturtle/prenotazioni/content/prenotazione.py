@@ -19,19 +19,19 @@ TELEPHONE_PATTERN = re.compile(r"^(\+){0,1}([0-9]| )*$")
 
 
 class InvalidPhone(ValidationError):
-    __doc__ = _("invalid_phone_number", u"Invalid phone number")
+    __doc__ = _("invalid_phone_number", "Invalid phone number")
 
 
 class InvalidEmailAddress(ValidationError):
-    __doc__ = _("invalid_email_address", u"Invalid email address")
+    __doc__ = _("invalid_email_address", "Invalid email address")
 
 
 class IsNotfutureDate(ValidationError):
-    __doc__ = _("is_not_future_date", u"This date is past")
+    __doc__ = _("is_not_future_date", "This date is past")
 
 
 class InvalidFiscalcode(ValidationError):
-    __doc__ = _("invalid_fiscalcode", u"Invalid fiscal code")
+    __doc__ = _("invalid_fiscalcode", "Invalid fiscal code")
 
 
 def check_phone_number(value):
@@ -108,59 +108,59 @@ class IPrenotazione(model.Schema):
     """Marker interface and Dexterity Python Schema for Prenotazione"""
 
     booking_date = schema.Datetime(
-        title=_("label_booking_time", u"Booking time"),
+        title=_("label_booking_time", "Booking time"),
         required=True,
         default=None,
         constraint=check_is_future_date,
     )
 
     booking_type = schema.Choice(
-        title=_(u"label_booking_type", default="Booking type"),
+        title=_("label_booking_type", default="Booking type"),
         vocabulary="redturtle.prenotazioni.booking_types",
         required=True,
     )
 
     email = schema.TextLine(
-        title=_("label_booking_email", default=u"Email"),
+        title=_("label_booking_email", default="Email"),
         constraint=check_valid_email,
-        default=u"",
+        default="",
         required=False,
     )
 
     phone = schema.TextLine(
-        title=_("label_booking_phone", default=u"Phone number"),
+        title=_("label_booking_phone", default="Phone number"),
         required=False,
-        default=u"",
+        default="",
         constraint=check_phone_number,
     )
 
     fiscalcode = schema.TextLine(
-        title=_(u"label_booking_fiscalcode", default=u"Fiscal code"),
-        default=u"",
+        title=_("label_booking_fiscalcode", default="Fiscal code"),
+        default="",
         # constraint=check_valid_fiscalcode,
         required=False,
     )
 
     company = schema.TextLine(
-        title=_("label_booking_company", default=u"Company"),
+        title=_("label_booking_company", default="Company"),
         description=_(
             "description_company",
-            default=u"If you work for a company, please specify its name.",
+            default="If you work for a company, please specify its name.",
         ),
         required=False,
     )
 
     gate = schema.TextLine(
-        title=_(u"Gate"),
-        description=_(u"Sportello a cui presentarsi"),
+        title=_("Gate"),
+        description=_("Sportello a cui presentarsi"),
     )
 
     booking_expiration_date = schema.Datetime(
-        title=_(u"Expiration date booking"), required=True
+        title=_("Expiration date booking"), required=True
     )
 
     staff_notes = schema.Text(
-        required=False, title=_("label_booking_staff_notes", u"Staff notes")
+        required=False, title=_("label_booking_staff_notes", "Staff notes")
     )
 
 

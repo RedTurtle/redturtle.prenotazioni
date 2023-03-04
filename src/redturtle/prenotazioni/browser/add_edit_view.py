@@ -36,5 +36,4 @@ class DefaultAddForm(BaseAddForm):
 
 
 class DefaultAddView(BaseAddView):
-
     form = DefaultAddForm

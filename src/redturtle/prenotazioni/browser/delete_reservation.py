@@ -19,7 +19,7 @@ class DeleteReservation(BrowserView):
         title = self.context.Title()  # noqa
         return _(
             "delete_reservation_request",
-            u"Delete reservation request for: ${name}",
+            "Delete reservation request for: ${name}",
             mapping={"name": title},
         )
 
@@ -30,7 +30,7 @@ class DeleteReservation(BrowserView):
         title = self.context.Title()  # noqa
         return _(
             "no_reservation",
-            u"Seems your reservation is not existing",
+            "Seems your reservation is not existing",
         )
 
     @property
@@ -40,7 +40,7 @@ class DeleteReservation(BrowserView):
         title = self.context.Title()  # noqa
         return _(
             "deleted_reservation",
-            u"Your reservation has been deleted",
+            "Your reservation has been deleted",
         )
 
     @property
@@ -94,7 +94,6 @@ class DeleteReservation(BrowserView):
                 self.say_status(_("Your reservation has been deleted"), "info")
 
     def __call__(self):
-
         form = self.request.form
         self.uid = form.get("uid", None)
         self.delete_token = form.get("delete_token", None)

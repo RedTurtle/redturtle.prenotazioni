@@ -31,7 +31,13 @@ class TestSetup(unittest.TestCase):
 
     def test_product_installed(self):
         """Test if redturtle.prenotazioni is installed."""
-        self.assertTrue(self.installer.isProductInstalled("redturtle.prenotazioni"))
+        if hasattr(self.installer, "is_product_installed"):
+            # Plone 6
+            self.assertTrue(
+                self.installer.is_product_installed("redturtle.prenotazioni")
+            )
+        else:
+            self.assertTrue(self.installer.isProductInstalled("redturtle.prenotazioni"))
 
     def test_browserlayer(self):
         """Test that IRedturtlePrenotazioniLayer is registered."""
@@ -44,7 +50,6 @@ class TestSetup(unittest.TestCase):
 
 
 class TestUninstall(unittest.TestCase):
-
     layer = REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 
     def setUp(self):
@@ -55,12 +60,24 @@ class TestUninstall(unittest.TestCase):
             self.installer = api.portal.get_tool("portal_quickinstaller")
         roles_before = api.user.get_roles(TEST_USER_ID)
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        self.installer.uninstallProducts(["redturtle.prenotazioni"])
+        if hasattr(self.installer, "uninstall_product"):
+            # Plone 6
+            self.installer.uninstall_product("redturtle.prenotazioni")
+        else:
+            self.installer.uninstallProducts(["redturtle.prenotazioni"])
         setRoles(self.portal, TEST_USER_ID, roles_before)
 
     def test_product_uninstalled(self):
         """Test if redturtle.prenotazioni is cleanly uninstalled."""
-        self.assertFalse(self.installer.isProductInstalled("redturtle.prenotazioni"))
+        if hasattr(self.installer, "is_product_installed"):
+            # Plone 6
+            self.assertFalse(
+                self.installer.is_product_installed("redturtle.prenotazioni")
+            )
+        else:
+            self.assertFalse(
+                self.installer.isProductInstalled("redturtle.prenotazioni")
+            )
 
     def test_browserlayer_removed(self):
         """Test that IRedturtlePrenotazioniLayer is removed."""
