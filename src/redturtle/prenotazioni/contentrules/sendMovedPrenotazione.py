@@ -11,7 +11,7 @@ from Products.CMFCore.utils import getToolByName
 from redturtle.prenotazioni import _
 from zope import schema
 from zope.component import adapter
-from zope.component.interfaces import ComponentLookupError
+from zope.interface.interfaces import ComponentLookupError
 from zope.interface import implementer
 from zope.interface import Interface
 
