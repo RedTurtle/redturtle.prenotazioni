@@ -1,3 +1,28 @@
+
+.. image:: https://img.shields.io/pypi/v/redturtle.prenotazioni.svg
+    :target: https://pypi.org/project/redturtle.prenotazioni/
+    :alt: Latest Version
+
+.. image:: https://img.shields.io/pypi/pyversions/redturtle.prenotazioni.svg?style=plastic
+    :target: https://pypi.org/project/redturtle.prenotazioni/
+    :alt: Supported - Python Versions
+
+.. image:: https://img.shields.io/pypi/dm/redturtle.prenotazioni.svg
+    :target: https://pypi.org/project/redturtle.prenotazioni/
+    :alt: Number of PyPI downloads
+
+.. image:: https://img.shields.io/pypi/l/redturtle.prenotazioni.svg
+    :target: https://pypi.org/project/redturtle.prenotazioni/
+    :alt: License
+
+.. image:: https://github.com/RedTurtle/redturtle.prenotazioni/actions/workflows/tests.yml/badge.svg
+    :target: https://github.com/RedTurtle/redturtle.prenotazioni/actions
+    :alt: Tests
+
+.. image:: https://coveralls.io/repos/github/RedTurtle/redturtle.prenotazioni/badge.svg?branch=master
+    :target: https://coveralls.io/github/RedTurtle/redturtle.prenotazioni?branch=master
+    :alt: Coverage
+
 ======================
 redturtle.prenotazioni
 ======================

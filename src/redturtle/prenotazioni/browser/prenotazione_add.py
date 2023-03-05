@@ -20,6 +20,7 @@ from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.utilities.urls import urlify
 from six.moves.urllib.parse import parse_qs
 from six.moves.urllib.parse import urlparse
+from redturtle.prenotazioni.browser.week import TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
@@ -307,6 +308,12 @@ class AddForm(form.AddForm):
             params=params,
         )
         self.send_email_to_managers(booking=obj)
+
+        self.request.response.expireCookie(
+            TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE,
+            path="/",
+        )
+
         return self.request.response.redirect(target)
 
     @button.buttonAndHandler(_("action_cancel", default="Cancel"), name="cancel")

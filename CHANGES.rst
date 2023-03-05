@@ -2,10 +2,38 @@ Changelog
 =========
 
 
-1.6.2 (unreleased)
+1.7.0 (unreleased)
 ------------------
 
 - RestAPI endpoint to have available week slots.
+- Plone 6 support
+  [mamico]
+
+
+1.6.5 (2023-02-06)
+------------------
+
+- Fix the upgrade step of release 1.6.4
+  [foxtrot-dfm1]
+
+1.6.4 (2023-02-06)
+------------------
+
+- Fix the upgrade step of release 1.6.1
+  [foxtrot-dfm1]
+
+
+1.6.3 (2023-02-01)
+------------------
+
+- Fix cookies encoding
+  [foxtrot-dfm1]
+
+
+1.6.2 (2023-01-30)
+------------------
+
+- Handle prenotation type passed by url.
   [foxtrot-dfm1]
 
 

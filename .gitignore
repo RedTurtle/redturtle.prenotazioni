@@ -2,6 +2,7 @@
 extra
 pyvenv.cfg
 .coverage
+coverage.json
 .python-version
 *.egg-info
 *.log

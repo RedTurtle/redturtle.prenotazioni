@@ -18,7 +18,7 @@
   <include package=".indexers" />
   <include package=".events" />
   <include package=".restapi" />
-
+  <include package=".monkeypatcher" />
   <include file="upgrades.zcml" />
 
   <genericsetup:registerProfile

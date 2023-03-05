@@ -1,0 +1,2 @@
+* perchè c'è un profilo di caching dentro questo prodotto ?
+  https://github.com/RedTurtle/redturtle.prenotazioni/commit/4639d7b45ac8bd737481857c155492822418d2ed
