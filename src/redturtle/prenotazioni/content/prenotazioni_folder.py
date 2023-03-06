@@ -2,6 +2,7 @@
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 from datetime import date
+
 try:
     from plone.app.dexterity import textindexer
 except ImportError:
