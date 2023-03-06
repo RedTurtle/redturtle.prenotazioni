@@ -2,7 +2,11 @@
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 from datetime import date
-from plone.app.dexterity import textindexer
+try:
+    from plone.app.dexterity import textindexer
+except ImportError:
+    # Plone 5.2
+    from collective import dexteritytextindexer as textindexer
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
