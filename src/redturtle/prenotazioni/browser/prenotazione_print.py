@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from plone.memoize.view import memoize
+from plone.protect.utils import addTokenToUrl
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.utilities.urls import urlify
-from plone.protect.utils import addTokenToUrl
 
 
 class PrenotazionePrint(BrowserView):

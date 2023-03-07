@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implementer
-from redturtle.prenotazioni.interfaces import IPause
 from datetime import datetime
-from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE
+from redturtle.prenotazioni.interfaces import IPause
+from zope.interface import implementer
 
 
 @implementer(IPause)

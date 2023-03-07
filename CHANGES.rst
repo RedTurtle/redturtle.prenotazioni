@@ -5,6 +5,9 @@ Changelog
 1.7.0 (unreleased)
 ------------------
 
+- RestAPI endpoint to have available week slots.
+  [foxtrot-dfm1]
+
 - Plone 6 support
   [mamico]
 

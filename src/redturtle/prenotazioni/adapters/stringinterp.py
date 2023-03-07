@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from plone.stringinterp.adapters import BaseSubstitution
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
+from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
 from zope.interface import Interface
-from zope.annotation.interfaces import IAnnotations
-from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
-from redturtle.prenotazioni import logger
+
 
 try:
     from plone.app.event.base import spell_date

@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
-from DateTime import DateTime
 from .prenotazioni_folder import IPrenotazioniFolder
+from datetime import datetime
+from DateTime import DateTime
+from plone import api
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni import tznow
 from zope import schema
 from zope.interface import implementer
 from zope.schema import ValidationError
-from plone import api
-from datetime import datetime
-from redturtle.prenotazioni import tznow
 
 import hashlib
 import re
 import six
+
 
 TELEPHONE_PATTERN = re.compile(r"^(\+){0,1}([0-9]| )*$")
 

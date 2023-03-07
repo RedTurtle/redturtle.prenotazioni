@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
 
-from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.interface import Interface
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 
 class IRedturtlePrenotazioniLayer(IDefaultBrowserLayer):
@@ -10,4 +10,4 @@ class IRedturtlePrenotazioniLayer(IDefaultBrowserLayer):
 
 
 class IPause(Interface):
-    """Merker interface that defines a pause fake type object"""
+    """Marker interface that defines a pause fake type object"""

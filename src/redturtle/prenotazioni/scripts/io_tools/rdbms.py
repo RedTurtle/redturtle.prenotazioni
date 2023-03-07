@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 from datetime import datetime
-from pony import orm
 from io_tools.storage import Storage as Base
+from pony import orm
+
 
 db = orm.Database()
 

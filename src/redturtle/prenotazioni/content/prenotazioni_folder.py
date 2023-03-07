@@ -1,28 +1,31 @@
 # -*- coding: utf-8 -*-
-from collective import dexteritytextindexer
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 from datetime import date
+
+try:
+    from plone.app.dexterity import textindexer
+except ImportError:
+    # Plone 5.2
+    from collective import dexteritytextindexer as textindexer
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.slot import (
-    interval_is_contained,
-    is_intervals_overlapping,
-)
+from redturtle.prenotazioni.adapters.slot import interval_is_contained
+from redturtle.prenotazioni.adapters.slot import is_intervals_overlapping
+from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
+from zope.component import provideAdapter
 from zope.interface import implementer
 from zope.interface import Interface
-from zope.schema.vocabulary import SimpleTerm
-from zope.schema.vocabulary import SimpleVocabulary
 from zope.interface import Invalid
 from zope.interface import invariant
-from zope.component import provideAdapter
-from z3c.form import validator
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 def get_dgf_values_from_request(request, fieldname, columns=[]):
@@ -130,7 +133,7 @@ class IBookingTypeRow(Interface):
 class IPrenotazioniFolder(model.Schema):
     """Marker interface and Dexterity Python Schema for PrenotazioniFolder"""
 
-    dexteritytextindexer.searchable("descriptionAgenda")
+    textindexer.searchable("descriptionAgenda")
     descriptionAgenda = RichText(
         required=False,
         title=_("Descrizione Agenda", default="Descrizione Agenda"),
@@ -267,7 +270,9 @@ class IPrenotazioniFolder(model.Schema):
             },
         ],
     )
-    form.widget(week_table=DataGridFieldFactory)
+    form.widget(
+        "week_table", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
+    )
 
     pause_table = schema.List(
         title=_("Pause table"),
@@ -275,7 +280,9 @@ class IPrenotazioniFolder(model.Schema):
         required=False,
         value_type=DictRow(title="Pause row", schema=IPauseTableRow),
     )
-    form.widget(pause_table=DataGridFieldFactory)
+    form.widget(
+        "pause_table", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
+    )
 
     holidays = schema.List(
         title=_("holidays_label", default="Holidays"),
@@ -323,7 +330,9 @@ class IPrenotazioniFolder(model.Schema):
         ),
         value_type=DictRow(schema=IBookingTypeRow),
     )
-    form.widget(booking_types=DataGridFieldFactory)
+    form.widget(
+        "booking_types", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
+    )
 
     gates = schema.List(
         title=_("gates_label", "Gates"),

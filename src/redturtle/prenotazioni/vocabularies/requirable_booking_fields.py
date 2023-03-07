@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-from zope.interface import implementer
+from redturtle.prenotazioni import _
 from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
 from zope.i18n import translate
-from redturtle.prenotazioni import _
+from zope.interface import implementer
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 @implementer(IVocabularyFactory)

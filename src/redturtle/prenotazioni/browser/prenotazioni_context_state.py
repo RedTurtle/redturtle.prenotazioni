@@ -9,16 +9,16 @@ from Products.Five.browser import BrowserView
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import get_or_create_obj
 from redturtle.prenotazioni import tznow
-from redturtle.prenotazioni.config import PAUSE_SLOT, PAUSE_PORTAL_TYPE
-from redturtle.prenotazioni.content.pause import Pause
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.adapters.conflict import IConflictManager
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.adapters.slot import ISlot
+from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE
+from redturtle.prenotazioni.config import PAUSE_SLOT
+from redturtle.prenotazioni.content.pause import Pause
 from redturtle.prenotazioni.utilities.urls import urlify
 from six.moves import map
 from six.moves import range
-
 
 import six
 

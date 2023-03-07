@@ -1,10 +1,11 @@
 # -*- encoding: utf-8 -*-
 """Console script for io_tools."""
-import sys
-import click
 from .api import Api
-import yaml
+
+import click
 import importlib
+import sys
+import yaml
 
 
 def load_class(klass):

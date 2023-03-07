@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
+from plone import api
+from plone.memoize.view import memoize
+from plone.protect.utils import addTokenToUrl
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.utils import getToolByName
-from plone.memoize.view import memoize
 from redturtle.prenotazioni import _
-from plone import api
 from redturtle.prenotazioni.adapters.prenotazione import IDeleteTokenProvider
-from plone.protect.utils import addTokenToUrl
 
 
 class DeleteReservation(BrowserView):

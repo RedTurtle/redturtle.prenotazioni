@@ -55,7 +55,7 @@
       />
   <genericsetup:upgradeStep
       title="Upgrade to 1401"
-      description="Upgrade prenotazioni_workflow"
+      description="Upgrade prenotazioni_workflow + add type"
       profile="redturtle.prenotazioni:default"
       source="1400"
       destination="1401"

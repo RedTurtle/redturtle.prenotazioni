@@ -1,18 +1,18 @@
 # -*- encoding: utf-8 -*-
-import click
+from .io_tools.api import Api
+from .io_tools.storage import logstorage
 from datetime import datetime
 from datetime import timedelta
-import logging
-import locale
 from plone import api
 from redturtle.prenotazioni.config import NOTIFICATIONS_LOGS
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
-import sys
-import transaction
 from zope.annotation.interfaces import IAnnotations
 
-from .io_tools.api import Api
-from .io_tools.storage import logstorage
+import click
+import locale
+import logging
+import sys
+import transaction
 
 
 logger = logging.getLogger("redturtle.prenotazioni.app_io")
