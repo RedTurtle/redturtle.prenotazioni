@@ -184,6 +184,14 @@ bookings within a given time interval.
 You can also filter the results specifying a searchable text,
 a gate or a review state.
 
+
+Rest API
+--------
+
+::
+
+   curl -i http://localhost:8080/Plone/folder/@week-slots -H 'Accept: application/json'
+
 Contribute
 ==========
 
