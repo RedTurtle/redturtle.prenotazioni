@@ -43,6 +43,8 @@ jobs:
         pip install tox
     - name: Test
       run: tox -e ${{ matrix.config[1] }}
+    - name: Workaround git "detected dubious ownership"
+      run: git config --global --add safe.directory /github/workspace
     - name: Coveralls
       uses: AndreMiras/coveralls-python-action@v20201129
       with:
