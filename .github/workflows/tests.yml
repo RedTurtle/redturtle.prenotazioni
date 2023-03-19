@@ -43,19 +43,22 @@ jobs:
         pip install tox
     - name: Test
       run: tox -e ${{ matrix.config[1] }}
-    - name: Workaround git "detected dubious ownership"
-      run: git config --global --add safe.directory /github/workspace
-    - name: Coveralls
-      uses: AndreMiras/coveralls-python-action@v20201129
-      with:
-        parallel: true
-        flag-name: ${{ matrix.config[1] }}
+    - name: Upload coverage data to coveralls.io
+      run: |
+        pip install coveralls
+        coveralls --service=github
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_FLAG_NAME: ${{ matrix.config[1] }}
+        COVERALLS_PARALLEL: true
 
   coveralls_finish:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Coveralls Finished
-      uses: AndreMiras/coveralls-python-action@v20201129
-      with:
-        parallel-finished: true
+    - name: Finished
+      run: |
+        pip install --upgrade coveralls
+        coveralls --service=github --finish
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
