@@ -5,7 +5,7 @@ Changelog
 1.6.6 (unreleased)
 ------------------
 
-- Remove sort order on types table.
+- Remove sort order on types table (#33584).
   [foxtrot-dfm1]
 
 
