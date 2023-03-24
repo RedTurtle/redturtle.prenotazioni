@@ -5,7 +5,7 @@ Changelog
 1.7.0 (unreleased)
 ------------------
 
-- Remove sort order on types table (#33584).
+- Remove sort order on week-legend table (#33584).
   [foxtrot-dfm1]
 - RestAPI endpoint to have available week slots.
   [foxtrot-dfm1]
