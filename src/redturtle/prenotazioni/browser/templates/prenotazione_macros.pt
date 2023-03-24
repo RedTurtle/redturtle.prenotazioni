@@ -263,7 +263,7 @@
 <metal:macro metal:define-macro="week-tipologies-legend" i18n:domain="redturtle.prenotazioni">
   <div class="week-legend"
         tal:define="booking_type_durations view/prenotazioni/booking_type_durations;
-                    keys python:sorted(booking_type_durations.keys())">
+                    keys python: booking_type_durations.keys()">
     <fieldset>
       <legend i18n:translate="label_tipologies">Reservation types</legend>
       <p i18n:translate="help_tipologies">List of available reservation type for the current agenda</p>
