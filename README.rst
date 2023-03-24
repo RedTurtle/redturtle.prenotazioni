@@ -1,3 +1,28 @@
+
+.. image:: https://img.shields.io/pypi/v/redturtle.prenotazioni.svg
+    :target: https://pypi.org/project/redturtle.prenotazioni/
+    :alt: Latest Version
+
+.. image:: https://img.shields.io/pypi/pyversions/redturtle.prenotazioni.svg?style=plastic
+    :target: https://pypi.org/project/redturtle.prenotazioni/
+    :alt: Supported - Python Versions
+
+.. image:: https://img.shields.io/pypi/dm/redturtle.prenotazioni.svg
+    :target: https://pypi.org/project/redturtle.prenotazioni/
+    :alt: Number of PyPI downloads
+
+.. image:: https://img.shields.io/pypi/l/redturtle.prenotazioni.svg
+    :target: https://pypi.org/project/redturtle.prenotazioni/
+    :alt: License
+
+.. image:: https://github.com/RedTurtle/redturtle.prenotazioni/actions/workflows/tests.yml/badge.svg
+    :target: https://github.com/RedTurtle/redturtle.prenotazioni/actions
+    :alt: Tests
+
+.. image:: https://coveralls.io/repos/github/RedTurtle/redturtle.prenotazioni/badge.svg?branch=master
+    :target: https://coveralls.io/github/RedTurtle/redturtle.prenotazioni?branch=master
+    :alt: Coverage
+
 ======================
 redturtle.prenotazioni
 ======================
@@ -15,13 +40,26 @@ Add **redturtle.prenotazioni** to the egg section of your instance:
 
   [instance]
   eggs=
-      ...
-      redturtle.prenotazioni
+        ...
+        redturtle.prenotazioni
 
 To avoid spam, there is a background validation with `collective.honeypot`_ .
 
 .. _collective.honeypot: https://pypi.org/project/collective.honeypot
 
+
+With a version of `plone.app.dexterity` lower than 3.* (ie Plone 5.2) you need to add 
+`collective.dexteritytextindexer`_ as requirement.
+
+::
+    
+    [instance]
+    eggs=
+        ...
+        redturtle.prenotazioni
+        collective.dexteritytextindexer
+
+.. _collective.dexteritytextindexer: https://pypi.org/project/collective.dexteritytextindexer
 
 Introduction
 ============
@@ -145,6 +183,14 @@ Using the prenotazioni_search view it is possible to search
 bookings within a given time interval.
 You can also filter the results specifying a searchable text,
 a gate or a review state.
+
+
+Rest API
+--------
+
+::
+
+   curl -i http://localhost:8080/Plone/folder/@week-slots -H 'Accept: application/json'
 
 Contribute
 ==========

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.indexer import indexer
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from plone import api
+
 import six
 
 

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
+from plone import api
+from plone.memoize.view import memoize
+from plone.protect.utils import addTokenToUrl
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.utils import getToolByName
-from plone.memoize.view import memoize
 from redturtle.prenotazioni import _
-from plone import api
 from redturtle.prenotazioni.adapters.prenotazione import IDeleteTokenProvider
-from plone.protect.utils import addTokenToUrl
 
 
 class DeleteReservation(BrowserView):
@@ -19,7 +19,7 @@ class DeleteReservation(BrowserView):
         title = self.context.Title()  # noqa
         return _(
             "delete_reservation_request",
-            u"Delete reservation request for: ${name}",
+            "Delete reservation request for: ${name}",
             mapping={"name": title},
         )
 
@@ -30,7 +30,7 @@ class DeleteReservation(BrowserView):
         title = self.context.Title()  # noqa
         return _(
             "no_reservation",
-            u"Seems your reservation is not existing",
+            "Seems your reservation is not existing",
         )
 
     @property
@@ -40,7 +40,7 @@ class DeleteReservation(BrowserView):
         title = self.context.Title()  # noqa
         return _(
             "deleted_reservation",
-            u"Your reservation has been deleted",
+            "Your reservation has been deleted",
         )
 
     @property
@@ -94,7 +94,6 @@ class DeleteReservation(BrowserView):
                 self.say_status(_("Your reservation has been deleted"), "info")
 
     def __call__(self):
-
         form = self.request.form
         self.uid = form.get("uid", None)
         self.delete_token = form.get("delete_token", None)

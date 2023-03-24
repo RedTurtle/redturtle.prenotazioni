@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from plone.memoize.view import memoize
+from plone.protect.utils import addTokenToUrl
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.utilities.urls import urlify
-from plone.protect.utils import addTokenToUrl
 
 
 class PrenotazionePrint(BrowserView):
@@ -18,7 +18,7 @@ class PrenotazionePrint(BrowserView):
 
     description = _(
         "confirm_booking_waiting_message",
-        u"Your booking has to be confirmed by the administrators",
+        "Your booking has to be confirmed by the administrators",
     )
 
     @property
@@ -28,7 +28,7 @@ class PrenotazionePrint(BrowserView):
         title = self.prenotazione.getPrenotazioniFolder().Title()  # noqa
         return _(
             "reservation_request",
-            u"Booking request for: ${name}",
+            "Booking request for: ${name}",
             mapping={"name": title},
         )
 

@@ -8,14 +8,15 @@ A message is conceptually very similar to an email and, in its simplest form, is
     An optional due_date: a due date that let the recipient add a reminder when receiving the message. The format for all dates is ISO8601 with time information and UTC timezone (ie. "2018-10-13T00:00:00.000Z").
 
 """
+from . import logger
+
 # from pkg_resources import resource_filename
 # from bravado.swagger_model import load_file
 from bravado.client import SwaggerClient
-from bravado.requests_client import RequestsClient
 from bravado.exception import HTTPForbidden
+from bravado.requests_client import RequestsClient
 from datetime import datetime
 from pytz import timezone
-from . import logger
 
 
 # STATUS INTERNI A QUESTA API

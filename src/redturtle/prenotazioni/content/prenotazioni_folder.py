@@ -1,28 +1,31 @@
 # -*- coding: utf-8 -*-
-from collective import dexteritytextindexer
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 from datetime import date
+
+try:
+    from plone.app.dexterity import textindexer
+except ImportError:
+    # Plone 5.2
+    from collective import dexteritytextindexer as textindexer
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.slot import (
-    interval_is_contained,
-    is_intervals_overlapping,
-)
+from redturtle.prenotazioni.adapters.slot import interval_is_contained
+from redturtle.prenotazioni.adapters.slot import is_intervals_overlapping
+from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
+from zope.component import provideAdapter
 from zope.interface import implementer
 from zope.interface import Interface
-from zope.schema.vocabulary import SimpleTerm
-from zope.schema.vocabulary import SimpleVocabulary
 from zope.interface import Invalid
 from zope.interface import invariant
-from zope.component import provideAdapter
-from z3c.form import validator
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 def get_dgf_values_from_request(request, fieldname, columns=[]):
@@ -59,7 +62,6 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
 
 
 class IWeekTableRow(model.Schema):
-
     day = schema.TextLine(
         title=_("day_label", default="Day of week"), required=True, default=""
     )
@@ -131,7 +133,7 @@ class IBookingTypeRow(Interface):
 class IPrenotazioniFolder(model.Schema):
     """Marker interface and Dexterity Python Schema for PrenotazioniFolder"""
 
-    dexteritytextindexer.searchable("descriptionAgenda")
+    textindexer.searchable("descriptionAgenda")
     descriptionAgenda = RichText(
         required=False,
         title=_("Descrizione Agenda", default="Descrizione Agenda"),
@@ -268,7 +270,9 @@ class IPrenotazioniFolder(model.Schema):
             },
         ],
     )
-    form.widget(week_table=DataGridFieldFactory)
+    form.widget(
+        "week_table", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
+    )
 
     pause_table = schema.List(
         title=_("Pause table"),
@@ -276,7 +280,9 @@ class IPrenotazioniFolder(model.Schema):
         required=False,
         value_type=DictRow(title="Pause row", schema=IPauseTableRow),
     )
-    form.widget(pause_table=DataGridFieldFactory)
+    form.widget(
+        "pause_table", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
+    )
 
     holidays = schema.List(
         title=_("holidays_label", default="Holidays"),
@@ -324,7 +330,9 @@ class IPrenotazioniFolder(model.Schema):
         ),
         value_type=DictRow(schema=IBookingTypeRow),
     )
-    form.widget(booking_types=DataGridFieldFactory)
+    form.widget(
+        "booking_types", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
+    )
 
     gates = schema.List(
         title=_("gates_label", "Gates"),
@@ -344,7 +352,7 @@ class IPrenotazioniFolder(model.Schema):
             "The specified gate will not be taken in to "  # noqa
             "account for slot allocation. "
             "Each line should match a corresponding "
-            u'line in the "Gates" field',
+            'line in the "Gates" field',
         ),
         required=False,
         value_type=schema.TextLine(),
@@ -395,10 +403,10 @@ class IPrenotazioniFolder(model.Schema):
 
     model.fieldset(
         "contacts",
-        label=_("contacts_label", default=u"Contacts"),
+        label=_("contacts_label", default="Contacts"),
         description=_(
             "contacts_help",
-            default=u"Show here contacts information that will be used by authomatic mail system",  # noqa
+            default="Show here contacts information that will be used by authomatic mail system",  # noqa
         ),
         fields=["how_to_get_here", "phone", "fax", "pec", "complete_address"],
     )
@@ -406,22 +414,22 @@ class IPrenotazioniFolder(model.Schema):
     @invariant
     def data_validation(data):
         if not data.booking_types:
-            raise Invalid(_(u"You should set at least one booking type."))
+            raise Invalid(_("You should set at least one booking type."))
         for interval in data.week_table:
             if interval["morning_start"] and not interval["morning_end"]:
-                raise Invalid(_(u"You should set and end time for morning."))
+                raise Invalid(_("You should set and end time for morning."))
             if interval["morning_end"] and not interval["morning_start"]:
-                raise Invalid(_(u"You should set a start time for morning."))
+                raise Invalid(_("You should set a start time for morning."))
             if interval["afternoon_start"] and not interval["afternoon_end"]:
-                raise Invalid(_(u"You should set and end time for afternoon."))
+                raise Invalid(_("You should set and end time for afternoon."))
             if interval["afternoon_end"] and not interval["afternoon_start"]:
-                raise Invalid(_(u"You should set a start time for afternoon."))
+                raise Invalid(_("You should set a start time for afternoon."))
             if interval["morning_start"] and interval["morning_end"]:
                 if interval["morning_start"] > interval["morning_end"]:
-                    raise Invalid(_(u"Morning start should not be greater than end."))
+                    raise Invalid(_("Morning start should not be greater than end."))
             if interval["afternoon_start"] and interval["afternoon_end"]:
                 if interval["afternoon_start"] > interval["afternoon_end"]:
-                    raise Invalid(_(u"Afternoon start should not be greater than end."))
+                    raise Invalid(_("Afternoon start should not be greater than end."))
 
     # TODO: definire o descrivere quando avviee la notifica
     app_io_enabled = schema.Bool(
@@ -433,7 +441,7 @@ class IPrenotazioniFolder(model.Schema):
 
     model.fieldset(
         "Reminders",
-        label=_("reminders_label", default=u"Reminders"),
+        label=_("reminders_label", default="Reminders"),
         fields=[
             "app_io_enabled",
         ],
@@ -480,11 +488,11 @@ class PauseValidator(validator.SimpleFieldValidator):
                     pause["pause_end"] == "--NOVALUE--"
                     or pause["pause_start"] == "--NOVALUE--"
                 ):
-                    raise Invalid(_(u"You must set both start and end"))
+                    raise Invalid(_("You must set both start and end"))
 
                 # 1. Pause starts should always be bigger than pause ends
                 if not (pause["pause_end"] > pause["pause_start"]):
-                    raise Invalid(_(u"Pause end should be greater than pause start"))
+                    raise Invalid(_("Pause end should be greater than pause start"))
                 interval = [pause["pause_start"], pause["pause_end"]]
                 # 2. a pause interval should always be contained in the morning
                 # or afternoon defined for these days
@@ -502,7 +510,7 @@ class PauseValidator(validator.SimpleFieldValidator):
                 ):
                     raise Invalid(
                         _(
-                            u"Pause should be included in morning slot or afternoon slot"  # noqa
+                            "Pause should be included in morning slot or afternoon slot"  # noqa
                         )
                     )
             # 3. two pause interval on the same day should not overlap
@@ -513,7 +521,7 @@ class PauseValidator(validator.SimpleFieldValidator):
                 ]
             ):
                 raise Invalid(
-                    _(u"In the same day there are overlapping intervals")
+                    _("In the same day there are overlapping intervals")
                 )  # noqa
 
 

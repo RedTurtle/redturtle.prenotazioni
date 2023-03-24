@@ -1,23 +1,28 @@
 # -*- coding: utf-8 -*-
 from BTrees.OOBTree import OOTreeSet
 from csv import writer
-from datetime import date, datetime, timedelta
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 from io import StringIO
 from json import dumps
 from plone.memoize.view import memoize
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni import prenotazioniFileLogger
 from redturtle.prenotazioni import logger
+from redturtle.prenotazioni import prenotazioniFileLogger
 from redturtle.prenotazioni.browser.base import BaseView as PrenotazioniBaseView
 from time import mktime
 from zope.annotation.interfaces import IAnnotations
 from zope.interface import Interface
-from zope.schema import Date, TextLine, ValidationError
+from zope.schema import Date
+from zope.schema import TextLine
+from zope.schema import ValidationError
+
 import six
 
 
 class InvalidDate(ValidationError):
-    __doc__ = _("invalid_end:search_date", u"Invalid start or end date")
+    __doc__ = _("invalid_end:search_date", "Invalid start or end date")
 
 
 def check_date(value):
@@ -34,16 +39,16 @@ class IQueryForm(Interface):
     Interface for querying stuff
     """
 
-    user = TextLine(title=_(u"label_user", "User"), default=u"", required=False)
+    user = TextLine(title=_("label_user", "User"), default="", required=False)
     start = Date(
-        title=_("label_start", u"Start date "),
+        title=_("label_start", "Start date "),
         description=_(" format (YYYY-MM-DD)"),
         default=None,
         constraint=check_date,
         required=False,
     )
     end = Date(
-        title=_("label_end", u"End date"),
+        title=_("label_end", "End date"),
         description=_(" format (YYYY-MM-DD)"),
         default=None,
         constraint=check_date,

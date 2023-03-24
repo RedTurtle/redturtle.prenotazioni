@@ -7,21 +7,21 @@ from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 @indexer(IPrenotazione)
 def SearchableText_prenotazione(obj):
     if obj.subject:
-        subject = u" ".join([safe_unicode(s) for s in obj.subject])
+        subject = " ".join([safe_unicode(s) for s in obj.subject])
     else:
-        subject = u""
+        subject = ""
 
-    return u" ".join(
+    return " ".join(
         (
             safe_unicode(obj.id),
-            safe_unicode(obj.title) or u"",
-            safe_unicode(obj.description) or u"",
-            safe_unicode(obj.email or u""),
-            safe_unicode(obj.phone or u""),
-            safe_unicode(obj.booking_type or u""),
-            safe_unicode(obj.company or u""),
-            safe_unicode(obj.gate or u""),
-            safe_unicode(obj.staff_notes or u""),
+            safe_unicode(obj.title) or "",
+            safe_unicode(obj.description) or "",
+            safe_unicode(obj.email or ""),
+            safe_unicode(obj.phone or ""),
+            safe_unicode(obj.booking_type or ""),
+            safe_unicode(obj.company or ""),
+            safe_unicode(obj.gate or ""),
+            safe_unicode(obj.staff_notes or ""),
             subject,
         )
     )

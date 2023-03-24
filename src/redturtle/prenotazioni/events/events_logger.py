@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from json import dumps
 from plone import api
 from time import time
-from json import dumps
 
 
 def log_data_for_booking(obj, data):

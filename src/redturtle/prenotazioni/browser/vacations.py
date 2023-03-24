@@ -11,7 +11,6 @@ from redturtle.prenotazioni import time2timedelta
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.utilities.urls import urlify
-import six
 from six.moves import map
 from z3c.form import button
 from z3c.form import field
@@ -24,6 +23,8 @@ from zope.schema import Choice
 from zope.schema import Date
 from zope.schema import TextLine
 from zope.schema import ValidationError
+
+import six
 
 
 class InvalidDate(ValidationError):
@@ -55,34 +56,34 @@ def check_time(value):
 
 class IVacationBooking(Interface):
     title = TextLine(
-        title=_("label_title", u"Title"),
+        title=_("label_title", "Title"),
         description=_(
-            "description_title", u"This text will appear in the calendar cells"
+            "description_title", "This text will appear in the calendar cells"
         ),
-        default=u"",
+        default="",
     )
     gate = Choice(
-        title=_("label_gate", u"Gate"),
-        description=_("description_gate", u"The gate that will be unavailable"),
-        default=u"",
+        title=_("label_gate", "Gate"),
+        description=_("description_gate", "The gate that will be unavailable"),
+        default="",
         vocabulary="redturtle.prenotazioni.gates",
     )
     start_date = Date(
-        title=_("label_start", u"Start date "),
+        title=_("label_start", "Start date "),
         description=_(" format (YYYY-MM-DD)"),
         default=None,
     )
     start_time = TextLine(
-        title=_("label_start_time", u"Start time"),
+        title=_("label_start_time", "Start time"),
         description=_("invalid_time"),
         constraint=check_time,
-        default=u"00:00",
+        default="00:00",
     )
     end_time = TextLine(
-        title=_("label_end_time", u"End time"),
+        title=_("label_end_time", "End time"),
         description=_("invalid_time"),
         constraint=check_time,
-        default=u"23:59",
+        default="23:59",
     )
 
 
@@ -242,7 +243,7 @@ class VacationBooking(form.Form):
         msg = _("booking_created")
         IStatusMessage(self.request).add(msg, "info")
 
-    @button.buttonAndHandler(_(u"action_book", default=u"Book"))
+    @button.buttonAndHandler(_("action_book", default="Book"))
     def action_book(self, action):
         """
         Book this resource
@@ -254,12 +255,12 @@ class VacationBooking(form.Form):
         if self.has_slot_conflicts(parsed_data):
             msg = _(
                 "slot_conflict_error",
-                u"This gate has some booking schedule in this time " u"period.",
+                "This gate has some booking schedule in this time " "period.",
             )
             raise ActionExecutionError(Invalid(msg))
 
         elif not self.prenotazioni.is_valid_day(start_date):
-            msg = _("day_error", u"This day is not valid.")
+            msg = _("day_error", "This day is not valid.")
             raise ActionExecutionError(Invalid(msg))
 
         self.do_book(parsed_data)
@@ -267,7 +268,7 @@ class VacationBooking(form.Form):
         target = urlify(self.context.absolute_url(), params=qs)
         return self.request.response.redirect(target)
 
-    @button.buttonAndHandler(_(u"action_cancel", default=u"Cancel"))
+    @button.buttonAndHandler(_("action_cancel", default="Cancel"))
     def action_cancel(self, action):
         """
         Cancel
