@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.7.0 (unreleased)
+1.7.0 (2023-03-24)
 ------------------
 
 - Remove sort order on week-legend table (#33584).
