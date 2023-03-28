@@ -5,7 +5,8 @@ Changelog
 1.7.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add plone5 profile to setup.
+  [foxtrot-dfm1]
 
 
 1.7.0 (2023-03-24)
