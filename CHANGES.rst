@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.7.1 (unreleased)
+1.7.1 (2023-03-28)
 ------------------
 
 - Add plone5 profile to setup.
