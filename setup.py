@@ -82,6 +82,9 @@ setup(
             "bravado",
             "pytz",
         ],
+        "plone5": [
+            "collective.dexteritytextindexer"
+        ],
     },
     entry_points="""
     [z3c.autoinclude.plugin]
