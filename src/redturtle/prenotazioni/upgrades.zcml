@@ -61,4 +61,12 @@
       destination="1401"
       handler=".upgrades.to_1401"
       />
+  <genericsetup:upgradeStep
+      title="Upgrade to 1402"
+      description="Upgrade content rules"
+      profile="redturtle.prenotazioni:default"
+      source="1401"
+      destination="1402"
+      handler=".upgrades.to_1402"
+      />
 </configure>

@@ -5,7 +5,8 @@ Changelog
 1.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add autoconfirm content rule to profile.
+  [foxtrot-dfm1]
 
 
 1.7.1 (2023-03-28)
