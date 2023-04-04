@@ -165,7 +165,7 @@ The rules which are available by default:
 * `booking-moved` (Invia un'email all'utente quando la data della prenotazione viene cambiata)
 * `booking-created-user` (Invia un'email all'utente quando la prenotazione è stata creata)
 * `booking-refuse` (Invia un'email all'utente quando la prenotazione è stata rifiutata)
-* `booking-confirm` (Conferma automatica prenotazioni
+* `booking-confirm` (Conferma automatica prenotazioni)
 
 Vacations
 ---------
