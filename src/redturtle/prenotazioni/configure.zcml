@@ -39,6 +39,14 @@
       post_handler=".setuphandlers.uninstall"
       />
 
+  <genericsetup:registerProfile
+      name="content_rules_evolution"
+      title="Content rules evolution profile"
+      description="Used to add new contentrules"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/content_rules_evolution"
+      />
+
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="redturtle.prenotazioni-hiddenprofiles"

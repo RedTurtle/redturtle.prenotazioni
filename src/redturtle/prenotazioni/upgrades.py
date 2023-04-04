@@ -15,6 +15,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 DEFAULT_PROFILE = "profile-redturtle.prenotazioni:default"
+CONTENT_RULES_EVOLUTION_PROFILE = (
+    "profile-redturtle.prenotazioni:content_rules_evolution"
+)
 
 
 def update_profile(context, profile):
@@ -187,4 +190,5 @@ def to_1401(context):
 
 
 def to_1402(context):
-    update_contentrules(context)
+    # load new content rules
+    context.runImportStepFromProfile(CONTENT_RULES_EVOLUTION_PROFILE, "contentrules")
