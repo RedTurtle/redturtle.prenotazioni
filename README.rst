@@ -161,11 +161,11 @@ If you set "Responsible email" field, an email will be sent each time a new Book
 
 The rules which are available by default:
 
-* `booking-accepted` Invia un'email all'utente quando la prenotazione è stata accettata
-* `booking-moved` Invia un'email all'utente quando la data della prenotazione viene cambiata
-* `booking-created-user` Invia un'email all'utente quando la prenotazione è stata creata
-* `booking-refuse` Invia un'email all'utente quando la prenotazione è stata rifiutata
-* `booking-confirm` Conferma automatica prenotazioni
+* `booking-accepted` (Invia un'email all'utente quando la prenotazione è stata accettata)
+* `booking-moved` (Invia un'email all'utente quando la data della prenotazione viene cambiata)
+* `booking-created-user` (Invia un'email all'utente quando la prenotazione è stata creata)
+* `booking-refuse` (Invia un'email all'utente quando la prenotazione è stata rifiutata)
+* `booking-confirm` (Conferma automatica prenotazioni
 
 Vacations
 ---------
