@@ -40,11 +40,11 @@
       />
 
   <genericsetup:registerProfile
-      name="content_rules_evolution"
+      name="to_1402"
       title="Content rules evolution profile"
       description="Used to add new contentrules"
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/content_rules_evolution"
+      directory="profiles/to_1402"
       />
 
   <utility
