@@ -4,5 +4,6 @@
     >
 
   <adapter factory=".slot.SlotSerializer" />
+  <adapter factory=".prenotazione.PrenotazioneSerializer" />
 
 </configure>

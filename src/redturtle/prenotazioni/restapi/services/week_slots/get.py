@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from plone import api
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service

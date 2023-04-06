@@ -4,5 +4,6 @@
     >
 
   <include package=".week_slots" />
+  <include package=".booking_info" />
 
 </configure>
