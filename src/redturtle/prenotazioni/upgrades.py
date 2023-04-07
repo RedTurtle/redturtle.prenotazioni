@@ -146,19 +146,13 @@ def to_1400(context):
         )
 
         for portal_type_condition in portal_type_conditions:
-            if "Prenotazione" in getattr(
-                portal_type_condition, "check_types", []
-            ):
-                for (
-                    workflow_transition_condition
-                ) in workflow_transition_conditions:
+            if "Prenotazione" in getattr(portal_type_condition, "check_types", []):
+                for workflow_transition_condition in workflow_transition_conditions:
                     if isinstance(
                         workflow_transition_condition,
                         WorkflowTransitionCondition,
                     ):
-                        wf_states = list(
-                            workflow_transition_condition.wf_transitions
-                        )
+                        wf_states = list(workflow_transition_condition.wf_transitions)
 
                         if "publish" in wf_states:
                             wf_states.remove("publish")
@@ -169,9 +163,7 @@ def to_1400(context):
                             )
 
                 for workflow_state_condition in workflow_state_conditions:
-                    if isinstance(
-                        workflow_state_condition, WorkflowStateCondition
-                    ):
+                    if isinstance(workflow_state_condition, WorkflowStateCondition):
                         wf_states = list(workflow_state_condition.wf_states)
 
                         if "publish" in wf_states:
@@ -207,6 +199,4 @@ def to_1401(context):
 
 def to_1402(context):
     # load new content rules
-    context.runImportStepFromProfile(
-        CONTENT_RULES_EVOLUTION_PROFILE, "contentrules"
-    )
+    context.runImportStepFromProfile(CONTENT_RULES_EVOLUTION_PROFILE, "contentrules")
