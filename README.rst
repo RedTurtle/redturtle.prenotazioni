@@ -231,7 +231,7 @@ Response::
     }
 
 @month-slots
------------
+------------
 
 Endpoint that need to be called on a PrenotazioniFolder.
 It returns the list of all available slots of a single month.
