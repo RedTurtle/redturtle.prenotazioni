@@ -5,7 +5,8 @@ Changelog
 1.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added a new endpoint to get booking details. (#40442)
+  [daniele]
 
 
 1.7.1 (2023-03-28)
