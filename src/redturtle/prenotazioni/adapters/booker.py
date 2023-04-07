@@ -14,6 +14,8 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import Interface
 from zope.interface import implementer
 
+import six
+
 
 class IBooker(Interface):
     """Interface for a booker"""
@@ -104,8 +106,11 @@ class Booker(object):
         # set delete token
         expiration = datetime.combine(obj.booking_date.date(), time(0, 0, 0))
         token = IDeleteTokenProvider(obj).generate_token(expiration=expiration)
+        if six.PY2:
+            token = token.decode("utf-8")
+
         annotations = IAnnotations(obj)
-        annotations[DELETE_TOKEN_KEY] = token.decode("utf-8")
+        annotations[DELETE_TOKEN_KEY] = token
 
         annotations[VERIFIED_BOOKING] = False
         if not api.user.is_anonymous():
