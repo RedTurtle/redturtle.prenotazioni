@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone import api
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
@@ -69,4 +70,7 @@ class WeekSlots(Service):
                     for item in value
                 ]
 
-        return response
+        return {
+            "@id": "{}/@week-slots".format(self.contenxt.abosolute_url()),
+            "items": response,
+        }

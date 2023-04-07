@@ -194,6 +194,7 @@
                          bookable python:link.get('url', '')">
           <tal:start replace="slot/start" />
           <tal:bookable condition="bookable">
+
             <tal:future condition="link/future">
               <a href=""
                  data-title="Foreseen booking time"
