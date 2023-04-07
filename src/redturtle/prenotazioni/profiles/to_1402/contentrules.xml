@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <contentrules>
- <!-- IF U ARE EDITING THIS PROFILE TO USE IN THE UPGRADE STEP SO REMOVE ALL THE RULES BELOW IF DEFINED -->
  <rule name="booking-confirm" title="Conferma automatica prenotazioni"
     cascading="False" description="Conferma automatica degli appuntamenti"
     enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
