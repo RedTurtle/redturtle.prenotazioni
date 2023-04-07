@@ -9,31 +9,26 @@ from AccessControl import Unauthorized
 class BookingInfo(Service):
     def reply(self):
         catalog = api.portal.get_tool("portal_catalog")
-        booking = catalog(**{"UID": self.request.uid})[0]
-        if not api.user.is_anonymous():
+
+        query = {"portal_type": "Prenotazione", "UID": self.request.uid}
+        booking = catalog.unrestrictedSearchResults(query)
+        booking = booking[0]._unrestrictedGetObject()
+
+        if api.user.is_anonymous():
+            if booking.Creator():
+                raise Unauthorized
+        else:
             current_user = api.user.get_current()
+
             if (
-                not booking.Creator
-                and api.user.has_permission(
+                not api.user.has_permission(
                     "redturtle.prenotazioni.ManagePrenotazioni",
                     username=current_user.getUserName(),
                 )
-            ) or booking.Creator == current_user.getUserName():
-                response = getMultiAdapter(
-                    (booking.getObject(), self.request), ISerializeToJson
-                )()
-            else:
+                and not booking.Creator() == current_user.getUserName()
+            ):
                 raise Unauthorized
 
-        # if api.user.is_anonymous():
-        #     with api.env.adopt_roles(["Manager", "Member"]):
-        #         res = api.content.find(UID=self.request.uid)
-        #         brains = catalog(**{"UID": self.request.uid})[0]
-        # else:
-        #     brains = catalog(**{"UID": self.request.uid})[0]
-
-        # response = getMultiAdapter(
-        #     (booking.getObject(), self.request), ISerializeToJson
-        # )()
+        response = getMultiAdapter((booking, self.request), ISerializeToJson)()
 
         return response

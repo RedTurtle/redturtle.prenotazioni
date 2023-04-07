@@ -35,6 +35,3 @@ class PrenotazioneSerializer:
             "booking_code": self.prenotazione.getBookingCode(),
             "cosa_serve": useful_docs,
         }
-
-
-# obj.__ac_local_roles__
