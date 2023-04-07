@@ -92,9 +92,9 @@ i18n:domain="redturtle.prenotazioni">
                     <strong i18n:translate="label_booking_code">Booking code</strong>:
                     <span tal:replace="here/getBookingCode" />
                 </div>
-                <div class="field">
+                <div class="field" tal:define="cosa_serve python: here.getPrenotazioniFolder().getCosaServe()" tal:condition="cosa_serve">
                     <strong i18n:translate="cosa_serve">Cosa serve</strong>:
-                    <span tal:replace="python: here.getPrenotazioniFolder().getCosaServe()" />
+                    <span tal:replace="cosa_serve" />
                 </div>
                 <hr />
                 <p>&nbsp;</p>
