@@ -5,8 +5,8 @@ Changelog
 1.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added endpoint to get booking schema.
+  [daniele]
 
 1.7.1 (2023-03-28)
 ------------------

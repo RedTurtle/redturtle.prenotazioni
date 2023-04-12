@@ -282,6 +282,68 @@ Response::
         ]
     }
 
+@prenotazione-schema
+------------
+
+Endpoint that need to be called on a PrenotazioniFolder.
+It returns the list of all fields to fill in for the booking.
+
+The booking date is passed via querystring (e.g ?form.booking_date=2023-04-13+10%3A00')
+
+Example::
+
+   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?form.booking_date=2023-04-13+10%3A00' -H 'Accept: application/json' 
+
+Response::
+
+   {
+    "booking_types": {
+        "bookable": [
+        {
+            "duration": "10", 
+            "name": "Redditi"
+        }, 
+        {
+            "duration": "15", 
+            "name": "Rilascio certificato del Registro Imprese (max 2 certificati)"
+        }
+        ], 
+        "unbookable": []
+    }, 
+    "fields": [
+        {
+        "name": "email", 
+        "readonly": false, 
+        "required": true, 
+        "value": ""
+        }, 
+        {
+        "name": "phone", 
+        "readonly": false, 
+        "required": true, 
+        "value": ""
+        }, 
+        {
+        "name": "fiscalcode", 
+        "readonly": false, 
+        "required": true, 
+        "value": ""
+        }, 
+        {
+        "name": "company", 
+        "readonly": false, 
+        "required": false, 
+        "value": ""
+        }, 
+        {
+        "name": "description", 
+        "readonly": false, 
+        "required": false, 
+        "value": ""
+        }
+    ]
+}                         
+
 Contribute
 ==========
 
