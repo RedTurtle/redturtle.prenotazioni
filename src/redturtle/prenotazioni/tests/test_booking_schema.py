@@ -9,11 +9,8 @@ from plone.app.testing import (
 )
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
-from datetime import datetime
 from plone.restapi.serializer.converters import json_compatible
-from redturtle.prenotazioni.adapters.booker import IBooker
 
-import calendar
 import unittest
 import transaction
 
@@ -120,14 +117,13 @@ class TestMonthSlots(unittest.TestCase):
     ):
         now = date.today()
         current_year = now.year
-        current_day = now.day
-        monday = 0
+        sunday = 6
         current_month = now.month
 
         response = self.api_session.get(
             "{}/@prenotazione-schema?form.booking_date={}+10%3A00".format(
                 self.folder_prenotazioni.absolute_url(),
-                json_compatible(date(current_year, current_month, current_day)),
+                json_compatible(date(current_year, current_month, sunday)),
             ),
         )
 
