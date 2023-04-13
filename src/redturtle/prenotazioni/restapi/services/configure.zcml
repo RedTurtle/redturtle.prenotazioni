@@ -3,6 +3,7 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     >
 
+  <include package=".month_slots" />
   <include package=".week_slots" />
 
 </configure>
