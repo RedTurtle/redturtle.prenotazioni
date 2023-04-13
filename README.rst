@@ -283,7 +283,7 @@ Response::
     }
 
 @prenotazione-schema
-------------
+--------------------
 
 Endpoint that need to be called on a PrenotazioniFolder.
 It returns the list of all fields to fill in for the booking.
@@ -342,7 +342,8 @@ Response::
         "value": ""
         }
     ]
-}                         
+   }
+                         
 
 Contribute
 ==========
