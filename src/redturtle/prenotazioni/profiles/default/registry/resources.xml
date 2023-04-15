@@ -2,24 +2,11 @@
 <registry>
 <!-- -*- extra stuff goes here -*- -->
 
-  <records prefix="plone.resources/rgprenotazioni"
-           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
-           <value key="js">++plone++redturtle.prenotazioni/redturtle-reservation.js</value>
-    <value key="css">
-        <element>++plone++redturtle.prenotazioni/redturtle-reservation.css</element>
-    </value>
-  </records>
-
-  <records prefix="plone.bundles/rgprenotazioni-bundle"
+  <records prefix="plone.bundles/redturtle-prenotazioni-bundle"
            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
     <value key="enabled">True</value>
-    <value key="resources">
-      <element>rgprenotazioni</element>
-    </value>
-    <value key="compile">True</value>
-    <value key="jscompilation">++plone++redturtle.prenotazioni/redturtle-reservation.js</value>
+    <value key="jscompilation">++plone++redturtle.prenotazioni/dist/redturtle-prenotazioni.min.js</value>
     <value key="csscompilation">++plone++redturtle.prenotazioni/redturtle-reservation.css</value>
-    <value key="last_compilation">2019-11-26 00:00:00</value>
   </records>
 
   </registry>

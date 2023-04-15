@@ -1,0 +1,47 @@
+{
+    "name": "redturtle-prenotazioni",
+    "version": "2.0.0-dev.0",
+    "description": "RedTurtle Prenotazioni",
+    "license": "GPL-2.0-only",
+    "dependencies": {
+        "@patternslib/patternslib": "*",
+        "@plone/mockup": ">= 5.0.0-alpha.24 < 6"
+    },
+    "devDependencies": {
+        "@patternslib/dev": "^2.7.2",
+        "clean-css-cli": "^5.6.1",
+        "npm-run-all": "^4.1.5",
+        "sass": "^1.54.5"
+    },
+    "resolutions": {},
+    "resolutions-comments": {},
+    "scripts": {
+        "build": "npm-run-all build:webpack build:css",
+        "build:webpack": "NODE_ENV=production webpack --config webpack.config.js",
+        "build:css": "npm-run-all css-compile css-minify",
+        "watch:webpack": "NODE_ENV=development webpack --config webpack.config.js --watch",
+        "watch:scss": "nodemon --watch resources/scss/ --ext scss --exec \"yarn build:css\"",
+        "start": "NODE_ENV=development webpack serve --config webpack.config.js",
+        "css-compile": "sass --load-path=node_modules --style expanded --source-map --embed-sources --no-error-css resources/scss/cropscaleselect.scss:src/plone/app/imagecropping/browser/static/cropscaleselect.css",
+        "css-minify": "cleancss -O1 --format breakWith=lf --source-map --source-map-inline-sources --output src/plone/app/imagecropping/browser/static/cropscaleselect.min.css src/plone/app/imagecropping/browser/static/cropscaleselect.css"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ]
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "author": {
+        "name": "Plone Foundation",
+        "email": "releasemanager@plone.org"
+    },
+    "homepage": "https://github.com/RedTurtle/redturtle.prenotazioni",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RedTurtle/redturtle.prenotazioni.git"
+    }
+}
