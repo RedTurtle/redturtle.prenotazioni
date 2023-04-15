@@ -5,8 +5,10 @@ Changelog
 1.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fix Plone6 compatibility.
+  [cekk]
+- Removed unused type PrenotazioniFolderContainer.
+  [cekk]
 
 1.7.1 (2023-03-28)
 ------------------

@@ -184,3 +184,9 @@ def to_1401(context):
             for workflow_action in workflow_action_conditions:
                 if workflow_action.transition == "publish":
                     workflow_action.transition = "confirm"
+
+
+def to_1500(context):
+    context.runImportStepFromProfile(
+        "profile-redturtle.prenotazioni:to_1500", "typeinfo"
+    )

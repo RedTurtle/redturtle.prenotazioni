@@ -61,4 +61,6 @@
       destination="1401"
       handler=".upgrades.to_1401"
       />
+  <genericsetup:upgradeStep title="Upgrade to 1500" description="Remove unused type" profile="redturtle.prenotazioni:default" source="1401" destination="1500" handler=".upgrades.to_1500" />
+
 </configure>
