@@ -38,8 +38,14 @@
       directory="profiles/uninstall"
       post_handler=".setuphandlers.uninstall"
       />
-  
-  <genericsetup:registerProfile name="to_1500" title="redturtle.prenotazioni (to_1500)" description="redturtle.prenotazioni to 1500." provides="Products.GenericSetup.interfaces.EXTENSION" directory="profiles/to_1500" />
+
+  <genericsetup:registerProfile
+      name="to_1500"
+      title="redturtle.prenotazioni (to_1500)"
+      description="redturtle.prenotazioni to 1500."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/to_1500"
+      />
 
   <utility
       factory=".setuphandlers.HiddenProfiles"
