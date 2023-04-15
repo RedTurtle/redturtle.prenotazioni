@@ -56,7 +56,7 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
     @memoize
     def booking_types_bookability(self):
         """Get booking_type bookability"""
-        booking_date = self.prenotazione_add.booking_DateTime.asdatetime()
+        booking_date = self.prenotazione_add.booking_DateTime
         prenotazioni = self.prenotazione_add.prenotazioni
         return prenotazioni.booking_types_bookability(booking_date)
 
@@ -97,7 +97,7 @@ class CustomRadioWidget(RadioWidget):
     @memoize
     def booking_types_bookability(self):
         """Get booking_type bookability"""
-        booking_date = self.prenotazione_add.booking_DateTime.asdatetime()
+        booking_date = self.prenotazione_add.booking_DateTime
         prenotazioni = self.prenotazione_add.prenotazioni
         return prenotazioni.booking_types_bookability(booking_date)
 
@@ -171,7 +171,7 @@ class CustomRadioWidget(RadioWidget):
                 raise
         checked = self.isChecked(term)
         # id = '%s-%i' % (self.id, terms.index(term))
-        id = "%s-%i" % (self.id, index)
+        id = "{}-{}".format(self.id, index)
         item = {
             "id": id,
             "name": self.name,

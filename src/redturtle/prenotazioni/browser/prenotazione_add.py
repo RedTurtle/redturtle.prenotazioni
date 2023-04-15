@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from datetime import timedelta
-from DateTime import DateTime
 from email.utils import formataddr
 from email.utils import parseaddr
 from os import environ
@@ -35,6 +34,7 @@ from zope.schema import Text
 from zope.schema import TextLine
 from zope.schema.interfaces import IVocabularyFactory
 
+import pytz
 
 DEFAULT_REQUIRED_FIELDS = []
 
@@ -152,7 +152,7 @@ class AddForm(form.AddForm):
             "Selected date: ${date} — Time: ${slot}",
             mapping={
                 "date": localized_date,
-                "slot": booking_date.asdatetime().strftime("%H:%M"),
+                "slot": booking_date.strftime("%H:%M"),
             },
         )
 
@@ -176,13 +176,9 @@ class AddForm(form.AddForm):
 
         if not booking_date:
             return None
-        tzname = self.get_timezone()
 
-        if len(booking_date) == 16:
-            if tzname == "RMT":
-                tzname = "CEST"
-            booking_date = " ".join((booking_date, tzname))
-        return DateTime(booking_date)
+        booking_date = datetime.fromisoformat(booking_date)
+        return pytz.timezone(self.get_timezone()).localize(booking_date)
 
     def get_timezone(self):
         """
@@ -337,7 +333,7 @@ class AddForm(form.AddForm):
 
     def has_enough_time(self):
         """Check if we have enough time to book something"""
-        booking_date = self.booking_DateTime.asdatetime()
+        booking_date = self.booking_DateTime
         return self.prenotazioni.is_booking_date_bookable(booking_date)
 
     def __call__(self):
