@@ -10,7 +10,6 @@ from plone.app.testing import (
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 from datetime import datetime
-from plone.restapi.serializer.converters import json_compatible
 from redturtle.prenotazioni.adapters.booker import IBooker
 
 import calendar
@@ -161,7 +160,7 @@ class TestBookingInfo(unittest.TestCase):
         # create a placeholder for first available monday
 
         booker = IBooker(self.folder_prenotazioni)
-        booking = booker.create(
+        booker.create(
             {
                 "booking_date": datetime(current_year, current_month, monday, 7, 0),
                 "booking_type": "Type A",
