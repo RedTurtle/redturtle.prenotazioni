@@ -5,7 +5,8 @@ Changelog
 1.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added field "cosa_serve" (#40445).
+  [daniele]
 
 
 1.7.1 (2023-03-28)
