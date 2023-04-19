@@ -140,6 +140,14 @@ class IPrenotazioniFolder(model.Schema):
         description=_("Inserire il testo di presentazione dell'agenda corrente"),
     )
 
+    cosa_serve = schema.Text(
+        required=False,
+        title=_("Cosa serve", default="Cosa serve"),
+        description=_(
+            "Elencare le informazioni utili per il giorno della prenotazione, come ad esempio i documenti da presentare."
+        ),
+    )
+
     directives.widget(required_booking_fields=CheckBoxFieldWidget)
     required_booking_fields = schema.List(
         title=_("label_required_booking_fields", default="Required booking fields"),
@@ -555,3 +563,6 @@ class PrenotazioniFolder(Container):
 
     def getNotBeforeDays(self):
         return self.notBeforeDays
+
+    def getCosaServe(self):
+        return self.cosa_serve
