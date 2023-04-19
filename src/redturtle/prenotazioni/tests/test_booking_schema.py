@@ -13,6 +13,7 @@ from plone.restapi.serializer.converters import json_compatible
 
 import unittest
 import transaction
+import calendar
 
 
 class TestMonthSlots(unittest.TestCase):
@@ -131,6 +132,48 @@ class TestMonthSlots(unittest.TestCase):
             "booking_types": {
                 "bookable": [],
                 "unbookable": [{"duration": "30", "name": "Type A"}],
+            },
+            "fields": [
+                {"name": "email", "readonly": True, "required": True, "value": ""},
+                {"name": "phone", "readonly": True, "required": False, "value": ""},
+                {
+                    "name": "description",
+                    "readonly": True,
+                    "required": False,
+                    "value": "",
+                },
+                {"name": "title", "readonly": True, "required": True, "value": ""},
+            ],
+        }
+
+        self.assertEqual(expected, response.json())
+
+    def test_booking_schema_bookable_available(
+        self,
+    ):
+        now = date.today()
+        current_year = now.year
+        current_month = now.month
+        current_day = now.day
+        monday = 0
+        # get next monday
+        for week in calendar.monthcalendar(current_year, current_month):
+            # week[0] is monday and should be greater than today
+            if week[0] > current_day:
+                monday = week[0]
+                break
+
+        response = self.api_session.get(
+            "{}/@prenotazione-schema?form.booking_date={}+07%3A00".format(
+                self.folder_prenotazioni.absolute_url(),
+                json_compatible(date(current_year, current_month, monday)),
+            ),
+        )
+
+        expected = {
+            "booking_types": {
+                "bookable": [{"duration": "30", "name": "Type A"}],
+                "unbookable": [],
             },
             "fields": [
                 {"name": "email", "readonly": True, "required": True, "value": ""},
