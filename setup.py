@@ -77,14 +77,13 @@ setup(
             "plone.testing>=5.0.0",
             "plone.app.contenttypes",
             "plone.app.robotframework[debug]",
+            "collective.MockMailHost",
         ],
         "app_io": [
             "bravado",
             "pytz",
         ],
-        "plone5": [
-            "collective.dexteritytextindexer"
-        ],
+        "plone5": ["collective.dexteritytextindexer"],
     },
     entry_points="""
     [z3c.autoinclude.plugin]

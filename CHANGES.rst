@@ -7,6 +7,8 @@ Changelog
 
 - Add autoconfirm content rule to profile.
   [foxtrot-dfm1]
+- Added field "cosa_serve" (#40445).
+  [daniele]
 
 
 1.7.1 (2023-03-28)
