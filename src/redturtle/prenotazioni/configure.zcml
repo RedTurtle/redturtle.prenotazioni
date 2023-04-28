@@ -39,6 +39,14 @@
       post_handler=".setuphandlers.uninstall"
       />
 
+  <genericsetup:registerProfile
+      name="to_1402"
+      title="Profile create to add the new default content rule: booking-confirm"
+      description="Used to add new contentrules"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/to_1402"
+      />
+
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="redturtle.prenotazioni-hiddenprofiles"

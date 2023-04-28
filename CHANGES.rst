@@ -7,6 +7,8 @@ Changelog
 
 - Added endpoint to get booking schema.
   [daniele]
+- Add autoconfirm content rule to profile.
+  [foxtrot-dfm1]
 - Added field "cosa_serve" (#40445).
   [daniele]
 

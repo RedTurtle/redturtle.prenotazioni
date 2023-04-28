@@ -126,5 +126,37 @@ Se non hai salvato o stampato il promemoria, puoi visualizzarlo a questo link: $
    </action>
   </actions>
  </rule>
-
+ <rule name="booking-confirm" title="Conferma automatica prenotazioni"
+    cascading="False" description="Conferma automatica degli appuntamenti"
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowState">
+    <property name="wf_states">
+     <element>pending</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>Prenotazione</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.Mail">
+    <property
+       name="subject">Prenotazione del ${booking_date} alle ${booking_time} accettata</property>
+    <property name="source"/>
+    <property name="recipients">${booking_user_email}</property>
+    <property name="exclude_actor">False</property>
+    <property
+       name="message">La prenotazione per ${title} e&#x27; stata confermata!
+     Se non hai salvato o stampato il promemoria, puoi visualizzarlo a questo link: ${booking_print_url}
+     Se desideri cancellare la prenotazione, accedi all&#x27;indirizzo ${booking_print_url_with_delete_token}</property>
+   </action>
+   <action type="plone.actions.Workflow">
+    <property name="transition">confirm</property>
+   </action>
+  </actions>
+ </rule>
 </contentrules>
