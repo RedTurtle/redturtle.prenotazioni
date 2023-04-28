@@ -134,14 +134,23 @@ class TestMonthSlots(unittest.TestCase):
         now = date.today()
         current_year = now.year
         current_month = now.month
+        next_month = current_month + 1
         current_day = now.day
         monday = 0
         # get next monday
-        for week in calendar.monthcalendar(current_year, current_month):
-            # week[0] is monday and should be greater than today
-            if week[0] > current_day:
-                monday = week[0]
-                break
+        found = False
+        while not found:
+            for week in calendar.monthcalendar(current_year, current_month):
+                # week[0] is monday and should be greater than today
+                if week[0] > current_day:
+                    monday = week[0]
+                    found = True
+                    break
+
+            if monday == 0:
+                current_month += 1
+                current_day = 1
+
         # create a placeholder for first available monday
         booker = IBooker(self.folder_prenotazioni)
         booker.create(
@@ -153,20 +162,33 @@ class TestMonthSlots(unittest.TestCase):
         )
         transaction.commit()
 
-        # get next mondays in current month
+        # get next mondays in current or next month
         now = date.today()
         current_year = now.year
-        current_month = now.month
 
-        response = self.api_session.get(
-            "{}/@month-slots".format(self.folder_prenotazioni.absolute_url())
-        )
+        if current_month == next_month:
+            response = self.api_session.get(
+                "{}/@month-slots?date={}".format(
+                    self.folder_prenotazioni.absolute_url(),
+                    json_compatible(date(current_year, next_month, monday)),
+                )
+            )
 
-        # first free slot is at 7:30
-        self.assertEqual(
-            response.json()["items"][0],
-            json_compatible(datetime(current_year, current_month, monday, 7, 30)),
-        )
+            # first free slot is at 7:30 of the next month
+            self.assertEqual(
+                response.json()["items"][0],
+                json_compatible(datetime(current_year, next_month, monday, 7, 30)),
+            )
+        else:
+            response = self.api_session.get(
+                "{}/@month-slots".format(self.folder_prenotazioni.absolute_url())
+            )
+
+            # first free slot is at 7:30
+            self.assertEqual(
+                response.json()["items"][0],
+                json_compatible(datetime(current_year, current_month, monday, 7, 30)),
+            )
 
     def test_show_all_available_slots_for_next_month_from_the_beginning(
         self,

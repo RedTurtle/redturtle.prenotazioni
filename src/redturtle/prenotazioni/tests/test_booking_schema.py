@@ -157,11 +157,18 @@ class TestMonthSlots(unittest.TestCase):
         current_day = now.day
         monday = 0
         # get next monday
-        for week in calendar.monthcalendar(current_year, current_month):
-            # week[0] is monday and should be greater than today
-            if week[0] > current_day:
-                monday = week[0]
-                break
+        found = False
+        while not found:
+            for week in calendar.monthcalendar(current_year, current_month):
+                # week[0] is monday and should be greater than today
+                if week[0] > current_day:
+                    monday = week[0]
+                    found = True
+                    break
+
+            if monday == 0:
+                current_month += 1
+                current_day = 1
 
         response = self.api_session.get(
             "{}/@prenotazione-schema?form.booking_date={}+07%3A00".format(
