@@ -3,7 +3,9 @@ from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
+from plone.app.contentrules.conditions.wftransition import (
+    WorkflowTransitionCondition,
+)
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -15,6 +17,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 DEFAULT_PROFILE = "profile-redturtle.prenotazioni:default"
+CONTENT_RULES_EVOLUTION_PROFILE = (
+    "profile-redturtle.prenotazioni:content_rules_evolution"
+)
 
 
 def update_profile(context, profile):
@@ -115,7 +120,10 @@ def to_1400(context):
 
     # if we find the exception the code must fail
     remap_workflow(
-        context, ("Prenotazione",), ("prenotazioni_workflow",), workflow_state_map
+        context,
+        ("Prenotazione",),
+        ("prenotazioni_workflow",),
+        workflow_state_map,
     )
 
     rule_storage = queryUtility(IRuleStorage)
@@ -128,18 +136,21 @@ def to_1400(context):
         )
 
         workflow_state_conditions = filter(
-            lambda item: isinstance(item, WorkflowStateCondition), rule.conditions
+            lambda item: isinstance(item, WorkflowStateCondition),
+            rule.conditions,
         )
 
         workflow_transition_conditions = filter(
-            lambda item: isinstance(item, WorkflowTransitionCondition), rule.conditions
+            lambda item: isinstance(item, WorkflowTransitionCondition),
+            rule.conditions,
         )
 
         for portal_type_condition in portal_type_conditions:
             if "Prenotazione" in getattr(portal_type_condition, "check_types", []):
                 for workflow_transition_condition in workflow_transition_conditions:
                     if isinstance(
-                        workflow_transition_condition, WorkflowTransitionCondition
+                        workflow_transition_condition,
+                        WorkflowTransitionCondition,
                     ):
                         wf_states = list(workflow_transition_condition.wf_transitions)
 
@@ -184,3 +195,8 @@ def to_1401(context):
             for workflow_action in workflow_action_conditions:
                 if workflow_action.transition == "publish":
                     workflow_action.transition = "confirm"
+
+
+def to_1402(context):
+    # load new content rules
+    context.runImportStepFromProfile(CONTENT_RULES_EVOLUTION_PROFILE, "contentrules")
