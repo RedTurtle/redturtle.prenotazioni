@@ -207,6 +207,7 @@ By default returns the current week, and if you pass a custom date in querystrin
 Example::
 
    curl -i http://localhost:8080/Plone/folder/@week-slots -H 'Accept: application/json'
+   curl -i http://localhost:8080/Plone/@prenotazione?uid=<booking UID> -H 'Accept: application/json'
 
 Response::
 

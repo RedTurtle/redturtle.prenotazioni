@@ -4,6 +4,8 @@ Changelog
 
 1.7.2 (unreleased)
 ------------------
+- Added a new endpoint to get booking details. (#40442).
+  [daniele]
 
 - Add autoconfirm content rule to profile.
   [foxtrot-dfm1]
