@@ -291,7 +291,7 @@ Response::
         ]
     }
 
-@prenotazioni-search
+@bookings
 --------------------
 
 Endpoint that returns a list of *Prenotazione* content by parameters
@@ -299,19 +299,19 @@ Endpoint that returns a list of *Prenotazione* content by parameters
 Parameters:
 
 - **fiscalcode**: The users fiscal Code
-- **start_date**: The statrt date of research
-- **end_date**: The end date of research
+- **from**: The statrt date of research
+- **to**: The end date of research
 - **fullobjects**: Indicates the expand data level
 
 The endpoint can be called with a GET request::
 
-  curl -i http://localhost:8080/Plone/@prenotazioni-search?fiscalcode=FISCALCODE&start_date=10-10-2023 \n
+  curl -i http://localhost:8080/Plone/@bookings?fiscalcode=FISCALCODE&from=10-10-2023 \n
      -H 'Accept: application/json'
 
 Response::
 
     {
-        "@id": "http://localhost:8080/Plone/folder/@prenotazioni-search",
+        "@id": "http://localhost:8080/Plone/folder/@bookings",
         "items": [
             {Item Serialized to the request expand level},
             {Item Serialized to the request expand level},

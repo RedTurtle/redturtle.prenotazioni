@@ -6,14 +6,14 @@ from plone.restapi.services import Service
 from zope.component import getMultiAdapter
 
 
-class PrenotazioniSearch(Service):
+class BookingsSearch(Service):
     """
     Preonotazioni search view
     """
 
     def reply(self):
-        start_date = self.request.get("start_date", None)
-        end_date = self.request.get("end_date", None)
+        start_date = self.request.get("from", None)
+        end_date = self.request.get("to", None)
         fiscalcode = self.request.get("fiscalcode", None)
 
         query = {

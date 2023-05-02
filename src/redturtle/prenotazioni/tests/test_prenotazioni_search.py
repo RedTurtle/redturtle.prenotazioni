@@ -9,9 +9,7 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
-)
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
 import transaction
 import unittest
@@ -158,9 +156,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
     def test_view_permission(self):
         self.assertEqual(
-            self.api_session.get(
-                f"{self.portal.absolute_url()}/@prenotazioni-search"
-            ).status_code,
+            self.api_session.get(f"{self.portal.absolute_url()}/@bookings").status_code,
             200,
         )
 
@@ -169,9 +165,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.api_session.auth = (TEST_USER_ID, TEST_USER_PASSWORD)
 
         self.assertEqual(
-            self.api_session.get(
-                f"{self.portal.absolute_url()}/@prenotazioni-search"
-            ).status_code,
+            self.api_session.get(f"{self.portal.absolute_url()}/@bookings").status_code,
             401,
         )
 
@@ -179,7 +173,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         result_uids = [
             i["UID"]
             for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@prenotazioni-search?fiscalcode={self.testing_fiscal_code}&fullobjects=true"
+                f"{self.portal.absolute_url()}/@bookings?fiscalcode={self.testing_fiscal_code}&fullobjects=true"
             ).json()["items"]
         ]
 
@@ -191,7 +185,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         result_uids = [
             i["UID"]
             for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@prenotazioni-search?start_date={str(self.testing_booking_date + timedelta(days=1))}&fiscalcode={self.testing_fiscal_code}&fullobjects=true"
+                f"{self.portal.absolute_url()}/@bookings?from={str(self.testing_booking_date + timedelta(days=1))}&fiscalcode={self.testing_fiscal_code}&fullobjects=true"
             ).json()["items"]
         ]
 
@@ -202,7 +196,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         result_uids = [
             i["UID"]
             for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@prenotazioni-search?end_date={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}&fullobjects=true"
+                f"{self.portal.absolute_url()}/@bookings?to={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}&fullobjects=true"
             ).json()["items"]
         ]
 
@@ -213,7 +207,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         result_uids = [
             i["UID"]
             for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@prenotazioni-search?start_date={str(self.testing_booking_date + timedelta(days=1))}&end_date={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}&fullobjects=true"
+                f"{self.portal.absolute_url()}/@bookings?from={str(self.testing_booking_date + timedelta(days=1))}&to={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}&fullobjects=true"
             ).json()["items"]
         ]
 

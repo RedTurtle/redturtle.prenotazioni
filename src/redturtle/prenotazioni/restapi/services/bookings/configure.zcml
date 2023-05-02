@@ -5,10 +5,10 @@
 
   <plone:service
       method="GET"
-      factory=".search.PrenotazioniSearch"
+      factory=".search.BookingsSearch"
       for="*"
       permission="redturtle.prenotazioni.SearchPrenotazioni"
-      name="@prenotazioni-search"
+      name="@bookings"
       />
 
 </configure>
