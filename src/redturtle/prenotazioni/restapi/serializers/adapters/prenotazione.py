@@ -19,6 +19,7 @@ class PrenotazioneSerializer:
         useful_docs = getattr(booking_folder, "cosa_serve", "")
         return {
             "title": self.prenotazione.title,
+            "UID": self.prenotazione.UID(),
             "description": self.prenotazione.description,
             "gate": self.prenotazione.gate,
             "id": self.prenotazione.id,

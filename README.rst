@@ -48,11 +48,11 @@ To avoid spam, there is a background validation with `collective.honeypot`_ .
 .. _collective.honeypot: https://pypi.org/project/collective.honeypot
 
 
-With a version of `plone.app.dexterity` lower than 3.* (ie Plone 5.2) you need to add 
+With a version of `plone.app.dexterity` lower than 3.* (ie Plone 5.2) you need to add
 `collective.dexteritytextindexer`_ as requirement.
 
 ::
-    
+
     [instance]
     eggs=
         ...
@@ -289,6 +289,35 @@ Response::
             '2023-04-24T08:00:00',
             '2023-04-24T09:00:00'
         ]
+    }
+
+@prenotazioni-search
+--------------------
+
+Endpoint that returns a list of *Prenotazione* content by parameters
+
+Parameters:
+
+- **fiscalcode**: The users fiscal Code
+- **start_date**: The statrt date of research
+- **end_date**: The end date of research
+- **fullobjects**: Indicates the expand data level
+
+The endpoint can be called with a GET request::
+
+  curl -i http://localhost:8080/Plone/@prenotazioni-search?fiscalcode=FISCALCODE&start_date=10-10-2023 \n
+     -H 'Accept: application/json'
+
+Response::
+
+    {
+        "@id": "http://localhost:8080/Plone/folder/@prenotazioni-search",
+        "items": [
+            {Item Serialized to the request expand level},
+            {Item Serialized to the request expand level},
+            ...
+            ],
+          }
     }
 
 Contribute

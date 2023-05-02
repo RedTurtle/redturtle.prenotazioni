@@ -69,4 +69,12 @@
       destination="1402"
       handler=".upgrades.to_1402"
       />
+  <genericsetup:upgradeStep
+      title="Upgrade to 1403"
+      description="Add new index to Prenotazioni c.t."
+      profile="redturtle.prenotazioni:default"
+      source="1402"
+      destination="1403"
+      handler=".upgrades.to_1403"
+      />
 </configure>

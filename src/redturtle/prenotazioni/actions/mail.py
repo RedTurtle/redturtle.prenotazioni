@@ -3,9 +3,7 @@ from Acquisition import aq_base
 from Acquisition import aq_inner
 from collective.contentrules.mailfromfield import logger
 from collective.contentrules.mailfromfield.actions.mail import IMailFromFieldAction
-from collective.contentrules.mailfromfield.actions.mail import (
-    MailActionExecutor as BaseExecutor,
-)
+from collective.contentrules.mailfromfield.actions.mail import MailActionExecutor as BaseExecutor
 from plone.contentrules.rule.interfaces import IExecutable
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from six.moves import filter
