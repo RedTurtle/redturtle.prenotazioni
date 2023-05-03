@@ -313,8 +313,20 @@ Response::
     {
         "@id": "http://localhost:8080/Plone/folder/@bookings",
         "items": [
-            {Item Serialized to the request expand level},
-            {Item Serialized to the request expand level},
+             {
+                "booking_id": "abcdefgh1234567890",
+                "booking_url": "https://url.ioprenoto.it/prenotazione/abcd",
+                "booking_date": "2018-04-25T10:00:00",
+                "booking_expiration_date": "2018-04-30T10:00:00",
+                "booking_type": "Servizio di prova",
+                "booking_room": "stanza-1",
+                "booking_gate": "sportello-urp-polifunzionale",
+                "booking_status": "confirmed",
+                "booking_status_label": "Confermata",
+                "booking_status_date": "2018-04-25T10:00:00",
+                "booking_status_notes": "Prenotazione confermata",
+                "userid": "FISCALCODE",
+            },
             ...
             ],
           }
