@@ -40,7 +40,7 @@
       />
 
   <genericsetup:registerProfile
-      name="to_1402"
+      name="content_rules_evolution"
       title="Profile create to add the new default content rule: booking-confirm"
       description="Used to add new contentrules"
       provides="Products.GenericSetup.interfaces.EXTENSION"
