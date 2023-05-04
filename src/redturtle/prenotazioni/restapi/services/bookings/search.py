@@ -4,12 +4,20 @@ from plone import api
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
 from zope.component import getMultiAdapter
+from zope.interface import implementer
+from zope.publisher.interfaces import IPublishTraverse
 
 
+@implementer(IPublishTraverse)
 class BookingsSearch(Service):
     """
     Preonotazioni search view
     """
+
+    def publishTraverse(self, request, fiscalcode):
+        if not request.get("fiscalcode", None):
+            request.set("fiscalcode", fiscalcode)
+        return self
 
     def reply(self):
         start_date = self.request.get("from", None)
@@ -32,6 +40,6 @@ class BookingsSearch(Service):
         results = getMultiAdapter(
             (api.portal.get_tool("portal_catalog")(**query), self.request),
             ISerializeToJson,
-        )(fullobjects=self.request.form.get("fullobjects", False))
+        )(fullobjects=True)
 
         return results

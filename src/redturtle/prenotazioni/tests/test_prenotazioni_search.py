@@ -169,34 +169,73 @@ class TestPrenotazioniSearch(unittest.TestCase):
             401,
         )
 
-    def test_search_by_fiscalCode(self):
+    def test_search_by_fiscalcode(self):
         result_uids = [
             i["UID"]
             for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@bookings?fiscalcode={self.testing_fiscal_code}&fullobjects=true"
+                f"{self.portal.absolute_url()}/@bookings?fiscalcode={self.testing_fiscal_code}"
             ).json()["items"]
         ]
 
         self.assertIn(self.prenotazione_fscode.UID(), result_uids)
         self.assertNotIn(self.prenotazione_no_fscode.UID(), result_uids)
 
+    def test_search_by_fiscalcode_traverse(self):
+        res = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings/{self.testing_fiscal_code}"
+        )
+        self.assertEqual(res.status_code, 200)
+        ids = [i["UID"] for i in res.json()["items"]]
+        self.assertIn(self.prenotazione_fscode.UID(), ids)
+        self.assertNotIn(self.prenotazione_no_fscode.UID(), ids)
+
     def test_search_by_date(self):
         # test by start date
-        result_uids = [
-            i["UID"]
-            for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@bookings?from={str(self.testing_booking_date + timedelta(days=1))}&fiscalcode={self.testing_fiscal_code}&fullobjects=true"
-            ).json()["items"]
-        ]
+        res = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?from={str(self.testing_booking_date + timedelta(days=1))}&fiscalcode={self.testing_fiscal_code}"
+        )
+        self.assertEqual(res.status_code, 200)
 
-        self.assertNotIn(self.prenotazione_datetime.UID(), result_uids)
-        self.assertIn(self.prenotazione_datetime_plus2.UID(), result_uids)
+        # TODO
+        self.assertEqual(
+            res.json()["items"][0],
+            {
+                "booking_id": "95c94b43f655431d9a4e203c8fb6e064",
+                "booking_code": "20932C",
+                "booking_url": "http://localhost:39965/plone/prenota-foo/year/week/day-1/prenotazione",
+                # "booking_date": "2018-04-25T10:00:00",
+                # "booking_expiration_date": "2018-04-30T10:00:00",
+                # "booking_type": "Servizio di prova",
+                # "booking_room": "stanza-1",
+                # "booking_gate": "sportello-urp-polifunzionale",
+                # "booking_status": "confirmed",
+                # "booking_status_label": "Confermata",
+                # "booking_status_date": "2018-04-25T10:00:00",
+                # "booking_status_notes": "Prenotazione confermata",
+                "userid": "TESTINGFISCALCODE",
+                "fiscalcode": "TESTINGFISCALCODE",
+                # 'booking_type': None,
+                # 'company': None,
+                # 'cosa_serve': None,
+                # 'description': '',
+                # 'email': '',
+                # 'gate': None,
+                # 'id': 'prenotazione',
+                # 'phone': '',
+                # 'staff_notes': None,
+                # 'title': 'Prenotazione',
+            },
+        )
+
+        ids = [i["booking_id"] for i in res.json()["items"]]
+        self.assertNotIn(self.prenotazione_datetime.UID(), ids)
+        self.assertIn(self.prenotazione_datetime_plus2.UID(), ids)
 
         # test by end date
         result_uids = [
             i["UID"]
             for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@bookings?to={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}&fullobjects=true"
+                f"{self.portal.absolute_url()}/@bookings?to={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}"
             ).json()["items"]
         ]
 
@@ -207,7 +246,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         result_uids = [
             i["UID"]
             for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@bookings?from={str(self.testing_booking_date + timedelta(days=1))}&to={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}&fullobjects=true"
+                f"{self.portal.absolute_url()}/@bookings?from={str(self.testing_booking_date + timedelta(days=1))}&to={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}"
             ).json()["items"]
         ]
 
