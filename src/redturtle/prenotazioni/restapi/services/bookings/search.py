@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from DateTime import DateTime
 from plone import api
-from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
 from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
+from redturtle.prenotazioni.interfaces import (
+    ISerializeToPrenotazioneSearchableItem,
+)
 
 
 @implementer(IPublishTraverse)
@@ -23,7 +25,7 @@ class BookingsSearch(Service):
         start_date = self.request.get("from", None)
         end_date = self.request.get("to", None)
         fiscalcode = self.request.get("fiscalcode", None)
-
+        response = {"id": self.context.absolute_url() + "/@bookings"}
         query = {
             "portal_type": "Prenotazione",
         }
@@ -37,9 +39,13 @@ class BookingsSearch(Service):
         if fiscalcode:
             query["fiscalcode"] = fiscalcode
 
-        results = getMultiAdapter(
-            (api.portal.get_tool("portal_catalog")(**query), self.request),
-            ISerializeToJson,
-        )(fullobjects=True)
+        response["items"] = [
+            getMultiAdapter(
+                (i.getObject(), self.request),
+                ISerializeToPrenotazioneSearchableItem,
+            )()
+            for i in api.portal.get_tool("portal_catalog")(**query)
+        ]
+        response["items_total"] = len(response["items"])
 
-        return results
+        return response
