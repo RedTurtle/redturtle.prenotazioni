@@ -4,9 +4,12 @@ Changelog
 
 1.7.2 (unreleased)
 ------------------
+- Avoid change gate, booking date, booking end from /edit;
+  this would allow you to skip the checks;
+  Fix profile registration name;
+  [lucabel]
 - Added a new endpoint to get booking details. (#40442).
   [daniele]
-
 - Add autoconfirm content rule to profile.
   [foxtrot-dfm1]
 - Added field "cosa_serve" (#40445).
