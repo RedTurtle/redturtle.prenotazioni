@@ -4,11 +4,16 @@ Changelog
 
 1.7.2 (unreleased)
 ------------------
-- Added a new endpoint to get booking details. (#40442).
+
+- Add @bookings endpoint to get booking items for a user
+  [foxtrot-dfm1]
+
+- Add a new endpoint to get booking details. (#40442).
   [daniele]
 
 - Add autoconfirm content rule to profile.
   [foxtrot-dfm1]
+
 - Added field "cosa_serve" (#40445).
   [daniele]
 
