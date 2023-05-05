@@ -2,20 +2,15 @@
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 from datetime import date
-
-try:
-    from plone.app.dexterity import textindexer
-except ImportError:
-    # Plone 5.2
-    from collective import dexteritytextindexer as textindexer
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.slot import interval_is_contained
-from redturtle.prenotazioni.adapters.slot import is_intervals_overlapping
+from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
+from redturtle.prenotazioni.content.validators import checkOverrides
+from redturtle.prenotazioni.content.validators import PauseValidator
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
@@ -27,38 +22,11 @@ from zope.interface import invariant
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
-
-def get_dgf_values_from_request(request, fieldname, columns=[]):
-    """
-    Validator with datagridfield works in a fuzzy way. We need to extract
-    values from request to be sure we are validating correct data.
-    """
-
-    def get_from_form(form, fieldname):
-        value = form.get(fieldname, None)
-        if value:
-            if isinstance(value, list):
-                return value[0]
-            if isinstance(value, str):
-                return value
-        return None
-
-    number_of_entry = request.form.get("form.widgets.{}.count".format(fieldname))
-    data = []
-    prefix = "form.widgets.{}".format(fieldname)
-    for counter in range(int(number_of_entry)):
-        row_data = {}
-        for column in columns:
-            indexed_prefix = "{}.{}.widgets.".format(prefix, counter)
-            row_data.update(
-                {
-                    column: get_from_form(
-                        request.form, "{}{}".format(indexed_prefix, column)
-                    )
-                }
-            )
-        data.append(row_data)
-    return data
+try:
+    from plone.app.dexterity import textindexer
+except ImportError:
+    # Plone 5.2
+    from collective import dexteritytextindexer as textindexer
 
 
 class IWeekTableRow(model.Schema):
@@ -282,6 +250,16 @@ class IPrenotazioniFolder(model.Schema):
         "week_table", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
     )
 
+    week_table_overrides = schema.SourceText(
+        title=_("week_table_overrides_label", default="Week table overrides"),
+        description=_(
+            "week_table_overrides_help",
+            default="Insert here week schema for some custom date intervals.",
+        ),
+        required=False,
+        constraint=checkOverrides,
+    )
+    form.widget("week_table_overrides", WeekTableOverridesFieldWidget)
     pause_table = schema.List(
         title=_("Pause table"),
         description=_("Insert pause table schema."),
@@ -409,18 +387,11 @@ class IPrenotazioniFolder(model.Schema):
         description=_("Insert here the complete office address"),
     )
 
-    model.fieldset(
-        "contacts",
-        label=_("contacts_label", default="Contacts"),
-        description=_(
-            "contacts_help",
-            default="Show here contacts information that will be used by authomatic mail system",  # noqa
-        ),
-        fields=["how_to_get_here", "phone", "fax", "pec", "complete_address"],
-    )
-
     @invariant
     def data_validation(data):
+        """
+        Needed because is the only way to validate a datagrid field
+        """
         if not data.booking_types:
             raise Invalid(_("You should set at least one booking type."))
         for interval in data.week_table:
@@ -448,89 +419,22 @@ class IPrenotazioniFolder(model.Schema):
     # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?
 
     model.fieldset(
+        "contacts",
+        label=_("contacts_label", default="Contacts"),
+        description=_(
+            "contacts_help",
+            default="Show here contacts information that will be used by authomatic mail system",  # noqa
+        ),
+        fields=["how_to_get_here", "phone", "fax", "pec", "complete_address"],
+    )
+
+    model.fieldset(
         "Reminders",
         label=_("reminders_label", default="Reminders"),
         fields=[
             "app_io_enabled",
         ],
     )
-
-
-class PauseValidator(validator.SimpleFieldValidator):
-    """z3c.form validator class for international phone numbers"""
-
-    def validate(self, pause_table):
-        """Validate international phone number on input"""
-        super(PauseValidator, self).validate(pause_table)
-        pause_table = get_dgf_values_from_request(
-            self.context.REQUEST,
-            "pause_table",
-            ["day", "pause_start", "pause_end"],
-        )
-        if not pause_table:
-            return
-
-        week_table = get_dgf_values_from_request(
-            self.context.REQUEST,
-            "week_table",
-            [
-                "day",
-                "morning_start",
-                "morning_end",
-                "afternoon_start",
-                "afternoon_end",
-            ],
-        )
-
-        # validate pauses
-        groups_of_pause = {}
-        for pause in pause_table:
-            groups_of_pause.setdefault(pause["day"], []).append(pause)
-
-        for day in groups_of_pause:
-            day_hours = week_table[int(day)]
-            for pause in groups_of_pause[day]:
-                #  0. Of course if we don't have a correct interval we can't do
-                # more steps
-                if (
-                    pause["pause_end"] == "--NOVALUE--"
-                    or pause["pause_start"] == "--NOVALUE--"
-                ):
-                    raise Invalid(_("You must set both start and end"))
-
-                # 1. Pause starts should always be bigger than pause ends
-                if not (pause["pause_end"] > pause["pause_start"]):
-                    raise Invalid(_("Pause end should be greater than pause start"))
-                interval = [pause["pause_start"], pause["pause_end"]]
-                # 2. a pause interval should always be contained in the morning
-                # or afternoon defined for these days
-                if not (
-                    interval_is_contained(
-                        interval,
-                        day_hours["morning_start"],
-                        day_hours["morning_end"],
-                    )
-                    or interval_is_contained(
-                        interval,
-                        day_hours["afternoon_start"],
-                        day_hours["afternoon_end"],
-                    )
-                ):
-                    raise Invalid(
-                        _(
-                            "Pause should be included in morning slot or afternoon slot"  # noqa
-                        )
-                    )
-            # 3. two pause interval on the same day should not overlap
-            if is_intervals_overlapping(
-                [
-                    (pause["pause_start"], pause["pause_end"])
-                    for pause in groups_of_pause[day]
-                ]
-            ):
-                raise Invalid(
-                    _("In the same day there are overlapping intervals")
-                )  # noqa
 
 
 validator.WidgetValidatorDiscriminators(

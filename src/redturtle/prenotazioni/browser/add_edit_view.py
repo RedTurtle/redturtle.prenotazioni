@@ -2,9 +2,8 @@
 from plone.dexterity.browser.add import DefaultAddForm as BaseAddForm
 from plone.dexterity.browser.add import DefaultAddView as BaseAddView
 from plone.dexterity.browser.edit import DefaultEditForm as BaseEdit
-from plone.dexterity.interfaces import IDexterityEditForm
-from plone.z3cform import layout
-from zope.interface import classImplements
+from plone.dexterity.browser.edit import DefaultEditView as BaseEditView
+from Products.CMFPlone.resources import add_bundle_on_request
 
 
 class DefaultEditForm(BaseEdit):
@@ -19,8 +18,12 @@ class DefaultEditForm(BaseEdit):
         self.widgets["week_table"].auto_append = False
 
 
-DefaultEditView = layout.wrap_form(DefaultEditForm)
-classImplements(DefaultEditView, IDexterityEditForm)
+class DefaultEditView(BaseEditView):
+    form = DefaultEditForm
+
+    def __call__(self):
+        add_bundle_on_request(self.request, "week-table-overrides-widget-bundle")
+        return super().__call__()
 
 
 class DefaultAddForm(BaseAddForm):
@@ -37,3 +40,7 @@ class DefaultAddForm(BaseAddForm):
 
 class DefaultAddView(BaseAddView):
     form = DefaultAddForm
+
+    def __call__(self):
+        add_bundle_on_request(self.request, "week-table-overrides-widget-bundle")
+        return super().__call__()

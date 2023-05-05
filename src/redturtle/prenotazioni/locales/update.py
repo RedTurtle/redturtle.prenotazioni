@@ -35,7 +35,7 @@ def locale_folder_setup():
 
 
 def _rebuild():
-    cmd = "{i18ndude} rebuild-pot --pot {locale_path}/{domain}.pot --exclude {excludes} --create {domain} {target_path}".format(  # NOQA: E501
+    cmd = "{i18ndude} rebuild-pot --pot {locale_path}/{domain}.pot --exclude {excludes} --create {domain} --merge {locale_path}/manual.pot {target_path}".format(  # NOQA: E501
         i18ndude=i18ndude,
         locale_path=locale_path,
         domain=domain,

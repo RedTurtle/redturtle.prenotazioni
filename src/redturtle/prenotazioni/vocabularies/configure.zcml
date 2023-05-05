@@ -15,6 +15,8 @@
       name="redturtle.prenotazioni.VocOreInizio"
       component=".voc_ore_inizio.VocOreInizioFactory"
       />
+    <utility name="redturtle.prenotazioni.VocMonths" component=".voc_months.VocMonthsFactory" />
+
 
 
   <utility

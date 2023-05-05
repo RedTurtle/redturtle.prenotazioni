@@ -30,7 +30,6 @@ class MonthSlots(Service):
         start_day = now.day
 
         response = {"@id": f"{self.context.absolute_url()}/@month_slots", "items": []}
-
         for week in calendar.monthcalendar(start_year, start_month):
             for day in week:
                 if day < start_day:
