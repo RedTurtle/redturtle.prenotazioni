@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
 from datetime import date
-from plone import api
-from plone.app.testing import (
-    SITE_OWNER_NAME,
-    SITE_OWNER_PASSWORD,
-    TEST_USER_ID,
-    setRoles,
-)
-from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 from datetime import datetime
+from plone import api
+from plone.app.testing import setRoles
+from plone.app.testing import SITE_OWNER_NAME
+from plone.app.testing import SITE_OWNER_PASSWORD
+from plone.app.testing import TEST_USER_ID
 from plone.restapi.serializer.converters import json_compatible
+from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
 import calendar
-import unittest
 import transaction
+import unittest
 
 
 class TestMonthSlots(unittest.TestCase):
@@ -130,7 +128,6 @@ class TestMonthSlots(unittest.TestCase):
     def test_month_slots_called_without_params_return_available_slots_of_current_month_when_some_are_full(
         self,
     ):
-
         now = date.today()
         current_year = now.year
         current_month = now.month
