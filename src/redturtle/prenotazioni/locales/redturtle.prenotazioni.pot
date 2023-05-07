@@ -516,12 +516,12 @@ msgstr ""
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:403
 #: redturtle/prenotazioni/content/validators.py:182
-msgid "You should set and end time for afternoon."
+msgid "You should set an end time for afternoon."
 msgstr ""
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:399
 #: redturtle/prenotazioni/content/validators.py:174
-msgid "You should set and end time for morning."
+msgid "You should set an end time for morning."
 msgstr ""
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:396

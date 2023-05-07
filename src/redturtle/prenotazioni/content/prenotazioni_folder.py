@@ -396,11 +396,11 @@ class IPrenotazioniFolder(model.Schema):
             raise Invalid(_("You should set at least one booking type."))
         for interval in data.week_table:
             if interval["morning_start"] and not interval["morning_end"]:
-                raise Invalid(_("You should set and end time for morning."))
+                raise Invalid(_("You should set an end time for morning."))
             if interval["morning_end"] and not interval["morning_start"]:
                 raise Invalid(_("You should set a start time for morning."))
             if interval["afternoon_start"] and not interval["afternoon_end"]:
-                raise Invalid(_("You should set and end time for afternoon."))
+                raise Invalid(_("You should set an end time for afternoon."))
             if interval["afternoon_end"] and not interval["afternoon_start"]:
                 raise Invalid(_("You should set a start time for afternoon."))
             if interval["morning_start"] and interval["morning_end"]:

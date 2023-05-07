@@ -516,12 +516,12 @@ msgstr "Devi impostare una data di inizio per la mattina."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:403
 #: redturtle/prenotazioni/content/validators.py:182
-msgid "You should set and end time for afternoon."
+msgid "You should set an end time for afternoon."
 msgstr "Devi impostare una data di fine per il pomeriggio."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:399
 #: redturtle/prenotazioni/content/validators.py:174
-msgid "You should set and end time for morning."
+msgid "You should set an end time for morning."
 msgstr "Devi impostare una data di fine per la mattina."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:396

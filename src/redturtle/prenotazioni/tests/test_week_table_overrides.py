@@ -63,8 +63,71 @@ class TestOverridesValidator(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
-    def test_wrong_(self):
+    def test_date_range_required(self):
+        data = [
+            {
+                "from_day": "",
+                "from_month": "",
+                "to_day": "",
+                "to_month": "",
+                "week_table": [
+                    {
+                        "day": "Lunedì",
+                        "morning_start": "0700",
+                        "morning_end": "1000",
+                        "afternoon_start": None,
+                        "afternoon_end": None,
+                    },
+                ],
+            }
+        ]
 
+        response = self.api_session.post(
+            self.portal_url,
+            json={
+                "@type": "PrenotazioniFolder",
+                "title": "Example",
+                "daData": json_compatible(date.today()),
+                "week_table_overrides": json.dumps(data),
+                "same_day_booking_disallowed": "yes",
+                "booking_types": [
+                    {"name": "Type A", "duration": "30"},
+                ],
+                "gates": ["Gate A"],
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "You should set a start range.",
+            response.json()["message"],
+        )
+
+        data[0]["from_day"] = "1"
+        data[0]["from_month"] = "1"
+
+        response = self.api_session.post(
+            self.portal_url,
+            json={
+                "@type": "PrenotazioniFolder",
+                "title": "Example",
+                "daData": json_compatible(date.today()),
+                "week_table_overrides": json.dumps(data),
+                "same_day_booking_disallowed": "yes",
+                "booking_types": [
+                    {"name": "Type A", "duration": "30"},
+                ],
+                "gates": ["Gate A"],
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "You should set an end range.",
+            response.json()["message"],
+        )
+
+    def test_wrong_day_based_on_month(self):
         data = [
             {
                 "from_day": "40",
@@ -124,4 +187,84 @@ class TestOverridesValidator(unittest.TestCase):
         self.assertIn(
             'Selected day is too big for that month for "to" field.',
             response.json()["message"],
+        )
+
+    def test_if_set_start_you_should_set_an_end(self):
+
+        data = [
+            {
+                "from_day": "1",
+                "from_month": "1",
+                "to_day": "1",
+                "to_month": "2",
+                "week_table": [
+                    {
+                        "day": "Lunedì",
+                        "morning_start": "0700",
+                        "morning_end": "",
+                        "afternoon_start": "",
+                        "afternoon_end": "",
+                    },
+                ],
+            }
+        ]
+
+        response = self.api_session.post(
+            self.portal_url,
+            json={
+                "@type": "PrenotazioniFolder",
+                "title": "Example",
+                "daData": json_compatible(date.today()),
+                "week_table_overrides": json.dumps(data),
+                "same_day_booking_disallowed": "yes",
+                "booking_types": [
+                    {"name": "Type A", "duration": "30"},
+                ],
+                "gates": ["Gate A"],
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "You should set an end time for morning", response.json()["message"]
+        )
+
+    def test_if_set_end_you_should_set_a_start(self):
+
+        data = [
+            {
+                "from_day": "1",
+                "from_month": "1",
+                "to_day": "1",
+                "to_month": "2",
+                "week_table": [
+                    {
+                        "day": "Lunedì",
+                        "morning_start": "",
+                        "morning_end": "1000",
+                        "afternoon_start": "",
+                        "afternoon_end": "",
+                    },
+                ],
+            }
+        ]
+
+        response = self.api_session.post(
+            self.portal_url,
+            json={
+                "@type": "PrenotazioniFolder",
+                "title": "Example",
+                "daData": json_compatible(date.today()),
+                "week_table_overrides": json.dumps(data),
+                "same_day_booking_disallowed": "yes",
+                "booking_types": [
+                    {"name": "Type A", "duration": "30"},
+                ],
+                "gates": ["Gate A"],
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "You should set a start time for morning", response.json()["message"]
         )

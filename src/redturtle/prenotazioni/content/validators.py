@@ -172,7 +172,7 @@ def checkOverrides(value):
         # check to
         if not to_month and not to_day:
             raise CustomValidationError(
-                _("to_month_error", default="You should set a start range.")
+                _("to_month_error", default="You should set an end range.")
             )
         to_month = int(to_month)
         to_day = int(to_day)
@@ -188,7 +188,7 @@ def checkOverrides(value):
         for interval in override["week_table"]:
             if interval["morning_start"] and not interval["morning_end"]:
                 raise CustomValidationError(
-                    _("You should set and end time for morning.")
+                    _("You should set an end time for morning.")
                 )
             if interval["morning_end"] and not interval["morning_start"]:
                 raise CustomValidationError(
@@ -196,7 +196,7 @@ def checkOverrides(value):
                 )
             if interval["afternoon_start"] and not interval["afternoon_end"]:
                 raise CustomValidationError(
-                    _("You should set and end time for afternoon.")
+                    _("You should set an end time for afternoon.")
                 )
             if interval["afternoon_end"] and not interval["afternoon_start"]:
                 raise CustomValidationError(

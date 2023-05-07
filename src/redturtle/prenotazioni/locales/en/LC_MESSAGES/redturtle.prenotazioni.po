@@ -517,13 +517,13 @@ msgstr "You should set a start time for morning."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:403
 #: redturtle/prenotazioni/content/validators.py:182
-msgid "You should set and end time for afternoon."
-msgstr "You should set and end time for afternoon."
+msgid "You should set an end time for afternoon."
+msgstr "You should set an end time for afternoon."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:399
 #: redturtle/prenotazioni/content/validators.py:174
-msgid "You should set and end time for morning."
-msgstr "You should set and end time for morning."
+msgid "You should set an end time for morning."
+msgstr "You should set an end time for morning."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:396
 msgid "You should set at least one booking type."
