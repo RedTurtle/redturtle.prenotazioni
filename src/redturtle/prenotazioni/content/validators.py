@@ -6,7 +6,8 @@ from zope.interface import Invalid
 from z3c.form import validator
 from redturtle.prenotazioni.adapters.slot import interval_is_contained
 from redturtle.prenotazioni.adapters.slot import is_intervals_overlapping
-
+from zope.i18n import translate
+from zope.globalrequest import getRequest
 
 import calendar
 import json
@@ -85,11 +86,20 @@ class PauseValidator(validator.SimpleFieldValidator):
                     pause["pause_end"] == "--NOVALUE--"
                     or pause["pause_start"] == "--NOVALUE--"
                 ):
-                    raise Invalid(_("You must set both start and end"))
+                    raise Invalid(
+                        translate(
+                            _("You must set both start and end"), context=getRequest()
+                        )
+                    )
 
                 # 1. Pause starts should always be bigger than pause ends
                 if not (pause["pause_end"] > pause["pause_start"]):
-                    raise Invalid(_("Pause end should be greater than pause start"))
+                    raise Invalid(
+                        translate(
+                            _("Pause end should be greater than pause start"),
+                            context=getRequest(),
+                        )
+                    )
                 interval = [pause["pause_start"], pause["pause_end"]]
                 # 2. a pause interval should always be contained in the morning
                 # or afternoon defined for these days
@@ -106,8 +116,11 @@ class PauseValidator(validator.SimpleFieldValidator):
                     )
                 ):
                     raise Invalid(
-                        _(
-                            "Pause should be included in morning slot or afternoon slot"  # noqa
+                        translate(
+                            _(
+                                "Pause should be included in morning slot or afternoon slot"  # noqa
+                            ),
+                            context=getRequest(),
                         )
                     )
             # 3. two pause interval on the same day should not overlap
@@ -118,14 +131,17 @@ class PauseValidator(validator.SimpleFieldValidator):
                 ]
             ):
                 raise Invalid(
-                    _("In the same day there are overlapping intervals")
-                )  # noqa
+                    translate(
+                        _("In the same day there are overlapping intervals"),
+                        context=getRequest(),
+                    )
+                )
 
 
 class CustomValidationError(ValidationError):
     def doc(self):
         if len(self.args) == 1:
-            return self.args[0]
+            return translate(self.args[0], context=getRequest())
         return super().doc()
 
 
@@ -134,19 +150,19 @@ def checkOverrides(value):
     now = date.today()
     for override in overrides:
 
-        fromMonth = override.get("fromMonth", "")
-        fromDay = override.get("fromDay", "")
-        toMonth = override.get("toMonth", "")
-        toDay = override.get("toDay", "")
+        from_month = override.get("from_month", "")
+        from_day = override.get("from_day", "")
+        to_month = override.get("to_month", "")
+        to_day = override.get("to_day", "")
         # check from
-        if not fromMonth and not fromDay:
+        if not from_month and not from_day:
             raise CustomValidationError(
                 _("from_month_error", default="You should set a start range.")
             )
-        fromMonth = int(fromMonth)
-        fromDay = int(fromDay)
-        from_month_days = calendar.monthrange(now.year, fromMonth)[1]
-        if fromDay > from_month_days:
+        from_month = int(from_month)
+        from_day = int(from_day)
+        from_month_days = calendar.monthrange(now.year, from_month)[1]
+        if from_day > from_month_days:
             raise CustomValidationError(
                 _(
                     "from_month_too_days_error",
@@ -154,14 +170,14 @@ def checkOverrides(value):
                 )
             )
         # check to
-        if not toMonth and not toDay:
+        if not to_month and not to_day:
             raise CustomValidationError(
                 _("to_month_error", default="You should set a start range.")
             )
-        toMonth = int(toMonth)
-        toDay = int(toDay)
-        to_month_days = calendar.monthrange(now.year, toMonth)[1]
-        if toDay > to_month_days:
+        to_month = int(to_month)
+        to_day = int(to_day)
+        to_month_days = calendar.monthrange(now.year, to_month)[1]
+        if to_day > to_month_days:
             raise CustomValidationError(
                 _(
                     "to_month_too_days_error",

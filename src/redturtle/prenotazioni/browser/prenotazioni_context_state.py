@@ -212,18 +212,18 @@ class PrenotazioniContextState(BrowserView):
             return week_table
 
         for override in week_table_overrides:
-            fromMonth = int(override.get("fromMonth", ""))
-            fromDay = int(override.get("fromDay", ""))
-            toMonth = int(override.get("toMonth", ""))
-            toDay = int(override.get("toDay", ""))
+            from_month = int(override.get("from_month", ""))
+            from_day = int(override.get("from_day", ""))
+            to_month = int(override.get("to_month", ""))
+            to_day = int(override.get("to_day", ""))
             toYear = day.year
 
-            if fromMonth > toMonth:
+            if from_month > to_month:
                 # next year
                 toYear += 1
 
-            fromDate = date(day.year, fromMonth, fromDay)
-            toDate = date(toYear, toMonth, toDay)
+            fromDate = date(day.year, from_month, from_day)
+            toDate = date(toYear, to_month, to_day)
 
             if isinstance(day, datetime):
                 if fromDate <= day.date() <= toDate:

@@ -24,10 +24,10 @@ class WidgetContainer extends Component {
     this.addRow = () => {
       let newValue = this.state.value.map(entry => entry);
       newValue.push({
-        fromDay: '',
-        fromMonth: '',
-        toDay: '',
-        toMonth: '',
+        from_day: '',
+        from_month: '',
+        to_day: '',
+        to_month: '',
         week_table: [
           {
             day: 'Lunedì',

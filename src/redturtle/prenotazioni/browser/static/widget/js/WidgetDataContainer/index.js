@@ -32,11 +32,11 @@ const WidgetDataContainer = () => {
 
   const getLabel = entry => {
     let label = '';
-    if (entry.fromDay.length && entry.fromMonth.length) {
-      label += `${entry.fromDay}/${entry.fromMonth}`;
+    if (entry.from_day.length && entry.from_month.length) {
+      label += `${entry.from_day}/${entry.from_month}`;
     }
-    if (entry.toDay.length && entry.toMonth.length) {
-      label += ` - ${entry.toDay}/${entry.toMonth}`;
+    if (entry.to_day.length && entry.to_month.length) {
+      label += ` - ${entry.to_day}/${entry.to_month}`;
     }
     return label;
   };
