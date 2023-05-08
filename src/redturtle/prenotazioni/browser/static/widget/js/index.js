@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const baseUrl = document.body.getAttribute('data-base-url');
   const schema = {
     vocabularies: {
-      timetable: `${baseUrl}/@vocabularies/redturtle.prenotazioni.VocOreInizio`,
-      months: `${baseUrl}/@vocabularies/redturtle.prenotazioni.VocMonths`,
+      timetable: `${baseUrl}/@vocabularies/redturtle.prenotazioni.VocOreInizio?b_size=1000`,
+      months: `${baseUrl}/@vocabularies/redturtle.prenotazioni.VocMonths?b_size=1000`,
     },
   };
   if (widgets.length) {

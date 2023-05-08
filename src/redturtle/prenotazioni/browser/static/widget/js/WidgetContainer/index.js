@@ -119,7 +119,7 @@ class WidgetContainer extends Component {
       value,
       vocabularies: {
         days: {
-          items: Array.from({ length: 30 }, (value, index) => {
+          items: Array.from({ length: 31 }, (value, index) => {
             const key = index + 1;
             return { token: key.toString(), title: key.toString() };
           }),
