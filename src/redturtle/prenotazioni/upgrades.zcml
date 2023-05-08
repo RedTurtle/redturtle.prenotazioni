@@ -69,6 +69,13 @@
       destination="1402"
       handler=".upgrades.to_1402"
       />
-  <genericsetup:upgradeStep title="Upgrade to 1500" description="Add new bundle for custom widget" profile="redturtle.prenotazioni:default" source="1402" destination="1402" handler=".upgrades.update_registry" />
+  <genericsetup:upgradeStep
+      title="Upgrade to 1500"
+      description="Add new bundle for custom widget"
+      profile="redturtle.prenotazioni:default"
+      source="1402"
+      destination="1402"
+      handler=".upgrades.update_registry"
+      />
 
 </configure>
