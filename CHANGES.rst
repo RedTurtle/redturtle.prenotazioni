@@ -11,7 +11,8 @@ Changelog
   [foxtrot-dfm1]
 - Added field "cosa_serve" (#40445).
   [daniele]
-
+- Add new field that allows to override week schedule for a certain date range.
+  [cekk]
 
 1.7.1 (2023-03-28)
 ------------------
