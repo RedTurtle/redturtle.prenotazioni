@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+from AccessControl import Unauthorized
 from plone import api
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
 from zope.component import getMultiAdapter
-from AccessControl import Unauthorized
-from zope.publisher.interfaces import IPublishTraverse
 from zope.interface import implementer
+from zope.publisher.interfaces import IPublishTraverse
 
 
 @implementer(IPublishTraverse)
