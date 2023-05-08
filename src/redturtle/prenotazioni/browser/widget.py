@@ -19,8 +19,8 @@ class IWeekTableOverridesWidget(ITextAreaWidget):
 class WeekTableOverridesWidget(TextAreaWidget):
     """"""
 
-    klass = u"week-table-overrides-widget"
-    value = u""
+    klass = "week-table-overrides-widget"
+    value = ""
     schema = None
 
     def update(self):

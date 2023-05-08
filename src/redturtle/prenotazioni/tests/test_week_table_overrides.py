@@ -128,7 +128,6 @@ class TestApiValidateDataOnPost(unittest.TestCase):
         self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
 
     def test_correct_settings(self):
-
         data = [
             {
                 "from_day": "1",
@@ -290,7 +289,6 @@ class TestApiValidateDataOnPost(unittest.TestCase):
         )
 
     def test_if_set_start_you_should_set_an_end(self):
-
         data = [
             {
                 "from_day": "1",
@@ -330,7 +328,6 @@ class TestApiValidateDataOnPost(unittest.TestCase):
         )
 
     def test_if_set_end_you_should_set_a_start(self):
-
         data = [
             {
                 "from_day": "1",

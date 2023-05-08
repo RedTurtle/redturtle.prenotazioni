@@ -149,7 +149,6 @@ def checkOverrides(value):
     overrides = json.loads(value)
     now = date.today()
     for override in overrides:
-
         from_month = override.get("from_month", "")
         from_day = override.get("from_day", "")
         to_month = override.get("to_month", "")

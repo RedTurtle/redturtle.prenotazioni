@@ -10,7 +10,6 @@ from zope.interface import implementer
 
 @implementer(IPublishTraverse)
 class BookingInfo(Service):
-
     booking_uid = None
 
     def publishTraverse(self, request, booking_uid):

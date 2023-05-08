@@ -107,7 +107,6 @@ class TestBookingInfo(unittest.TestCase):
     def test_create_booking_and_check_details(
         self,
     ):
-
         now = date.today()
         current_year = now.year
         current_month = now.month
@@ -152,7 +151,6 @@ class TestBookingInfo(unittest.TestCase):
     def test_get_booking_without_UID(
         self,
     ):
-
         now = date.today()
         current_year = now.year
         current_month = now.month

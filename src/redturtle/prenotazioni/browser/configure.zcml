@@ -227,14 +227,25 @@
       permission="redturtle.prenotazioni.SearchPrenotazioni"
       />
 
-    <!-- define new widget -->
-    <class class=".widget.WeekTableOverridesWidget">
-        <require permission="zope.Public" interface=".widget.IWeekTableOverridesWidget" />
-    </class>
+  <!-- define new widget -->
+  <class class=".widget.WeekTableOverridesWidget">
+    <require
+        permission="zope.Public"
+        interface=".widget.IWeekTableOverridesWidget"
+        />
+  </class>
 
-    <adapter factory=".widget.WeekTableOverridesFieldWidget" for="*
-           z3c.form.interfaces.IFormLayer" />
+  <adapter
+      factory=".widget.WeekTableOverridesFieldWidget"
+      for="*
+           z3c.form.interfaces.IFormLayer"
+      />
 
-    <z3c:widgetTemplate mode="input" widget=".widget.IWeekTableOverridesWidget" layer="z3c.form.interfaces.IFormLayer" template="templates/week_table_overrides_widget_input.pt" />
+  <z3c:widgetTemplate
+      widget=".widget.IWeekTableOverridesWidget"
+      template="templates/week_table_overrides_widget_input.pt"
+      layer="z3c.form.interfaces.IFormLayer"
+      mode="input"
+      />
 
 </configure>

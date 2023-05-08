@@ -130,7 +130,6 @@ class TestMonthSlots(unittest.TestCase):
     def test_month_slots_called_without_params_return_available_slots_of_current_month_when_some_are_full(
         self,
     ):
-
         now = date.today()
         current_year = now.year
         current_month = now.month
