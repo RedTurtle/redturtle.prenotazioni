@@ -7,8 +7,20 @@ Changelog
 
 - Added endpoint to get booking schema.
   [daniele]
+- Avoid change gate, booking date, booking end from /edit;
+  this would allow you to skip the checks;
+  Fix profile registration name;
+  [lucabel]
+
+- Add @bookings endpoint to get booking items for a user
+  [foxtrot-dfm1]
+
+- Add a new endpoint to get booking details. (#40442).
+  [daniele]
+  
 - Add autoconfirm content rule to profile.
   [foxtrot-dfm1]
+
 - Added field "cosa_serve" (#40445).
   [daniele]
 

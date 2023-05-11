@@ -48,11 +48,11 @@ To avoid spam, there is a background validation with `collective.honeypot`_ .
 .. _collective.honeypot: https://pypi.org/project/collective.honeypot
 
 
-With a version of `plone.app.dexterity` lower than 3.* (ie Plone 5.2) you need to add 
+With a version of `plone.app.dexterity` lower than 3.* (ie Plone 5.2) you need to add
 `collective.dexteritytextindexer`_ as requirement.
 
 ::
-    
+
     [instance]
     eggs=
         ...
@@ -207,6 +207,7 @@ By default returns the current week, and if you pass a custom date in querystrin
 Example::
 
    curl -i http://localhost:8080/Plone/folder/@week-slots -H 'Accept: application/json'
+   curl -i http://localhost:8080/Plone/@prenotazione?uid=<booking UID> -H 'Accept: application/json'
 
 Response::
 
@@ -363,6 +364,46 @@ Response::
   ]
 }
                          
+@bookings
+--------------------
+
+Endpoint that returns a list of *Prenotazione* content by parameters
+
+Parameters:
+
+- **fiscalcode**: The users fiscal Code
+- **from**: The statrt date of research
+- **to**: The end date of research
+- **fullobjects**: Indicates the expand data level
+
+The endpoint can be called with a GET request::
+
+  curl -i http://localhost:8080/Plone/@bookings?fiscalcode=FISCALCODE&from=10-10-2023 \n
+     -H 'Accept: application/json'
+
+Response::
+
+    {
+        "@id": "http://localhost:8080/Plone/folder/@bookings",
+        "items": [
+             {
+                "booking_id": "abcdefgh1234567890",
+                "booking_url": "https://url.ioprenoto.it/prenotazione/abcd",
+                "booking_date": "2018-04-25T10:00:00",
+                "booking_expiration_date": "2018-04-30T10:00:00",
+                "booking_type": "Servizio di prova",
+                "booking_room": "stanza-1",
+                "booking_gate": "sportello-urp-polifunzionale",
+                "booking_status": "confirmed",
+                "booking_status_label": "Confermata",
+                "booking_status_date": "2018-04-25T10:00:00",
+                "booking_status_notes": "Prenotazione confermata",
+                "userid": "FISCALCODE",
+            },
+            ...
+            ],
+          }
+    }
 
 Contribute
 ==========

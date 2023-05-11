@@ -11,3 +11,7 @@ class IRedturtlePrenotazioniLayer(IDefaultBrowserLayer):
 
 class IPause(Interface):
     """Marker interface that defines a pause fake type object"""
+
+
+class ISerializeToPrenotazioneSearchableItem(Interface):
+    """Prenotazione searchable item serializer interface"""

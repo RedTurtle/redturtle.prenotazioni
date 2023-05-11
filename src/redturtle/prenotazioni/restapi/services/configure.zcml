@@ -6,5 +6,7 @@
   <include package=".month_slots" />
   <include package=".week_slots" />
   <include package=".booking_schema" />
+  <include package=".booking_info" />
+  <include package=".bookings" />
 
 </configure>
