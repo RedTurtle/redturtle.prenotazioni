@@ -16,7 +16,7 @@ import transaction
 import calendar
 
 
-class TestMonthSlots(unittest.TestCase):
+class TestBookingSchema(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
     def setUp(self):
@@ -109,9 +109,10 @@ class TestMonthSlots(unittest.TestCase):
         response = self.api_session.get(
             "{}/@prenotazione-schema".format(self.folder_prenotazioni.absolute_url())
         )
+
         expected = "Wrong date format"
 
-        self.assertIn(expected, response.text)
+        self.assertIn(expected, response.json().get("message"))
 
     def test_booking_schema_no_bookable_available(
         self,
@@ -134,15 +135,42 @@ class TestMonthSlots(unittest.TestCase):
                 "unbookable": [{"duration": "30", "name": "Type A"}],
             },
             "fields": [
-                {"name": "email", "readonly": True, "required": True, "value": ""},
-                {"name": "phone", "readonly": True, "required": False, "value": ""},
                 {
+                    "desc": "Inserisci l'email",
+                    "label": "Email",
+                    "name": "email",
+                    "readonly": True,
+                    "required": True,
+                    "type": "text",
+                    "value": "",
+                },
+                {
+                    "desc": "Inserisci il numero di telefono",
+                    "label": "Numero di telefono",
+                    "name": "phone",
+                    "readonly": True,
+                    "required": False,
+                    "type": "text",
+                    "value": "",
+                },
+                {
+                    "desc": "Inserisci ulteriori informazioni",
+                    "label": "Note",
                     "name": "description",
                     "readonly": True,
                     "required": False,
+                    "type": "textarea",
                     "value": "",
                 },
-                {"name": "title", "readonly": True, "required": True, "value": ""},
+                {
+                    "desc": "Inserire il nome completo",
+                    "label": "Nome completo",
+                    "name": "Nome",
+                    "readonly": True,
+                    "required": True,
+                    "type": "text",
+                    "value": "",
+                },
             ],
         }
 
@@ -183,15 +211,42 @@ class TestMonthSlots(unittest.TestCase):
                 "unbookable": [],
             },
             "fields": [
-                {"name": "email", "readonly": True, "required": True, "value": ""},
-                {"name": "phone", "readonly": True, "required": False, "value": ""},
                 {
+                    "desc": "Inserisci l'email",
+                    "label": "Email",
+                    "name": "email",
+                    "readonly": True,
+                    "required": True,
+                    "type": "text",
+                    "value": "",
+                },
+                {
+                    "desc": "Inserisci il numero di telefono",
+                    "label": "Numero di telefono",
+                    "name": "phone",
+                    "readonly": True,
+                    "required": False,
+                    "type": "text",
+                    "value": "",
+                },
+                {
+                    "desc": "Inserisci ulteriori informazioni",
+                    "label": "Note",
                     "name": "description",
                     "readonly": True,
                     "required": False,
+                    "type": "textarea",
                     "value": "",
                 },
-                {"name": "title", "readonly": True, "required": True, "value": ""},
+                {
+                    "desc": "Inserire il nome completo",
+                    "label": "Nome completo",
+                    "name": "Nome",
+                    "readonly": True,
+                    "required": True,
+                    "type": "text",
+                    "value": "",
+                },
             ],
         }
 

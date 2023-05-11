@@ -48,10 +48,11 @@ class BookingSchema(Service):
             current_user = api.user.get_current()
 
         booking_date = self.request.form.get("form.booking_date", None)
-        booking_date = booking_date.replace("T", " ")
 
         if not booking_date:
             raise ValueError("Wrong date format")
+
+        booking_date = booking_date.replace("T", " ")
 
         tzname = time.tzname[time.daylight]
 
