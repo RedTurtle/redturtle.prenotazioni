@@ -1,8 +1,33 @@
 # -*- coding: utf-8 -*-
+from DateTime import DateTime
 from plone import api
 from plone.restapi.services import Service
-from DateTime import DateTime
+from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
+
 import time
+
+desc_map = {
+    "email": {
+        "label": "Email",
+        "description": "Inserisci l'email",
+    },
+    "fiscalcode": {
+        "label": "Codice Fiscale",
+        "description": "Inserisci il codice fiscale",
+    },
+    "phone": {
+        "label": "Numero di telefono",
+        "description": "Inserisci il numero di telefono",
+    },
+    "description": {
+        "label": "Note",
+        "description": "Inserisci ulteriori informazioni",
+    },
+    "company": {
+        "label": "Azienda",
+        "description": "Inserisci il nome dell'azienda",
+    },
+}
 
 
 class BookingSchema(Service):
@@ -24,14 +49,12 @@ class BookingSchema(Service):
             current_user = api.user.get_current()
 
         booking_date = self.request.form.get("form.booking_date", None)
+        booking_date = booking_date.replace("T", " ")
 
         if not booking_date:
             raise ValueError("Wrong date format")
 
         tzname = time.tzname[time.daylight]
-
-        if len(booking_date) != 16:
-            raise ValueError("Wrong date format")
 
         if tzname == "RMT":
             tzname = "CEST"
@@ -45,12 +68,22 @@ class BookingSchema(Service):
         bookings = booking_context_state_view.booking_types_bookability(booking_date)
 
         fields_list = []
+
         for field in booking_folder.visible_booking_fields:
             value = ""
+            label = ""
+            desc = ""
             is_mandatory = False
             is_readonly = False
+            field_type = "text"
 
-            if field in booking_folder.required_booking_fields:
+            if field == "description":
+                field_type = "textarea"
+
+            if (
+                booking_folder.required_booking_fields
+                and field in booking_folder.required_booking_fields
+            ):
                 is_mandatory = True
 
             if current_user:
@@ -61,22 +94,45 @@ class BookingSchema(Service):
                 if field == "fiscalcode":
                     value = current_user.getUserName()
 
+            if field in desc_map.keys():
+                label = desc_map.get(field).get("label")
+                desc = desc_map.get(field).get("description")
+
             fields_list.append(
                 {
+                    "label": label,
+                    "desc": desc,
+                    "type": field_type,
                     "name": field,
                     "value": value,
                     "required": is_mandatory,
                     "readonly": is_readonly,
                 }
             )
+
         if current_user:
             user_name = current_user.getProperty("fullname")
             fields_list.append(
                 {
-                    "name": "title",
+                    "label": "Nome completo",
+                    "desc": "Inserire il nome completo",
+                    "type": "text",
+                    "name": "Nome",
                     "value": user_name,
                     "required": True,
                     "readonly": True,
+                }
+            )
+        else:
+            fields_list.append(
+                {
+                    "label": "Nome completo",
+                    "desc": "Inserire il nome completo",
+                    "type": "text",
+                    "name": "Nome",
+                    "value": "",
+                    "required": True,
+                    "readonly": False,
                 }
             )
 
