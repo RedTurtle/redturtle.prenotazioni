@@ -30,7 +30,7 @@ desc_map = {
 
 
 class BookingSchema(Service):
-    def reply(self):
+    def reply(self):  # noqa: C901
         """
         Return the schema for the booking form.
 
