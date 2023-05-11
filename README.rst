@@ -305,64 +305,64 @@ Example::
 
 Response::
 
-{
-  "booking_types": {
-    "bookable": [], 
-    "unbookable": [
-      {
-        "duration": "60", 
-        "name": "Rilascio CIE"
-      }
-    ]
-  }, 
-  "fields": [
     {
-      "desc": "Inserisci l'email", 
-      "label": "Email", 
-      "name": "email", 
-      "readonly": false, 
-      "required": false, 
-      "type": "text", 
-      "value": ""
-    }, 
-    {
-      "desc": "Inserisci il numero di telefono", 
-      "label": "Numero di telefono", 
-      "name": "phone", 
-      "readonly": false, 
-      "required": false, 
-      "type": "text", 
-      "value": ""
-    }, 
-    {
-      "desc": "Inserisci ulteriori informazioni", 
-      "label": "Note", 
-      "name": "description", 
-      "readonly": false, 
-      "required": false, 
-      "type": "textarea", 
-      "value": ""
-    }, 
-    {
-      "desc": "Inserisci il codice fiscale", 
-      "label": "Codice Fiscale", 
-      "name": "fiscalcode", 
-      "readonly": false, 
-      "required": true, 
-      "type": "text", 
-      "value": ""
-    }, 
-    {
-      "desc": "Inserire il nome completo", 
-      "label": "Nome completo", 
-      "name": "Nome", 
-      "readonly": false, 
-      "required": true, 
-      "type": "text", 
-      "value": ""
+        "booking_types": {
+            "bookable": [], 
+            "unbookable": [
+                {
+                "duration": "60", 
+                "name": "Rilascio CIE"
+              }
+            ]
+        }, 
+        "fields": [
+        {
+          "desc": "Inserisci l'email", 
+          "label": "Email", 
+          "name": "email", 
+          "readonly": false, 
+          "required": false, 
+          "type": "text", 
+          "value": ""
+        }, 
+        {
+          "desc": "Inserisci il numero di telefono", 
+          "label": "Numero di telefono", 
+          "name": "phone", 
+          "readonly": false, 
+          "required": false, 
+          "type": "text", 
+          "value": ""
+        }, 
+        {
+          "desc": "Inserisci ulteriori informazioni", 
+          "label": "Note", 
+          "name": "description", 
+          "readonly": false, 
+          "required": false, 
+          "type": "textarea", 
+          "value": ""
+        }, 
+        {
+          "desc": "Inserisci il codice fiscale", 
+          "label": "Codice Fiscale", 
+          "name": "fiscalcode", 
+          "readonly": false, 
+          "required": true, 
+          "type": "text", 
+          "value": ""
+        }, 
+        {
+          "desc": "Inserire il nome completo", 
+          "label": "Nome completo", 
+          "name": "Nome", 
+          "readonly": false, 
+          "required": true, 
+          "type": "text", 
+          "value": ""
+        }
+        ]
     }
-  ]
-}
                          
 @bookings
 --------------------
