@@ -2,7 +2,6 @@
 from DateTime import DateTime
 from plone import api
 from plone.restapi.services import Service
-from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
 
 import time
 
