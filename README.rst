@@ -300,57 +300,68 @@ The booking date is passed via querystring (e.g ?form.booking_date=2023-04-13+10
 
 Example::
 
-   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?form.booking_date=2023-04-13+10%3A00' -H 'Accept: application/json' 
+   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?form.booking_date=2023-05-15T13:00:00' -H 'Accept: application/json' 
 
 Response::
 
-   {
-    "booking_types": {
-        "bookable": [
-        {
-            "duration": "10", 
-            "name": "Redditi"
-        }, 
-        {
-            "duration": "15", 
-            "name": "Rilascio certificato del Registro Imprese (max 2 certificati)"
-        }
-        ], 
-        "unbookable": []
-    }, 
-    "fields": [
-        {
-        "name": "email", 
-        "readonly": false, 
-        "required": true, 
-        "value": ""
-        }, 
-        {
-        "name": "phone", 
-        "readonly": false, 
-        "required": true, 
-        "value": ""
-        }, 
-        {
-        "name": "fiscalcode", 
-        "readonly": false, 
-        "required": true, 
-        "value": ""
-        }, 
-        {
-        "name": "company", 
-        "readonly": false, 
-        "required": false, 
-        "value": ""
-        }, 
-        {
-        "name": "description", 
-        "readonly": false, 
-        "required": false, 
-        "value": ""
-        }
+{
+  "booking_types": {
+    "bookable": [], 
+    "unbookable": [
+      {
+        "duration": "60", 
+        "name": "Rilascio CIE"
+      }
     ]
-   }
+  }, 
+  "fields": [
+    {
+      "desc": "Inserisci l'email", 
+      "label": "Email", 
+      "name": "email", 
+      "readonly": false, 
+      "required": false, 
+      "type": "text", 
+      "value": ""
+    }, 
+    {
+      "desc": "Inserisci il numero di telefono", 
+      "label": "Numero di telefono", 
+      "name": "phone", 
+      "readonly": false, 
+      "required": false, 
+      "type": "text", 
+      "value": ""
+    }, 
+    {
+      "desc": "Inserisci ulteriori informazioni", 
+      "label": "Note", 
+      "name": "description", 
+      "readonly": false, 
+      "required": false, 
+      "type": "textarea", 
+      "value": ""
+    }, 
+    {
+      "desc": "Inserisci il codice fiscale", 
+      "label": "Codice Fiscale", 
+      "name": "fiscalcode", 
+      "readonly": false, 
+      "required": true, 
+      "type": "text", 
+      "value": ""
+    }, 
+    {
+      "desc": "Inserire il nome completo", 
+      "label": "Nome completo", 
+      "name": "Nome", 
+      "readonly": false, 
+      "required": true, 
+      "type": "text", 
+      "value": ""
+    }
+  ]
+}
                          
 
 Contribute
