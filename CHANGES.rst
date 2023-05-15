@@ -5,6 +5,8 @@ Changelog
 1.7.2 (unreleased)
 ------------------
 
+- Added endpoint to get booking schema.
+  [daniele]
 - Avoid change gate, booking date, booking end from /edit;
   this would allow you to skip the checks;
   Fix profile registration name;
