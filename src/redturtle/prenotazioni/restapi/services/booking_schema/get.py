@@ -87,12 +87,13 @@ class BookingSchema(Service):
                 is_mandatory = True
 
             if current_user:
-                is_readonly = True
-
                 if field == "email":
                     value = current_user.getProperty("email")
+                    is_readonly = True
+
                 if field == "fiscalcode":
                     value = current_user.getUserName()
+                    is_readonly = True
 
             if field in desc_map.keys():
                 label = desc_map.get(field).get("label")
