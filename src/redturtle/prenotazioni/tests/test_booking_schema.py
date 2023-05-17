@@ -105,7 +105,6 @@ class TestBookingSchema(unittest.TestCase):
     def test_booking_schema_called_without_params_return_error(
         self,
     ):
-
         response = self.api_session.get(
             "{}/@prenotazione-schema".format(self.folder_prenotazioni.absolute_url())
         )
