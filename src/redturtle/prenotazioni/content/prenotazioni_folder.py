@@ -440,6 +440,7 @@ class IPrenotazioniFolder(model.Schema):
     app_io_enabled = schema.Bool(
         title=_("App IO notification"),
         default=False,
+        required=False,
     )
 
     # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?
