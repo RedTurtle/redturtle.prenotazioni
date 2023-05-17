@@ -198,6 +198,83 @@ Rest API
 
 There are some endpoints useful to use this tool also with external frontends (like Volto).
 
+@booking
+--------
+
+GET
+~~~
+
+TODO: describe this endpoint
+
+Example::
+
+    curl http://localhost:8080/Plone/++api++/@booking?uid=<booking UID> -H 'Accept: application/json'
+
+Response::
+
+    TODO
+
+
+POST
+~~~~
+
+TODO: describe this endpoint
+
+TODO: attualmente i campi sono gli stessi usati da `prenotazioni_add` valutare se è il caso di cambiare
+      e usare un payload più semplice e esplicativo.
+
+Example::
+
+    curl http://localhost:8080/Plone/++api++/<booking_folder_path>@booking \
+        -X POST \
+        -H 'Accept: application/json' \
+        --payload='{
+            "booking_date": "2023-05-23T09:00:00+02:00",
+            "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+            "title": "Mario Rossi",
+            "email": "mario.rossi@example",
+            "phone": "999",
+            "fiscalcode": "RSSMRA80A01H501T",
+            "company": "RedTurtle",
+            "description": "a\ns",
+        }'
+
+Response::
+
+    {
+        "@id": "http://localhost:8080/Plone/++api++/<booking_folder_path>/<booking_path>",
+        "@type": "Booking",
+        "UID": "<booking UID>",
+        ...
+    }
+
+TODO: verificare la presenza di campi come questi e documentarli sopra 
+
+Gentile Mario Rossi, di seguito sono elencati i dati relativi alla sua prenotazione:
+Tipologia prenotazione 	SPID: SOLO riconoscimento "de visu" (no registrazione)
+Email 	mario.rossi@example.org
+Numero di telefono 	999
+Codice fiscale 	mmmm
+Note 	a s
+Data prenotazione 	23/05/2023 alle ore 09:00
+Postazione 	Sportello 2
+Codice prenotazione 	C34420
+
+@prenotazione
+-------------
+
+Leave for compatibility reasons (identical to `@booking`'s GET). Could be removed in future.
+
+TODO: describe this endpoint
+
+Example::
+
+   curl http://localhost:8080/Plone/@prenotazione?uid=<booking UID> -H 'Accept: application/json'
+
+Response::
+
+    TODO
+ 
 @week-slots
 -----------
 
@@ -207,7 +284,6 @@ By default returns the current week, and if you pass a custom date in querystrin
 Example::
 
    curl -i http://localhost:8080/Plone/folder/@week-slots -H 'Accept: application/json'
-   curl -i http://localhost:8080/Plone/@prenotazione?uid=<booking UID> -H 'Accept: application/json'
 
 Response::
 
