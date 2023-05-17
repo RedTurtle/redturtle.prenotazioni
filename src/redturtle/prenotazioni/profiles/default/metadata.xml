@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-<<<<<<< HEAD
   <version>1500</version>
-=======
-  <version>1403</version>
->>>>>>> master
   <dependencies>
     <dependency>profile-plone.app.dexterity:default</dependency>
     <dependency>profile-collective.z3cform.datagridfield:default</dependency>
