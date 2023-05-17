@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from plone.restapi.interfaces import ISerializeToJson
 from redturtle.prenotazioni.adapters.slot import ISlot
 from zope.component import adapter

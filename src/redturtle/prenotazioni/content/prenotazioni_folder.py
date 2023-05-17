@@ -2,6 +2,17 @@
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 from datetime import date
+<<<<<<< HEAD
+=======
+
+
+try:
+    from plone.app.dexterity import textindexer
+except ImportError:
+    # Plone 5.2
+    from collective import dexteritytextindexer as textindexer
+
+>>>>>>> master
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
@@ -135,6 +146,14 @@ class IPrenotazioniFolder(model.Schema):
         required=False,
         title=_("Descrizione Agenda", default="Descrizione Agenda"),
         description=_("Inserire il testo di presentazione dell'agenda corrente"),
+    )
+
+    cosa_serve = schema.Text(
+        required=False,
+        title=_("Cosa serve", default="Cosa serve"),
+        description=_(
+            "Elencare le informazioni utili per il giorno della prenotazione, come ad esempio i documenti da presentare."
+        ),
     )
 
     directives.widget(required_booking_fields=CheckBoxFieldWidget)
@@ -552,3 +571,6 @@ class PrenotazioniFolder(Container):
 
     def getNotBeforeDays(self):
         return self.notBeforeDays
+
+    def getCosaServe(self):
+        return self.cosa_serve

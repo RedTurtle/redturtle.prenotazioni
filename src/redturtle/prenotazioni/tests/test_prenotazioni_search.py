@@ -1,0 +1,227 @@
+# -*- coding: utf-8 -*-
+from datetime import date
+from datetime import timedelta
+from dateutil import parser
+from plone import api
+from plone.app.testing import setRoles
+from plone.app.testing import SITE_OWNER_NAME
+from plone.app.testing import SITE_OWNER_PASSWORD
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_PASSWORD
+from plone.restapi.testing import RelativeSession
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+)
+
+import transaction
+import unittest
+
+
+class TestPrenotazioniSearch(unittest.TestCase):
+    layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.app = self.layer["app"]
+        self.portal = self.layer["portal"]
+        self.portal_url = self.portal.absolute_url()
+        self.testing_fiscal_code = "TESTINGFISCALCODE"
+        self.testing_booking_date = parser.parse("2023-04-28 16:00:00")
+        self.booking_expiration_date = parser.parse("2023-04-28 16:00:00") + timedelta(
+            days=100
+        )
+
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+        self.api_session = RelativeSession(self.portal_url)
+        self.api_session.headers.update({"Accept": "application/json"})
+        self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
+
+        self.folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            week_table=[
+                {
+                    "day": "Lunedì",
+                    "morning_start": "0700",
+                    "morning_end": "1000",
+                    "afternoon_start": None,
+                    "afternoon_end": None,
+                },
+                {
+                    "day": "Martedì",
+                    "morning_start": None,
+                    "morning_end": None,
+                    "afternoon_start": None,
+                    "afternoon_end": None,
+                },
+                {
+                    "day": "Mercoledì",
+                    "morning_start": None,
+                    "morning_end": None,
+                    "afternoon_start": None,
+                    "afternoon_end": None,
+                },
+                {
+                    "day": "Giovedì",
+                    "morning_start": None,
+                    "morning_end": None,
+                    "afternoon_start": None,
+                    "afternoon_end": None,
+                },
+                {
+                    "day": "Venerdì",
+                    "morning_start": None,
+                    "morning_end": None,
+                    "afternoon_start": None,
+                    "afternoon_end": None,
+                },
+                {
+                    "day": "Sabato",
+                    "morning_start": None,
+                    "morning_end": None,
+                    "afternoon_start": None,
+                    "afternoon_end": None,
+                },
+                {
+                    "day": "Domenica",
+                    "morning_start": None,
+                    "morning_end": None,
+                    "afternoon_start": None,
+                    "afternoon_end": None,
+                },
+            ],
+            booking_types=[
+                {"name": "Type A", "duration": "30"},
+            ],
+            gates=["Gate A"],
+        )
+
+        year = api.content.create(
+            container=self.folder_prenotazioni,
+            type="PrenotazioniYear",
+            title="Year",
+        )
+        week = api.content.create(container=year, type="PrenotazioniWeek", title="Week")
+        self.day_folder = api.content.create(
+            container=week, type="PrenotazioniDay", title="Day"
+        )
+        self.day_folder1 = api.content.create(
+            container=week, type="PrenotazioniDay", title="Day"
+        )
+        self.day_folder2 = api.content.create(
+            container=week, type="PrenotazioniDay", title="Day"
+        )
+
+        self.prenotazione_fscode = api.content.create(
+            container=self.day_folder,
+            type="Prenotazione",
+            title="Prenotazione",
+            booking_date=self.testing_booking_date - timedelta(days=2),
+            booking_expiration_date=self.booking_expiration_date,
+            fiscalcode=self.testing_fiscal_code,
+        )
+        self.prenotazione_no_fscode = api.content.create(
+            container=self.day_folder,
+            type="Prenotazione",
+            booking_date=self.testing_booking_date - timedelta(days=2),
+            booking_expiration_date=self.booking_expiration_date,
+            title="Prenotazione",
+        )
+        self.prenotazione_datetime = api.content.create(
+            container=self.day_folder,
+            type="Prenotazione",
+            title="Prenotazione",
+            booking_date=self.testing_booking_date,
+            booking_expiration_date=self.booking_expiration_date,
+            fiscalcode=self.testing_fiscal_code,
+        )
+        self.prenotazione_datetime_plus2 = api.content.create(
+            container=self.day_folder1,
+            type="Prenotazione",
+            title="Prenotazione",
+            booking_date=self.testing_booking_date + timedelta(days=2),
+            booking_expiration_date=self.booking_expiration_date,
+            fiscalcode=self.testing_fiscal_code,
+        )
+        self.prenotazione_datetime_plus4 = api.content.create(
+            container=self.day_folder2,
+            type="Prenotazione",
+            title="Prenotazione",
+            booking_date=self.testing_booking_date + timedelta(days=4),
+            booking_expiration_date=self.booking_expiration_date,
+            fiscalcode=self.testing_fiscal_code,
+        )
+        transaction.commit()
+
+    def test_view_permission(self):
+        self.assertEqual(
+            self.api_session.get(f"{self.portal.absolute_url()}/@bookings").status_code,
+            200,
+        )
+
+        setRoles(self.portal, TEST_USER_ID, [])
+
+        self.api_session.auth = (TEST_USER_ID, TEST_USER_PASSWORD)
+
+        self.assertEqual(
+            self.api_session.get(f"{self.portal.absolute_url()}/@bookings").status_code,
+            401,
+        )
+
+    def test_search_by_fiscalcode(self):
+        result_uids = [
+            i["booking_id"]
+            for i in self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings?fiscalcode={self.testing_fiscal_code}"
+            ).json()["items"]
+        ]
+
+        self.assertIn(self.prenotazione_fscode.UID(), result_uids)
+        self.assertNotIn(self.prenotazione_no_fscode.UID(), result_uids)
+
+    def test_search_by_fiscalcode_traverse(self):
+        res = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings/{self.testing_fiscal_code}"
+        )
+        self.assertEqual(res.status_code, 200)
+        ids = [i["booking_id"] for i in res.json()["items"]]
+        self.assertIn(self.prenotazione_fscode.UID(), ids)
+        self.assertNotIn(self.prenotazione_no_fscode.UID(), ids)
+
+    def test_search_by_date(self):
+        # test by start date
+        res = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?from={str(self.testing_booking_date + timedelta(days=1))}&fiscalcode={self.testing_fiscal_code}"
+        )
+
+        self.assertEqual(res.status_code, 200)
+
+        ids = [i["booking_id"] for i in res.json()["items"]]
+        self.assertNotIn(self.prenotazione_datetime.UID(), ids)
+        self.assertIn(self.prenotazione_datetime_plus2.UID(), ids)
+
+        # test by end date
+        result_uids = [
+            i["booking_id"]
+            for i in self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings?to={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}"
+            ).json()["items"]
+        ]
+
+        self.assertIn(self.prenotazione_datetime_plus2.UID(), result_uids)
+        self.assertNotIn(self.prenotazione_datetime_plus4.UID(), result_uids)
+
+        # test btw strart and end date
+        result_uids = [
+            i["booking_id"]
+            for i in self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings?from={str(self.testing_booking_date + timedelta(days=1))}&to={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}"
+            ).json()["items"]
+        ]
+
+        self.assertIn(self.prenotazione_datetime_plus2.UID(), result_uids)
+        self.assertNotIn(self.prenotazione_datetime_plus4.UID(), result_uids)
+        self.assertNotIn(self.prenotazione_datetime.UID(), result_uids)

@@ -48,11 +48,11 @@ To avoid spam, there is a background validation with `collective.honeypot`_ .
 .. _collective.honeypot: https://pypi.org/project/collective.honeypot
 
 
-With a version of `plone.app.dexterity` lower than 3.* (ie Plone 5.2) you need to add 
+With a version of `plone.app.dexterity` lower than 3.* (ie Plone 5.2) you need to add
 `collective.dexteritytextindexer`_ as requirement.
 
 ::
-    
+
     [instance]
     eggs=
         ...
@@ -159,6 +159,14 @@ If you want to send some notification, you only need to enable them from rules l
 
 If you set "Responsible email" field, an email will be sent each time a new Booking has been submitted.
 
+The rules which are available by default:
+
+* `booking-accepted` (Invia un'email all'utente quando la prenotazione è stata accettata)
+* `booking-moved` (Invia un'email all'utente quando la data della prenotazione viene cambiata)
+* `booking-created-user` (Invia un'email all'utente quando la prenotazione è stata creata)
+* `booking-refuse` (Invia un'email all'utente quando la prenotazione è stata rifiutata)
+* `booking-confirm` (Conferma automatica prenotazioni)
+
 Vacations
 ---------
 
@@ -199,6 +207,7 @@ By default returns the current week, and if you pass a custom date in querystrin
 Example::
 
    curl -i http://localhost:8080/Plone/folder/@week-slots -H 'Accept: application/json'
+   curl -i http://localhost:8080/Plone/@prenotazione?uid=<booking UID> -H 'Accept: application/json'
 
 Response::
 
@@ -280,6 +289,120 @@ Response::
             '2023-04-24T08:00:00',
             '2023-04-24T09:00:00'
         ]
+    }
+
+@prenotazione-schema
+--------------------
+
+Endpoint that need to be called on a PrenotazioniFolder.
+It returns the list of all fields to fill in for the booking.
+
+The booking date is passed via querystring (e.g ?form.booking_date=2023-04-13+10%3A00')
+
+Example::
+
+   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?form.booking_date=2023-05-15T13:00:00' -H 'Accept: application/json' 
+
+Response::
+
+    {
+        "booking_types": {
+            "bookable": [], 
+            "unbookable": [
+                {
+                "duration": "60", 
+                "name": "Rilascio CIE"
+              }
+            ]
+        }, 
+        "fields": [
+          {
+            "desc": "Inserisci l'email", 
+            "label": "Email", 
+            "name": "email", 
+            "readonly": false, 
+            "required": false, 
+            "type": "text", 
+            "value": ""
+          }, 
+          {
+            "desc": "Inserisci il numero di telefono", 
+            "label": "Numero di telefono", 
+            "name": "phone", 
+            "readonly": false, 
+            "required": false, 
+            "type": "text", 
+            "value": ""
+          }, 
+          {
+            "desc": "Inserisci ulteriori informazioni", 
+            "label": "Note", 
+            "name": "description", 
+            "readonly": false, 
+            "required": false, 
+            "type": "textarea", 
+            "value": ""
+          }, 
+          {
+            "desc": "Inserisci il codice fiscale", 
+            "label": "Codice Fiscale", 
+            "name": "fiscalcode", 
+            "readonly": false, 
+            "required": true, 
+            "type": "text", 
+            "value": ""
+          }, 
+          {
+            "desc": "Inserire il nome completo", 
+            "label": "Nome completo", 
+            "name": "Nome", 
+            "readonly": false, 
+            "required": true, 
+            "type": "text", 
+            "value": ""
+          }
+        ]
+    }
+                         
+@bookings
+--------------------
+
+Endpoint that returns a list of *Prenotazione* content by parameters
+
+Parameters:
+
+- **fiscalcode**: The users fiscal Code
+- **from**: The statrt date of research
+- **to**: The end date of research
+- **fullobjects**: Indicates the expand data level
+
+The endpoint can be called with a GET request::
+
+  curl -i http://localhost:8080/Plone/@bookings?fiscalcode=FISCALCODE&from=10-10-2023 \n
+     -H 'Accept: application/json'
+
+Response::
+
+    {
+        "@id": "http://localhost:8080/Plone/folder/@bookings",
+        "items": [
+             {
+                "booking_id": "abcdefgh1234567890",
+                "booking_url": "https://url.ioprenoto.it/prenotazione/abcd",
+                "booking_date": "2018-04-25T10:00:00",
+                "booking_expiration_date": "2018-04-30T10:00:00",
+                "booking_type": "Servizio di prova",
+                "booking_room": "stanza-1",
+                "booking_gate": "sportello-urp-polifunzionale",
+                "booking_status": "confirmed",
+                "booking_status_label": "Confermata",
+                "booking_status_date": "2018-04-25T10:00:00",
+                "booking_status_notes": "Prenotazione confermata",
+                "userid": "FISCALCODE",
+            },
+            ...
+            ],
+          }
     }
 
 Contribute

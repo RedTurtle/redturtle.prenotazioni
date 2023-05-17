@@ -40,11 +40,19 @@
       />
 
   <genericsetup:registerProfile
+<<<<<<< HEAD
       name="to_1500"
       title="redturtle.prenotazioni (to_1500)"
       description="redturtle.prenotazioni to 1500."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/to_1500"
+=======
+      name="content_rules_evolution"
+      title="Profile create to add the new default content rule: booking-confirm"
+      description="Used to add new contentrules"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/to_1402"
+>>>>>>> master
       />
 
   <utility

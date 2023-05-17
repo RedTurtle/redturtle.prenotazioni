@@ -3,6 +3,7 @@ from .prenotazioni_folder import IPrenotazioniFolder
 from datetime import datetime
 from DateTime import DateTime
 from plone import api
+from plone.autoform import directives
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from redturtle.prenotazioni import _
@@ -108,6 +109,7 @@ def check_is_future_date(value):
 class IPrenotazione(model.Schema):
     """Marker interface and Dexterity Python Schema for Prenotazione"""
 
+    directives.mode(booking_date="display")
     booking_date = schema.Datetime(
         title=_("label_booking_time", "Booking time"),
         required=True,
@@ -151,11 +153,12 @@ class IPrenotazione(model.Schema):
         required=False,
     )
 
+    directives.mode(gate="display")
     gate = schema.TextLine(
         title=_("Gate"),
         description=_("Sportello a cui presentarsi"),
     )
-
+    directives.mode(booking_expiration_date="display")
     booking_expiration_date = schema.Datetime(
         title=_("Expiration date booking"), required=True
     )
