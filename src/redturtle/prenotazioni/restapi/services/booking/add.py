@@ -1,5 +1,16 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+from plone import api
+from plone.protect.interfaces import IDisableCSRFProtection
+from plone.restapi.deserializer import json_body
+from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
+from zope.component import queryMultiAdapter
+from zope.interface import alsoProvides
+
 
 # src/redturtle/prenotazioni/browser/prenotazione_add.py
 
@@ -10,6 +21,11 @@ class AddBooking(Service):
     """
 
     def reply(self):
+        data = json_body(self.request)
+        data_fields = {field["name"]: field["value"] for field in data["fields"]}
+
+        # TODO: serve una validazione migliore dei campi ?
+
         # data, errors = self.extractData()
         # if errors:
         #     self.status = self.formErrorsMessage
@@ -18,37 +34,89 @@ class AddBooking(Service):
         required = self.context.required_booking_fields
 
         # la tipologia di una prenotazione deve essere sempre obbligatoria ticket: 19131
-        if "booking_type" not in required:
-            required.append("booking_type")
+        for field in ("booking_date", "booking_type"):
+            if not data.get(field):
+                self.request.response.setStatus(400)
+                msg = self.context.transalate(
+                    _("Required input {field} is missing.", mapping=dict(field=field))
+                )
+                return dict(error=dict(type="Bad Request", message=msg))
 
-        # for field_id in self.fields.keys():
-        #     if field_id in required and not data.get(field_id, ""):
-        #         raise WidgetActionExecutionError(
-        #             field_id, Invalid(_("Required input is missing."))
-        #         )
-        # if not data.get("booking_date"):
-        #     raise WidgetActionExecutionError(
-        #         "booking_date", Invalid(_("Please provide a booking date"))
-        #     )
+        if isinstance(data["booking_date"], str):
+            # TODO: redturtle.prenotazioni lavora con date naive, quindi toglia la timezone
+            #       ma non dovrebbe essere così
+            data["booking_date"] = datetime.fromisoformat(data["booking_date"]).replace(
+                tzinfo=None
+            )
 
-        # conflict_manager = self.prenotazioni.conflict_manager
-        # if conflict_manager.conflicts(data):
-        #     msg = _("Sorry, this slot is not available anymore.")
-        #     raise WidgetActionExecutionError("booking_date", Invalid(msg))
-        # if self.exceedes_date_limit(data):
-        #     msg = _("Sorry, you can not book this slot for now.")
-        #     raise WidgetActionExecutionError("booking_date", Invalid(msg))
+        for field in required:
+            if field in ("booking_date", "booking_type"):
+                continue
+            if not data_fields.get(field):
+                self.request.response.setStatus(400)
+                msg = self.context.transalate(
+                    _("Required input {field} is missing.", mapping=dict(field=field))
+                )
+                return dict(error=dict(type="Bad Request", message=msg))
 
-        # obj = self.do_book(data)
-        # if not obj:
-        #     msg = _("Sorry, this slot is not available anymore.")
-        #     api.portal.show_message(message=msg, type="warning", request=self.request)
-        #     target = self.back_to_booking_url
-        #     return self.request.response.redirect(target)
+        alsoProvides(self.request, IDisableCSRFProtection)
+
+        prenotazioni_context_state = api.content.get_view(
+            "prenotazioni_context_state", self.context, self.request
+        )
+        conflict_manager = prenotazioni_context_state.conflict_manager
+
+        if conflict_manager.conflicts(data):
+            self.request.response.setStatus(400)
+            msg = self.context.translate(
+                _("Sorry, this slot is not available anymore.")
+            )
+            return dict(error=dict(type="Bad Request", message=msg))
+
+        if exceedes_date_limit(data, self.context.getFutureDays()):
+            self.request.response.setStatus(400)
+            msg = self.context.translate(
+                _("Sorry, you can not book this slot for now.")
+            )
+            return dict(error=dict(type="Bad Request", message=msg))
+
+        booker = IBooker(self.context.aq_inner)
+
+        # TODO: il codice plone aveva questo meccanismo (sbagliato) per
+        #       recuperare il gate da cui è arrivata la prenotazione
+        # referer = self.request.get("HTTP_REFERER", None)
+        # if referer:
+        #     parsed_url = urlparse(referer)
+        #     params = parse_qs(parsed_url.query)
+        #     if "gate" in params:
+        #         return booker.create(data, force_gate=params["gate"][0])
+
+        book_data = {
+            "booking_date": data["booking_date"],
+            "booking_type": data["booking_type"],
+        }
+        for field in data_fields:
+            book_data[field] = data_fields[field]
+
+        # TODO: book_data ha alcuni campi che sono presenti in data
+        #       con nomi diversi, va fatto un mapping tra i due
+        if "fullname" in book_data:
+            book_data["title"] = book_data["fullname"]
+
+        obj = booker.create(book_data)
+
+        if not obj:
+            self.request.response.setStatus(400)
+            msg = self.context.translate(
+                _("Sorry, this slot is not available anymore.")
+            )
+            return dict(error=dict(type="Bad Request", message=msg))
+
         # msg = _("booking_created")
         # api.portal.show_message(message=msg, type="info", request=self.request)
         # booking_date = data["booking_date"].strftime("%d/%m/%Y")
 
+        # TODO: spostare questo su un evento ?
         # delete_token = IAnnotations(obj).get(DELETE_TOKEN_KEY, "")
         # params = {
         #     "data": booking_date,
@@ -62,9 +130,5 @@ class AddBooking(Service):
         # )
         # self.send_email_to_managers(booking=obj)
 
-        # self.request.response.expireCookie(
-        #     TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE,
-        #     path="/",
-        # )
-
-        # return self.request.response.redirect(target)
+        serializer = queryMultiAdapter((obj, self.request), ISerializeToJson)
+        return serializer()

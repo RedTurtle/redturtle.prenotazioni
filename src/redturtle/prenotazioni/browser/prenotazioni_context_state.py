@@ -659,7 +659,8 @@ class PrenotazioniContextState(BrowserView):
                 slots_by_gate.setdefault(slot.gate, []).append(slot)
         return slots_by_gate
 
-    @memoize
+    # TODO: perchè memozie qui ?
+    # @memoize
     def get_free_slots(self, booking_date, period="day"):
         """This will return the free slots divided by gate
 

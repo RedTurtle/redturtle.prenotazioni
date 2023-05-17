@@ -225,18 +225,17 @@ TODO: attualmente i campi sono gli stessi usati da `prenotazioni_add` valutare s
 
 Example::
 
-    curl http://localhost:8080/Plone/++api++/<booking_folder_path>@booking \
+    curl http://localhost:8080/Plone/++api++/<booking_folder_path>/@booking \
         -X POST \
         -H 'Accept: application/json' \
-        --payload='{
+        -H 'Content-Type: application/json' \
+        -d '{
             "booking_date": "2023-05-23T09:00:00+02:00",
             "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
-            "title": "Mario Rossi",
-            "email": "mario.rossi@example",
-            "phone": "999",
-            "fiscalcode": "RSSMRA80A01H501T",
-            "company": "RedTurtle",
-            "description": "a\ns",
+            "fields": [
+                {"name": "fullname", "value": "Mario Rossi"},
+                {"name": "email", "value": "mario.rossi@example"}
+            ],
         }'
 
 Response::
