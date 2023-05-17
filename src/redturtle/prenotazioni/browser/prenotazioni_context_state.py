@@ -28,7 +28,11 @@ def hm2handm(hm):
     to the value passed in the string hm
 
     :param hm: a string in the format "%H%m"
+
+    XXX: manage the case of `hm` as tuple, eg. ("0700", )
     """
+    if hm and isinstance(hm, tuple):
+        hm = hm[0]
     if (not hm) or (not isinstance(hm, six.string_types)) or (len(hm) != 4):
         raise ValueError(hm)
     return (hm[:2], hm[2:])
@@ -41,7 +45,7 @@ def hm2DT(day, hm):
     :param day: a datetime date
     :param hm: a string in the format "%H%m"
     """
-    if not hm:
+    if not hm or hm == "--NOVALUE--" or hm == ("--NOVALUE--",):
         return None
     date = day.strftime("%Y/%m/%d")
     h, m = hm2handm(hm)
@@ -280,9 +284,9 @@ class PrenotazioniContextState(BrowserView):
         times = slot.get_values_hr_every(300, slot_min_size=slot_min_size)
         base_url = self.base_booking_url
         urls = []
-        now_str = tznow().strftime("%Y-%m-%d %H:%M")
+        now_str = tznow().strftime("%Y-%m-%dT%H:%M")
         for t in times:
-            form_booking_date = " ".join((date, t))
+            form_booking_date = "T".join((date, t))
             params["form.booking_date"] = form_booking_date
             if gate:
                 params["gate"] = gate
@@ -738,10 +742,17 @@ class PrenotazioniContextState(BrowserView):
          ...
         }
         """
-        return dict(
-            (x["name"], int(x["duration"]))
-            for x in getattr(self.context, "booking_types", [])
-        )
+
+        def get_duration(duration):
+            if isinstance(duration, tuple):
+                return int(duration[0])
+            return int(duration)
+
+        return {
+            typ["name"]: get_duration(typ["duration"])
+            for typ in getattr(self.context, "booking_types", [])
+            if typ["duration"]
+        }
 
     def get_booking_type_duration(self, booking_type):
         """Return the seconds for this booking_type"""

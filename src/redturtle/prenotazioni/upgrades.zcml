@@ -61,6 +61,7 @@
       destination="1401"
       handler=".upgrades.to_1401"
       />
+
   <genericsetup:upgradeStep
       title="Upgrade to 1402"
       description="Load new content rule: booking-confirm"
@@ -69,6 +70,7 @@
       destination="1402"
       handler=".upgrades.to_1402"
       />
+
   <genericsetup:upgradeStep
       title="Upgrade to 1403"
       description="Add new index to Prenotazioni c.t."
@@ -77,4 +79,14 @@
       destination="1403"
       handler=".upgrades.to_1403"
       />
+
+  <genericsetup:upgradeStep
+      title="Upgrade to 1500"
+      description="Remove unused type"
+      profile="redturtle.prenotazioni:default"
+      source="1403"
+      destination="1500"
+      handler=".upgrades.to_1500"
+      />
+
 </configure>

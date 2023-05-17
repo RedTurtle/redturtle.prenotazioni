@@ -2,14 +2,6 @@
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 from datetime import date
-
-
-try:
-    from plone.app.dexterity import textindexer
-except ImportError:
-    # Plone 5.2
-    from collective import dexteritytextindexer as textindexer
-
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
@@ -28,6 +20,12 @@ from zope.interface import Invalid
 from zope.interface import invariant
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+
+try:
+    from plone.app.dexterity import textindexer
+except ImportError:
+    # Plone 5.2
+    from collective import dexteritytextindexer as textindexer
 
 
 def get_dgf_values_from_request(request, fieldname, columns=[]):
@@ -92,24 +90,21 @@ class IWeekTableRow(model.Schema):
 
 
 class IPauseTableRow(model.Schema):
-    def get_options():  # noqa
-        """Return the options for the day widget"""
-        options = [
-            SimpleTerm(value=None, token=None, title=_("Select a day")),
-            SimpleTerm(value=0, token=0, title=_("Monday")),
-            SimpleTerm(value=1, token=1, title=_("Tuesday")),
-            SimpleTerm(value=2, token=2, title=_("Wednesday")),
-            SimpleTerm(value=3, token=3, title=_("Thursday")),
-            SimpleTerm(value=4, token=4, title=_("Friday")),
-            SimpleTerm(value=5, token=5, title=_("Saturday")),
-            SimpleTerm(value=6, token=6, title=_("Sunday")),
-        ]
-        return SimpleVocabulary(options)
-
     day = schema.Choice(
         title=_("day_label", default="Day of week"),
         required=True,
-        source=get_options(),
+        vocabulary=SimpleVocabulary(
+            [
+                SimpleTerm(value=None, token=None, title=_("Select a day")),
+                SimpleTerm(value=0, token=0, title=_("Monday")),
+                SimpleTerm(value=1, token=1, title=_("Tuesday")),
+                SimpleTerm(value=2, token=2, title=_("Wednesday")),
+                SimpleTerm(value=3, token=3, title=_("Thursday")),
+                SimpleTerm(value=4, token=4, title=_("Friday")),
+                SimpleTerm(value=5, token=5, title=_("Saturday")),
+                SimpleTerm(value=6, token=6, title=_("Sunday")),
+            ]
+        ),
     )
     pause_start = schema.Choice(
         title=_("pause_start_label", default="Pause start"),
@@ -445,6 +440,7 @@ class IPrenotazioniFolder(model.Schema):
     app_io_enabled = schema.Bool(
         title=_("App IO notification"),
         default=False,
+        required=False,
     )
 
     # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?
