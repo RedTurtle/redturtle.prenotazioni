@@ -241,23 +241,21 @@ Example::
 Response::
 
     {
-        "@id": "http://localhost:8080/Plone/++api++/<booking_folder_path>/<booking_path>",
-        "@type": "Booking",
-        "UID": "<booking UID>",
-        ...
+        "booking_code": "17E3E6", 
+        "booking_date": "2023-05-22T09:09:00", 
+        "booking_expiration_date": "2023-05-22T09:10:00", 
+        "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)", 
+        "company": null, 
+        "cosa_serve": null, 
+        "description": "", 
+        "email": "mario.rossi@example", 
+        "fiscalcode": "", 
+        "gate": "postazione1", 
+        "id": "mario-rossi-1", 
+        "phone": "", 
+        "staff_notes": null, 
+        "title": "Mario Rossi"
     }
-
-TODO: verificare la presenza di campi come questi e documentarli sopra 
-
-Gentile Mario Rossi, di seguito sono elencati i dati relativi alla sua prenotazione:
-Tipologia prenotazione 	SPID: SOLO riconoscimento "de visu" (no registrazione)
-Email 	mario.rossi@example.org
-Numero di telefono 	999
-Codice fiscale 	mmmm
-Note 	a s
-Data prenotazione 	23/05/2023 alle ore 09:00
-Postazione 	Sportello 2
-Codice prenotazione 	C34420
 
 @prenotazione
 -------------
