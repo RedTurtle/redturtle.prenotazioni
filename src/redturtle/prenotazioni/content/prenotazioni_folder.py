@@ -29,6 +29,39 @@ except ImportError:
     from collective import dexteritytextindexer as textindexer
 
 
+def get_dgf_values_from_request(request, fieldname, columns=[]):
+    """
+    Validator with datagridfield works in a fuzzy way. We need to extract
+    values from request to be sure we are validating correct data.
+    """
+
+    def get_from_form(form, fieldname):
+        value = form.get(fieldname, None)
+        if value:
+            if isinstance(value, list):
+                return value[0]
+            if isinstance(value, str):
+                return value
+        return None
+
+    number_of_entry = request.form.get("form.widgets.{}.count".format(fieldname))
+    data = []
+    prefix = "form.widgets.{}".format(fieldname)
+    for counter in range(int(number_of_entry)):
+        row_data = {}
+        for column in columns:
+            indexed_prefix = "{}.{}.widgets.".format(prefix, counter)
+            row_data.update(
+                {
+                    column: get_from_form(
+                        request.form, "{}{}".format(indexed_prefix, column)
+                    )
+                }
+            )
+        data.append(row_data)
+    return data
+
+
 class IWeekTableRow(model.Schema):
     day = schema.TextLine(
         title=_("day_label", default="Day of week"), required=True, default=""
@@ -58,24 +91,21 @@ class IWeekTableRow(model.Schema):
 
 
 class IPauseTableRow(model.Schema):
-    def get_options():  # noqa
-        """Return the options for the day widget"""
-        options = [
-            SimpleTerm(value=None, token=None, title=_("Select a day")),
-            SimpleTerm(value=0, token=0, title=_("Monday")),
-            SimpleTerm(value=1, token=1, title=_("Tuesday")),
-            SimpleTerm(value=2, token=2, title=_("Wednesday")),
-            SimpleTerm(value=3, token=3, title=_("Thursday")),
-            SimpleTerm(value=4, token=4, title=_("Friday")),
-            SimpleTerm(value=5, token=5, title=_("Saturday")),
-            SimpleTerm(value=6, token=6, title=_("Sunday")),
-        ]
-        return SimpleVocabulary(options)
-
     day = schema.Choice(
         title=_("day_label", default="Day of week"),
         required=True,
-        source=get_options(),
+        vocabulary=SimpleVocabulary(
+            [
+                SimpleTerm(value=None, token=None, title=_("Select a day")),
+                SimpleTerm(value=0, token=0, title=_("Monday")),
+                SimpleTerm(value=1, token=1, title=_("Tuesday")),
+                SimpleTerm(value=2, token=2, title=_("Wednesday")),
+                SimpleTerm(value=3, token=3, title=_("Thursday")),
+                SimpleTerm(value=4, token=4, title=_("Friday")),
+                SimpleTerm(value=5, token=5, title=_("Saturday")),
+                SimpleTerm(value=6, token=6, title=_("Sunday")),
+            ]
+        ),
     )
     pause_start = schema.Choice(
         title=_("pause_start_label", default="Pause start"),
@@ -414,6 +444,7 @@ class IPrenotazioniFolder(model.Schema):
     app_io_enabled = schema.Bool(
         title=_("App IO notification"),
         default=False,
+        required=False,
     )
 
     # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?

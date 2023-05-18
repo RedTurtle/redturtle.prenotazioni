@@ -205,3 +205,9 @@ def to_1403(context):
 
     for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
         brain.getObject().reindexObject(idxs=["fiscalcode"])
+
+
+def to_1500(context):
+    context.runImportStepFromProfile(
+        "profile-redturtle.prenotazioni:to_1500", "typeinfo"
+    )

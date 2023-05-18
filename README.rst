@@ -291,6 +291,79 @@ Response::
         ]
     }
 
+@prenotazione-schema
+--------------------
+
+Endpoint that need to be called on a PrenotazioniFolder.
+It returns the list of all fields to fill in for the booking.
+
+The booking date is passed via querystring (e.g ?form.booking_date=2023-04-13+10%3A00')
+
+Example::
+
+   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?form.booking_date=2023-05-15T13:00:00' -H 'Accept: application/json' 
+
+Response::
+
+    {
+        "booking_types": {
+            "bookable": [], 
+            "unbookable": [
+                {
+                "duration": "60", 
+                "name": "Rilascio CIE"
+              }
+            ]
+        }, 
+        "fields": [
+          {
+            "desc": "Inserisci l'email", 
+            "label": "Email", 
+            "name": "email", 
+            "readonly": false, 
+            "required": false, 
+            "type": "text", 
+            "value": ""
+          }, 
+          {
+            "desc": "Inserisci il numero di telefono", 
+            "label": "Numero di telefono", 
+            "name": "phone", 
+            "readonly": false, 
+            "required": false, 
+            "type": "text", 
+            "value": ""
+          }, 
+          {
+            "desc": "Inserisci ulteriori informazioni", 
+            "label": "Note", 
+            "name": "description", 
+            "readonly": false, 
+            "required": false, 
+            "type": "textarea", 
+            "value": ""
+          }, 
+          {
+            "desc": "Inserisci il codice fiscale", 
+            "label": "Codice Fiscale", 
+            "name": "fiscalcode", 
+            "readonly": false, 
+            "required": true, 
+            "type": "text", 
+            "value": ""
+          }, 
+          {
+            "desc": "Inserire il nome completo", 
+            "label": "Nome completo", 
+            "name": "Nome", 
+            "readonly": false, 
+            "required": true, 
+            "type": "text", 
+            "value": ""
+          }
+        ]
+    }
+                         
 @bookings
 ---------
 
