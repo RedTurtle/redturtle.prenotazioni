@@ -248,13 +248,13 @@
       mode="input"
       />
 
-    <browser:viewlet
-        name="HasTableOverridesWidget"
-        for="*"
-        class=".viewlets.HasTableOverridesWidget"
-        manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+  <browser:viewlet
+      name="HasTableOverridesWidget"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+      class=".viewlets.HasTableOverridesWidget"
+      permission="zope2.View"
       layer="redturtle.prenotazioni.interfaces.IRedturtlePrenotazioniLayer"
-        permission="zope2.View"
-    />
+      />
 
 </configure>
