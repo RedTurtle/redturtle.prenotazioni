@@ -128,7 +128,8 @@ const WidgetDataContainer = () => {
             addRow();
           }}
         >
-          <FontAwesomeIcon icon={faPlus} /> {getTranslationFor('Add')}
+          <FontAwesomeIcon icon={faPlus} />
+          {getTranslationFor('Add')}
         </button>
       </div>
     </div>

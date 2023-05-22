@@ -4,7 +4,9 @@
     "description": "RedturtlePrenotazioni widget",
     "main": "src/redturtle/prenotazioni/browser/static/widget/dist/main.js",
     "scripts": {
-        "build": "webpack -p --mode production",
+        "build": "yarn build:prod && yarn build:dev",
+        "build:prod": "webpack -p --mode production",
+        "build:dev": "webpack -p --mode development",
         "prepublishOnly": "yarn build",
         "start": "webpack-dev-server --mode development",
         "test": "jest"
@@ -70,9 +72,9 @@
         "webpack-dev-server": "^3.2.1"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^1.2.32",
-        "@fortawesome/free-solid-svg-icons": "^5.15.1",
-        "@fortawesome/react-fontawesome": "^0.1.12",
+        "@fortawesome/fontawesome-svg-core": "^6.4.0",
+        "@fortawesome/free-solid-svg-icons": "^6.4.0",
+        "@fortawesome/react-fontawesome": "0.1.19",
         "array-move": "^3.0.1",
         "axios": "^0.21.0",
         "plone-less-base": "git+https://git@github.com/RedTurtle/plone-less-base#master",
