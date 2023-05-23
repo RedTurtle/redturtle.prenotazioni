@@ -2,6 +2,10 @@
 from plone import api
 from plone.app.layout.viewlets.common import ViewletBase
 from zope.interface import Interface
+import importlib.metadata
+
+
+HASH = importlib.metadata.version("redturtle.prenotazioni")
 
 
 class HeadViewlet(ViewletBase):
@@ -11,7 +15,7 @@ class HeadViewlet(ViewletBase):
         return api.portal.get().absolute_url()
 
     def hash(self):
-        return "0001"
+        return HASH
 
     def render(self):
         return """

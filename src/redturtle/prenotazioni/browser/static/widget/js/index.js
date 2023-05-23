@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (widget) {
     const root = document.createElement('div');
     widget.appendChild(root);
-    const field = widget.querySelector('.form-control');
+    const field = widget.querySelector('.form-control,.widget-field');
     field.style.display = 'none';
     ReactDOM.render(
       <WidgetContainer
