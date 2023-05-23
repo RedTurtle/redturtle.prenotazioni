@@ -26,6 +26,10 @@ desc_map = {
         "label": "Azienda",
         "description": "Inserisci il nome dell'azienda",
     },
+    "fullname" : {
+        "label": "Nome completo",
+        "description": "Inserire il nome completo",
+    },
 }
 
 
@@ -86,14 +90,19 @@ class BookingSchema(Service):
             ):
                 is_mandatory = True
 
-            if current_user:
-                if field == "email":
-                    value = current_user.getProperty("email")
-                    is_readonly = True
+            if current_user and field == "email":
+                value = current_user.getProperty("email")
+                # readonly solo se ha un valore
+                is_readonly = bool(value)
 
-                if field == "fiscalcode":
-                    value = current_user.getUserName()
-                    is_readonly = True
+            if current_user and field == "fiscalcode":
+                value = current_user.getUserName()
+                is_readonly = True
+
+            if current_user and field == "fullname":
+                value = current_user.getProperty("fullname")
+                # readonly solo se ha un valore
+                is_readonly = bool(value)
 
             if field in desc_map.keys():
                 label = desc_map.get(field).get("label")
@@ -108,32 +117,6 @@ class BookingSchema(Service):
                     "value": value,
                     "required": is_mandatory,
                     "readonly": is_readonly,
-                }
-            )
-
-        if current_user:
-            user_name = current_user.getProperty("fullname")
-            fields_list.append(
-                {
-                    "label": "Nome completo",
-                    "desc": "Inserire il nome completo",
-                    "type": "text",
-                    "name": "Nome",
-                    "value": user_name,
-                    "required": True,
-                    "readonly": True,
-                }
-            )
-        else:
-            fields_list.append(
-                {
-                    "label": "Nome completo",
-                    "desc": "Inserire il nome completo",
-                    "type": "text",
-                    "name": "Nome",
-                    "value": "",
-                    "required": True,
-                    "readonly": False,
                 }
             )
 
