@@ -31,7 +31,7 @@ class AddBooking(Service):
         #     self.status = self.formErrorsMessage
         #     return
 
-        required = self.context.required_booking_fields
+        required = self.context.required_booking_fields or []
 
         # la tipologia di una prenotazione deve essere sempre obbligatoria ticket: 19131
         for field in ("booking_date", "booking_type"):
