@@ -26,7 +26,7 @@ desc_map = {
         "label": "Azienda",
         "description": "Inserisci il nome dell'azienda",
     },
-    "fullname" : {
+    "fullname": {
         "label": "Nome completo",
         "description": "Inserire il nome completo",
     },
