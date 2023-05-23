@@ -5,6 +5,8 @@ from plone.restapi.services import Service
 
 import time
 
+
+# TODO: rendere traudcibili label e descrizione
 desc_map = {
     "email": {
         "label": "Email",
