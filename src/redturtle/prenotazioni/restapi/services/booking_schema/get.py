@@ -73,7 +73,7 @@ class BookingSchema(Service):
 
         fields_list = []
 
-        for field in booking_folder.visible_booking_fields:
+        for field in set(booking_folder.visible_booking_fields) | set(["fullname"]):
             value = ""
             label = ""
             desc = ""
@@ -104,9 +104,12 @@ class BookingSchema(Service):
                 # readonly solo se ha un valore
                 is_readonly = bool(value)
 
-            if field in desc_map.keys():
+            if field in desc_map:
                 label = desc_map.get(field).get("label")
                 desc = desc_map.get(field).get("description")
+            else:
+                label = field
+                desc = ""
 
             fields_list.append(
                 {
