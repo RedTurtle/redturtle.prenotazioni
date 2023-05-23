@@ -24,13 +24,6 @@ class AddBooking(Service):
         data = json_body(self.request)
         data_fields = {field["name"]: field["value"] for field in data["fields"]}
 
-        # TODO: serve una validazione migliore dei campi ?
-
-        # data, errors = self.extractData()
-        # if errors:
-        #     self.status = self.formErrorsMessage
-        #     return
-
         required = self.context.required_booking_fields or []
 
         # la tipologia di una prenotazione deve essere sempre obbligatoria ticket: 19131
@@ -81,15 +74,6 @@ class AddBooking(Service):
             return dict(error=dict(type="Bad Request", message=msg))
 
         booker = IBooker(self.context.aq_inner)
-
-        # TODO: il codice plone aveva questo meccanismo (sbagliato) per
-        #       recuperare il gate da cui è arrivata la prenotazione
-        # referer = self.request.get("HTTP_REFERER", None)
-        # if referer:
-        #     parsed_url = urlparse(referer)
-        #     params = parse_qs(parsed_url.query)
-        #     if "gate" in params:
-        #         return booker.create(data, force_gate=params["gate"][0])
 
         book_data = {
             "booking_date": data["booking_date"],
