@@ -21,15 +21,15 @@
       />
 
 
-    <!-- TODO: sarebbe meglio aggiungere un permesso redturtle.prenotazioni.AddBooking 
+  <!-- TODO: sarebbe meglio aggiungere un permesso redturtle.prenotazioni.AddBooking 
         da assegnare di default anche agli anonimi e usare quello anzichè zope2.View
     -->
-    <plone:service
-        method="POST"
-        factory=".add.AddBooking"
-        for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
-        permission="zope2.View"
-        name="@booking"
-        />
+  <plone:service
+      method="POST"
+      factory=".add.AddBooking"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      permission="zope2.View"
+      name="@booking"
+      />
 
 </configure>
