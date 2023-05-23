@@ -249,8 +249,17 @@
       />
 
   <browser:viewlet
-      name="HasTableOverridesWidget"
+      name="redturtle.prenotazioni.headviewlet"
       for="*"
+      manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+      class=".viewlets.HeadViewlet"
+      permission="zope2.View"
+      layer="redturtle.prenotazioni.interfaces.IRedturtlePrenotazioniLayer"
+      />
+
+  <browser:viewlet
+      name="redturtle.prenotazioni.overrideswidget"
+      for=".viewlets.IHasTableOverridesMarker"
       manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
       class=".viewlets.HasTableOverridesWidget"
       permission="zope2.View"

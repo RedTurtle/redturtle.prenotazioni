@@ -19,6 +19,7 @@
     <value key="compile">True</value>
     <value key="jscompilation">++plone++redturtle.prenotazioni/redturtle-reservation.js</value>
     <value key="csscompilation">++plone++redturtle.prenotazioni/redturtle-reservation.css</value>
+    <value key="enabled">False</value>
     <value key="last_compilation">2019-11-26 00:00:00</value>
   </records>
 
