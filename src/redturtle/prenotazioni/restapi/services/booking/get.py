@@ -38,8 +38,7 @@ class BookingInfo(Service):
 
             if (
                 not api.user.has_permission(
-                    "redturtle.prenotazioni.ManagePrenotazioni",
-                    username=current_user.getUserName(),
+                    "redturtle.prenotazioni.ManagePrenotazioni"
                 )
                 and not booking.Creator() == current_user.getUserName()
             ):
