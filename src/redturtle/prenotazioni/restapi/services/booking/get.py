@@ -37,9 +37,7 @@ class BookingInfo(Service):
             current_user = api.user.get_current()
 
             if (
-                not api.user.has_permission(
-                    "redturtle.prenotazioni.ManagePrenotazioni"
-                )
+                not api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni")
                 and not booking.Creator() == current_user.getUserName()
             ):
                 raise Unauthorized
