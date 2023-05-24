@@ -50,6 +50,7 @@ class BookingSchema(Service):
         response = {}
 
         booking_folder = self.context
+
         if not api.user.is_anonymous():
             current_user = api.user.get_current()
 
@@ -74,8 +75,13 @@ class BookingSchema(Service):
         bookings = booking_context_state_view.booking_types_bookability(booking_date)
 
         fields_list = []
-
-        for field in set(booking_folder.visible_booking_fields) | set(["fullname"]):
+        fields = ["fullname"]
+        fields += [
+            _field
+            for _field in booking_folder.visible_booking_fields
+            if _field != "fullname"
+        ]
+        for field in fields:
             value = ""
             label = ""
             desc = ""
@@ -90,6 +96,9 @@ class BookingSchema(Service):
                 booking_folder.required_booking_fields
                 and field in booking_folder.required_booking_fields
             ):
+                is_mandatory = True
+
+            if field == "fullname":
                 is_mandatory = True
 
             if current_user and field == "email":
