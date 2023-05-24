@@ -18,6 +18,8 @@ import unittest
 
 
 class TestPrenotazioniSearch(unittest.TestCase):
+    """Test the restapi search endpoint (<portal_url>/@bookings)"""
+
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
     def setUp(self):

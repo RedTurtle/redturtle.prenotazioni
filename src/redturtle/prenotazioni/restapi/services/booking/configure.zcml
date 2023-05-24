@@ -1,0 +1,35 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    >
+
+  <!-- TODO: definire meglio il contesto -->
+  <plone:service
+      method="GET"
+      factory=".get.BookingInfo"
+      for="*"
+      permission="zope2.View"
+      name="@prenotazione"
+      />
+
+  <plone:service
+      method="GET"
+      factory=".get.BookingInfo"
+      for="*"
+      permission="zope2.View"
+      name="@booking"
+      />
+
+
+  <!-- TODO: sarebbe meglio aggiungere un permesso redturtle.prenotazioni.AddBooking 
+        da assegnare di default anche agli anonimi e usare quello anzichè zope2.View
+    -->
+  <plone:service
+      method="POST"
+      factory=".add.AddBooking"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      permission="zope2.View"
+      name="@booking"
+      />
+
+</configure>

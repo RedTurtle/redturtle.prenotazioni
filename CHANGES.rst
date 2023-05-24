@@ -2,8 +2,11 @@ Changelog
 =========
 
 
-1.7.2 (unreleased)
+2.0.0 (unreleased)
 ------------------
+
+- Add Booking restapi
+  [mamico]
 
 - Fix Plone6 compatibility.
   [cekk]

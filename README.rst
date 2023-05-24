@@ -198,6 +198,87 @@ Rest API
 
 There are some endpoints useful to use this tool also with external frontends (like Volto).
 
+@booking
+--------
+
+GET
+~~~
+
+This endpoint allows to retrieve a booking by its UID.
+
+Example::
+
+    curl http://localhost:8080/Plone/++api++/@booking?uid=<booking UID> -H 'Accept: application/json'
+
+Response::
+
+    {
+        "booking_code": "17E3E6",
+        "booking_date": "2023-05-22T09:09:00",
+        "booking_expiration_date": "2023-05-22T09:10:00",
+        "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+        "company": null,
+        "cosa_serve": null,
+        "description": "",
+        "email": "mario.rossi@example",
+        "fiscalcode": "",
+        "gate": "postazione2",
+        "id": "mario-rossi",
+        "phone": "",
+        "staff_notes": null,
+        "title": "Mario Rossi"
+    }
+
+POST
+~~~~
+
+This endpoint allows to create a new booking.
+
+Example::
+
+    curl http://localhost:8080/Plone/++api++/<booking_folder_path>/@booking \
+        -X POST \
+        -H 'Accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+            "booking_date": "2023-05-23T09:00:00+02:00",
+            "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+            "fields": [
+                {"name": "fullname", "value": "Mario Rossi"},
+                {"name": "email", "value": "mario.rossi@example"}
+            ],
+        }'
+
+Response::
+
+    {
+        "booking_code": "17E3E6",
+        "booking_date": "2023-05-22T09:09:00",
+        "booking_expiration_date": "2023-05-22T09:10:00",
+        "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+        "company": null,
+        "cosa_serve": null,
+        "description": "",
+        "email": "mario.rossi@example",
+        "fiscalcode": "",
+        "gate": "postazione1",
+        "id": "mario-rossi-1",
+        "phone": "",
+        "staff_notes": null,
+        "title": "Mario Rossi"
+    }
+
+@prenotazione
+-------------
+
+Leave for compatibility reasons (identical to `@booking`'s GET). Could be removed in future.
+
+Example::
+
+   curl http://localhost:8080/Plone/@prenotazione?uid=<booking UID> -H 'Accept: application/json'
+
+Response, see: @booking
+
 @week-slots
 -----------
 
@@ -207,7 +288,6 @@ By default returns the current week, and if you pass a custom date in querystrin
 Example::
 
    curl -i http://localhost:8080/Plone/folder/@week-slots -H 'Accept: application/json'
-   curl -i http://localhost:8080/Plone/@prenotazione?uid=<booking UID> -H 'Accept: application/json'
 
 Response::
 
@@ -301,69 +381,69 @@ The booking date is passed via querystring (e.g ?form.booking_date=2023-04-13+10
 
 Example::
 
-   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?form.booking_date=2023-05-15T13:00:00' -H 'Accept: application/json' 
+   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?form.booking_date=2023-05-15T13:00:00' -H 'Accept: application/json'
 
 Response::
 
     {
         "booking_types": {
-            "bookable": [], 
+            "bookable": [],
             "unbookable": [
                 {
-                "duration": "60", 
+                "duration": "60",
                 "name": "Rilascio CIE"
               }
             ]
-        }, 
+        },
         "fields": [
           {
-            "desc": "Inserisci l'email", 
-            "label": "Email", 
-            "name": "email", 
-            "readonly": false, 
-            "required": false, 
-            "type": "text", 
+            "desc": "Inserisci l'email",
+            "label": "Email",
+            "name": "email",
+            "readonly": false,
+            "required": false,
+            "type": "text",
             "value": ""
-          }, 
+          },
           {
-            "desc": "Inserisci il numero di telefono", 
-            "label": "Numero di telefono", 
-            "name": "phone", 
-            "readonly": false, 
-            "required": false, 
-            "type": "text", 
+            "desc": "Inserisci il numero di telefono",
+            "label": "Numero di telefono",
+            "name": "phone",
+            "readonly": false,
+            "required": false,
+            "type": "text",
             "value": ""
-          }, 
+          },
           {
-            "desc": "Inserisci ulteriori informazioni", 
-            "label": "Note", 
-            "name": "description", 
-            "readonly": false, 
-            "required": false, 
-            "type": "textarea", 
+            "desc": "Inserisci ulteriori informazioni",
+            "label": "Note",
+            "name": "description",
+            "readonly": false,
+            "required": false,
+            "type": "textarea",
             "value": ""
-          }, 
+          },
           {
-            "desc": "Inserisci il codice fiscale", 
-            "label": "Codice Fiscale", 
-            "name": "fiscalcode", 
-            "readonly": false, 
-            "required": true, 
-            "type": "text", 
+            "desc": "Inserisci il codice fiscale",
+            "label": "Codice Fiscale",
+            "name": "fiscalcode",
+            "readonly": false,
+            "required": true,
+            "type": "text",
             "value": ""
-          }, 
+          },
           {
-            "desc": "Inserire il nome completo", 
-            "label": "Nome completo", 
-            "name": "Nome", 
-            "readonly": false, 
-            "required": true, 
-            "type": "text", 
+            "desc": "Inserire il nome completo",
+            "label": "Nome completo",
+            "name": "Nome",
+            "readonly": false,
+            "required": true,
+            "type": "text",
             "value": ""
           }
         ]
     }
-                         
+
 @bookings
 --------------------
 

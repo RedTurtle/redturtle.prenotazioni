@@ -5,6 +5,8 @@ from plone.restapi.services import Service
 
 import time
 
+
+# TODO: rendere traudcibili label e descrizione
 desc_map = {
     "email": {
         "label": "Email",
@@ -26,6 +28,10 @@ desc_map = {
         "label": "Azienda",
         "description": "Inserisci il nome dell'azienda",
     },
+    "fullname": {
+        "label": "Nome completo",
+        "description": "Inserire il nome completo",
+    },
 }
 
 
@@ -44,6 +50,7 @@ class BookingSchema(Service):
         response = {}
 
         booking_folder = self.context
+
         if not api.user.is_anonymous():
             current_user = api.user.get_current()
 
@@ -68,8 +75,13 @@ class BookingSchema(Service):
         bookings = booking_context_state_view.booking_types_bookability(booking_date)
 
         fields_list = []
-
-        for field in booking_folder.visible_booking_fields:
+        fields = ["fullname"]
+        fields += [
+            _field
+            for _field in booking_folder.visible_booking_fields
+            if _field != "fullname"
+        ]
+        for field in fields:
             value = ""
             label = ""
             desc = ""
@@ -86,18 +98,29 @@ class BookingSchema(Service):
             ):
                 is_mandatory = True
 
-            if current_user:
-                if field == "email":
-                    value = current_user.getProperty("email")
-                    is_readonly = True
+            if field == "fullname":
+                is_mandatory = True
 
-                if field == "fiscalcode":
-                    value = current_user.getUserName()
-                    is_readonly = True
+            if current_user and field == "email":
+                value = current_user.getProperty("email")
+                # readonly solo se ha un valore
+                is_readonly = bool(value)
 
-            if field in desc_map.keys():
+            if current_user and field == "fiscalcode":
+                value = current_user.getUserName()
+                is_readonly = True
+
+            if current_user and field == "fullname":
+                value = current_user.getProperty("fullname")
+                # readonly solo se ha un valore
+                is_readonly = bool(value)
+
+            if field in desc_map:
                 label = desc_map.get(field).get("label")
                 desc = desc_map.get(field).get("description")
+            else:
+                label = field
+                desc = ""
 
             fields_list.append(
                 {
@@ -108,32 +131,6 @@ class BookingSchema(Service):
                     "value": value,
                     "required": is_mandatory,
                     "readonly": is_readonly,
-                }
-            )
-
-        if current_user:
-            user_name = current_user.getProperty("fullname")
-            fields_list.append(
-                {
-                    "label": "Nome completo",
-                    "desc": "Inserire il nome completo",
-                    "type": "text",
-                    "name": "Nome",
-                    "value": user_name,
-                    "required": True,
-                    "readonly": True,
-                }
-            )
-        else:
-            fields_list.append(
-                {
-                    "label": "Nome completo",
-                    "desc": "Inserire il nome completo",
-                    "type": "text",
-                    "name": "Nome",
-                    "value": "",
-                    "required": True,
-                    "readonly": False,
                 }
             )
 
