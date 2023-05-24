@@ -158,7 +158,7 @@ class CustomRadioWidget(RadioWidget):
         )
         return message
 
-    def renderForValue(self, value, index=None):
+    def renderForValue(self, value, index=0):
         # customize 'cause we need to pass index
         terms = list(self.terms)
         try:

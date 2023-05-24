@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from datetime import timedelta
 from email.utils import formataddr
 from email.utils import parseaddr
 from os import environ
@@ -10,7 +9,6 @@ from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.browser.week import TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE
 from redturtle.prenotazioni.browser.z3c_custom_widget import CustomRadioFieldWidget
@@ -18,6 +16,7 @@ from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
 from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.utilities.urls import urlify
+from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
 from six.moves.urllib.parse import parse_qs
 from six.moves.urllib.parse import urlparse
 from z3c.form import button
@@ -237,17 +236,7 @@ class AddForm(form.AddForm):
         future_days = self.context.getFutureDays()
         if not future_days:
             return False
-        booking_date = data.get("booking_date", None)
-        if not isinstance(booking_date, datetime):
-            return False
-        date_limit = tznow() + timedelta(future_days)
-        if not booking_date.tzinfo:
-            tzinfo = date_limit.tzinfo
-            if tzinfo:
-                booking_date = tzinfo.localize(booking_date)
-        if booking_date <= date_limit:
-            return False
-        return True
+        return exceedes_date_limit(data, future_days)
 
     @button.buttonAndHandler(_("action_book", "Book"))
     def action_book(self, action):
