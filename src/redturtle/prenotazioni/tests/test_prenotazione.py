@@ -40,6 +40,9 @@ class TestPrenotazioniRestAPIInfo(unittest.TestCase):
         self.api_session.headers.update({"Accept": "application/json"})
         self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
 
+    def tearDown(self):
+        self.api_session.close()
+
     def test_prenotazione_restapi_endpoint(self):
         result = self.api_session.get(self.portal_url + "/@types/Prenotazione")
         content_type_properties = result.json()["properties"]

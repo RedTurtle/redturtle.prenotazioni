@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from plone import api
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
@@ -13,6 +12,13 @@ import collective.z3cform.datagridfield
 import plone.app.caching
 import plone.restapi
 import redturtle.prenotazioni
+
+try:
+    import collective.dexteritytextindexer
+
+    HAS_DX_TEXTINDEXER = True
+except ImportError:
+    HAS_DX_TEXTINDEXER = False
 
 
 class RedturtlePrenotazioniLayer(PloneSandboxLayer):
@@ -28,9 +34,7 @@ class RedturtlePrenotazioniLayer(PloneSandboxLayer):
         self.loadZCML(package=collective.contentrules.mailfromfield)
         self.loadZCML(package=collective.z3cform.datagridfield)
 
-        if api.env.plone_version() < "6":
-            import collective.dexteritytextindexer
-
+        if HAS_DX_TEXTINDEXER:
             self.loadZCML(package=collective.dexteritytextindexer)
 
     def setUpPloneSite(self, portal):
@@ -67,9 +71,7 @@ class RedturtlePrenotazioniRestApiLayer(PloneRestApiDXLayer):
         self.loadZCML(package=collective.contentrules.mailfromfield)
         self.loadZCML(package=collective.z3cform.datagridfield)
 
-        if api.env.plone_version() < "6":
-            import collective.dexteritytextindexer
-
+        if HAS_DX_TEXTINDEXER:
             self.loadZCML(package=collective.dexteritytextindexer)
 
     def setUpPloneSite(self, portal):

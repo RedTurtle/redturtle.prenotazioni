@@ -127,6 +127,9 @@ class TestApiValidateDataOnPost(unittest.TestCase):
         self.api_session.headers.update({"Accept": "application/json"})
         self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
 
+    def tearDown(self):
+        self.api_session.close()
+
     def test_correct_settings(self):
         data = [
             {

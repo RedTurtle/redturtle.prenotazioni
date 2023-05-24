@@ -102,6 +102,9 @@ class TestBookingInfo(unittest.TestCase):
         )
         transaction.commit()
 
+    def tearDown(self):
+        self.api_session.close()
+
     def test_create_booking_and_check_details(
         self,
     ):
