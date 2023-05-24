@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
+from datetime import date
+from datetime import timedelta
+from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
+
+# from plone.app.testing import TEST_USER_NAME
+# from plone.app.testing import TEST_USER_PASSWORD
 from plone.autoform.interfaces import MODES_KEY
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
+import transaction
 from zope.interface import Interface
 
 import unittest
@@ -48,3 +55,86 @@ class TestPrenotazioniRestAPIInfo(unittest.TestCase):
         self.assertEqual(
             content_type_properties["booking_expiration_date"]["mode"], "display"
         )
+
+
+class TestPrenotazioniRestAPIAdd(unittest.TestCase):
+    layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.app = self.layer["app"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.portal_url = self.portal.absolute_url()
+        self.folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            booking_types=[
+                {"name": "Type A", "duration": "30"},
+            ],
+            gates=["Gate A"],
+        )
+        week_table = self.folder_prenotazioni.week_table
+        for row in week_table:
+            row["morning_start"] = "0700"
+            row["morning_end"] = "1000"
+        self.folder_prenotazioni.week_table = week_table
+        api.content.transition(obj=self.folder_prenotazioni, transition="publish")
+        transaction.commit()
+
+        self.api_session = RelativeSession(self.portal_url)
+        self.api_session.headers.update({"Accept": "application/json"})
+
+    def test_add_booking_anonymous(self):
+        self.api_session.auth = None
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "fullname", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+            },
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["booking_date"], "2023-05-25T09:00:00")
+        self.assertEqual(res.json()["booking_expiration_date"], "2023-05-25T09:30:00")
+        self.assertEqual(res.json()["booking_type"], "Type A")
+        self.assertEqual(res.json()["gate"], "Gate A")
+        self.assertEqual(res.json()["title"], "Mario Rossi")
+        self.assertEqual(res.json()["email"], "mario.rossi@example")
+        self.assertEqual(res.json()["id"], "mario-rossi")
+
+    def test_add_booking_anonymous_wrong_booking_type(self):
+        self.api_session.auth = None
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A (30 min)",
+                "fields": [
+                    {"name": "fullname", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+            },
+        )
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(
+            res.json(),
+            {
+                "error": {
+                    "message": "Unknown booking type 'Type A (30 min)'.",
+                    "type": "Bad Request",
+                }
+            },
+        )
+
+    # def test_add_booking_auth(self):
+    #     # TODO: testare anche con uno user non manager
+    #     self.api_session.auth = (TEST_USER_NAME, TEST_USER_PASSWORD)

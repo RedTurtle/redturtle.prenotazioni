@@ -30,8 +30,11 @@ class AddBooking(Service):
         for field in ("booking_date", "booking_type"):
             if not data.get(field):
                 self.request.response.setStatus(400)
-                msg = self.context.transalate(
-                    _("Required input {field} is missing.", mapping=dict(field=field))
+                msg = self.context.translate(
+                    _(
+                        "Required input '${field}' is missing.",
+                        mapping=dict(field=field),
+                    )
                 )
                 return dict(error=dict(type="Bad Request", message=msg))
 
@@ -47,10 +50,25 @@ class AddBooking(Service):
                 continue
             if not data_fields.get(field):
                 self.request.response.setStatus(400)
-                msg = self.context.transalate(
-                    _("Required input {field} is missing.", mapping=dict(field=field))
+                msg = self.context.translate(
+                    _(
+                        "Required input '${field}' is missing.",
+                        mapping=dict(field=field),
+                    )
                 )
                 return dict(error=dict(type="Bad Request", message=msg))
+
+        if data["booking_type"] not in [
+            _t["name"] for _t in self.context.booking_types or [] if "name" in _t
+        ]:
+            self.request.response.setStatus(400)
+            msg = self.context.translate(
+                _(
+                    "Unknown booking type '${booking_type}'.",
+                    mapping=dict(booking_type=data["booking_type"]),
+                )
+            )
+            return dict(error=dict(type="Bad Request", message=msg))
 
         alsoProvides(self.request, IDisableCSRFProtection)
 

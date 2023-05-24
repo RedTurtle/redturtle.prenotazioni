@@ -763,6 +763,7 @@ class PrenotazioniContextState(BrowserView):
             booking_type, six.text_type
         ):
             booking_type = booking_type
+        # XXX: se il booking_type non esiste, ritorna 1 minuto, è corretto ????
         return self.booking_type_durations.get(booking_type, 1)
 
     @memoize
