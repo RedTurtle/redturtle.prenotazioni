@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
@@ -26,6 +27,11 @@ class RedturtlePrenotazioniLayer(PloneSandboxLayer):
         self.loadZCML(package=redturtle.prenotazioni)
         self.loadZCML(package=collective.contentrules.mailfromfield)
         self.loadZCML(package=collective.z3cform.datagridfield)
+
+        if api.env.plone_version() < "6":
+            import collective.dexteritytextindexer
+
+            self.loadZCML(package=collective.dexteritytextindexer)
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, "plone.app.caching:default")
@@ -60,6 +66,11 @@ class RedturtlePrenotazioniRestApiLayer(PloneRestApiDXLayer):
         self.loadZCML(package=redturtle.prenotazioni)
         self.loadZCML(package=collective.contentrules.mailfromfield)
         self.loadZCML(package=collective.z3cform.datagridfield)
+
+        if api.env.plone_version() < "6":
+            import collective.dexteritytextindexer
+
+            self.loadZCML(package=collective.dexteritytextindexer)
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, "plone.app.caching:default")
