@@ -18,6 +18,7 @@ import calendar
 
 class TestBookingSchema(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+    maxDiff = None
 
     def setUp(self):
         self.app = self.layer["app"]
@@ -138,10 +139,19 @@ class TestBookingSchema(unittest.TestCase):
             },
             "fields": [
                 {
+                    "desc": "Inserire il nome completo",
+                    "label": "Nome completo",
+                    "name": "fullname",
+                    "readonly": False,
+                    "required": True,
+                    "type": "text",
+                    "value": "",
+                },
+                {
                     "desc": "Inserisci l'email",
                     "label": "Email",
                     "name": "email",
-                    "readonly": True,
+                    "readonly": False,
                     "required": True,
                     "type": "text",
                     "value": "",
@@ -162,15 +172,6 @@ class TestBookingSchema(unittest.TestCase):
                     "readonly": False,
                     "required": False,
                     "type": "textarea",
-                    "value": "",
-                },
-                {
-                    "desc": "Inserire il nome completo",
-                    "label": "Nome completo",
-                    "name": "Nome",
-                    "readonly": True,
-                    "required": True,
-                    "type": "text",
                     "value": "",
                 },
             ],
@@ -214,10 +215,19 @@ class TestBookingSchema(unittest.TestCase):
             },
             "fields": [
                 {
+                    "desc": "Inserire il nome completo",
+                    "label": "Nome completo",
+                    "name": "fullname",
+                    "readonly": False,
+                    "required": True,
+                    "type": "text",
+                    "value": "",
+                },
+                {
                     "desc": "Inserisci l'email",
                     "label": "Email",
                     "name": "email",
-                    "readonly": True,
+                    "readonly": False,
                     "required": True,
                     "type": "text",
                     "value": "",
@@ -238,15 +248,6 @@ class TestBookingSchema(unittest.TestCase):
                     "readonly": False,
                     "required": False,
                     "type": "textarea",
-                    "value": "",
-                },
-                {
-                    "desc": "Inserire il nome completo",
-                    "label": "Nome completo",
-                    "name": "Nome",
-                    "readonly": True,
-                    "required": True,
-                    "type": "text",
                     "value": "",
                 },
             ],
