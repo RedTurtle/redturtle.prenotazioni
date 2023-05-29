@@ -41,6 +41,12 @@
         title="redturtle.prenotazioni: search prenotazioni"
         />
 
+    <permission
+        id="redturtle.prenotazioni.ManagePrenotazioni"
+        title="redturtle.prenotazioni: Manage Prenotazioni"
+        />
+
+
   </configure>
 
 </configure>

@@ -26,7 +26,7 @@
     <property
        name="message">La prenotazione per ${title} e&#x27; stata confermata!
      Se non hai salvato o stampato il promemoria, puoi visualizzarlo a questo link: ${booking_print_url}
-     Se desideri cancellare la prenotazione, accedi all&#x27;indirizzo ${booking_print_url_with_delete_token}</property>
+     Se desideri cancellare la prenotazione, accedi all&#x27;indirizzo ${booking_print_url}</property>
    </action>
    <action type="plone.actions.Workflow">
     <property name="transition">confirm</property>

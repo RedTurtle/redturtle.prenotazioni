@@ -1,48 +1,19 @@
 # -*- coding: utf-8 -*-
+from AccessControl import Unauthorized
+from datetime import datetime
+from datetime import time
 from plone import api
 from plone.memoize.view import memoize
-from plone.protect.utils import addTokenToUrl
+from plone.protect import CheckAuthenticator
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.prenotazione import IDeleteTokenProvider
+from zope.i18n import translate
+from zExceptions import NotFound
+from zExceptions import Forbidden
 
 
-class DeleteReservation(BrowserView):
-    template = ViewPageTemplateFile("templates/delete_reservation.pt")
-
-    @property
-    @memoize
-    def label(self):
-        """The lable of this view"""
-        title = self.context.Title()  # noqa
-        return _(
-            "delete_reservation_request",
-            "Delete reservation request for: ${name}",
-            mapping={"name": title},
-        )
-
-    @property
-    @memoize
-    def no_reservation_label(self):
-        """The lable of this view when no reservation is found"""
-        title = self.context.Title()  # noqa
-        return _(
-            "no_reservation",
-            "Seems your reservation is not existing",
-        )
-
-    @property
-    @memoize
-    def deleted_label(self):
-        """The lable of this view when reservation is deleted"""
-        title = self.context.Title()  # noqa
-        return _(
-            "deleted_reservation",
-            "Your reservation has been deleted",
-        )
-
+class BaseView(BrowserView):
     @property
     @memoize
     def prenotazione(self):
@@ -60,53 +31,117 @@ class DeleteReservation(BrowserView):
 
         return brains[0]._unrestrictedGetObject()
 
-    def say_status(self, msg, msg_type):
-        msg = self.context.translate(msg, "redturtle.prenotazioni")
-        api.portal.show_message(message=msg, type=msg_type, request=self.request)
+    def missing_uid_error(self):
+        return translate(
+            _("missing_uid", "You need to provide a reservation id."),
+            context=self.request,
+        )
 
-    def delete_reservation(self):
-        self.reservation_deleted = False
-        prenotazione = self.prenotazione
-        if not prenotazione:
-            self.say_status(
-                _("You can't delete your reservation; please contact" " the office"),
-                "error",
-            )
-            return
-        adapter = IDeleteTokenProvider(prenotazione)
-        is_valid_token = adapter.is_valid_token(self.delete_token)
-        if is_valid_token == "invalid":
-            self.say_status(
-                _("You can't delete your reservation; please contact" " the office"),
-                "error",
-            )
-        elif is_valid_token == "expired":
-            self.say_status(
-                _("You can't delete your reservation; it's too late"), "error"
-            )
+    def missing_booking_error(self):
+        return translate(
+            _(
+                "missing_booking",
+                "Unable to find a booking with the givend id: ${uid}.",
+                mapping={"uid": self.uid},
+            ),
+            context=self.request,
+        )
 
-        else:
-            with api.env.adopt_roles(["Manager", "Member"]):
-                # api.content.delete(obj=prenotazione)
-                day_folder = prenotazione.aq_parent
-                day_folder.manage_delObjects(prenotazione.id)
-                self.reservation_deleted = True
-                self.say_status(_("Your reservation has been deleted"), "info")
+
+class DeleteReservation(BaseView):
+    """ """
+
+    @property
+    @memoize
+    def label(self):
+        """The label of this view"""
+        title = self.context.Title()  # noqa
+        return _(
+            "delete_reservation_request",
+            "Delete reservation request for: ${name}",
+            mapping={"name": title},
+        )
 
     def __call__(self):
         form = self.request.form
         self.uid = form.get("uid", None)
-        self.delete_token = form.get("delete_token", None)
-        self.confirm = form.get("confirm", None)
-        self.deleted_procedure_ended = False
-        if self.confirm:
-            self.delete_reservation()
-            self.deleted_procedure_ended = True
-        if not self.uid or not self.delete_token:
-            msg = _("Some information to delete your reservation is missing")
-            msg = self.context.translate(msg, "redturtle.prenotazioni")
-            api.portal.show_message(message=msg, type="error", request=self.request)
-        return self.template()
+        if not self.uid:
+            msg = self.missing_uid_error()
+            api.portal.show_message(message=msg, type="warning", request=self.request)
+            return self.request.response.redirect(self.context.absolute_url())
+        if not self.prenotazione:
+            msg = self.missing_booking_error()
+            api.portal.show_message(message=msg, type="warning", request=self.request)
+            return self.request.response.redirect(self.context.absolute_url())
+        if not self.prenotazione.canDeleteBooking():
+            raise Unauthorized
+        return super(DeleteReservation, self).__call__()
 
-    def protect_url(self, url):
-        return addTokenToUrl(url)
+
+class ConfirmDelete(BaseView):
+    """
+    Actually delete a reservation
+
+    """
+
+    def __call__(self):
+        form = self.request.form
+        self.uid = form.get("uid", None)
+
+        try:
+            CheckAuthenticator(self.request)
+        except Forbidden:
+            msg = translate(
+                _(
+                    "wrong_authenticator",
+                    default="You tried to delete booking with a wrong action.",
+                ),
+                context=self.request,
+            )
+            api.portal.show_message(message=msg, type="error", request=self.request)
+            return self.request.response.redirect(self.context.absolute_url())
+
+        if not self.uid:
+            msg = self.missing_uid_error()
+            api.portal.show_message(message=msg, type="warning", request=self.request)
+            return self.request.response.redirect(self.context.absolute_url())
+
+        res = self.do_delete()
+        if not res:
+            msg = translate(
+                _("booking_deleted_success", default="Your booking has been deleted."),
+                context=self.request,
+            )
+            api.portal.show_message(message=msg, type="info", request=self.request)
+        else:
+            if res.get("error", ""):
+                api.portal.show_message(
+                    message=res["error"], type="error", request=self.request
+                )
+        return self.request.response.redirect(self.context.absolute_url())
+
+    def do_delete(self):
+
+        if not self.prenotazione:
+            raise NotFound
+        if not self.prenotazione.canDeleteBooking():
+            raise Unauthorized
+
+        now = datetime.now()
+        expiration = datetime.combine(
+            self.prenotazione.booking_date.date(), time(0, 0, 0)
+        )
+        if now > expiration:
+            return {
+                "error": translate(
+                    _(
+                        "delete_expired_booking",
+                        "You can't delete your reservation; it's too late.",
+                    ),
+                    context=self.request,
+                ),
+            }
+
+        with api.env.adopt_roles(["Manager", "Member"]):
+            day_folder = self.prenotazione.aq_parent
+            day_folder.manage_delObjects(self.prenotazione.id)

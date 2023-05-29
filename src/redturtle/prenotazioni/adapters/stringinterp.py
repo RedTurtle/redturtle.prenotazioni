@@ -2,8 +2,6 @@
 from plone.stringinterp.adapters import BaseSubstitution
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
-from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
-from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
 from zope.interface import Interface
 
@@ -115,21 +113,13 @@ class BookingUrlSubstitution(BaseSubstitution):
 
 
 @adapter(Interface)
-class BookingPrintUrlWithDeleteTokenSubstitution(BaseSubstitution):
-    category = _("Booking")
-    description = _("The booking print url with delete token.")
+class BookingPrintUrlWithDeleteTokenSubstitution(BookingUrlSubstitution):
+    """
+    This is a backward compatibility with old version with token
+    """
 
-    def safe_call(self):
-        annotations = IAnnotations(self.context)
-        token = annotations.get(DELETE_TOKEN_KEY, None)
-        if not token:
-            return ""
-        return "{folder}/@@prenotazione_print?uid={uid}&{delete_token_key}={token}".format(  # noqa
-            folder=self.context.getPrenotazioniFolder().absolute_url(),
-            uid=self.context.UID(),
-            delete_token_key=DELETE_TOKEN_KEY,
-            token=token,
-        )
+    category = _("Booking")
+    description = _("[DEPRECATED] The booking print url with delete token.")
 
 
 @adapter(Interface)
@@ -237,14 +227,7 @@ class BookingUrlWithDeleteToken(BaseSubstitution):
     description = _("The booking url with delete token")
 
     def safe_call(self):
-        annotations = IAnnotations(self.context)
-        token = annotations.get(DELETE_TOKEN_KEY, None)
-        if not token:
-            return ""
-
-        return "{booking_url}/@@delete_reservation?uid={uid}&{delete_token_key}={token}".format(
+        return "{booking_url}/@@delete_reservation?uid={uid}".format(
             booking_url=self.context.getPrenotazioniFolder().absolute_url(),
-            delete_token_key=DELETE_TOKEN_KEY,
             uid=self.context.UID(),
-            token=token,
         )

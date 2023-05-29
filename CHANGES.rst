@@ -34,6 +34,11 @@ Changelog
 - Added field "cosa_serve" (#40445).
   [daniele]
 
+- Refactor booking delete machinery and remove unused token.
+  [cekk]
+
+- Add DELETE endpoint for booking.
+  [cekk]
 
 1.7.1 (2023-03-28)
 ------------------

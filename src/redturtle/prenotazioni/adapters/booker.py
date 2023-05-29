@@ -1,20 +1,14 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from datetime import time
 from datetime import timedelta
 from DateTime import DateTime
 from plone import api
 from plone.memoize.instance import memoize
 from random import choice
 from redturtle.prenotazioni import logger
-from redturtle.prenotazioni.adapters.prenotazione import IDeleteTokenProvider
-from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
 from zope.annotation.interfaces import IAnnotations
 from zope.component import Interface
 from zope.interface import implementer
-
-import six
 
 
 class IBooker(Interface):
@@ -103,14 +97,7 @@ class Booker(object):
             **params
         )
 
-        # set delete token
-        expiration = datetime.combine(obj.booking_date.date(), time(0, 0, 0))
-        token = IDeleteTokenProvider(obj).generate_token(expiration=expiration)
-        if six.PY2:
-            token = token.decode("utf-8")
-
         annotations = IAnnotations(obj)
-        annotations[DELETE_TOKEN_KEY] = token
 
         annotations[VERIFIED_BOOKING] = False
         if not api.user.is_anonymous():

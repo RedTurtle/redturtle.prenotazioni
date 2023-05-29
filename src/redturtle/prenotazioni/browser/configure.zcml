@@ -89,7 +89,7 @@
       name="prenotazioni_search"
       for="..content.prenotazioni_folder.IPrenotazioniFolder"
       class=".prenotazioni_search.WrappedSearchForm"
-      permission="zope.Public"
+      permission="zope2.View"
       />
 
   <browser:page
@@ -97,7 +97,13 @@
       for="..content.prenotazioni_folder.IPrenotazioniFolder"
       class=".delete_reservation.DeleteReservation"
       template="templates/delete_reservation.pt"
-      permission="zope.Public"
+      permission="zope2.View"
+      />
+  <browser:page
+      name="confirm-delete"
+      for="..content.prenotazioni_folder.IPrenotazioniFolder"
+      class=".delete_reservation.ConfirmDelete"
+      permission="zope2.View"
       />
 
   <browser:page

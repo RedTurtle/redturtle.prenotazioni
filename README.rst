@@ -208,7 +208,7 @@ This endpoint allows to retrieve a booking by its UID.
 
 Example::
 
-    curl http://localhost:8080/Plone/++api++/@booking?uid=<booking UID> -H 'Accept: application/json'
+    curl http://localhost:8080/Plone/++api++/@booking/<booking UID> -H 'Accept: application/json'
 
 Response::
 
@@ -267,6 +267,22 @@ Response::
         "staff_notes": null,
         "title": "Mario Rossi"
     }
+
+DELETE
+~~~~~~
+
+This endpoint allows to delete a booking by its UID.
+
+Example::
+
+    curl -X DELETE http://localhost:8080/Plone/++api++/@booking/<booking UID> -H 'Accept: application/json'
+
+A booking can be deleted only if on of the following rules are satisfied:
+
+- Anonymous user and booking has been created by an anonymous user
+- Booking created by current logged-in user
+- Current logged-in user has `redturtle.prenotazioni.ManagePrenotazioni` permission
+- Booking has a date > today
 
 @prenotazione
 -------------
