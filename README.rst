@@ -461,7 +461,7 @@ Response::
     }
 
 @bookings
---------------------
+---------
 
 Endpoint that returns a list of *Prenotazione* content by parameters
 
@@ -500,6 +500,35 @@ Response::
             ],
           }
     }
+
+How to develop
+==============
+
+Frontend
+--------
+
+There is a custom widget made in React and registered as bundle.
+To develop it, you should do following steps:
+
+First of all, enable nvm::
+
+    > nvm use
+
+Install dependencies::
+
+    > yarn
+
+Run webpack::
+
+    > yarn start
+
+This will start webpack with autoreload.
+To see changes on your site, you need to enable development mode in Resources Registry in your Plone site, and enable CSS and js development of "week-table-overrides-widget-bundle" bundle.
+
+
+When changes are ok, you need to make a production build::
+
+    > yarn build
 
 Contribute
 ==========

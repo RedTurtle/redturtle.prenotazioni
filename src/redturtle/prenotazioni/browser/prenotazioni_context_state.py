@@ -20,6 +20,7 @@ from redturtle.prenotazioni.utilities.urls import urlify
 from six.moves import map
 from six.moves import range
 
+import json
 import six
 
 
@@ -195,7 +196,7 @@ class PrenotazioniContextState(BrowserView):
     def is_configured_day(self, day):
         """Returns True if the day has been configured"""
         weekday = day.weekday()
-        week_table = getattr(self.context, "week_table", {})
+        week_table = self.get_week_table(day=day)
         day_table = week_table[weekday]
         return any(
             (
@@ -205,6 +206,36 @@ class PrenotazioniContextState(BrowserView):
                 day_table["afternoon_end"],
             )
         )
+
+    def get_week_table(self, day):
+        week_table = getattr(self.context, "week_table", {})
+        week_table_overrides = json.loads(
+            getattr(self.context, "week_table_overrides", "[]") or "[]"
+        )
+        if not week_table_overrides:
+            return week_table
+
+        for override in week_table_overrides:
+            from_month = int(override.get("from_month", ""))
+            from_day = int(override.get("from_day", ""))
+            to_month = int(override.get("to_month", ""))
+            to_day = int(override.get("to_day", ""))
+            toYear = day.year
+
+            if from_month > to_month:
+                # next year
+                toYear += 1
+
+            fromDate = date(day.year, from_month, from_day)
+            toDate = date(toYear, to_month, to_day)
+
+            if isinstance(day, datetime):
+                if fromDate <= day.date() <= toDate:
+                    return override["week_table"]
+            else:
+                if fromDate <= day <= toDate:
+                    return override["week_table"]
+        return week_table
 
     def is_before_allowed_period(self, day):
         """Returns True if the day is before the first bookable day"""
@@ -449,7 +480,7 @@ class PrenotazioniContextState(BrowserView):
     def get_day_intervals(self, day):
         """Return the time ranges of this day"""
         weekday = day.weekday()
-        week_table = getattr(self.context, "week_table", {})
+        week_table = self.get_week_table(day=day)
         day_table = week_table[weekday]
         # Convert hours to DateTime
         morning_start = hm2DT(day, day_table["morning_start"])

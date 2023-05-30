@@ -101,6 +101,9 @@ class TestMonthSlots(unittest.TestCase):
         )
         transaction.commit()
 
+    def tearDown(self):
+        self.api_session.close()
+
     def test_month_slots_called_without_params_return_all_available_slots_of_current_month(
         self,
     ):

@@ -21,6 +21,7 @@ local/
 node_modules/
 parts/
 src/*
+src/redturtle/prenotazioni/browser/static/widget/dist/dev/*
 dist/*
 test.plone_addon/
 var/

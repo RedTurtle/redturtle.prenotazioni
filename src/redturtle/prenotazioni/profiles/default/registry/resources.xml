@@ -19,7 +19,29 @@
     <value key="compile">True</value>
     <value key="jscompilation">++plone++redturtle.prenotazioni/redturtle-reservation.js</value>
     <value key="csscompilation">++plone++redturtle.prenotazioni/redturtle-reservation.css</value>
+    <value key="enabled">False</value>
     <value key="last_compilation">2019-11-26 00:00:00</value>
   </records>
+
+  <records prefix="plone.resources/week-table-overrides-widget"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++redturtle.prenotazioni/widget/dist/dev/main.js</value>
+    <value key="css">
+      <element>++plone++redturtle.prenotazioni/widget/dist/dev/main.css</element>
+    </value>
+  </records>
+
+  <records prefix="plone.bundles/week-table-overrides-widget-bundle" interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="resources">
+      <element>week-table-overrides-widget</element>
+    </value>
+    <value key="jscompilation">++plone++redturtle.prenotazioni/widget/dist/prod/main.js</value>
+    <value key="csscompilation">++plone++redturtle.prenotazioni/widget/dist/prod/main.css</value>
+    <value key="compile">False</value>
+    <value key="depends"></value>
+    <value key="enabled">False</value>
+    <value key="last_compilation">2019-11-07 10:26:00</value>
+  </records>
+
 
   </registry>

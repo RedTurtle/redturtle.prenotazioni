@@ -17,8 +17,26 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: redturtle.prenotazioni\n"
 
-msgid "Booking product for Plone"
+msgid "from_label"
 msgstr ""
 
-msgid "Reno Galliera Booking"
+msgid "month_label"
+msgstr ""
+
+msgid "to_label"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Move down"
+msgstr ""
+
+msgid "Move up"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Add"
 msgstr ""
