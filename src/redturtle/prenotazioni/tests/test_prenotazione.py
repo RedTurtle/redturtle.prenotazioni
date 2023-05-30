@@ -89,11 +89,16 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
 
     def test_add_booking_anonymous(self):
         self.api_session.auth = None
+        booking_date = "{}T09:00:00".format(
+            (date.today() + timedelta(1)).strftime("%Y-%m-%d")
+        )
+        booking_expiration_date = "{}T09:30:00".format(
+            (date.today() + timedelta(1)).strftime("%Y-%m-%d")
+        )
         res = self.api_session.post(
             self.folder_prenotazioni.absolute_url() + "/@booking",
             json={
-                "booking_date": "%sT09:00:00"
-                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_date": booking_date,
                 "booking_type": "Type A",
                 "fields": [
                     {"name": "fullname", "value": "Mario Rossi"},
@@ -102,8 +107,8 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
             },
         )
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(res.json()["booking_date"], "2023-05-25T09:00:00")
-        self.assertEqual(res.json()["booking_expiration_date"], "2023-05-25T09:30:00")
+        self.assertEqual(res.json()["booking_date"], booking_date)
+        self.assertEqual(res.json()["booking_expiration_date"], booking_expiration_date)
         self.assertEqual(res.json()["booking_type"], "Type A")
         self.assertEqual(res.json()["gate"], "Gate A")
         self.assertEqual(res.json()["title"], "Mario Rossi")
