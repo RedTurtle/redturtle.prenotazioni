@@ -143,14 +143,22 @@
 <metal:macro metal:define-macro="stormy_slot" i18n:domain="redturtle.prenotazioni">
   <div class="slot" tal:repeat="slot python:slots[gate]">
     <div tal:condition="nocall:slot/context"
-         tal:define="booking nocall:slot/context"
+         tal:define="booking nocall:slot/context;
+                    is_pause python:getattr(booking, 'is_pause', False)"
          tal:attributes="class python:week_view.prenotazioni.get_state(booking);">
-      <a href="${booking/absolute_url}"
-         title="${booking/Title}">
-        <tal:from replace="python:week_view.DT2time(booking.getBooking_date())" />
-        &mdash;
-        <tal:to replace="python:week_view.DT2time(booking.getBooking_expiration_date())" />
-    </a>
+        <tal:is_pause condition="is_pause">
+            <div>
+              <span>${booking/Title}</span>
+            </div>
+        </tal:is_pause>
+        <tal:not_is_pause condition="not:is_pause">
+          <a href="${booking/absolute_url}"
+            title="${booking/Title}">
+            <tal:from replace="python:week_view.DT2time(booking.getBooking_date())" />
+            &mdash;
+            <tal:to replace="python:week_view.DT2time(booking.getBooking_expiration_date())" />
+          </a>
+        </tal:not_is_pause>
     </div>
   </div>
 </metal:macro>

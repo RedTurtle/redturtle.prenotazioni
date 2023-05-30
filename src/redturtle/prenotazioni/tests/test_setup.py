@@ -44,6 +44,15 @@ class TestSetup(unittest.TestCase):
 
         self.assertIn(IRedturtlePrenotazioniLayer, utils.registered_layers())
 
+    def test_dexteritytextindexer_behavior_enabled_only_in_plone_less_than_6(self):
+        plone_version = api.env.plone_version()
+        portal_types = api.portal.get_tool(name="portal_types")
+        behaviors = portal_types["PrenotazioniFolder"].behaviors
+        if plone_version < "6":
+            self.assertIn("collective.dexteritytextindexer", behaviors)
+        else:
+            self.assertNotIn("collective.dexteritytextindexer", behaviors)
+
 
 class TestUninstall(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING

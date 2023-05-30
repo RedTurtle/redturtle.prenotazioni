@@ -42,7 +42,6 @@
     <element value="plone.app.dexterity.behaviors.id.IShortName"/>
     <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
     <element value="plone.app.lockingbehavior.behaviors.ILocking" />
-    <element value="collective.dexteritytextindexer.behavior.IDexterityTextIndexer" />
   </property>
 
   <!-- View information -->

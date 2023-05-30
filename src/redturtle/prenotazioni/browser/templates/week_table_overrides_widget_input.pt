@@ -1,0 +1,13 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag="">
+<div class="${view/klass}">
+    <input type="hidden"
+       class="widget-field"
+       id="${view/id}"
+       name="${view/name}"
+       value="${view/value}" />
+    <div class="widget-wrapper" />
+</div>
+
+</html>

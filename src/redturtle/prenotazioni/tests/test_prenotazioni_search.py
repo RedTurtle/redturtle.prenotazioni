@@ -158,6 +158,9 @@ class TestPrenotazioniSearch(unittest.TestCase):
         )
         transaction.commit()
 
+    def tearDown(self):
+        self.api_session.close()
+
     def test_view_permission(self):
         self.assertEqual(
             self.api_session.get(f"{self.portal.absolute_url()}/@bookings").status_code,

@@ -103,6 +103,9 @@ class TestBookingSchema(unittest.TestCase):
         )
         transaction.commit()
 
+    def tearDown(self):
+        self.api_session.close()
+
     def test_booking_schema_called_without_params_return_error(
         self,
     ):
