@@ -247,3 +247,20 @@ class TestDeleteBooking(unittest.TestCase):
         self.assertEqual(
             len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
         )
+
+    def test_unable_to_delete_other_types(self):
+        document = api.content.create(
+            container=self.portal,
+            type="Document",
+            title="Document",
+        )
+        uid = document.UID()
+        api.content.transition(obj=document, transition="publish")
+        transaction.commit()
+
+        self.assertIsNotNone(api.content.get(UID=uid))
+
+        self.request.form["uid"] = uid
+        self.assertRaises(NotFound, self.view.do_delete)
+
+        self.assertIsNotNone(api.content.get(UID=uid))
