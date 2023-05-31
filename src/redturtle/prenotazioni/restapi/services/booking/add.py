@@ -114,23 +114,5 @@ class AddBooking(Service):
             )
             return dict(error=dict(type="Bad Request", message=msg))
 
-        # msg = _("booking_created")
-        # api.portal.show_message(message=msg, type="info", request=self.request)
-        # booking_date = data["booking_date"].strftime("%d/%m/%Y")
-
-        # TODO: spostare questo su un evento ?
-        # delete_token = IAnnotations(obj).get(DELETE_TOKEN_KEY, "")
-        # params = {
-        #     "data": booking_date,
-        #     "uid": obj.UID(),
-        #     "delete_token": delete_token,
-        # }
-        # target = urlify(
-        #     self.context.absolute_url(),
-        #     paths=["@@prenotazione_print"],
-        #     params=params,
-        # )
-        # self.send_email_to_managers(booking=obj)
-
         serializer = queryMultiAdapter((obj, self.request), ISerializeToJson)
         return serializer()

@@ -27,12 +27,6 @@
       />
 
   <adapter
-      factory=".prenotazione.DeleteToken"
-      provides=".prenotazione.IDeleteTokenProvider"
-      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
-      />
-
-  <adapter
       factory=".slot.Slot"
       provides=".slot.ISlot"
       for="redturtle.prenotazioni.interfaces.IPause"

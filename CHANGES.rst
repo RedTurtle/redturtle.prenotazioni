@@ -33,6 +33,11 @@ Changelog
 
 - Added field "cosa_serve" (#40445).
   [daniele]
+
+- Refactor booking delete machinery and remove unused token.
+  [cekk]
+
+- Add DELETE endpoint for booking.
 - Add new field that allows to override week schedule for a certain date range.
   [cekk]
 

@@ -20,7 +20,6 @@ class BookingInfo(Service):
     def reply(self):
         if not self.booking_uid:
             return self.reply_no_content(status=404)
-
         catalog = api.portal.get_tool("portal_catalog")
         query = {"portal_type": "Prenotazione", "UID": self.booking_uid}
         booking = catalog.unrestrictedSearchResults(query)
@@ -29,18 +28,8 @@ class BookingInfo(Service):
             return self.reply_no_content(status=404)
 
         booking = booking[0]._unrestrictedGetObject()
-
-        if api.user.is_anonymous():
-            if booking.Creator():
-                raise Unauthorized
-        else:
-            current_user = api.user.get_current()
-
-            if (
-                not api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni")
-                and not booking.Creator() == current_user.getUserName()
-            ):
-                raise Unauthorized
+        if not booking.canAccessBooking():
+            raise Unauthorized
 
         response = getMultiAdapter((booking, self.request), ISerializeToJson)()
 

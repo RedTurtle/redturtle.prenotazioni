@@ -32,4 +32,12 @@
       name="@booking"
       />
 
+  <plone:service
+      method="DELETE"
+      factory=".delete.DeleteBooking"
+      for="*"
+      permission="zope2.View"
+      name="@booking"
+      />
+
 </configure>

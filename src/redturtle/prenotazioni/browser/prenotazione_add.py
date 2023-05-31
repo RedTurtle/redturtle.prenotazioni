@@ -12,7 +12,6 @@ from redturtle.prenotazioni import _
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.browser.week import TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE
 from redturtle.prenotazioni.browser.z3c_custom_widget import CustomRadioFieldWidget
-from redturtle.prenotazioni.config import DELETE_TOKEN_KEY
 from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.utilities.urls import urlify
@@ -24,7 +23,6 @@ from z3c.form import field
 from z3c.form import form
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import WidgetActionExecutionError
-from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.i18n import translate
 from zope.interface import implementer
@@ -281,11 +279,9 @@ class AddForm(form.AddForm):
         api.portal.show_message(message=msg, type="info", request=self.request)
         booking_date = data["booking_date"].strftime("%d/%m/%Y")
 
-        delete_token = IAnnotations(obj).get(DELETE_TOKEN_KEY, "")
         params = {
             "data": booking_date,
             "uid": obj.UID(),
-            "delete_token": delete_token,
         }
         target = urlify(
             self.context.absolute_url(),
