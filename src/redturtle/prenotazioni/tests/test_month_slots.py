@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from datetime import datetime
+from datetime import timedelta
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
@@ -253,7 +254,10 @@ class TestMonthSlots(unittest.TestCase):
 
         response = self.api_session.get("{}/@month-slots".format(folder.absolute_url()))
 
-        tomorrow = json_compatible(datetime(now.year, now.month, now.day + 1, 7, 0))
+        tomorrow = json_compatible(
+            datetime.now().replace(hour=7, minute=0, second=0, microsecond=0)
+            + timedelta(days=1)
+        )
         self.assertNotIn(tomorrow, response.json()["items"])
 
         folder.notBeforeDays = 0
