@@ -134,7 +134,7 @@ class MoveForm(form.Form):
         base_url = "/".join((self.context.absolute_url(), "prenotazione_move"))
         now_str = tznow().strftime("%Y-%m-%d %H:%M")
         for t in times:
-            form_booking_date = " ".join((date, t))
+            form_booking_date = "T".join((date, t))
             params["form.widgets.booking_date"] = form_booking_date
             urls.append(
                 {
@@ -159,7 +159,6 @@ class MoveForm(form.Form):
         current_slot = conflict_manager.get_choosen_slot(current)
         current_gate = getattr(self.context, "gate", "")
         exclude = {current_gate: [current_slot]}
-
         if conflict_manager.conflicts(data, exclude=exclude):
             msg = _(
                 "Sorry, this slot is not available or does not fit your " "booking."
