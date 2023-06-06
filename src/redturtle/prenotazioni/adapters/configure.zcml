@@ -151,14 +151,14 @@
 
   <!-- ical adapters -->
   <adapter
-    for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
-    factory=".ical.ICalendarBookingComponent"
-    />
-  
+      factory=".ical.ICalendarBookingComponent"
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
+      />
+
   <adapter
-    for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
-    provides="plone.event.interfaces.IICalendar"
-    factory=".ical.calendar_from_booking"
-  />
+      factory=".ical.calendar_from_booking"
+      provides="plone.event.interfaces.IICalendar"
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
+      />
 
 </configure>
