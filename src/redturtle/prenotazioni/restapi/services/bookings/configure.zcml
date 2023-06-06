@@ -4,11 +4,11 @@
     >
 
   <plone:service
+      for="*"
       method="GET"
       factory=".search.BookingsSearch"
-      for="*"
-      permission="redturtle.prenotazioni.SearchPrenotazioni"
       name="@bookings"
+      permission="zope2.View"
       />
 
 </configure>

@@ -6,44 +6,37 @@
     <permission name="redturtle.prenotazioni: Add Prenotazione" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
-      <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
-
         
     <permission name="redturtle.prenotazioni: Add PrenotazioniDay" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
-      <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
-
         
     <permission name="redturtle.prenotazioni: Add PrenotazioniWeek" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
-      <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
-
         
     <permission name="redturtle.prenotazioni: Add PrenotazioniYear" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
-      <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
-
         
     <permission name="redturtle.prenotazioni: Add PrenotazioniFolder" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
-      <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
 
     <permission name="redturtle.prenotazioni: search prenotazioni" acquire="True">
-      <role name="Reader"/>
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="redturtle.prenotazioni: Manage Prenotazioni" acquire="True">

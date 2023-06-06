@@ -16,15 +16,22 @@ class BookingsSearch(Service):
     Preonotazioni search view
     """
 
-    def publishTraverse(self, request, fiscalcode):
-        if not request.get("fiscalcode", None):
-            request.set("fiscalcode", fiscalcode)
+    def publishTraverse(self, request, userid):
+        if not request.get("userid", None):
+            request.set("userid", userid)
         return self
 
     def reply(self):
         start_date = self.request.get("from", None)
         end_date = self.request.get("to", None)
-        fiscalcode = self.request.get("fiscalcode", None)
+
+        if api.user.is_anonymous():
+            raise api.exc.Unauthorized()
+        elif api.user.has_permission("redturtle.prenotazioni: search prenotazioni"):
+            userid = self.request.get("userid", None)
+        else:
+            userid = api.user.get_current().getUserId()
+
         response = {"id": self.context.absolute_url() + "/@bookings"}
         query = {
             "portal_type": "Prenotazione",
@@ -33,11 +40,11 @@ class BookingsSearch(Service):
         if start_date or end_date:
             query["Date"] = {
                 "query": [DateTime(i) for i in [start_date, end_date] if i],
-                "range": f"{start_date and 'min' or ''}{start_date and end_date and ':' or ''}{end_date and 'max' or ''}",
+                "range": f"{start_date and 'min' or ''}{start_date and end_date and ':' or ''}{end_date and 'max' or ''}",  # noqa: E501
             }
 
-        if fiscalcode:
-            query["fiscalcode"] = fiscalcode
+        if userid:
+            query["fiscalcode"] = userid
 
         response["items"] = [
             getMultiAdapter(
