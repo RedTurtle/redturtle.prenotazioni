@@ -4,11 +4,11 @@
     >
 
   <plone:service
-      for="*"
       method="GET"
       factory=".search.BookingsSearch"
-      name="@bookings"
+      for="*"
       permission="zope2.View"
+      name="@bookings"
       />
 
 </configure>
