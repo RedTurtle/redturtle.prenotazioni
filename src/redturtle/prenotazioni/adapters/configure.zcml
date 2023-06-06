@@ -148,4 +148,17 @@
       name="booking_url_with_delete_token"
       />
 
+
+  <!-- ical adapters -->
+  <adapter
+    for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
+    factory=".ical.ICalendarBookingComponent"
+    />
+  
+  <adapter
+    for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
+    provides="plone.event.interfaces.IICalendar"
+    factory=".ical.calendar_from_booking"
+  />
+
 </configure>
