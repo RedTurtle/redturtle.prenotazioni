@@ -470,7 +470,6 @@ Parameters:
 - **fiscalcode**: The users fiscal Code
 - **from**: The statrt date of research
 - **to**: The end date of research
-- **fullobjects**: Indicates the expand data level
 
 The endpoint can be called with a GET request::
 

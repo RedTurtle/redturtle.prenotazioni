@@ -104,7 +104,9 @@ class Booker(object):
             user = api.user.get_current()
             data_fiscalcode = getattr(obj, "fiscalcode", "") or ""
             fiscalcode = data_fiscalcode.upper()
-            if user.hasProperty("fiscalcode") and fiscalcode:
+            if not fiscalcode:
+                obj.fiscalcode = user.getProperty("fiscalcode", "") or user.getId()
+            elif user.hasProperty("fiscalcode") and fiscalcode:
                 if (user.getProperty("fiscalcode") or "").upper() == fiscalcode:
                     logger.info("Booking verified: {}".format(obj.absolute_url()))
                     annotations[VERIFIED_BOOKING] = True
