@@ -180,7 +180,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         result_uids = [
             i["booking_id"]
             for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@bookings?fiscalcode={self.testing_fiscal_code}"
+                f"{self.portal.absolute_url()}/@bookings/{self.testing_fiscal_code}"  # noqa: E501
             ).json()["items"]
         ]
 

@@ -105,7 +105,9 @@ class Booker(object):
             data_fiscalcode = getattr(obj, "fiscalcode", "") or ""
             fiscalcode = data_fiscalcode.upper()
             if not fiscalcode:
-                obj.fiscalcode = (user.getProperty("fiscalcode", "") or user.getId() or "").upper()  # noqa
+                obj.fiscalcode = (
+                    user.getProperty("fiscalcode", "") or user.getId() or ""
+                ).upper()  # noqa
             elif user.hasProperty("fiscalcode") and fiscalcode:
                 if (user.getProperty("fiscalcode") or "").upper() == fiscalcode:
                     logger.info("Booking verified: {}".format(obj.absolute_url()))
