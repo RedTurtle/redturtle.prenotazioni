@@ -143,15 +143,30 @@ class TestSendIcal(unittest.TestCase):
         self.assertTrue(message.is_multipart())
         self.assertEqual(attachment.get_filename(), "foo.ics")
         self.assertIn("SUMMARY:Booking for Prenota foo", data)
-        self.assertIn(
-            "DTSTART:{}".format(booking.booking_date.strftime("%Y%m%dT%H%M%S")), data
-        )
-        self.assertIn(
-            "DTEND:{}".format(
-                booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")
-            ),
-            data,
-        )
+        if api.env.plone_version() < "6":
+            self.assertIn(
+                "DTSTART;VALUE=DATE-TIME:{}".format(
+                    booking.booking_date.strftime("%Y%m%dT%H%M%S")
+                ),
+                data,
+            )
+            self.assertIn(
+                "DTEND;VALUE=DATE-TIME:{}".format(
+                    booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")
+                ),
+                data,
+            )
+        else:
+            self.assertIn(
+                "DTSTART:{}".format(booking.booking_date.strftime("%Y%m%dT%H%M%S")),
+                data,
+            )
+            self.assertIn(
+                "DTEND:{}".format(
+                    booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")
+                ),
+                data,
+            )
         self.assertIn("UID:{}".format(booking.UID()), data)
 
     def test_ical_not_sent_on_refuse(self):
@@ -245,13 +260,28 @@ class TestSendIcal(unittest.TestCase):
         self.assertTrue(message.is_multipart())
         self.assertEqual(attachment.get_filename(), "foo.ics")
         self.assertIn("SUMMARY:Booking for Prenota foo", data)
-        self.assertIn(
-            "DTSTART:{}".format(booking.booking_date.strftime("%Y%m%dT%H%M%S")), data
-        )
-        self.assertIn(
-            "DTEND:{}".format(
-                booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")
-            ),
-            data,
-        )
+        if api.env.plone_version() < "6":
+            self.assertIn(
+                "DTSTART;VALUE=DATE-TIME:{}".format(
+                    booking.booking_date.strftime("%Y%m%dT%H%M%S")
+                ),
+                data,
+            )
+            self.assertIn(
+                "DTEND;VALUE=DATE-TIME:{}".format(
+                    booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")
+                ),
+                data,
+            )
+        else:
+            self.assertIn(
+                "DTSTART:{}".format(booking.booking_date.strftime("%Y%m%dT%H%M%S")),
+                data,
+            )
+            self.assertIn(
+                "DTEND:{}".format(
+                    booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")
+                ),
+                data,
+            )
         self.assertIn("UID:{}".format(booking.UID()), data)
