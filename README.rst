@@ -463,18 +463,16 @@ Response::
 @bookings
 ---------
 
-Endpoint that returns a list of *Prenotazione* content by parameters
+Endpoint that returns a list of own *Prenotazione* content by parameters
 
 Parameters:
 
-- **fiscalcode**: The users fiscal Code
 - **from**: The statrt date of research
 - **to**: The end date of research
-- **fullobjects**: Indicates the expand data level
 
-The endpoint can be called with a GET request::
+Example::
 
-  curl -i http://localhost:8080/Plone/@bookings?fiscalcode=FISCALCODE&from=10-10-2023 \n
+   curl -i http://localhost:8080/Plone/@bookings?from=10-10-2023&to=20-10-2023 \
      -H 'Accept: application/json'
 
 Response::
@@ -500,6 +498,15 @@ Response::
             ],
           }
     }
+
+    
+If the user is not logged in, the endpoint will return a 401 error.
+
+If the user has a special permission, the endpoint can be called with any `fiscalcode`::
+
+  curl -i http://localhost:8080/Plone/@bookings/FISCALCODE?from=10-10-2023 \
+     -H 'Accept: application/json'
+
 
 How to develop
 ==============

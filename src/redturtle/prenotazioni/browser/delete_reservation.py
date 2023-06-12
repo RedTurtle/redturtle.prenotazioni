@@ -121,7 +121,6 @@ class ConfirmDelete(BaseView):
         return self.request.response.redirect(self.context.absolute_url())
 
     def do_delete(self):
-
         if not self.prenotazione:
             raise NotFound
         if not self.prenotazione.canDeleteBooking():

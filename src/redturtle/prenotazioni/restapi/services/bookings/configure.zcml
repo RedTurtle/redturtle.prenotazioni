@@ -7,7 +7,7 @@
       method="GET"
       factory=".search.BookingsSearch"
       for="*"
-      permission="redturtle.prenotazioni.SearchPrenotazioni"
+      permission="zope2.View"
       name="@bookings"
       />
 
