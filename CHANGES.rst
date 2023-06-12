@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-2.0.0 (unreleased)
-------------------
+2.0.0.dev1 (2023-06-12)
+-----------------------
 
 - Add Booking restapi
   [mamico]
