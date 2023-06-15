@@ -24,7 +24,16 @@ class MonthSlots(Service):
             now = date.fromisoformat(now)
         else:
             now = date.today()
-
+        booking_type = self.request.form.get("booking_type")
+        if booking_type:
+            slot_min_size = (
+                prenotazioni_week_view.prenotazioni.get_booking_type_duration(
+                    booking_type
+                )
+                * 60
+            )  # noqa
+        else:
+            slot_min_size = 0
         start_year = now.year
         start_month = now.month
         start_day = now.day
@@ -41,7 +50,7 @@ class MonthSlots(Service):
                 for slot in slots.get("anonymous_gate", []):
                     info = (
                         prenotazioni_week_view.prenotazioni.get_anonymous_booking_url(
-                            booking_date, slot
+                            booking_date, slot, slot_min_size=slot_min_size
                         )
                     )
                     if not info.get("url", ""):

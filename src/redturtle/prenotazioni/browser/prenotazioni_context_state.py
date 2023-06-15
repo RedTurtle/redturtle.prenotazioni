@@ -303,7 +303,10 @@ class PrenotazioniContextState(BrowserView):
         return "%s/%s" % (self.context.absolute_url(), self.add_view)
 
     def get_booking_urls(self, day, slot, slot_min_size=0, gate=None):
-        """Returns, if possible, the booking urls"""
+        """Returns, if possible, the booking urls
+
+        slot_min_size: seconds
+        """
         # we have some conditions to check
         if not self.is_valid_day(day):
             return []
@@ -334,7 +337,10 @@ class PrenotazioniContextState(BrowserView):
         return urls
 
     def get_all_booking_urls_by_gate(self, day, slot_min_size=0):
-        """Get all the booking urls divided by gate"""
+        """Get all the booking urls divided by gate
+
+        slot_min_size: seconds
+        """
         slots_by_gate = self.get_free_slots(day)
         urls = {}
         for gate in slots_by_gate:
@@ -350,6 +356,8 @@ class PrenotazioniContextState(BrowserView):
         """Get all the booking urls
 
         Not divided by gate
+
+        slot_min_size: seconds
         """
         urls_by_gate = self.get_all_booking_urls_by_gate(day, slot_min_size)
         urls = {}
@@ -371,7 +379,10 @@ class PrenotazioniContextState(BrowserView):
 
     @memoize
     def get_anonymous_booking_url(self, day, slot, slot_min_size=0):
-        """Returns, the the booking url for an anonymous user"""
+        """Returns, the the booking url for an anonymous user
+
+        slot_min_size: seconds
+        """
         # First we check if we have booking urls
         all_booking_urls = self.get_all_booking_urls(day, slot_min_size)
         if not all_booking_urls:

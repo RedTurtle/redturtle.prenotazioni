@@ -89,6 +89,7 @@ class TestMonthSlots(unittest.TestCase):
             ],
             booking_types=[
                 {"name": "Type A", "duration": "30"},
+                {"name": "Type B", "duration": "90"},
             ],
             gates=["Gate A"],
         )
@@ -265,3 +266,18 @@ class TestMonthSlots(unittest.TestCase):
 
         response = self.api_session.get("{}/@month-slots".format(folder.absolute_url()))
         self.assertIn(tomorrow, response.json()["items"])
+
+    def test_month_slots_filtered_by_booking_type(self):
+        # Type A 30 minutes
+        response = self.api_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@month-slots?booking_type=Type A"
+        )  # noqa
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()["items"]), 6)
+
+        # Type B 90 minutes
+        response = self.api_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@month-slots?booking_type=Type B"
+        )  # noqa
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()["items"]), 4)

@@ -5,7 +5,8 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- booking_type filter in @months-slots
+  [mamico]
 
 
 2.0.0.dev1 (2023-06-12)
