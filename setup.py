@@ -58,7 +58,7 @@ setup(
         "z3c.jbot",
         "plone.api>=1.8.4",
         "plone.restapi",
-        "collective.contentrules.mailfromfield",
+        "collective.contentrules.mailfromfield>=1.2.0",
         "pyinter",
         "collective.honeypot",
         "collective.z3cform.datagridfield>=2.0",

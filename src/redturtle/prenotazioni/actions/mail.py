@@ -7,15 +7,11 @@ from collective.contentrules.mailfromfield.actions.mail import (
     MailActionExecutor as BaseExecutor,
 )
 from plone.contentrules.rule.interfaces import IExecutable
-from plone.registry.interfaces import IRegistry
-from plone.stringinterp.interfaces import IStringInterpolator
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from six.moves import filter
 from zope.component import adapter
-from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Interface
-from email.message import EmailMessage
 from plone.event.interfaces import IICalendar
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 
@@ -67,54 +63,10 @@ class MailActionExecutor(BaseExecutor):
             return []
         return list(filter(bool, recipients))
 
-    def __call__(self):
-        """
-        Copied from original, but send also an ical attachment
-        """
-        # we don't want to add ical to other events that are not confirm or moved
+    def manage_attachments(self, msg):
         action = getattr(self.event, "action", "")
         if not (action == "confirm" or IMovedPrenotazione.providedBy(self.event)):
-            return super().__call__()
-        mailhost = self.get_mailhost()
-        source = self.get_from()
-        recipients = self.get_recipients()
-
-        obj = self.event.object
-
-        interpolator = IStringInterpolator(obj)
-        subject = self.element.subject
-        message = self.element.message
-        # Section title/url
-        subject = self.expand_markers(subject)
-        message = self.expand_markers(message)
-        # All other stringinterp
-        subject = interpolator(subject).strip()
-        message = interpolator(message).strip()
-
-        email_charset = None
-        registry = getUtility(IRegistry)
-        record = registry.records.get("plone.email_charset", None)
-        if record:
-            email_charset = record.value
-
-        msg = EmailMessage()
-        msg.set_content(message, charset=email_charset)
-        msg["Subject"] = subject
-        msg["From"] = source
-        msg["To"] = ""
-
-        self.manage_attachments(msg=msg)
-
-        for email_recipient in recipients:
-            msg.replace_header("To", email_recipient)
-            # we set immediate=True because we need to catch exceptions.
-            # by default (False) exceptions are handled by MailHost and we can't catch them.
-            mailhost.send(msg, charset=email_charset, immediate=True)
-
-            logger.debug("sending to: %s" % email_recipient)
-        return True
-
-    def manage_attachments(self, msg):
+            return
         booking = self.event.object
         cal = IICalendar(booking)
         ical = cal.to_ical()

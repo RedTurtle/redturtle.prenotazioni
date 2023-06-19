@@ -195,7 +195,7 @@ class TestSendIcal(unittest.TestCase):
         message = email.message_from_bytes(mailSent)
 
         self.assertFalse(message.is_multipart())
-        self.assertEqual(message.get_payload(), "Test mail")
+        self.assertEqual(message.get_payload(), "Test mail\n")
 
     def test_ical_not_sent_on_submit(self):
         booking = self.create_booking()
@@ -223,7 +223,7 @@ class TestSendIcal(unittest.TestCase):
         message = email.message_from_bytes(mailSent)
 
         self.assertFalse(message.is_multipart())
-        self.assertEqual(message.get_payload(), "Test mail")
+        self.assertEqual(message.get_payload(), "Test mail\n")
 
     def test_ical_sent_on_move(self):
         booking = self.create_booking()
