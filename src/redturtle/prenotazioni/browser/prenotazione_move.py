@@ -132,9 +132,9 @@ class MoveForm(form.Form):
         times = slot.get_values_hr_every(300)
         urls = []
         base_url = "/".join((self.context.absolute_url(), "prenotazione_move"))
-        now_str = tznow().strftime("%Y-%m-%d %H:%M")
+        now_str = tznow().strftime("%Y-%m-%dT%H:%M")
         for t in times:
-            form_booking_date = " ".join((date, t))
+            form_booking_date = "T".join((date, t))
             params["form.widgets.booking_date"] = form_booking_date
             urls.append(
                 {
