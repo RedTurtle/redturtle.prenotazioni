@@ -12,6 +12,8 @@ from six.moves import filter
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
+from plone.event.interfaces import IICalendar
+from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 
 import six
 
@@ -60,3 +62,19 @@ class MailActionExecutor(BaseExecutor):
         if not recipients:
             return []
         return list(filter(bool, recipients))
+
+    def manage_attachments(self, msg):
+        action = getattr(self.event, "action", "")
+        if not (action == "confirm" or IMovedPrenotazione.providedBy(self.event)):
+            return
+        booking = self.event.object
+        cal = IICalendar(booking)
+        ical = cal.to_ical()
+        name = f"{booking.getId()}.ics"
+
+        msg.add_attachment(
+            ical,
+            maintype="text",
+            subtype="calendar",
+            filename=name,
+        )

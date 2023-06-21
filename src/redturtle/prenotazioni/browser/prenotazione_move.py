@@ -159,7 +159,6 @@ class MoveForm(form.Form):
         current_slot = conflict_manager.get_choosen_slot(current)
         current_gate = getattr(self.context, "gate", "")
         exclude = {current_gate: [current_slot]}
-
         if conflict_manager.conflicts(data, exclude=exclude):
             msg = _(
                 "Sorry, this slot is not available or does not fit your " "booking."

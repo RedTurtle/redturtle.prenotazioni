@@ -45,7 +45,12 @@ Changelog
   [cekk]
 
 - Add DELETE endpoint for booking.
+  [cekk]
+
 - Add new field that allows to override week schedule for a certain date range.
+  [cekk]
+
+- Send iCal attachment on approved or moved booking.
   [cekk]
 
 1.7.1 (2023-03-28)
