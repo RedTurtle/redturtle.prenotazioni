@@ -25,9 +25,9 @@
        La prenotazione per ${title} è stata accettata. Il codice di prenotazione è ${booking_code}
     </property>
     <property name="message">
-La prenotazione per ${title} e' stata accettata.
+La prenotazione ${booking_type} per ${title} e' stata accettata.
 
-Se desideri visualizzare, stampare o cancellare questa prenotazione puoi utilizzare il seguente link: ${booking_print_url}
+Se desideri visualizzare, stampare o cancellare questa prenotazione puoi utilizzare il [seguente link](${booking_print_url})
     </property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
@@ -53,12 +53,13 @@ Se desideri visualizzare, stampare o cancellare questa prenotazione puoi utilizz
     <property name="source"></property>
     <property
        name="message">
-L&#x27;orario della sua prenotazione &quot;${title}&quot; e&#x27; stata modificato.
+L'orario della sua prenotazione ${booking_type} è stata modificato.
 
 La nuova data è ${booking_date} alle ore ${booking_time}.
 
-Controlla o stampa il nuovo promemoria a questo link: ${booking_print_url}
+Controlla o stampa il nuovo promemoria su [questo link](${booking_print_url}).
 </property>
+    <property name="is_markdown">True</property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
     <property name="subject">Modifica data di prenotazione per ${title}</property>
@@ -86,12 +87,13 @@ Controlla o stampa il nuovo promemoria a questo link: ${booking_print_url}
    <action type="plone.actions.MailFromField">
     <property name="source"/>
     <property name="message">
-La prenotazione per il ${booking_date} alle ${booking_time} è stata creata.
+La prenotazione ${booking_type} per il ${booking_date} alle ${booking_time} è stata creata.
 
 Riceverete una mail di conferma quando la prenotazione verrà confermata definitivamente.
 
-Se non hai salvato o stampato il promemoria, puoi visualizzarlo a questo link: ${booking_print_url}
+Se non hai salvato o stampato il promemoria, puoi visualizzarlo su [questo link](${booking_print_url})
     </property>
+    <property name="is_markdown">True</property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
     <property name="subject">Prenotazione creata correttamente per ${title}</property>
@@ -118,7 +120,7 @@ Se non hai salvato o stampato il promemoria, puoi visualizzarlo a questo link: $
   <actions>
    <action type="plone.actions.MailFromField">
     <property name="source"></property>
-    <property name="message">La prenotazione del ${booking_date} delle ore ${booking_time} è stata rifiutata.
+    <property name="message">La prenotazione ${booking_type} del ${booking_date} delle ore ${booking_time} è stata rifiutata.
     </property>
     <property name="fieldName">email</property>
     <property name="target">target</property>
@@ -149,10 +151,14 @@ Se non hai salvato o stampato il promemoria, puoi visualizzarlo a questo link: $
     <property name="source"/>
     <property name="recipients">${booking_user_email}</property>
     <property name="exclude_actor">False</property>
-    <property
-       name="message">La prenotazione per ${title} e&#x27; stata confermata!
-     Se non hai salvato o stampato il promemoria, puoi visualizzarlo a questo link: ${booking_print_url}
-     Se desideri cancellare la prenotazione, accedi all&#x27;indirizzo ${booking_print_url}</property>
+    <property name="message">
+La prenotazione ${booking_type} per ${title} è stata confermata!
+
+Se non hai salvato o stampato il promemoria, puoi visualizzarlo su [questo link](${booking_print_url})
+     
+Se desideri cancellare la prenotazione, accedi all'[indirizzo](${booking_print_url})
+     </property>
+     <property name="is_markdown">True</property>
    </action>
    <action type="plone.actions.Workflow">
     <property name="transition">confirm</property>
