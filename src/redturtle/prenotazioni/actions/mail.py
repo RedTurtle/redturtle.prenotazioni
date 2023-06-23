@@ -7,19 +7,18 @@ from collective.contentrules.mailfromfield.actions.mail import (
     MailActionExecutor as BaseExecutor,
 )
 from plone.contentrules.rule.interfaces import IExecutable
+from plone.dexterity.interfaces import IDexterityContainer
+from plone.event.interfaces import IICalendar
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 from six.moves import filter
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
-from plone.event.interfaces import IICalendar
-from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 
 import six
 
 
-@implementer(IExecutable)
-@adapter(IPloneSiteRoot, IMailFromFieldAction, Interface)
 class MailActionExecutor(BaseExecutor):
     """The executor for this action."""
 
@@ -78,3 +77,15 @@ class MailActionExecutor(BaseExecutor):
             subtype="calendar",
             filename=name,
         )
+
+
+@implementer(IExecutable)
+@adapter(IPloneSiteRoot, IMailFromFieldAction, Interface)
+class MailActionExecutorRoot(MailActionExecutor):
+    """Registered for site root"""
+
+
+@implementer(IExecutable)
+@adapter(IDexterityContainer, IMailFromFieldAction, Interface)
+class MailActionExecutorFolder(MailActionExecutor):
+    """Registered for folderish content"""
