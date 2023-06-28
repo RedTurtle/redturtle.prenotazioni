@@ -26,15 +26,17 @@ class MailActionExecutor(BaseExecutor):
         """Get's the target object, i.e. the object that will provide the field
         with the email address
         """
+        event_obj = self.event.object
+        if event_obj.portal_type != "Prenotazione":
+            return super().get_target_obj()
         target = self.element.target
         if target == "object":
             obj = self.context
         elif target == "parent":
-            obj = self.event.object.aq_parent
-            # NEEDED JUST FOR PRENOTAZIONI...
-            return obj
+            # this is the patch
+            return event_obj.aq_parent
         elif target == "target":
-            obj = self.event.object
+            obj = event_obj
         else:
             raise ValueError(target)
         return aq_base(aq_inner(obj))
@@ -43,6 +45,10 @@ class MailActionExecutor(BaseExecutor):
         """
         The recipients of this mail
         """
+
+        if self.event.object.portal_type != "Prenotazione":
+            return super().get_recipients()
+
         # Try to load data from the target object
         fieldName = str(self.element.fieldName)
         obj = self.get_target_obj()
@@ -63,10 +69,13 @@ class MailActionExecutor(BaseExecutor):
         return list(filter(bool, recipients))
 
     def manage_attachments(self, msg):
-        action = getattr(self.event, "action", "")
-        if not (action == "confirm" or IMovedPrenotazione.providedBy(self.event)):
-            return
         booking = self.event.object
+        action = getattr(self.event, "action", "")
+        if (
+            not (action == "confirm" or IMovedPrenotazione.providedBy(self.event))
+            or booking.portal_type != "Prenotazione"
+        ):
+            return
         cal = IICalendar(booking)
         ical = cal.to_ical()
         name = f"{booking.getId()}.ics"
