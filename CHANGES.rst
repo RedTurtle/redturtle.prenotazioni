@@ -5,6 +5,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- reorganize backend form
+  [mamico]
+
 - booking_type filter in @months-slots
   [mamico]
 

@@ -25,23 +25,6 @@
 
   <include package=".stats" />
 
-
-  <browser:page
-      name="edit"
-      for="..content.prenotazioni_folder.IPrenotazioniFolder"
-      class=".add_edit_view.DefaultEditView"
-      permission="cmf.ModifyPortalContent"
-      />
-
-  <adapter
-      factory=".add_edit_view.DefaultAddView"
-      provides="zope.publisher.interfaces.browser.IBrowserPage"
-      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot
-           zope.publisher.interfaces.browser.IDefaultBrowserLayer
-           plone.dexterity.interfaces.IDexterityFTI"
-      name="PrenotazioniFolder"
-      />
-
   <include package="plone.app.contentmenu" />
 
 

@@ -66,6 +66,7 @@ class IWeekTableRow(model.Schema):
     day = schema.TextLine(
         title=_("day_label", default="Day of week"), required=True, default=""
     )
+    form.mode(day="display")
     morning_start = schema.Choice(
         title=_("morning_start_label", default="Start time in the morning"),
         vocabulary="redturtle.prenotazioni.VocOreInizio",
@@ -137,6 +138,8 @@ class IPrenotazioniFolder(model.Schema):
         title=_("Descrizione Agenda", default="Descrizione Agenda"),
         description=_("Inserire il testo di presentazione dell'agenda corrente"),
     )
+
+    form.mode(descriptionAgenda="display")
 
     cosa_serve = schema.Text(
         required=False,
@@ -277,7 +280,13 @@ class IPrenotazioniFolder(model.Schema):
         ],
     )
     form.widget(
-        "week_table", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
+        "week_table",
+        DataGridFieldFactory,
+        allow_insert=False,
+        allow_delete=False,
+        allow_reorder=False,
+        auto_append=False,
+        frontendOptions={"widget": "data_grid"},
     )
 
     week_table_overrides = schema.SourceText(
@@ -441,13 +450,42 @@ class IPrenotazioniFolder(model.Schema):
                     raise Invalid(_("Afternoon start should not be greater than end."))
 
     # TODO: definire o descrivere quando avviee la notifica
+    # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?
     app_io_enabled = schema.Bool(
         title=_("App IO notification"),
         default=False,
         required=False,
     )
 
-    # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?
+    model.fieldset(
+        "dates",
+        label=_("Date validità"),
+        fields=[
+            "daData",
+            "aData",
+            "same_day_booking_disallowed",
+            "holidays",
+            "futureDays",
+            "notBeforeDays",
+            "pause_table",
+        ],
+    )
+
+    model.fieldset(
+        "week_table",
+        label=_("Week table"),
+        fields=[
+            "week_table",
+        ],
+    )
+
+    model.fieldset(
+        "week_table_overrides",
+        label=_("week_table_overrides_label", default="Week table overrides"),
+        fields=[
+            "week_table_overrides",
+        ],
+    )
 
     model.fieldset(
         "contacts",
