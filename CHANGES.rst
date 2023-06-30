@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-2.0.0 (unreleased)
-------------------
+2.0.0.dev2 (2023-06-30)
+-----------------------
 
 - reorganize backend form
   [mamico]
