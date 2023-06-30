@@ -11,6 +11,8 @@ Changelog
 - booking_type filter in @months-slots
   [mamico]
 
+- Register adapters for IMailFromFieldAction for both Site root and dx containers.
+  [cekk]
 
 2.0.0.dev1 (2023-06-12)
 -----------------------

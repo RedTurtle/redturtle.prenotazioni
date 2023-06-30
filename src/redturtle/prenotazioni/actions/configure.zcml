@@ -3,6 +3,8 @@
     i18n_domain="redturtle.prenotazioni"
     >
 
-  <adapter factory=".mail.MailActionExecutor" />
+  <adapter factory=".mail.MailActionExecutorRoot" />
+  <adapter factory=".mail.MailActionExecutorFolder" />
+
 
 </configure>
