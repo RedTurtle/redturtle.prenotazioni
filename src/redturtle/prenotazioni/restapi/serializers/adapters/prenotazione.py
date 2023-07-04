@@ -17,7 +17,7 @@ from zope.publisher.interfaces import IRequest
 class PrenotazioneSerializer:
     def __init__(self, prenotazione, request):
         self.prenotazione = prenotazione
-        self.reqeuest = request
+        self.request = request
 
     def __call__(self, *args, **kwargs):
         booking_folder = self.prenotazione.getPrenotazioniFolder()
