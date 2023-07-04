@@ -12,7 +12,7 @@ from zope.publisher.interfaces import IRequest
 class SlotSerializer:
     def __init__(self, context, request):
         self.context = context
-        self.reqeuest = request
+        self.request = request
 
     def __call__(self, *args, **kwargs):
         return {"start": self.context.start(), "stop": self.context.stop()}

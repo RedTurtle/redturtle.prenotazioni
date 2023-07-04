@@ -49,7 +49,7 @@ class PrenotazioneSerializer:
 class PrenotazioneSearchableItemSerializer:
     def __init__(self, prenotazione, request):
         self.prenotazione = prenotazione
-        self.reqeuest = request
+        self.request = request
 
     def __call__(self, *args, **kwargs):
         wf_tool = api.portal.get_tool("portal_workflow")
@@ -68,7 +68,7 @@ class PrenotazioneSearchableItemSerializer:
             "booking_gate": self.prenotazione.gate,
             "booking_status": status["review_state"],
             "booking_status_label": translate(
-                status["review_state"], context=self.reqeuest
+                status["review_state"], context=self.request
             ),
             "booking_status_date": datetimelike_to_iso(status["time"]),
             "booking_status_notes": status["comments"],
