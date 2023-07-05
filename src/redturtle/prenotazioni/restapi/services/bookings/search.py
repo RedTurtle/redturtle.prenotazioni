@@ -43,7 +43,7 @@ class BookingsSearch(Service):
             }
 
         if userid:
-            query["fiscalcode"] = userid
+            query["fiscalcode"] = userid.upper()
 
         response["items"] = [
             getMultiAdapter(

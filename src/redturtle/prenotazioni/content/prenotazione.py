@@ -60,6 +60,8 @@ def check_valid_email(value):
         raise InvalidEmailAddress
 
 
+# TODO: validare considerando anche TINIT-XXX...
+# (vedi https://it.wikipedia.org/wiki/Codice_fiscale#Codice_fiscale_ordinario)
 def check_valid_fiscalcode(value):
     # fiscal code development
     if value == "AAAAAA00A00A000A":

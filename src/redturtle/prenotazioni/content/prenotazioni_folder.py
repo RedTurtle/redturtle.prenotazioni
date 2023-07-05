@@ -64,7 +64,9 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
 
 class IWeekTableRow(model.Schema):
     day = schema.TextLine(
-        title=_("day_label", default="Day of week"), required=True, default="",
+        title=_("day_label", default="Day of week"),
+        required=True,
+        default="",
     )
     # TODO: sarebbe bello, ma datagrid non funziona:
     # su plone si rompe, su volto non considera il mode=display
