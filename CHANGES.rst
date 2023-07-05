@@ -3,7 +3,7 @@ Changelog
 
 
 2.0.0.dev3 (unreleased)
-------------------
+-----------------------
 
 - Change "day" type in week_table (TODO: need an upgrade step?)
   [mauro]
