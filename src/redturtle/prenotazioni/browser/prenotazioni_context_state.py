@@ -613,7 +613,7 @@ class PrenotazioniContextState(BrowserView):
         """
         weekday = booking_date.weekday()
         pause_table = self.context.pause_table or []
-        today_pauses = [row for row in pause_table if row["day"] == weekday]
+        today_pauses = [row for row in pause_table if row["day"] == str(weekday)]
         pauses = []
         if today_pauses:
             for pause in today_pauses:

@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-2.0.0 (unreleased)
+2.0.0.dev3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Change "day" type in week_table (TODO: need an upgrade step?)
+  [mauro]
 
 2.0.0.dev2 (2023-06-30)
 -----------------------

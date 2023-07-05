@@ -64,9 +64,12 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
 
 class IWeekTableRow(model.Schema):
     day = schema.TextLine(
-        title=_("day_label", default="Day of week"), required=True, default=""
+        title=_("day_label", default="Day of week"), required=True, default="",
     )
-    form.mode(day="display")
+    # TODO: sarebbe bello, ma datagrid non funziona:
+    # su plone si rompe, su volto non considera il mode=display
+    # ancora peggio readonly=true sul field
+    # form.mode(day="display")
     morning_start = schema.Choice(
         title=_("morning_start_label", default="Start time in the morning"),
         vocabulary="redturtle.prenotazioni.VocOreInizio",
@@ -98,13 +101,13 @@ class IPauseTableRow(model.Schema):
         vocabulary=SimpleVocabulary(
             [
                 SimpleTerm(value=None, token=None, title=_("Select a day")),
-                SimpleTerm(value=0, token=0, title=_("Monday")),
-                SimpleTerm(value=1, token=1, title=_("Tuesday")),
-                SimpleTerm(value=2, token=2, title=_("Wednesday")),
-                SimpleTerm(value=3, token=3, title=_("Thursday")),
-                SimpleTerm(value=4, token=4, title=_("Friday")),
-                SimpleTerm(value=5, token=5, title=_("Saturday")),
-                SimpleTerm(value=6, token=6, title=_("Sunday")),
+                SimpleTerm(value="0", token="0", title=_("Monday")),
+                SimpleTerm(value="1", token="1", title=_("Tuesday")),
+                SimpleTerm(value="2", token="2", title=_("Wednesday")),
+                SimpleTerm(value="3", token="3", title=_("Thursday")),
+                SimpleTerm(value="4", token="4", title=_("Friday")),
+                SimpleTerm(value="5", token="5", title=_("Saturday")),
+                SimpleTerm(value="6", token="6", title=_("Sunday")),
             ]
         ),
     )
