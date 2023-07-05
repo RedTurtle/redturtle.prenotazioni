@@ -224,7 +224,7 @@ msgstr "Inserire il numero di telefono per contattare l'ufficio"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:295
 msgid "Insert pause table schema."
-msgstr "Inserisci le pause giornaliere. Esistono tre tipi di vincolo: una data di termine pausa deve essere maggiore maggiore della data di inizio pausa; le pause nello stesso giorno non possono sovrapporsi; le pause devono essere comprese fra l'inizio e la fine dell'orario di lavoro."
+msgstr "Inserisci le pause giornaliere. Esistono tre tipi di vincolo: una data di termine pausa deve essere maggiore della data di inizio pausa; le pause nello stesso giorno non possono sovrapporsi; le pause devono essere comprese fra l'inizio e la fine dell'orario di lavoro."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:224
 msgid "Insert week table schema."
