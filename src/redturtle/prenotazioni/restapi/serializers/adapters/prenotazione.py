@@ -22,6 +22,10 @@ class PrenotazioneSerializer:
     def __call__(self, *args, **kwargs):
         booking_folder = self.prenotazione.getPrenotazioniFolder()
         useful_docs = getattr(booking_folder, "cosa_serve", "")
+        if self.prenotazione.fiscalcode:
+            fiscalcode = self.prenotazione.fiscalcode.upper()
+        else:
+            fiscalcode = None
         return {
             "UID": self.prenotazione.UID(),
             "@type": self.prenotazione.portal_type,
@@ -31,7 +35,7 @@ class PrenotazioneSerializer:
             "id": self.prenotazione.id,
             "phone": self.prenotazione.phone,
             "email": self.prenotazione.email,
-            "fiscalcode": self.prenotazione.fiscalcode,
+            "fiscalcode": fiscalcode,
             "company": self.prenotazione.company,
             "staff_notes": self.prenotazione.staff_notes,
             "booking_date": datetimelike_to_iso(self.prenotazione.booking_date),
