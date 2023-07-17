@@ -388,7 +388,15 @@ class IPrenotazioniFolder(model.Schema):
         value_type=schema.TextLine(),
         default=[],
     )
-
+    auto_confirm = schema.Bool(
+        title=_("auto_confirm", default=u"Automatically confirm."),
+        description=_(
+            "auto_confirm_help",
+            default=u"All bookings will be automatically accepted.",
+        ),
+        default=False,
+        required=False,
+    )
     # XXX validate email
     email_responsabile = schema.List(
         title=_("Responsible email"),
@@ -462,6 +470,43 @@ class IPrenotazioniFolder(model.Schema):
         required=False,
     )
 
+    notify_on_creation = schema.Bool(
+        title=_("notify_on_creation", default=u"Notify when created."),
+        description=_(
+            "notify_on_creation_help",
+            default=u"Notify via mail the user when his booking has been created. If auto-confirm flag is selected and confirm notify is selected, this one will be ignored.",
+        ),
+        default=True,
+        required=False,
+    )
+    notify_on_confirm = schema.Bool(
+        title=_("notify_on_confirm", default=u"Notify when confirmed."),
+        description=_(
+            "notify_on_confirm_help",
+            default=u"Notify via mail the user when his booking has been confirmed.",
+        ),
+        default=True,
+        required=False,
+    )
+    notify_on_move = schema.Bool(
+        title=_("notify_on_move", default=u"Notify when moved."),
+        description=_(
+            "notify_on_move_help",
+            default=u"Notify via mail the user when his booking has been moved.",
+        ),
+        default=True,
+        required=False,
+    )
+    notify_on_reject = schema.Bool(
+        title=_("notify_on_reject", default=u"Notify when rejected."),
+        description=_(
+            "notify_on_reject_help",
+            default=u"Notify via mail the user when his booking has been rejected.",
+        ),
+        default=True,
+        required=False,
+    )
+
     model.fieldset(
         "dates",
         label=_("Date validità"),
@@ -501,7 +546,16 @@ class IPrenotazioniFolder(model.Schema):
         ),
         fields=["how_to_get_here", "phone", "fax", "pec", "complete_address"],
     )
-
+    model.fieldset(
+        "Notifications",
+        label=_("notifications_label", default="Notifications"),
+        fields=[
+            "notify_on_creation",
+            "notify_on_confirm",
+            "notify_on_move",
+            "notify_on_reject",
+        ],
+    )
     model.fieldset(
         "Reminders",
         label=_("reminders_label", default="Reminders"),
