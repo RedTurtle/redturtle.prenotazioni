@@ -2,7 +2,9 @@
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from collective.contentrules.mailfromfield import logger
-from collective.contentrules.mailfromfield.actions.mail import IMailFromFieldAction
+from collective.contentrules.mailfromfield.actions.mail import (
+    IMailFromFieldAction,
+)
 from collective.contentrules.mailfromfield.actions.mail import (
     MailActionExecutor as BaseExecutor,
 )
@@ -72,7 +74,10 @@ class MailActionExecutor(BaseExecutor):
         booking = self.event.object
         action = getattr(self.event, "action", "")
         if (
-            not (action == "confirm" or IMovedPrenotazione.providedBy(self.event))
+            not (
+                action == "confirm"
+                or IMovedPrenotazione.providedBy(self.event)
+            )
             or booking.portal_type != "Prenotazione"
         ):
             return

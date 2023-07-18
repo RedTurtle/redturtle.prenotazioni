@@ -2,7 +2,9 @@
 from DateTime import DateTime
 from plone import api
 from plone.restapi.services import Service
-from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
+from redturtle.prenotazioni.interfaces import (
+    ISerializeToPrenotazioneSearchableItem,
+)
 from zExceptions import Unauthorized
 from zope.component import getMultiAdapter
 from zope.interface import implementer
@@ -26,7 +28,9 @@ class BookingsSearch(Service):
 
         if api.user.is_anonymous():
             raise Unauthorized("You must be logged in to perform this action")
-        elif api.user.has_permission("redturtle.prenotazioni: search prenotazioni"):
+        elif api.user.has_permission(
+            "redturtle.prenotazioni: search prenotazioni"
+        ):
             userid = self.request.get("userid", None)
         else:
             userid = api.user.get_current().getUserId()

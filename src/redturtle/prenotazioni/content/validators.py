@@ -28,7 +28,9 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
                 return value
         return None
 
-    number_of_entry = request.form.get("form.widgets.{}.count".format(fieldname))
+    number_of_entry = request.form.get(
+        "form.widgets.{}.count".format(fieldname)
+    )
     data = []
     prefix = "form.widgets.{}".format(fieldname)
     for counter in range(int(number_of_entry)):
@@ -88,7 +90,8 @@ class PauseValidator(validator.SimpleFieldValidator):
                 ):
                     raise Invalid(
                         translate(
-                            _("You must set both start and end"), context=getRequest()
+                            _("You must set both start and end"),
+                            context=getRequest(),
                         )
                     )
 

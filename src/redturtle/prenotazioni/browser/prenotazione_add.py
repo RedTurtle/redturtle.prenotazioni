@@ -10,8 +10,12 @@ from plone.z3cform.layout import wrap_form
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.browser.week import TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE
-from redturtle.prenotazioni.browser.z3c_custom_widget import CustomRadioFieldWidget
+from redturtle.prenotazioni.browser.week import (
+    TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE,
+)
+from redturtle.prenotazioni.browser.z3c_custom_widget import (
+    CustomRadioFieldWidget,
+)
 from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.utilities.urls import urlify
@@ -46,7 +50,9 @@ class IAddForm(IPrenotazione):
         title=_("label_booking_title", "Fullname"), default="", required=True
     )
     description = Text(
-        title=_("label_booking_description", "Subject"), default="", required=False
+        title=_("label_booking_description", "Subject"),
+        default="",
+        required=False,
     )
 
 
@@ -67,7 +73,11 @@ class AddForm(form.AddForm):
         fields["booking_type"].widgetFactory = CustomRadioFieldWidget
 
         # omit some fields
-        fields = fields.omit("gate").omit("booking_expiration_date").omit("staff_notes")
+        fields = (
+            fields.omit("gate")
+            .omit("booking_expiration_date")
+            .omit("staff_notes")
+        )
 
         # move title on top (after the type)
         ids = [x for x in fields.keys()]
@@ -89,7 +99,9 @@ class AddForm(form.AddForm):
             "redturtle.prenotazioni.requirable_booking_fields",
         )
         required_fields_vocabulary = required_fields_factory(self.context)
-        possibly_required_fields = [x.token for x in required_fields_vocabulary._terms]
+        possibly_required_fields = [
+            x.token for x in required_fields_vocabulary._terms
+        ]
 
         for f in self.widgets.values():
             # If you have a field required by schema, when you fill the field
@@ -132,7 +144,9 @@ class AddForm(form.AddForm):
     @memoize
     def localized_time(self):
         """Facade for context/@@plone/toLocalizedTime"""
-        return api.content.get_view("plone", self.context, self.request).toLocalizedTime
+        return api.content.get_view(
+            "plone", self.context, self.request
+        ).toLocalizedTime
 
     @property
     @memoize
@@ -169,7 +183,9 @@ class AddForm(form.AddForm):
         """
         booking_date = self.request.form.get("form.booking_date", None)
         if not booking_date:
-            booking_date = self.request.form.get("form.widgets.booking_date", None)
+            booking_date = self.request.form.get(
+                "form.widgets.booking_date", None
+            )
 
         if not booking_date:
             return None
@@ -272,7 +288,9 @@ class AddForm(form.AddForm):
         obj = self.do_book(data)
         if not obj:
             msg = _("Sorry, this slot is not available anymore.")
-            api.portal.show_message(message=msg, type="warning", request=self.request)
+            api.portal.show_message(
+                message=msg, type="warning", request=self.request
+            )
             target = self.back_to_booking_url
             return self.request.response.redirect(target)
         msg = _("booking_created")
@@ -297,7 +315,9 @@ class AddForm(form.AddForm):
 
         return self.request.response.redirect(target)
 
-    @button.buttonAndHandler(_("action_cancel", default="Cancel"), name="cancel")
+    @button.buttonAndHandler(
+        _("action_cancel", default="Cancel"), name="cancel"
+    )
     def action_cancel(self, action):
         """
         Cancel
@@ -338,7 +358,9 @@ class AddForm(form.AddForm):
 
     def get_mail_from_address(self):
         registry = getUtility(IRegistry)
-        mail_settings = registry.forInterface(IMailSchema, prefix="plone", check=False)
+        mail_settings = registry.forInterface(
+            IMailSchema, prefix="plone", check=False
+        )
         from_address = mail_settings.email_from_address
         from_name = mail_settings.email_from_name
 

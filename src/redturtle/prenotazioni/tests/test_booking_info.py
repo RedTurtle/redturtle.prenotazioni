@@ -8,7 +8,9 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+)
 
 import calendar
 import transaction
@@ -94,9 +96,13 @@ class TestBookingInfo(unittest.TestCase):
         )
 
         year = api.content.create(
-            container=self.folder_prenotazioni, type="PrenotazioniYear", title="Year"
+            container=self.folder_prenotazioni,
+            type="PrenotazioniYear",
+            title="Year",
         )
-        week = api.content.create(container=year, type="PrenotazioniWeek", title="Week")
+        week = api.content.create(
+            container=year, type="PrenotazioniWeek", title="Week"
+        )
         self.day_folder = api.content.create(
             container=week, type="PrenotazioniDay", title="Day"
         )
@@ -131,7 +137,9 @@ class TestBookingInfo(unittest.TestCase):
         booker = IBooker(self.folder_prenotazioni)
         booking = booker.create(
             {
-                "booking_date": datetime(current_year, current_month, monday, 7, 0),
+                "booking_date": datetime(
+                    current_year, current_month, monday, 7, 0
+                ),
                 "booking_type": "Type A",
                 "title": "foo",
             }
@@ -175,7 +183,9 @@ class TestBookingInfo(unittest.TestCase):
         booker = IBooker(self.folder_prenotazioni)
         booker.create(
             {
-                "booking_date": datetime(current_year, current_month, monday, 7, 0),
+                "booking_date": datetime(
+                    current_year, current_month, monday, 7, 0
+                ),
                 "booking_type": "Type A",
                 "title": "foo",
             }

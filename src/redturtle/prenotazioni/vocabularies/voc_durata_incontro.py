@@ -30,7 +30,9 @@ class VocDurataIncontro(object):
         terms = []
         for item in items:
             terms.append(
-                SimpleTerm(value=item.token, token=str(item.token), title=item.value)
+                SimpleTerm(
+                    value=item.token, token=str(item.token), title=item.value
+                )
             )
         return SimpleVocabulary(terms)
 

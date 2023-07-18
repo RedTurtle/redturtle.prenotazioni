@@ -12,8 +12,12 @@ from plone.app.testing import TEST_USER_ID
 from plone.autoform.interfaces import MODES_KEY
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+)
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING,
+)
 import transaction
 from zope.interface import Interface
 
@@ -53,10 +57,13 @@ class TestPrenotazioniRestAPIInfo(unittest.TestCase):
     def test_prenotazione_restapi_endpoint(self):
         result = self.api_session.get(self.portal_url + "/@types/Prenotazione")
         content_type_properties = result.json()["properties"]
-        self.assertEqual(content_type_properties["booking_date"]["mode"], "display")
+        self.assertEqual(
+            content_type_properties["booking_date"]["mode"], "display"
+        )
         self.assertEqual(content_type_properties["gate"]["mode"], "display")
         self.assertEqual(
-            content_type_properties["booking_expiration_date"]["mode"], "display"
+            content_type_properties["booking_expiration_date"]["mode"],
+            "display",
         )
 
 
@@ -84,7 +91,9 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
             row["morning_start"] = "0700"
             row["morning_end"] = "1000"
         self.folder_prenotazioni.week_table = week_table
-        api.content.transition(obj=self.folder_prenotazioni, transition="publish")
+        api.content.transition(
+            obj=self.folder_prenotazioni, transition="publish"
+        )
         transaction.commit()
 
         self.api_session = RelativeSession(self.portal_url)
@@ -111,7 +120,9 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
         )
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["booking_date"], booking_date)
-        self.assertEqual(res.json()["booking_expiration_date"], booking_expiration_date)
+        self.assertEqual(
+            res.json()["booking_expiration_date"], booking_expiration_date
+        )
         self.assertEqual(res.json()["booking_type"], "Type A")
         self.assertEqual(res.json()["gate"], "Gate A")
         self.assertEqual(res.json()["title"], "Mario Rossi")

@@ -124,13 +124,19 @@ class BaseSlot(Interval):
 
     def __len__(self):
         """The length of this object"""
-        if self._upper_value is None or self.lower_value is None or self.empty():
+        if (
+            self._upper_value is None
+            or self.lower_value is None
+            or self.empty()
+        ):
             return 0
         return self._upper_value - self.lower_value
 
     def __nonzero__(self):
         """Check if this should be True"""
-        if isinstance(self._lower_value, int) and isinstance(self._upper_value, int):
+        if isinstance(self._lower_value, int) and isinstance(
+            self._upper_value, int
+        ):
             return 1
         else:
             return 0
@@ -248,7 +254,9 @@ class BaseSlot(Interval):
 class Slot(BaseSlot):
     def __eq__(self, other):
         """We need to compare also the context before comparing the boundaries"""
-        return self.context == other.context and super(Slot, self).__eq__(other)
+        return self.context == other.context and super(Slot, self).__eq__(
+            other
+        )
 
     def __init__(self, context):
         """

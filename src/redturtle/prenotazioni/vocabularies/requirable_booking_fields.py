@@ -20,7 +20,8 @@ class RequirableBookingFieldsVocabulary(object):
                     field,
                     field,
                     translate(
-                        _("label_booking_{}".format(field)), context=context.REQUEST
+                        _("label_booking_{}".format(field)),
+                        context=context.REQUEST,
                     ),
                 )
                 for field in REQUIRABLE_AND_VISIBLE_FIELDS

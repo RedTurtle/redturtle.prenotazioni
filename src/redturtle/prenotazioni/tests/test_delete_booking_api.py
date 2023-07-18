@@ -11,7 +11,9 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+)
 
 import transaction
 import unittest
@@ -79,7 +81,9 @@ class TestDeleteBookingApi(unittest.TestCase):
         self.booker = IBooker(self.folder_prenotazioni)
         self.today = datetime.now().replace(hour=8)
 
-        api.content.transition(obj=self.folder_prenotazioni, transition="publish")
+        api.content.transition(
+            obj=self.folder_prenotazioni, transition="publish"
+        )
         transaction.commit()
 
     def tearDown(self):
@@ -95,7 +99,9 @@ class TestDeleteBookingApi(unittest.TestCase):
         if not uid:
             response = session.delete("{}/@booking".format(self.portal_url))
         else:
-            response = session.delete("{}/@booking/{}".format(self.portal_url, uid))
+            response = session.delete(
+                "{}/@booking/{}".format(self.portal_url, uid)
+            )
         transaction.commit()
         return response
 
@@ -157,14 +163,16 @@ class TestDeleteBookingApi(unittest.TestCase):
         transaction.commit()
 
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         response = self.get_response(session=self.api_session_anon, uid=uid)
 
         self.assertEqual(response.status_code, 204)
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 0
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            0,
         )
 
     def test_user_can_delete_his_booking(self):
@@ -180,14 +188,16 @@ class TestDeleteBookingApi(unittest.TestCase):
         transaction.commit()
 
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         response = self.get_response(session=self.api_session_user, uid=uid)
 
         self.assertEqual(response.status_code, 204)
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 0
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            0,
         )
 
     def test_user_cant_delete_other_user_booking(self):
@@ -203,14 +213,16 @@ class TestDeleteBookingApi(unittest.TestCase):
         transaction.commit()
 
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         response = self.get_response(session=self.api_session_user2, uid=uid)
 
         self.assertEqual(response.status_code, 401)
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
     def test_user_can_delete_anon_booking(self):
@@ -226,14 +238,16 @@ class TestDeleteBookingApi(unittest.TestCase):
         transaction.commit()
 
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         response = self.get_response(session=self.api_session_user, uid=uid)
 
         self.assertEqual(response.status_code, 401)
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
     def test_cant_delete_past_booking(self):
@@ -248,7 +262,8 @@ class TestDeleteBookingApi(unittest.TestCase):
         transaction.commit()
 
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         response = self.get_response(session=self.api_session_admin, uid=uid)
@@ -258,7 +273,8 @@ class TestDeleteBookingApi(unittest.TestCase):
             response.json()["message"],
         )
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
     def test_cant_delete_today_booking(self):
@@ -273,7 +289,8 @@ class TestDeleteBookingApi(unittest.TestCase):
         transaction.commit()
 
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         response = self.get_response(session=self.api_session_admin, uid=uid)
@@ -283,5 +300,6 @@ class TestDeleteBookingApi(unittest.TestCase):
             response.json()["message"],
         )
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )

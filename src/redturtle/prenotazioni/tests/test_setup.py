@@ -3,7 +3,9 @@
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING,
+)
 
 import unittest
 
@@ -35,16 +37,22 @@ class TestSetup(unittest.TestCase):
                 self.installer.is_product_installed("redturtle.prenotazioni")
             )
         else:
-            self.assertTrue(self.installer.isProductInstalled("redturtle.prenotazioni"))
+            self.assertTrue(
+                self.installer.isProductInstalled("redturtle.prenotazioni")
+            )
 
     def test_browserlayer(self):
         """Test that IRedturtlePrenotazioniLayer is registered."""
         from plone.browserlayer import utils
-        from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
+        from redturtle.prenotazioni.interfaces import (
+            IRedturtlePrenotazioniLayer,
+        )
 
         self.assertIn(IRedturtlePrenotazioniLayer, utils.registered_layers())
 
-    def test_dexteritytextindexer_behavior_enabled_only_in_plone_less_than_6(self):
+    def test_dexteritytextindexer_behavior_enabled_only_in_plone_less_than_6(
+        self,
+    ):
         plone_version = api.env.plone_version()
         portal_types = api.portal.get_tool(name="portal_types")
         behaviors = portal_types["PrenotazioniFolder"].behaviors
@@ -87,6 +95,10 @@ class TestUninstall(unittest.TestCase):
     def test_browserlayer_removed(self):
         """Test that IRedturtlePrenotazioniLayer is removed."""
         from plone.browserlayer import utils
-        from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
+        from redturtle.prenotazioni.interfaces import (
+            IRedturtlePrenotazioniLayer,
+        )
 
-        self.assertNotIn(IRedturtlePrenotazioniLayer, utils.registered_layers())
+        self.assertNotIn(
+            IRedturtlePrenotazioniLayer, utils.registered_layers()
+        )

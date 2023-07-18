@@ -43,7 +43,9 @@ class BookingSchema(Service):
         """
 
         booking_context_state_view = api.content.get_view(
-            "prenotazioni_context_state", context=self.context, request=self.request
+            "prenotazioni_context_state",
+            context=self.context,
+            request=self.request,
         )
 
         current_user = None
@@ -72,7 +74,9 @@ class BookingSchema(Service):
         except ValueError:
             raise ValueError("Wrong date format")
 
-        bookings = booking_context_state_view.booking_types_bookability(booking_date)
+        bookings = booking_context_state_view.booking_types_bookability(
+            booking_date
+        )
 
         fields_list = []
         fields = ["fullname"]

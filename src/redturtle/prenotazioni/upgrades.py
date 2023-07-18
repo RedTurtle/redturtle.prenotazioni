@@ -3,7 +3,9 @@ from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
+from plone.app.contentrules.conditions.wftransition import (
+    WorkflowTransitionCondition,
+)
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -144,13 +146,19 @@ def to_1400(context):
         )
 
         for portal_type_condition in portal_type_conditions:
-            if "Prenotazione" in getattr(portal_type_condition, "check_types", []):
-                for workflow_transition_condition in workflow_transition_conditions:
+            if "Prenotazione" in getattr(
+                portal_type_condition, "check_types", []
+            ):
+                for (
+                    workflow_transition_condition
+                ) in workflow_transition_conditions:
                     if isinstance(
                         workflow_transition_condition,
                         WorkflowTransitionCondition,
                     ):
-                        wf_states = list(workflow_transition_condition.wf_transitions)
+                        wf_states = list(
+                            workflow_transition_condition.wf_transitions
+                        )
 
                         if "publish" in wf_states:
                             wf_states.remove("publish")
@@ -161,7 +169,9 @@ def to_1400(context):
                             )
 
                 for workflow_state_condition in workflow_state_conditions:
-                    if isinstance(workflow_state_condition, WorkflowStateCondition):
+                    if isinstance(
+                        workflow_state_condition, WorkflowStateCondition
+                    ):
                         wf_states = list(workflow_state_condition.wf_states)
 
                         if "publish" in wf_states:
@@ -197,13 +207,17 @@ def to_1401(context):
 
 def to_1402(context):
     # load new content rules
-    context.runImportStepFromProfile(CONTENT_RULES_EVOLUTION_PROFILE, "contentrules")
+    context.runImportStepFromProfile(
+        CONTENT_RULES_EVOLUTION_PROFILE, "contentrules"
+    )
 
 
 def to_1403(context):
     update_catalog(context)
 
-    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="Prenotazione"
+    ):
         brain.getObject().reindexObject(idxs=["fiscalcode"])
 
 

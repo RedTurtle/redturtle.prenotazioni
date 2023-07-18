@@ -28,7 +28,11 @@ def days_before(obj, days=1, as_date=True):
         ):
             return True
     else:
-        if timedelta() < obj.booking_date - datetime.now() <= timedelta(days=days):
+        if (
+            timedelta()
+            < obj.booking_date - datetime.now()
+            <= timedelta(days=days)
+        ):
             return True
     return False
 
@@ -65,7 +69,8 @@ def notifica_app_io(obj, api_io, msg_type, commit=False, verbose=False):
             how_to_get_here=how_to_get_here,
             # sportello=u" sportello %s" % obj.gate if obj.gate else "",
             sportello=" - %s" % obj.gate if obj.gate else "",
-            booking_code="\n\nIl codice della prenotazione è %s" % obj.getBookingCode()
+            booking_code="\n\nIl codice della prenotazione è %s"
+            % obj.getBookingCode()
             if obj.getBookingCode()
             else "",
         )
@@ -117,7 +122,9 @@ class Storage(object):
         d = self.context.get("%s.%s" % (NOTIFICATIONS_LOGS, key))
         return ObjectView(d) if d else None
 
-    def create_message(self, key, fiscal_code, subject, body, payment_data, due_date):
+    def create_message(
+        self, key, fiscal_code, subject, body, payment_data, due_date
+    ):
         msg = {
             "key": key,
             "fiscal_code": fiscal_code,

@@ -10,4 +10,8 @@ class Viewlet(ViewletBase):
 
     def logs(self):
         annotations = IAnnotations(self.context)
-        return [v for (k, v) in annotations.items() if k.startswith(NOTIFICATIONS_LOGS)]
+        return [
+            v
+            for (k, v) in annotations.items()
+            if k.startswith(NOTIFICATIONS_LOGS)
+        ]

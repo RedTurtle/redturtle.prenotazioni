@@ -35,7 +35,9 @@ class View(BaseView):
     @memoize
     def localized_time(self):
         """Facade for context/@@plone/toLocalizedTime"""
-        return api.content.get_view("plone", self.context, self.request).toLocalizedTime
+        return api.content.get_view(
+            "plone", self.context, self.request
+        ).toLocalizedTime
 
     def DT2time(self, value):
         """
@@ -55,7 +57,9 @@ class View(BaseView):
         """States if the authenticated user can manage this context"""
         if api.user.is_anonymous():
             return False
-        return api.user.has_permission("Modify portal content", obj=self.context)
+        return api.user.has_permission(
+            "Modify portal content", obj=self.context
+        )
 
     @property
     @memoize
@@ -300,7 +304,9 @@ class View(BaseView):
 
     def set_prenotation_type(self):
         prenotation_type = self.get_prenotation_type()
-        cookie_value = self.request.cookies.get(TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE, "")
+        cookie_value = self.request.cookies.get(
+            TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE, ""
+        )
 
         if prenotation_type and not cookie_value:
             # set expiring cookies

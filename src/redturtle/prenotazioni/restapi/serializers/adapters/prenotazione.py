@@ -38,7 +38,9 @@ class PrenotazioneSerializer:
             "fiscalcode": fiscalcode,
             "company": self.prenotazione.company,
             "staff_notes": self.prenotazione.staff_notes,
-            "booking_date": datetimelike_to_iso(self.prenotazione.booking_date),
+            "booking_date": datetimelike_to_iso(
+                self.prenotazione.booking_date
+            ),
             "booking_expiration_date": datetimelike_to_iso(
                 self.prenotazione.booking_expiration_date
             ),
@@ -57,13 +59,17 @@ class PrenotazioneSearchableItemSerializer:
 
     def __call__(self, *args, **kwargs):
         wf_tool = api.portal.get_tool("portal_workflow")
-        status = wf_tool.getStatusOf("prenotazioni_workflow", self.prenotazione)
+        status = wf_tool.getStatusOf(
+            "prenotazioni_workflow", self.prenotazione
+        )
 
         return {
             "booking_id": self.prenotazione.UID(),
             "booking_code": self.prenotazione.getBookingCode(),
             "booking_url": self.prenotazione.absolute_url(),
-            "booking_date": datetimelike_to_iso(self.prenotazione.booking_date),
+            "booking_date": datetimelike_to_iso(
+                self.prenotazione.booking_date
+            ),
             "booking_expiration_date": datetimelike_to_iso(
                 self.prenotazione.booking_expiration_date
             ),

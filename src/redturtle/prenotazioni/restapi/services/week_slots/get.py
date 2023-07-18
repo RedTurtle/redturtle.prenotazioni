@@ -42,16 +42,24 @@ class WeekSlots(Service):
         """
 
         prenotazioni_week_view = api.content.get_view(
-            "prenotazioni_week_view", context=self.context, request=self.request
+            "prenotazioni_week_view",
+            context=self.context,
+            request=self.request,
         )
         prenotazioni_context_state_view = api.content.get_view(
-            "prenotazioni_context_state", context=self.context, request=self.request
+            "prenotazioni_context_state",
+            context=self.context,
+            request=self.request,
         )
         response = {}
 
         for week_day in prenotazioni_week_view.actual_week_days:
-            free_slots = prenotazioni_context_state_view.get_free_slots(week_day)
-            busy_slots = prenotazioni_context_state_view.get_busy_slots(week_day)
+            free_slots = prenotazioni_context_state_view.get_free_slots(
+                week_day
+            )
+            busy_slots = prenotazioni_context_state_view.get_busy_slots(
+                week_day
+            )
             week_day_key = week_day.isoformat()
 
             # build the response

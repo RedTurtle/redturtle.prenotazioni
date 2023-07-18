@@ -6,7 +6,9 @@ class Storage(object):
     def get_message(self, key):
         raise NotImplementedError
 
-    def create_message(self, key, fiscal_code, subject, body, payment_data, due_date):
+    def create_message(
+        self, key, fiscal_code, subject, body, payment_data, due_date
+    ):
         raise NotImplementedError
 
     def update_message(self, key, **kwargs):
@@ -20,7 +22,9 @@ class LogStorage(Storage):
     def get_message(self, key):
         self.logger.info("get_message %s", key)
 
-    def create_message(self, key, fiscal_code, subject, body, payment_data, due_date):
+    def create_message(
+        self, key, fiscal_code, subject, body, payment_data, due_date
+    ):
         self.logger.info(
             "create_message %s %s %s %s %s %s",
             key,

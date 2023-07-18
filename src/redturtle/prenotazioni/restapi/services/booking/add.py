@@ -22,7 +22,9 @@ class AddBooking(Service):
 
     def reply(self):
         data = json_body(self.request)
-        data_fields = {field["name"]: field["value"] for field in data["fields"]}
+        data_fields = {
+            field["name"]: field["value"] for field in data["fields"]
+        }
 
         required = self.context.required_booking_fields or []
 
@@ -41,9 +43,9 @@ class AddBooking(Service):
         if isinstance(data["booking_date"], str):
             # TODO: redturtle.prenotazioni lavora con date naive, quindi toglia la timezone
             #       ma non dovrebbe essere così
-            data["booking_date"] = datetime.fromisoformat(data["booking_date"]).replace(
-                tzinfo=None
-            )
+            data["booking_date"] = datetime.fromisoformat(
+                data["booking_date"]
+            ).replace(tzinfo=None)
 
         for field in required:
             if field in ("booking_date", "booking_type"):
@@ -59,7 +61,9 @@ class AddBooking(Service):
                 return dict(error=dict(type="Bad Request", message=msg))
 
         if data["booking_type"] not in [
-            _t["name"] for _t in self.context.booking_types or [] if "name" in _t
+            _t["name"]
+            for _t in self.context.booking_types or []
+            if "name" in _t
         ]:
             self.request.response.setStatus(400)
             msg = self.context.translate(

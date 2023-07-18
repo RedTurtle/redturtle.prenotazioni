@@ -28,9 +28,9 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.portal_url = self.portal.absolute_url()
         self.testing_fiscal_code = "TESTINGFISCALCODE"
         self.testing_booking_date = parser.parse("2023-04-28 16:00:00")
-        self.booking_expiration_date = parser.parse("2023-04-28 16:00:00") + timedelta(
-            days=100
-        )
+        self.booking_expiration_date = parser.parse(
+            "2023-04-28 16:00:00"
+        ) + timedelta(days=100)
 
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
@@ -106,7 +106,9 @@ class TestPrenotazioniSearch(unittest.TestCase):
             type="PrenotazioniYear",
             title="Year",
         )
-        week = api.content.create(container=year, type="PrenotazioniWeek", title="Week")
+        week = api.content.create(
+            container=year, type="PrenotazioniWeek", title="Week"
+        )
         self.day_folder = api.content.create(
             container=week, type="PrenotazioniDay", title="Day"
         )
@@ -163,7 +165,9 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
     def test_view_permission(self):
         self.assertEqual(
-            self.api_session.get(f"{self.portal.absolute_url()}/@bookings").status_code,
+            self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings"
+            ).status_code,
             200,
         )
 
@@ -172,7 +176,9 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.api_session.auth = (TEST_USER_ID, TEST_USER_PASSWORD)
 
         self.assertEqual(
-            self.api_session.get(f"{self.portal.absolute_url()}/@bookings").status_code,
+            self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings"
+            ).status_code,
             401,
         )
 

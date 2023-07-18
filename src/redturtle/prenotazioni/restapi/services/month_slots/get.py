@@ -17,7 +17,9 @@ class MonthSlots(Service):
         """
 
         prenotazioni_week_view = api.content.get_view(
-            "prenotazioni_week_view", context=self.context, request=self.request
+            "prenotazioni_week_view",
+            context=self.context,
+            request=self.request,
         )
         now = self.request.form.get("date", "")
         if now:
@@ -38,20 +40,23 @@ class MonthSlots(Service):
         start_month = now.month
         start_day = now.day
 
-        response = {"@id": f"{self.context.absolute_url()}/@month_slots", "items": []}
+        response = {
+            "@id": f"{self.context.absolute_url()}/@month_slots",
+            "items": [],
+        }
         for week in calendar.monthcalendar(start_year, start_month):
             for day in week:
                 if day < start_day:
                     continue
                 booking_date = date(start_year, start_month, day)
-                slots = prenotazioni_week_view.prenotazioni.get_anonymous_slots(
-                    booking_date=booking_date
+                slots = (
+                    prenotazioni_week_view.prenotazioni.get_anonymous_slots(
+                        booking_date=booking_date
+                    )
                 )
                 for slot in slots.get("anonymous_gate", []):
-                    info = (
-                        prenotazioni_week_view.prenotazioni.get_anonymous_booking_url(
-                            booking_date, slot, slot_min_size=slot_min_size
-                        )
+                    info = prenotazioni_week_view.prenotazioni.get_anonymous_booking_url(
+                        booking_date, slot, slot_min_size=slot_min_size
                     )
                     if not info.get("url", ""):
                         continue

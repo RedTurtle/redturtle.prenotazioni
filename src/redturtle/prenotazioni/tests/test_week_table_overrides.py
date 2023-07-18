@@ -8,8 +8,12 @@ from plone.app.testing import (
     setRoles,
 )
 from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+)
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
+)
 from plone import api
 
 import unittest
@@ -79,7 +83,9 @@ class TestContextState(unittest.TestCase):
         res = self.view.get_week_table(date(now.year, 1, 10))
         self.assertEqual(
             res,
-            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
+            json.loads(self.folder_prenotazioni.week_table_overrides)[0][
+                "week_table"
+            ],
         )
 
     def test_override_between_year(self):
@@ -105,7 +111,9 @@ class TestContextState(unittest.TestCase):
         now = date.today()
         self.assertEqual(
             self.view.get_week_table(date(now.year, 12, 25)),
-            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
+            json.loads(self.folder_prenotazioni.week_table_overrides)[0][
+                "week_table"
+            ],
         )
 
         self.assertEqual(
@@ -327,7 +335,8 @@ class TestApiValidateDataOnPost(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertIn(
-            "You should set an end time for morning", response.json()["message"]
+            "You should set an end time for morning",
+            response.json()["message"],
         )
 
     def test_if_set_end_you_should_set_a_start(self):
@@ -366,5 +375,6 @@ class TestApiValidateDataOnPost(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertIn(
-            "You should set a start time for morning", response.json()["message"]
+            "You should set a start time for morning",
+            response.json()["message"],
         )

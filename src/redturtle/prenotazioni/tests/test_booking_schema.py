@@ -8,7 +8,9 @@ from plone.app.testing import (
     setRoles,
 )
 from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+)
 from plone.restapi.serializer.converters import json_compatible
 
 import unittest
@@ -95,9 +97,13 @@ class TestBookingSchema(unittest.TestCase):
         )
 
         year = api.content.create(
-            container=self.folder_prenotazioni, type="PrenotazioniYear", title="Year"
+            container=self.folder_prenotazioni,
+            type="PrenotazioniYear",
+            title="Year",
         )
-        week = api.content.create(container=year, type="PrenotazioniWeek", title="Week")
+        week = api.content.create(
+            container=year, type="PrenotazioniWeek", title="Week"
+        )
         self.day_folder = api.content.create(
             container=week, type="PrenotazioniDay", title="Day"
         )
@@ -110,7 +116,9 @@ class TestBookingSchema(unittest.TestCase):
         self,
     ):
         response = self.api_session.get(
-            "{}/@prenotazione-schema".format(self.folder_prenotazioni.absolute_url())
+            "{}/@prenotazione-schema".format(
+                self.folder_prenotazioni.absolute_url()
+            )
         )
 
         expected = "Wrong date format"

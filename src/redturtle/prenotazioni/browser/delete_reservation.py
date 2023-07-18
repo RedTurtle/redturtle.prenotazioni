@@ -67,11 +67,15 @@ class DeleteReservation(BaseView):
         self.uid = form.get("uid", None)
         if not self.uid:
             msg = self.missing_uid_error()
-            api.portal.show_message(message=msg, type="warning", request=self.request)
+            api.portal.show_message(
+                message=msg, type="warning", request=self.request
+            )
             return self.request.response.redirect(self.context.absolute_url())
         if not self.prenotazione:
             msg = self.missing_booking_error()
-            api.portal.show_message(message=msg, type="warning", request=self.request)
+            api.portal.show_message(
+                message=msg, type="warning", request=self.request
+            )
             return self.request.response.redirect(self.context.absolute_url())
         if not self.prenotazione.canDeleteBooking():
             raise Unauthorized
@@ -98,21 +102,30 @@ class ConfirmDelete(BaseView):
                 ),
                 context=self.request,
             )
-            api.portal.show_message(message=msg, type="error", request=self.request)
+            api.portal.show_message(
+                message=msg, type="error", request=self.request
+            )
             return self.request.response.redirect(self.context.absolute_url())
 
         if not self.uid:
             msg = self.missing_uid_error()
-            api.portal.show_message(message=msg, type="warning", request=self.request)
+            api.portal.show_message(
+                message=msg, type="warning", request=self.request
+            )
             return self.request.response.redirect(self.context.absolute_url())
 
         res = self.do_delete()
         if not res:
             msg = translate(
-                _("booking_deleted_success", default="Your booking has been deleted."),
+                _(
+                    "booking_deleted_success",
+                    default="Your booking has been deleted.",
+                ),
                 context=self.request,
             )
-            api.portal.show_message(message=msg, type="info", request=self.request)
+            api.portal.show_message(
+                message=msg, type="info", request=self.request
+            )
         else:
             if res.get("error", ""):
                 api.portal.show_message(

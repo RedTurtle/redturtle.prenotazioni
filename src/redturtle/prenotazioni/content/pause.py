@@ -44,10 +44,14 @@ class Pause(object):
         # we use as base date 1970/01/01
         # we pass these data to a method that convert it to a day agnostic
         # number
-        return datetime.strptime("1970/01/01 {}".format(self.start), "%Y/%m/%d %H:%M")
+        return datetime.strptime(
+            "1970/01/01 {}".format(self.start), "%Y/%m/%d %H:%M"
+        )
 
     def getBooking_expiration_date(self):
         # we use as base date 1970/01/01
         # we pass these data to a method that convert it to a day agnostic
         # number
-        return datetime.strptime("1970/01/01 {}".format(self.stop), "%Y/%m/%d %H:%M")
+        return datetime.strptime(
+            "1970/01/01 {}".format(self.stop), "%Y/%m/%d %H:%M"
+        )

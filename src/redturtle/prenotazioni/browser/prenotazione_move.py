@@ -28,7 +28,9 @@ class IMoveForm(Interface):
     Interface for moving a prenotazione
     """
 
-    booking_date = Datetime(title=_("label_booking_time", "Booking time"), default=None)
+    booking_date = Datetime(
+        title=_("label_booking_time", "Booking time"), default=None
+    )
     gate = TextLine(title=_("label_gate", "Gate"), default="", required=False)
 
 
@@ -155,13 +157,17 @@ class MoveForm(form.Form):
         data["booking_type"] = self.context.getBooking_type()
         conflict_manager = self.prenotazioni_view.conflict_manager
         current_data = self.context.getBooking_date()
-        current = {"booking_date": current_data, "booking_type": data["booking_type"]}
+        current = {
+            "booking_date": current_data,
+            "booking_type": data["booking_type"],
+        }
         current_slot = conflict_manager.get_choosen_slot(current)
         current_gate = getattr(self.context, "gate", "")
         exclude = {current_gate: [current_slot]}
         if conflict_manager.conflicts(data, exclude=exclude):
             msg = _(
-                "Sorry, this slot is not available or does not fit your " "booking."
+                "Sorry, this slot is not available or does not fit your "
+                "booking."
             )
             api.portal.show_message(msg, self.request, type="error")
             raise ActionExecutionError(Invalid(msg))

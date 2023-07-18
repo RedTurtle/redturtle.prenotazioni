@@ -91,7 +91,13 @@ class Api(object):
         return False
 
     def send_message(
-        self, fiscal_code, subject, body, payment_data=None, due_date=None, key=None
+        self,
+        fiscal_code,
+        subject,
+        body,
+        payment_data=None,
+        due_date=None,
+        key=None,
     ):
         """[summary]
 
@@ -123,7 +129,9 @@ class Api(object):
             return None
         if key is None:
             if payment_data:
-                key = "#".join([fiscal_code, subject, payment_data["notice_number"]])
+                key = "#".join(
+                    [fiscal_code, subject, payment_data["notice_number"]]
+                )
             else:
                 key = payment_data or "#".join([fiscal_code, subject])
         # 1. verifica che lo stesso messaggio non sia già stato mandato
@@ -141,12 +149,15 @@ class Api(object):
         # 2. verifica se il destinatario è abilitato o meno a ricevere il messaggio
         try:
             profile = (
-                self.api.profiles.getProfile(fiscal_code=fiscal_code).response().result
+                self.api.profiles.getProfile(fiscal_code=fiscal_code)
+                .response()
+                .result
             )
         except HTTPForbidden:
             self.storage.update_message(key, status=PROFILE_NOT_FOUND)
             logger.error(
-                "profile for user %s not found (access forbidden to api)", fiscal_code
+                "profile for user %s not found (access forbidden to api)",
+                fiscal_code,
             )
             return None
         except Exception:
@@ -189,7 +200,10 @@ class Api(object):
                 msgid = data["id"]
                 self.storage.update_message(key, msgid=msgid, status=QUEUED)
                 logger.info(
-                    "message %s queued for %s (msgid %s)", subject, fiscal_code, msgid
+                    "message %s queued for %s (msgid %s)",
+                    subject,
+                    fiscal_code,
+                    msgid,
                 )
                 return msgid
             else:

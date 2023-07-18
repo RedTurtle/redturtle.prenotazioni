@@ -46,7 +46,9 @@ class PrenotazioneView(BrowserView):
     @memoize
     def move_url(self):
         """move this booking visiting this url"""
-        can_move = api.user.has_permission("Modify portal content", obj=self.context)
+        can_move = api.user.has_permission(
+            "Modify portal content", obj=self.context
+        )
         if not can_move:
             return ""
         booking_date = self.booking_date
@@ -64,7 +66,9 @@ class PrenotazioneView(BrowserView):
 
     @property
     def reject_url(self):
-        can_review = api.user.has_permission("Review portal content", obj=self.context)
+        can_review = api.user.has_permission(
+            "Review portal content", obj=self.context
+        )
         if not can_review:
             return ""
         return "{context_url}/content_status_modify?workflow_action=refuse&_authenticator={token}".format(  # noqa
@@ -84,7 +88,9 @@ class ResetDuration(PrenotazioneView):
         booking_type = self.context.getBooking_type()
         duration = self.request.form.get("duration", 0)
         if not duration:
-            duration = self.prenotazioni.get_booking_type_duration(booking_type)
+            duration = self.prenotazioni.get_booking_type_duration(
+                booking_type
+            )
         duration = float(duration) / MIN_IN_DAY
         self.context.setBooking_expiration_date(self.booking_date + duration)
 

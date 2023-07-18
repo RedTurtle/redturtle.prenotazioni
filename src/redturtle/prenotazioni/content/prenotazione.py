@@ -213,7 +213,8 @@ class Prenotazione(Item):
             if IPrenotazioniFolder.providedBy(parent):
                 return parent
         raise Exception(
-            "Could not find Prenotazioni Folder " "in acquisition chain of %r" % self
+            "Could not find Prenotazioni Folder "
+            "in acquisition chain of %r" % self
         )
 
     def getDuration(self):
@@ -249,7 +250,9 @@ class Prenotazione(Item):
         else:
             current_user = api.user.get_current()
             if (
-                not api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni")
+                not api.user.has_permission(
+                    "redturtle.prenotazioni.ManagePrenotazioni"
+                )
                 and creator != current_user.getUserName()
             ):
                 return False
@@ -260,14 +263,18 @@ class Prenotazione(Item):
         if not creator:
             if api.user.is_anonymous():
                 return True
-            if api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni"):
+            if api.user.has_permission(
+                "redturtle.prenotazioni.ManagePrenotazioni"
+            ):
                 return True
         else:
             if api.user.is_anonymous():
                 return False
             current_user = api.user.get_current()
             if (
-                api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni")
+                api.user.has_permission(
+                    "redturtle.prenotazioni.ManagePrenotazioni"
+                )
                 or creator == current_user.getUserName()
             ):
                 return True

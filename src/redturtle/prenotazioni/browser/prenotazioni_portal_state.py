@@ -42,7 +42,9 @@ class PrenotazioniPortalState(BrowserView):
         terms = []
         for state in states:
             key = state.getId()
-            title = translate(__(safe_unicode(state.title)), context=self.request)
+            title = translate(
+                __(safe_unicode(state.title)), context=self.request
+            )
             terms.append(SimpleTerm(key, title=title))
         terms.sort(key=lambda x: x.title)
         return SimpleVocabulary(terms)

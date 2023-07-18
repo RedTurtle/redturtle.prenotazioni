@@ -1,5 +1,7 @@
 # -*- coding: UTF-8 -*-
-from collective.contentrules.mailfromfield.actions.mail import MailFromFieldAction
+from collective.contentrules.mailfromfield.actions.mail import (
+    MailFromFieldAction,
+)
 from datetime import date, datetime
 from datetime import timedelta
 from plone import api
@@ -9,7 +11,9 @@ from plone.contentrules.rule.interfaces import IExecutable
 from Products.CMFCore.WorkflowCore import ActionSucceededEvent
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
+)
 from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
@@ -158,7 +162,9 @@ class TestSendIcal(unittest.TestCase):
             )
         else:
             self.assertIn(
-                "DTSTART:{}".format(booking.booking_date.strftime("%Y%m%dT%H%M%S")),
+                "DTSTART:{}".format(
+                    booking.booking_date.strftime("%Y%m%dT%H%M%S")
+                ),
                 data,
             )
             self.assertIn(
@@ -230,7 +236,9 @@ class TestSendIcal(unittest.TestCase):
 
         # move date one day after
         booking.booking_date = booking.booking_date + timedelta(1)
-        booking.booking_expiration_date = booking.booking_expiration_date + timedelta(1)
+        booking.booking_expiration_date = (
+            booking.booking_expiration_date + timedelta(1)
+        )
 
         e = MailFromFieldAction()
         e.source = "foo@bar.be"
@@ -275,7 +283,9 @@ class TestSendIcal(unittest.TestCase):
             )
         else:
             self.assertIn(
-                "DTSTART:{}".format(booking.booking_date.strftime("%Y%m%dT%H%M%S")),
+                "DTSTART:{}".format(
+                    booking.booking_date.strftime("%Y%m%dT%H%M%S")
+                ),
                 data,
             )
             self.assertIn(

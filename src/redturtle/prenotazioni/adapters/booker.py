@@ -29,7 +29,9 @@ class Booker(object):
     @memoize
     def prenotazioni(self):
         """The prenotazioni context state view"""
-        return self.context.unrestrictedTraverse("@@prenotazioni_context_state")  # noqa
+        return self.context.unrestrictedTraverse(
+            "@@prenotazioni_context_state"
+        )  # noqa
 
     def get_available_gate(self, booking_date, booking_expiration_date=None):
         """
@@ -67,14 +69,18 @@ class Booker(object):
         booking_type = params.get("booking_type", "")
         if duration < 0:
             # if we pass a negative duration it will be recalculated
-            duration = self.prenotazioni.get_booking_type_duration(booking_type)
+            duration = self.prenotazioni.get_booking_type_duration(
+                booking_type
+            )
             # duration = (float(duration) / MIN_IN_DAY)
             booking_expiration_date = params["booking_date"] + timedelta(
                 minutes=duration
             )
         else:
             # in this case we need to deal with seconds converted in days
-            booking_expiration_date = params["booking_date"] + timedelta(days=duration)
+            booking_expiration_date = params["booking_date"] + timedelta(
+                days=duration
+            )
 
         gate = ""
         if not force_gate:
@@ -109,8 +115,12 @@ class Booker(object):
                     user.getProperty("fiscalcode", "") or user.getId() or ""
                 ).upper()  # noqa
             elif user.hasProperty("fiscalcode") and fiscalcode:
-                if (user.getProperty("fiscalcode") or "").upper() == fiscalcode:
-                    logger.info("Booking verified: {}".format(obj.absolute_url()))
+                if (
+                    user.getProperty("fiscalcode") or ""
+                ).upper() == fiscalcode:
+                    logger.info(
+                        "Booking verified: {}".format(obj.absolute_url())
+                    )
                     annotations[VERIFIED_BOOKING] = True
 
         obj.reindexObject()

@@ -67,7 +67,9 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
         keys = sorted(self.booking_types_bookability["unbookable"])
         keys = [key for key in keys]
         return [
-            self.vocabulary.getTerm(key) for key in keys if key in self.context.terms
+            self.vocabulary.getTerm(key)
+            for key in keys
+            if key in self.context.terms
         ]
 
 
@@ -107,7 +109,9 @@ class CustomRadioWidget(RadioWidget):
         """Get booking_type bookability"""
         keys = sorted(self.booking_types_bookability["bookable"])
         keys = [safe_unicode(key) for key in keys]
-        return [self.vocabulary.getTerm(key) for key in keys if key in self.terms]
+        return [
+            self.vocabulary.getTerm(key) for key in keys if key in self.terms
+        ]
 
     @property
     @memoize
@@ -116,7 +120,9 @@ class CustomRadioWidget(RadioWidget):
         keys = sorted(self.booking_types_bookability["unbookable"])
         keys = [safe_unicode(key) for key in keys]
         return [
-            self.vocabulary.getTerm(key) for key in keys if key in self.context.terms
+            self.vocabulary.getTerm(key)
+            for key in keys
+            if key in self.context.terms
         ]
 
     @property
@@ -130,7 +136,9 @@ class CustomRadioWidget(RadioWidget):
             checked = self.isChecked(term)
             id = "%s-%i" % (self.id, count)
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
-                label = translate(term.title, context=self.request, default=term.title)
+                label = translate(
+                    term.title, context=self.request, default=term.title
+                )
             else:
                 label = util.toUnicode(term.value)
             results.append(

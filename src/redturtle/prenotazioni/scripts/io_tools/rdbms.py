@@ -70,14 +70,18 @@ class Storage(Base):
 
     @staticmethod
     @orm.db_session
-    def create_message(key, fiscal_code, subject, body, payment_data, due_date):
+    def create_message(
+        key, fiscal_code, subject, body, payment_data, due_date
+    ):
         msg = Message_io(
             key=key,
             fiscal_code=fiscal_code,
             subject=subject,
             body=body,
             amount=payment_data["amount"] if payment_data else None,
-            notice_number=payment_data["notice_number"] if payment_data else None,
+            notice_number=payment_data["notice_number"]
+            if payment_data
+            else None,
             invalid_after_due_date=payment_data["invalid_after_due_date"]
             if payment_data
             else None,

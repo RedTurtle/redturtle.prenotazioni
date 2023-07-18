@@ -101,7 +101,9 @@ class PrenotazioniContextState(BrowserView):
         """States if the authenticated user can manage this context"""
         if self.is_anonymous:
             return False
-        return api.user.has_permission("Modify portal content", obj=self.context)
+        return api.user.has_permission(
+            "Modify portal content", obj=self.context
+        )
 
     @property
     @memoize
@@ -288,7 +290,8 @@ class PrenotazioniContextState(BrowserView):
                 and key.startswith("form.")
                 and not key.startswith("form.action")
                 and key not in ("form.booking_date",)
-                or key in ("disable_plone.leftcolumn", "disable_plone.rightcolumn")
+                or key
+                in ("disable_plone.leftcolumn", "disable_plone.rightcolumn")
             )
         )
         for key, value in six.iteritems(params):
@@ -324,7 +327,9 @@ class PrenotazioniContextState(BrowserView):
             params["form.booking_date"] = form_booking_date
             if gate:
                 params["gate"] = gate
-            booking_date = DateTime(params["form.booking_date"]).asdatetime()  # noqa
+            booking_date = DateTime(
+                params["form.booking_date"]
+            ).asdatetime()  # noqa
             urls.append(
                 {
                     "title": t,
@@ -532,7 +537,9 @@ class PrenotazioniContextState(BrowserView):
         for key, value in six.iteritems(boundaries):
             boundaries[key] = hm2seconds(value)
         return {
-            "morning": BaseSlot(boundaries["morning_start"], boundaries["morning_end"]),
+            "morning": BaseSlot(
+                boundaries["morning_start"], boundaries["morning_end"]
+            ),
             "afternoon": BaseSlot(
                 boundaries["afternoon_start"], boundaries["afternoon_end"]
             ),
@@ -613,7 +620,9 @@ class PrenotazioniContextState(BrowserView):
         """
         weekday = booking_date.weekday()
         pause_table = self.context.pause_table or []
-        today_pauses = [row for row in pause_table if row["day"] == str(weekday)]
+        today_pauses = [
+            row for row in pause_table if row["day"] == str(weekday)
+        ]
         pauses = []
         if today_pauses:
             for pause in today_pauses:
@@ -641,7 +650,9 @@ class PrenotazioniContextState(BrowserView):
     def get_busy_slots_in_stormynight(self, booking_date):
         """This will show the slots that will not show elsewhere"""
         morning_slots = self.get_busy_slots_in_period(booking_date, "morning")
-        afternoon_slots = self.get_busy_slots_in_period(booking_date, "afternoon")
+        afternoon_slots = self.get_busy_slots_in_period(
+            booking_date, "afternoon"
+        )
         all_slots = self.get_existing_slots_in_day_folder(booking_date)
         return sorted(
             [
@@ -724,7 +735,10 @@ class PrenotazioniContextState(BrowserView):
         for gate in gates:
             # unavailable gates doesn't have free slots
             # XXX Riprendi da qui:
-            if self.get_unavailable_gates() and gate in self.get_unavailable_gates():
+            if (
+                self.get_unavailable_gates()
+                and gate in self.get_unavailable_gates()
+            ):
                 availability[gate] = []
             else:
                 availability.setdefault(gate, [])
@@ -748,7 +762,8 @@ class PrenotazioniContextState(BrowserView):
         busy = self.get_busy_slots(booking_date, period)
         keys = set(list(free.keys()) + list(busy.keys()))
         return dict(
-            (key, sorted(free.get(key, []) + busy.get(key, []))) for key in keys
+            (key, sorted(free.get(key, []) + busy.get(key, [])))
+            for key in keys
         )
 
     def get_anonymous_slots(self, booking_date, period="day"):
@@ -858,7 +873,8 @@ class PrenotazioniContextState(BrowserView):
         for slots in six.itervalues(availability):
             for slot in slots:
                 if len(slot) >= duration and (
-                    booking_date > self.first_bookable_date or slot.start() >= hm_now
+                    booking_date > self.first_bookable_date
+                    or slot.start() >= hm_now
                 ):
                     good_slots.append(slot)
         if not good_slots:

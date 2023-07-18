@@ -38,7 +38,9 @@ class ISearchForm(Interface):
     Interface for creating a prenotazione
     """
 
-    text = TextLine(title=_("label_text", "Text to search"), default="", required=False)
+    text = TextLine(
+        title=_("label_text", "Text to search"), default="", required=False
+    )
     review_state = Choice(
         title=__("State"),
         default="",
@@ -102,7 +104,9 @@ class SearchForm(form.Form):
         vocabulary = factory(self.context)
         if not vocabulary:
             return ""
-        return {k: v.title for (k, v) in factory(self.context).by_token.items()}
+        return {
+            k: v.title for (k, v) in factory(self.context).by_token.items()
+        }
 
     def get_query(self, data):
         """The query we requested"""
@@ -117,7 +121,9 @@ class SearchForm(form.Form):
         if data.get("review_state"):
             query["review_state"] = data["review_state"]
         if data.get("gate"):
-            factory = getUtility(IVocabularyFactory, "redturtle.prenotazioni.gates")
+            factory = getUtility(
+                IVocabularyFactory, "redturtle.prenotazioni.gates"
+            )
             vocabulary = factory(context=self.context)
             try:
                 term = vocabulary.getTermByToken(data["gate"])
@@ -178,7 +184,9 @@ class SearchForm(form.Form):
 
         if "start" in data and data.get("start", None):
             if isinstance(data.get("start"), str):
-                data["start"] = datetime.strptime(data.get("start"), "%Y-%m-%d")
+                data["start"] = datetime.strptime(
+                    data.get("start"), "%Y-%m-%d"
+                )
             result.append(
                 MARKUP.format(
                     self.context.translate(_("label_start", "Start date ")),
@@ -243,7 +251,9 @@ class SearchForm(form.Form):
             self.status = self.formErrorsMessage
             return
 
-    @button.buttonAndHandler(_("move_back_message", default="Go back to the calendar"))
+    @button.buttonAndHandler(
+        _("move_back_message", default="Go back to the calendar")
+    )
     def action_cancel(self, action):
         """
         Cancel and go back to the week view
@@ -276,7 +286,8 @@ class DownloadReservation(SearchForm):
         obj = brain.getObject()
 
         custom_fields = [
-            getattr(obj, x, "") or "" for x in self.context.visible_booking_fields
+            getattr(obj, x, "") or ""
+            for x in self.context.visible_booking_fields
         ]
 
         return (
@@ -306,7 +317,9 @@ class DownloadReservation(SearchForm):
         vocabulary = factory(self.context)
         if not vocabulary:
             return ""
-        return {k: v.title for (k, v) in factory(self.context).by_token.items()}
+        return {
+            k: v.title for (k, v) in factory(self.context).by_token.items()
+        }
 
     def get_prenotazione_state(self, obj):
         states = self.get_prenotazioni_states()

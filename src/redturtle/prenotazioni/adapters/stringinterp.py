@@ -186,7 +186,8 @@ class BookingHowToGetToOfficeSubsitution(BaseSubstitution):
 class BookingOfficeCompleteAddressSubstitution(BaseSubstitution):
     category = _("Booking")
     description = _(
-        "The complete address information of the office where" "user book a reservation"
+        "The complete address information of the office where"
+        "user book a reservation"
     )
 
     def safe_call(self):
