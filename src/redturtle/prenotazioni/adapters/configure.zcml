@@ -140,14 +140,12 @@
       for="*"
       name="booking_office_complete_address"
       />
-
   <adapter
       factory=".stringinterp.BookingUrlWithDeleteToken"
       provides="plone.stringinterp.interfaces.IStringSubstitution"
       for="*"
       name="booking_url_with_delete_token"
       />
-
 
   <!-- ical adapters -->
   <adapter
@@ -160,5 +158,15 @@
       provides="plone.event.interfaces.IICalendar"
       for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
       />
+
+  <!-- Prenotazione email message adapters -->
+
+
+  <adapter factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailMessage" name="reject" />
+  <adapter factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailMessage" name="submit" />
+  <adapter factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmaiICalllMessage" name="confirm" />
+
+  <!-- Prenotazione moved event message adapter -->
+  <adapter factory=".prenotazione_email_message.PrenotazioneMovedEmailMessage"/>
 
 </configure>

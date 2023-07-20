@@ -3,11 +3,14 @@ from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
+from plone.app.contentrules.conditions.wftransition import (
+    WorkflowTransitionCondition,
+)
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
 from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import queryUtility
+from zope.component import getUtility
 
 import logging
 
@@ -144,13 +147,19 @@ def to_1400(context):
         )
 
         for portal_type_condition in portal_type_conditions:
-            if "Prenotazione" in getattr(portal_type_condition, "check_types", []):
-                for workflow_transition_condition in workflow_transition_conditions:
+            if "Prenotazione" in getattr(
+                portal_type_condition, "check_types", []
+            ):
+                for (
+                    workflow_transition_condition
+                ) in workflow_transition_conditions:
                     if isinstance(
                         workflow_transition_condition,
                         WorkflowTransitionCondition,
                     ):
-                        wf_states = list(workflow_transition_condition.wf_transitions)
+                        wf_states = list(
+                            workflow_transition_condition.wf_transitions
+                        )
 
                         if "publish" in wf_states:
                             wf_states.remove("publish")
@@ -161,7 +170,9 @@ def to_1400(context):
                             )
 
                 for workflow_state_condition in workflow_state_conditions:
-                    if isinstance(workflow_state_condition, WorkflowStateCondition):
+                    if isinstance(
+                        workflow_state_condition, WorkflowStateCondition
+                    ):
                         wf_states = list(workflow_state_condition.wf_states)
 
                         if "publish" in wf_states:
@@ -197,13 +208,17 @@ def to_1401(context):
 
 def to_1402(context):
     # load new content rules
-    context.runImportStepFromProfile(CONTENT_RULES_EVOLUTION_PROFILE, "contentrules")
+    context.runImportStepFromProfile(
+        CONTENT_RULES_EVOLUTION_PROFILE, "contentrules"
+    )
 
 
 def to_1403(context):
     update_catalog(context)
 
-    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="Prenotazione"
+    ):
         brain.getObject().reindexObject(idxs=["fiscalcode"])
 
 
@@ -211,3 +226,85 @@ def to_1500(context):
     context.runImportStepFromProfile(
         "profile-redturtle.prenotazioni:to_1500", "typeinfo"
     )
+
+
+def to_1502_upgrade_texts(context):
+    from plone.app.textfield.value import RichTextValue
+
+    instructions_default = (
+        "I testi e l’oggetto delle notifiche email possono essere configurate usando le seguenti variabili:"
+        "<ul>"
+        "<li>${title} - Titolo della prenotazione.</li>"
+        "<li>${booking_gate} - Sportello della prenotazione.</li>"
+        "<li>${booking_human_readable_start} - Data e ora prenotazione con formattazione standard.</li>"
+        "<li>${booking_date} - Data prenotazione.</li>"
+        "<li>${booking_end_date} - Data fine prenotazione.</li>"
+        "<li>${booking_time} - Orario di inizio prenotazione.</li>"
+        "<li>${booking_time_end} - Orario di fine prenotazione.</li>"
+        "<li>${booking_code} - Ticket identificativo della prenotazione da utilizzare per chiamare il cittadino allo sportello ad attesa ultimata.</li>"
+        "<li>${booking_type} - Tipologia prenotazione.</li>"
+        "<li>${booking_print_url} - Link di riepilogo prenotazione.</li>"
+        "<li>${booking_url_with_delete_token} - Link per cancellare la prenotazione.</li>"
+        "<li>${booking_user_phone} - Numero di telefono del cittadino.</li>"
+        "<li>${booking_user_email} - Email del cittadino.</li>"
+        "<li>${booking_office_contact_phone} - Telefono ufficio, se compilato.</li>"
+        "<li>${booking_office_contact_pec} - PEC ufficio, se compilata.</li>"
+        "<li>${booking_office_contact_fax} - Fax ufficio, se compilato.</li>"
+        "<li>${booking_how_to_get_to_office} - Informazioni su come raggiungere l’ufficio, se compilate.</li>"
+        "<li>${booking_office_complete_address} - Indirizzo completo dell’ufficio, se compilato.</li>"
+        "</ul>"
+    )
+    new_fields = {
+        "notify_on_submit_subject": "Prenotazione creata correttamente per ${title}",
+        "notify_on_submit_message": "notify_on_submit_message",
+        "notify_on_confirm_subject": "Prenotazione del ${booking_date} alle ${booking_time} accettata",
+        "notify_on_confirm_message": (
+            "La prenotazione ${booking_type} per ${title} è stata confermata!"
+            "Se non hai salvato o stampato il promemoria, puoi visualizzarlo su <a href=${booking_print_url}>questo link</a>"
+            "Se desideri cancellare la prenotazione, accedi a <a href=${booking_print_url}>questo link</a>"
+        ),
+        "notify_on_move_subject": (
+            "Modifica data di prenotazione per ${title}"
+        ),
+        "notify_on_move_message": (
+            "L'orario della sua prenotazione ${booking_type} è stata modificato."
+            "La nuova data è ${booking_date} alle ore ${booking_time}."
+            "Controlla o stampa il nuovo promemoria su  <a href=${booking_print_url}>questo link</a>."
+        ),
+        "notify_on_refuse_subject": "Prenotazione rifiutata per ${title}",
+        "notify_on_refuse_message": "La prenotazione ${booking_type} del ${booking_date} delle ore ${booking_time} è stata rifiutata.",
+    }
+
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        object = brain.getObject()
+
+        logger.info(f"Updating fields on {brain.getPath()}")
+
+        object.templates_usage = RichTextValue(
+            instructions_default, "text/html", "text/html"
+        )
+
+        for name, value in new_fields.items():
+            setattr(object, name, value)
+
+
+def to_1502_upgrade_contentrules(context):
+    from plone.contentrules.engine.interfaces import IRuleStorage
+
+    rules_to_delete = [
+        "booking-accepted",
+        "booking-moved",
+        "booking-created-user",
+        "booking-refuse",
+        "booking-confirm",
+    ]
+
+    rule_storage = getUtility(IRuleStorage)
+
+    for rule in rules_to_delete:
+        if rule_storage.get("rule"):
+            # It is supposed that all the rule assignments will be deleted by plone.app.contentrules
+            # event handlers which are supposed to do that
+            del rule_storage[rule]

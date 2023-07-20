@@ -14,6 +14,7 @@ from redturtle.prenotazioni.content.validators import PauseValidator
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
+from zope.i18n import translate
 from zope.component import provideAdapter
 from zope.interface import implementer
 from zope.interface import Interface
@@ -44,7 +45,9 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
                 return value
         return None
 
-    number_of_entry = request.form.get("form.widgets.{}.count".format(fieldname))
+    number_of_entry = request.form.get(
+        "form.widgets.{}.count".format(fieldname)
+    )
     data = []
     prefix = "form.widgets.{}".format(fieldname)
     for counter in range(int(number_of_entry)):
@@ -84,7 +87,9 @@ class IWeekTableRow(model.Schema):
     )
 
     afternoon_start = schema.Choice(
-        title=_("afternoon_start_label", default="Start time in the afternoon"),
+        title=_(
+            "afternoon_start_label", default="Start time in the afternoon"
+        ),
         vocabulary="redturtle.prenotazioni.VocOreInizio",
         required=False,
     )
@@ -141,7 +146,9 @@ class IPrenotazioniFolder(model.Schema):
     descriptionAgenda = RichText(
         required=False,
         title=_("Descrizione Agenda", default="Descrizione Agenda"),
-        description=_("Inserire il testo di presentazione dell'agenda corrente"),
+        description=_(
+            "Inserire il testo di presentazione dell'agenda corrente"
+        ),
     )
 
     form.mode(descriptionAgenda="display")
@@ -156,7 +163,9 @@ class IPrenotazioniFolder(model.Schema):
 
     directives.widget(required_booking_fields=CheckBoxFieldWidget)
     required_booking_fields = schema.List(
-        title=_("label_required_booking_fields", default="Required booking fields"),
+        title=_(
+            "label_required_booking_fields", default="Required booking fields"
+        ),
         description=_(
             "help_required_booking_fields",
             "User will not be able to add a booking unless those "
@@ -174,7 +183,9 @@ class IPrenotazioniFolder(model.Schema):
     directives.widget(required_booking_fields=CheckBoxFieldWidget)
 
     visible_booking_fields = schema.List(
-        title=_("label_visible_booking_fields", default="Visible booking fields"),
+        title=_(
+            "label_visible_booking_fields", default="Visible booking fields"
+        ),
         description=_(
             "help_visible_booking_fields",
             "User will not be able to add a booking unless those "
@@ -208,7 +219,9 @@ class IPrenotazioniFolder(model.Schema):
         options = [
             SimpleTerm(value="yes", token="yes", title=_("Yes")),
             SimpleTerm(value="no", token="no", title=_("No")),
-            SimpleTerm(value=today, token=today, title=_("No, just for today")),
+            SimpleTerm(
+                value=today, token=today, title=_("No, just for today")
+            ),
         ]
 
         return SimpleVocabulary(options)
@@ -311,7 +324,9 @@ class IPrenotazioniFolder(model.Schema):
         value_type=DictRow(title="Pause row", schema=IPauseTableRow),
     )
     form.widget(
-        "pause_table", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
+        "pause_table",
+        DataGridFieldFactory,
+        frontendOptions={"widget": "data_grid"},
     )
 
     holidays = schema.List(
@@ -361,7 +376,9 @@ class IPrenotazioniFolder(model.Schema):
         value_type=DictRow(schema=IBookingTypeRow),
     )
     form.widget(
-        "booking_types", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
+        "booking_types",
+        DataGridFieldFactory,
+        frontendOptions={"widget": "data_grid"},
     )
 
     gates = schema.List(
@@ -389,10 +406,10 @@ class IPrenotazioniFolder(model.Schema):
         default=[],
     )
     auto_confirm = schema.Bool(
-        title=_("auto_confirm", default=u"Automatically confirm."),
+        title=_("auto_confirm", default="Automatically confirm."),
         description=_(
             "auto_confirm_help",
-            default=u"All bookings will be automatically accepted.",
+            default="All bookings will be automatically accepted.",
         ),
         default=False,
         required=False,
@@ -457,10 +474,14 @@ class IPrenotazioniFolder(model.Schema):
                 raise Invalid(_("You should set a start time for afternoon."))
             if interval["morning_start"] and interval["morning_end"]:
                 if interval["morning_start"] > interval["morning_end"]:
-                    raise Invalid(_("Morning start should not be greater than end."))
+                    raise Invalid(
+                        _("Morning start should not be greater than end.")
+                    )
             if interval["afternoon_start"] and interval["afternoon_end"]:
                 if interval["afternoon_start"] > interval["afternoon_end"]:
-                    raise Invalid(_("Afternoon start should not be greater than end."))
+                    raise Invalid(
+                        _("Afternoon start should not be greater than end.")
+                    )
 
     # TODO: definire o descrivere quando avviee la notifica
     # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?
@@ -470,40 +491,148 @@ class IPrenotazioniFolder(model.Schema):
         required=False,
     )
 
-    notify_on_creation = schema.Bool(
-        title=_("notify_on_creation", default=u"Notify when created."),
+    notify_on_submit = schema.Bool(
+        title=_("notify_on_submit", default="Notify when created."),
         description=_(
-            "notify_on_creation_help",
-            default=u"Notify via mail the user when his booking has been created. If auto-confirm flag is selected and confirm notify is selected, this one will be ignored.",
+            "notify_on_submit_help",
+            default="Notify via mail the user when his booking has been created. If auto-confirm flag is selected and confirm notify is selected, this one will be ignored.",
         ),
         default=True,
         required=False,
     )
     notify_on_confirm = schema.Bool(
-        title=_("notify_on_confirm", default=u"Notify when confirmed."),
+        title=_("notify_on_confirm", default="Notify when confirmed."),
         description=_(
             "notify_on_confirm_help",
-            default=u"Notify via mail the user when his booking has been confirmed.",
+            default="Notify via mail the user when his booking has been confirmed.",
         ),
         default=True,
         required=False,
     )
     notify_on_move = schema.Bool(
-        title=_("notify_on_move", default=u"Notify when moved."),
+        title=_("notify_on_move", default="Notify when moved."),
         description=_(
             "notify_on_move_help",
-            default=u"Notify via mail the user when his booking has been moved.",
+            default="Notify via mail the user when his booking has been moved.",
         ),
         default=True,
         required=False,
     )
     notify_on_reject = schema.Bool(
-        title=_("notify_on_reject", default=u"Notify when rejected."),
+        title=_("notify_on_reject", default="Notify when rejected."),
         description=_(
             "notify_on_reject_help",
-            default=u"Notify via mail the user when his booking has been rejected.",
+            default="Notify via mail the user when his booking has been rejected.",
         ),
         default=True,
+        required=False,
+    )
+    form.mode(templates_usage="display")
+    templates_usage = RichText(
+        title=_("templates_usage_label", "Templates usage"),
+        default="I testi e l’oggetto delle notifiche email possono essere configurate usando le seguenti variabili:"
+        "<ul>"
+        "<li>${title} - Titolo della prenotazione.</li>"
+        "<li>${booking_gate} - Sportello della prenotazione.</li>"
+        "<li>${booking_human_readable_start} - Data e ora prenotazione con formattazione standard.</li>"
+        "<li>${booking_date} - Data prenotazione.</li>"
+        "<li>${booking_end_date} - Data fine prenotazione.</li>"
+        "<li>${booking_time} - Orario di inizio prenotazione.</li>"
+        "<li>${booking_time_end} - Orario di fine prenotazione.</li>"
+        "<li>${booking_code} - Ticket identificativo della prenotazione da utilizzare per chiamare il cittadino allo sportello ad attesa ultimata.</li>"
+        "<li>${booking_type} - Tipologia prenotazione.</li>"
+        "<li>${booking_print_url} - Link di riepilogo prenotazione.</li>"
+        "<li>${booking_url_with_delete_token} - Link per cancellare la prenotazione.</li>"
+        "<li>${booking_user_phone} - Numero di telefono del cittadino.</li>"
+        "<li>${booking_user_email} - Email del cittadino.</li>"
+        "<li>${booking_office_contact_phone} - Telefono ufficio, se compilato.</li>"
+        "<li>${booking_office_contact_pec} - PEC ufficio, se compilata.</li>"
+        "<li>${booking_office_contact_fax} - Fax ufficio, se compilato.</li>"
+        "<li>${booking_how_to_get_to_office} - Informazioni su come raggiungere l’ufficio, se compilate.</li>"
+        "<li>${booking_office_complete_address} - Indirizzo completo dell’ufficio, se compilato.</li>"
+        "</ul>",
+        output_mime_type="text/html",
+    )
+    notify_on_submit_subject = schema.TextLine(
+        title=_(
+            "notify_on_submit_subject",
+            default="Prenotazione created notification subject.",
+        ),
+        description=_("notify_on_submit_subject_help", default=""),
+        default="Prenotazione creata correttamente per ${title}",
+        required=False,
+    )
+    notify_on_submit_message = RichText(
+        title=_(
+            "notify_on_submit_message",
+            default="Prenotazione created notification message.",
+        ),
+        output_mime_type="text/html",
+        description=_("notify_on_submit_message_help", default=""),
+        default="La prenotazione ${booking_type} per il ${booking_date} alle ${booking_time} è stata creata."
+        "Riceverete una mail di conferma quando la prenotazione verrà confermata definitivamente."
+        "Se non hai salvato o stampato il promemoria, puoi visualizzarlo <a href=${booking_print_url}>questo link</a>",
+        required=False,
+    )
+    notify_on_confirm_subject = schema.TextLine(
+        title=_(
+            "notify_on_confirm_subject",
+            default="Prenotazione confirmed notification subject.",
+        ),
+        description=_("notify_on_confirm_subject_help", default=""),
+        default="Prenotazione del ${booking_date} alle ${booking_time} accettata",
+        required=False,
+    )
+    notify_on_confirm_message = RichText(
+        title=_(
+            "notify_on_confirm_message",
+            default="Prenotazione confirmed notification message.",
+        ),
+        output_mime_type="text/html",
+        description=_("notify_on_confirm_message_help", default=""),
+        default="La prenotazione ${booking_type} per ${title} è stata confermata!"
+        "Se non hai salvato o stampato il promemoria, puoi visualizzarlo su <a href=${booking_print_url}>questo link</a>"
+        "Se desideri cancellare la prenotazione, accedi a <a href=${booking_print_url}>questo link</a>",
+        required=False,
+    )
+    notify_on_move_subject = schema.TextLine(
+        title=_(
+            "notify_on_move_subject",
+            default="Prenotazione moved notification subject.",
+        ),
+        description=_("notify_on_move_subject_help", default=""),
+        default="Modifica data di prenotazione per ${title}",
+        required=False,
+    )
+    notify_on_move_message = RichText(
+        title=_(
+            "notify_on_move_message",
+            default="Prenotazione moved notification message.",
+        ),
+        output_mime_type="text/html",
+        description=_("notify_on_move_message_help", default=""),
+        default="L'orario della sua prenotazione ${booking_type} è stata modificato."
+        "La nuova data è ${booking_date} alle ore ${booking_time}."
+        "Controlla o stampa il nuovo promemoria su  <a href=${booking_print_url}>questo link</a>.",
+        required=False,
+    )
+    notify_on_refuse_subject = schema.TextLine(
+        title=_(
+            "notify_on_refuse_subject",
+            default="Prenotazione refused notification subject.",
+        ),
+        description=_("notify_on_refuse_subject_help", default=""),
+        default="Prenotazione rifiutata per ${title}",
+        required=False,
+    )
+    notify_on_refuse_message = RichText(
+        title=_(
+            "notify_on_refuse_message",
+            default="Prenotazione created notification message.",
+        ),
+        output_mime_type="text/html",
+        description=_("notify_on_refuse_message_help", default=""),
+        default="La prenotazione ${booking_type} del ${booking_date} delle ore ${booking_time} è stata rifiutata.",
         required=False,
     )
 
@@ -550,7 +679,7 @@ class IPrenotazioniFolder(model.Schema):
         "Notifications",
         label=_("notifications_label", default="Notifications"),
         fields=[
-            "notify_on_creation",
+            "notify_on_submit",
             "notify_on_confirm",
             "notify_on_move",
             "notify_on_reject",
@@ -561,6 +690,28 @@ class IPrenotazioniFolder(model.Schema):
         label=_("reminders_label", default="Reminders"),
         fields=[
             "app_io_enabled",
+        ],
+    )
+    model.fieldset(
+        "Prenotazioni Email Templates",
+        label=_(
+            "prenotazioni_email_templates_label",
+            default="Prenotazioni Email Templates",
+        ),
+        description=_(
+            "prenotazioni_email_templates_description",
+            default="",
+        ),
+        fields=[
+            "templates_usage",
+            "notify_on_submit_subject",
+            "notify_on_submit_message",
+            "notify_on_confirm_subject",
+            "notify_on_confirm_message",
+            "notify_on_move_subject",
+            "notify_on_move_message",
+            "notify_on_refuse_subject",
+            "notify_on_refuse_message",
         ],
     )
 

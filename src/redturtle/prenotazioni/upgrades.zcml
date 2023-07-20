@@ -97,5 +97,19 @@
       destination="1501"
       handler=".upgrades.update_registry"
       />
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1501"
+      destination="1502"
+      >
+    <genericsetup:upgradeStep
+        title="Popolate the PrenotazioniFolder new fields"
+        handler=".upgrades.to_1502_upgrade_texts"
+        />
+    <genericsetup:upgradeStep
+        title="Remove all the deprecated contentrules"
+        handler=".upgrades.to_1502_upgrade_contentrules"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

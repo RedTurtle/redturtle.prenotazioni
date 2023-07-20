@@ -41,4 +41,16 @@
            zope.lifecycleevent.IObjectModifiedEvent"
       handler=".prenotazioni_folder.sort_on_creation_or_change"
       />
+
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+      handler=".prenotazione.notify_on_afrer_transition_event"
+      />
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           Products.CMFCore.interfaces.IActionSucceededEvent"
+      handler=".prenotazione.autoconfirm"
+      />
+
 </configure>

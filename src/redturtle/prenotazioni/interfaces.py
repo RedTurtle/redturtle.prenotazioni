@@ -15,3 +15,7 @@ class IPause(Interface):
 
 class ISerializeToPrenotazioneSearchableItem(Interface):
     """Prenotazione searchable item serializer interface"""
+
+
+class IPrenotazioneEmailMessage(Interface):
+    """Prenotazione email message"""
