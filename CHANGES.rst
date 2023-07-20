@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.0.dev3 (unreleased)
+2.0.0.dev3 (2023-07-20)
 -----------------------
 
 - Change "day" type in week_table (TODO: need an upgrade step?)
