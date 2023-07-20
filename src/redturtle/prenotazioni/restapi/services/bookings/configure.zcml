@@ -11,4 +11,12 @@
       name="@bookings"
       />
 
+  <plone:service
+      method="GET"
+      factory=".search.BookingsSearchFolder"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      permission="zope2.View"
+      name="@bookings"
+      />
+
 </configure>
