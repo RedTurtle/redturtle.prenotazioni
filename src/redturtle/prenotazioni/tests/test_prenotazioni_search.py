@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 from datetime import date
 from datetime import timedelta
 from dateutil import parser
@@ -44,62 +45,32 @@ class TestPrenotazioniSearch(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            week_table=[
-                {
-                    "day": "Lunedì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Martedì",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Mercoledì",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Giovedì",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Venerdì",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Sabato",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Domenica",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-            ],
             booking_types=[
                 {"name": "Type A", "duration": "30"},
             ],
             gates=["Gate A"],
         )
+        week_table = deepcopy(self.folder_prenotazioni.week_table)
+        week_table[0]["morning_start"] = "0700"
+        week_table[0]["morning_end"] = "1000"
+        self.folder_prenotazioni.week_table = week_table
+
+        self.folder_prenotazioni2 = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota bar",
+            description="",
+            daData=date.today(),
+            booking_types=[
+                {"name": "Type A", "duration": "10"},
+                {"name": "Type B", "duration": "20"},
+            ],
+            gates=["Gate A"],
+        )
+        week_table = deepcopy(self.folder_prenotazioni2.week_table)
+        week_table[0]["morning_start"] = "0700"
+        week_table[0]["morning_end"] = "1000"
+        self.folder_prenotazioni2.week_table = week_table
 
         year = api.content.create(
             container=self.folder_prenotazioni,
@@ -113,6 +84,13 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.day_folder1 = api.content.create(
             container=week, type="PrenotazioniDay", title="Day"
         )
+
+        year = api.content.create(
+            container=self.folder_prenotazioni2,
+            type="PrenotazioniYear",
+            title="Year",
+        )
+        week = api.content.create(container=year, type="PrenotazioniWeek", title="Week")
         self.day_folder2 = api.content.create(
             container=week, type="PrenotazioniDay", title="Day"
         )
@@ -230,3 +208,11 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.assertIn(self.prenotazione_datetime_plus2.UID(), result_uids)
         self.assertNotIn(self.prenotazione_datetime_plus4.UID(), result_uids)
         self.assertNotIn(self.prenotazione_datetime.UID(), result_uids)
+
+    def test_search_inside_a_folder(self):
+        res = self.api_session.get(
+            f"{self.folder_prenotazioni2.absolute_url()}/@bookings"
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["items_total"], 1)
+        self.assertEqual(len(res.json()["items"]), 1)
