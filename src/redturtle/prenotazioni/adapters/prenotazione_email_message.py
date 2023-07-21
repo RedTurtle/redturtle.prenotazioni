@@ -59,9 +59,7 @@ class PrenotazioneEventEmailMessage:
 
         if not mfrom:
             logger.error(
-                error_msg.format(
-                    message="Email from address is not configured"
-                )
+                error_msg.format(message="Email from address is not configured")
             )
             return None
 
@@ -89,18 +87,14 @@ class PrenotazioneEventMessageICallMixIn:
     def message(self, *args, **kwargs):
         message = super().message
 
-        message.add_header(
-            "Content-class", "urn:content-classes:calendarmessage"
-        )
+        message.add_header("Content-class", "urn:content-classes:calendarmessage")
 
         ical = getAdapter(object=self.prenotazione, interface=IICalendar)
         name = f"{self.prenotazione.getId()}.ics"
         icspart = MIMEText(ical.to_ical().decode("utf-8"), "calendar")
 
         icspart.add_header("Filename", name)
-        icspart.add_header(
-            "Content-Disposition", f"attachment; filename={name}"
-        )
+        icspart.add_header("Content-Disposition", f"attachment; filename={name}")
 
         message.attach(icspart)
 

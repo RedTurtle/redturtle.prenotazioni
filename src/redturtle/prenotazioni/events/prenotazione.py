@@ -27,9 +27,7 @@ def reallocate_gate(obj):
     """
     context = obj.object
 
-    if context.REQUEST.form.get("form.gate", "") and getattr(
-        context, "gate", ""
-    ):
+    if context.REQUEST.form.get("form.gate", "") and getattr(context, "gate", ""):
         return
 
     container = context.getPrenotazioniFolder()
