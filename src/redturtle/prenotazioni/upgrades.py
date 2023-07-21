@@ -280,7 +280,7 @@ def to_1502_upgrade_texts(context):
     ):
         object = brain.getObject()
 
-        logger.info(f"Updating fields on {brain.getPath()}")
+        logger.info(f"[1501-1502] Updating fields on {brain.getPath()}")
 
         object.templates_usage = RichTextValue(
             instructions_default, "text/html", "text/html"
@@ -304,7 +304,8 @@ def to_1502_upgrade_contentrules(context):
     rule_storage = getUtility(IRuleStorage)
 
     for rule in rules_to_delete:
-        if rule_storage.get("rule"):
+        if rule_storage.get(rule):
             # It is supposed that all the rule assignments will be deleted by plone.app.contentrules
             # event handlers which are supposed to do that
+            logger.info(f"[1501-1502] Deleting contentrule `{rule}`")
             del rule_storage[rule]

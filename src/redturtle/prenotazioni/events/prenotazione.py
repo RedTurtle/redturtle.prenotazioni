@@ -58,9 +58,6 @@ def notify_on_afrer_transition_event(context, event):
         flags["submit"] = False
 
     if flags.get(event.transition and event.transition.__name__ or "", False):
-        import pdb
-
-        pdb.set_trace()
         adapter = getMultiAdapter(
             (context, event),
             IPrenotazioneEmailMessage,

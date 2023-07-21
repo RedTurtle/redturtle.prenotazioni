@@ -164,9 +164,9 @@
 
   <adapter factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailMessage" name="reject" />
   <adapter factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailMessage" name="submit" />
-  <adapter factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmaiICalllMessage" name="confirm" />
+  <adapter factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmaiICallMessage" name="confirm" />
 
   <!-- Prenotazione moved event message adapter -->
-  <adapter factory=".prenotazione_email_message.PrenotazioneMovedEmailMessage"/>
+  <adapter factory=".prenotazione_email_message.PrenotazioneMovedICallEmailMessage"/>
 
 </configure>

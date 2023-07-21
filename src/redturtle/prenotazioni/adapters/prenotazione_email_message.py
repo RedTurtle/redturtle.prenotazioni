@@ -10,7 +10,6 @@ from Acquisition import aq_chain
 from zope.component import adapter, getAdapter
 from zope.interface import implementer
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
-from Products.CMFCore.interfaces import IActionSucceededEvent
 from plone import api
 from plone.stringinterp.interfaces import IContextWrapper
 from plone.stringinterp.interfaces import IStringInterpolator
@@ -88,19 +87,30 @@ class PrenotazioneEventEmailMessage:
 class PrenotazioneEventMessageICallMixIn:
     @property
     def message(self, *args, **kwargs):
-        message = super().message(*args, **kwargs)
+        message = super().message
 
-        icall = getAdapter((self.prenotazione,), IICalendar)
+        message.add_header(
+            "Content-class", "urn:content-classes:calendarmessage"
+        )
 
-        message.attach(icall, "text/calendar")
+        ical = getAdapter(object=self.prenotazione, interface=IICalendar)
+        name = f"{self.prenotazione.getId()}.ics"
+        icspart = MIMEText(ical.to_ical().decode("utf-8"), "calendar")
+
+        icspart.add_header("Filename", name)
+        icspart.add_header(
+            "Content-Disposition", f"attachment; filename={name}"
+        )
+
+        message.attach(icspart)
 
         return message
 
 
 @implementer(IPrenotazioneEmailMessage)
 @adapter(IPrenotazione, IMovedPrenotazione)
-class PrenotazioneMovedEmailMessage(
-    PrenotazioneEventEmailMessage, PrenotazioneEventMessageICallMixIn
+class PrenotazioneMovedICallEmailMessage(
+    PrenotazioneEventMessageICallMixIn, PrenotazioneEventEmailMessage
 ):
     @property
     def message_subject(self) -> str:
@@ -163,7 +173,7 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEventEmailMessage):
 
 @implementer(IPrenotazioneEmailMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
-class PrenotazioneAfterTransitionEmaiICalllMessage(
-    PrenotazioneAfterTransitionEmailMessage, PrenotazioneEventMessageICallMixIn
+class PrenotazioneAfterTransitionEmaiICallMessage(
+    PrenotazioneEventMessageICallMixIn, PrenotazioneAfterTransitionEmailMessage
 ):
     pass
