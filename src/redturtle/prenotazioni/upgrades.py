@@ -299,10 +299,13 @@ def to_1502_upgrade_contentrules(context):
             "booking-accepted": "notify_on_submit",
             "booking-moved": "notify_on_move",
             "booking-refuse": "notify_on_refuse",
-            "booking-confirm": "notify_on_confirm",
         }
 
         for old, new in contentrules_mapping.items():
+            if assignable.get("booking-confirm", None):
+                setattr(obj, "notify_on_confirm", True)
+                setattr(obj, "auto_confirm", True)
+                continue
             if assignable.get(old, None):
                 setattr(obj, new, True)
 
