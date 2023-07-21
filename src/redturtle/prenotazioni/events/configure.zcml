@@ -52,5 +52,11 @@
            Products.CMFCore.interfaces.IActionSucceededEvent"
       handler=".prenotazione.autoconfirm"
       />
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
+      handler=".prenotazione.notify_on_move"
+      />
+
 
 </configure>

@@ -14,7 +14,6 @@ from redturtle.prenotazioni.content.validators import PauseValidator
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
-from zope.i18n import translate
 from zope.component import provideAdapter
 from zope.interface import implementer
 from zope.interface import Interface
@@ -497,7 +496,7 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_submit_help",
             default="Notify via mail the user when his booking has been created. If auto-confirm flag is selected and confirm notify is selected, this one will be ignored.",
         ),
-        default=True,
+        default=False,
         required=False,
     )
     notify_on_confirm = schema.Bool(
@@ -506,7 +505,7 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_confirm_help",
             default="Notify via mail the user when his booking has been confirmed.",
         ),
-        default=True,
+        default=False,
         required=False,
     )
     notify_on_move = schema.Bool(
@@ -515,7 +514,7 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_move_help",
             default="Notify via mail the user when his booking has been moved.",
         ),
-        default=True,
+        default=False,
         required=False,
     )
     notify_on_reject = schema.Bool(
@@ -524,7 +523,7 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_reject_help",
             default="Notify via mail the user when his booking has been rejected.",
         ),
-        default=True,
+        default=False,
         required=False,
     )
     form.mode(templates_usage="display")

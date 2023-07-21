@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """In this module we implemented the booking email templates which were used
     by plone contenttrules in previous verisions of the package"""
 
@@ -15,7 +16,6 @@ from plone.stringinterp.interfaces import IContextWrapper
 from plone.stringinterp.interfaces import IStringInterpolator
 from plone.event.interfaces import IICalendar
 
-from redturtle.prenotazioni import _
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
@@ -117,7 +117,7 @@ class PrenotazioneMovedICallEmailMessage(
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(
                 self.folder,
-                f"notify_on_moved_subject",
+                "notify_on_move_subject",
                 "",
             )
         )
@@ -129,7 +129,7 @@ class PrenotazioneMovedICallEmailMessage(
                 getattr(
                     getattr(
                         self.folder,
-                        f"notify_on_moved_message",
+                        "notify_on_move_message",
                         None,
                     ),
                     "output",

@@ -162,11 +162,20 @@
   <!-- Prenotazione email message adapters -->
 
 
-  <adapter factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailMessage" name="reject" />
-  <adapter factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailMessage" name="submit" />
-  <adapter factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmaiICallMessage" name="confirm" />
+  <adapter
+      factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailMessage"
+      name="refuse"
+      />
+  <adapter
+      factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailMessage"
+      name="submit"
+      />
+  <adapter
+      factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmaiICallMessage"
+      name="confirm"
+      />
 
   <!-- Prenotazione moved event message adapter -->
-  <adapter factory=".prenotazione_email_message.PrenotazioneMovedICallEmailMessage"/>
+  <adapter factory=".prenotazione_email_message.PrenotazioneMovedICallEmailMessage" />
 
 </configure>
