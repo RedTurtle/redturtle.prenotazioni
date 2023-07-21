@@ -278,6 +278,7 @@ def to_1502_upgrade_texts(context):
 
 def to_1502_upgrade_contentrules(context):
     from plone.contentrules.engine.interfaces import IRuleStorage
+    from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 
     rules_to_delete = [
         "booking-accepted",
@@ -288,6 +289,22 @@ def to_1502_upgrade_contentrules(context):
     ]
 
     rule_storage = getUtility(IRuleStorage)
+
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        obj = brain.getObject()
+        assignable = IRuleAssignmentManager(obj, None)
+        contentrules_mapping = {
+            "booking-accepted": "notify_on_submit",
+            "booking-moved": "notify_on_move",
+            "booking-refuse": "notify_on_refuse",
+            "booking-confirm": "notify_on_confirm",
+        }
+
+        for old, new in contentrules_mapping.items():
+            if assignable.get(old, None):
+                setattr(obj, new, True)
 
     for rule in rules_to_delete:
         if rule_storage.get(rule):
