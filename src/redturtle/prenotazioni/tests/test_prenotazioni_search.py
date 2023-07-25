@@ -134,6 +134,15 @@ class TestPrenotazioniSearch(unittest.TestCase):
             booking_expiration_date=self.booking_expiration_date,
             fiscalcode=self.testing_fiscal_code,
         )
+        self.prenotazione_gateA = api.content.create(
+            container=self.day_folder1,
+            type="Prenotazione",
+            title="Prenotazione",
+            booking_date=self.testing_booking_date + timedelta(days=8),
+            booking_expiration_date=self.booking_expiration_date + timedelta(days=9),
+            fiscalcode=self.testing_fiscal_code,
+            gate="Gate A",
+        )
         transaction.commit()
 
     def tearDown(self):
@@ -216,3 +225,14 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["items_total"], 1)
         self.assertEqual(len(res.json()["items"]), 1)
+
+    def search_by_gate(self):
+        result_uids = [
+            i["booking_id"]
+            for i in self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings?gate=gateA"
+            ).json()["items"]
+        ]
+
+        self.assertEqual(len(result_uids), 1)
+        self.assertIn(self.prenotazione_gateA.UID(), result_uids)

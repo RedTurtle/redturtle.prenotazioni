@@ -3,7 +3,9 @@ from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
+from plone.app.contentrules.conditions.wftransition import (
+    WorkflowTransitionCondition,
+)
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -211,3 +213,11 @@ def to_1500(context):
     context.runImportStepFromProfile(
         "profile-redturtle.prenotazioni:to_1500", "typeinfo"
     )
+
+
+def to_1502(context):
+    update_catalog(context)
+
+    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
+        logger.info(f"[ 1500 - 1501 ] - Rindexing <{brain.getPath()}>")
+        brain.getObject().reindexObject(idxs=["gate"])
