@@ -27,9 +27,7 @@ class BookingsSearch(Service):
 
         if api.user.is_anonymous():
             raise Unauthorized("You must be logged in to perform this action")
-        elif api.user.has_permission(
-            "redturtle.prenotazioni: search prenotazioni"
-        ):
+        elif api.user.has_permission("redturtle.prenotazioni: search prenotazioni"):
             userid = self.request.get("userid", None)
         else:
             userid = api.user.get_current().getUserId()
@@ -40,6 +38,8 @@ class BookingsSearch(Service):
         start_date = self.request.get("from", None)
         end_date = self.request.get("to", None)
         gate = self.request.get("gate", None)
+        booking_type = self.request.get("booking_type", None)
+        SearchableText = self.request.get("SearchableText", None)
 
         if start_date or end_date:
             query["Date"] = {
@@ -48,7 +48,13 @@ class BookingsSearch(Service):
             }
 
         if gate:
-            query["gate"] = gate
+            query["Subject"] = "Gate: {}".format(gate)
+
+        if booking_type:
+            query["booking_type"] = booking_type
+
+        if SearchableText:
+            query["SearchableText"] = SearchableText
 
         return query
 

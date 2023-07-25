@@ -3,7 +3,7 @@
   <index name="fiscalcode" meta_type="KeywordIndex">
     <indexed_attr value="fiscalcode"/>
   </index>
-  <index name="gate" meta_type="KeywordIndex">
-    <indexed_attr value="gate"/>
+  <index name="booking_type" meta_type="KeywordIndex">
+    <indexed_attr value="booking_type"/>
   </index>
 </object>
