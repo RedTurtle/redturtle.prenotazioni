@@ -45,7 +45,7 @@
   <subscriber
       for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
            Products.DCWorkflow.interfaces.IAfterTransitionEvent"
-      handler=".prenotazione.notify_on_afrer_transition_event"
+      handler=".prenotazione.notify_on_after_transition_event"
       />
   <subscriber
       for="redturtle.prenotazioni.content.prenotazione.IPrenotazione

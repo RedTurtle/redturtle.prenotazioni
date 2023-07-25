@@ -171,11 +171,11 @@
       name="submit"
       />
   <adapter
-      factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmaiICallMessage"
+      factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmaiICalMessage"
       name="confirm"
       />
 
   <!-- Prenotazione moved event message adapter -->
-  <adapter factory=".prenotazione_email_message.PrenotazioneMovedICallEmailMessage" />
+  <adapter factory=".prenotazione_email_message.PrenotazioneMovedICalEmailMessage" />
 
 </configure>

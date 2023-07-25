@@ -217,31 +217,6 @@ def to_1500(context):
 
 
 def to_1502_upgrade_texts(context):
-    from plone.app.textfield.value import RichTextValue
-
-    instructions_default = (
-        "I testi e l’oggetto delle notifiche email possono essere configurate usando le seguenti variabili:"
-        "<ul>"
-        "<li>${title} - Titolo della prenotazione.</li>"
-        "<li>${booking_gate} - Sportello della prenotazione.</li>"
-        "<li>${booking_human_readable_start} - Data e ora prenotazione con formattazione standard.</li>"
-        "<li>${booking_date} - Data prenotazione.</li>"
-        "<li>${booking_end_date} - Data fine prenotazione.</li>"
-        "<li>${booking_time} - Orario di inizio prenotazione.</li>"
-        "<li>${booking_time_end} - Orario di fine prenotazione.</li>"
-        "<li>${booking_code} - Ticket identificativo della prenotazione da utilizzare per chiamare il cittadino allo sportello ad attesa ultimata.</li>"
-        "<li>${booking_type} - Tipologia prenotazione.</li>"
-        "<li>${booking_print_url} - Link di riepilogo prenotazione.</li>"
-        "<li>${booking_url_with_delete_token} - Link per cancellare la prenotazione.</li>"
-        "<li>${booking_user_phone} - Numero di telefono del cittadino.</li>"
-        "<li>${booking_user_email} - Email del cittadino.</li>"
-        "<li>${booking_office_contact_phone} - Telefono ufficio, se compilato.</li>"
-        "<li>${booking_office_contact_pec} - PEC ufficio, se compilata.</li>"
-        "<li>${booking_office_contact_fax} - Fax ufficio, se compilato.</li>"
-        "<li>${booking_how_to_get_to_office} - Informazioni su come raggiungere l’ufficio, se compilate.</li>"
-        "<li>${booking_office_complete_address} - Indirizzo completo dell’ufficio, se compilato.</li>"
-        "</ul>"
-    )
     new_fields = {
         "notify_on_submit_subject": "Prenotazione creata correttamente per ${title}",
         "notify_on_submit_message": "notify_on_submit_message",
@@ -268,10 +243,6 @@ def to_1502_upgrade_texts(context):
 
         logger.info(f"[1501-1502] Updating fields on {brain.getPath()}")
 
-        object.templates_usage = RichTextValue(
-            instructions_default, "text/html", "text/html"
-        )
-
         for name, value in new_fields.items():
             setattr(object, name, value)
 
@@ -291,7 +262,7 @@ def to_1502_upgrade_contentrules(context):
     rule_storage = getUtility(IRuleStorage)
 
     for brain in api.portal.get_tool("portal_catalog")(
-        portal_type="PrenotazioniFolder"
+        portal_type=["PrenotazioniFolder", "Plone Site", "Folder"]
     ):
         obj = brain.getObject()
         assignable = IRuleAssignmentManager(obj, None)

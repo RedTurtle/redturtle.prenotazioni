@@ -45,7 +45,7 @@ def reallocate_container(obj):
     IBooker(container).fix_container(obj.object)
 
 
-def notify_on_afrer_transition_event(context, event):
+def notify_on_after_transition_event(context, event):
     """The messages are being send only if the following flags on the PrenotazioniFolder are set"""
 
     flags = {

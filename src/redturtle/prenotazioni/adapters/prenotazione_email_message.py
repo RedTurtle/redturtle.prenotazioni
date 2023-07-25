@@ -82,7 +82,7 @@ class PrenotazioneEventEmailMessage:
         return msg
 
 
-class PrenotazioneEventMessageICallMixIn:
+class PrenotazioneEventMessageICalMixIn:
     @property
     def message(self, *args, **kwargs):
         message = super().message
@@ -103,8 +103,8 @@ class PrenotazioneEventMessageICallMixIn:
 
 @implementer(IPrenotazioneEmailMessage)
 @adapter(IPrenotazione, IMovedPrenotazione)
-class PrenotazioneMovedICallEmailMessage(
-    PrenotazioneEventMessageICallMixIn, PrenotazioneEventEmailMessage
+class PrenotazioneMovedICalEmailMessage(
+    PrenotazioneEventMessageICalMixIn, PrenotazioneEventEmailMessage
 ):
     @property
     def message_subject(self) -> str:
@@ -167,7 +167,7 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEventEmailMessage):
 
 @implementer(IPrenotazioneEmailMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
-class PrenotazioneAfterTransitionEmaiICallMessage(
-    PrenotazioneEventMessageICallMixIn, PrenotazioneAfterTransitionEmailMessage
+class PrenotazioneAfterTransitionEmaiICalMessage(
+    PrenotazioneEventMessageICalMixIn, PrenotazioneAfterTransitionEmailMessage
 ):
     pass
