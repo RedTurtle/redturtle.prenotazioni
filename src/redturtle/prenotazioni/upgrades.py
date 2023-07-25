@@ -216,37 +216,6 @@ def to_1500(context):
     )
 
 
-def to_1502_upgrade_texts(context):
-    new_fields = {
-        "notify_on_submit_subject": "Prenotazione creata correttamente per ${title}",
-        "notify_on_submit_message": "notify_on_submit_message",
-        "notify_on_confirm_subject": "Prenotazione del ${booking_date} alle ${booking_time} accettata",
-        "notify_on_confirm_message": (
-            "La prenotazione ${booking_type} per ${title} è stata confermata!"
-            "Se non hai salvato o stampato il promemoria, puoi visualizzarlo su <a href=${booking_print_url}>questo link</a>"
-            "Se desideri cancellare la prenotazione, accedi a <a href=${booking_print_url}>questo link</a>"
-        ),
-        "notify_on_move_subject": ("Modifica data di prenotazione per ${title}"),
-        "notify_on_move_message": (
-            "L'orario della sua prenotazione ${booking_type} è stata modificato."
-            "La nuova data è ${booking_date} alle ore ${booking_time}."
-            "Controlla o stampa il nuovo promemoria su  <a href=${booking_print_url}>questo link</a>."
-        ),
-        "notify_on_refuse_subject": "Prenotazione rifiutata per ${title}",
-        "notify_on_refuse_message": "La prenotazione ${booking_type} del ${booking_date} delle ore ${booking_time} è stata rifiutata.",
-    }
-
-    for brain in api.portal.get_tool("portal_catalog")(
-        portal_type="PrenotazioniFolder"
-    ):
-        object = brain.getObject()
-
-        logger.info(f"[1501-1502] Updating fields on {brain.getPath()}")
-
-        for name, value in new_fields.items():
-            setattr(object, name, value)
-
-
 def to_1502_upgrade_contentrules(context):
     from plone.contentrules.engine.interfaces import IRuleStorage
     from plone.contentrules.engine.interfaces import IRuleAssignmentManager
