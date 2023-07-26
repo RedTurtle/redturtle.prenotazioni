@@ -24,7 +24,7 @@ i18n:domain="redturtle.prenotazioni">
                 <h1 class="documentFirstHeading" tal:content="view/label">
                 Booking request
                 </h1>
-                <div class="documentDescription" tal:conditions="status_message">${status_message}</div>
+                <div class="documentDescription" tal:condition="status_message">${status_message}</div>
                 <p>
                     Gentile <b tal:content="prenotazione/Title">Fullname</b>,
                     di seguito sono elencati i dati relativi alla sua prenotazione:
