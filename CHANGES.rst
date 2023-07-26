@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.3 (unreleased)
+1.7.3 (2023-07-26)
 ------------------
 
 - Fix fuzzy translation.
