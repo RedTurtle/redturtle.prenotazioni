@@ -18,32 +18,13 @@ i18n:domain="redturtle.prenotazioni">
                        tal:define="prenotazione nocall:view/prenotazione;
                                    prenotazioni_folder prenotazione/getPrenotazioniFolder;
                                    toLocalizedTime nocall:context/@@plone/toLocalizedTime;
-                                   status_message view/get_status_message;
-                                   is_plone_6 view/is_plone_6"
+                                   status_message view/get_status_message;"
         >
             <div tabindex="0">
                 <h1 class="documentFirstHeading" tal:content="view/label">
                 Booking request
                 </h1>
-                <tal:alert condition="status_message">
-                    <tal:old condition="not: is_plone_6">
-                        <div class="portalMessage ${status_message/type}"
-                            role="${status_message/role}"
-                            tabindex="-1"
-                            tal:condition="status_message">
-                            ${status_message/text}
-                        </div>
-                    </tal:old>
-                    <tal:new condition="is_plone_6">
-                        <div class="alert alert-${status_message/type}" role="alert">
-                            ${status_message/text}
-                        </div>
-                    </tal:new>
-                </tal:alert>
-                <!-- <div class="documentDescription" tal:content="view/description">
-                Booking description
-                </div> -->
-                
+                <div class="documentDescription" tal:conditions="status_message">${status_message}</div>
                 <p>
                     Gentile <b tal:content="prenotazione/Title">Fullname</b>,
                     di seguito sono elencati i dati relativi alla sua prenotazione:

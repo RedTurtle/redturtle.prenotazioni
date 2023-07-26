@@ -21,36 +21,20 @@ class PrenotazionePrint(BrowserView):
     def get_status_message(self):
         review_state = api.content.get_state(obj=self.prenotazione)
         messages_mapping = {
-            "pending": {
-                "text": _(
-                    "confirm_booking_waiting_message",
-                    "Your booking has to be confirmed by the administrators.",
-                ),
-                "type": "info",
-                "role": "status",
-            },
-            "confirmed": {
-                "text": _(
-                    "confirm_booking_confirmed_message",
-                    "Your booking has been confirmed.",
-                ),
-                "type": "info",
-                "role": "status",
-            },
-            "refused": {
-                "text": _(
-                    "confirm_booking_refused_message",
-                    "Your booking has been refused.",
-                ),
-                "type": "warning",
-                "role": "alert",
-            },
+            "pending": _(
+                "confirm_booking_waiting_message",
+                "Your booking has to be confirmed by the administrators.",
+            ),
+            "confirmed": _(
+                "confirm_booking_confirmed_message",
+                "Your booking has been confirmed.",
+            ),
+            "refused": _(
+                "confirm_booking_refused_message",
+                "Your booking has been refused.",
+            ),
         }
         return messages_mapping.get(review_state, "")
-
-    @property
-    def is_plone_6(self):
-        return api.env.plone_version() >= "6.0"
 
     @property
     @memoize
