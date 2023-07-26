@@ -17,15 +17,14 @@ i18n:domain="redturtle.prenotazioni">
         <metal:content fill-slot="main"
                        tal:define="prenotazione nocall:view/prenotazione;
                                    prenotazioni_folder prenotazione/getPrenotazioniFolder;
-                                   toLocalizedTime nocall:context/@@plone/toLocalizedTime"
+                                   toLocalizedTime nocall:context/@@plone/toLocalizedTime;
+                                   status_message view/get_status_message;"
         >
             <div tabindex="0">
                 <h1 class="documentFirstHeading" tal:content="view/label">
                 Booking request
                 </h1>
-                <div class="documentDescription" tal:content="view/description">
-                Booking description
-                </div>
+                <div class="documentDescription" tal:condition="status_message">${status_message}</div>
                 <p>
                     Gentile <b tal:content="prenotazione/Title">Fullname</b>,
                     di seguito sono elencati i dati relativi alla sua prenotazione:

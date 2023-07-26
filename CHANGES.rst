@@ -1,13 +1,17 @@
 Changelog
 =========
 
+1.7.2.dev0 (Unreleased)
+-----------------------
+
+- Customized status message in prenotazione_print.pt based on review_state.
+  [cekk]
 
 1.7.1 (2023-03-28)
 ------------------
 
 - Add plone5 profile to setup.
   [foxtrot-dfm1]
-
 
 1.7.0 (2023-03-24)
 ------------------
