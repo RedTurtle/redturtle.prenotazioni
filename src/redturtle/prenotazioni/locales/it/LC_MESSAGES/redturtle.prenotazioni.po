@@ -624,7 +624,6 @@ msgstr "La tua prenotazione è stata rifiutata"
 
 #. Default: "Your booking has to be confirmed by the administrators."
 #: redturtle/prenotazioni/browser/prenotazione_print.py:24
-#, fuzzy
 msgid "confirm_booking_waiting_message"
 msgstr "La tua prenotazione deve essere confermata dagli amministratori"
 

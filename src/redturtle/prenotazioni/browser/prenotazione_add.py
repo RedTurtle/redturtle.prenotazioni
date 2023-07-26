@@ -93,7 +93,6 @@ class AddForm(form.AddForm):
         )
         required_fields_vocabulary = required_fields_factory(self.context)
         possibly_required_fields = [x.token for x in required_fields_vocabulary._terms]
-
         for f in self.widgets.values():
             # If you have a field required by schema, when you fill the field
             # and then empty it you have a red alert without submit the form.

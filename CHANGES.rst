@@ -4,7 +4,8 @@ Changelog
 1.7.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix fuzzy translation.
+  [cekk]
 
 
 1.7.2 (2023-07-26)
