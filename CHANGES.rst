@@ -5,7 +5,8 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
-- Nothing changed yet.
+- Customized status message in prenotazione_print.pt based on review_state.
+  [cekk]
 
 
 2.0.0.dev3 (2023-07-20)
