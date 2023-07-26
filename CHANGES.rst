@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.7.2.dev0 (Unreleased)
------------------------
+1.7.2 (2023-07-26)
+------------------
 
 - Customized status message in prenotazione_print.pt based on review_state.
   [cekk]
