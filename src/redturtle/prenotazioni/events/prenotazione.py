@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_chain
 from zope.component import getMultiAdapter
-from zope.component import getUtility
-from plone.registry.interfaces import IRegistry
 from plone import api
 
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
@@ -95,7 +93,7 @@ def send_email(msg):
 
     host.send(msg, charset=encoding)
 
-    
+
 def get_mail_from_address():
     registry = getUtility(IRegistry)
     mail_settings = registry.forInterface(IMailSchema, prefix="plone", check=False)
