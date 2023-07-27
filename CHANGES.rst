@@ -2,7 +2,14 @@ Changelog
 =========
 
 
-2.0.0.dev3 (unreleased)
+2.0.0.dev4 (unreleased)
+-----------------------
+
+- Added event handler on booking creation to send email to managers.
+  [daniele]
+
+
+2.0.0.dev3 (2023-07-20)
 -----------------------
 
 - Handle contentrules by the plone events and do not use contentrules anymore.
