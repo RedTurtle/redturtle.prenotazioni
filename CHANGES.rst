@@ -5,7 +5,8 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
-- Nothing changed yet.
+- Added event handler on booking creation to send email to managers.
+  [daniele]
 
 
 2.0.0.dev3 (2023-07-20)
