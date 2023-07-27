@@ -23,6 +23,12 @@
       handler=".events_logger.on_modify"
       />
 
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           zope.lifecycleevent.IObjectAddedEvent"
+      handler=".prenotazione.send_email_to_managers"
+      />
+
   <!-- <subscriber for="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
                handler=".prenotazione.reallocate_gate" /> -->
 

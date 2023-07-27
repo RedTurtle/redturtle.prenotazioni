@@ -8,6 +8,9 @@ Changelog
 - Customized status message in prenotazione_print.pt based on review_state.
   [cekk]
 
+- Added event handler on booking creation to send email to managers.
+  [daniele]
+
 
 2.0.0.dev3 (2023-07-20)
 -----------------------
