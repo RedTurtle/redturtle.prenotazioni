@@ -216,7 +216,7 @@ def to_1500(context):
     )
 
 
-def to_1502_upgrade_contentrules(context):
+def to_1600_upgrade_contentrules(context):
     from plone.contentrules.engine.interfaces import IRuleStorage
     from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 

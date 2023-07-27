@@ -167,7 +167,7 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEventEmailMessage):
 
 @implementer(IPrenotazioneEmailMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
-class PrenotazioneAfterTransitionEmaiICalMessage(
+class PrenotazioneAfterTransitionEmailICalMessage(
     PrenotazioneEventMessageICalMixIn, PrenotazioneAfterTransitionEmailMessage
 ):
     pass
