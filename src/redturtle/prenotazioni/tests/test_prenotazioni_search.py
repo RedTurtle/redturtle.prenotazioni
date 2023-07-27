@@ -153,6 +153,18 @@ class TestPrenotazioniSearch(unittest.TestCase):
             fiscalcode=self.testing_fiscal_code,
             booking_type="typeA",
         )
+        self.prenotazione_confirmed = api.content.create(
+            container=self.day_folder1,
+            type="Prenotazione",
+            title="Prenotazione",
+            booking_date=self.testing_booking_date + timedelta(days=8),
+            booking_expiration_date=self.booking_expiration_date + timedelta(days=9),
+            fiscalcode=self.testing_fiscal_code,
+            booking_type="typeA",
+        )
+
+        api.content.transition(self.prenotazione_confirmed, to_state="confirmed")
+
         transaction.commit()
 
     def tearDown(self):
@@ -257,3 +269,14 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
         self.assertEqual(len(result_uids), 1)
         self.assertIn(self.prenotazione_typeA.UID(), result_uids)
+
+    def test_search_by_review_state(self):
+        result_uids = [
+            i["booking_id"]
+            for i in self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings?review_state=confirmed"
+            ).json()["items"]
+        ]
+
+        self.assertEqual(len(result_uids), 1)
+        self.assertIn(self.prenotazione_confirmed.UID(), result_uids)
