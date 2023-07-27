@@ -473,7 +473,7 @@ Parameters:
 - **gate**: The booking gate.
 - **userid**: The userid(basically it is the fiscalcode). Allowed to be used by users having the 'redturtle.prenotazioni: search prenotazioni' permission.
 - **booking_type**: The booking_type, available values are stored in 'redturtle.prenotazioni.booking_types' vocabulary.
-- **review_state**: The booking status, one of: 'confirmed', 'refused', 'private', 'prending'
+- **review_state**: The booking status, one of: 'confirmed', 'refused', 'private', 'pending'
 
 Example::
 
