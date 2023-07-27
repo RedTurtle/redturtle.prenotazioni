@@ -40,6 +40,7 @@ class BookingsSearch(Service):
         gate = self.request.get("gate", None)
         booking_type = self.request.get("booking_type", None)
         SearchableText = self.request.get("SearchableText", None)
+        review_state = self.request.get("review_state", None)
 
         if start_date or end_date:
             query["Date"] = {
@@ -55,6 +56,9 @@ class BookingsSearch(Service):
 
         if SearchableText:
             query["SearchableText"] = SearchableText
+
+        if review_state:
+            query["review_state"] = review_state
 
         return query
 

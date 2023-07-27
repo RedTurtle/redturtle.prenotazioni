@@ -220,4 +220,4 @@ def to_1502(context):
 
     for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
         logger.info(f"[ 1500 - 1501 ] - Rindexing <{brain.getPath()}>")
-        brain.getObject().reindexObject(idxs=["gate", "booking_type"])
+        brain.getObject().reindexObject(idxs=["booking_type"])
