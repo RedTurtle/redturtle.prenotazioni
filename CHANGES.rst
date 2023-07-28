@@ -5,7 +5,8 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
-- Nothing changed yet.
+- Extend @@bookings search view parameters list.
+  [folix-01]
 
 
 2.0.0.dev3 (2023-07-20)
