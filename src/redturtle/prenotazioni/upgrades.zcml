@@ -111,6 +111,10 @@
       destination="1600"
       >
     <genericsetup:upgradeStep
+        title="Popolate templates"
+        handler=".upgrades.to_1600_popolate_templates"
+        />
+    <genericsetup:upgradeStep
         title="Remove all the deprecated contentrules"
         handler=".upgrades.to_1600_upgrade_contentrules"
         />
