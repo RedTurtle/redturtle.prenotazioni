@@ -64,6 +64,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
             booking_types=[
                 {"name": "Type A", "duration": "10"},
                 {"name": "Type B", "duration": "20"},
+                {},
             ],
             gates=["Gate A"],
         )
@@ -134,6 +135,35 @@ class TestPrenotazioniSearch(unittest.TestCase):
             booking_expiration_date=self.booking_expiration_date,
             fiscalcode=self.testing_fiscal_code,
         )
+        self.prenotazione_gateA = api.content.create(
+            container=self.day_folder1,
+            type="Prenotazione",
+            title="Prenotazione",
+            booking_date=self.testing_booking_date + timedelta(days=8),
+            booking_expiration_date=self.booking_expiration_date + timedelta(days=9),
+            fiscalcode=self.testing_fiscal_code,
+            gate="Gate A",
+        )
+        self.prenotazione_typeA = api.content.create(
+            container=self.day_folder1,
+            type="Prenotazione",
+            title="Prenotazione",
+            booking_date=self.testing_booking_date + timedelta(days=8),
+            booking_expiration_date=self.booking_expiration_date + timedelta(days=9),
+            fiscalcode=self.testing_fiscal_code,
+            booking_type="typeA",
+        )
+        self.prenotazione_confirmed = api.content.create(
+            container=self.day_folder1,
+            type="Prenotazione",
+            title="Prenotazione",
+            booking_date=self.testing_booking_date + timedelta(days=8),
+            booking_expiration_date=self.booking_expiration_date + timedelta(days=9),
+            fiscalcode=self.testing_fiscal_code,
+        )
+
+        api.content.transition(self.prenotazione_confirmed, to_state="confirmed")
+
         transaction.commit()
 
     def tearDown(self):
@@ -216,3 +246,36 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["items_total"], 1)
         self.assertEqual(len(res.json()["items"]), 1)
+
+    def test_search_by_gate(self):
+        result_uids = [
+            i["booking_id"]
+            for i in self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings?gate=Gate%20A"
+            ).json()["items"]
+        ]
+
+        self.assertEqual(len(result_uids), 1)
+        self.assertIn(self.prenotazione_gateA.UID(), result_uids)
+
+    def test_search_by_booking_type(self):
+        result_uids = [
+            i["booking_id"]
+            for i in self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings?booking_type=typeA"
+            ).json()["items"]
+        ]
+
+        self.assertEqual(len(result_uids), 1)
+        self.assertIn(self.prenotazione_typeA.UID(), result_uids)
+
+    def test_search_by_review_state(self):
+        result_uids = [
+            i["booking_id"]
+            for i in self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings?review_state=confirmed"
+            ).json()["items"]
+        ]
+
+        self.assertEqual(len(result_uids), 1)
+        self.assertIn(self.prenotazione_confirmed.UID(), result_uids)
