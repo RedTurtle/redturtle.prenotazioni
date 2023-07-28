@@ -121,14 +121,10 @@ class PrenotazioneMovedICalEmailMessage(
         return MIMEText(
             IStringInterpolator(IContextWrapper(self.prenotazione)())(
                 getattr(
-                    getattr(
-                        self.folder,
-                        "notify_on_move_message",
-                        None,
-                    ),
-                    "output",
-                    "",
-                )
+                    self.folder,
+                    "notify_on_move_message",
+                    None,
+                ),
             ),
             "html",
         )
@@ -152,14 +148,10 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEventEmailMessage):
         return MIMEText(
             IStringInterpolator(IContextWrapper(self.prenotazione)())(
                 getattr(
-                    getattr(
-                        self.folder,
-                        f"notify_on_{self.event.transition and self.event.transition.__name__}_message",
-                        None,
-                    ),
-                    "output",
-                    "",
-                )
+                    self.folder,
+                    f"notify_on_{self.event.transition and self.event.transition.__name__}_message",
+                    None,
+                ),
             ),
             "html",
         )

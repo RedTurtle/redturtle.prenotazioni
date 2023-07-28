@@ -11,7 +11,6 @@ from zope.interface.interfaces import IObjectEvent
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from plone.app.textfield.value import RichTextValue
 
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
@@ -117,9 +116,7 @@ class TestSendIcal(unittest.TestCase):
     def test_email_sent_on_submit(self):
         self.folder_prenotazioni.notify_on_submit = True
         self.folder_prenotazioni.notify_on_submit_subject = self.email_subject
-        self.folder_prenotazioni.notify_on_submit_message = RichTextValue(
-            self.email_message, "text/html", "text/html"
-        )
+        self.folder_prenotazioni.notify_on_submit_message = self.email_message
 
         self.assertFalse(self.mailhost.messages)
 
@@ -143,9 +140,7 @@ class TestSendIcal(unittest.TestCase):
     def test_email_send_on_confirm(self):
         self.folder_prenotazioni.notify_on_confirm = True
         self.folder_prenotazioni.notify_on_confirm_subject = self.email_subject
-        self.folder_prenotazioni.notify_on_confirm_message = RichTextValue(
-            self.email_message, "text/html", "text/html"
-        )
+        self.folder_prenotazioni.notify_on_confirm_message = self.email_message
 
         self.assertFalse(self.mailhost.messages)
 
@@ -171,9 +166,7 @@ class TestSendIcal(unittest.TestCase):
     def test_email_send_on_reject(self):
         self.folder_prenotazioni.notify_on_refuse = True
         self.folder_prenotazioni.notify_on_refuse_subject = self.email_subject
-        self.folder_prenotazioni.notify_on_refuse_message = RichTextValue(
-            self.email_message, "text/html", "text/html"
-        )
+        self.folder_prenotazioni.notify_on_refuse_message = self.email_message
 
         self.assertFalse(self.mailhost.messages)
 
@@ -200,9 +193,7 @@ class TestSendIcal(unittest.TestCase):
         self.folder_prenotazioni.notify_on_submit = True
         self.folder_prenotazioni.notify_on_confirm = True
         self.folder_prenotazioni.notify_on_confirm_subject = self.email_subject
-        self.folder_prenotazioni.notify_on_confirm_message = RichTextValue(
-            self.email_message, "text/html", "text/html"
-        )
+        self.folder_prenotazioni.notify_on_confirm_message = self.email_message
 
         self.assertFalse(self.mailhost.messages)
 
@@ -228,9 +219,7 @@ class TestSendIcal(unittest.TestCase):
     def test_email_send_on_prenotazione_move(self):
         self.folder_prenotazioni.notify_on_move = True
         self.folder_prenotazioni.notify_on_move_subject = self.email_subject
-        self.folder_prenotazioni.notify_on_move_message = RichTextValue(
-            self.email_message, "text/html", "text/html"
-        )
+        self.folder_prenotazioni.notify_on_move_message = self.email_message
 
         self.assertFalse(self.mailhost.messages)
 

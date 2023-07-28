@@ -14,6 +14,7 @@ from redturtle.prenotazioni.content.validators import PauseValidator
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
+from zope.i18n import translate
 from zope.component import provideAdapter
 from zope.interface import provider
 from zope.interface import implementer
@@ -46,7 +47,9 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
                 return value
         return None
 
-    number_of_entry = request.form.get("form.widgets.{}.count".format(fieldname))
+    number_of_entry = request.form.get(
+        "form.widgets.{}.count".format(fieldname)
+    )
     data = []
     prefix = "form.widgets.{}".format(fieldname)
     for counter in range(int(number_of_entry)):
@@ -86,7 +89,9 @@ class IWeekTableRow(model.Schema):
     )
 
     afternoon_start = schema.Choice(
-        title=_("afternoon_start_label", default="Start time in the afternoon"),
+        title=_(
+            "afternoon_start_label", default="Start time in the afternoon"
+        ),
         vocabulary="redturtle.prenotazioni.VocOreInizio",
         required=False,
     )
@@ -137,91 +142,80 @@ class IBookingTypeRow(Interface):
 
 
 @provider(IContextAwareDefaultFactory)
-def templates_usage_default_factory(context):
-    return _(
-        "templates_usage_default_value",
-        "<ul>"
-        "<li>${title} - title.</li>"
-        "<li>${booking_gate} - booking gate.</li>"
-        "<li>${booking_human_readable_start} - booking human readable start.</li>"
-        "<li>${booking_date} - booking date.</li>"
-        "<li>${booking_end_date} - booking end date.</li>"
-        "<li>${booking_time} - booking time.</li>"
-        "<li>${booking_time_end} - booking time end.</li>"
-        "<li>${booking_code} - booking code.</li>"
-        "<li>${booking_type} - booking type.</li>"
-        "<li>${booking_print_url} - booking print url.</li>"
-        "<li>${booking_url_with_delete_token} - booking url with delete token.</li>"
-        "<li>${booking_user_phone} - booking user phone.</li>"
-        "<li>${booking_user_email} - booking user email.</li>"
-        "<li>${booking_office_contact_phone} - booking office contact phone.</li>"
-        "<li>${booking_office_contact_pec} - booking office contact pec.</li>"
-        "<li>${booking_office_contact_fax} - booking office contact fax.</li>"
-        "<li>${booking_how_to_get_to_office} - booking how to get to office.</li>"
-        "<li>${booking_office_complete_address} - booking office complete address.</li>"
-        "</ul>",
+def notify_on_submit_subject_default_factory(context):
+    return context.translate(
+        _("notify_on_submit_subject_default_value", "Booking created ${title}")
     )
 
 
 @provider(IContextAwareDefaultFactory)
-def notify_on_submit_subject_default_factory(context):
-    return _("notify_on_submit_subject_default_value", "Booking created ${title}")
-
-
-@provider(IContextAwareDefaultFactory)
 def notify_on_submit_message_default_factory(context):
-    return _(
-        "notify_on_submit_message_default_value",
-        "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
+    return context.translate(
+        _(
+            "notify_on_submit_message_default_value",
+            "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
+        )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_confirm_subject_default_factory(context):
-    return _(
-        "notify_on_confirm_subject_default_value",
-        "Booking of ${booking_date} at ${booking_time} was accepted",
+    return context.translate(
+        _(
+            "notify_on_confirm_subject_default_value",
+            "Booking of ${booking_date} at ${booking_time} was accepted",
+        )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_confirm_message_default_factory(context):
-    return _(
-        "notify_on_confirm_message_default_value",
-        "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
+    return context.translate(
+        _(
+            "notify_on_confirm_message_default_value",
+            "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
+        )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_move_subject_default_factory(context):
-    return _(
-        "notify_on_move_subject_default_value",
-        "Modified the boolking date for ${title}",
+    return context.translate(
+        _(
+            "notify_on_move_subject_default_value",
+            "Modified the boolking date for ${title}",
+        )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_move_message_default_factory(context):
-    return _(
-        "notify_on_move_message_default_value",
-        "The booking scheduling of ${booking_type} was modified."
-        "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
+    return context.translate(
+        _(
+            "notify_on_move_message_default_value",
+            "The booking scheduling of ${booking_type} was modified."
+            "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
+        )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_refuse_subject_default_factory(context):
-    return _(
-        "notify_on_refuse_subject_default_value",
-        "Booking refused for ${title}",
+    return context.translate(
+        _(
+            "notify_on_refuse_subject_default_value",
+            "Booking refused for ${title}",
+        )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_refuse_message_default_factory(context):
-    return _(
-        "notify_on_refuse_message_default_value",
-        "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
+    return context.translate(
+        _(
+            "notify_on_refuse_message_default_value",
+            "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
+        )
     )
 
 
@@ -232,7 +226,9 @@ class IPrenotazioniFolder(model.Schema):
     descriptionAgenda = RichText(
         required=False,
         title=_("Descrizione Agenda", default="Descrizione Agenda"),
-        description=_("Inserire il testo di presentazione dell'agenda corrente"),
+        description=_(
+            "Inserire il testo di presentazione dell'agenda corrente"
+        ),
     )
 
     form.mode(descriptionAgenda="display")
@@ -247,7 +243,9 @@ class IPrenotazioniFolder(model.Schema):
 
     directives.widget(required_booking_fields=CheckBoxFieldWidget)
     required_booking_fields = schema.List(
-        title=_("label_required_booking_fields", default="Required booking fields"),
+        title=_(
+            "label_required_booking_fields", default="Required booking fields"
+        ),
         description=_(
             "help_required_booking_fields",
             "User will not be able to add a booking unless those "
@@ -265,7 +263,9 @@ class IPrenotazioniFolder(model.Schema):
     directives.widget(required_booking_fields=CheckBoxFieldWidget)
 
     visible_booking_fields = schema.List(
-        title=_("label_visible_booking_fields", default="Visible booking fields"),
+        title=_(
+            "label_visible_booking_fields", default="Visible booking fields"
+        ),
         description=_(
             "help_visible_booking_fields",
             "User will not be able to add a booking unless those "
@@ -299,7 +299,9 @@ class IPrenotazioniFolder(model.Schema):
         options = [
             SimpleTerm(value="yes", token="yes", title=_("Yes")),
             SimpleTerm(value="no", token="no", title=_("No")),
-            SimpleTerm(value=today, token=today, title=_("No, just for today")),
+            SimpleTerm(
+                value=today, token=today, title=_("No, just for today")
+            ),
         ]
 
         return SimpleVocabulary(options)
@@ -552,10 +554,14 @@ class IPrenotazioniFolder(model.Schema):
                 raise Invalid(_("You should set a start time for afternoon."))
             if interval["morning_start"] and interval["morning_end"]:
                 if interval["morning_start"] > interval["morning_end"]:
-                    raise Invalid(_("Morning start should not be greater than end."))
+                    raise Invalid(
+                        _("Morning start should not be greater than end.")
+                    )
             if interval["afternoon_start"] and interval["afternoon_end"]:
                 if interval["afternoon_start"] > interval["afternoon_end"]:
-                    raise Invalid(_("Afternoon start should not be greater than end."))
+                    raise Invalid(
+                        _("Afternoon start should not be greater than end.")
+                    )
 
     # TODO: definire o descrivere quando avviee la notifica
     # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?
@@ -601,12 +607,6 @@ class IPrenotazioniFolder(model.Schema):
         default=False,
         required=False,
     )
-    form.mode(templates_usage="display")
-    templates_usage = RichText(
-        title=_("templates_usage_label", "Templates usage"),
-        defaultFactory=templates_usage_default_factory,
-        output_mime_type="text/html",
-    )
     notify_on_submit_subject = schema.TextLine(
         title=_(
             "notify_on_submit_subject",
@@ -616,12 +616,11 @@ class IPrenotazioniFolder(model.Schema):
         defaultFactory=notify_on_submit_subject_default_factory,
         required=False,
     )
-    notify_on_submit_message = RichText(
+    notify_on_submit_message = schema.Text(
         title=_(
             "notify_on_submit_message",
             default="Prenotazione created notification message.",
         ),
-        output_mime_type="text/html",
         description=_("notify_on_submit_message_help", default=""),
         defaultFactory=notify_on_submit_message_default_factory,
         required=False,
@@ -635,12 +634,11 @@ class IPrenotazioniFolder(model.Schema):
         defaultFactory=notify_on_confirm_subject_default_factory,
         required=False,
     )
-    notify_on_confirm_message = RichText(
+    notify_on_confirm_message = schema.Text(
         title=_(
             "notify_on_confirm_message",
             default="Prenotazione confirmed notification message.",
         ),
-        output_mime_type="text/html",
         description=_("notify_on_confirm_message_help", default=""),
         defaultFactory=notify_on_confirm_message_default_factory,
         required=False,
@@ -654,12 +652,11 @@ class IPrenotazioniFolder(model.Schema):
         defaultFactory=notify_on_move_subject_default_factory,
         required=False,
     )
-    notify_on_move_message = RichText(
+    notify_on_move_message = schema.Text(
         title=_(
             "notify_on_move_message",
             default="Prenotazione moved notification message.",
         ),
-        output_mime_type="text/html",
         description=_("notify_on_move_message_help", default=""),
         defaultFactory=notify_on_move_message_default_factory,
         required=False,
@@ -673,12 +670,11 @@ class IPrenotazioniFolder(model.Schema):
         defaultFactory=notify_on_refuse_subject_default_factory,
         required=False,
     )
-    notify_on_refuse_message = RichText(
+    notify_on_refuse_message = schema.Text(
         title=_(
             "notify_on_refuse_message",
             default="Prenotazione created notification message.",
         ),
-        output_mime_type="text/html",
         description=_("notify_on_refuse_message_help", default=""),
         defaultFactory=notify_on_refuse_message_default_factory,
         required=False,
@@ -746,12 +742,34 @@ class IPrenotazioniFolder(model.Schema):
             "prenotazioni_email_templates_label",
             default="Prenotazioni Email Templates",
         ),
-        description=_(
-            "prenotazioni_email_templates_description",
-            default="",
+        description=translate(
+            _(
+                "templates_usage_default_value",
+                "${title} - title."
+                "${booking_gate} - booking gate."
+                "${booking_human_readable_start} - booking human readable start."
+                "${booking_date} - booking date."
+                "${booking_end_date} - booking end date."
+                "${booking_time} - booking time."
+                "${booking_time_end} - booking time end."
+                "${booking_code} - booking code."
+                "${booking_type} - booking type."
+                "${booking_print_url} - booking print url."
+                "${booking_url_with_delete_token} - booking url with delete token."
+                "${booking_user_phone} - booking user phone."
+                "${booking_user_email} - booking user email."
+                "${booking_office_contact_phone} - booking office contact phone."
+                "${booking_office_contact_pec} - booking office contact pec."
+                "${booking_office_contact_fax} - booking office contact fax."
+                "${booking_how_to_get_to_office} - booking how to get to office."
+                "${booking_office_complete_address} - booking office complete address.",
+            )
         ),
+        # description=_(
+        #     "prenotazioni_email_templates_description",
+        #     default="",
+        # ),
         fields=[
-            "templates_usage",
             "notify_on_submit_subject",
             "notify_on_submit_message",
             "notify_on_confirm_subject",
