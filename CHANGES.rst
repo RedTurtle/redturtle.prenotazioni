@@ -5,6 +5,8 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- Extend @@bookings search view parameters list.
+  [folix-01]
 - Added event handler on booking creation to send email to managers.
   [daniele]
 
