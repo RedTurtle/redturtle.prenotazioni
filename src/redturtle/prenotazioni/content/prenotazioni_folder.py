@@ -14,6 +14,7 @@ from redturtle.prenotazioni.content.validators import PauseValidator
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
+from zope.i18n import translate
 from zope.component import provideAdapter
 from zope.interface import implementer
 from zope.interface import Interface
@@ -131,6 +132,76 @@ class IBookingTypeRow(Interface):
         title=_("Duration value"),
         required=True,
         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
+    )
+
+
+def notify_on_submit_subject_default_factory():
+    return translate(
+        _("notify_on_submit_subject_default_value", "Booking created ${title}")
+    )
+
+
+def notify_on_submit_message_default_factory():
+    return translate(
+        _(
+            "notify_on_submit_message_default_value",
+            "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
+        )
+    )
+
+
+def notify_on_confirm_subject_default_factory():
+    return translate(
+        _(
+            "notify_on_confirm_subject_default_value",
+            "Booking of ${booking_date} at ${booking_time} was accepted",
+        )
+    )
+
+
+def notify_on_confirm_message_default_factory():
+    return translate(
+        _(
+            "notify_on_confirm_message_default_value",
+            "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
+        )
+    )
+
+
+def notify_on_move_subject_default_factory():
+    return translate(
+        _(
+            "notify_on_move_subject_default_value",
+            "Modified the boolking date for ${title}",
+        )
+    )
+
+
+def notify_on_move_message_default_factory():
+    return translate(
+        _(
+            "notify_on_move_message_default_value",
+            "The booking scheduling of ${booking_type} was modified."
+            "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
+        )
+    )
+
+
+def notify_on_refuse_subject_default_factory():
+    return translate(
+        _(
+            "notify_on_refuse_subject_default_value",
+            "Booking refused for ${title}",
+        )
+    )
+
+
+def notify_on_refuse_message_default_factory():
+    return translate(
+        _(
+            "notify_on_refuse_message_default_value",
+            "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
+        )
     )
 
 
@@ -311,7 +382,9 @@ class IPrenotazioniFolder(model.Schema):
         value_type=DictRow(title="Pause row", schema=IPauseTableRow),
     )
     form.widget(
-        "pause_table", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
+        "pause_table",
+        DataGridFieldFactory,
+        frontendOptions={"widget": "data_grid"},
     )
 
     holidays = schema.List(
@@ -361,7 +434,9 @@ class IPrenotazioniFolder(model.Schema):
         value_type=DictRow(schema=IBookingTypeRow),
     )
     form.widget(
-        "booking_types", DataGridFieldFactory, frontendOptions={"widget": "data_grid"}
+        "booking_types",
+        DataGridFieldFactory,
+        frontendOptions={"widget": "data_grid"},
     )
 
     gates = schema.List(
@@ -388,7 +463,15 @@ class IPrenotazioniFolder(model.Schema):
         value_type=schema.TextLine(),
         default=[],
     )
-
+    auto_confirm = schema.Bool(
+        title=_("auto_confirm", default="Automatically confirm."),
+        description=_(
+            "auto_confirm_help",
+            default="All bookings will be automatically accepted.",
+        ),
+        default=False,
+        required=False,
+    )
     # XXX validate email
     email_responsabile = schema.List(
         title=_("Responsible email"),
@@ -462,6 +545,115 @@ class IPrenotazioniFolder(model.Schema):
         required=False,
     )
 
+    notify_on_submit = schema.Bool(
+        title=_("notify_on_submit", default="Notify when created."),
+        description=_(
+            "notify_on_submit_help",
+            default="Notify via mail the user when his booking has been created. If auto-confirm flag is selected and confirm notify is selected, this one will be ignored.",
+        ),
+        default=False,
+        required=False,
+    )
+    notify_on_confirm = schema.Bool(
+        title=_("notify_on_confirm", default="Notify when confirmed."),
+        description=_(
+            "notify_on_confirm_help",
+            default="Notify via mail the user when his booking has been confirmed.",
+        ),
+        default=False,
+        required=False,
+    )
+    notify_on_move = schema.Bool(
+        title=_("notify_on_move", default="Notify when moved."),
+        description=_(
+            "notify_on_move_help",
+            default="Notify via mail the user when his booking has been moved.",
+        ),
+        default=False,
+        required=False,
+    )
+    notify_on_reject = schema.Bool(
+        title=_("notify_on_reject", default="Notify when rejected."),
+        description=_(
+            "notify_on_reject_help",
+            default="Notify via mail the user when his booking has been rejected.",
+        ),
+        default=False,
+        required=False,
+    )
+    notify_on_submit_subject = schema.TextLine(
+        title=_(
+            "notify_on_submit_subject",
+            default="Prenotazione created notification subject.",
+        ),
+        description=_("notify_on_submit_subject_help", default=""),
+        default=notify_on_submit_subject_default_factory(),
+        required=False,
+    )
+    notify_on_submit_message = schema.Text(
+        title=_(
+            "notify_on_submit_message",
+            default="Prenotazione created notification message.",
+        ),
+        description=_("notify_on_submit_message_help", default=""),
+        default=notify_on_submit_message_default_factory(),
+        required=False,
+    )
+    notify_on_confirm_subject = schema.TextLine(
+        title=_(
+            "notify_on_confirm_subject",
+            default="Prenotazione confirmed notification subject.",
+        ),
+        description=_("notify_on_confirm_subject_help", default=""),
+        default=notify_on_confirm_subject_default_factory(),
+        required=False,
+    )
+    notify_on_confirm_message = schema.Text(
+        title=_(
+            "notify_on_confirm_message",
+            default="Prenotazione confirmed notification message.",
+        ),
+        description=_("notify_on_confirm_message_help", default=""),
+        default=notify_on_confirm_message_default_factory(),
+        required=False,
+    )
+    notify_on_move_subject = schema.TextLine(
+        title=_(
+            "notify_on_move_subject",
+            default="Prenotazione moved notification subject.",
+        ),
+        description=_("notify_on_move_subject_help", default=""),
+        default=notify_on_move_subject_default_factory(),
+        required=False,
+    )
+    notify_on_move_message = schema.Text(
+        title=_(
+            "notify_on_move_message",
+            default="Prenotazione moved notification message.",
+        ),
+        description=_("notify_on_move_message_help", default=""),
+        default=notify_on_move_message_default_factory(),
+        required=False,
+    )
+    notify_on_refuse_subject = schema.TextLine(
+        title=_(
+            "notify_on_refuse_subject",
+            default="Prenotazione refused notification subject.",
+        ),
+        description=_("notify_on_refuse_subject_help", default=""),
+        default=notify_on_refuse_subject_default_factory(),
+        required=False,
+    )
+    notify_on_refuse_message = schema.Text(
+        title=_(
+            "notify_on_refuse_message",
+            default="Prenotazione created notification message.",
+        ),
+        description=_("notify_on_refuse_message_help", default=""),
+        default=notify_on_refuse_message_default_factory(),
+        required=False,
+    )
+
     model.fieldset(
         "dates",
         label=_("Date validità"),
@@ -501,12 +693,63 @@ class IPrenotazioniFolder(model.Schema):
         ),
         fields=["how_to_get_here", "phone", "fax", "pec", "complete_address"],
     )
-
+    model.fieldset(
+        "Notifications",
+        label=_("notifications_label", default="Notifications"),
+        fields=[
+            "notify_on_submit",
+            "notify_on_confirm",
+            "notify_on_move",
+            "notify_on_reject",
+        ],
+    )
     model.fieldset(
         "Reminders",
         label=_("reminders_label", default="Reminders"),
         fields=[
             "app_io_enabled",
+        ],
+    )
+    model.fieldset(
+        "Prenotazioni Email Templates",
+        label=_(
+            "prenotazioni_email_templates_label",
+            default="Prenotazioni Email Templates",
+        ),
+        description=_(
+            "templates_usage_default_value",
+            "${title} - title."
+            "${booking_gate} - booking gate."
+            "${booking_human_readable_start} - booking human readable start."
+            "${booking_date} - booking date."
+            "${booking_end_date} - booking end date."
+            "${booking_time} - booking time."
+            "${booking_time_end} - booking time end."
+            "${booking_code} - booking code."
+            "${booking_type} - booking type."
+            "${booking_print_url} - booking print url."
+            "${booking_url_with_delete_token} - booking url with delete token."
+            "${booking_user_phone} - booking user phone."
+            "${booking_user_email} - booking user email."
+            "${booking_office_contact_phone} - booking office contact phone."
+            "${booking_office_contact_pec} - booking office contact pec."
+            "${booking_office_contact_fax} - booking office contact fax."
+            "${booking_how_to_get_to_office} - booking how to get to office."
+            "${booking_office_complete_address} - booking office complete address.",
+        ),
+        # description=_(
+        #     "prenotazioni_email_templates_description",
+        #     default="",
+        # ),
+        fields=[
+            "notify_on_submit_subject",
+            "notify_on_submit_message",
+            "notify_on_confirm_subject",
+            "notify_on_confirm_message",
+            "notify_on_move_subject",
+            "notify_on_move_message",
+            "notify_on_refuse_subject",
+            "notify_on_refuse_message",
         ],
     )
 

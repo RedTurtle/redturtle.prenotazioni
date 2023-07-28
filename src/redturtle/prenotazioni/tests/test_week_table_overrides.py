@@ -8,8 +8,12 @@ from plone.app.testing import (
     setRoles,
 )
 from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+)
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
+)
 from plone import api
 
 import unittest
@@ -327,7 +331,8 @@ class TestApiValidateDataOnPost(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertIn(
-            "You should set an end time for morning", response.json()["message"]
+            "You should set an end time for morning",
+            response.json()["message"],
         )
 
     def test_if_set_end_you_should_set_a_start(self):
@@ -363,8 +368,8 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "gates": ["Gate A"],
             },
         )
-
         self.assertEqual(response.status_code, 400)
         self.assertIn(
-            "You should set a start time for morning", response.json()["message"]
+            "You should set a start time for morning",
+            response.json()["message"],
         )

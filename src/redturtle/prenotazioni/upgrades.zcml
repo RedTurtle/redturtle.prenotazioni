@@ -105,5 +105,19 @@
       destination="1502"
       handler=".upgrades.to_1502"
       />
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1501"
+      destination="1600"
+      >
+    <genericsetup:upgradeStep
+        title="Popolate templates"
+        handler=".upgrades.to_1600_popolate_templates"
+        />
+    <genericsetup:upgradeStep
+        title="Remove all the deprecated contentrules"
+        handler=".upgrades.to_1600_upgrade_contentrules"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

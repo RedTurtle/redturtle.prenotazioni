@@ -10,6 +10,9 @@ from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
 from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import queryUtility
+from zope.component import getUtility
+
+from redturtle.prenotazioni import _
 
 import logging
 
@@ -221,3 +224,115 @@ def to_1502(context):
     for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
         logger.info(f"[ 1500 - 1501 ] - Rindexing <{brain.getPath()}>")
         brain.getObject().reindexObject(idxs=["booking_type"])
+
+
+def to_1600_popolate_templates(context):
+    notify_on_submit_subject = context.translate(
+        _("notify_on_submit_subject_default_value", "Booking created ${title}")
+    )
+
+    notify_on_submit_message = context.translate(
+        _(
+            "notify_on_submit_message_default_value",
+            "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
+        )
+    )
+
+    notify_on_confirm_subject = context.translate(
+        _(
+            "notify_on_confirm_subject_default_value",
+            "Booking of ${booking_date} at ${booking_time} was accepted",
+        )
+    )
+
+    notify_on_confirm_message = context.translate(
+        _(
+            "notify_on_confirm_message_default_value",
+            "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
+        )
+    )
+
+    notify_on_move_subject = context.translate(
+        _(
+            "notify_on_move_subject_default_value",
+            "Modified the boolking date for ${title}",
+        )
+    )
+
+    notify_on_move_message = context.translate(
+        _(
+            "notify_on_move_message_default_value",
+            "The booking scheduling of ${booking_type} was modified."
+            "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
+        )
+    )
+
+    notify_on_refuse_subject = context.translate(
+        _(
+            "notify_on_refuse_subject_default_value",
+            "Booking refused for ${title}",
+        )
+    )
+
+    notify_on_refuse_message = context.translate(
+        _(
+            "notify_on_refuse_message_default_value",
+            "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
+        )
+    )
+
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        obj = brain.getObject()
+        obj.notify_on_submit_subject = notify_on_submit_subject
+        obj.notify_on_submit_message = notify_on_submit_message
+        obj.notify_on_confirm_subject = notify_on_confirm_subject
+        obj.notify_on_confirm_message = notify_on_confirm_message
+        obj.notify_on_move_subject = notify_on_move_subject
+        obj.notify_on_move_message = notify_on_move_message
+        obj.notify_on_refuse_subject = notify_on_refuse_subject
+        obj.notify_on_refuse_message = notify_on_refuse_message
+
+
+def to_1600_upgrade_contentrules(context):
+    from plone.contentrules.engine.interfaces import IRuleStorage
+    from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+
+    rules_to_delete = [
+        "booking-accepted",
+        "booking-moved",
+        "booking-created-user",
+        "booking-refuse",
+        "booking-confirm",
+    ]
+
+    rule_storage = getUtility(IRuleStorage)
+
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type=["PrenotazioniFolder", "Plone Site", "Folder"]
+    ):
+        obj = brain.getObject()
+        assignable = IRuleAssignmentManager(obj, None)
+        contentrules_mapping = {
+            "booking-accepted": "notify_on_submit",
+            "booking-moved": "notify_on_move",
+            "booking-refuse": "notify_on_refuse",
+        }
+
+        for old, new in contentrules_mapping.items():
+            if assignable.get("booking-confirm", None):
+                setattr(obj, "notify_on_confirm", True)
+                setattr(obj, "auto_confirm", True)
+                continue
+            if assignable.get(old, None):
+                setattr(obj, new, True)
+
+    for rule in rules_to_delete:
+        if rule_storage.get(rule):
+            # It is supposed that all the rule assignments will be deleted by plone.app.contentrules
+            # event handlers which are supposed to do that
+            logger.info(f"[1501-1502] Deleting contentrule `{rule}`")
+            del rule_storage[rule]
+
+    update_contentrules(context)

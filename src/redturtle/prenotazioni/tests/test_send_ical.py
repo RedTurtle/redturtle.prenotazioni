@@ -1,5 +1,9 @@
 # -*- coding: UTF-8 -*-
-from collective.contentrules.mailfromfield.actions.mail import MailFromFieldAction
+# TODO: Evaluate if we can join the prenotazioni event tests with the tests below so
+# as now the ical is being added in the templates adaptes used py plone event
+from collective.contentrules.mailfromfield.actions.mail import (
+    MailFromFieldAction,
+)
 from datetime import date, datetime
 from datetime import timedelta
 from plone import api
@@ -9,7 +13,9 @@ from plone.contentrules.rule.interfaces import IExecutable
 from Products.CMFCore.WorkflowCore import ActionSucceededEvent
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
+)
 from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
