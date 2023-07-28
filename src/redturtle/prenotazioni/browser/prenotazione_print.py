@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.memoize.view import memoize
 from plone.protect.utils import addTokenToUrl
 from Products.CMFCore.utils import getToolByName
@@ -16,10 +17,23 @@ class PrenotazionePrint(BrowserView):
 
     print_action = "javascript:this.print();"
 
-    description = _(
-        "confirm_booking_waiting_message",
-        "Your booking has to be confirmed by the administrators",
-    )
+    def get_status_message(self):
+        review_state = api.content.get_state(obj=self.prenotazione)
+        messages_mapping = {
+            "pending": _(
+                "confirm_booking_waiting_message",
+                "Your booking has to be confirmed by the administrators.",
+            ),
+            "confirmed": _(
+                "confirm_booking_confirmed_message",
+                "Your booking has been confirmed.",
+            ),
+            "refused": _(
+                "confirm_booking_refused_message",
+                "Your booking has been refused.",
+            ),
+        }
+        return messages_mapping.get(review_state, "")
 
     @property
     @memoize
