@@ -7,6 +7,8 @@ Changelog
 
 - Extend @@bookings search view parameters list.
   [folix-01]
+- Added event handler on booking creation to send email to managers.
+  [daniele]
 
 
 2.0.0.dev3 (2023-07-20)
