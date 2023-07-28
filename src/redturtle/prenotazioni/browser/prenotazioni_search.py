@@ -116,6 +116,13 @@ class SearchForm(form.Form):
             query["SearchableText"] = quote_chars(data["text"])
         if data.get("review_state"):
             query["review_state"] = data["review_state"]
+        if data.get("booking_type"):
+            query["booking_type"] = data["booking_type"]
+        if api.user.has_permission("redturtle.prenotazioni: search prenotazioni"):
+            userid = self.request.get("userid", None)
+            if userid:
+                query["fiscalcode"] = userid.upper()
+
         if data.get("gate"):
             factory = getUtility(IVocabularyFactory, "redturtle.prenotazioni.gates")
             vocabulary = factory(context=self.context)

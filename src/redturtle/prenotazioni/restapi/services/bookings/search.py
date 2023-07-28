@@ -2,7 +2,9 @@
 from DateTime import DateTime
 from plone import api
 from plone.restapi.services import Service
-from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
+from redturtle.prenotazioni.interfaces import (
+    ISerializeToPrenotazioneSearchableItem,
+)
 from zExceptions import Unauthorized
 from zope.component import getMultiAdapter
 from zope.interface import implementer
@@ -23,22 +25,45 @@ class BookingsSearch(Service):
     def query(self):
         query = {
             "portal_type": "Prenotazione",
+            "sort_on": "Date",
+            "sort_order": "reverse",
         }
+
         if api.user.is_anonymous():
             raise Unauthorized("You must be logged in to perform this action")
         elif api.user.has_permission("redturtle.prenotazioni: search prenotazioni"):
             userid = self.request.get("userid", None)
         else:
             userid = api.user.get_current().getUserId()
+
         if userid:
             query["fiscalcode"] = userid.upper()
+
         start_date = self.request.get("from", None)
         end_date = self.request.get("to", None)
+        gate = self.request.get("gate", None)
+        booking_type = self.request.get("booking_type", None)
+        SearchableText = self.request.get("SearchableText", None)
+        review_state = self.request.get("review_state", None)
+
         if start_date or end_date:
             query["Date"] = {
                 "query": [DateTime(i) for i in [start_date, end_date] if i],
                 "range": f"{start_date and 'min' or ''}{start_date and end_date and ':' or ''}{end_date and 'max' or ''}",  # noqa: E501
             }
+
+        if gate:
+            query["Subject"] = "Gate: {}".format(gate)
+
+        if booking_type:
+            query["booking_type"] = booking_type
+
+        if SearchableText:
+            query["SearchableText"] = SearchableText
+
+        if review_state:
+            query["review_state"] = review_state
+
         return query
 
     def reply(self):

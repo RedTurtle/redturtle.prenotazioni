@@ -77,7 +77,7 @@ class TestDeleteBookingApi(unittest.TestCase):
             request=self.request,
         )
         self.booker = IBooker(self.folder_prenotazioni)
-        self.today = datetime.now().replace(hour=8)
+        self.today = datetime.now().replace(hour=8, microsecond=0)
 
         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
         transaction.commit()
@@ -96,6 +96,8 @@ class TestDeleteBookingApi(unittest.TestCase):
             response = session.delete("{}/@booking".format(self.portal_url))
         else:
             response = session.delete("{}/@booking/{}".format(self.portal_url, uid))
+        # per le restapi il commit qui non ha senso, senza i test si rompono,
+        # ma è un caso, va spostato dove serve veramente, questo non è il suo posto
         transaction.commit()
         return response
 
@@ -285,3 +287,31 @@ class TestDeleteBookingApi(unittest.TestCase):
         self.assertEqual(
             len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
         )
+
+    # TODO: creare un nuovo file di test per la move ?
+    def test_move_booking(self):
+        booking = self.booker.create(
+            {
+                "booking_date": self.today,
+                "booking_type": "Type A",
+                "title": "foo",
+            }
+        )
+        uid = booking.UID()
+        transaction.commit()
+
+        tomorrow = self.today + timedelta(1)
+        response = self.api_session_admin.post(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
+            json={
+                "booking_id": uid,
+                "booking_date": tomorrow.isoformat(),  # tomorrow
+            },
+        )
+        self.assertEqual(response.status_code, 201)
+
+        response = self.api_session_admin.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["booking_date"], tomorrow.isoformat())

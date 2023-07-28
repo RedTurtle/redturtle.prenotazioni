@@ -8,6 +8,12 @@ Changelog
 - Customized status message in prenotazione_print.pt based on review_state.
   [cekk]
 
+- Add @booking-move restapi
+  [mamico]
+
+- Extend @@bookings search view parameters list.
+  [folix-01]
+
 - Added event handler on booking creation to send email to managers.
   [daniele]
 

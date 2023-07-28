@@ -97,5 +97,13 @@
       destination="1501"
       handler=".upgrades.update_registry"
       />
+  <genericsetup:upgradeStep
+      title="Upgrade to 1502"
+      description="Add new indexer `gate` to portal_catalog"
+      profile="redturtle.prenotazioni:default"
+      source="1501"
+      destination="1502"
+      handler=".upgrades.to_1502"
+      />
 
 </configure>

@@ -284,6 +284,24 @@ A booking can be deleted only if on of the following rules are satisfied:
 - Current logged-in user has `redturtle.prenotazioni.ManagePrenotazioni` permission
 - Booking has a date > today
 
+
+MOVE
+~~~~
+
+This endpoint allows to move a booking by its UID to a different date/time slot.
+
+Example::
+
+    curl http://localhost:8080/Plone/++api++/<booking_folder_path>/@booking-move \
+        -X POST \
+        -H 'Accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+            "booking_date": "2023-05-23T09:00:00+02:00",
+            "booking_id": "<booking UID>",
+        }'
+
+
 @prenotazione
 -------------
 
@@ -467,12 +485,17 @@ Endpoint that returns a list of own *Prenotazione* content by parameters
 
 Parameters:
 
-- **from**: The statrt date of research
-- **to**: The end date of research
+- **SearchableText**: The SearchableText of content.
+- **from**: The start date of research.
+- **to**: The end date of research.
+- **gate**: The booking gate.
+- **userid**: The userid(basically it is the fiscalcode). Allowed to be used by users having the 'redturtle.prenotazioni: search prenotazioni' permission.
+- **booking_type**: The booking_type, available values are stored in 'redturtle.prenotazioni.booking_types' vocabulary.
+- **review_state**: The booking status, one of: 'confirmed', 'refused', 'private', 'pending'
 
 Example::
 
-   curl -i http://localhost:8080/Plone/@bookings?from=10-10-2023&to=20-10-2023 \
+   curl -i http://localhost:8080/Plone/@bookings?from=10-10-2023&to=20-10-2023&gate=Gate1&userid=user1&booking_type=type1&SearchableText=text1 \
      -H 'Accept: application/json'
 
 Response::
@@ -481,6 +504,7 @@ Response::
         "@id": "http://localhost:8080/Plone/folder/@bookings",
         "items": [
              {
+                "title": "Booking Title",
                 "booking_id": "abcdefgh1234567890",
                 "booking_url": "https://url.ioprenoto.it/prenotazione/abcd",
                 "booking_date": "2018-04-25T10:00:00",
@@ -499,7 +523,7 @@ Response::
           }
     }
 
-    
+
 If the user is not logged in, the endpoint will return a 401 error.
 
 If the user has a special permission, the endpoint can be called with any `fiscalcode`::
@@ -507,6 +531,27 @@ If the user has a special permission, the endpoint can be called with any `fisca
   curl -i http://localhost:8080/Plone/@bookings/FISCALCODE?from=10-10-2023 \
      -H 'Accept: application/json'
 
+Special Views
+==============
+
+@@download_reservation
+----------------------
+This view allows to download the bookings filtered by passed parameters
+
+- **text**: The SearchableText of content.
+- **from**: The start date of research.
+- **to**: The end date of research.
+- **gate**: The booking gate.
+- **userid**: The userid(basically it is the fiscalcode). Allowed to be used by users having the 'redturtle.prenotazioni: search prenotazioni' permission.
+- **booking_type**: The booking_type, available values are stored in 'redturtle.prenotazioni.booking_types' vocabulary.
+- **review_state**: The booking status, one of: 'confirmed', 'refused', 'private', 'pending'
+
+
+Example::
+    curl -i http://localhost:8080/Plone/folder?text=Text&review_state=confirmed&gate=Gate1&start=2010-10-10&end=2025-10-10&booking_type=Type1
+
+Response::
+    Binary file
 
 How to develop
 ==============
