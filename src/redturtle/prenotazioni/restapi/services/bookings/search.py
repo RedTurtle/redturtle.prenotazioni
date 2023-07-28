@@ -23,7 +23,11 @@ class BookingsSearch(Service):
         return self
 
     def query(self):
-        query = {"portal_type": "Prenotazione"}
+        query = {
+            "portal_type": "Prenotazione",
+            "sort_on": "Date",
+            "sort_order": "reverse",
+        }
 
         if api.user.is_anonymous():
             raise Unauthorized("You must be logged in to perform this action")
