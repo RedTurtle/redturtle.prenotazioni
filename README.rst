@@ -284,6 +284,24 @@ A booking can be deleted only if on of the following rules are satisfied:
 - Current logged-in user has `redturtle.prenotazioni.ManagePrenotazioni` permission
 - Booking has a date > today
 
+
+MOVE
+~~~~
+
+This endpoint allows to move a booking by its UID to a different date/time slot.
+
+Example::
+
+    curl http://localhost:8080/Plone/++api++/<booking_folder_path>/@booking-move \
+        -X POST \
+        -H 'Accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+            "booking_date": "2023-05-23T09:00:00+02:00",
+            "booking_id": "<booking UID>",
+        }'
+
+
 @prenotazione
 -------------
 
