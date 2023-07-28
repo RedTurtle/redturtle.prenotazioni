@@ -150,6 +150,8 @@ class MoveForm(form.Form):
     def action_move(self, action):
         """
         Book this resource
+
+        # TODO: codice replicato in services/booking/move.py
         """
         data, errors = self.extractData()
         data["booking_type"] = self.context.getBooking_type()
