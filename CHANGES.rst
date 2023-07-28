@@ -5,6 +5,9 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- Add @booking-move restapi
+  [mamico]
+
 - Added event handler on booking creation to send email to managers.
   [daniele]
 
