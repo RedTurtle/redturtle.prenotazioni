@@ -126,6 +126,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.assertEqual(
             result,
             {
+                "title": self.prenotazione_fscode.Title(),
                 "booking_id": self.prenotazione_fscode.UID(),
                 "booking_code": self.prenotazione_fscode.getBookingCode(),
                 "booking_url": self.prenotazione_fscode.absolute_url(),
