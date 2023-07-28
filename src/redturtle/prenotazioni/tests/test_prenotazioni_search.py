@@ -160,7 +160,6 @@ class TestPrenotazioniSearch(unittest.TestCase):
             booking_date=self.testing_booking_date + timedelta(days=8),
             booking_expiration_date=self.booking_expiration_date + timedelta(days=9),
             fiscalcode=self.testing_fiscal_code,
-            booking_type="typeA",
         )
 
         api.content.transition(self.prenotazione_confirmed, to_state="confirmed")
