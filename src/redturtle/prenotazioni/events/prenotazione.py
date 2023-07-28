@@ -73,9 +73,8 @@ def notify_on_after_transition_event(context, event):
 
 
 def autoconfirm(context, event):
-    if api.content.get_state(obj=context, default=None) == "pending":
-        if getattr(get_prenotazione_folder(context), "auto_confirm", False):
-            api.content.transition(obj=context, transition="confirm")
+    if getattr(get_prenotazione_folder(context), "auto_confirm", False):
+        api.content.transition(obj=context, transition="confirm")
 
 
 def notify_on_move(context, event):
