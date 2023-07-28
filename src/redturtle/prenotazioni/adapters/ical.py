@@ -44,8 +44,6 @@ def construct_icalendar(context, bookings):
 
 @implementer(IICalendarEventComponent)
 class ICalendarBookingComponent(ICalendarEventComponent):
-    title = None
-
     def __init__(self, context):
         self.context = context
         self.event = self.context
@@ -65,21 +63,13 @@ class ICalendarBookingComponent(ICalendarEventComponent):
 
     @property
     def summary(self):
-        if not self.title:
-            title = translate(
-                _(
-                    "ical_booking_label",
-                    default="Booking for {}".format(self.parent.title),
-                )
+        title = translate(
+            _(
+                "ical_booking_label",
+                default="Booking for {}".format(self.parent.title),
             )
-        else:
-            title = self.title
-
+        )
         return {"value": title}
-
-    @summary.setter
-    def summary(self, value):
-        self.title = value
 
     @property
     def url(self):

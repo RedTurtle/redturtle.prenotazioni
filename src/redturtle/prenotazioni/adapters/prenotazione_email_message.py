@@ -90,7 +90,6 @@ class PrenotazioneEventMessageICalMixIn:
         message.add_header("Content-class", "urn:content-classes:calendarmessage")
 
         ical = getAdapter(object=self.prenotazione, interface=IICalendar)
-        ical.summary = self.message_text
         name = f"{self.prenotazione.getId()}.ics"
         icspart = MIMEText(ical.to_ical().decode("utf-8"), "calendar")
 
