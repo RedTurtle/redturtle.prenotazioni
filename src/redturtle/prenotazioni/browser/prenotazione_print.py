@@ -17,7 +17,6 @@ class PrenotazionePrint(BrowserView):
 
     print_action = "javascript:this.print();"
 
-    @property
     def get_status_message(self):
         review_state = api.content.get_state(obj=self.prenotazione)
         messages_mapping = {
