@@ -149,19 +149,13 @@ def to_1400(context):
         )
 
         for portal_type_condition in portal_type_conditions:
-            if "Prenotazione" in getattr(
-                portal_type_condition, "check_types", []
-            ):
-                for (
-                    workflow_transition_condition
-                ) in workflow_transition_conditions:
+            if "Prenotazione" in getattr(portal_type_condition, "check_types", []):
+                for workflow_transition_condition in workflow_transition_conditions:
                     if isinstance(
                         workflow_transition_condition,
                         WorkflowTransitionCondition,
                     ):
-                        wf_states = list(
-                            workflow_transition_condition.wf_transitions
-                        )
+                        wf_states = list(workflow_transition_condition.wf_transitions)
 
                         if "publish" in wf_states:
                             wf_states.remove("publish")
@@ -172,9 +166,7 @@ def to_1400(context):
                             )
 
                 for workflow_state_condition in workflow_state_conditions:
-                    if isinstance(
-                        workflow_state_condition, WorkflowStateCondition
-                    ):
+                    if isinstance(workflow_state_condition, WorkflowStateCondition):
                         wf_states = list(workflow_state_condition.wf_states)
 
                         if "publish" in wf_states:
@@ -210,17 +202,13 @@ def to_1401(context):
 
 def to_1402(context):
     # load new content rules
-    context.runImportStepFromProfile(
-        CONTENT_RULES_EVOLUTION_PROFILE, "contentrules"
-    )
+    context.runImportStepFromProfile(CONTENT_RULES_EVOLUTION_PROFILE, "contentrules")
 
 
 def to_1403(context):
     update_catalog(context)
 
-    for brain in api.portal.get_tool("portal_catalog")(
-        portal_type="Prenotazione"
-    ):
+    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
         brain.getObject().reindexObject(idxs=["fiscalcode"])
 
 
@@ -233,49 +221,45 @@ def to_1500(context):
 def to_1502(context):
     update_catalog(context)
 
-    for brain in api.portal.get_tool("portal_catalog")(
-        portal_type="Prenotazione"
-    ):
+    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
         logger.info(f"[ 1500 - 1501 ] - Rindexing <{brain.getPath()}>")
         brain.getObject().reindexObject(idxs=["booking_type"])
 
 
-def to_1600_popolate_templates(contex):
-    from zope.i18n import translate
-
-    notify_on_submit_subject = translate(
+def to_1600_popolate_templates(context):
+    notify_on_submit_subject = context.translate(
         _("notify_on_submit_subject_default_value", "Booking created ${title}")
     )
 
-    notify_on_submit_message = translate(
+    notify_on_submit_message = context.translate(
         _(
             "notify_on_submit_message_default_value",
             "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
         )
     )
 
-    notify_on_confirm_subject = translate(
+    notify_on_confirm_subject = context.translate(
         _(
             "notify_on_confirm_subject_default_value",
             "Booking of ${booking_date} at ${booking_time} was accepted",
         )
     )
 
-    notify_on_confirm_message = translate(
+    notify_on_confirm_message = context.translate(
         _(
             "notify_on_confirm_message_default_value",
             "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
         )
     )
 
-    notify_on_move_subject = translate(
+    notify_on_move_subject = context.translate(
         _(
             "notify_on_move_subject_default_value",
             "Modified the boolking date for ${title}",
         )
     )
 
-    notify_on_move_message = translate(
+    notify_on_move_message = context.translate(
         _(
             "notify_on_move_message_default_value",
             "The booking scheduling of ${booking_type} was modified."
@@ -283,14 +267,14 @@ def to_1600_popolate_templates(contex):
         )
     )
 
-    notify_on_refuse_subject = translate(
+    notify_on_refuse_subject = context.translate(
         _(
             "notify_on_refuse_subject_default_value",
             "Booking refused for ${title}",
         )
     )
 
-    notify_on_refuse_message = translate(
+    notify_on_refuse_message = context.translate(
         _(
             "notify_on_refuse_message_default_value",
             "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
