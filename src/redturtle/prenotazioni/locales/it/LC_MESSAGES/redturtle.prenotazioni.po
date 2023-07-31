@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-07-31 08:23+0000\n"
+"POT-Creation-Date: 2023-07-31 08:52+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -560,12 +560,12 @@ msgstr "Apertura pomeriggio"
 #. Default: "Automatically confirm."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:467
 msgid "auto_confirm"
-msgstr ""
+msgstr "Conferma automatica delle prenotazioni"
 
 #. Default: "All bookings will be automatically accepted."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:468
 msgid "auto_confirm_help"
-msgstr ""
+msgstr "Tutte le prenotazioni verranno accettate automaticamente"
 
 #. Default: "Please select a booking slot."
 #: redturtle/prenotazioni/browser/templates/week.pt:28
@@ -1081,7 +1081,7 @@ msgstr ""
 #. Default: "Notify when confirmed."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:558
 msgid "notify_on_confirm"
-msgstr ""
+msgstr "Notify alla conferma"
 
 #. Default: "Notify via mail the user when his booking has been confirmed."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:559
@@ -1091,13 +1091,13 @@ msgstr ""
 #. Default: "Prenotazione confirmed notification message."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:612
 msgid "notify_on_confirm_message"
-msgstr ""
+msgstr "Testo notifica prenotazione confermata"
 
 #. Default: "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:164
 #: redturtle/prenotazioni/upgrades.py:249
 msgid "notify_on_confirm_message_default_value"
-msgstr ""
+msgstr "La prenotazione ${booking_type} per ${title} è stata confermata! Se non hai salvato o stampato il promemoria, puoi visualizzarlo su <a href=${booking_print_url}>questo link</a>Se desideri cancellare la prenotazione, accedi a <a href=${booking_print_url}>questo link</a>"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:616
 msgid "notify_on_confirm_message_help"
@@ -1106,13 +1106,13 @@ msgstr ""
 #. Default: "Prenotazione confirmed notification subject."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:603
 msgid "notify_on_confirm_subject"
-msgstr ""
+msgstr "Oggetto notifica prenotazione confermata"
 
 #. Default: "Booking of ${booking_date} at ${booking_time} was accepted"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:155
 #: redturtle/prenotazioni/upgrades.py:242
 msgid "notify_on_confirm_subject_default_value"
-msgstr ""
+msgstr "Prenotazione del ${booking_date} alle ${booking_time} accettata"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:607
 msgid "notify_on_confirm_subject_help"
@@ -1121,7 +1121,7 @@ msgstr ""
 #. Default: "Notify when moved."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:567
 msgid "notify_on_move"
-msgstr ""
+msgstr "Notifica se la prenotazione è stata spostata"
 
 #. Default: "Notify via mail the user when his booking has been moved."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:568
@@ -1131,13 +1131,13 @@ msgstr ""
 #. Default: "Prenotazione moved notification message."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:630
 msgid "notify_on_move_message"
-msgstr ""
+msgstr "Testo notifica prenotazione spostata"
 
 #. Default: "The booking scheduling of ${booking_type} was modified.The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:182
 #: redturtle/prenotazioni/upgrades.py:263
 msgid "notify_on_move_message_default_value"
-msgstr ""
+msgstr "L'orario della sua prenotazione ${booking_type} è stata modificato. La nuova data è ${booking_date} alle ore ${booking_time}. Controlla o stampa il nuovo promemoria su  <a href=${booking_print_url}>questo link</a>."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:634
 msgid "notify_on_move_message_help"
@@ -1161,13 +1161,13 @@ msgstr ""
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:648
 msgid "notify_on_refuse_message"
-msgstr ""
+msgstr "Testo notifica prenotazione rifiutata"
 
 #. Default: "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:201
 #: redturtle/prenotazioni/upgrades.py:278
 msgid "notify_on_refuse_message_default_value"
-msgstr ""
+msgstr "La prenotazione ${booking_type} del ${booking_date} delle ore ${booking_time} è stata rifiutata."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:652
 msgid "notify_on_refuse_message_help"
@@ -1176,13 +1176,13 @@ msgstr ""
 #. Default: "Prenotazione refused notification subject."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:639
 msgid "notify_on_refuse_subject"
-msgstr ""
+msgstr "Oggetto notifica prenotazione rifiutata"
 
 #. Default: "Booking refused for ${title}"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:192
 #: redturtle/prenotazioni/upgrades.py:271
 msgid "notify_on_refuse_subject_default_value"
-msgstr ""
+msgstr "Prenotazione rifiutata per ${title}"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:643
 msgid "notify_on_refuse_subject_help"
@@ -1191,7 +1191,7 @@ msgstr ""
 #. Default: "Notify when rejected."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:576
 msgid "notify_on_reject"
-msgstr ""
+msgstr "Notifica se viene cancellata"
 
 #. Default: "Notify via mail the user when his booking has been rejected."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:577
@@ -1201,7 +1201,7 @@ msgstr ""
 #. Default: "Notify when created."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:549
 msgid "notify_on_submit"
-msgstr ""
+msgstr "Notifica alla prenotazione creata"
 
 #. Default: "Notify via mail the user when his booking has been created. If auto-confirm flag is selected and confirm notify is selected, this one will be ignored."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:550
@@ -1211,13 +1211,13 @@ msgstr ""
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:594
 msgid "notify_on_submit_message"
-msgstr ""
+msgstr "Testo notifica prenotazione creata"
 
 #. Default: "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:146
 #: redturtle/prenotazioni/upgrades.py:235
 msgid "notify_on_submit_message_default_value"
-msgstr ""
+msgstr "La prenotazione ${booking_type} per il ${booking_date} alle ${booking_time} è stata creata.Riceverete una mail di conferma quando la prenotazione verrà confermata definitivamente. Se non hai salvato o stampato il promemoria, puoi visualizzarlo <a href=${booking_print_url}>questo link</a>"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:598
 msgid "notify_on_submit_message_help"
@@ -1226,7 +1226,7 @@ msgstr ""
 #. Default: "Prenotazione created notification subject."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:585
 msgid "notify_on_submit_subject"
-msgstr ""
+msgstr "Oggetto notifica prenotazione creata"
 
 #. Default: "Booking created ${title}"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:140
@@ -1261,7 +1261,7 @@ msgstr "${day}, ore ${booking_time}"
 #. Default: "Prenotazioni Email Templates"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:715
 msgid "prenotazioni_email_templates_label"
-msgstr ""
+msgstr "Prenotazioni Email Template"
 
 #. Default: "prenotazioni_search"
 #: redturtle/prenotazioni/profiles/default/actions.xml
@@ -1357,7 +1357,7 @@ msgstr "Il mittente della mail. Se nessun indirizzo viene inserito verrà utiliz
 #. Default: "${title} - title.${booking_gate} - booking gate.${booking_human_readable_start} - booking human readable start.${booking_date} - booking date.${booking_end_date} - booking end date.${booking_time} - booking time.${booking_time_end} - booking time end.${booking_code} - booking code.${booking_type} - booking type.${booking_print_url} - booking print url.${booking_url_with_delete_token} - booking url with delete token.${booking_user_phone} - booking user phone.${booking_user_email} - booking user email.${booking_office_contact_phone} - booking office contact phone.${booking_office_contact_pec} - booking office contact pec.${booking_office_contact_fax} - booking office contact fax.${booking_how_to_get_to_office} - booking how to get to office.${booking_office_complete_address} - booking office complete address."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:719
 msgid "templates_usage_default_value"
-msgstr ""
+msgstr "I testi e l’oggetto delle notifiche email possono essere configurate usando le seguenti variabili:<ul><li>${title} - Titolo della prenotazione.</li><li>${booking_gate} - Sportello della prenotazione.</li><li>${booking_human_readable_start} - Data e ora prenotazione con formattazione standard.</li><li>${booking_date} - Data prenotazione.</li><li>${booking_end_date} - Data fine prenotazione.</li><li>${booking_time} - Orario di inizio prenotazione.</li><li>${booking_time_end} - Orario di fine prenotazione.</li><li>${booking_code} - Ticket identificativo della prenotazione da utilizzare per chiamare il cittadino allo sportello ad attesa ultimata.</li><li>${booking_type} - Tipologia prenotazione.</li><li>${booking_print_url} - Link di riepilogo prenotazione.</li><li>${booking_url_with_delete_token} - Link per cancellare la prenotazione.</li><li>${booking_user_phone} - Numero di telefono del cittadino.</li><li>${booking_user_email} - Email del cittadino.</li><li>${booking_office_contact_phone} - Telefono ufficio, se compilato.</li><li>${booking_office_contact_pec} - PEC ufficio, se compilata.</li><li>${booking_office_contact_fax} - Fax ufficio, se compilato.</li><li>${booking_how_to_get_to_office} - Informazioni su come raggiungere l’ufficio, se compilate.</li><li>${booking_office_complete_address} - Indirizzo completo dell’ufficio, se compilato.</li></ul>"
 
 #. Default: "You cannot book any booking_type at this time"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:328
