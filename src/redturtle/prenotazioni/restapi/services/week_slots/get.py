@@ -72,6 +72,6 @@ class WeekSlots(Service):
                 ]
 
         return {
-            "@id": "{}/@week-slots".format(self.contenxt.abosolute_url()),
+            "@id": "{}/@week-slots".format(self.context.abosolute_url()),
             "items": response,
         }

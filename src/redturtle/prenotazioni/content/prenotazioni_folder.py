@@ -14,7 +14,6 @@ from redturtle.prenotazioni.content.validators import PauseValidator
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
-from zope.i18n import translate
 from zope.component import provideAdapter
 from zope.interface import implementer
 from zope.interface import Interface
@@ -136,72 +135,56 @@ class IBookingTypeRow(Interface):
 
 
 def notify_on_submit_subject_default_factory():
-    return translate(
-        _("notify_on_submit_subject_default_value", "Booking created ${title}")
-    )
+    return _("notify_on_submit_subject_default_value", "Booking created ${title}")
 
 
 def notify_on_submit_message_default_factory():
-    return translate(
-        _(
-            "notify_on_submit_message_default_value",
-            "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
-        )
+    return _(
+        "notify_on_submit_message_default_value",
+        "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
     )
 
 
 def notify_on_confirm_subject_default_factory():
-    return translate(
-        _(
-            "notify_on_confirm_subject_default_value",
-            "Booking of ${booking_date} at ${booking_time} was accepted",
-        )
+    return _(
+        "notify_on_confirm_subject_default_value",
+        "Booking of ${booking_date} at ${booking_time} was accepted",
     )
 
 
 def notify_on_confirm_message_default_factory():
-    return translate(
-        _(
-            "notify_on_confirm_message_default_value",
-            "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
-        )
+    return _(
+        "notify_on_confirm_message_default_value",
+        "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
     )
 
 
 def notify_on_move_subject_default_factory():
-    return translate(
-        _(
-            "notify_on_move_subject_default_value",
-            "Modified the boolking date for ${title}",
-        )
+    return _(
+        "notify_on_move_subject_default_value",
+        "Modified the boolking date for ${title}",
     )
 
 
 def notify_on_move_message_default_factory():
-    return translate(
-        _(
-            "notify_on_move_message_default_value",
-            "The booking scheduling of ${booking_type} was modified."
-            "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
-        )
+    return _(
+        "notify_on_move_message_default_value",
+        "The booking scheduling of ${booking_type} was modified."
+        "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
     )
 
 
 def notify_on_refuse_subject_default_factory():
-    return translate(
-        _(
-            "notify_on_refuse_subject_default_value",
-            "Booking refused for ${title}",
-        )
+    return _(
+        "notify_on_refuse_subject_default_value",
+        "Booking refused for ${title}",
     )
 
 
 def notify_on_refuse_message_default_factory():
-    return translate(
-        _(
-            "notify_on_refuse_message_default_value",
-            "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
-        )
+    return _(
+        "notify_on_refuse_message_default_value",
+        "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
     )
 
 
