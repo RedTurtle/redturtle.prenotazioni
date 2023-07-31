@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-07-31 10:03+0000\n"
+"POT-Creation-Date: 2023-07-31 10:20+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -1126,7 +1126,7 @@ msgstr "Notifica se la prenotazione è stata spostata"
 #. Default: "Notify via mail the user when his booking has been moved."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:551
 msgid "notify_on_move_help"
-msgstr "Notify l'utente via mail quando la prenotazione viene spostata."
+msgstr "Notifica l'utente via mail quando la prenotazione viene spostata."
 
 #. Default: "Prenotazione moved notification message."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:613
@@ -1196,7 +1196,7 @@ msgstr "Notifica se viene cancellata"
 #. Default: "Notify via mail the user when his booking has been rejected."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:560
 msgid "notify_on_reject_help"
-msgstr "Notify l'utente view mail se la prenotazione viene cancellata."
+msgstr "Notifica l'utente view mail se la prenotazione viene cancellata."
 
 #. Default: "Notify when created."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:532
