@@ -62,7 +62,7 @@ class MailActionExecutor(BaseExecutor):
             logger.debug("getting e-mail from %s attribute" % fieldName)
 
         # now transform recipients in a iterator, if needed
-        if type(recipients) == str or type(recipients) == six.text_type:
+        if type(recipients) == str or type(recipients) == six.text_type: # noqa
             recipients = [str(recipients)]
         if not recipients:
             return []
