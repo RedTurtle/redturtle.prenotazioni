@@ -48,4 +48,12 @@
       name="@booking-move"
       />
 
+  <plone:service
+      method="POST"
+      factory=".vacation.AddVacation"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      permission="cmf.ModifyPortalContent"
+      name="@vacation"
+      />
+
 </configure>

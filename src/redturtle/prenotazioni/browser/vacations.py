@@ -167,17 +167,6 @@ class VacationBooking(form.Form):
             ]
         return slots
 
-    # def set_invariant_error(self, errors, fields, msg):
-    #     '''
-    #     Set an error with invariant validation to highlights the involved
-    #     fields
-    #     '''
-    #     for field in fields:
-    #         label = self.widgets[field].label
-    #         error = WidgetInputError(field, label, msg)
-    #         errors.append(error)
-    #         self.widgets[field].error = msg
-
     def has_slot_conflicts(self, data):
         """We want the operator to handle conflicts:
         no other booking can be created if we already have stuff
@@ -194,35 +183,6 @@ class VacationBooking(form.Form):
             if vacation_slot.intersect(slot):
                 return True
         return False
-
-    # def validate_invariants(self, data, errors):
-    #     ''' Validate invariants errors
-    #     '''
-    #     parsed_data = self.get_parsed_data(data)
-    #     start_date = data['start_date']
-    #     if self.has_slot_conflicts(parsed_data):
-    #         msg = _('slot_conflict_error',
-    #                 u'This gate has some booking schedule in this time '
-    #                 u'period.')
-    #     elif not self.prenotazioni.is_valid_day(start_date):
-    #         msg = _('day_error',
-    #                 u'This day is not valid.')
-    #     else:
-    #         msg = ''
-    #     if not msg:
-    #         return
-    #     fields_to_notify = ['start_date', 'start_time', 'end_time']
-    #     self.set_invariant_error(errors, fields_to_notify, msg)
-
-    # def validate(self, action, data):
-    #     '''
-    #     Checks if we can book those data
-    #     '''
-    #     errors = super(VacationBooking, self).validate(action, data)
-    #     self.validate_invariants(data, errors)
-    #     if not 'gate' in data:
-    #         data['gate'] = u''
-    #     return errors
 
     def do_book(self, data):
         """
