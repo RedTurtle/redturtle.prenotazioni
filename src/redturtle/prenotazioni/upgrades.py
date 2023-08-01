@@ -324,7 +324,10 @@ def to_1600_upgrade_contentrules(context):
             if assignable.get("booking-confirm", None):
                 setattr(obj, "notify_on_confirm", True)
                 setattr(obj, "auto_confirm", True)
-                continue
+
+                if new == "notify_on_submit":
+                    continue
+
             if assignable.get(old, None):
                 setattr(obj, new, True)
 
