@@ -2,7 +2,6 @@
 from datetime import datetime
 from datetime import timedelta
 from plone import api
-from plone.app.event.base import default_timezone
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
@@ -44,9 +43,6 @@ class MoveBooking(Service):
         data = json_body(self.request)
         booking_id = data.get("booking_id", None)
 
-        # XXX: la gestione delle date in redturtle.prenotazioni è un po' molto
-        #      naive, tutti i calcoli sono fatti con date in localtime, ma poi
-        #      devono essere salvate in utc... ma di nuovo senza timezone...
         data["booking_date"] = booking_date = datetime.fromisoformat(
             data["booking_date"]
         )
@@ -88,15 +84,9 @@ class MoveBooking(Service):
         # booking_date = data["booking_date"]
         duration = booking.getDuration()
         booking_expiration_date = booking_date + duration
-        tzinfo = default_timezone(self.context, as_tzinfo=True)
 
-        # XXX: la gestione delle date in redturtle.prenotazioni è un po' molto
-        #      naive, tutti i calcoli sono fatti con date in localtime, ma poi
-        #      devono essere salvate in utc... ma di nuovo senza timezone...
-        booking.setBooking_date(booking_date.astimezone(tzinfo).replace(tzinfo=None))
-        booking.setBooking_expiration_date(
-            booking_expiration_date.astimezone(tzinfo).replace(tzinfo=None)
-        )
+        booking.setBooking_date(booking_date)
+        booking.setBooking_expiration_date(booking_expiration_date)
 
         # se non passato il gate va bene lasciare quello precedente o
         # va rimosso ?

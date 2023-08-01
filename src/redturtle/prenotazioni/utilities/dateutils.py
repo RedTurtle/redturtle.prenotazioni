@@ -2,8 +2,8 @@
 from datetime import datetime
 from datetime import timedelta
 from redturtle.prenotazioni import tznow
-from plone.app.event.base import default_timezone
-import pytz
+from plone.restapi.serializer.converters import datetimelike_to_iso
+from DateTime import DateTime
 
 
 def exceedes_date_limit(data, future_days):
@@ -25,6 +25,14 @@ def exceedes_date_limit(data, future_days):
     return True
 
 
-def as_naive_utc(dt):
-    tz = default_timezone(as_tzinfo=True)
-    return tz.localize(dt).astimezone(pytz.utc).replace(tzinfo=None)
+def datetimelike_to_iso_tz(value, tzinfo):
+    """se sul db non c'è timezone la data è stata salvata con il
+    default_timezone
+    """
+    if value is None:
+        return None
+    if isinstance(value, DateTime):
+        return datetimelike_to_iso(value)
+    if value.tzinfo is None:
+        return value.astimezone(tzinfo).isoformat()
+    return value.isoformat()

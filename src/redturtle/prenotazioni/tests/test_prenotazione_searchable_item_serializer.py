@@ -5,7 +5,8 @@ from dateutil import parser
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from plone.restapi.serializer.converters import datetimelike_to_iso
+from redturtle.prenotazioni.utilities.dateutils import datetimelike_to_iso_tz
+from plone.app.event.base import default_timezone
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
 from zope.i18n import translate
@@ -21,6 +22,7 @@ import unittest
 
 class TestPrenotazioniSearch(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
+    maxDiff = None
 
     def setUp(self):
         self.app = self.layer["app"]
@@ -39,62 +41,15 @@ class TestPrenotazioniSearch(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            week_table=[
-                {
-                    "day": "Lunedì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Martedì",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Mercoledì",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Giovedì",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Venerdì",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Sabato",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Domenica",
-                    "morning_start": None,
-                    "morning_end": None,
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-            ],
             booking_types=[
                 {"name": "Type A", "duration": "30"},
             ],
             gates=["Gate A"],
         )
+        week_table = self.folder_prenotazioni.week_table
+        week_table[0]["morning_start"] = "0700"
+        week_table[0]["morning_end"] = "1000"
+        self.folder_prenotazioni.week_table = week_table
 
         year = api.content.create(
             container=self.folder_prenotazioni,
@@ -122,7 +77,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         )()
         wf_tool = api.portal.get_tool("portal_workflow")
         status = wf_tool.getStatusOf("prenotazioni_workflow", self.prenotazione_fscode)
-
+        tzinfo = default_timezone(self.portal, as_tzinfo=True)
         self.assertEqual(
             result,
             {
@@ -130,11 +85,11 @@ class TestPrenotazioniSearch(unittest.TestCase):
                 "booking_id": self.prenotazione_fscode.UID(),
                 "booking_code": self.prenotazione_fscode.getBookingCode(),
                 "booking_url": self.prenotazione_fscode.absolute_url(),
-                "booking_date": datetimelike_to_iso(
-                    self.prenotazione_fscode.booking_date
+                "booking_date": datetimelike_to_iso_tz(
+                    self.prenotazione_fscode.booking_date, tzinfo
                 ),
-                "booking_expiration_date": datetimelike_to_iso(
-                    self.prenotazione_fscode.booking_expiration_date
+                "booking_expiration_date": datetimelike_to_iso_tz(
+                    self.prenotazione_fscode.booking_expiration_date, tzinfo
                 ),
                 "booking_type": self.prenotazione_fscode.booking_type,
                 # "booking_room": "stanza-1",
@@ -143,7 +98,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
                 "booking_status_label": translate(
                     status["review_state"], context=getRequest()
                 ),
-                "booking_status_date": datetimelike_to_iso(status["time"]),
+                "booking_status_date": datetimelike_to_iso_tz(status["time"], tzinfo),
                 "booking_status_notes": status["comments"],
                 "fiscalcode": self.prenotazione_fscode.fiscalcode,
                 # 'cosa_serve': None,

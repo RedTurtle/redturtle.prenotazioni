@@ -12,6 +12,7 @@ from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 import transaction
 import unittest
+import pytz
 
 
 class TestMoveBookingApi(unittest.TestCase):
@@ -47,23 +48,14 @@ class TestMoveBookingApi(unittest.TestCase):
         self.folder_prenotazioni.week_table = week_table
 
         self.booker = IBooker(self.folder_prenotazioni)
-        self.today = datetime.now().replace(hour=8, microsecond=0)
-
+        self.today = (
+            datetime.utcnow().replace(hour=8, microsecond=0).astimezone(pytz.UTC)
+        )
         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
         transaction.commit()
 
     def tearDown(self):
         self.api_session_admin.close()
-
-    def get_response(self, session, uid=None):
-        if not uid:
-            response = session.delete("{}/@booking".format(self.portal_url))
-        else:
-            response = session.delete("{}/@booking/{}".format(self.portal_url, uid))
-        # per le restapi il commit qui non ha senso, senza i test si rompono,
-        # ma è un caso, va spostato dove serve veramente, questo non è il suo posto
-        transaction.commit()
-        return response
 
     def test_move_booking(self):
         booking = self.booker.create(
