@@ -60,8 +60,7 @@ class MoveBooking(Service):
         # data, errors = self.extractData()
         data["booking_type"] = booking.getBooking_type()
         conflict_manager = prenotazioni_view.conflict_manager
-        current_data = booking.getBooking_date()
-        current = {"booking_date": current_data, "booking_type": data["booking_type"]}
+        current = {"booking_date": booking.getBooking_date(), "booking_type": data["booking_type"]}
         current_slot = conflict_manager.get_choosen_slot(current)
         current_gate = getattr(booking, "gate", "")
         exclude = {current_gate: [current_slot]}
