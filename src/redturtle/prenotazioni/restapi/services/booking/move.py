@@ -10,6 +10,8 @@ from zope.event import notify
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from plone.protect.interfaces import IDisableCSRFProtection
 from zope.interface import alsoProvides
+# TODO: verificare se la funzione è presente in qualche package base
+from plone.app.event.base import default_timezone
 
 
 class MoveBooking(Service):
@@ -34,20 +36,21 @@ class MoveBooking(Service):
         @param booking_date
         @param gate (optional) -- se non definito alla move viene assegnato
                                   il gate di default (?)
-
         @return: 201 OK
-        ...
 
         see: src/redturtle/prenotazioni/browser/prenotazione_move.py
         """
         data = json_body(self.request)
         booking_id = data.get("booking_id", None)
-        # TODO: verificare la timezone con cui arriva l'informazione e/o considerare
-        # la timezone di deafult impostata sul sito, valutare se esistono metodi standard
-        # per la deserializzazione di datetime
         data["booking_date"] = booking_date = datetime.fromisoformat(
             data["booking_date"]
         )
+        # TODO: verificare la timezone con cui arriva l'informazione e/o considerare
+        # la timezone di deafult impostata sul sito, valutare se esistono metodi standard
+        # per la deserializzazione di datetime
+        if data["booking_date"].tzinfo is None:
+            tzinfo = default_timezone(as_tzinfo=True)
+            data["booking_date"] = data["booking_date"].replace(tzinfo=tzinfo)
 
         booking = api.content.get(UID=booking_id)
         # booking.moveBooking(booking_date)
