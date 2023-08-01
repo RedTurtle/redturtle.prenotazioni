@@ -6,7 +6,7 @@ from redturtle.prenotazioni import _
 from datetime import datetime
 from datetime import timedelta
 from redturtle.prenotazioni import tznow
-from redturtle.prenotazioni.dateutils import as_naive_utc
+from redturtle.prenotazioni.utilities.dateutils import as_naive_utc
 from zope.event import notify
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from plone.protect.interfaces import IDisableCSRFProtection

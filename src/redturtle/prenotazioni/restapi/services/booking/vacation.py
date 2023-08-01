@@ -9,7 +9,7 @@ from DateTime import DateTime
 from redturtle.prenotazioni import _
 from plone.protect.interfaces import IDisableCSRFProtection
 from zope.interface import alsoProvides
-from redturtle.prenotazioni.dateutils import as_naive_utc
+from redturtle.prenotazioni.utilities.dateutils import as_naive_utc
 
 
 class AddVacation(Service):
