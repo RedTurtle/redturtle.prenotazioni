@@ -6,10 +6,12 @@ from redturtle.prenotazioni import _
 from datetime import datetime
 from datetime import timedelta
 from redturtle.prenotazioni import tznow
+from redturtle.prenotazioni.dateutils import as_naive_utc
 from zope.event import notify
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from plone.protect.interfaces import IDisableCSRFProtection
 from zope.interface import alsoProvides
+
 # TODO: verificare se la funzione è presente in qualche package base
 # from plone.app.event.base import default_timezone
 
@@ -42,15 +44,9 @@ class MoveBooking(Service):
         """
         data = json_body(self.request)
         booking_id = data.get("booking_id", None)
-        data["booking_date"] = booking_date = datetime.fromisoformat(
-            data["booking_date"]
+        data["booking_date"] = booking_date = as_naive_utc(
+            datetime.fromisoformat(data["booking_date"])
         )
-        # TODO: verificare la timezone con cui arriva l'informazione e/o considerare
-        # la timezone di deafult impostata sul sito, valutare se esistono metodi standard
-        # per la deserializzazione di datetime
-        # if data["booking_date"].tzinfo is None:
-        #     tzinfo = default_timezone(as_tzinfo=True)
-        #     data["booking_date"] = data["booking_date"].replace(tzinfo=tzinfo)
 
         booking = api.content.get(UID=booking_id)
         # booking.moveBooking(booking_date)

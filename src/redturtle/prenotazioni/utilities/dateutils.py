@@ -2,6 +2,8 @@
 from datetime import datetime
 from datetime import timedelta
 from redturtle.prenotazioni import tznow
+from plone.app.event.base import default_timezone
+import pytz
 
 
 def exceedes_date_limit(data, future_days):
@@ -21,3 +23,8 @@ def exceedes_date_limit(data, future_days):
     if booking_date <= date_limit:
         return False
     return True
+
+
+def as_naive_utc(dt):
+    tz = default_timezone(as_tzinfo=True)
+    return tz.localize(dt).astimezone(pytz.utc).replace(tzinfo=None)
