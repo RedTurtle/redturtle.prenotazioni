@@ -9,7 +9,7 @@ from DateTime import DateTime
 from redturtle.prenotazioni import _
 from plone.protect.interfaces import IDisableCSRFProtection
 from zope.interface import alsoProvides
-from plone.app.event.base import default_timezone
+# from plone.app.event.base import default_timezone
 
 
 class AddVacation(Service):
@@ -21,12 +21,12 @@ class AddVacation(Service):
         # la timezone di deafult impostata sul sito, valutare se esistono metodi standard
         # per la deserializzazione di datetime
         start = datetime.fromisoformat(data["start"])
-        tzinfo = default_timezone(as_tzinfo=True)
-        if start.tzinfo is None:
-            start = start.replace(tzinfo=tzinfo)
+        # tzinfo = default_timezone(as_tzinfo=True)
+        # if start.tzinfo is None:
+        #     start = start.replace(tzinfo=tzinfo)
         end = datetime.fromisoformat(data["end"])
-        if end.tzinfo is None:
-            end = end.replace(tzinfo=tzinfo)
+        # if end.tzinfo is None:
+        #     end = end.replace(tzinfo=tzinfo)
 
         gate = data.get("gate")
         # title = data.get("title")
