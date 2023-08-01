@@ -317,7 +317,7 @@ def to_1600_upgrade_contentrules(context):
         contentrules_mapping = {
             "booking-accepted": "notify_on_submit",
             "booking-moved": "notify_on_move",
-            "booking-refuse": "notify_on_refuse",
+            "booking-refuse": "notify_on_reject",
         }
 
         for old, new in contentrules_mapping.items():
