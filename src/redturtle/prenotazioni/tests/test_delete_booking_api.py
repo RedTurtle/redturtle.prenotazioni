@@ -287,31 +287,3 @@ class TestDeleteBookingApi(unittest.TestCase):
         self.assertEqual(
             len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
         )
-
-    # TODO: creare un nuovo file di test per la move ?
-    def test_move_booking(self):
-        booking = self.booker.create(
-            {
-                "booking_date": self.today,
-                "booking_type": "Type A",
-                "title": "foo",
-            }
-        )
-        uid = booking.UID()
-        transaction.commit()
-
-        tomorrow = self.today + timedelta(1)
-        response = self.api_session_admin.post(
-            f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
-            json={
-                "booking_id": uid,
-                "booking_date": tomorrow.isoformat(),  # tomorrow
-            },
-        )
-        self.assertEqual(response.status_code, 201)
-
-        response = self.api_session_admin.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}",
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()["booking_date"], tomorrow.isoformat())

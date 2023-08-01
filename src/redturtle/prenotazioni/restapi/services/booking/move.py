@@ -9,6 +9,7 @@ from plone.restapi.services import Service
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
+
 # from redturtle.prenotazioni.utilities.dateutils import as_naive_utc
 from zope.event import notify
 from zope.interface import alsoProvides
