@@ -315,9 +315,10 @@ def to_1600_upgrade_contentrules(context):
         obj = brain.getObject()
         assignable = IRuleAssignmentManager(obj, None)
         contentrules_mapping = {
-            "booking-accepted": "notify_on_submit",
+            "booking-accepted": "notify_on_confirm",
             "booking-moved": "notify_on_move",
             "booking-refuse": "notify_on_reject",
+            "booking-created-user": "notify_on_submit",
         }
 
         for old, new in contentrules_mapping.items():
