@@ -313,6 +313,28 @@ Example::
 
 Response, see: @booking
 
+@vacation
+---------
+
+POST
+~~~~
+
+This endpoint allows to create a new vacation.
+
+Example::
+
+    curl http://localhost:8080/Plone/++api++/<booking_folder_path>/@vacation \
+        -X POST \
+        -H 'Accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+            "start": "2023-05-23T09:00:00+02:00",
+            "end": "2023-05-23T10:00:00+02:00",
+            "gate": "gate A",
+            "title": "vacation"
+        }'
+
+
 @week-slots
 -----------
 

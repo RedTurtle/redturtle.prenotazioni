@@ -42,6 +42,9 @@ class MoveBooking(Service):
         """
         data = json_body(self.request)
         booking_id = data.get("booking_id", None)
+        # TODO: verificare la timezone con cui arriva l'informazione e/o considerare
+        # la timezone di deafult impostata sul sito, valutare se esistono metodi standard
+        # per la deserializzazione di datetime
         data["booking_date"] = booking_date = datetime.fromisoformat(
             data["booking_date"]
         )
@@ -64,19 +67,18 @@ class MoveBooking(Service):
         current_gate = getattr(booking, "gate", "")
         exclude = {current_gate: [current_slot]}
         if conflict_manager.conflicts(data, exclude=exclude):
-            # TODO: gestione errore
-            msg = _(
-                "Sorry, this slot is not available or does not fit your " "booking."
+            self.request.response.setStatus(400)
+            msg = self.context.translate(
+                _("Sorry, this slot is not available or does not fit your booking.")
             )
-            # api.portal.show_message(msg, self.request, type="error")
-            # raise ActionExecutionError(Invalid(msg))
-            raise Exception(msg)
+            return dict(error=dict(type="Bad Request", message=msg))
+
         if self.exceedes_date_limit(booking, data):
-            # TODO: gestione errore
-            msg = _("Sorry, you can not book this slot for now.")
-            # api.portal.show_message(msg, self.request, type="error")
-            # raise ActionExecutionError(Invalid(msg))
-            raise Exception(msg)
+            self.request.response.setStatus(400)
+            msg = self.context.translate(
+                _("Sorry, you can not book this slot for now.")
+            )
+            return dict(error=dict(type="Bad Request", message=msg))
 
         # self.do_move(data)
         # booking_date = data["booking_date"]

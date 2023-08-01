@@ -5,6 +5,9 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- Add @vacation rest api 
+  [mamico]
+
 - Customized status message in prenotazione_print.pt based on review_state.
   [cekk]
 
