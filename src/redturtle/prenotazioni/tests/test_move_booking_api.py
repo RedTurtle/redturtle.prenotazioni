@@ -10,7 +10,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
-import pytz
 import transaction
 import unittest
 
@@ -93,5 +92,5 @@ class TestMoveBookingApi(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             datetime.fromisoformat(response.json()["booking_date"]),
-            tomorrow.astimezone(pytz.UTC),
+            tomorrow,
         )

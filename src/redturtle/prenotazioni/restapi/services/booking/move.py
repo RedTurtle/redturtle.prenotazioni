@@ -46,8 +46,7 @@ class MoveBooking(Service):
 
         # XXX: la gestione delle date in redturtle.prenotazioni è un po' molto
         #      naive, tutti i calcoli sono fatti con date in localtime, ma poi
-        #      devono essere salvate correttamente con una timezone.
-        #      as_naive_utc(...)
+        #      devono essere salvate in utc... ma di nuovo senza timezone...
         data["booking_date"] = booking_date = datetime.fromisoformat(
             data["booking_date"]
         )
@@ -90,8 +89,15 @@ class MoveBooking(Service):
         duration = booking.getDuration()
         booking_expiration_date = booking_date + duration
         tzinfo = default_timezone(self.context, as_tzinfo=True)
-        booking.setBooking_date(booking_date.astimezone(tzinfo))
-        booking.setBooking_expiration_date(booking_expiration_date.astimezone(tzinfo))
+
+        # XXX: la gestione delle date in redturtle.prenotazioni è un po' molto
+        #      naive, tutti i calcoli sono fatti con date in localtime, ma poi
+        #      devono essere salvate in utc... ma di nuovo senza timezone...
+        booking.setBooking_date(booking_date.astimezone(tzinfo).replace(tzinfo=None))
+        booking.setBooking_expiration_date(
+            booking_expiration_date.astimezone(tzinfo).replace(tzinfo=None)
+        )
+
         # se non passato il gate va bene lasciare quello precedente o
         # va rimosso ?
         if data.get("gate"):
