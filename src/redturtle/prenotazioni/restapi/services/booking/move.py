@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
-from plone.restapi.services import Service
-from plone import api
-from plone.restapi.deserializer import json_body
-from redturtle.prenotazioni import _
 from datetime import datetime
 from datetime import timedelta
-from redturtle.prenotazioni import tznow
-from redturtle.prenotazioni.utilities.dateutils import as_naive_utc
-from zope.event import notify
-from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
+from plone import api
+from plone.app.event.base import default_timezone
 from plone.protect.interfaces import IDisableCSRFProtection
+from plone.restapi.deserializer import json_body
+from plone.restapi.services import Service
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni import tznow
+from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
+# from redturtle.prenotazioni.utilities.dateutils import as_naive_utc
+from zope.event import notify
 from zope.interface import alsoProvides
-
-# TODO: verificare se la funzione è presente in qualche package base
-# from plone.app.event.base import default_timezone
 
 
 class MoveBooking(Service):
@@ -44,8 +42,13 @@ class MoveBooking(Service):
         """
         data = json_body(self.request)
         booking_id = data.get("booking_id", None)
-        data["booking_date"] = booking_date = as_naive_utc(
-            datetime.fromisoformat(data["booking_date"])
+
+        # XXX: la gestione delle date in redturtle.prenotazioni è un po' molto
+        #      naive, tutti i calcoli sono fatti con date in localtime, ma poi
+        #      devono essere salvate correttamente con una timezone.
+        #      as_naive_utc(...)
+        data["booking_date"] = booking_date = datetime.fromisoformat(
+            data["booking_date"]
         )
 
         booking = api.content.get(UID=booking_id)
@@ -60,7 +63,10 @@ class MoveBooking(Service):
         # data, errors = self.extractData()
         data["booking_type"] = booking.getBooking_type()
         conflict_manager = prenotazioni_view.conflict_manager
-        current = {"booking_date": booking.getBooking_date(), "booking_type": data["booking_type"]}
+        current = {
+            "booking_date": booking.getBooking_date(),
+            "booking_type": data["booking_type"],
+        }
         current_slot = conflict_manager.get_choosen_slot(current)
         current_gate = getattr(booking, "gate", "")
         exclude = {current_gate: [current_slot]}
@@ -82,8 +88,9 @@ class MoveBooking(Service):
         # booking_date = data["booking_date"]
         duration = booking.getDuration()
         booking_expiration_date = booking_date + duration
-        booking.setBooking_date(booking_date)
-        booking.setBooking_expiration_date(booking_expiration_date)
+        tzinfo = default_timezone(self.context, as_tzinfo=True)
+        booking.setBooking_date(booking_date.astimezone(tzinfo))
+        booking.setBooking_expiration_date(booking_expiration_date.astimezone(tzinfo))
         # se non passato il gate va bene lasciare quello precedente o
         # va rimosso ?
         if data.get("gate"):

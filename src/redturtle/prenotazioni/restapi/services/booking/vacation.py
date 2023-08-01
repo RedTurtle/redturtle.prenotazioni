@@ -9,7 +9,8 @@ from DateTime import DateTime
 from redturtle.prenotazioni import _
 from plone.protect.interfaces import IDisableCSRFProtection
 from zope.interface import alsoProvides
-from redturtle.prenotazioni.utilities.dateutils import as_naive_utc
+
+# from redturtle.prenotazioni.utilities.dateutils import as_naive_utc
 
 
 class AddVacation(Service):
@@ -17,8 +18,12 @@ class AddVacation(Service):
 
     def reply(self):
         data = json_body(self.request)
-        start = as_naive_utc(datetime.fromisoformat(data["start"]))
-        end = as_naive_utc(datetime.fromisoformat(data["end"]))
+        # TODO: verificare la gestione delle timezone ... perchè redturtle.prenotazioni
+        # su questo aspetto è abbastanza naive...
+        # start = as_naive_utc(datetime.fromisoformat(data["start"]))
+        # end = as_naive_utc(datetime.fromisoformat(data["end"]))
+        start = datetime.fromisoformat(data["start"])
+        end = datetime.fromisoformat(data["end"])
         gate = data.get("gate")
         # title = data.get("title")
 
