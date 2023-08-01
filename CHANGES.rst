@@ -5,6 +5,9 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- Fix default start/end time for search @bookings
+  [mamico]
+
 - Add @vacation rest api 
   [mamico]
 

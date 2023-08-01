@@ -46,6 +46,11 @@ class BookingsSearch(Service):
         SearchableText = self.request.get("SearchableText", None)
         review_state = self.request.get("review_state", None)
 
+        # 2023-01-01 -> 2023-01-01T00:00:00
+        if start_date and len(start_date) == 10:
+            start_date = f"{start_date}T00:00:00"
+        if end_date and len(end_date) == 10:
+            end_date = f"{end_date}T23:59:59"
         if start_date or end_date:
             query["Date"] = {
                 "query": [DateTime(i) for i in [start_date, end_date] if i],
