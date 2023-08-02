@@ -3,6 +3,7 @@
 from plone import api
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
+from plone.restapi.serializer.converters import datetimelike_to_iso
 from zope.component import getMultiAdapter
 from zExceptions import BadRequest
 
@@ -66,9 +67,7 @@ class WeekSlots(Service):
             request=self.request,
         )
 
-        bookings = prenotazioni_context_state_view.get_bookings_in_day_folder(
-            day_date
-        )
+        bookings = prenotazioni_context_state_view.get_bookings_in_day_folder(day_date)
 
         bookings_result = {}
 
@@ -83,9 +82,7 @@ class WeekSlots(Service):
 
         pauses_serialized = [
             getMultiAdapter((ISlot(i), self.request), ISerializeToJson)()
-            for i in prenotazioni_context_state_view.get_pauses_in_day_folder(
-                day_date
-            )
+            for i in prenotazioni_context_state_view.get_pauses_in_day_folder(day_date)
         ]
 
         return {
