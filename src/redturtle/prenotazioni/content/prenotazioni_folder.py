@@ -699,27 +699,29 @@ class IPrenotazioniFolder(model.Schema):
             "prenotazioni_email_templates_label",
             default="Prenotazioni Email Templates",
         ),
-        description=_(
-            "templates_usage_default_value",
-            "${title} - title."
-            "${booking_gate} - booking gate."
-            "${booking_human_readable_start} - booking human readable start."
-            "${booking_date} - booking date."
-            "${booking_end_date} - booking end date."
-            "${booking_time} - booking time."
-            "${booking_time_end} - booking time end."
-            "${booking_code} - booking code."
-            "${booking_type} - booking type."
-            "${booking_print_url} - booking print url."
-            "${booking_url_with_delete_token} - booking url with delete token."
-            "${booking_user_phone} - booking user phone."
-            "${booking_user_email} - booking user email."
-            "${booking_office_contact_phone} - booking office contact phone."
-            "${booking_office_contact_pec} - booking office contact pec."
-            "${booking_office_contact_fax} - booking office contact fax."
-            "${booking_how_to_get_to_office} - booking how to get to office."
-            "${booking_office_complete_address} - booking office complete address.",
-        ),
+        # TODO: Use custom frontend widget for the new
+        # field where we must render the html of field's description
+        # description=_(
+        #     "templates_usage_default_value",
+        #     "${title} - title."
+        #     "${booking_gate} - booking gate."
+        #     "${booking_human_readable_start} - booking human readable start."
+        #     "${booking_date} - booking date."
+        #     "${booking_end_date} - booking end date."
+        #     "${booking_time} - booking time."
+        #     "${booking_time_end} - booking time end."
+        #     "${booking_code} - booking code."
+        #     "${booking_type} - booking type."
+        #     "${booking_print_url} - booking print url."
+        #     "${booking_url_with_delete_token} - booking url with delete token."
+        #     "${booking_user_phone} - booking user phone."
+        #     "${booking_user_email} - booking user email."
+        #     "${booking_office_contact_phone} - booking office contact phone."
+        #     "${booking_office_contact_pec} - booking office contact pec."
+        #     "${booking_office_contact_fax} - booking office contact fax."
+        #     "${booking_how_to_get_to_office} - booking how to get to office."
+        #     "${booking_office_complete_address} - booking office complete address.",
+        # ),
         # description=_(
         #     "prenotazioni_email_templates_description",
         #     default="",
