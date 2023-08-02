@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from email.utils import formataddr
 from email.utils import parseaddr
+from logging import getLogger
 from plone import api
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
@@ -9,11 +10,11 @@ from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-
-# from zope.globalrequest import getRequest
 from zope.i18n import translate
 from plone.stringinterp.interfaces import IStringSubstitution
 from zope.component import getAdapter
+
+logger = getLogger(__name__)
 
 
 def reallocate_gate(obj):
@@ -26,7 +27,9 @@ def reallocate_gate(obj):
     """
     context = obj.object
 
-    if context.REQUEST.form.get("form.gate", "") and getattr(context, "gate", ""):
+    if context.REQUEST.form.get("form.gate", "") and getattr(
+        context, "gate", ""
+    ):
         return
 
     container = context.getPrenotazioniFolder()
@@ -90,6 +93,7 @@ def notify_on_move(booking, event):
 
 def send_email(msg):
     if not msg:
+        logger.error("Could not send email due to no message was provided")
         return
 
     host = api.portal.get_tool(name="MailHost")
@@ -101,7 +105,9 @@ def send_email(msg):
 
 def get_mail_from_address():
     registry = getUtility(IRegistry)
-    mail_settings = registry.forInterface(IMailSchema, prefix="plone", check=False)
+    mail_settings = registry.forInterface(
+        IMailSchema, prefix="plone", check=False
+    )
     from_address = mail_settings.email_from_address
     from_name = mail_settings.email_from_name
 
@@ -133,7 +139,9 @@ def send_email_to_managers(booking, event):
             "booking_folder": booking_folder.title,
             "booking_url": booking_operator_url,
             "booking_date": getattr(booking, "booking_date", ""),
-            "booking_expiration_date": getattr(booking, "booking_expiration_date", ""),
+            "booking_expiration_date": getattr(
+                booking, "booking_expiration_date", ""
+            ),
             "description": getattr(booking, "description", ""),
             "email": getattr(booking, "email", ""),
             "fiscalcode": getattr(booking, "fiscalcode", ""),
