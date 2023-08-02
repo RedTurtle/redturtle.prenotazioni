@@ -114,19 +114,23 @@ def get_mail_from_address():
 
 def send_email_to_managers(booking, event):
     def generate_booking_url():
-        folder = [
-            i
-            for i in aq_chain(booking)
-            if getattr(i, "portal_type", "") == "PrenotazioniFolder"
-        ][0]
-
         portal_state = api.content.get_view(
             name="plone_portal_state",
             context=api.portal.get(),
             request=getRequest(),
         )
-
         portal_url = portal_state.navigation_root_url()
+
+        parent_folder_list = [
+            i
+            for i in aq_chain(booking)
+            if getattr(i, "portal_type", "") == "PrenotazioniFolder"
+        ]
+        if parent_folder_list:
+            folder = parent_folder_list[0]
+        else:
+            return portal_url
+
         registry = getUtility(IRegistry)
         settings = registry.forInterface(IVoltoSettings, prefix="volto", check=False)
         settings_frontend_domain = getattr(settings, "frontend_domain", None)
