@@ -144,7 +144,7 @@ def send_email_to_managers(booking, event):
             if portal_url.endswith("/"):
                 portal_url = portal_url[:-1]
 
-            booking_folder_path = folder.absolute_url().split("/Plone")[1]
+            booking_folder_path = "/".join(folder.getPhysicalPath()).split("/Plone")[1]
 
             return "{url}?tab=table&booking_code={uid}".format(
                 url=portal_url + booking_folder_path,
