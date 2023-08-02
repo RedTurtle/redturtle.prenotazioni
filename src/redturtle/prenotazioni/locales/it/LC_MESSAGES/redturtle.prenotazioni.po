@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-07-31 10:20+0000\n"
+"POT-Creation-Date: 2023-08-02 14:33+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -355,7 +355,7 @@ msgid "Sorry, this slot is not available anymore."
 msgstr "Ci dispiace, ma questo intervallo di tempo non è più disponibile"
 
 #: redturtle/prenotazioni/browser/prenotazione_move.py:165
-#: redturtle/prenotazioni/restapi/services/booking/move.py:68
+#: redturtle/prenotazioni/restapi/services/booking/move.py:72
 msgid "Sorry, this slot is not available or does not fit your booking."
 msgstr "Ci dispiace questo intervallo di tempo non è disponibile o non è adatto alla tua prenotazione."
 
@@ -449,6 +449,14 @@ msgstr "Le informazioni per raggiungere l'ufficio presso cui si prenota"
 msgid "The phone number of the user who made the reservation."
 msgstr "Il numero di telefono di chi ha prenotato"
 
+#: redturtle/prenotazioni/restapi/services/booking/vacation.py:55
+msgid "This day is not valid."
+msgstr ""
+
+#: redturtle/prenotazioni/restapi/services/booking/vacation.py:49
+msgid "This gate has some booking schedule in this time period."
+msgstr ""
+
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:109
 msgid "Thursday"
 msgstr "Giovedì"
@@ -526,14 +534,14 @@ msgstr "Lascia vuoto, e questa Cartella Prenotazioni non avrà scadenza"
 
 #. Default: "Book"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:236
-#: redturtle/prenotazioni/browser/vacations.py:246
+#: redturtle/prenotazioni/browser/vacations.py:206
 msgid "action_book"
 msgstr "Prenota"
 
 #. Default: "Cancel"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:296
 #: redturtle/prenotazioni/browser/prenotazione_move.py:186
-#: redturtle/prenotazioni/browser/vacations.py:271
+#: redturtle/prenotazioni/browser/vacations.py:231
 msgid "action_cancel"
 msgstr "Cancella"
 
@@ -589,7 +597,7 @@ msgstr "Prenotazione confermata"
 
 #. Default: "Booking created"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:275
-#: redturtle/prenotazioni/browser/vacations.py:243
+#: redturtle/prenotazioni/browser/vacations.py:203
 msgid "booking_created"
 msgstr "Prenotazione creata"
 
@@ -683,7 +691,7 @@ msgid "cosa_serve"
 msgstr "Cosa serve"
 
 #. Default: "This day is not valid."
-#: redturtle/prenotazioni/browser/vacations.py:263
+#: redturtle/prenotazioni/browser/vacations.py:223
 msgid "day_error"
 msgstr "Questo day non è valido"
 
@@ -1015,7 +1023,7 @@ msgstr "L'unità di tempo minima è 5 minuti. La tua prenotazione non può ecced
 #. Default: "Type in here the message that you want to mail. Some defined content can be replaced: ${title} will be replaced with booking title (user fullname). ${date} will be replaced with booking new date. ${url} will be replaced by the booking url. ${portal} will be replaced by the title of the portal."
 #: redturtle/prenotazioni/contentrules/sendMovedPrenotazione.py:43
 msgid "message_help"
-msgstr "Inserisci il messaggio che vuoi inviare per mail. E' possibile inserire alcuni marcatori che verranno sostituiti con dei valori presi dall'applicazione.\"${title}\" sarà sostituito con il titolo della prenotazione (il nome e cognome dell'utente). \"${date}\" sarà sostituito con la data della prenotazione. \"${url}\" sarà sostituito  dall'url della prenotazione. ${portal} sarà sostituito  con il titolo del portale. "
+msgstr "Inserisci il messaggio che vuoi inviare per mail. E' possibile inserire alcuni marcatori che verranno sostituiti con dei valori presi dall'applicazione. \"${title}\" sarà sostituito con il titolo della prenotazione (il nome e cognome dell'utente). \"${date}\" sarà sostituito con la data della prenotazione. \"${url}\" sarà sostituito  dall'url della prenotazione. ${portal} sarà sostituito  con il titolo del portale. "
 
 #. Default: "Unable to find a booking with the givend id: ${uid}."
 #: redturtle/prenotazioni/browser/delete_reservation.py:42
@@ -1076,7 +1084,7 @@ msgstr "La prenotazione non e' permessa prima del numero di giorni specificata. 
 #. Default: "Notifications"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:681
 msgid "notifications_label"
-msgstr ""
+msgstr "Notifiche"
 
 #. Default: "Notify when confirmed."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:541
@@ -1345,7 +1353,7 @@ msgid "select-option"
 msgstr "seleziona l'opzione desiderata dal gruppo di campi seguente"
 
 #. Default: "This gate has some booking schedule in this time period."
-#: redturtle/prenotazioni/browser/vacations.py:256
+#: redturtle/prenotazioni/browser/vacations.py:216
 msgid "slot_conflict_error"
 msgstr "Questa postazione ha già appuntamenti schedulati in questo periodo."
 
@@ -1357,7 +1365,7 @@ msgstr "Il mittente della mail. Se nessun indirizzo viene inserito verrà utiliz
 #. Default: "${title} - title.${booking_gate} - booking gate.${booking_human_readable_start} - booking human readable start.${booking_date} - booking date.${booking_end_date} - booking end date.${booking_time} - booking time.${booking_time_end} - booking time end.${booking_code} - booking code.${booking_type} - booking type.${booking_print_url} - booking print url.${booking_url_with_delete_token} - booking url with delete token.${booking_user_phone} - booking user phone.${booking_user_email} - booking user email.${booking_office_contact_phone} - booking office contact phone.${booking_office_contact_pec} - booking office contact pec.${booking_office_contact_fax} - booking office contact fax.${booking_how_to_get_to_office} - booking how to get to office.${booking_office_complete_address} - booking office complete address."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:702
 msgid "templates_usage_default_value"
-msgstr "I testi e l’oggetto delle notifiche email possono essere configurate usando le seguenti variabili:<ul><li>${title} - Titolo della prenotazione.</li><li>${booking_gate} - Sportello della prenotazione.</li><li>${booking_human_readable_start} - Data e ora prenotazione con formattazione standard.</li><li>${booking_date} - Data prenotazione.</li><li>${booking_end_date} - Data fine prenotazione.</li><li>${booking_time} - Orario di inizio prenotazione.</li><li>${booking_time_end} - Orario di fine prenotazione.</li><li>${booking_code} - Ticket identificativo della prenotazione da utilizzare per chiamare il cittadino allo sportello ad attesa ultimata.</li><li>${booking_type} - Tipologia prenotazione.</li><li>${booking_print_url} - Link di riepilogo prenotazione.</li><li>${booking_url_with_delete_token} - Link per cancellare la prenotazione.</li><li>${booking_user_phone} - Numero di telefono del cittadino.</li><li>${booking_user_email} - Email del cittadino.</li><li>${booking_office_contact_phone} - Telefono ufficio, se compilato.</li><li>${booking_office_contact_pec} - PEC ufficio, se compilata.</li><li>${booking_office_contact_fax} - Fax ufficio, se compilato.</li><li>${booking_how_to_get_to_office} - Informazioni su come raggiungere l’ufficio, se compilate.</li><li>${booking_office_complete_address} - Indirizzo completo dell’ufficio, se compilato.</li></ul>"
+msgstr "I testi e l’oggetto delle notifiche email possono essere configurate usando le seguenti variabili: ${title} - Titolo della prenotazione. ${booking_gate} - Sportello della prenotazione ${booking_human_readable_start} - Data e ora prenotazione con formattazione standard. ${booking_date} - Data prenotazione. ${booking_end_date} - Data fine prenotazione. ${booking_time} - Orario di inizio prenotazione. ${booking_time_end} - Orario di fine prenotazione. ${booking_code} - Ticket identificativo della prenotazione da utilizzare per chiamare il cittadino allo sportello ad attesa ultimata. ${booking_type} - Tipologia prenotazione. ${booking_print_url} - Link di riepilogo prenotazione. ${booking_url_with_delete_token} - Link per cancellare la prenotazione. ${booking_user_phone} - Numero di telefono del cittadino. ${booking_user_email} - Email del cittadino. ${booking_office_contact_phone} - Telefono ufficio, se compilato. ${booking_office_contact_pec} - PEC ufficio, se compilata. ${booking_office_contact_fax} - Fax ufficio, se compilato. ${booking_how_to_get_to_office} - Informazioni su come raggiungere l’ufficio, se compilate. ${booking_office_complete_address} - Indirizzo completo dell’ufficio, se compilato."
 
 #. Default: "You cannot book any booking_type at this time"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:328

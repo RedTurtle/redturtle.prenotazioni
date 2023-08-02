@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2023-07-31 10:20+0000\n"
+"POT-Creation-Date: 2023-08-02 14:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -355,7 +355,7 @@ msgid "Sorry, this slot is not available anymore."
 msgstr ""
 
 #: redturtle/prenotazioni/browser/prenotazione_move.py:165
-#: redturtle/prenotazioni/restapi/services/booking/move.py:68
+#: redturtle/prenotazioni/restapi/services/booking/move.py:72
 msgid "Sorry, this slot is not available or does not fit your booking."
 msgstr ""
 
@@ -449,6 +449,14 @@ msgstr ""
 msgid "The phone number of the user who made the reservation."
 msgstr ""
 
+#: redturtle/prenotazioni/restapi/services/booking/vacation.py:55
+msgid "This day is not valid."
+msgstr ""
+
+#: redturtle/prenotazioni/restapi/services/booking/vacation.py:49
+msgid "This gate has some booking schedule in this time period."
+msgstr ""
+
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:109
 msgid "Thursday"
 msgstr ""
@@ -526,14 +534,14 @@ msgstr ""
 
 #. Default: "Book"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:236
-#: redturtle/prenotazioni/browser/vacations.py:246
+#: redturtle/prenotazioni/browser/vacations.py:206
 msgid "action_book"
 msgstr ""
 
 #. Default: "Cancel"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:296
 #: redturtle/prenotazioni/browser/prenotazione_move.py:186
-#: redturtle/prenotazioni/browser/vacations.py:271
+#: redturtle/prenotazioni/browser/vacations.py:231
 msgid "action_cancel"
 msgstr ""
 
@@ -588,7 +596,7 @@ msgid "booking_confirmed"
 msgstr ""
 
 #: redturtle/prenotazioni/browser/prenotazione_add.py:275
-#: redturtle/prenotazioni/browser/vacations.py:243
+#: redturtle/prenotazioni/browser/vacations.py:203
 msgid "booking_created"
 msgstr ""
 
@@ -682,7 +690,7 @@ msgid "cosa_serve"
 msgstr ""
 
 #. Default: "This day is not valid."
-#: redturtle/prenotazioni/browser/vacations.py:263
+#: redturtle/prenotazioni/browser/vacations.py:223
 msgid "day_error"
 msgstr ""
 
@@ -1341,7 +1349,7 @@ msgid "select-option"
 msgstr ""
 
 #. Default: "This gate has some booking schedule in this time period."
-#: redturtle/prenotazioni/browser/vacations.py:256
+#: redturtle/prenotazioni/browser/vacations.py:216
 msgid "slot_conflict_error"
 msgstr ""
 
