@@ -66,26 +66,30 @@ class WeekSlots(Service):
             request=self.request,
         )
 
-        bookings = prenotazioni_context_state_view.get_bookings_in_day_folder(day_date)
+        bookings = prenotazioni_context_state_view.get_bookings_in_day_folder(
+            day_date
+        )
 
         bookings_result = {}
 
         for gate in {i.gate for i in bookings}:
             bookings_result[gate] = [
                 {
-                    **getMultiAdapter((ISlot(i), self.request), ISerializeToJson)(),
-                    "booking_id": i.UID(),
+                    **getMultiAdapter((i, self.request), ISerializeToJson)(),
                 }
                 for i in bookings
                 if i.gate == gate
             ]
+
         pauses_serialized = [
             getMultiAdapter((ISlot(i), self.request), ISerializeToJson)()
-            for i in prenotazioni_context_state_view.get_pauses_in_day_folder(day_date)
+            for i in prenotazioni_context_state_view.get_pauses_in_day_folder(
+                day_date
+            )
         ]
 
         return {
-            "@id": f"{self.context.absolute_url()}/@day_busy_slots",
+            "@id": f"{self.context.absolute_url()}/@day-busy-slots",
             "bookings": bookings_result,
             "pauses": pauses_serialized,
         }

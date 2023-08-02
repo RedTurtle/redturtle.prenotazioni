@@ -7,7 +7,7 @@
       method="GET"
       factory="redturtle.prenotazioni.restapi.services.day_slots.day_busy_slots.WeekSlots"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
-      permission="zope2.View"
+      permission="redturtle.prenotazioni.ManagePrenotazioni"
       name="@day-busy-slots"
       />
 
