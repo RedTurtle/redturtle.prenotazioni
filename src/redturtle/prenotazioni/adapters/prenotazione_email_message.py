@@ -72,6 +72,12 @@ class PrenotazioneEventMessageICalMixIn:
     def message(self, *args, **kwargs):
         message = super().message
 
+        if not message:
+            logger.error(
+                logger.error("Could not compose email due to no message was created")
+            )
+            return None
+
         message.add_header("Content-class", "urn:content-classes:calendarmessage")
 
         ical = getAdapter(object=self.prenotazione, interface=IICalendar)

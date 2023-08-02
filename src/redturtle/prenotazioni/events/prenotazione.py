@@ -89,6 +89,9 @@ def notify_on_move(booking, event):
 
 
 def send_email(msg):
+    if not msg:
+        return
+
     host = api.portal.get_tool(name="MailHost")
     registry = getUtility(IRegistry)
     encoding = registry.get("plone.email_charset", "utf-8")
