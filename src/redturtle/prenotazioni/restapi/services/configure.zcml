@@ -5,6 +5,7 @@
 
   <include package=".month_slots" />
   <include package=".week_slots" />
+  <include package=".day_slots" />
   <include package=".booking_schema" />
   <include package=".booking" />
   <include package=".bookings" />
