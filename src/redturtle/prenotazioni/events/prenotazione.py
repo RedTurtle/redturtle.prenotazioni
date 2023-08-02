@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_chain
 from zope.component import getMultiAdapter
+from zope.globalrequest import getRequest
 from plone import api
 
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
@@ -10,6 +11,7 @@ from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from email.utils import formataddr
 from email.utils import parseaddr
 from plone.registry.interfaces import IRegistry
+from plone.volto.interfaces import IVoltoSettings
 from zope.component import getUtility
 from redturtle.prenotazioni import _
 
@@ -111,6 +113,53 @@ def get_mail_from_address():
 
 
 def send_email_to_managers(booking, event):
+    def generate_booking_url():
+        portal_state = api.content.get_view(
+            name="plone_portal_state",
+            context=api.portal.get(),
+            request=getRequest(),
+        )
+        portal_url = portal_state.navigation_root_url()
+
+        parent_folder_list = [
+            i
+            for i in aq_chain(booking)
+            if getattr(i, "portal_type", "") == "PrenotazioniFolder"
+        ]
+        if parent_folder_list:
+            folder = parent_folder_list[0]
+        else:
+            return portal_url
+
+        registry = getUtility(IRegistry)
+        settings = registry.forInterface(IVoltoSettings, prefix="volto", check=False)
+        settings_frontend_domain = getattr(settings, "frontend_domain", None)
+
+        if (
+            settings_frontend_domain
+            and settings_frontend_domain != "http://localhost:3000"
+        ):
+            portal_url = settings_frontend_domain
+
+            if portal_url.endswith("/"):
+                portal_url = portal_url[:-1]
+
+            booking_folder_path = folder.absolute_url().split("/Plone")[1]
+
+            return "{url}?tab=table&booking_code={uid}".format(
+                url=portal_url + booking_folder_path,
+                uid=booking.getBookingCode(),
+            )
+
+        else:
+            if portal_url.endswith("/"):
+                portal_url = portal_url[:-1]
+
+            return "{url}/{booking_path}".format(
+                url=portal_url,
+                booking_path="/".join(booking.getPhysicalPath()).split("/Plone/")[1],
+            )
+
     booking_folder = None
     for item in booking.aq_chain:
         if getattr(item, "portal_type", "") == "PrenotazioniFolder":
@@ -127,7 +176,7 @@ def send_email_to_managers(booking, event):
         parameters = {
             "company": getattr(booking, "company", ""),
             "booking_folder": booking_folder.title,
-            "booking_url": booking.absolute_url(),
+            "booking_url": generate_booking_url(),
             "booking_date": getattr(booking, "booking_date", ""),
             "booking_expiration_date": getattr(booking, "booking_expiration_date", ""),
             "description": getattr(booking, "description", ""),
