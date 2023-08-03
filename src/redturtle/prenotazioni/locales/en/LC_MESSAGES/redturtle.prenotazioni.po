@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2023-08-02 14:36+0000\n"
+"POT-Creation-Date: 2023-08-03 11:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1060,7 +1060,7 @@ msgid "move_message"
 msgstr ""
 
 #. Default: "New booking for ${context}"
-#: redturtle/prenotazioni/events/prenotazione.py:191
+#: redturtle/prenotazioni/events/prenotazione.py:195
 msgid "new_booking_admin_notify_subject"
 msgstr ""
 
@@ -1353,11 +1353,6 @@ msgstr ""
 #. Default: "The email address that sends the email. If no email is provided here, it will use the address from portal."
 #: redturtle/prenotazioni/contentrules/sendMovedPrenotazione.py:33
 msgid "source_help"
-msgstr ""
-
-#. Default: "${title} - title.${booking_gate} - booking gate.${booking_human_readable_start} - booking human readable start.${booking_date} - booking date.${booking_end_date} - booking end date.${booking_time} - booking time.${booking_time_end} - booking time end.${booking_code} - booking code.${booking_type} - booking type.${booking_print_url} - booking print url.${booking_url_with_delete_token} - booking url with delete token.${booking_user_phone} - booking user phone.${booking_user_email} - booking user email.${booking_office_contact_phone} - booking office contact phone.${booking_office_contact_pec} - booking office contact pec.${booking_office_contact_fax} - booking office contact fax.${booking_how_to_get_to_office} - booking how to get to office.${booking_office_complete_address} - booking office complete address."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:702
-msgid "templates_usage_default_value"
 msgstr ""
 
 #. Default: "You cannot book any booking_type at this time"
