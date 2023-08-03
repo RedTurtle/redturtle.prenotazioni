@@ -27,6 +27,7 @@ def SearchableText_prenotazione(obj):
             safe_text(obj.company or ""),
             safe_text(obj.gate or ""),
             safe_text(obj.staff_notes or ""),
+            safe_text(obj.getBookingCode() or ""),
             subject,
         )
     )

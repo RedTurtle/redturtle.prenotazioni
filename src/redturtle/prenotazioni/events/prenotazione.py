@@ -153,7 +153,7 @@ def send_email_to_managers(booking, event):
 
             booking_folder_path = "/".join(folder.getPhysicalPath()).split("/Plone")[1]
 
-            return "{url}?tab=table&booking_code={uid}".format(
+            return "{url}?tab=table&SearchableText={uid}".format(
                 url=portal_url + booking_folder_path,
                 uid=booking.getBookingCode(),
             )

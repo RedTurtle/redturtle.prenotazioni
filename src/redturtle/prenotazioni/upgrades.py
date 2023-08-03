@@ -341,6 +341,11 @@ def to_1600_upgrade_contentrules(context):
     update_contentrules(context)
 
 
+def to_1601(context):
+    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
+        brain.getObject().reindexObject(idxs=["SearchableText"])
+
+
 def to_1700(context):
     """
     Fix timezones in bookings

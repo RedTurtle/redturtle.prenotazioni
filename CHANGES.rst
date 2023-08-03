@@ -5,10 +5,13 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- Fix boking code uniqueness
+  [folix-01]
+
 - Fix default start/end time for search @bookings
   [mamico]
 
-- Add @vacation rest api 
+- Add @vacation rest api
   [mamico]
 
 - Customized status message in prenotazione_print.pt based on review_state.
@@ -69,7 +72,7 @@ Changelog
 
 - Add a new endpoint to get booking details. (#40442).
   [daniele]
-  
+
 - Add autoconfirm content rule to profile.
   [foxtrot-dfm1]
 
