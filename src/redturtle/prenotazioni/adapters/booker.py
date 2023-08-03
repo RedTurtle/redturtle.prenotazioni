@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from DateTime import DateTime
 from plone import api
 from plone.memoize.instance import memoize
 from random import choice
@@ -9,6 +8,17 @@ from redturtle.prenotazioni.config import VERIFIED_BOOKING
 from zope.annotation.interfaces import IAnnotations
 from zope.component import Interface
 from zope.interface import implementer
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
+from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
+from zope.event import notify
+from redturtle.prenotazioni import datetime_with_tz
+from six.moves.urllib.parse import parse_qs
+from six.moves.urllib.parse import urlparse
+
+
+class BookerException(Exception):
+    pass
 
 
 class IBooker(Interface):
@@ -56,10 +66,6 @@ class Booker(object):
         """
         # remove empty fields
         params = {k: v for k, v in data.items() if v}
-        if isinstance(params["booking_date"], DateTime):
-            params["booking_date"] = params["booking_date"].asdatetime()
-        else:
-            params["booking_date"] = params["booking_date"]
 
         container = self.prenotazioni.get_container(
             params["booking_date"], create_missing=True
@@ -138,3 +144,71 @@ class Booker(object):
             booking.reindexObject(idxs=["Date"])
             return
         api.content.move(booking, new_container)
+
+    def book(self, data):
+        """
+        Book a resource
+        """
+        data["booking_date"] = datetime_with_tz(data["booking_date"])
+
+        conflict_manager = self.prenotazioni.conflict_manager
+        if conflict_manager.conflicts(data):
+            msg = _("Sorry, this slot is not available anymore.")
+            raise BookerException(api.portal.translate(msg))
+
+        future_days = self.context.getFutureDays()
+        if future_days and exceedes_date_limit(data, future_days):
+            msg = _("Sorry, you can not book this slot for now.")
+            raise BookerException(api.portal.translate(msg))
+
+        referer = self.context.REQUEST.get("HTTP_REFERER", None)
+        force_gate = ""
+        if referer:
+            parsed_url = urlparse(referer)
+            params = parse_qs(parsed_url.query)
+            if "gate" in params:
+                force_gate = params["gate"][0]
+
+        obj = self.create(data=data, force_gate=force_gate)
+        if not obj:
+            msg = _("Sorry, this slot is not available anymore.")
+            raise BookerException(api.portal.translate(msg))
+        return obj
+
+    def move(self, booking, data):
+        """
+        Move a booking in a new slot
+        """
+        data["booking_date"] = booking_date = datetime_with_tz(data["booking_date"])
+
+        data["booking_type"] = booking.getBooking_type()
+        conflict_manager = self.prenotazioni.conflict_manager
+        current_data = booking.getBooking_date()
+        current = {"booking_date": current_data, "booking_type": data["booking_type"]}
+        current_slot = conflict_manager.get_choosen_slot(current)
+        current_gate = getattr(booking, "gate", "")
+        exclude = {current_gate: [current_slot]}
+        if conflict_manager.conflicts(data, exclude=exclude):
+            msg = _(
+                "Sorry, this slot is not available or does not fit your " "booking."
+            )
+            raise BookerException(api.portal.translate(msg))
+
+        future_days = booking.getFutureDays()
+        if future_days and exceedes_date_limit(data, future_days):
+            msg = _("Sorry, you can not book this slot for now.")
+            raise BookerException(api.portal.translate(msg))
+
+        # move the booking
+        duration = booking.getDuration()
+        booking_expiration_date = booking_date + duration
+        booking.setBooking_date(booking_date)
+        booking.setBooking_expiration_date(booking_expiration_date)
+
+        # se non passato il gate va bene lasciare quello precedente o
+        # va rimosso ?
+        if data.get("gate"):
+            booking.gate = data["gate"]
+
+        booking.reindexObject(idxs=["Subject"])
+        notify(MovedPrenotazione(booking))

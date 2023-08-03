@@ -9,6 +9,7 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
+from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
@@ -179,7 +180,9 @@ class TestMonthSlots(unittest.TestCase):
             # first free slot is at 7:30 of the next month
             self.assertEqual(
                 response.json()["items"][0],
-                json_compatible(datetime(current_year, next_month, monday, 7, 30)),
+                json_compatible(
+                    datetime_with_tz(datetime(current_year, next_month, monday, 7, 30))
+                ),
             )
         else:
             response = self.api_session.get(
@@ -189,7 +192,11 @@ class TestMonthSlots(unittest.TestCase):
             # first free slot is at 7:30
             self.assertEqual(
                 response.json()["items"][0],
-                json_compatible(datetime(current_year, current_month, monday, 7, 30)),
+                json_compatible(
+                    datetime_with_tz(
+                        datetime(current_year, current_month, monday, 7, 30)
+                    )
+                ),
             )
 
     def test_show_all_available_slots_for_next_month_from_the_beginning(
@@ -215,7 +222,9 @@ class TestMonthSlots(unittest.TestCase):
                 for hour in [7, 8, 9]:
                     expected.append(
                         json_compatible(
-                            datetime(current_year, next_month, monday, hour, 0)
+                            datetime_with_tz(
+                                datetime(current_year, next_month, monday, hour, 0)
+                            )
                         )
                     )
         self.assertEqual(expected, response.json()["items"])
@@ -257,8 +266,10 @@ class TestMonthSlots(unittest.TestCase):
         response = self.api_session.get("{}/@month-slots".format(folder.absolute_url()))
 
         tomorrow = json_compatible(
-            datetime.now().replace(hour=7, minute=0, second=0, microsecond=0)
-            + timedelta(days=1)
+            datetime_with_tz(
+                datetime.now().replace(hour=7, minute=0, second=0, microsecond=0)
+                + timedelta(days=1)
+            )
         )
         self.assertNotIn(tomorrow, response.json()["items"])
 

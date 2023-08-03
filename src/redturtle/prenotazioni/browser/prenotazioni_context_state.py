@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from datetime import datetime
-from datetime import timedelta
 from DateTime import DateTime
+from datetime import timedelta
 from plone import api
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import get_or_create_obj
 from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
@@ -318,20 +319,23 @@ class PrenotazioniContextState(BrowserView):
         times = slot.get_values_hr_every(300, slot_min_size=slot_min_size)
         base_url = self.base_booking_url
         urls = []
-        now_str = tznow().strftime("%Y-%m-%dT%H:%M")
+        now = tznow()
         for t in times:
-            form_booking_date = "T".join((date, t))
-            params["form.booking_date"] = form_booking_date
+            booking_date_str = "T".join((date, t))
+            booking_date = datetime_with_tz(booking_date_str)
+
+            # needed to build the url
+            params["form.booking_date"] = booking_date_str
+
             if gate:
                 params["gate"] = gate
-            booking_date = DateTime(params["form.booking_date"]).asdatetime()  # noqa
             urls.append(
                 {
                     "title": t,
                     "url": urlify(base_url, params=params),
                     "class": t.endswith(":00") and "oclock" or None,
                     "booking_date": booking_date,
-                    "future": (now_str <= form_booking_date),
+                    "future": now <= booking_date,
                 }
             )
         return urls

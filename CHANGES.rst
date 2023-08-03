@@ -5,6 +5,9 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- Manage timezone in booking dates. (upgrade step)
+  [cekk]
+
 - Fix boking code uniqueness
   [folix-01]
 
@@ -25,7 +28,6 @@ Changelog
 
 - Added event handler on booking creation to send email to managers.
   [daniele]
-
 
 2.0.0.dev3 (2023-07-20)
 -----------------------

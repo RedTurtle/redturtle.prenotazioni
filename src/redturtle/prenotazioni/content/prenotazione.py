@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from .prenotazioni_folder import IPrenotazioniFolder
-from datetime import datetime
 from DateTime import DateTime
 from plone import api
+from plone.app.event.base import default_timezone
+from plone.app.z3cform.widget import DatetimeFieldWidget
 from plone.autoform import directives
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import tznow
 from zope import schema
 from zope.interface import implementer
@@ -100,12 +102,13 @@ def check_is_future_date(value):
     """
     if not value:
         return True
-
-    now = tznow()
-
-    if isinstance(value, datetime) and value >= now:
-        return True
-    raise IsNotfutureDate
+    try:
+        if datetime_with_tz(value) >= tznow():
+            return True
+        else:
+            raise IsNotfutureDate
+    except Exception:
+        raise IsNotfutureDate
 
 
 class IPrenotazione(model.Schema):
@@ -169,6 +172,13 @@ class IPrenotazione(model.Schema):
         required=False, title=_("label_booking_staff_notes", "Staff notes")
     )
 
+    directives.widget(
+        "booking_date",
+        DatetimeFieldWidget,
+        default_timezone=default_timezone,
+        klass="booking_date",
+    )
+
 
 @implementer(IPrenotazione)
 class Prenotazione(Item):
@@ -208,7 +218,6 @@ class Prenotazione(Item):
 
     def getPrenotazioniFolder(self):
         """Ritorna l'oggetto prenotazioni folder"""
-
         for parent in self.aq_chain:
             if IPrenotazioniFolder.providedBy(parent):
                 return parent

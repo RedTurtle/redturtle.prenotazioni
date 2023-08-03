@@ -3,12 +3,13 @@ from plone.restapi.services import Service
 from plone.restapi.deserializer import json_body
 from plone import api
 from redturtle.prenotazioni.adapters.slot import BaseSlot
-from datetime import datetime
 from redturtle.prenotazioni.adapters.booker import IBooker
 from DateTime import DateTime
 from redturtle.prenotazioni import _
 from plone.protect.interfaces import IDisableCSRFProtection
 from zope.interface import alsoProvides
+from redturtle.prenotazioni import datetime_with_tz
+from zExceptions import BadRequest
 
 # from redturtle.prenotazioni.utilities.dateutils import as_naive_utc
 
@@ -22,10 +23,9 @@ class AddVacation(Service):
         # su questo aspetto è abbastanza naive...
         # start = as_naive_utc(datetime.fromisoformat(data["start"]))
         # end = as_naive_utc(datetime.fromisoformat(data["end"]))
-        start = datetime.fromisoformat(data["start"])
-        end = datetime.fromisoformat(data["end"])
+        data["start"] = start = datetime_with_tz(data["start"])
+        data["end"] = end = datetime_with_tz(data["end"])
         gate = data.get("gate")
-        # title = data.get("title")
 
         prenotazioni_context_state = api.content.get_view(
             "prenotazioni_context_state", self.context, self.request
@@ -51,9 +51,8 @@ class AddVacation(Service):
             return dict(error=dict(type="Bad Request", message=msg))
 
         if not prenotazioni_context_state.is_valid_day(start.date()):
-            self.request.response.setStatus(400)
             msg = self.context.translate(_("This day is not valid."))
-            return dict(error=dict(type="Bad Request", message=msg))
+            raise BadRequest(msg)
 
         # self.do_book(parsed_data)
         # slots = self.get_slots(data)
@@ -79,7 +78,7 @@ class AddVacation(Service):
             duration = float(len(slot)) / 86400
             # duration = float(len(slot)) / 60
             slot_data = {k: v for k, v in data.items() if k != "gate"}
-            slot_data["booking_date"] = booking_date
+            slot_data["booking_date"] = datetime_with_tz(booking_date)
             booker.create(slot_data, duration=duration, force_gate=gate)
 
-        self.request.response.setStatus(201)
+        self.reply_no_content()

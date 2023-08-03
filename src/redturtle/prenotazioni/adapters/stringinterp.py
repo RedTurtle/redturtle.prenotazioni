@@ -231,3 +231,12 @@ class BookingUrlWithDeleteToken(BaseSubstitution):
             booking_url=self.context.getPrenotazioniFolder().absolute_url(),
             uid=self.context.UID(),
         )
+
+
+@adapter(Interface)
+class BookingOperatorUrlSubstitution(BaseSubstitution):
+    category = _("Booking")
+    description = _("The booking operator url")
+
+    def safe_call(self):
+        return self.context.absolute_url()

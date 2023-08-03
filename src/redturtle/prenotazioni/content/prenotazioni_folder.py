@@ -367,6 +367,7 @@ class IPrenotazioniFolder(model.Schema):
     form.widget(
         "pause_table",
         DataGridFieldFactory,
+        auto_append=False,
         frontendOptions={"widget": "data_grid"},
     )
 
@@ -419,6 +420,7 @@ class IPrenotazioniFolder(model.Schema):
     form.widget(
         "booking_types",
         DataGridFieldFactory,
+        auto_append=False,
         frontendOptions={"widget": "data_grid"},
     )
 
