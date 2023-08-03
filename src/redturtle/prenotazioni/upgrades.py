@@ -363,7 +363,6 @@ def to_1700(context):
 
         fields = ["booking_date", "booking_expiration_date"]
         for field in fields:
-
             date = getattr(prenotazione, field, None)
             if date.tzinfo is None or isinstance(date.tzinfo, tzutc):
                 # set current timezone
