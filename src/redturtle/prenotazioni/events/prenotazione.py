@@ -4,7 +4,6 @@ from email.utils import formataddr
 from email.utils import parseaddr
 from plone import api
 from plone.registry.interfaces import IRegistry
-from plone.volto.interfaces import IVoltoSettings
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.adapters.booker import IBooker
@@ -13,6 +12,13 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.globalrequest import getRequest
 from zope.i18n import translate
+
+try:
+    from plone.volto.interfaces import IVoltoSettings
+
+    HAS_VOLTO = True
+except ImportError:
+    HAS_VOLTO = False
 
 
 def get_prenotazione_folder(prenotazione):
@@ -139,41 +145,45 @@ def send_email_to_managers(booking, event):
 
         portal = api.portal.get()
         registry = getUtility(IRegistry)
-        settings = registry.forInterface(IVoltoSettings, prefix="volto", check=False)
-        settings_frontend_domain = getattr(settings, "frontend_domain", None)
 
-        if (
-            settings_frontend_domain
-            and settings_frontend_domain != "http://localhost:3000"
-        ):
-            portal_url = settings_frontend_domain
-            if portal_url.endswith("/"):
-                portal_url = portal_url[:-1]
-
-            # XXX: questo non va bene in ogni caso perchè considera le url fatte con il path,
-            #      e non con il virtual host, ma nel caso di volto al momento le due cose sono
-            #      coincidenti
-            booking_folder_path = "/".join(
-                folder.getPhysicalPath()[len(portal.getPhysicalPath()) :]  # noqa
+        if HAS_VOLTO:
+            settings = registry.forInterface(
+                IVoltoSettings, prefix="volto", check=False
             )
+            settings_frontend_domain = getattr(settings, "frontend_domain", None)
 
-            return "{url}?tab=table&SearchableText={uid}".format(
-                url=portal_url + booking_folder_path,
-                uid=booking.getBookingCode(),
-            )
+            if (
+                settings_frontend_domain
+                and settings_frontend_domain != "http://localhost:3000"
+            ):
+                portal_url = settings_frontend_domain
+                if portal_url.endswith("/"):
+                    portal_url = portal_url[:-1]
 
-        else:
-            if portal_url.endswith("/"):
-                portal_url = portal_url[:-1]
-            return "{url}/{booking_path}".format(
-                url=portal_url,
                 # XXX: questo non va bene in ogni caso perchè considera le url fatte con il path,
                 #      e non con il virtual host, ma nel caso di volto al momento le due cose sono
                 #      coincidenti
-                booking_path="/".join(
-                    booking.getPhysicalPath()[len(portal.getPhysicalPath()) :]  # noqa
-                ),
-            )
+                booking_folder_path = "/".join(
+                    folder.getPhysicalPath()[len(portal.getPhysicalPath()) :]  # noqa
+                )
+
+                return "{url}?tab=table&SearchableText={uid}".format(
+                    url=portal_url + booking_folder_path,
+                    uid=booking.getBookingCode(),
+                )
+
+        if portal_url.endswith("/"):
+            portal_url = portal_url[:-1]
+
+        return "{url}/{booking_path}".format(
+            url=portal_url,
+            # XXX: questo non va bene in ogni caso perchè considera le url fatte con il path,
+            #      e non con il virtual host, ma nel caso di volto al momento le due cose sono
+            #      coincidenti
+            booking_path="/".join(
+                booking.getPhysicalPath()[len(portal.getPhysicalPath()) :]  # noqa
+            ),
+        )
 
     booking_folder = None
     for item in booking.aq_chain:
