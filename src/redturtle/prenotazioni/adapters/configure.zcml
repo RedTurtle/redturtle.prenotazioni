@@ -78,6 +78,13 @@
       />
 
   <adapter
+      factory=".stringinterp.BookingOperatorUrlSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_operator_url"
+      />
+
+  <adapter
       factory=".stringinterp.BookingUserPhoneSubstitution"
       provides="plone.stringinterp.interfaces.IStringSubstitution"
       for="*"

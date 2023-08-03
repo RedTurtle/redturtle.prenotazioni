@@ -218,7 +218,6 @@ class Prenotazione(Item):
 
     def getPrenotazioniFolder(self):
         """Ritorna l'oggetto prenotazioni folder"""
-
         for parent in self.aq_chain:
             if IPrenotazioniFolder.providedBy(parent):
                 return parent
