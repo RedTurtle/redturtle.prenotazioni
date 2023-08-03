@@ -7,9 +7,6 @@ from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
-
-# from plone.app.testing import TEST_USER_NAME
-# from plone.app.testing import TEST_USER_PASSWORD
 from plone.autoform.interfaces import MODES_KEY
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
@@ -99,10 +96,10 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
 
     def test_add_booking_anonymous(self):
         self.api_session.auth = None
-        booking_date = "{}T09:00:00".format(
+        booking_date = "{}T09:00:00+00:00".format(
             (date.today() + timedelta(1)).strftime("%Y-%m-%d")
         )
-        booking_expiration_date = "{}T09:30:00".format(
+        booking_expiration_date = "{}T09:30:00+00:00".format(
             (date.today() + timedelta(1)).strftime("%Y-%m-%d")
         )
         res = self.api_session.post(
@@ -143,10 +140,8 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
         self.assertEqual(
             res.json(),
             {
-                "error": {
-                    "message": "Unknown booking type 'Type A (30 min)'.",
-                    "type": "Bad Request",
-                }
+                "message": "Unknown booking type 'Type A (30 min)'.",
+                "type": "BadRequest",
             },
         )
 

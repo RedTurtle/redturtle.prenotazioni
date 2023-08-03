@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_chain
-from zope.component import getMultiAdapter
-from zope.globalrequest import getRequest
-from plone import api
-
-from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
-from redturtle.prenotazioni.adapters.booker import IBooker
-from zope.i18n import translate
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from email.utils import formataddr
 from email.utils import parseaddr
+from plone import api
 from plone.registry.interfaces import IRegistry
 from plone.volto.interfaces import IVoltoSettings
-from zope.component import getUtility
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.globalrequest import getRequest
+from zope.i18n import translate
 
 
 def get_prenotazione_folder(prenotazione):
@@ -161,7 +160,6 @@ def send_email_to_managers(booking, event):
         else:
             if portal_url.endswith("/"):
                 portal_url = portal_url[:-1]
-
             return "{url}/{booking_path}".format(
                 url=portal_url,
                 booking_path="/".join(booking.getPhysicalPath()).split("/Plone/")[1],

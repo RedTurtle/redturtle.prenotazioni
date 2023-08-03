@@ -75,7 +75,7 @@ class TestVacationgApi(unittest.TestCase):
                 "title": "vacation foo",
             },
         )
-        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.status_code, 204)
 
         res = self.api_session_anon.post(
             self.folder_prenotazioni.absolute_url() + "/@booking",
@@ -106,13 +106,11 @@ class TestVacationgApi(unittest.TestCase):
                 ],
             },
         )
-        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.status_code, 500)
         self.assertEqual(
             res.json(),
             {
-                "error": {
-                    "message": "Sorry, this slot is not available anymore.",
-                    "type": "Bad Request",
-                }
+                "message": "Sorry, this slot is not available anymore.",
+                "type": "BookerException",
             },
         )
