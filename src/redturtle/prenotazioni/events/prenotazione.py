@@ -137,6 +137,7 @@ def send_email_to_managers(booking, event):
         else:
             return portal_url
 
+        portal = api.portal.get()
         registry = getUtility(IRegistry)
         settings = registry.forInterface(IVoltoSettings, prefix="volto", check=False)
         settings_frontend_domain = getattr(settings, "frontend_domain", None)
@@ -146,11 +147,15 @@ def send_email_to_managers(booking, event):
             and settings_frontend_domain != "http://localhost:3000"
         ):
             portal_url = settings_frontend_domain
-
             if portal_url.endswith("/"):
                 portal_url = portal_url[:-1]
 
-            booking_folder_path = "/".join(folder.getPhysicalPath()).split("/Plone")[1]
+            # XXX: questo non va bene in ogni caso perchè considera le url fatte con il path,
+            #      e non con il virtual host, ma nel caso di volto al momento le due cose sono
+            #      coincidenti
+            booking_folder_path = "/".join(
+                folder.getPhysicalPath()[len(portal.getPhysicalPath()) :]  # noqa
+            )
 
             return "{url}?tab=table&SearchableText={uid}".format(
                 url=portal_url + booking_folder_path,
@@ -162,7 +167,12 @@ def send_email_to_managers(booking, event):
                 portal_url = portal_url[:-1]
             return "{url}/{booking_path}".format(
                 url=portal_url,
-                booking_path="/".join(booking.getPhysicalPath()).split("/Plone/")[1],
+                # XXX: questo non va bene in ogni caso perchè considera le url fatte con il path,
+                #      e non con il virtual host, ma nel caso di volto al momento le due cose sono
+                #      coincidenti
+                booking_path="/".join(
+                    booking.getPhysicalPath()[len(portal.getPhysicalPath()) :]  # noqa
+                ),
             )
 
     booking_folder = None
