@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-from DateTime import DateTime
 from plone import api
 from plone.restapi.services import Service
-
-import time
+from redturtle.prenotazioni import datetime_with_tz
 
 
 # TODO: rendere traudcibili label e descrizione
@@ -59,18 +57,9 @@ class BookingSchema(Service):
         if not booking_date:
             raise ValueError("Wrong date format")
 
-        booking_date = booking_date.replace("T", " ")
-
-        tzname = time.tzname[time.daylight]
-
-        if tzname == "RMT":
-            tzname = "CEST"
-        booking_date = " ".join((booking_date, tzname))
-
-        try:
-            booking_date = DateTime(booking_date).asdatetime()
-        except ValueError:
-            raise ValueError("Wrong date format")
+        # fix timezone notation. querystring replaced + with a space
+        booking_date = booking_date.replace(" 00:00", "+00:00")
+        booking_date = datetime_with_tz(booking_date)
 
         bookings = booking_context_state_view.booking_types_bookability(booking_date)
 

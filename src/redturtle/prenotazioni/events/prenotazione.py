@@ -63,6 +63,9 @@ def notify_on_after_transition_event(context, event):
         flags["submit"] = False
 
     if flags.get(event.transition and event.transition.__name__ or "", False):
+        if not getattr(context, "email", ""):
+            # booking does not have an email set
+            return
         adapter = getMultiAdapter(
             (context, event),
             IPrenotazioneEmailMessage,
@@ -82,11 +85,15 @@ def autoconfirm(context, event):
 
 
 def notify_on_move(context, event):
-    if getattr(get_prenotazione_folder(context), "notify_on_move", False):
-        adapter = getMultiAdapter((context, event), IPrenotazioneEmailMessage)
-        if adapter:
-            if adapter.message:
-                send_email(adapter.message)
+    if not getattr(get_prenotazione_folder(context), "notify_on_move", False):
+        return
+    if not getattr(context, "email", ""):
+        # booking does not have an email set
+        return
+    adapter = getMultiAdapter((context, event), IPrenotazioneEmailMessage)
+    if adapter:
+        if adapter.message:
+            send_email(adapter.message)
 
 
 def send_email(msg):
