@@ -340,3 +340,8 @@ def to_1600_upgrade_contentrules(context):
             del rule_storage[rule]
 
     update_contentrules(context)
+
+
+def to_1601(context):
+    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
+        brain.getObject().reindexObject(idxs=["SearchableText"])
