@@ -26,6 +26,8 @@ Changelog
 - Added event handler on booking creation to send email to managers.
   [daniele]
 
+- Manage timezone in booking dates.
+  [cekk]
 
 2.0.0.dev3 (2023-07-20)
 -----------------------
