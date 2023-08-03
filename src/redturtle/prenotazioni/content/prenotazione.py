@@ -237,8 +237,7 @@ class Prenotazione(Item):
         return DateTime(self.getBooking_date())
 
     def getBookingCode(self):
-        date = self.booking_date.isoformat()
-        hash_obj = hashlib.blake2b(bytes(date, encoding="utf8"), digest_size=3)
+        hash_obj = hashlib.blake2b(bytes(self.UID(), encoding="utf8"), digest_size=3)
         return hash_obj.hexdigest().upper()
 
     def canAccessBooking(self):
