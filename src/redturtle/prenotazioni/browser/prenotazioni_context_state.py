@@ -25,46 +25,31 @@ import json
 import six
 
 
-def hm2handm(hm):
+def time2DT(day, time):
     """This is a utility function that will return the hour and date of day
-    to the value passed in the string hm
-
-    :param hm: a string in the format "%H%m"
-
-    XXX: manage the case of `hm` as tuple, eg. ("0700", )
-    """
-    if hm and isinstance(hm, tuple):
-        hm = hm[0]
-    if (not hm) or (not isinstance(hm, six.string_types)) or (len(hm) != 4):
-        raise ValueError(hm)
-    return (hm[:2], hm[2:])
-
-
-def hm2DT(day, hm):
-    """This is a utility function that will return the hour and date of day
-    to the value passed in the string hm
+    to the value passed in the datetime.time
 
     :param day: a datetime date
-    :param hm: a string in the format "%H%m"
+    :param time: datetime.time
     """
-    if not hm or hm == "--NOVALUE--" or hm == ("--NOVALUE--",):
+    if not time or time == "--NOVALUE--" or time == ("--NOVALUE--",):
         return None
     date = day.strftime("%Y/%m/%d")
-    h, m = hm2handm(hm)
+    h, m = time.strftime("%H"), time.strftime("%M")
     tzone = DateTime().timezone()
     return DateTime("%s %s:%s %s" % (date, h, m, tzone))
 
 
-def hm2seconds(hm):
+def time2seconds(time):
     """This is a utility function that will return
     to the value passed in the string hm
 
     :param hm: a string in the format "%H%m"
     """
-    if not hm:
+    if not time:
         return None
-    h, m = hm2handm(hm)
-    return int(h) * 3600 + int(m) * 60
+
+    return int(time.hour) * 3600 + int(time.minute) * 60
 
 
 class PrenotazioniContextState(BrowserView):
@@ -102,7 +87,9 @@ class PrenotazioniContextState(BrowserView):
         """States if the authenticated user can manage this context"""
         if self.is_anonymous:
             return False
-        return api.user.has_permission("Modify portal content", obj=self.context)
+        return api.user.has_permission(
+            "Modify portal content", obj=self.context
+        )
 
     @property
     @memoize
@@ -289,7 +276,8 @@ class PrenotazioniContextState(BrowserView):
                 and key.startswith("form.")
                 and not key.startswith("form.action")
                 and key not in ("form.booking_date",)
-                or key in ("disable_plone.leftcolumn", "disable_plone.rightcolumn")
+                or key
+                in ("disable_plone.leftcolumn", "disable_plone.rightcolumn")
             )
         )
         for key, value in six.iteritems(params):
@@ -498,10 +486,10 @@ class PrenotazioniContextState(BrowserView):
         week_table = self.get_week_table(day=day)
         day_table = week_table[weekday]
         # Convert hours to DateTime
-        morning_start = hm2DT(day, day_table["morning_start"])
-        morning_end = hm2DT(day, day_table["morning_end"])
-        afternoon_start = hm2DT(day, day_table["afternoon_start"])
-        afternoon_end = hm2DT(day, day_table["afternoon_end"])
+        morning_start = time2DT(day, day_table["morning_start"])
+        morning_end = time2DT(day, day_table["morning_end"])
+        afternoon_start = time2DT(day, day_table["afternoon_start"])
+        afternoon_end = time2DT(day, day_table["afternoon_end"])
         # Get's the daily schedule
         day_start = morning_start or afternoon_start
         day_end = afternoon_end or morning_end
@@ -534,9 +522,11 @@ class PrenotazioniContextState(BrowserView):
                 day_table[key] for day_table in week_table if day_table[key]
             )
         for key, value in six.iteritems(boundaries):
-            boundaries[key] = hm2seconds(value)
+            boundaries[key] = time2seconds(value)
         return {
-            "morning": BaseSlot(boundaries["morning_start"], boundaries["morning_end"]),
+            "morning": BaseSlot(
+                boundaries["morning_start"], boundaries["morning_end"]
+            ),
             "afternoon": BaseSlot(
                 boundaries["afternoon_start"], boundaries["afternoon_end"]
             ),
@@ -617,13 +607,15 @@ class PrenotazioniContextState(BrowserView):
         """
         weekday = booking_date.weekday()
         pause_table = self.context.pause_table or []
-        today_pauses = [row for row in pause_table if row["day"] == str(weekday)]
+        today_pauses = [
+            row for row in pause_table if row["day"] == str(weekday)
+        ]
         pauses = []
         if today_pauses:
             for pause in today_pauses:
                 pause = Pause(
-                    pause["pause_start"][:2] + ":" + pause["pause_start"][2:],
-                    pause["pause_end"][:2] + ":" + pause["pause_end"][2:],
+                    pause["pause_start"],
+                    pause["pause_end"],
                     "",
                 )
                 pauses.append(pause)
@@ -645,7 +637,9 @@ class PrenotazioniContextState(BrowserView):
     def get_busy_slots_in_stormynight(self, booking_date):
         """This will show the slots that will not show elsewhere"""
         morning_slots = self.get_busy_slots_in_period(booking_date, "morning")
-        afternoon_slots = self.get_busy_slots_in_period(booking_date, "afternoon")
+        afternoon_slots = self.get_busy_slots_in_period(
+            booking_date, "afternoon"
+        )
         all_slots = self.get_existing_slots_in_day_folder(booking_date)
         return sorted(
             [
@@ -728,7 +722,10 @@ class PrenotazioniContextState(BrowserView):
         for gate in gates:
             # unavailable gates doesn't have free slots
             # XXX Riprendi da qui:
-            if self.get_unavailable_gates() and gate in self.get_unavailable_gates():
+            if (
+                self.get_unavailable_gates()
+                and gate in self.get_unavailable_gates()
+            ):
                 availability[gate] = []
             else:
                 availability.setdefault(gate, [])
@@ -752,7 +749,8 @@ class PrenotazioniContextState(BrowserView):
         busy = self.get_busy_slots(booking_date, period)
         keys = set(list(free.keys()) + list(busy.keys()))
         return dict(
-            (key, sorted(free.get(key, []) + busy.get(key, []))) for key in keys
+            (key, sorted(free.get(key, []) + busy.get(key, [])))
+            for key in keys
         )
 
     def get_anonymous_slots(self, booking_date, period="day"):
@@ -862,7 +860,8 @@ class PrenotazioniContextState(BrowserView):
         for slots in six.itervalues(availability):
             for slot in slots:
                 if len(slot) >= duration and (
-                    booking_date > self.first_bookable_date or slot.start() >= hm_now
+                    booking_date > self.first_bookable_date
+                    or slot.start() >= hm_now
                 ):
                     good_slots.append(slot)
         if not good_slots:
