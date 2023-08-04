@@ -563,11 +563,11 @@ Parameters:
 
 - **date**: Date
 
-curl -i  "http://localhost:8080/Plone/prenotazioni_folder/@day_busy_slots?date=2023/05/22"\
+curl -i  "http://localhost:8080/Plone/prenotazioni_folder/@day-busy-slots?date=2023/05/22"\
      -H 'Accept: application/json'\
 
     {
-        "@id": "http://localhost:8080/Plone/prenotazioni_folder/@day_busy_slots",
+        "@id": "http://localhost:8080/Plone/prenotazioni_folder/@day-busy-slots",
         "bookings": {
             "gate1":
                 [
