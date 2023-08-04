@@ -36,7 +36,7 @@ class SlotSerializer:
         if not date:
             return time_.isoformat()
 
-        return datetime_with_tz(datetime.combine(date, time_).isoformat()).isoformat()
+        return datetime_with_tz(datetime.combine(date, time_)).isoformat()
 
     def __call__(self, *args, **kwargs):
         return {
