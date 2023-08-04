@@ -109,18 +109,20 @@ class BaseSlot(Interval):
             value = value.asdatetime()
         return value.hour * 60 * 60 + value.minute * 60 + value.second
 
-    def __init__(self, start, stop, gate=""):
+    def __init__(self, start, stop, gate="", date=""):
         """
         Initialize an BaseSlot
         :param start:
         :param stop:
         :param gate:
+        :param date:
         """
         if start is not None:
             self._lower_value = LowerEndpoint(self.time2seconds(start))
         if stop is not None:
             self._upper_value = UpperEndpoint(self.time2seconds(stop))
         self.gate = gate
+        self.date = date
 
     def __len__(self):
         """The length of this object"""
@@ -255,9 +257,9 @@ class Slot(BaseSlot):
         @param context: a Prenotazione object
         """
         self.context = context
-        BaseSlot.__init__(
-            self,
+        super().__init__(
             context.getBooking_date(),
             context.getBooking_expiration_date(),
             getattr(self.context, "gate", ""),
+            getattr(self.context, "date", ""),
         )
