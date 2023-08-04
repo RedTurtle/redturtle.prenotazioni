@@ -9,8 +9,6 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
-from datetime import time
-
 
 class VocabItem(object):
     def __init__(self, token, value):
@@ -23,7 +21,7 @@ class VocDurataIncontro(object):
     """ """
 
     def __call__(self, context):
-        items = [VocabItem(str(x), time(minute=x)) for x in range(10, 95, 5)]
+        items = [VocabItem(str(x), str(x)) for x in range(10, 95, 5)]
 
         if not IDexterityContent.providedBy(context):
             req = getRequest()
@@ -32,7 +30,7 @@ class VocDurataIncontro(object):
         terms = []
         for item in items:
             terms.append(
-                SimpleTerm(value=item.value, token=item.token, title=item.value)
+                SimpleTerm(value=item.token, token=str(item.token), title=item.value)
             )
         return SimpleVocabulary(terms)
 
