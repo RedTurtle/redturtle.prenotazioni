@@ -21,7 +21,7 @@ class SlotSerializer:
             value (str): "%H:%M" formatted string
 
         Returns:
-            str: An iso formatted datetime strigng with timezone
+            str: An iso formatted datetime string with timezone
         """
         value = value.split(":")
 
