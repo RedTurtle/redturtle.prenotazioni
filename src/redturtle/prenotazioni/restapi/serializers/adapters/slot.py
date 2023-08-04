@@ -2,10 +2,11 @@
 
 from plone.restapi.interfaces import ISerializeToJson
 from redturtle.prenotazioni.adapters.slot import ISlot
+from redturtle.prenotazioni import datetime_with_tz
 from zope.component import adapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IRequest
-from datetime import time, timezone, datetime
+from datetime import time, datetime
 
 
 @implementer(ISerializeToJson)
@@ -15,7 +16,7 @@ class SlotSerializer:
         self.context = context
         self.request = request
 
-    def hr_to_iso_utc(self, value):
+    def hr_to_iso_tz(self, value):
         """
         Attributes:
             value (str): "%H:%M" formatted string
@@ -28,7 +29,6 @@ class SlotSerializer:
         time_ = time(
             hour=int(value[0]),
             minute=int(value[1]),
-            tzinfo=timezone.utc,
         )
 
         date = getattr(self.context, "date")
@@ -36,10 +36,10 @@ class SlotSerializer:
         if not date:
             return time_.isoformat()
 
-        return datetime.combine(date, time_, tzinfo=time_.tzinfo).isoformat()
+        return datetime_with_tz(datetime.combine(date, time_).isoformat()).isoformat()
 
     def __call__(self, *args, **kwargs):
         return {
-            "start": self.hr_to_iso_utc(self.context.start()),
-            "stop": self.hr_to_iso_utc(self.context.stop()),
+            "start": self.hr_to_iso_tz(self.context.start()),
+            "stop": self.hr_to_iso_tz(self.context.stop()),
         }
