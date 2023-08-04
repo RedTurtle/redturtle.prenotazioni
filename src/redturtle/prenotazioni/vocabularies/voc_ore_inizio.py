@@ -6,6 +6,8 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
+from datetime import time
+
 
 class VocabItem(object):
     def __init__(self, token, value):
@@ -13,34 +15,26 @@ class VocabItem(object):
         self.value = value
 
 
+# NOTE: I thik we also need VocOreFine to follow the naming or change the naming
 @implementer(IVocabularyFactory)
 class VocOreInizio(object):
     """ """
 
-    HOURS = [
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-    ]
-    MINUTES = ["00", "15", "30", "45"]
+    WATCH = []
+
+    def __init__(self, *args, **kwargs):
+        # from 07:00 to 20:00, every 15 minutes
+        for hour in range(7, 20 + 1):
+            for minute in range(0, 45 + 1, 15):
+                self.WATCH.append(time(hour=hour, minute=minute))
+
+        return super().__init__(*args, **kwargs)
 
     def __call__(self, context):
         items = []
-        for hour in self.HOURS:
-            for minute in self.MINUTES:
-                time = hour + ":" + minute
-                items.append(VocabItem(hour + minute, time))
+        for i in self.WATCH:
+            token = time.strftime("%H:%M")
+            items.append(VocabItem(token, i))
 
         if not IDexterityContent.providedBy(context):
             req = getRequest()
@@ -49,7 +43,7 @@ class VocOreInizio(object):
         terms = []
         for item in items:
             terms.append(
-                SimpleTerm(value=item.token, token=str(item.token), title=item.value)
+                SimpleTerm(value=item.value, token=item.token, title=item.token)
             )
         return SimpleVocabulary(terms)
 
