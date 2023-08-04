@@ -555,7 +555,7 @@ If the user has a special permission, the endpoint can be called with any `fisca
 
 
 @day-busy-slots
----------
+---------------
 
 Endpoint that returns a list of busy slots and pauses based on the passed date
 
@@ -563,8 +563,12 @@ Parameters:
 
 - **date**: Date
 
-curl -i  "http://localhost:8080/Plone/prenotazioni_folder/@day-busy-slots?date=2023/05/22"\
-     -H 'Accept: application/json'\
+Example::
+
+    curl -i  "http://localhost:8080/Plone/prenotazioni_folder/@day-busy-slots?date=2023/05/22"\
+        -H 'Accept: application/json'\
+
+Response::
 
     {
         "@id": "http://localhost:8080/Plone/prenotazioni_folder/@day-busy-slots",
