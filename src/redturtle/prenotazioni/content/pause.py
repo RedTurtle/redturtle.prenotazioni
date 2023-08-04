@@ -18,7 +18,7 @@ class Pause(object):
     ISlot handle pause the same way they handle bookings
     """
 
-    def __init__(self, start, stop, gate=""):
+    def __init__(self, start, stop, gate="", date=None):
         """
         :param start: the hour the pause starts
         :param stop: the hour the pause ends
@@ -27,6 +27,7 @@ class Pause(object):
         self.start = start
         self.stop = stop
         self.gate = gate
+        self.date = date
 
     @property
     def portal_type(self):

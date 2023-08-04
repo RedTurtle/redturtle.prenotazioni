@@ -156,8 +156,8 @@ class TestSendIcal(unittest.TestCase):
 
         self.assertIn(
             {
-                "start": "07:15",
-                "stop": "08:30",
+                "start": self.tomorrow.strftime("%Y-%m-%d") + "T07:15:00+00:00",
+                "stop": self.tomorrow.strftime("%Y-%m-%d") + "T08:30:00+00:00",
             },
             results,
         )

@@ -553,6 +553,76 @@ If the user has a special permission, the endpoint can be called with any `fisca
   curl -i http://localhost:8080/Plone/@bookings/FISCALCODE?from=10-10-2023 \
      -H 'Accept: application/json'
 
+
+@day-busy-slots
+---------------
+
+Endpoint that returns a list of busy slots and pauses based on the passed date
+
+Parameters:
+
+- **date**: Date
+
+Example::
+
+    curl -i  "http://localhost:8080/Plone/prenotazioni_folder/@day-busy-slots?date=2023/05/22"\
+        -H 'Accept: application/json'\
+
+Response::
+
+    {
+        "@id": "http://localhost:8080/Plone/prenotazioni_folder/@day-busy-slots",
+        "bookings": {
+            "gate1":
+                [
+                    {
+                        "booking_code": "17E3E6",
+                        "booking_date": "2023-05-22T09:09:00",
+                        "booking_expiration_date": "2023-05-22T09:10:00",
+                        "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+                        "company": null,
+                        "cosa_serve": null,
+                        "description": "",
+                        "email": "mario.rossi@example",
+                        "fiscalcode": "",
+                        "gate": "postazione1",
+                        "id": "mario-rossi-1",
+                        "phone": "",
+                        "staff_notes": null,
+                        "title": "Mario Rossi"
+                    },
+                    ...
+                ],
+            "gate2":
+                [
+                    {
+                        "booking_code": "17E3E6",
+                        "booking_date": "2023-05-22T09:09:00",
+                        "booking_expiration_date": "2023-05-22T09:10:00",
+                        "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+                        "company": null,
+                        "cosa_serve": null,
+                        "description": "",
+                        "email": "mario.rossi@example",
+                        "fiscalcode": "",
+                        "gate": "postazione2",
+                        "id": "mario-rossi",
+                        "phone": "",
+                        "staff_notes": null,
+                        "title": "Mario Rossi"
+                    },
+                    ...
+                ]
+        },
+        "pauses": [
+            {
+                "start": "2023-05-22T07:15:00+00:00",
+                "stop": "2023-05-22T08:30:00+00:00"
+            },
+            ...
+        ]
+    }
+
 Special Views
 ==============
 

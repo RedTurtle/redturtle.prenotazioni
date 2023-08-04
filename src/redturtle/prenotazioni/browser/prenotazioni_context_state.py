@@ -625,6 +625,7 @@ class PrenotazioniContextState(BrowserView):
                     pause["pause_start"][:2] + ":" + pause["pause_start"][2:],
                     pause["pause_end"][:2] + ":" + pause["pause_end"][2:],
                     "",
+                    date=booking_date,
                 )
                 pauses.append(pause)
         return pauses
