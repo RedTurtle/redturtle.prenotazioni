@@ -8,6 +8,9 @@ Changelog
 - Manage timezone in booking dates. (upgrade step)
   [cekk]
 
+- Fix: only valid interval in the subtraction slots operation.
+  [mamico]
+
 - Fix boking code uniqueness
   [folix-01]
 

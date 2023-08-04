@@ -153,7 +153,9 @@ class BaseSlot(Interval):
                 start = self.upper_value
             elif isinstance(x, UpperEndpoint):
                 start = x
-        intervals.append(BaseSlot(start, self.upper_value))
+        # append only valid intervals
+        if start < self.upper_value:
+            intervals.append(BaseSlot(start, self.upper_value))
         return intervals
 
     def value_hr(self, value):
