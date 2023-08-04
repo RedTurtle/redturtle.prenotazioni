@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from email.utils import formataddr
 from email.utils import parseaddr
+from logging import getLogger
 from plone import api
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
@@ -9,11 +10,11 @@ from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-
-# from zope.globalrequest import getRequest
 from zope.i18n import translate
 from plone.stringinterp.interfaces import IStringSubstitution
 from zope.component import getAdapter
+
+logger = getLogger(__name__)
 
 
 def reallocate_gate(obj):
@@ -89,6 +90,10 @@ def notify_on_move(booking, event):
 
 
 def send_email(msg):
+    if not msg:
+        logger.error("Could not send email due to no message was provided")
+        return
+
     host = api.portal.get_tool(name="MailHost")
     registry = getUtility(IRegistry)
     encoding = registry.get("plone.email_charset", "utf-8")

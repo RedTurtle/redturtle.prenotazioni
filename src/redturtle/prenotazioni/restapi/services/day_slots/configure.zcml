@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    >
+
+  <plone:service
+      method="GET"
+      factory="redturtle.prenotazioni.restapi.services.day_slots.day_busy_slots.WeekSlots"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      permission="redturtle.prenotazioni.ManagePrenotazioni"
+      name="@day-busy-slots"
+      />
+
+</configure>

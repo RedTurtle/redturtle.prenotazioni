@@ -3,7 +3,9 @@ from plone import api
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.serializer.converters import json_compatible
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
+from redturtle.prenotazioni.interfaces import (
+    ISerializeToPrenotazioneSearchableItem,
+)
 from zope.component import adapter
 from zope.i18n import translate
 from zope.interface import implementer
@@ -24,6 +26,11 @@ class PrenotazioneSerializer:
             fiscalcode = self.prenotazione.fiscalcode.upper()
         else:
             fiscalcode = None
+
+        status = api.portal.get_tool("portal_workflow").getStatusOf(
+            "prenotazioni_workflow", self.prenotazione
+        )
+
         return {
             "UID": self.prenotazione.UID(),
             "@type": self.prenotazione.portal_type,
@@ -39,6 +46,9 @@ class PrenotazioneSerializer:
             "booking_date": json_compatible(self.prenotazione.booking_date),
             "booking_expiration_date": json_compatible(
                 self.prenotazione.booking_expiration_date
+            ),
+            "booking_status_label": translate(
+                status["review_state"], context=self.request
             ),
             "booking_type": self.prenotazione.booking_type,
             "booking_code": self.prenotazione.getBookingCode(),
