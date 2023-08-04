@@ -65,9 +65,7 @@ class PrenotazioneSearchableItemSerializer:
 
     def __call__(self, *args, **kwargs):
         wf_tool = api.portal.get_tool("portal_workflow")
-        status = wf_tool.getStatusOf(
-            "prenotazioni_workflow", self.prenotazione
-        )
+        status = wf_tool.getStatusOf("prenotazioni_workflow", self.prenotazione)
         return {
             "title": self.prenotazione.Title(),
             "booking_id": self.prenotazione.UID(),

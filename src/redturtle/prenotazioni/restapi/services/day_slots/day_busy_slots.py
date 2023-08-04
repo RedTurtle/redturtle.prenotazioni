@@ -3,7 +3,6 @@
 from plone import api
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
-from plone.restapi.serializer.converters import datetimelike_to_iso
 from zope.component import getMultiAdapter
 from zExceptions import BadRequest
 
