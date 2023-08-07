@@ -335,46 +335,6 @@ Example::
         }'
 
 
-@week-slots
------------
-
-Endpoint that need to be called on a PrenotazioniFolder, and returns the combination of all busy and available slots of a week.
-By default returns the current week, and if you pass a custom date in querystring, you will get the slots of that week.
-
-Example::
-
-   curl -i http://localhost:8080/Plone/folder/@week-slots -H 'Accept: application/json'
-
-Response::
-
-    {
-        "@id": "http://localhost:8080/Plone/folder/@week-slots",
-        "items": {
-            '01-01-1970': {
-                'busy_slots': [
-                    'Gate': {
-                        'start': '09:00',
-                        'stop': '09:30'
-                    ],
-                    'Gate1': [],
-                    ...
-                },
-                'free_slots': {
-                    'Gate': [
-                        'start': '09:30',
-                        'stop': '12:00'
-                    ],
-                    'Gate1': [
-                        'start': '09:00',
-                        'stop': '12:00'
-                    ],
-                    ...
-                }
-            },
-            ...
-        }
-    }
-
 @available-slots
 ----------------
 
