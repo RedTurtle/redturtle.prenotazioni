@@ -375,7 +375,7 @@ Response::
         }
     }
 
-@month-slots
+@available-slots
 ------------
 
 Endpoint that need to be called on a PrenotazioniFolder.
@@ -389,12 +389,12 @@ If a `date`` is passed via querystring, the endpoint returns date's month starti
 
 Example::
 
-   curl -i http://localhost:8080/Plone/folder/@month-slots -H 'Accept: application/json'
+   curl -i http://localhost:8080/Plone/folder/@available-slots -H 'Accept: application/json'
 
 Response::
 
     {
-        "@id": "http://localhost:8080/Plone/folder/@month-slots",
+        "@id": "http://localhost:8080/Plone/folder/@available-slots",
         "items": [
             '2023-04-10T07:30:00',
             '2023-04-10T08:00:00',
@@ -411,12 +411,12 @@ Response::
 
 Example::
 
-   curl -i http://localhost:8080/Plone/folder/@month-slots?date=2023-04-12 -H 'Accept: application/json'
+   curl -i http://localhost:8080/Plone/folder/@available-slots?date=2023-04-12 -H 'Accept: application/json'
 
 Response::
 
     {
-        "@id": "http://localhost:8080/Plone/folder/@month-slots",
+        "@id": "http://localhost:8080/Plone/folder/@available-slots",
         "items": [
             '2023-04-17T07:00:00',
             '2023-04-17T08:00:00',
