@@ -26,13 +26,14 @@ class SlotSerializer:
         Returns:
             str: An iso formatted datetime string with timezone
         """
+        if not value:
+            return None
         value = value.split(":")
 
         time_ = time(
             hour=int(value[0]),
             minute=int(value[1]),
         )
-
         date = getattr(self.context, "date")
 
         if not date:
