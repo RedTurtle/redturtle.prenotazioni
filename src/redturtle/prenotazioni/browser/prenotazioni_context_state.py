@@ -212,6 +212,7 @@ class PrenotazioniContextState(BrowserView):
         week_table_overrides = json.loads(
             getattr(self.context, "week_table_overrides", "[]") or "[]"
         )
+
         if not week_table_overrides:
             return week_table
 
@@ -402,11 +403,37 @@ class PrenotazioniContextState(BrowserView):
         return self.unavailable_slot_booking_url
 
     @memoize
-    def get_gates(self):
+    def get_gates(self, booking_date):
         """
         Get's the gates, available and unavailable
         """
-        return self.context.getGates() or [""]
+        gates = self.context.getGates() or [""]
+
+        week_table_overrides = json.loads(
+            getattr(self.context, "week_table_overrides", "[]") or "[]"
+        )
+
+        if week_table_overrides:
+            gates_override = week_table_overrides[0].get("gates", [])
+            if gates_override:
+                for override in week_table_overrides:
+                    from_month = int(override.get("from_month", ""))
+                    from_day = int(override.get("from_day", ""))
+                    to_month = int(override.get("to_month", ""))
+                    to_day = int(override.get("to_day", ""))
+                    toYear = booking_date.year
+
+                    if from_month > to_month:
+                        # next year
+                        toYear += 1
+
+                    fromDate = date(booking_date.year, from_month, from_day)
+                    toDate = date(toYear, to_month, to_day)
+
+                    if fromDate <= booking_date <= toDate:
+                        gates = gates_override
+
+        return gates
 
     @memoize
     def get_unavailable_gates(self):
@@ -416,11 +443,11 @@ class PrenotazioniContextState(BrowserView):
         return self.context.getUnavailable_gates()
 
     @memoize
-    def get_available_gates(self):
+    def get_available_gates(self, booking_date):
         """
         Get's the gates declared available
         """
-        total = set(self.get_gates())
+        total = set(self.get_gates(booking_date))
         if self.get_unavailable_gates():
             unavailable = set(self.get_unavailable_gates())
         else:
@@ -483,7 +510,7 @@ class PrenotazioniContextState(BrowserView):
 
         :param booking_date: a DateTime object
         """
-        available = set(self.get_available_gates())
+        available = set(self.get_available_gates(booking_date))
         busy = set(self.get_busy_gates_in_slot(booking_date, booking_end_date))
         return available - busy
 
@@ -611,8 +638,34 @@ class PrenotazioniContextState(BrowserView):
         This method takes all pauses from the week table and convert it on slot
         :param booking_date: a date as a datetime or a string
         """
+
         weekday = booking_date.weekday()
+
+        week_table_overrides = json.loads(
+            getattr(self.context, "week_table_overrides", "[]") or "[]"
+        )
+
+        pause_override = week_table_overrides[0].get("pauses", [])
         pause_table = self.context.pause_table or []
+
+        if pause_override:
+            for override in week_table_overrides:
+                from_month = int(override.get("from_month", ""))
+                from_day = int(override.get("from_day", ""))
+                to_month = int(override.get("to_month", ""))
+                to_day = int(override.get("to_day", ""))
+                toYear = booking_date.year
+
+                if from_month > to_month:
+                    # next year
+                    toYear += 1
+
+                fromDate = date(booking_date.year, from_month, from_day)
+                toDate = date(toYear, to_month, to_day)
+
+                if fromDate <= booking_date <= toDate:
+                    pause_table = pause_override
+
         today_pauses = [row for row in pause_table if row["day"] == str(weekday)]
         pauses = []
         if today_pauses:
@@ -695,7 +748,7 @@ class PrenotazioniContextState(BrowserView):
         slots = self.get_busy_slots_in_period(booking_date, period)
         for slot in slots:
             if slot.context.portal_type == PAUSE_PORTAL_TYPE:
-                for gate in self.get_gates():
+                for gate in self.get_gates(booking_date):
                     slots_by_gate.setdefault(gate, []).append(slot)
             else:
                 slots_by_gate.setdefault(slot.gate, []).append(slot)
@@ -719,7 +772,7 @@ class PrenotazioniContextState(BrowserView):
         else:
             intervals = [day_intervals[period]]
         slots_by_gate = self.get_busy_slots(booking_date, period)
-        gates = self.get_gates()
+        gates = self.get_gates(booking_date)
         availability = {}
         for gate in gates:
             # unavailable gates doesn't have free slots
