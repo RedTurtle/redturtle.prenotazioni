@@ -5,6 +5,9 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- Add logic to override pauses and gates.
+  [daniele]
+
 - Fix default start/end time for search @bookings
   [mamico]
 
