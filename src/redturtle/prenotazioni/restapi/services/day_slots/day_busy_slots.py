@@ -12,6 +12,27 @@ from datetime import datetime, date
 
 
 class WeekSlots(Service):
+    def __init__(self, context, request):
+        super().__init__(context=context, request=request)
+        self.prenotazioni_context_state = api.content.get_view(
+            "prenotazioni_context_state",
+            context=self.context,
+            request=self.request,
+        )
+
+        day_date = self.request.form.get("date")
+
+        if day_date:
+            try:
+                day_date = datetime.strptime(day_date, "%d/%m/%Y").date()
+            except ValueError as e:
+                raise BadRequest(str(e))
+
+        else:
+            day_date = date.today()
+
+        self.day_date = day_date
+
     def reply(self):
         """
         Finds all the busy slots in a week which is taken in base of
@@ -27,8 +48,8 @@ class WeekSlots(Service):
                                     {
                                         "booking_code": "17E3E6",
                                         "booking_date": "2023-05-22T09:09:00",
-                                        "booking_expiration_date": "2023-05-22T09:10:00",
-                                        "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+                                        "booking_expiration_date": "2023-05-22T09:10:00+00:00",
+                                        "booking_type": "xxx",
                                         "company": null,
                                         "cosa_serve": null,
                                         "description": "",
@@ -46,9 +67,9 @@ class WeekSlots(Service):
                                 [
                                     {
                                         "booking_code": "17E3E6",
-                                        "booking_date": "2023-05-22T09:09:00",
-                                        "booking_expiration_date": "2023-05-22T09:10:00",
-                                        "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+                                        "booking_date": "2023-05-22T09:09:00+00:00",
+                                        "booking_expiration_date": "2023-05-22T09:10:00+00:00",
+                                        "booking_type": "yyy",
                                         "company": null,
                                         "cosa_serve": null,
                                         "description": "",
@@ -70,27 +91,31 @@ class WeekSlots(Service):
                             },
                             ...
                         ]
+                        "daily_schedule": {
+                            "afternoon": {
+                                "start": "2023-05-22T12:00:00+00:00",
+                                "stop": "2023-05-22T16:00:00+00:00"
+                            },
+                            "morning": {
+                                "start": "2023-05-22T05:00:00+00:00",
+                                "stop": "2023-05-22T11:00:00+00:00"
+                            }
+                        }
                     }`
         """
 
-        day_date = self.request.form.get("date")
+        return {
+            "@id": f"{self.context.absolute_url()}/@day-busy-slots",
+            "bookings": self.get_bookings(),
+            "pauses": self.get_pauses(),
+            "daily_schedule": self.get_daily_schedule(),
+        }
 
-        if day_date:
-            try:
-                day_date = datetime.strptime(day_date, "%d/%m/%Y").date()
-            except ValueError as e:
-                raise BadRequest(str(e))
+    def get_bookings(self):
 
-        else:
-            day_date = date.today()
-
-        prenotazioni_context_state_view = api.content.get_view(
-            "prenotazioni_context_state",
-            context=self.context,
-            request=self.request,
+        bookings = self.prenotazioni_context_state.get_bookings_in_day_folder(
+            self.day_date
         )
-
-        bookings = prenotazioni_context_state_view.get_bookings_in_day_folder(day_date)
 
         bookings_result = {}
 
@@ -102,14 +127,26 @@ class WeekSlots(Service):
                 for i in bookings
                 if i.gate == gate
             ]
+        return bookings_result
 
-        pauses_serialized = [
+    def get_pauses(self):
+        return [
             getMultiAdapter((ISlot(i), self.request), ISerializeToJson)()
-            for i in prenotazioni_context_state_view.get_pauses_in_day_folder(day_date)
+            for i in self.prenotazioni_context_state.get_pauses_in_day_folder(
+                self.day_date
+            )
         ]
 
+    def get_daily_schedule(self):
+        intervals = self.prenotazioni_context_state.get_day_intervals(self.day_date)
+
+        if not intervals:
+            return {}
         return {
-            "@id": f"{self.context.absolute_url()}/@day-busy-slots",
-            "bookings": bookings_result,
-            "pauses": pauses_serialized,
+            "morning": getMultiAdapter(
+                (intervals["morning"], self.request), ISerializeToJson
+            )(),
+            "afternoon": getMultiAdapter(
+                (intervals["afternoon"], self.request), ISerializeToJson
+            )(),
         }

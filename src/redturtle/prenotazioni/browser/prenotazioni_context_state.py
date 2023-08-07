@@ -508,11 +508,15 @@ class PrenotazioniContextState(BrowserView):
         break_start = morning_end or afternoon_end
         break_stop = afternoon_start or morning_end
         return {
-            "morning": BaseSlot(morning_start, morning_end),
-            "break": BaseSlot(break_start, break_stop),
-            "afternoon": BaseSlot(afternoon_start, afternoon_end),
-            "day": BaseSlot(day_start, day_end),
-            "stormynight": BaseSlot(0, 86400),
+            "morning": BaseSlot(
+                start=morning_start, stop=morning_end, gate="", date=day
+            ),
+            "break": BaseSlot(start=break_start, stop=break_stop, gate="", date=day),
+            "afternoon": BaseSlot(
+                start=afternoon_start, stop=afternoon_end, gate="", date=day
+            ),
+            "day": BaseSlot(start=day_start, stop=day_end, gate="", date=day),
+            "stormynight": BaseSlot(start=0, stop=86400, gate="", date=day),
         }
 
     @property

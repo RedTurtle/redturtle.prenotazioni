@@ -29,7 +29,7 @@ class DummyEvent(object):
         self.object = object
 
 
-class TestSendIcal(unittest.TestCase):
+class TestBusySlots(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
     def setUp(self):
@@ -169,3 +169,21 @@ class TestSendIcal(unittest.TestCase):
 
         self.assertEquals(res.json()["type"], "BadRequest")
         self.assertEquals(res.status_code, 400)
+
+    def test_daily_schedule(self):
+
+        results = self.api_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@day-busy-slots?date={self.tomorrow.strftime('%d/%m/%Y')}"
+        ).json()
+
+        self.assertIn("daily_schedule", results)
+        self.assertEqual(
+            {
+                "afternoon": {"start": None, "stop": None},
+                "morning": {
+                    "start": self.tomorrow.strftime("%Y-%m-%d") + "T07:00:00+00:00",
+                    "stop": self.tomorrow.strftime("%Y-%m-%d") + "T10:00:00+00:00",
+                },
+            },
+            results["daily_schedule"],
+        )
