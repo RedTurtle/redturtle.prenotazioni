@@ -5,10 +5,10 @@
 
   <plone:service
       method="GET"
-      factory="redturtle.prenotazioni.restapi.services.week_slots.get.WeekSlots"
+      factory=".day.DaySlots"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
-      permission="zope2.View"
-      name="@week-slots"
+      permission="redturtle.prenotazioni.ManagePrenotazioni"
+      name="@day"
       />
 
 </configure>

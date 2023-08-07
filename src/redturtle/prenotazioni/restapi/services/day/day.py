@@ -106,14 +106,13 @@ class DaySlots(Service):
         """
 
         return {
-            "@id": f"{self.context.absolute_url()}/@day-busy-slots",
+            "@id": f"{self.context.absolute_url()}/@day",
             "bookings": self.get_bookings(),
             "pauses": self.get_pauses(),
             "daily_schedule": self.get_daily_schedule(),
         }
 
     def get_bookings(self):
-
         bookings = self.prenotazioni_context_state.get_bookings_in_day_folder(
             self.day_date
         )

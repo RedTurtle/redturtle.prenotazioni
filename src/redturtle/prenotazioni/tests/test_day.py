@@ -29,7 +29,7 @@ class DummyEvent(object):
         self.object = object
 
 
-class TestBusySlots(unittest.TestCase):
+class TestDaySlots(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
     def setUp(self):
@@ -130,7 +130,7 @@ class TestBusySlots(unittest.TestCase):
         commit()
 
         results = self.api_session.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@day-busy-slots?date={self.tomorrow.strftime('%d/%m/%Y')}"
+            f"{self.folder_prenotazioni.absolute_url()}/@day?date={self.tomorrow.strftime('%d/%m/%Y')}"
         ).json()["bookings"]["Gate A"]
 
         for booking in bookings:
@@ -150,7 +150,7 @@ class TestBusySlots(unittest.TestCase):
 
         commit()
         results = self.api_session.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@day-busy-slots?date={self.tomorrow.strftime('%d/%m/%Y')}"
+            f"{self.folder_prenotazioni.absolute_url()}/@day?date={self.tomorrow.strftime('%d/%m/%Y')}"
         ).json()["pauses"]
 
         self.assertIn(
@@ -163,16 +163,15 @@ class TestBusySlots(unittest.TestCase):
 
     def test_bad_request_date(self):
         res = self.api_session.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@day-busy-slots?date=fff"
+            f"{self.folder_prenotazioni.absolute_url()}/@day?date=fff"
         )
 
         self.assertEquals(res.json()["type"], "BadRequest")
         self.assertEquals(res.status_code, 400)
 
     def test_daily_schedule(self):
-
         results = self.api_session.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@day-busy-slots?date={self.tomorrow.strftime('%d/%m/%Y')}"
+            f"{self.folder_prenotazioni.absolute_url()}/@day?date={self.tomorrow.strftime('%d/%m/%Y')}"
         ).json()
 
         self.assertIn("daily_schedule", results)
