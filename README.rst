@@ -376,15 +376,19 @@ Response::
     }
 
 @available-slots
-------------
+----------------
 
 Endpoint that need to be called on a PrenotazioniFolder.
-It returns the list of all available slots of a single month.
+It returns the list of all available slots based on some parameters.
+
 An available slot is the first free time on each hour slot (each day is split in 1h slots).
 
-By default (without parameters) the endpoint returns the current month, starting from today.
+By default (without parameters) the endpoint returns available slots for the current month, starting from today.
 
-If a `date`` is passed via querystring, the endpoint returns date's month starting from date's day.
+Parameters:
+
+- **start** a start date. If not given, the start will be today.
+- **end** an end date. If not given, the end will be the last day of current month.
 
 
 Example::
@@ -411,7 +415,7 @@ Response::
 
 Example::
 
-   curl -i http://localhost:8080/Plone/folder/@available-slots?date=2023-04-12 -H 'Accept: application/json'
+   curl -i http://localhost:8080/Plone/folder/@available-slots?start=2023-04-12 -H 'Accept: application/json'
 
 Response::
 
