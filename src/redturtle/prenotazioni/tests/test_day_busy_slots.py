@@ -149,7 +149,6 @@ class TestSendIcal(unittest.TestCase):
         ]
 
         commit()
-
         results = self.api_session.get(
             f"{self.folder_prenotazioni.absolute_url()}/@day-busy-slots?date={self.tomorrow.strftime('%d/%m/%Y')}"
         ).json()["pauses"]

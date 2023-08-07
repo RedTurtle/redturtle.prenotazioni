@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-
+from datetime import time, datetime
 from plone.restapi.interfaces import ISerializeToJson
-from plone.app.event.base import default_timezone
+from plone.restapi.serializer.converters import json_compatible
+from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni.adapters.slot import ISlot
 from zope.component import adapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IRequest
-from datetime import time, datetime
-
-import pytz
 
 
 @implementer(ISerializeToJson)
@@ -37,12 +35,7 @@ class SlotSerializer:
 
         if not date:
             return time_.isoformat()
-
-        return (
-            pytz.timezone(default_timezone())
-            .localize(datetime.combine(date, time_))
-            .astimezone(pytz.timezone("UTC"))
-        ).isoformat()
+        return json_compatible(datetime_with_tz(datetime.combine(date, time_)))
 
     def __call__(self, *args, **kwargs):
         return {
