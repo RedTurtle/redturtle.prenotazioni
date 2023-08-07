@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from plone import api
+from plone.memoize.view import memoize
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
 from zope.component import getMultiAdapter
@@ -11,27 +12,27 @@ from redturtle.prenotazioni.adapters.slot import ISlot
 from datetime import datetime, date
 
 
-class WeekSlots(Service):
+class DaySlots(Service):
     def __init__(self, context, request):
         super().__init__(context=context, request=request)
-        self.prenotazioni_context_state = api.content.get_view(
-            "prenotazioni_context_state",
-            context=self.context,
-            request=self.request,
-        )
-
         day_date = self.request.form.get("date")
-
         if day_date:
             try:
                 day_date = datetime.strptime(day_date, "%d/%m/%Y").date()
             except ValueError as e:
                 raise BadRequest(str(e))
-
         else:
             day_date = date.today()
-
         self.day_date = day_date
+
+    @property
+    @memoize
+    def prenotazioni_context_state(self):
+        return api.content.get_view(
+            "prenotazioni_context_state",
+            context=self.context,
+            request=self.request,
+        )
 
     def reply(self):
         """
