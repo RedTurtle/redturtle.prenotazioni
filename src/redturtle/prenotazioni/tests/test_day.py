@@ -174,6 +174,7 @@ class TestDaySlots(unittest.TestCase):
         self.assertEquals(res.status_code, 400)
 
     def test_daily_schedule(self):
+        # TODO: testare con timezone differenti
         response = self.api_session.get(
             f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
         )
