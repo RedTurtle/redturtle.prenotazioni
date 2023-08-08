@@ -45,8 +45,9 @@ class Booker(object):
         """
         Find which gate is free to serve this booking
         """
-        if not self.prenotazioni.get_gates():
-            return ""
+        # XXX: per come è ora la funzione probabilmente questa condizione non è mai vera
+        # if not self.prenotazioni.get_gates():
+        #     return ""
         available_gates = self.prenotazioni.get_free_gates_in_slot(
             booking_date, booking_expiration_date
         )

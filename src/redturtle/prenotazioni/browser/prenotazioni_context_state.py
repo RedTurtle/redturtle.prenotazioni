@@ -406,11 +406,19 @@ class PrenotazioniContextState(BrowserView):
         return self.unavailable_slot_booking_url
 
     @memoize
-    def get_gates(self):
+    def get_gates(self, day):
         """
         Get's the gates, available and unavailable
         """
-        return self.context.getGates() or [""]
+        # TODO: gestire le gates in base al giorno
+        unavailable = self.context.getUnavailable_gates() or []
+        return [
+            {
+                "name": gate,
+                "available": gate not in unavailable,
+            }
+            for gate in self.context.getGates() or [""]
+        ]
 
     @memoize
     def get_unavailable_gates(self):
@@ -424,12 +432,13 @@ class PrenotazioniContextState(BrowserView):
         """
         Get's the gates declared available
         """
-        total = set(self.get_gates())
-        if self.get_unavailable_gates():
-            unavailable = set(self.get_unavailable_gates())
-        else:
-            unavailable = set()
-        return total - unavailable
+        # total = set(self.get_gates())
+        # if self.get_unavailable_gates():
+        #     unavailable = set(self.get_unavailable_gates())
+        # else:
+        #     unavailable = set()
+        # return total - unavailable
+        return [gate["name"] for gate in self.get_gates() if gate["available"]]
 
     def get_busy_gates_in_slot(self, booking_date, booking_end_date=None):
         """
@@ -705,7 +714,7 @@ class PrenotazioniContextState(BrowserView):
         for slot in slots:
             if slot.context.portal_type == PAUSE_PORTAL_TYPE:
                 for gate in self.get_gates():
-                    slots_by_gate.setdefault(gate, []).append(slot)
+                    slots_by_gate.setdefault(gate["name"], []).append(slot)
             else:
                 slots_by_gate.setdefault(slot.gate, []).append(slot)
         return slots_by_gate
@@ -728,11 +737,10 @@ class PrenotazioniContextState(BrowserView):
         else:
             intervals = [day_intervals[period]]
         slots_by_gate = self.get_busy_slots(booking_date, period)
-        gates = self.get_gates()
+        gates = [gate["name"] for gate in self.get_gates()]
         availability = {}
         for gate in gates:
             # unavailable gates doesn't have free slots
-            # XXX Riprendi da qui:
             if self.get_unavailable_gates() and gate in self.get_unavailable_gates():
                 availability[gate] = []
             else:
