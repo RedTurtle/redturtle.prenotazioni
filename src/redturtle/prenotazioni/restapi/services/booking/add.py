@@ -68,10 +68,6 @@ class AddBooking(Service):
         for field in data_fields:
             book_data[field] = data_fields[field]
 
-        # TODO: book_data ha alcuni campi che sono presenti in data
-        #       con nomi diversi, va fatto un mapping tra i due
-        if "fullname" in book_data:
-            book_data["title"] = book_data["fullname"]
         obj = booker.book(data=book_data)
 
         if not obj:

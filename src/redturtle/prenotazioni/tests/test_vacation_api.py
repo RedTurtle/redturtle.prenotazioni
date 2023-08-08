@@ -83,7 +83,7 @@ class TestVacationgApi(unittest.TestCase):
                 "booking_date": self.next_monday.replace(hour=10, minute=0).isoformat(),
                 "booking_type": "Type A",
                 "fields": [
-                    {"name": "fullname", "value": "Mario Rossi"},
+                    {"name": "title", "value": "Mario Rossi"},
                     {"name": "email", "value": "mario.rossi@example"},
                 ],
             },
@@ -101,7 +101,7 @@ class TestVacationgApi(unittest.TestCase):
                 ).isoformat(),
                 "booking_type": "Type A",
                 "fields": [
-                    {"name": "fullname", "value": "Mario Rossi"},
+                    {"name": "title", "value": "Mario Rossi"},
                     {"name": "email", "value": "mario.rossi@example"},
                 ],
             },
