@@ -41,5 +41,5 @@ class SlotSerializer:
     def __call__(self, *args, **kwargs):
         return {
             "start": self.hr_to_utc(self.context.start()),
-            "stop": self.hr_to_utc(self.context.stop()),
+            "end": self.hr_to_utc(self.context.stop()),
         }

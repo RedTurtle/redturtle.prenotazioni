@@ -32,6 +32,10 @@ Changelog
 - Added event handler on booking creation to send email to managers.
   [daniele]
 
+- Rename routes:
+  months-slots => available-slots
+  
+
 2.0.0.dev3 (2023-07-20)
 -----------------------
 

@@ -18,7 +18,7 @@ import transaction
 import unittest
 
 
-class TestMonthSlots(unittest.TestCase):
+class TestAvailableSlots(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
     def setUp(self):
@@ -112,7 +112,7 @@ class TestMonthSlots(unittest.TestCase):
         self,
     ):
         response = self.api_session.get(
-            "{}/@month-slots".format(self.folder_prenotazioni.absolute_url())
+            "{}/@available-slots".format(self.folder_prenotazioni.absolute_url())
         )
         # get next mondays in current month
         now = date.today()
@@ -171,7 +171,7 @@ class TestMonthSlots(unittest.TestCase):
 
         if current_month == next_month:
             response = self.api_session.get(
-                "{}/@month-slots?date={}".format(
+                "{}/@available-slots?date={}".format(
                     self.folder_prenotazioni.absolute_url(),
                     json_compatible(date(current_year, next_month, monday)),
                 )
@@ -186,7 +186,7 @@ class TestMonthSlots(unittest.TestCase):
             )
         else:
             response = self.api_session.get(
-                "{}/@month-slots".format(self.folder_prenotazioni.absolute_url())
+                "{}/@available-slots".format(self.folder_prenotazioni.absolute_url())
             )
 
             # first free slot is at 7:30
@@ -199,7 +199,7 @@ class TestMonthSlots(unittest.TestCase):
                 ),
             )
 
-    def test_show_all_available_slots_for_next_month_from_the_beginning(
+    def test_if_start_and_not_end_return_all_available_slots_for_that_month(
         self,
     ):
         now = date.today()
@@ -208,7 +208,7 @@ class TestMonthSlots(unittest.TestCase):
         next_month = current_month + 1
 
         response = self.api_session.get(
-            "{}/@month-slots?date={}".format(
+            "{}/@available-slots?start={}".format(
                 self.folder_prenotazioni.absolute_url(),
                 json_compatible(date(current_year, next_month, 1)),
             )
@@ -228,6 +228,55 @@ class TestMonthSlots(unittest.TestCase):
                         )
                     )
         self.assertEqual(expected, response.json()["items"])
+
+    def test_if_start_and_end_return_all_available_slots_between_these_dates(
+        self,
+    ):
+        now = date.today()
+        current_year = now.year
+        current_month = now.month
+        next_month = current_month + 1
+
+        response = self.api_session.get(
+            "{}/@available-slots?start={}&end={}".format(
+                self.folder_prenotazioni.absolute_url(),
+                json_compatible(date(current_year, next_month, 1)),
+                json_compatible(date(current_year, next_month, 10)),
+            )
+        )
+
+        # get next mondays in current month
+        expected = []
+        for week in calendar.monthcalendar(current_year, next_month):
+            monday = week[0]
+            if monday > 0 and monday < 10:
+                for hour in [7, 8, 9]:
+                    expected.append(
+                        json_compatible(
+                            datetime_with_tz(
+                                datetime(current_year, next_month, monday, hour, 0)
+                            )
+                        )
+                    )
+        self.assertEqual(expected, response.json()["items"])
+
+    def test_raise_error_if_start_is_greater_than_end(
+        self,
+    ):
+        now = date.today()
+        current_year = now.year
+        current_month = now.month
+        next_month = current_month + 1
+
+        response = self.api_session.get(
+            "{}/@available-slots?start={}&end={}".format(
+                self.folder_prenotazioni.absolute_url(),
+                json_compatible(date(current_year, next_month, 10)),
+                json_compatible(date(current_year, next_month, 1)),
+            )
+        )
+
+        self.assertEqual(400, response.status_code)
 
     @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
     def test_month_slots_notBeforeDays_honored(
@@ -263,7 +312,9 @@ class TestMonthSlots(unittest.TestCase):
         )
         transaction.commit()
 
-        response = self.api_session.get("{}/@month-slots".format(folder.absolute_url()))
+        response = self.api_session.get(
+            "{}/@available-slots".format(folder.absolute_url())
+        )
 
         tomorrow = json_compatible(
             datetime_with_tz(
@@ -276,14 +327,16 @@ class TestMonthSlots(unittest.TestCase):
         folder.notBeforeDays = 0
         transaction.commit()
 
-        response = self.api_session.get("{}/@month-slots".format(folder.absolute_url()))
+        response = self.api_session.get(
+            "{}/@available-slots".format(folder.absolute_url())
+        )
         self.assertIn(tomorrow, response.json()["items"])
 
     @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
     def test_month_slots_filtered_by_booking_type(self):
         # Type A 30 minutes
         response = self.api_session.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@month-slots?booking_type=Type A"
+            f"{self.folder_prenotazioni.absolute_url()}/@available-slots?booking_type=Type A"
         )  # noqa
         self.assertEqual(response.status_code, 200)
 
@@ -293,7 +346,7 @@ class TestMonthSlots(unittest.TestCase):
 
         # Type B 90 minutes
         response = self.api_session.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@month-slots?booking_type=Type B"
+            f"{self.folder_prenotazioni.absolute_url()}/@available-slots?booking_type=Type B"
         )  # noqa
         self.assertEqual(response.status_code, 200)
 

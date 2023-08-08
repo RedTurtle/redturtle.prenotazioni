@@ -57,8 +57,9 @@ class ConflictManager(object):
         There is also a field that disables gates, we should remove them from
         this calculation
         """
-        if not self.prenotazioni.get_gates():
-            return 1
+        # XXX: per come è ora la funzione probabilmente questa condizione non è mai vera
+        # if not self.prenotazioni.get_gates():
+        #     return 1
         return len(self.prenotazioni.get_available_gates())
 
     def unrestricted_prenotazioni(self, **kw):

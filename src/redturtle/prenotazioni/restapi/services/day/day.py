@@ -1,29 +1,27 @@
 # -*- coding: utf-8 -*-
-
 from plone import api
 from plone.memoize.view import memoize
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
 from zope.component import getMultiAdapter
 from zExceptions import BadRequest
-
 from redturtle.prenotazioni.adapters.slot import ISlot
-
 from datetime import datetime, date
+from zope.interface import implementer
+from zope.publisher.interfaces import IPublishTraverse
 
 
+@implementer(IPublishTraverse)
 class DaySlots(Service):
-    def __init__(self, context, request):
-        super().__init__(context=context, request=request)
-        day_date = self.request.form.get("date")
-        if day_date:
+    day = date.today()
+
+    def publishTraverse(self, request, day):
+        if self.day == date.today():
             try:
-                day_date = datetime.strptime(day_date, "%d/%m/%Y").date()
-            except ValueError as e:
-                raise BadRequest(str(e))
-        else:
-            day_date = date.today()
-        self.day_date = day_date
+                self.day = datetime.fromisoformat(day).date()
+            except ValueError:
+                raise BadRequest("Invalid date")
+        return self
 
     @property
     @memoize
@@ -42,7 +40,7 @@ class DaySlots(Service):
         Returns:
             dict: contains all the busy slots of the day. Dict format:
                     `{
-                        "@id": "http://localhost:8080/Plone/prenotazioni_folder/@day_busy_slots",
+                        "@id": "http://localhost:8080/Plone/prenotazioni_folder/@day/2023-05-22",
                         "bookings": {
                             "gate1":
                                 [
@@ -106,17 +104,15 @@ class DaySlots(Service):
         """
 
         return {
-            "@id": f"{self.context.absolute_url()}/@day-busy-slots",
+            "@id": f"{self.context.absolute_url()}/@day/{self.day.isoformat()}",
             "bookings": self.get_bookings(),
             "pauses": self.get_pauses(),
             "daily_schedule": self.get_daily_schedule(),
+            "gates": self.get_gates(),
         }
 
     def get_bookings(self):
-
-        bookings = self.prenotazioni_context_state.get_bookings_in_day_folder(
-            self.day_date
-        )
+        bookings = self.prenotazioni_context_state.get_bookings_in_day_folder(self.day)
 
         bookings_result = {}
 
@@ -133,13 +129,11 @@ class DaySlots(Service):
     def get_pauses(self):
         return [
             getMultiAdapter((ISlot(i), self.request), ISerializeToJson)()
-            for i in self.prenotazioni_context_state.get_pauses_in_day_folder(
-                self.day_date
-            )
+            for i in self.prenotazioni_context_state.get_pauses_in_day_folder(self.day)
         ]
 
     def get_daily_schedule(self):
-        intervals = self.prenotazioni_context_state.get_day_intervals(self.day_date)
+        intervals = self.prenotazioni_context_state.get_day_intervals(self.day)
 
         if not intervals:
             return {}
@@ -151,3 +145,6 @@ class DaySlots(Service):
                 (intervals["afternoon"], self.request), ISerializeToJson
             )(),
         }
+
+    def get_gates(self):
+        return self.prenotazioni_context_state.get_gates(self.day)
