@@ -215,6 +215,6 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
             booking_expiration_date=booking_expiration_date,
         )
 
-        self.assertNotEquals(
+        self.assertNotEqual(
             booking_gate_A.getBookingCode(), booking_gate_B.getBookingCode()
         )

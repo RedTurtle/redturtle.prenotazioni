@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from datetime import datetime
+from datetime import time
+
+# TODO: togliere DateTime ?
 from DateTime import DateTime
 from datetime import timedelta
 from plone import api
+from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 from redturtle.prenotazioni import _
@@ -18,6 +22,7 @@ from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE
 from redturtle.prenotazioni.config import PAUSE_SLOT
 from redturtle.prenotazioni.content.pause import Pause
 from redturtle.prenotazioni.utilities.urls import urlify
+
 from six.moves import map
 from six.moves import range
 
@@ -49,10 +54,13 @@ def hm2DT(day, hm):
     """
     if not hm or hm == "--NOVALUE--" or hm == ("--NOVALUE--",):
         return None
-    date = day.strftime("%Y/%m/%d")
-    h, m = hm2handm(hm)
-    tzone = DateTime().timezone()
-    return DateTime("%s %s:%s %s" % (date, h, m, tzone))
+    return datetime.combine(
+        day, time.fromisoformat(hm), tzinfo=default_timezone(as_tzinfo=True)
+    )
+    # date = day.strftime("%Y/%m/%d")
+    # h, m = hm2handm(hm)
+    # tzone = DateTime().timezone()
+    # return DateTime("%s %s:%s %s" % (date, h, m, tzone))
 
 
 def hm2seconds(hm):
@@ -506,7 +514,7 @@ class PrenotazioniContextState(BrowserView):
         weekday = day.weekday()
         week_table = self.get_week_table(day=day)
         day_table = week_table[weekday]
-        # Convert hours to DateTime
+        # Convert date + time (localtime) to datetime (utc)
         morning_start = hm2DT(day, day_table["morning_start"])
         morning_end = hm2DT(day, day_table["morning_end"])
         afternoon_start = hm2DT(day, day_table["afternoon_start"])

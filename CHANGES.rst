@@ -5,6 +5,12 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- fix date in @@download
+  [mamico]
+
+- skip email to manager on block/vacation creation
+  [mamico]
+
 - Manage timezone in booking dates. (upgrade step)
   [cekk]
 
@@ -35,9 +41,9 @@ Changelog
 - Rename routes:
   months-slots => available-slots
   prenotazione-schema => booking-schema
-  [cekk]  
-
-
+  @@download_reservation => @@download/bookings.xlsx
+  [cekk] [mamico]  
+  
 
 2.0.0.dev3 (2023-07-20)
 -----------------------

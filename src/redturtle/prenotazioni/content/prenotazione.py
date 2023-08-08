@@ -18,7 +18,7 @@ import hashlib
 import re
 import six
 
-
+VACATION_TYPE = "out-of-office"
 TELEPHONE_PATTERN = re.compile(r"^(\+){0,1}([0-9]| )*$")
 
 
@@ -183,6 +183,9 @@ class IPrenotazione(model.Schema):
 @implementer(IPrenotazione)
 class Prenotazione(Item):
     """ """
+
+    def isVacation(self):
+        self.getBooking_type() == VACATION_TYPE
 
     def getBooking_date(self):
         return self.booking_date
