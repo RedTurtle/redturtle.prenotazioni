@@ -256,10 +256,10 @@ class Booker(object):
         for slot in slots:
             booking_date = start_date + (float(slot.lower_value) / 86400)
             slot.__class__ = BaseSlot
-            slot.booking_type = VACATION_TYPE
             duration = float(len(slot)) / 86400
             # duration = float(len(slot)) / 60
             slot_data = {k: v for k, v in data.items() if k != "gate"}
             slot_data["booking_date"] = datetime_with_tz(booking_date)
+            slot_data["booking_type"] = VACATION_TYPE
             self.create(slot_data, duration=duration, force_gate=gate)
         return len(slots)

@@ -590,8 +590,9 @@ Response::
 Special Views
 ==============
 
-@@download_reservation
-----------------------
+@@download/bookings.xlsx
+------------------------
+
 This view allows to download the bookings filtered by passed parameters
 
 - **text**: The SearchableText of content.
@@ -604,7 +605,7 @@ This view allows to download the bookings filtered by passed parameters
 
 
 Example::
-    curl -i http://localhost:8080/Plone/folder?text=Text&review_state=confirmed&gate=Gate1&start=2010-10-10&end=2025-10-10&booking_type=Type1
+    curl -i http://localhost:8080/Plone/folder/@@download/bookings.xlsx?text=Text&review_state=confirmed&gate=Gate1&start=2010-10-10&end=2025-10-10&booking_type=Type1
 
 Response::
     Binary file

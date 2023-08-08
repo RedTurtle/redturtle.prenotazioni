@@ -5,6 +5,9 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- fix date in @@download
+  [mamico]
+
 - skip email to manager on block/vacation creation
   [mamico]
 
@@ -37,6 +40,7 @@ Changelog
 
 - Rename routes:
   months-slots => available-slots
+  @@download_reservation => @@download/bookings.xlsx
   
 
 2.0.0.dev3 (2023-07-20)

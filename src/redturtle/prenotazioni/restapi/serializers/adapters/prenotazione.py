@@ -90,4 +90,5 @@ class PrenotazioneSearchableItemSerializer:
             "phone": self.prenotazione.phone,
             "staff_notes": self.prenotazione.staff_notes,
             "company": self.prenotazione.company,
+            "vacation": self.prenotazione.isVacation(),
         }

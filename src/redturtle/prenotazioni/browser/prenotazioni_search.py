@@ -8,7 +8,7 @@ from plone.z3cform.layout import wrap_form
 from Products.CMFPlone import PloneMessageFactory as __
 from Products.CMFPlone.browser.search import quote_chars
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from pyexcel_ods3 import save_data
+from pyexcel_xlsx import save_data
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.adapters.conflict import IConflictManager
 from redturtle.prenotazioni.utilities.urls import urlify
@@ -24,9 +24,11 @@ from zope.schema import Date
 from zope.schema import TextLine
 from zope.schema import ValidationError
 from zope.schema.interfaces import IVocabularyFactory
-from ZPublisher.Iterators import filestream_iterator
-
-import tempfile
+# from ZPublisher.Iterators import filestream_iterator
+from io import BytesIO
+from zope.publisher.interfaces import IPublishTraverse
+from zExceptions import NotFound
+from plone.app.event.base import default_timezone
 
 
 class InvalidDate(ValidationError):
@@ -210,7 +212,7 @@ class SearchForm(form.Form):
 
     def set_download_url(self, data):
         return urlify(
-            "{}/@@download_reservation".format(self.context.absolute_url()),
+            f"{self.context.absolute_url()}/@@download/bookings.xlsx",
             params=data,
         )
 
@@ -262,9 +264,17 @@ class SearchForm(form.Form):
 WrappedSearchForm = wrap_form(SearchForm)
 
 
+@implementer(IPublishTraverse)
 class DownloadReservation(SearchForm):
+    def publishTraverse(self, request, name):
+        if name == "bookings.xlsx":
+            return self
+        raise NotFound(self, name, request)
+        # return super(DownloadReservation, self).publishTraverse(request, name)
+
     @property
     def columns(self):
+        # TODO: translate
         custom_fields = [
             translate(_("label_booking_{}".format(x)), context=self.request)
             for x in self.context.visible_booking_fields
@@ -281,11 +291,18 @@ class DownloadReservation(SearchForm):
 
     def get_row_data(self, brain):
         obj = brain.getObject()
-
         custom_fields = [
             getattr(obj, x, "") or "" for x in self.context.visible_booking_fields
         ]
-
+        # obj.booking_date
+        tzinfo = default_timezone(as_tzinfo=True)
+        booking_date_str = ""
+        if obj.booking_date:
+            start = obj.booking_date.astimezone(tzinfo)
+            booking_date_str = f"{start.strftime('%d/%m/%Y')} {start.strftime('%H:%M')}"
+            if obj.booking_expiration_date:
+                end = obj.booking_expiration_date.astimezone(tzinfo)
+                booking_date_str += f" - {end.strftime('%H:%M')}"
         return (
             [
                 brain.Title,
@@ -295,11 +312,12 @@ class DownloadReservation(SearchForm):
             ]
             + custom_fields
             + [
-                self.prenotazioni_week_view.localized_time(brain["Date"])
-                + " - "
-                + self.prenotazioni_week_view.localized_time(
-                    brain["Date"], time_only=True
-                ),
+                booking_date_str,
+                # self.prenotazioni_week_view.localized_time(brain["Date"])
+                # + " - "
+                # + self.prenotazioni_week_view.localized_time(
+                #     brain["Date"], time_only=True
+                # ),
                 obj.getBookingCode(),
                 obj.getStaff_notes() or "",
             ]
@@ -325,12 +343,14 @@ class DownloadReservation(SearchForm):
             "sort_order": "reverse",
             "path": "/".join(self.context.getPhysicalPath()),
         }
+        # TODO: restringere la ricerca solo su parametri precisi
         for k in self.request.form:
             v = self.request.form.get(k, None)
             if v and v != "None":
                 data[k] = v
         if data:
             query = self.get_query(data=data)
+            # TODO: serve unrestricted ?
             brains = self.conflict_manager.unrestricted_prenotazioni(**query)
         else:
             brains = []
@@ -339,16 +359,15 @@ class DownloadReservation(SearchForm):
             data["Sheet 1"].append(self.get_row_data(brain=brain))
 
         now = DateTime()
-        filename = "prenotazioni_{}.ods".format(now.strftime("%Y%m%d%H%M%S"))
-        filepath = "{0}/{1}".format(tempfile.mkdtemp(), filename)
-        save_data(filepath, data)
-        streamed = filestream_iterator(filepath)
-        mime = "application/vnd.oasis.opendocument.spreadsheet"
+        filename = f"prenotazioni_{now.strftime('%Y%m%d%H%M%S')}.xlsx"
+        io = BytesIO()
+        save_data(io, data)
+        mime = "application/vnd.ms-excel"
         self.request.RESPONSE.setHeader(
             "Content-type", "{0};charset={1}".format(mime, "utf-8")
         )
-        self.request.RESPONSE.setHeader("Content-Length", str(len(streamed)))
+        # self.request.RESPONSE.setHeader("Content-Length", str(len(streamed)))
         self.request.RESPONSE.setHeader(
             "Content-Disposition", 'attachment; filename="{}"'.format(filename)
         )
-        return streamed
+        return io.getvalue()
