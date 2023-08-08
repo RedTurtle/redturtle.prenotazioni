@@ -8,7 +8,6 @@ from zExceptions import BadRequest
 
 
 class BookingSchema(Service):
-
     static_required_fields = ["title"]
     field_type_mapping = {"description": "textarea"}
 
