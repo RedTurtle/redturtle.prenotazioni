@@ -391,17 +391,17 @@ Response::
         ]
     }
 
-@prenotazione-schema
+@booking-schema
 --------------------
 
 Endpoint that need to be called on a PrenotazioniFolder.
 It returns the list of all fields to fill in for the booking.
 
-The booking date is passed via querystring (e.g ?form.booking_date=2023-04-13+10%3A00')
+The booking date is passed via querystring (e.g ?booking_date=2023-04-13+10%3A00')
 
 Example::
 
-   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?form.booking_date=2023-05-15T13:00:00' -H 'Accept: application/json'
+   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?booking_date=2023-05-15T13:00:00' -H 'Accept: application/json'
 
 Response::
 

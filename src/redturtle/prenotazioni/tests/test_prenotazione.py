@@ -108,7 +108,7 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
                 "booking_date": booking_date,
                 "booking_type": "Type A",
                 "fields": [
-                    {"name": "fullname", "value": "Mario Rossi"},
+                    {"name": "title", "value": "Mario Rossi"},
                     {"name": "email", "value": "mario.rossi@example"},
                 ],
             },
@@ -131,7 +131,7 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
                 % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
                 "booking_type": "Type A (30 min)",
                 "fields": [
-                    {"name": "fullname", "value": "Mario Rossi"},
+                    {"name": "title", "value": "Mario Rossi"},
                     {"name": "email", "value": "mario.rossi@example"},
                 ],
             },
