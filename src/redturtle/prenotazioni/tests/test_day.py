@@ -126,12 +126,14 @@ class TestDaySlots(unittest.TestCase):
             self.create_booking(self.tomorrow + timedelta(minutes=i * 30))
             for i in range(5)
         ]
-
         commit()
 
-        results = self.api_session.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@day?date={self.tomorrow.strftime('%d/%m/%Y')}"
-        ).json()["bookings"]["Gate A"]
+        response = self.api_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
+        )
+        self.assertEqual(response.status_code, 200)
+
+        results = response.json()["bookings"]["Gate A"]
 
         for booking in bookings:
             self.assertIn(
@@ -140,6 +142,7 @@ class TestDaySlots(unittest.TestCase):
             )
 
     def test_pauses_returned(self):
+        # le pause sono in localtime
         self.folder_prenotazioni.pause_table = [
             {
                 "day": str(self.tomorrow.weekday()),
@@ -147,40 +150,43 @@ class TestDaySlots(unittest.TestCase):
                 "pause_end": "0830",
             }
         ]
-
         commit()
-        results = self.api_session.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@day?date={self.tomorrow.strftime('%d/%m/%Y')}"
-        ).json()["pauses"]
+        response = self.api_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
+        )
+        self.assertEqual(response.status_code, 200)
 
+        results = response.json()["pauses"]
+        # la risposta è in UTC ... TODO: qualcosa non mi torna
         self.assertIn(
             {
                 "start": self.tomorrow.strftime("%Y-%m-%d") + "T07:15:00+00:00",
-                "stop": self.tomorrow.strftime("%Y-%m-%d") + "T08:30:00+00:00",
+                "end": self.tomorrow.strftime("%Y-%m-%d") + "T08:30:00+00:00",
             },
             results,
         )
 
     def test_bad_request_date(self):
         res = self.api_session.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@day?date=fff"
+            f"{self.folder_prenotazioni.absolute_url()}/@day/fff"
         )
-
         self.assertEquals(res.json()["type"], "BadRequest")
         self.assertEquals(res.status_code, 400)
 
     def test_daily_schedule(self):
-        results = self.api_session.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@day?date={self.tomorrow.strftime('%d/%m/%Y')}"
-        ).json()
+        response = self.api_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
+        )
+        self.assertEqual(response.status_code, 200)
+        results = response.json()
 
         self.assertIn("daily_schedule", results)
         self.assertEqual(
             {
-                "afternoon": {"start": None, "stop": None},
+                "afternoon": {"start": None, "end": None},
                 "morning": {
                     "start": self.tomorrow.strftime("%Y-%m-%d") + "T07:00:00+00:00",
-                    "stop": self.tomorrow.strftime("%Y-%m-%d") + "T10:00:00+00:00",
+                    "end": self.tomorrow.strftime("%Y-%m-%d") + "T10:00:00+00:00",
                 },
             },
             results["daily_schedule"],

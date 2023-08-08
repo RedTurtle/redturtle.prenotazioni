@@ -406,7 +406,7 @@ class PrenotazioniContextState(BrowserView):
         return self.unavailable_slot_booking_url
 
     @memoize
-    def get_gates(self, day):
+    def get_gates(self, day=None):
         """
         Get's the gates, available and unavailable
         """
