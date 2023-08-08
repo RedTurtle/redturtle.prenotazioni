@@ -54,6 +54,8 @@ def hm2DT(day, hm):
     """
     if not hm or hm == "--NOVALUE--" or hm == ("--NOVALUE--",):
         return None
+    if len(hm) == 4 and ":" not in hm:
+        hm = f"{hm[:2]}:{hm[2:]}"
     return datetime.combine(
         day, time.fromisoformat(hm), tzinfo=default_timezone(as_tzinfo=True)
     )

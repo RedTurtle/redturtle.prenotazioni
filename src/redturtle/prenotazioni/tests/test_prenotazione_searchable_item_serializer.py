@@ -105,5 +105,6 @@ class TestPrenotazioniSearch(unittest.TestCase):
                 "phone": self.prenotazione_fscode.phone,
                 "staff_notes": self.prenotazione_fscode.staff_notes,
                 "company": self.prenotazione_fscode.company,
+                "vacation": None,
             },
         )
