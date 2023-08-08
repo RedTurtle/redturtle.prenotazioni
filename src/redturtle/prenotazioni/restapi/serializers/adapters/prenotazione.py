@@ -51,6 +51,7 @@ class PrenotazioneSerializer:
                 status["review_state"], context=self.request
             ),
             "booking_type": self.prenotazione.booking_type,
+            "vacation": self.prenotazione.isVacation(),
             "booking_code": self.prenotazione.getBookingCode(),
             "cosa_serve": useful_docs,
         }

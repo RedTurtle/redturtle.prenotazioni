@@ -5,6 +5,9 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- skip email to manager on block/vacation creation
+  [mamico]
+
 - Manage timezone in booking dates. (upgrade step)
   [cekk]
 
