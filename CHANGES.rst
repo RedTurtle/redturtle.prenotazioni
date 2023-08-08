@@ -34,7 +34,10 @@ Changelog
 
 - Rename routes:
   months-slots => available-slots
-  
+  prenotazione-schema => booking-schema
+  [cekk]  
+
+
 
 2.0.0.dev3 (2023-07-20)
 -----------------------

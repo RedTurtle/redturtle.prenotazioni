@@ -8,7 +8,7 @@
       factory="redturtle.prenotazioni.restapi.services.booking_schema.get.BookingSchema"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
       permission="zope2.View"
-      name="@prenotazione-schema"
+      name="@booking-schema"
       />
 
 </configure>

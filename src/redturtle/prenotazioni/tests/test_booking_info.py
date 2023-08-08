@@ -141,7 +141,7 @@ class TestBookingInfo(unittest.TestCase):
         booking_uid = booking.UID()
 
         response = self.api_session.get(
-            "{}/@prenotazione/{}".format(
+            "{}/@booking/{}".format(
                 self.folder_prenotazioni.absolute_url(), booking_uid
             )
         )
@@ -183,7 +183,7 @@ class TestBookingInfo(unittest.TestCase):
         transaction.commit()
 
         response = self.api_session.get(
-            "{}/@prenotazione".format(self.folder_prenotazioni.absolute_url())
+            "{}/@booking".format(self.folder_prenotazioni.absolute_url())
         )
 
         self.assertEqual(404, response.status_code)
