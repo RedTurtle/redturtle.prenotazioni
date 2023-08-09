@@ -8,6 +8,7 @@ from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
 from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
 from redturtle.prenotazioni.content.validators import checkOverrides
 from redturtle.prenotazioni.content.validators import PauseValidator
@@ -238,7 +239,7 @@ class IPrenotazioniFolder(model.Schema):
             'of "Email" or "Telephone"',
         ),
         required=False,
-        default=["email", "phone", "description"],
+        default=DEFAULT_VISIBLE_BOOKING_FIELDS,
         value_type=schema.Choice(
             vocabulary="redturtle.prenotazioni.requirable_booking_fields"
         ),

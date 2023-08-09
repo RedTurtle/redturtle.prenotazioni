@@ -5,10 +5,10 @@ from plone.restapi.services import Service
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
 from zExceptions import BadRequest
+from redturtle.prenotazioni.config import STATIC_REQUIRED_FIELDS
 
 
 class BookingSchema(Service):
-    static_required_fields = ["title"]
     field_type_mapping = {"description": "textarea"}
 
     # TODO: rendere traudcibili label e descrizione
@@ -42,9 +42,17 @@ class BookingSchema(Service):
     @property
     @memoize
     def required_fields(self):
-        fields = self.context.required_booking_fields
-        for field in self.static_required_fields:
-            if field not in self.context.required_booking_fields:
+        required_booking_fields = (
+            getattr(
+                self.context,
+                "required_booking_fields",
+                [],
+            )
+            or []
+        )
+        fields = [x for x in required_booking_fields]
+        for field in STATIC_REQUIRED_FIELDS:
+            if field not in fields:
                 fields.append(field)
         return fields
 
@@ -70,11 +78,11 @@ class BookingSchema(Service):
             current_user = api.user.get_current()
 
         fields_list = []
-        fields = [x for x in self.static_required_fields]
+        fields = [x for x in STATIC_REQUIRED_FIELDS]
         fields += [
             x
             for x in self.context.visible_booking_fields
-            if x not in self.static_required_fields
+            if x not in STATIC_REQUIRED_FIELDS
         ]
         for field in fields:
             value = ""
