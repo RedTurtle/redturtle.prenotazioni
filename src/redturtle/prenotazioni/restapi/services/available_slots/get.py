@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from dateutil.rrule import rrule, DAILY
+from datetime import timedelta
 from plone import api
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.services import Service
@@ -24,6 +24,7 @@ class AvailableSlots(Service):
         )
         start = self.request.form.get("start", "")
         end = self.request.form.get("end", "")
+        past_slots = self.request.form.get("past_slots", False)
 
         if start:
             start = datetime.date.fromisoformat(start)
@@ -59,8 +60,8 @@ class AvailableSlots(Service):
             "@id": f"{self.context.absolute_url()}/@available-slots",
             "items": [],
         }
-        for booking_date in rrule(DAILY, dtstart=start, until=end):
-            booking_date = booking_date.date()
+        for n in range(int((end - start).days) + 1):
+            booking_date = start + timedelta(n)
             slots = prenotazioni_week_view.prenotazioni.get_anonymous_slots(
                 booking_date=booking_date
             )
@@ -69,6 +70,8 @@ class AvailableSlots(Service):
                     booking_date, slot, slot_min_size=slot_min_size
                 )
                 if not info.get("url", ""):
+                    continue
+                if not past_slots and not info.get("future"):
                     continue
                 response["items"].append(json_compatible(info.get("booking_date", "")))
         return response

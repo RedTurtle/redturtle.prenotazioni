@@ -5,6 +5,7 @@ from six.moves import map
 from six.moves import range
 from zope.component import Interface
 from zope.interface import implementer
+from plone.app.event.base import default_timezone
 
 
 def is_intervals_overlapping(intervals):
@@ -94,10 +95,13 @@ class BaseSlot(Interval):
     gate = ""
     extra_css_styles = []
 
+    def __repr__(self):
+        return f"[{self.start()}:{self.end()}]"
+
     @staticmethod
     def time2seconds(value):
         """
-        Takes a value and converts it into seconds
+        Takes a value and converts it into daily seconds (localtime!)
 
         :param value: a datetime or DateTime object
         """
@@ -107,6 +111,7 @@ class BaseSlot(Interval):
             return None
         if isinstance(value, DateTime):
             value = value.asdatetime()
+        value = value.astimezone(default_timezone(as_tzinfo=True))
         return value.hour * 60 * 60 + value.minute * 60 + value.second
 
     def __init__(self, start, stop, gate="", date=""):
@@ -237,6 +242,8 @@ class BaseSlot(Interval):
         If slot_min_size is passed it will not return values whose distance
         from slot upper value is lower than this
         """
+        if slot_min_size > len(self):
+            return []
         number_of_parts = int(len(self) / width)
         values = set([])
         start = self.lower_value

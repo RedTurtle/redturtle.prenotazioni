@@ -122,6 +122,8 @@ class TestVacationgApi(unittest.TestCase):
         )
 
     def test_add_vacation_wrong_hours(self):
+
+        # add vacation outside of working hours
         start = self.next_monday.replace(hour=20, minute=0)
         end = self.next_monday.replace(hour=21, minute=30)
         gate = self.folder_prenotazioni.gates[0]
@@ -138,4 +140,17 @@ class TestVacationgApi(unittest.TestCase):
         self.assertEqual(
             res.json()["message"],
             "Nessuno slot creato, verificare la corretteza dei dati inseriti",
+        )
+
+        # add vacation when there is already a booking
+        res = self.api_session_anon.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": self.next_monday.replace(hour=10, minute=0).isoformat(),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+            },
         )
