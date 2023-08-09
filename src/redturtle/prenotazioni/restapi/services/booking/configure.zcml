@@ -3,15 +3,6 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     >
 
-  <!-- TODO: definire meglio il contesto -->
-  <plone:service
-      method="GET"
-      factory=".get.BookingInfo"
-      for="*"
-      permission="zope2.View"
-      name="@prenotazione"
-      />
-
   <plone:service
       method="GET"
       factory=".get.BookingInfo"

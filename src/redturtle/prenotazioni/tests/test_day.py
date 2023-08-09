@@ -49,62 +49,17 @@ class TestDaySlots(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            week_table=[
-                {
-                    "day": "Lunedì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Martedì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Mercoledì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Giovedì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Venerdì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Sabato",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Domenica",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-            ],
             booking_types=[
                 {"name": "Type A", "duration": "30"},
             ],
             gates=["Gate A"],
         )
+        week_table = self.folder_prenotazioni.week_table
+        for row in week_table:
+            row["morning_start"] = "0700"
+            row["morning_end"] = "1000"
+        self.folder_prenotazioni.week_table = week_table
+
         self.today = datetime.now().replace(hour=8)
         self.tomorrow = self.today + timedelta(1)
 
@@ -192,3 +147,5 @@ class TestDaySlots(unittest.TestCase):
             },
             results["daily_schedule"],
         )
+
+    # TODO: test vacation slots

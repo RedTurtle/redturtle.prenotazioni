@@ -391,17 +391,17 @@ Response::
         ]
     }
 
-@prenotazione-schema
+@booking-schema
 --------------------
 
 Endpoint that need to be called on a PrenotazioniFolder.
 It returns the list of all fields to fill in for the booking.
 
-The booking date is passed via querystring (e.g ?form.booking_date=2023-04-13+10%3A00')
+The booking date is passed via querystring (e.g ?booking_date=2023-04-13+10%3A00')
 
 Example::
 
-   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?form.booking_date=2023-05-15T13:00:00' -H 'Accept: application/json'
+   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?booking_date=2023-05-15T13:00:00' -H 'Accept: application/json'
 
 Response::
 
@@ -590,8 +590,9 @@ Response::
 Special Views
 ==============
 
-@@download_reservation
-----------------------
+@@download/bookings.xlsx
+------------------------
+
 This view allows to download the bookings filtered by passed parameters
 
 - **text**: The SearchableText of content.
@@ -604,7 +605,7 @@ This view allows to download the bookings filtered by passed parameters
 
 
 Example::
-    curl -i http://localhost:8080/Plone/folder?text=Text&review_state=confirmed&gate=Gate1&start=2010-10-10&end=2025-10-10&booking_type=Type1
+    curl -i http://localhost:8080/Plone/folder/@@download/bookings.xlsx?text=Text&review_state=confirmed&gate=Gate1&start=2010-10-10&end=2025-10-10&booking_type=Type1
 
 Response::
     Binary file

@@ -110,10 +110,12 @@ class TestBookingSchema(unittest.TestCase):
         self,
     ):
         response = self.api_session.get(
-            "{}/@prenotazione-schema".format(self.folder_prenotazioni.absolute_url())
+            "{}/@booking-schema".format(self.folder_prenotazioni.absolute_url())
         )
 
-        expected = "Wrong date format"
+        expected = (
+            "You need to provide a booking date to get the schema and available types."
+        )
 
         self.assertIn(expected, response.json().get("message"))
 
@@ -126,7 +128,7 @@ class TestBookingSchema(unittest.TestCase):
         current_month = now.month
 
         response = self.api_session.get(
-            "{}/@prenotazione-schema?form.booking_date={}+10%3A00".format(
+            "{}/@booking-schema?booking_date={}+10%3A00".format(
                 self.folder_prenotazioni.absolute_url(),
                 json_compatible(date(current_year, current_month, sunday)),
             ),
@@ -141,7 +143,7 @@ class TestBookingSchema(unittest.TestCase):
                 {
                     "desc": "Inserire il nome completo",
                     "label": "Nome completo",
-                    "name": "fullname",
+                    "name": "title",
                     "readonly": False,
                     "required": True,
                     "type": "text",
@@ -166,7 +168,7 @@ class TestBookingSchema(unittest.TestCase):
                     "value": "",
                 },
                 {
-                    "desc": "Inserisci ulteriori informazioni",
+                    "desc": "Aggiungi ulteriori dettagli",
                     "label": "Note",
                     "name": "description",
                     "readonly": False,
@@ -176,7 +178,6 @@ class TestBookingSchema(unittest.TestCase):
                 },
             ],
         }
-
         self.assertEqual(expected, response.json())
 
     def test_booking_schema_bookable_available(
@@ -202,7 +203,7 @@ class TestBookingSchema(unittest.TestCase):
                 current_day = 1
 
         response = self.api_session.get(
-            "{}/@prenotazione-schema?form.booking_date={}+07%3A00".format(
+            "{}/@booking-schema?booking_date={}+07%3A00".format(
                 self.folder_prenotazioni.absolute_url(),
                 json_compatible(date(current_year, current_month, monday)),
             ),
@@ -217,7 +218,7 @@ class TestBookingSchema(unittest.TestCase):
                 {
                     "desc": "Inserire il nome completo",
                     "label": "Nome completo",
-                    "name": "fullname",
+                    "name": "title",
                     "readonly": False,
                     "required": True,
                     "type": "text",
@@ -242,7 +243,7 @@ class TestBookingSchema(unittest.TestCase):
                     "value": "",
                 },
                 {
-                    "desc": "Inserisci ulteriori informazioni",
+                    "desc": "Aggiungi ulteriori dettagli",
                     "label": "Note",
                     "name": "description",
                     "readonly": False,

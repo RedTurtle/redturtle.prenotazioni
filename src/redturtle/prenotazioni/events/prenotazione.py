@@ -117,6 +117,10 @@ def get_mail_from_address():
 
 
 def send_email_to_managers(booking, event):
+    # skip email for vacation/out-of-office
+    if booking.isVacation():
+        return
+
     booking_folder = booking.getPrenotazioniFolder()
 
     booking_operator_url = (
