@@ -63,6 +63,11 @@ class TestDaySlots(unittest.TestCase):
         self.today = datetime.now().replace(hour=8)
         self.tomorrow = self.today + timedelta(1)
 
+        api.portal.set_registry_record(
+            "plone.portal_timezone",
+            "Europe/Rome",
+        )
+
         commit()
 
     def create_booking(self, date):
@@ -112,11 +117,11 @@ class TestDaySlots(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
         results = response.json()["pauses"]
-        # la risposta è in UTC ... TODO: qualcosa non mi torna
+        # la risposta è in UTC
         self.assertIn(
             {
-                "start": self.tomorrow.strftime("%Y-%m-%d") + "T07:15:00+00:00",
-                "end": self.tomorrow.strftime("%Y-%m-%d") + "T08:30:00+00:00",
+                "start": self.tomorrow.strftime("%Y-%m-%d") + "T05:15:00+00:00",
+                "end": self.tomorrow.strftime("%Y-%m-%d") + "T06:30:00+00:00",
             },
             results,
         )
@@ -137,12 +142,18 @@ class TestDaySlots(unittest.TestCase):
         results = response.json()
 
         self.assertIn("daily_schedule", results)
+        # sul database gli orari sono in localtime
+        self.assertEqual(
+            self.folder_prenotazioni.week_table[0]["morning_start"], "0700"
+        )
+        self.assertEqual(self.folder_prenotazioni.week_table[0]["morning_end"], "1000")
+        # la risposta è in UTC
         self.assertEqual(
             {
                 "afternoon": {"start": None, "end": None},
                 "morning": {
-                    "start": self.tomorrow.strftime("%Y-%m-%d") + "T07:00:00+00:00",
-                    "end": self.tomorrow.strftime("%Y-%m-%d") + "T10:00:00+00:00",
+                    "start": self.tomorrow.strftime("%Y-%m-%d") + "T05:00:00+00:00",
+                    "end": self.tomorrow.strftime("%Y-%m-%d") + "T08:00:00+00:00",
                 },
             },
             results["daily_schedule"],

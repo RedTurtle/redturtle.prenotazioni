@@ -38,7 +38,7 @@ def hm2DT(day, hm, tzinfo=None):
         return None
     if len(hm) == 4 and ":" not in hm:
         hm = f"{hm[:2]}:{hm[2:]}"
-    return datetime.combine(day, time.fromisoformat(hm), tzinfo=tzinfo)
+    return tzinfo.localize(datetime.combine(day, time.fromisoformat(hm)))
 
 
 def hm2seconds(hm):

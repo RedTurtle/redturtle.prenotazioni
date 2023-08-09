@@ -585,7 +585,6 @@ class PrenotazioniContextState(BrowserView):
         )
         return bookings
 
-    @memoize
     def get_pauses_in_day_folder(self, booking_date):
         """
         This method takes all pauses from the week table and convert it on slot
@@ -595,14 +594,13 @@ class PrenotazioniContextState(BrowserView):
         pause_table = self.context.pause_table or []
         today_pauses = [row for row in pause_table if row["day"] == str(weekday)]
         pauses = []
-        if today_pauses:
-            for pause in today_pauses:
-                pause = Pause(
-                    start=pause["pause_start"][:2] + ":" + pause["pause_start"][2:],
-                    stop=pause["pause_end"][:2] + ":" + pause["pause_end"][2:],
-                    date=booking_date,
-                )
-                pauses.append(pause)
+        for pause in today_pauses:
+            pause = Pause(
+                start=pause["pause_start"][:2] + ":" + pause["pause_start"][2:],
+                stop=pause["pause_end"][:2] + ":" + pause["pause_end"][2:],
+                date=booking_date,
+            )
+            pauses.append(pause)
         return pauses
 
     @memoize
