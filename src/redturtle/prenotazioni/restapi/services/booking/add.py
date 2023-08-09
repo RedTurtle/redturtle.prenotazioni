@@ -2,17 +2,17 @@
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.interfaces import ISerializeToJson
-from plone.restapi.services import Service
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.restapi.services.booking_schema.get import BookingSchema
+from zExceptions import BadRequest
 from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
-from zExceptions import BadRequest
 
 # src/redturtle/prenotazioni/browser/prenotazione_add.py
 
 
-class AddBooking(Service):
+class AddBooking(BookingSchema):
     """
     Add a new booking
     """
@@ -21,41 +21,7 @@ class AddBooking(Service):
         data = json_body(self.request)
         data_fields = {field["name"]: field["value"] for field in data["fields"]}
 
-        required = self.context.required_booking_fields or []
-
-        # la tipologia di una prenotazione deve essere sempre obbligatoria ticket: 19131
-        for field in ("booking_date", "booking_type"):
-            if not data.get(field):
-                msg = self.context.translate(
-                    _(
-                        "Required input '${field}' is missing.",
-                        mapping=dict(field=field),
-                    )
-                )
-                raise BadRequest(msg)
-
-        for field in required:
-            if field in ("booking_date", "booking_type"):
-                continue
-            if not data_fields.get(field):
-                msg = self.context.translate(
-                    _(
-                        "Required input '${field}' is missing.",
-                        mapping=dict(field=field),
-                    )
-                )
-                raise BadRequest(msg)
-
-        if data["booking_type"] not in [
-            _t["name"] for _t in self.context.booking_types or [] if "name" in _t
-        ]:
-            msg = self.context.translate(
-                _(
-                    "Unknown booking type '${booking_type}'.",
-                    mapping=dict(booking_type=data["booking_type"]),
-                )
-            )
-            raise BadRequest(msg)
+        self.validate()
 
         alsoProvides(self.request, IDisableCSRFProtection)
 
@@ -78,3 +44,40 @@ class AddBooking(Service):
 
         serializer = queryMultiAdapter((obj, self.request), ISerializeToJson)
         return serializer()
+
+    def validate(self):
+        data = json_body(self.request)
+        data_fields = {field["name"]: field["value"] for field in data["fields"]}
+
+        missing_str = "Required input '${field}' is missing."
+
+        # campi che non sono nei data_fields
+        for field in ("booking_date", "booking_type"):
+            if not data.get(field):
+                msg = self.context.translate(
+                    _(
+                        missing_str,
+                        mapping=dict(field=field),
+                    )
+                )
+                raise BadRequest(msg)
+        for field in self.required_fields:
+            if not data_fields.get(field):
+                msg = self.context.translate(
+                    _(
+                        missing_str,
+                        mapping=dict(field=field),
+                    )
+                )
+                raise BadRequest(msg)
+
+        if data["booking_type"] not in [
+            _t["name"] for _t in self.context.booking_types or [] if "name" in _t
+        ]:
+            msg = self.context.translate(
+                _(
+                    "Unknown booking type '${booking_type}'.",
+                    mapping=dict(booking_type=data["booking_type"]),
+                )
+            )
+            raise BadRequest(msg)
