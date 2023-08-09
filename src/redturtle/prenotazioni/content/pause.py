@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE
 from redturtle.prenotazioni.interfaces import IPause
+from redturtle.prenotazioni.utilities.dateutils import hm2DT
 from zope.interface import implementer
 
 
@@ -27,7 +27,7 @@ class Pause(object):
         self.start = start
         self.stop = stop
         self.gate = gate
-        self.date = date
+        self.date = date or date.fromisoformat("1970-01-01")
 
     @property
     def portal_type(self):
@@ -42,13 +42,7 @@ class Pause(object):
         return _("Pause")
 
     def getBooking_date(self):
-        # we use as base date 1970/01/01
-        # we pass these data to a method that convert it to a day agnostic
-        # number
-        return datetime.strptime("1970/01/01 {}".format(self.start), "%Y/%m/%d %H:%M")
+        return hm2DT(self.date, self.start)
 
     def getBooking_expiration_date(self):
-        # we use as base date 1970/01/01
-        # we pass these data to a method that convert it to a day agnostic
-        # number
-        return datetime.strptime("1970/01/01 {}".format(self.stop), "%Y/%m/%d %H:%M")
+        return hm2DT(self.date, self.stop)

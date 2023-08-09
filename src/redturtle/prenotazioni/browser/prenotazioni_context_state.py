@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from datetime import datetime
-from datetime import time
 
 # TODO: togliere DateTime ?
 from DateTime import DateTime
 from datetime import timedelta
 from plone import api
-from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 from redturtle.prenotazioni import _
@@ -22,59 +20,14 @@ from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE
 from redturtle.prenotazioni.config import PAUSE_SLOT
 from redturtle.prenotazioni.content.pause import Pause
 from redturtle.prenotazioni.utilities.urls import urlify
+from redturtle.prenotazioni.utilities.dateutils import hm2DT
+from redturtle.prenotazioni.utilities.dateutils import hm2seconds
 
 from six.moves import map
 from six.moves import range
 
 import json
 import six
-
-
-def hm2handm(hm):
-    """This is a utility function that will return the hour and date of day
-    to the value passed in the string hm
-
-    :param hm: a string in the format "%H%m"
-
-    XXX: manage the case of `hm` as tuple, eg. ("0700", )
-    """
-    if hm and isinstance(hm, tuple):
-        hm = hm[0]
-    if (not hm) or (not isinstance(hm, six.string_types)) or (len(hm) != 4):
-        raise ValueError(hm)
-    return (hm[:2], hm[2:])
-
-
-def hm2DT(day, hm):
-    """This is a utility function that will return the hour and date of day
-    to the value passed in the string hm
-
-    :param day: a datetime date
-    :param hm: a string in the format "%H%m"
-    """
-    if not hm or hm == "--NOVALUE--" or hm == ("--NOVALUE--",):
-        return None
-    if len(hm) == 4 and ":" not in hm:
-        hm = f"{hm[:2]}:{hm[2:]}"
-    return datetime.combine(
-        day, time.fromisoformat(hm), tzinfo=default_timezone(as_tzinfo=True)
-    )
-    # date = day.strftime("%Y/%m/%d")
-    # h, m = hm2handm(hm)
-    # tzone = DateTime().timezone()
-    # return DateTime("%s %s:%s %s" % (date, h, m, tzone))
-
-
-def hm2seconds(hm):
-    """This is a utility function that will return
-    to the value passed in the string hm
-
-    :param hm: a string in the format "%H%m"
-    """
-    if not hm:
-        return None
-    h, m = hm2handm(hm)
-    return int(h) * 3600 + int(m) * 60
 
 
 class PrenotazioniContextState(BrowserView):
@@ -645,9 +598,8 @@ class PrenotazioniContextState(BrowserView):
         if today_pauses:
             for pause in today_pauses:
                 pause = Pause(
-                    pause["pause_start"][:2] + ":" + pause["pause_start"][2:],
-                    pause["pause_end"][:2] + ":" + pause["pause_end"][2:],
-                    "",
+                    start=pause["pause_start"][:2] + ":" + pause["pause_start"][2:],
+                    stop=pause["pause_end"][:2] + ":" + pause["pause_end"][2:],
                     date=booking_date,
                 )
                 pauses.append(pause)
