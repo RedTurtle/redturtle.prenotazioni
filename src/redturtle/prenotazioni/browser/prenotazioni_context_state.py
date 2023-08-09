@@ -9,7 +9,6 @@ from plone import api
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import get_or_create_obj
 from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
@@ -277,19 +276,16 @@ class PrenotazioniContextState(BrowserView):
         if self.maximum_bookable_date:
             if day > self.maximum_bookable_date.date():
                 return []
-        date = day.strftime("%Y-%m-%d")
+        # date = day.strftime("%Y-%m-%d")
         params = self.remembered_params.copy()
         times = slot.get_values_hr_every(300, slot_min_size=slot_min_size)
         base_url = self.base_booking_url
         urls = []
         now = tznow()
+        # times are in localtime
         for t in times:
-            booking_date_str = "T".join((date, t))
-            booking_date = datetime_with_tz(booking_date_str)
-
-            # needed to build the url
-            params["form.booking_date"] = booking_date_str
-
+            booking_date = hm2DT(day, t)
+            params["form.booking_date"] = booking_date.isoformat()
             if gate:
                 params["gate"] = gate
             urls.append(
