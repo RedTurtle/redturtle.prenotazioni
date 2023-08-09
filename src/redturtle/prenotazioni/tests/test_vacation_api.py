@@ -122,7 +122,6 @@ class TestVacationgApi(unittest.TestCase):
         )
 
     def test_add_vacation_wrong_hours(self):
-
         # add vacation outside of working hours
         start = self.next_monday.replace(hour=20, minute=0)
         end = self.next_monday.replace(hour=21, minute=30)
