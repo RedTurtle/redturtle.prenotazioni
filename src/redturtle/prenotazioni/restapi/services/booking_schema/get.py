@@ -42,9 +42,14 @@ class BookingSchema(Service):
     @property
     @memoize
     def required_fields(self):
-        fields = self.context.required_booking_fields
+        required_booking_fields = getattr(
+            self.context,
+            "required_booking_fields",
+            [],
+        )
+        fields = [x for x in required_booking_fields]
         for field in self.static_required_fields:
-            if field not in self.context.required_booking_fields:
+            if field not in fields:
                 fields.append(field)
         return fields
 
