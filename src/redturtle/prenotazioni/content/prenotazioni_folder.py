@@ -649,7 +649,6 @@ class IPrenotazioniFolder(model.Schema):
             "holidays",
             "futureDays",
             "notBeforeDays",
-            "pause_table",
         ],
     )
 
@@ -658,6 +657,7 @@ class IPrenotazioniFolder(model.Schema):
         label=_("Week table"),
         fields=[
             "week_table",
+            "pause_table",
         ],
     )
 
@@ -669,6 +669,7 @@ class IPrenotazioniFolder(model.Schema):
         ],
     )
 
+    form.omitted("how_to_get_here", "phone", "fax", "pec", "complete_address")
     model.fieldset(
         "contacts",
         label=_("contacts_label", default="Contacts"),
@@ -689,17 +690,10 @@ class IPrenotazioniFolder(model.Schema):
         ],
     )
     model.fieldset(
-        "Reminders",
-        label=_("reminders_label", default="Reminders"),
-        fields=[
-            "app_io_enabled",
-        ],
-    )
-    model.fieldset(
         "Prenotazioni Email Templates",
         label=_(
             "prenotazioni_email_templates_label",
-            default="Prenotazioni Email Templates",
+            default="Testo delle email di notifica",
         ),
         # TODO: Use custom frontend widget for the new
         # field where we must render the html of field's description
@@ -737,6 +731,13 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_move_message",
             "notify_on_refuse_subject",
             "notify_on_refuse_message",
+        ],
+    )
+    model.fieldset(
+        "Reminders",
+        label=_("reminders_label", default="Reminders"),
+        fields=[
+            "app_io_enabled",
         ],
     )
 

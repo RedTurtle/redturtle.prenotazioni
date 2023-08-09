@@ -1085,7 +1085,7 @@ msgstr "La prenotazione non e' permessa prima del numero di giorni specificata. 
 #. Default: "Notifications"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:683
 msgid "notifications_label"
-msgstr "Notifiche"
+msgstr "Notifiche email"
 
 #. Default: "Notify when confirmed."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:543
@@ -1270,7 +1270,7 @@ msgstr "${day}, ore ${booking_time}"
 #. Default: "Prenotazioni Email Templates"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:700
 msgid "prenotazioni_email_templates_label"
-msgstr "Prenotazioni Email Template"
+msgstr "Testo delle email di notifica"
 
 #. Default: "prenotazioni_search"
 #: redturtle/prenotazioni/profiles/default/actions.xml

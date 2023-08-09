@@ -5,6 +5,9 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- Tabs/fields reordering for the booking folder.
+  [daniele]
+
 - Manage timezone in booking dates. (upgrade step)
   [cekk]
 
