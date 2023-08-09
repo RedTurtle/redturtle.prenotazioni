@@ -8,6 +8,9 @@ Changelog
 - fix date in @@download
   [mamico]
 
+- fix tz in pause
+  [mamico]
+
 - skip email to manager on block/vacation creation
   [mamico]
 
