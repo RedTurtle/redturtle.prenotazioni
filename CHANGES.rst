@@ -7,6 +7,7 @@ Changelog
 
 - Tabs/fields reordering for the booking folder.
   [daniele]
+
 - fix date in @@download
   [mamico]
 
