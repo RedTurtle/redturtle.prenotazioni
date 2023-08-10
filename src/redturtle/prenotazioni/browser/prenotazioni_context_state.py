@@ -403,7 +403,7 @@ class PrenotazioniContextState(BrowserView):
         return self.unavailable_slot_booking_url
 
     @memoize
-    def get_gates(self, booking_date):
+    def get_gates(self, booking_date=None):
         """
         Get's the gates, available and unavailable
         """
@@ -412,7 +412,6 @@ class PrenotazioniContextState(BrowserView):
         week_table_overrides = json.loads(
             getattr(self.context, "week_table_overrides", "[]") or "[]"
         )
-
         if week_table_overrides:
             gates_override = week_table_overrides[0].get("gates", [])
             if gates_override:
@@ -421,7 +420,11 @@ class PrenotazioniContextState(BrowserView):
                     from_day = int(override.get("from_day", ""))
                     to_month = int(override.get("to_month", ""))
                     to_day = int(override.get("to_day", ""))
-                    toYear = booking_date.year
+
+                    if not booking_date:
+                        toYear = datetime.today().year
+                    else:
+                        toYear = booking_date.year
 
                     if from_month > to_month:
                         # next year
@@ -443,7 +446,7 @@ class PrenotazioniContextState(BrowserView):
         return self.context.getUnavailable_gates()
 
     @memoize
-    def get_available_gates(self, booking_date):
+    def get_available_gates(self, booking_date=None):
         """
         Get's the gates declared available
         """
@@ -638,14 +641,15 @@ class PrenotazioniContextState(BrowserView):
         This method takes all pauses from the week table and convert it on slot
         :param booking_date: a date as a datetime or a string
         """
-
         weekday = booking_date.weekday()
 
         week_table_overrides = json.loads(
             getattr(self.context, "week_table_overrides", "[]") or "[]"
         )
 
-        pause_override = week_table_overrides[0].get("pauses", [])
+        pause_override = []
+        if week_table_overrides:
+            pause_override = week_table_overrides[0].get("pauses", [])
         pause_table = self.context.pause_table or []
 
         if pause_override:

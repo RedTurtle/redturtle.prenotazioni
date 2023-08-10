@@ -92,10 +92,10 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
 
     def test_add_booking_anonymous(self):
         self.api_session.auth = None
-        booking_date = "{}T09:00:00".format(
+        booking_date = "{}T09:00:00+00:00".format(
             (date.today() + timedelta(1)).strftime("%Y-%m-%d")
         )
-        booking_expiration_date = "{}T09:30:00".format(
+        booking_expiration_date = "{}T09:30:00+00:00".format(
             (date.today() + timedelta(1)).strftime("%Y-%m-%d")
         )
         res = self.api_session.post(
