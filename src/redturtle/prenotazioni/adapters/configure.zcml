@@ -42,13 +42,13 @@
   <adapter
       factory=".stringinterp.BookingDateSubstitution"
       provides="plone.stringinterp.interfaces.IStringSubstitution"
-      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
+      for="*"
       name="booking_date"
       />
   <adapter
       factory=".stringinterp.BookingEndDateSubstitution"
       provides="plone.stringinterp.interfaces.IStringSubstitution"
-      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
+      for="*"
       name="booking_end_date"
       />
   <adapter
