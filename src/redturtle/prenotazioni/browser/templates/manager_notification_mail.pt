@@ -1,6 +1,7 @@
 <tal:root define="
         booking_type options/booking_type|nothing;
         booking_date options/booking_date|nothing;
+        booking_hour options/booking_hour|nothing;
         company options/company|nothing;
         gate options/gate|nothing;
         booking_expiration_date options/booking_expiration_date|nothing;
@@ -47,8 +48,8 @@
   <li>
     <strong><tal:label i18n:translate="label_booking_date">Booking date</tal:label>:</strong>
     <span i18n:translate="label_booking_date_range">
-      <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(booking_date)"></tal:from_date>
-      at <tal:from i18n:name="at" tal:content="python:toLocalizedTime(booking_date, time_only=True)"></tal:from>
+      <tal:from_date i18n:name="from_date">${booking_date}</tal:from_date>
+      at <tal:from i18n:name="at">${booking_hour}</tal:from>
     </span>
   </li>
   <li>

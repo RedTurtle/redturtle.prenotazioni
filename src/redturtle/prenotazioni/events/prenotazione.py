@@ -3,6 +3,7 @@ from email.utils import formataddr
 from email.utils import parseaddr
 from logging import getLogger
 from plone import api
+from plone.app.event.base import default_timezone
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
@@ -134,11 +135,17 @@ def send_email_to_managers(booking, event):
             context=booking,
             request=booking.REQUEST,
         )
+        booking_date = getattr(booking, "booking_date", None)
         parameters = {
             "company": getattr(booking, "company", ""),
             "booking_folder": booking_folder.title,
             "booking_url": booking_operator_url,
-            "booking_date": getattr(booking, "booking_date", ""),
+            "booking_date": booking_date.astimezone(
+                default_timezone(as_tzinfo=True)
+            ).strftime("%d/%m/%Y"),
+            "booking_hour": booking_date.astimezone(
+                default_timezone(as_tzinfo=True)
+            ).strftime("%H:%M"),
             "booking_expiration_date": getattr(booking, "booking_expiration_date", ""),
             "description": getattr(booking, "description", ""),
             "email": getattr(booking, "email", ""),
