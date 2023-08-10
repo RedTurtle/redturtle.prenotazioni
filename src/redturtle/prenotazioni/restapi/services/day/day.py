@@ -13,10 +13,10 @@ from zope.publisher.interfaces import IPublishTraverse
 
 @implementer(IPublishTraverse)
 class DaySlots(Service):
-    day = date.today()
+    day = None
 
     def publishTraverse(self, request, day):
-        if self.day == date.today():
+        if self.day is None:
             try:
                 self.day = datetime.fromisoformat(day).date()
             except ValueError:
@@ -102,7 +102,8 @@ class DaySlots(Service):
                         }
                     }`
         """
-
+        if self.day is None:
+            self.day = date.today()
         return {
             "@id": f"{self.context.absolute_url()}/@day/{self.day.isoformat()}",
             "bookings": self.get_bookings(),
