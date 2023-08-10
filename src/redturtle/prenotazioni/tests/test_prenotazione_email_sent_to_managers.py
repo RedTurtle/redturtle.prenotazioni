@@ -43,67 +43,26 @@ class TestEmailToManagers(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            week_table=[
-                {
-                    "day": "Lunedì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Martedì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Mercoledì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Giovedì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Venerdì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Sabato",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Domenica",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-            ],
             booking_types=[
                 {"name": "Type A", "duration": "30"},
             ],
             gates=["Gate A"],
         )
+        week_table = self.folder_prenotazioni.week_table
+        for data in week_table:
+            data["morning_start"] = "0700"
+            data["morning_end"] = "1000"
+        self.folder_prenotazioni.week_table = week_table
+
         self.today_8_0 = self.dt_local_to_utc(
             datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
         )
         self.tomorrow_8_0 = self.today_8_0 + timedelta(1)
         self.folder_prenotazioni.email_responsabile = ["admin@test.com"]
+        api.portal.set_registry_record(
+            "plone.portal_timezone",
+            self.timezone,
+        )
 
     def create_booking(self):
         booker = IBooker(self.folder_prenotazioni)
@@ -142,5 +101,6 @@ class TestEmailToManagers(unittest.TestCase):
         mailSent = self.mailhost.messages[0]
         message = email.message_from_bytes(mailSent)
 
+        # expected local time
         expected = self.tomorrow_8_0.strftime("%d/%m/%Y at 08:00")
         self.assertIn(expected, message.get_payload())
