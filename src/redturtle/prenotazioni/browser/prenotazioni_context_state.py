@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from datetime import datetime
-
+from datetime import timedelta
 # TODO: togliere DateTime ?
 from DateTime import DateTime
-from datetime import timedelta
 from plone import api
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
@@ -18,13 +17,13 @@ from redturtle.prenotazioni.adapters.slot import ISlot
 from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE
 from redturtle.prenotazioni.config import PAUSE_SLOT
 from redturtle.prenotazioni.content.pause import Pause
-from redturtle.prenotazioni.utilities.urls import urlify
 from redturtle.prenotazioni.utilities.dateutils import hm2DT
 from redturtle.prenotazioni.utilities.dateutils import hm2seconds
-
+from redturtle.prenotazioni.utilities.urls import urlify
 from six.moves import map
 from six.moves import range
 
+import itertools
 import json
 import six
 
@@ -302,7 +301,24 @@ class PrenotazioniContextState(BrowserView):
     def get_all_booking_urls_by_gate(self, day, slot_min_size=0):
         """Get all the booking urls divided by gate
 
+        XXX: used only by 'get_all_booking_urls' !!!
+
         slot_min_size: seconds
+
+        Return a dict like {
+            gate: [
+                {
+                    'title': '08:00',
+                    'url': 'http://.../prenotazione_add?form.booking_date=2023-08-09T08%3A00%3A00%2B02%3A00',
+                    'class': 'oclock',
+                    'booking_date': datetime.datetime(2023, 8, 9, 8, 0, tzinfo=<DstTzInfo 'Europe/Rome' CEST+2:00:00 DST>),
+                    'future': False
+                 },
+                {
+                    'title': '08:05',
+                 ...
+                ]
+            }
         """
         slots_by_gate = self.get_free_slots(day)
         urls = {}
@@ -324,10 +340,9 @@ class PrenotazioniContextState(BrowserView):
         """
         urls_by_gate = self.get_all_booking_urls_by_gate(day, slot_min_size)
         urls = {}
-        for gate in urls_by_gate:
-            for url in urls_by_gate[gate]:
-                urls[url["title"]] = url
-        return sorted(six.itervalues(urls), key=lambda x: x["title"])
+        for url in itertools.chain.from_iterable(urls_by_gate.values()):
+            urls[url["title"]] = url
+        return sorted(urls.values(), key=lambda x: x["title"])
 
     def is_slot_busy(self, day, slot):
         """Check if a slot is busy (i.e. the is no free slot overlapping it)"""
@@ -344,6 +359,9 @@ class PrenotazioniContextState(BrowserView):
     def get_anonymous_booking_url(self, day, slot, slot_min_size=0):
         """Returns, the the booking url for an anonymous user
 
+        Returns the first available/bookable slot/url that fits
+        the slot boundaries
+
         slot_min_size: seconds
         """
         # First we check if we have booking urls
@@ -355,6 +373,7 @@ class PrenotazioniContextState(BrowserView):
             else:
                 return self.unavailable_slot_booking_url
         # Otherwise we check if the URL fits the slot boundaries
+        # HH:MM in localtime
         slot_start = slot.start()
         slot_stop = slot.stop()
 
@@ -675,7 +694,7 @@ class PrenotazioniContextState(BrowserView):
                 slots_by_gate.setdefault(slot.gate, []).append(slot)
         return slots_by_gate
 
-    # @memoize
+    @memoize
     def get_free_slots(self, booking_date, period="day"):
         """This will return the free slots divided by gate
 

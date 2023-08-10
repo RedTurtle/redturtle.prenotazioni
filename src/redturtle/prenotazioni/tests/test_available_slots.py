@@ -9,7 +9,6 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
@@ -24,10 +23,11 @@ class TestAvailableSlots(unittest.TestCase):
     maxDiff = None
     timezone = "Europe/Rome"
 
+    def dt_local_to_utc(self, value):
+        return pytz.timezone(self.timezone).localize(value).astimezone(pytz.utc)
+
     def dt_local_to_json(self, value):
-        return json_compatible(
-            pytz.timezone(self.timezone).localize(value).astimezone(pytz.utc)
-        )
+        return json_compatible(self.dt_local_to_utc(value))
 
     def setUp(self):
         self.app = self.layer["app"]
@@ -125,7 +125,9 @@ class TestAvailableSlots(unittest.TestCase):
         booker = IBooker(self.folder_prenotazioni)
         booker.create(
             {
-                "booking_date": datetime(current_year, current_month, monday, 7, 0),
+                "booking_date": self.dt_local_to_utc(
+                    datetime(current_year, current_month, monday, 7, 0)
+                ),
                 "booking_type": "Type A",
                 "title": "foo",
             }
@@ -144,11 +146,11 @@ class TestAvailableSlots(unittest.TestCase):
                 )
             )
 
-            # first free slot is at 7:30 of the next month
+            # first free slot is at 7:30 (localtime) of the next month
             self.assertEqual(
                 response.json()["items"][0],
-                json_compatible(
-                    datetime_with_tz(datetime(current_year, next_month, monday, 7, 30))
+                self.dt_local_to_json(
+                    datetime(current_year, next_month, monday, 7, 30)
                 ),
             )
         else:
@@ -238,6 +240,7 @@ class TestAvailableSlots(unittest.TestCase):
                         datetime(current_year, next_month, monday, 9, 0)
                     )
                 )
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(expected, response.json()["items"])
 
     def test_raise_error_if_start_is_greater_than_end(

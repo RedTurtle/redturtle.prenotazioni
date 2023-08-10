@@ -96,7 +96,7 @@ class BaseSlot(Interval):
     extra_css_styles = []
 
     def __repr__(self):
-        return f"[{self.start()}:{self.end()}]"
+        return f"[{self.start()}:{self.stop()}]"
 
     @staticmethod
     def time2seconds(value):

@@ -3,21 +3,20 @@ from datetime import timedelta
 from plone import api
 from plone.memoize.instance import memoize
 from random import choice
-from redturtle.prenotazioni import logger
-from redturtle.prenotazioni.config import VERIFIED_BOOKING
-from zope.annotation.interfaces import IAnnotations
-from zope.component import Interface
-from zope.interface import implementer
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
+from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.adapters.slot import BaseSlot
+from redturtle.prenotazioni.config import VERIFIED_BOOKING
+from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
-from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
-from zope.event import notify
-from redturtle.prenotazioni import datetime_with_tz
 from six.moves.urllib.parse import parse_qs
 from six.moves.urllib.parse import urlparse
-from redturtle.prenotazioni.adapters.slot import BaseSlot
-from DateTime import DateTime
+from zope.annotation.interfaces import IAnnotations
+from zope.component import Interface
+from zope.event import notify
+from zope.interface import implementer
 
 
 class BookerException(Exception):
@@ -230,7 +229,11 @@ class Booker(object):
             gate_busy_slots = busy_slots.get(gate, [])
             if gate_busy_slots:
                 for slot in gate_busy_slots:
-                    if vacation_slot.intersect(slot):
+                    intersection = vacation_slot.intersect(slot)
+                    if (
+                        intersection
+                        and intersection.lower_value != intersection.upper_value
+                    ):
                         has_slot_conflicts = True
                         break
 
@@ -244,22 +247,16 @@ class Booker(object):
             msg = self.context.translate(_("This day is not valid."))
             raise BookerException(msg)
 
-        slots = []
         for period in ("morning", "afternoon"):
             free_slots = self.prenotazioni.get_free_slots(start, period)
             gate_free_slots = free_slots.get(gate, [])
             for slot in gate_free_slots:
                 if vacation_slot.overlaps(slot):
-                    slots.append(vacation_slot.intersect(slot))
-
-        start_date = DateTime(start.strftime("%Y/%m/%d"))
-        for slot in slots:
-            booking_date = start_date + (float(slot.lower_value) / 86400)
-            slot.__class__ = BaseSlot
-            duration = float(len(slot)) / 86400
-            # duration = float(len(slot)) / 60
-            slot_data = {k: v for k, v in data.items() if k != "gate"}
-            slot_data["booking_date"] = datetime_with_tz(booking_date)
-            slot_data["booking_type"] = VACATION_TYPE
-            self.create(slot_data, duration=duration, force_gate=gate)
-        return len(slots)
+                    # there is a slot that overlaps with the vacation
+                    duration = (end - start).seconds / 24 / 60 / 60
+                    # XXX: weird to remove the gate from data and then force it ...
+                    slot_data = {k: v for k, v in data.items() if k != "gate"}
+                    slot_data["booking_date"] = start
+                    slot_data["booking_type"] = VACATION_TYPE
+                    if self.create(slot_data, duration=duration, force_gate=gate):
+                        return 1
