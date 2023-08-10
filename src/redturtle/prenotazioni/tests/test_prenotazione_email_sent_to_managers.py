@@ -23,7 +23,7 @@ class DummyEvent(object):
         self.object = object
 
 
-class TestSendIcal(unittest.TestCase):
+class TestEmailToManagers(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 
     def setUp(self):
