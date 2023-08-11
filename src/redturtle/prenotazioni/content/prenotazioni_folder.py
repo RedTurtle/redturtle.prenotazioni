@@ -470,36 +470,6 @@ class IPrenotazioniFolder(model.Schema):
         default=[],
     )
 
-    how_to_get_here = schema.Text(
-        required=False,
-        title=_("How to get here", default="How to get here"),
-        description=_("Insert here indications on how to reach the office"),
-    )
-
-    phone = schema.TextLine(
-        title=_("Contact phone"),
-        description=_("Insert here the contact phone"),
-        required=False,
-    )
-
-    fax = schema.TextLine(
-        title=_("Contact fax"),
-        description=_("Insert here the contact fax"),
-        required=False,
-    )
-
-    pec = schema.TextLine(
-        title=_("Contact PEC"),
-        description=_("Insert here the contact PEC"),
-        required=False,
-    )
-
-    complete_address = schema.Text(
-        required=False,
-        title=_("Complete address", default="Complete address"),
-        description=_("Insert here the complete office address"),
-    )
-
     @invariant
     def data_validation(data):
         """
@@ -650,7 +620,6 @@ class IPrenotazioniFolder(model.Schema):
             "holidays",
             "futureDays",
             "notBeforeDays",
-            "pause_table",
         ],
     )
 
@@ -659,6 +628,7 @@ class IPrenotazioniFolder(model.Schema):
         label=_("Week table"),
         fields=[
             "week_table",
+            "pause_table",
         ],
     )
 
@@ -671,15 +641,6 @@ class IPrenotazioniFolder(model.Schema):
     )
 
     model.fieldset(
-        "contacts",
-        label=_("contacts_label", default="Contacts"),
-        description=_(
-            "contacts_help",
-            default="Show here contacts information that will be used by authomatic mail system",  # noqa
-        ),
-        fields=["how_to_get_here", "phone", "fax", "pec", "complete_address"],
-    )
-    model.fieldset(
         "Notifications",
         label=_("notifications_label", default="Notifications"),
         fields=[
@@ -690,17 +651,10 @@ class IPrenotazioniFolder(model.Schema):
         ],
     )
     model.fieldset(
-        "Reminders",
-        label=_("reminders_label", default="Reminders"),
-        fields=[
-            "app_io_enabled",
-        ],
-    )
-    model.fieldset(
         "Prenotazioni Email Templates",
         label=_(
             "prenotazioni_email_templates_label",
-            default="Prenotazioni Email Templates",
+            default="Testo delle email di notifica",
         ),
         # TODO: Use custom frontend widget for the new
         # field where we must render the html of field's description
@@ -738,6 +692,13 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_move_message",
             "notify_on_refuse_subject",
             "notify_on_refuse_message",
+        ],
+    )
+    model.fieldset(
+        "Reminders",
+        label=_("reminders_label", default="Reminders"),
+        fields=[
+            "app_io_enabled",
         ],
     )
 
