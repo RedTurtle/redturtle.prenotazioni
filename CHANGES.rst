@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.0.dev4 (unreleased)
+2.0.0.dev4 (2023-08-11)
 -----------------------
 
 - Moved contacts fields to a dedicated behavior.
