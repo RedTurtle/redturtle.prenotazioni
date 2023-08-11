@@ -5,6 +5,9 @@ Changelog
 2.0.0.dev4 (unreleased)
 -----------------------
 
+- Moved contacts fields to a dedicated behavior.
+  [daniele]
+
 - Tabs/fields reordering for the booking folder.
   [daniele]
 
