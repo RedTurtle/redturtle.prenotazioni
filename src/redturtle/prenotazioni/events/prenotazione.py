@@ -7,6 +7,7 @@ from plone.app.event.base import default_timezone
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni.utils import is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 from zope.component import getMultiAdapter
@@ -118,71 +119,67 @@ def get_mail_from_address():
 
 
 def send_email_to_managers(booking, event):
-    pass
+    # skip email for vacation/out-of-office
 
+    if is_migration():
+        return
 
-#     # skip email for vacation/out-of-office
-#     if booking.isVacation():
-#         return
+    if booking.isVacation():
+        return
 
-#     booking_folder = booking.getPrenotazioniFolder()
+    booking_folder = booking.getPrenotazioniFolder()
 
-#     booking_operator_url = (
-#         getAdapter(booking, IStringSubstitution, "booking_operator_url")(),
-#     )
+    booking_operator_url = (
+        getAdapter(booking, IStringSubstitution, "booking_operator_url")(),
+    )
 
-#     email_list = getattr(booking_folder, "email_responsabile", "")
-#     if email_list:
-#         mail_template = api.content.get_view(
-#             name="manager_notification_mail",
-#             context=booking,
-#             request=booking.REQUEST,
-#         )
-#         booking_date = getattr(booking, "booking_date", None)
-#         import pdb
+    email_list = getattr(booking_folder, "email_responsabile", "")
+    if email_list:
+        mail_template = api.content.get_view(
+            name="manager_notification_mail",
+            context=booking,
+            request=booking.REQUEST,
+        )
+        booking_date = getattr(booking, "booking_date", None)
+        parameters = {
+            "company": getattr(booking, "company", ""),
+            "booking_folder": booking_folder.title,
+            "booking_url": booking_operator_url,
+            "booking_date": booking_date.astimezone(
+                default_timezone(as_tzinfo=True)
+            ).strftime("%d/%m/%Y"),
+            "booking_hour": booking_date.astimezone(
+                default_timezone(as_tzinfo=True)
+            ).strftime("%H:%M"),
+            "booking_expiration_date": getattr(booking, "booking_expiration_date", ""),
+            "description": getattr(booking, "description", ""),
+            "email": getattr(booking, "email", ""),
+            "fiscalcode": getattr(booking, "fiscalcode", ""),
+            "gate": getattr(booking, "gate", ""),
+            "phone": getattr(booking, "phone", ""),
+            "staff_notes": getattr(booking, "staff_notes", ""),
+            "booking_type": getattr(booking, "booking_type", ""),
+            "title": getattr(booking, "title", ""),
+        }
+        mail_text = mail_template(**parameters)
 
-#         pdb.set_trace()
-#         parameters = {
-#             "company": getattr(booking, "company", ""),
-#             "booking_folder": booking_folder.title,
-#             "booking_url": booking_operator_url,
-#             "booking_date": booking_date.astimezone(
-#                 default_timezone(as_tzinfo=True)
-#             ).strftime("%d/%m/%Y"),
-#             "booking_hour": booking_date.astimezone(
-#                 default_timezone(as_tzinfo=True)
-#             ).strftime("%H:%M"),
-#             "booking_expiration_date": getattr(
-#                 booking, "booking_expiration_date", ""
-#             ),
-#             "description": getattr(booking, "description", ""),
-#             "email": getattr(booking, "email", ""),
-#             "fiscalcode": getattr(booking, "fiscalcode", ""),
-#             "gate": getattr(booking, "gate", ""),
-#             "phone": getattr(booking, "phone", ""),
-#             "staff_notes": getattr(booking, "staff_notes", ""),
-#             "booking_type": getattr(booking, "booking_type", ""),
-#             "title": getattr(booking, "title", ""),
-#         }
-#         mail_text = mail_template(**parameters)
-
-#         mailHost = api.portal.get_tool(name="MailHost")
-#         subject = translate(
-#             _(
-#                 "new_booking_admin_notify_subject",
-#                 default="New booking for ${context}",
-#                 mapping={"context": booking_folder.title},
-#             ),
-#             context=booking.REQUEST,
-#         )
-#         for mail in email_list:
-#             if mail:
-#                 mailHost.send(
-#                     mail_text,
-#                     mto=mail,
-#                     mfrom=get_mail_from_address(),
-#                     subject=subject,
-#                     charset="utf-8",
-#                     msg_type="text/html",
-#                     immediate=True,
-#                 )
+        mailHost = api.portal.get_tool(name="MailHost")
+        subject = translate(
+            _(
+                "new_booking_admin_notify_subject",
+                default="New booking for ${context}",
+                mapping={"context": booking_folder.title},
+            ),
+            context=booking.REQUEST,
+        )
+        for mail in email_list:
+            if mail:
+                mailHost.send(
+                    mail_text,
+                    mto=mail,
+                    mfrom=get_mail_from_address(),
+                    subject=subject,
+                    charset="utf-8",
+                    msg_type="text/html",
+                    immediate=True,
+                )
