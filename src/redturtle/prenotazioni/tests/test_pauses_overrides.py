@@ -99,13 +99,15 @@ class TestContextState(unittest.TestCase):
         now = date.today()
         res = self.view.get_pauses_in_day_folder(date(now.year, 1, 10))
         pause = res[0]
-        self.assertEqual(pause.start, '10:00') and self.assertEqual(pause.stop, '12:00')
+        self.assertEqual(pause.start, "10:00") and self.assertEqual(pause.stop, "12:00")
 
     def test_day_not_in_override_pause_table(self):
         now = date.today()
         res = self.view.get_pauses_in_day_folder(date(now.year, 6, 10))
         pause = res[0]
-        self.assertNotEqual(pause.start, '10:00') and self.assertNotEqual(pause.stop, '12:00')
+        self.assertNotEqual(pause.start, "10:00") and self.assertNotEqual(
+            pause.stop, "12:00"
+        )
 
 
 class TestAPIPost(unittest.TestCase):
