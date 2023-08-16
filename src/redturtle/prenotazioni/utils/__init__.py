@@ -1,1 +1,1 @@
-from .migration import is_migration
+from .migration import is_migration  # noqa
