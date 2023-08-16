@@ -148,7 +148,7 @@ class Booker(object):
             return
         api.content.move(booking, new_container)
 
-    def book(self, data):
+    def book(self, data, force_gate=None, duration=-1):
         """
         Book a resource
         """
@@ -164,15 +164,15 @@ class Booker(object):
             msg = _("Sorry, you can not book this slot for now.")
             raise BookerException(api.portal.translate(msg))
 
+        # XXX: deprecated
         referer = self.context.REQUEST.get("HTTP_REFERER", None)
-        force_gate = ""
         if referer:
             parsed_url = urlparse(referer)
             params = parse_qs(parsed_url.query)
             if "gate" in params:
                 force_gate = params["gate"][0]
 
-        obj = self.create(data=data, force_gate=force_gate)
+        obj = self.create(data=data, force_gate=force_gate, duration=duration)
         if not obj:
             msg = _("Sorry, this slot is not available anymore.")
             raise BookerException(api.portal.translate(msg))

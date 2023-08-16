@@ -81,7 +81,7 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
             booking_types=[
                 {"name": "Type A", "duration": "30"},
             ],
-            gates=["Gate A"],
+            gates=["Gate A", "Gate B"],
         )
         week_table = self.folder_prenotazioni.week_table
         for row in week_table:
@@ -92,6 +92,7 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
         transaction.commit()
 
         self.api_session = RelativeSession(self.portal_url)
+        self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
         self.api_session.headers.update({"Accept": "application/json"})
 
     def test_add_booking_anonymous(self):
@@ -117,7 +118,7 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.json()["booking_date"], booking_date)
         self.assertEqual(res.json()["booking_expiration_date"], booking_expiration_date)
         self.assertEqual(res.json()["booking_type"], "Type A")
-        self.assertEqual(res.json()["gate"], "Gate A")
+        self.assertIn(res.json()["gate"], ["Gate A", "Gate B"])
         self.assertEqual(res.json()["title"], "Mario Rossi")
         self.assertEqual(res.json()["email"], "mario.rossi@example")
         self.assertEqual(res.json()["id"], "mario-rossi")
@@ -148,6 +149,46 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
     # def test_add_booking_auth(self):
     #     # TODO: testare anche con uno user non manager
     #     self.api_session.auth = (TEST_USER_NAME, TEST_USER_PASSWORD)
+
+    def test_force_gate(self):
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+                "force": True,
+            },
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["gate"], "Gate A")
+
+    def test_force_gate_anonymous(self):
+        self.api_session.auth = None
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+                "force": True,
+            },
+        )
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(
+            res.json(),
+            {"message": "You are not allowed to force the gate.", "type": "BadRequest"},
+        )
 
 
 class TestPrenotazioniIntegrationTesting(unittest.TestCase):

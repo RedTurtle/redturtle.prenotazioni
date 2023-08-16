@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.interfaces import ISerializeToJson
@@ -19,23 +20,29 @@ class AddBooking(BookingSchema):
     """
 
     def reply(self):
-        data = json_body(self.request)
-        data_fields = {field["name"]: field["value"] for field in data["fields"]}
-
-        self.validate()
-
-        alsoProvides(self.request, IDisableCSRFProtection)
-
+        data, data_fields = self.validate()
+        force = data.get("force", False)
         booker = IBooker(self.context.aq_inner)
-
         book_data = {
             "booking_date": data["booking_date"],
             "booking_type": data["booking_type"],
         }
         for field in data_fields:
             book_data[field] = data_fields[field]
-
-        obj = booker.book(data=book_data)
+        alsoProvides(self.request, IDisableCSRFProtection)
+        if force:
+            # TODO: in futuro potrebbe forzare anche la data di fine oltre al gate
+            # create ha un parametro "duration" che può essere usato a questo scopo
+            if not api.user.has_permission("Modify portal content", obj=self.context):
+                msg = self.context.translate(
+                    _("You are not allowed to force the gate.")
+                )
+                raise BadRequest(msg)
+            gate = data.get("gate", None)
+            duration = int(data.get("duration", -1))
+            obj = booker.book(data=book_data, force_gate=gate, duration=duration)
+        else:
+            obj = booker.book(data=book_data)
 
         if not obj:
             msg = self.context.translate(
@@ -50,14 +57,12 @@ class AddBooking(BookingSchema):
         data = json_body(self.request)
         data_fields = {field["name"]: field["value"] for field in data["fields"]}
 
-        missing_str = "Required input '${field}' is missing."
-
         # campi che non sono nei data_fields
         for field in ("booking_date", "booking_type"):
             if not data.get(field):
                 msg = self.context.translate(
                     _(
-                        missing_str,
+                        "Required input '${field}' is missing.",
                         mapping=dict(field=field),
                     )
                 )
@@ -66,7 +71,7 @@ class AddBooking(BookingSchema):
             if not data_fields.get(field):
                 msg = self.context.translate(
                     _(
-                        missing_str,
+                        "Required input '${field}' is missing.",
                         mapping=dict(field=field),
                     )
                 )
@@ -82,3 +87,5 @@ class AddBooking(BookingSchema):
                 )
             )
             raise BadRequest(msg)
+
+        return data, data_fields
