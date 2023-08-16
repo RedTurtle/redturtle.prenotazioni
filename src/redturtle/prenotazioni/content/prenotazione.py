@@ -10,6 +10,7 @@ from plone.supermodel import model
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import tznow
+from redturtle.prenotazioni.utils import is_migration
 from zope import schema
 from zope.interface import implementer
 from zope.schema import ValidationError
@@ -100,6 +101,11 @@ def check_is_future_date(value):
     """
     Check if this date is in the future
     """
+
+    # Do not check the value if we are performing a migration
+    if is_migration():
+        return True
+
     if not value:
         return True
     try:

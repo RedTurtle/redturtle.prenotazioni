@@ -13,6 +13,7 @@ from plone.api.exc import UserNotFoundError
 from plone.app.event.base import default_timezone
 from six.moves import map
 from zope.i18nmessageid import MessageFactory
+from redturtle.prenotazioni.utils import is_migration
 
 import pytz
 import dateutil
@@ -100,3 +101,23 @@ def init_handler():
 
 
 init_handler()
+
+
+# TODO: Delete this as soon as possible
+def monkey_path_restapi_validation():
+    """This is needed this to migrate the data properly"""
+    from plone.restapi.deserializer.dxcontent import DeserializeFromJson
+
+    get_schema_data = DeserializeFromJson.get_schema_data
+
+    def get_schema_data_impostor(*args, **kwargs):
+        if is_migration():
+            # reject the errors array returned by the `get_schema_data`
+            return get_schema_data(*args, **kwargs)[0], []
+        else:
+            return get_schema_data(*args, **kwargs)
+
+    DeserializeFromJson.get_schema_data = get_schema_data_impostor
+
+
+monkey_path_restapi_validation()
