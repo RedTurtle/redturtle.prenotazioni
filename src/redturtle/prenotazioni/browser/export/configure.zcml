@@ -10,8 +10,8 @@
       name="export_content"
       for="zope.interface.Interface"
       class=".export.CustomExportPrenotazioni"
-      layer="redturtle.prenotazioni.interfaces.IRedturtlePrenotazioniLayer"
       permission="cmf.ManagePortal"
+      layer="redturtle.prenotazioni.interfaces.IRedturtlePrenotazioniLayer"
       />
 
 </configure>
