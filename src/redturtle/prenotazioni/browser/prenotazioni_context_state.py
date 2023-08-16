@@ -416,6 +416,7 @@ class PrenotazioniContextState(BrowserView):
 
                     if fromDate <= booking_date <= toDate:
                         gates = gates_override
+                        break
 
         unavailable = self.context.getUnavailable_gates() or []
         return [
