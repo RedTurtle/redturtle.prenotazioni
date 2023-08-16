@@ -439,7 +439,9 @@ class PrenotazioniContextState(BrowserView):
         """
         Get's the gates declared available
         """
-        return [gate["name"] for gate in self.get_gates(booking_date) if gate["available"]]
+        return [
+            gate["name"] for gate in self.get_gates(booking_date) if gate["available"]
+        ]
 
     def get_busy_gates_in_slot(self, booking_date, booking_end_date=None):
         """
