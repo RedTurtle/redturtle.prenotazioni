@@ -1,14 +1,26 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from DateTime import DateTime
 from plone import api
 from plone.memoize.instance import memoize
 from random import choice
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
+from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
+from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
+from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
+from six.moves.urllib.parse import parse_qs
+from six.moves.urllib.parse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import Interface
+from zope.event import notify
 from zope.interface import implementer
+
+
+class BookerException(Exception):
+    pass
 
 
 class IBooker(Interface):
@@ -35,8 +47,9 @@ class Booker(object):
         """
         Find which gate is free to serve this booking
         """
-        if not self.prenotazioni.get_gates():
-            return ""
+        # XXX: per come è ora la funzione probabilmente questa condizione non è mai vera
+        # if not self.prenotazioni.get_gates():
+        #     return ""
         available_gates = self.prenotazioni.get_free_gates_in_slot(
             booking_date, booking_expiration_date
         )
@@ -56,10 +69,6 @@ class Booker(object):
         """
         # remove empty fields
         params = {k: v for k, v in data.items() if v}
-        if isinstance(params["booking_date"], DateTime):
-            params["booking_date"] = params["booking_date"].asdatetime()
-        else:
-            params["booking_date"] = params["booking_date"]
 
         container = self.prenotazioni.get_container(
             params["booking_date"], create_missing=True
@@ -138,3 +147,116 @@ class Booker(object):
             booking.reindexObject(idxs=["Date"])
             return
         api.content.move(booking, new_container)
+
+    def book(self, data):
+        """
+        Book a resource
+        """
+        data["booking_date"] = datetime_with_tz(data["booking_date"])
+
+        conflict_manager = self.prenotazioni.conflict_manager
+        if conflict_manager.conflicts(data):
+            msg = _("Sorry, this slot is not available anymore.")
+            raise BookerException(api.portal.translate(msg))
+
+        future_days = self.context.getFutureDays()
+        if future_days and exceedes_date_limit(data, future_days):
+            msg = _("Sorry, you can not book this slot for now.")
+            raise BookerException(api.portal.translate(msg))
+
+        referer = self.context.REQUEST.get("HTTP_REFERER", None)
+        force_gate = ""
+        if referer:
+            parsed_url = urlparse(referer)
+            params = parse_qs(parsed_url.query)
+            if "gate" in params:
+                force_gate = params["gate"][0]
+
+        obj = self.create(data=data, force_gate=force_gate)
+        if not obj:
+            msg = _("Sorry, this slot is not available anymore.")
+            raise BookerException(api.portal.translate(msg))
+        return obj
+
+    def move(self, booking, data):
+        """
+        Move a booking in a new slot
+        """
+        data["booking_date"] = booking_date = datetime_with_tz(data["booking_date"])
+
+        data["booking_type"] = booking.getBooking_type()
+        conflict_manager = self.prenotazioni.conflict_manager
+        current_data = booking.getBooking_date()
+        current = {"booking_date": current_data, "booking_type": data["booking_type"]}
+        current_slot = conflict_manager.get_choosen_slot(current)
+        current_gate = getattr(booking, "gate", "")
+        exclude = {current_gate: [current_slot]}
+        if conflict_manager.conflicts(data, exclude=exclude):
+            msg = _(
+                "Sorry, this slot is not available or does not fit your " "booking."
+            )
+            raise BookerException(api.portal.translate(msg))
+
+        future_days = booking.getFutureDays()
+        if future_days and exceedes_date_limit(data, future_days):
+            msg = _("Sorry, you can not book this slot for now.")
+            raise BookerException(api.portal.translate(msg))
+
+        # move the booking
+        duration = booking.getDuration()
+        booking_expiration_date = booking_date + duration
+        booking.setBooking_date(booking_date)
+        booking.setBooking_expiration_date(booking_expiration_date)
+
+        # se non passato il gate va bene lasciare quello precedente o
+        # va rimosso ?
+        if data.get("gate"):
+            booking.gate = data["gate"]
+
+        booking.reindexObject(idxs=["Subject"])
+        notify(MovedPrenotazione(booking))
+
+    def create_vacation(self, data):
+        data["start"] = start = datetime_with_tz(data["start"])
+        data["end"] = end = datetime_with_tz(data["end"])
+        gate = data.get("gate", "")
+
+        has_slot_conflicts = False
+        # XXX: questa funzione prende uno date o un datetime ?
+        busy_slots = self.prenotazioni.get_busy_slots(start)
+        vacation_slot = BaseSlot(start, end)
+        if busy_slots:
+            gate_busy_slots = busy_slots.get(gate, [])
+            if gate_busy_slots:
+                for slot in gate_busy_slots:
+                    intersection = vacation_slot.intersect(slot)
+                    if (
+                        intersection
+                        and intersection.lower_value != intersection.upper_value
+                    ):
+                        has_slot_conflicts = True
+                        break
+
+        if has_slot_conflicts:
+            msg = api.portal.translate(
+                _("This gate has some booking schedule in this time period.")
+            )
+            raise BookerException(msg)
+
+        if not self.prenotazioni.is_valid_day(start.date()):
+            msg = self.context.translate(_("This day is not valid."))
+            raise BookerException(msg)
+
+        for period in ("morning", "afternoon"):
+            free_slots = self.prenotazioni.get_free_slots(start, period)
+            gate_free_slots = free_slots.get(gate, [])
+            for slot in gate_free_slots:
+                if vacation_slot.overlaps(slot):
+                    # there is a slot that overlaps with the vacation
+                    duration = (end - start).seconds / 24 / 60 / 60
+                    # XXX: weird to remove the gate from data and then force it ...
+                    slot_data = {k: v for k, v in data.items() if k != "gate"}
+                    slot_data["booking_date"] = start
+                    slot_data["booking_type"] = VACATION_TYPE
+                    if self.create(slot_data, duration=duration, force_gate=gate):
+                        return 1

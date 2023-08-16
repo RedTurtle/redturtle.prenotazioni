@@ -5,6 +5,7 @@ from six.moves import map
 from six.moves import range
 from zope.component import Interface
 from zope.interface import implementer
+from plone.app.event.base import default_timezone
 
 
 def is_intervals_overlapping(intervals):
@@ -94,10 +95,13 @@ class BaseSlot(Interval):
     gate = ""
     extra_css_styles = []
 
+    def __repr__(self):
+        return f"[{self.start()}:{self.stop()}]"
+
     @staticmethod
     def time2seconds(value):
         """
-        Takes a value and converts it into seconds
+        Takes a value and converts it into daily seconds (localtime!)
 
         :param value: a datetime or DateTime object
         """
@@ -107,20 +111,23 @@ class BaseSlot(Interval):
             return None
         if isinstance(value, DateTime):
             value = value.asdatetime()
+        value = value.astimezone(default_timezone(as_tzinfo=True))
         return value.hour * 60 * 60 + value.minute * 60 + value.second
 
-    def __init__(self, start, stop, gate=""):
+    def __init__(self, start, stop, gate="", date=""):
         """
         Initialize an BaseSlot
         :param start:
         :param stop:
         :param gate:
+        :param date:
         """
         if start is not None:
             self._lower_value = LowerEndpoint(self.time2seconds(start))
         if stop is not None:
             self._upper_value = UpperEndpoint(self.time2seconds(stop))
         self.gate = gate
+        self.date = date
 
     def __len__(self):
         """The length of this object"""
@@ -153,7 +160,9 @@ class BaseSlot(Interval):
                 start = self.upper_value
             elif isinstance(x, UpperEndpoint):
                 start = x
-        intervals.append(BaseSlot(start, self.upper_value))
+        # append only valid intervals
+        if start < self.upper_value:
+            intervals.append(BaseSlot(start, self.upper_value))
         return intervals
 
     def value_hr(self, value):
@@ -233,6 +242,8 @@ class BaseSlot(Interval):
         If slot_min_size is passed it will not return values whose distance
         from slot upper value is lower than this
         """
+        if slot_min_size > len(self):
+            return []
         number_of_parts = int(len(self) / width)
         values = set([])
         start = self.lower_value
@@ -255,9 +266,9 @@ class Slot(BaseSlot):
         @param context: a Prenotazione object
         """
         self.context = context
-        BaseSlot.__init__(
-            self,
+        super().__init__(
             context.getBooking_date(),
             context.getBooking_expiration_date(),
             getattr(self.context, "gate", ""),
+            getattr(self.context, "date", ""),
         )

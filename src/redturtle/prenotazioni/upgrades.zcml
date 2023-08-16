@@ -119,5 +119,27 @@
         handler=".upgrades.to_1600_upgrade_contentrules"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1600"
+      destination="1601"
+      >
+    <genericsetup:upgradeStep
+        title="Update Prenotazione c.t. SearchableText indexer"
+        handler=".upgrades.to_1601"
+        />
+
+  </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1601"
+      destination="1700"
+      >
+    <genericsetup:upgradeStep
+        title="Fix timezones"
+        handler=".upgrades.to_1700"
+        />
+
+  </genericsetup:upgradeSteps>
 
 </configure>

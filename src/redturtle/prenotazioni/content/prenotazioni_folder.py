@@ -8,6 +8,7 @@ from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
 from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
 from redturtle.prenotazioni.content.validators import checkOverrides
 from redturtle.prenotazioni.content.validators import PauseValidator
@@ -238,7 +239,7 @@ class IPrenotazioniFolder(model.Schema):
             'of "Email" or "Telephone"',
         ),
         required=False,
-        default=["email", "phone", "description"],
+        default=DEFAULT_VISIBLE_BOOKING_FIELDS,
         value_type=schema.Choice(
             vocabulary="redturtle.prenotazioni.requirable_booking_fields"
         ),
@@ -367,6 +368,7 @@ class IPrenotazioniFolder(model.Schema):
     form.widget(
         "pause_table",
         DataGridFieldFactory,
+        auto_append=False,
         frontendOptions={"widget": "data_grid"},
     )
 
@@ -419,6 +421,7 @@ class IPrenotazioniFolder(model.Schema):
     form.widget(
         "booking_types",
         DataGridFieldFactory,
+        auto_append=False,
         frontendOptions={"widget": "data_grid"},
     )
 
@@ -465,36 +468,6 @@ class IPrenotazioniFolder(model.Schema):
         required=False,
         value_type=schema.TextLine(),
         default=[],
-    )
-
-    how_to_get_here = schema.Text(
-        required=False,
-        title=_("How to get here", default="How to get here"),
-        description=_("Insert here indications on how to reach the office"),
-    )
-
-    phone = schema.TextLine(
-        title=_("Contact phone"),
-        description=_("Insert here the contact phone"),
-        required=False,
-    )
-
-    fax = schema.TextLine(
-        title=_("Contact fax"),
-        description=_("Insert here the contact fax"),
-        required=False,
-    )
-
-    pec = schema.TextLine(
-        title=_("Contact PEC"),
-        description=_("Insert here the contact PEC"),
-        required=False,
-    )
-
-    complete_address = schema.Text(
-        required=False,
-        title=_("Complete address", default="Complete address"),
-        description=_("Insert here the complete office address"),
     )
 
     @invariant
@@ -647,7 +620,6 @@ class IPrenotazioniFolder(model.Schema):
             "holidays",
             "futureDays",
             "notBeforeDays",
-            "pause_table",
         ],
     )
 
@@ -656,6 +628,7 @@ class IPrenotazioniFolder(model.Schema):
         label=_("Week table"),
         fields=[
             "week_table",
+            "pause_table",
         ],
     )
 
@@ -668,15 +641,6 @@ class IPrenotazioniFolder(model.Schema):
     )
 
     model.fieldset(
-        "contacts",
-        label=_("contacts_label", default="Contacts"),
-        description=_(
-            "contacts_help",
-            default="Show here contacts information that will be used by authomatic mail system",  # noqa
-        ),
-        fields=["how_to_get_here", "phone", "fax", "pec", "complete_address"],
-    )
-    model.fieldset(
         "Notifications",
         label=_("notifications_label", default="Notifications"),
         fields=[
@@ -687,39 +651,34 @@ class IPrenotazioniFolder(model.Schema):
         ],
     )
     model.fieldset(
-        "Reminders",
-        label=_("reminders_label", default="Reminders"),
-        fields=[
-            "app_io_enabled",
-        ],
-    )
-    model.fieldset(
         "Prenotazioni Email Templates",
         label=_(
             "prenotazioni_email_templates_label",
-            default="Prenotazioni Email Templates",
+            default="Testo delle email di notifica",
         ),
-        description=_(
-            "templates_usage_default_value",
-            "${title} - title."
-            "${booking_gate} - booking gate."
-            "${booking_human_readable_start} - booking human readable start."
-            "${booking_date} - booking date."
-            "${booking_end_date} - booking end date."
-            "${booking_time} - booking time."
-            "${booking_time_end} - booking time end."
-            "${booking_code} - booking code."
-            "${booking_type} - booking type."
-            "${booking_print_url} - booking print url."
-            "${booking_url_with_delete_token} - booking url with delete token."
-            "${booking_user_phone} - booking user phone."
-            "${booking_user_email} - booking user email."
-            "${booking_office_contact_phone} - booking office contact phone."
-            "${booking_office_contact_pec} - booking office contact pec."
-            "${booking_office_contact_fax} - booking office contact fax."
-            "${booking_how_to_get_to_office} - booking how to get to office."
-            "${booking_office_complete_address} - booking office complete address.",
-        ),
+        # TODO: Use custom frontend widget for the new
+        # field where we must render the html of field's description
+        # description=_(
+        #     "templates_usage_default_value",
+        #     "${title} - title."
+        #     "${booking_gate} - booking gate."
+        #     "${booking_human_readable_start} - booking human readable start."
+        #     "${booking_date} - booking date."
+        #     "${booking_end_date} - booking end date."
+        #     "${booking_time} - booking time."
+        #     "${booking_time_end} - booking time end."
+        #     "${booking_code} - booking code."
+        #     "${booking_type} - booking type."
+        #     "${booking_print_url} - booking print url."
+        #     "${booking_url_with_delete_token} - booking url with delete token."
+        #     "${booking_user_phone} - booking user phone."
+        #     "${booking_user_email} - booking user email."
+        #     "${booking_office_contact_phone} - booking office contact phone."
+        #     "${booking_office_contact_pec} - booking office contact pec."
+        #     "${booking_office_contact_fax} - booking office contact fax."
+        #     "${booking_how_to_get_to_office} - booking how to get to office."
+        #     "${booking_office_complete_address} - booking office complete address.",
+        # ),
         # description=_(
         #     "prenotazioni_email_templates_description",
         #     default="",
@@ -733,6 +692,13 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_move_message",
             "notify_on_refuse_subject",
             "notify_on_refuse_message",
+        ],
+    )
+    model.fieldset(
+        "Reminders",
+        label=_("reminders_label", default="Reminders"),
+        fields=[
+            "app_io_enabled",
         ],
     )
 

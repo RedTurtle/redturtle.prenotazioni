@@ -210,8 +210,8 @@
       />
 
   <browser:page
-      name="download_reservation"
-      for="*"
+      name="download"
+      for="..content.prenotazioni_folder.IPrenotazioniFolder"
       class=".prenotazioni_search.DownloadReservation"
       permission="redturtle.prenotazioni.SearchPrenotazioni"
       />

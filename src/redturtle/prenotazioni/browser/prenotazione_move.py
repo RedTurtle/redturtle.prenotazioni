@@ -1,25 +1,27 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from datetime import timedelta
 from plone import api
 from plone.memoize.view import memoize
 from plone.protect.utils import addTokenToUrl
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.statusmessages.interfaces import IStatusMessage
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import tznow
-from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
+from redturtle.prenotazioni.adapters.booker import BookerException
+from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.utilities.urls import urlify
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 from z3c.form.interfaces import ActionExecutionError
-from zope.event import notify
 from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import Invalid
 from zope.schema import Datetime
 from zope.schema import TextLine
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class IMoveForm(Interface):
@@ -78,34 +80,6 @@ class MoveForm(form.Form):
             styles.append("links")
         return " ".join(styles)
 
-    def exceedes_date_limit(self, data):
-        """
-        Check if we can book this slot or is it too much in the future.
-        """
-        future_days = self.context.getFutureDays()
-        if not future_days:
-            return False
-        booking_date = data.get("booking_date", None)
-        if not isinstance(booking_date, datetime):
-            return False
-        date_limit = tznow() + timedelta(future_days)
-        if booking_date <= date_limit:
-            return False
-        return True
-
-    def do_move(self, data):
-        """
-        Move a Booking!
-        """
-        booking_date = data["booking_date"]
-        duration = self.context.getDuration()
-        booking_expiration_date = booking_date + duration
-        self.context.setBooking_date(booking_date)
-        self.context.setBooking_expiration_date(booking_expiration_date)
-        self.context.gate = data["gate"] or ""
-        self.context.reindexObject(idxs=["Subject"])
-        notify(MovedPrenotazione(self.context))
-
     @property
     @memoize
     def back_to_booking_url(self):
@@ -132,16 +106,17 @@ class MoveForm(form.Form):
         times = slot.get_values_hr_every(300)
         urls = []
         base_url = "/".join((self.context.absolute_url(), "prenotazione_move"))
-        now_str = tznow().strftime("%Y-%m-%dT%H:%M")
+        now_str = tznow()
         for t in times:
-            form_booking_date = "T".join((date, t))
-            params["form.widgets.booking_date"] = form_booking_date
+            booking_date_str = "T".join((date, t))
+            booking_date = datetime_with_tz(booking_date_str)
+            params["form.widgets.booking_date"] = booking_date_str
             urls.append(
                 {
                     "title": t,
                     "url": addTokenToUrl(urlify(base_url, params=params)),
                     "class": t.endswith(":00") and "oclock" or None,
-                    "future": (now_str <= form_booking_date),
+                    "future": (now_str <= booking_date),
                 }
             )
         return urls
@@ -154,27 +129,15 @@ class MoveForm(form.Form):
         # TODO: codice replicato in services/booking/move.py
         """
         data, errors = self.extractData()
-        data["booking_type"] = self.context.getBooking_type()
-        conflict_manager = self.prenotazioni_view.conflict_manager
-        current_data = self.context.getBooking_date()
-        current = {"booking_date": current_data, "booking_type": data["booking_type"]}
-        current_slot = conflict_manager.get_choosen_slot(current)
-        current_gate = getattr(self.context, "gate", "")
-        exclude = {current_gate: [current_slot]}
-        if conflict_manager.conflicts(data, exclude=exclude):
-            msg = _(
-                "Sorry, this slot is not available or does not fit your " "booking."
-            )
-            api.portal.show_message(msg, self.request, type="error")
-            raise ActionExecutionError(Invalid(msg))
-        if self.exceedes_date_limit(data):
-            msg = _("Sorry, you can not book this slot for now.")
-            api.portal.show_message(msg, self.request, type="error")
-            raise ActionExecutionError(Invalid(msg))
+        booker = IBooker(self.prenotazioni_folder)
+        try:
+            booker.move(booking=self.context, data=data)
+        except BookerException as e:
+            api.portal.show_message(e.args[0], self.request, type="error")
+            raise ActionExecutionError(Invalid(e.args[0]))
 
-        self.do_move(data)
         msg = _("booking_moved")
-        IStatusMessage(self.request).add(msg, "info")
+        api.portal.show_message(msg, self.request, type="info")
         booking_date = data["booking_date"].strftime("%d/%m/%Y")
         target = urlify(
             self.prenotazioni_folder.absolute_url(),

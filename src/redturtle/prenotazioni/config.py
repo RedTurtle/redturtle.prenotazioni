@@ -14,3 +14,5 @@ REQUIRABLE_AND_VISIBLE_FIELDS = [
     "company",
     "description",
 ]
+DEFAULT_VISIBLE_BOOKING_FIELDS = ["email", "phone", "description"]
+STATIC_REQUIRED_FIELDS = ["title"]

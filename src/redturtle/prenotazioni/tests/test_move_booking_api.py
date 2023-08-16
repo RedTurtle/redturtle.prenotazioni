@@ -76,7 +76,7 @@ class TestMoveBookingApi(unittest.TestCase):
                 "booking_date": tomorrow.isoformat(),  # tomorrow
             },
         )
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 204)
 
         response = self.api_session_admin.get(
             f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}",

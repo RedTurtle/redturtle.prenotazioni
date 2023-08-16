@@ -2,16 +2,44 @@ Changelog
 =========
 
 
-2.0.0.dev4 (unreleased)
------------------------
+2.0.0 (unreleased)
+------------------
 
 - Add logic to override pauses and gates.
   [daniele]
 
+
+2.0.0.dev4 (2023-08-11)
+-----------------------
+
+- Moved contacts fields to a dedicated behavior.
+  [daniele]
+
+- Tabs/fields reordering for the booking folder.
+  [daniele]
+
+- fix date in @@download
+  [mamico]
+
+- fix tz in pause
+  [mamico]
+
+- skip email to manager on block/vacation creation
+  [mamico]
+
+- Manage timezone in booking dates. (upgrade step)
+  [cekk]
+
+- Fix: only valid interval in the subtraction slots operation.
+  [mamico]
+
+- Fix boking code uniqueness
+  [folix-01]
+
 - Fix default start/end time for search @bookings
   [mamico]
 
-- Add @vacation rest api 
+- Add @vacation rest api
   [mamico]
 
 - Customized status message in prenotazione_print.pt based on review_state.
@@ -26,6 +54,12 @@ Changelog
 - Added event handler on booking creation to send email to managers.
   [daniele]
 
+- Rename routes:
+  months-slots => available-slots
+  prenotazione-schema => booking-schema
+  @@download_reservation => @@download/bookings.xlsx
+  [cekk] [mamico]  
+  
 
 2.0.0.dev3 (2023-07-20)
 -----------------------
@@ -72,7 +106,7 @@ Changelog
 
 - Add a new endpoint to get booking details. (#40442).
   [daniele]
-  
+
 - Add autoconfirm content rule to profile.
   [foxtrot-dfm1]
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from plone.restapi.interfaces import ISerializeToJson
 from plone import api
-from redturtle.prenotazioni.utilities.dateutils import datetimelike_to_iso_tz
+from plone.restapi.interfaces import ISerializeToJson
+from plone.restapi.serializer.converters import json_compatible
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import (
     ISerializeToPrenotazioneSearchableItem,
@@ -10,7 +10,6 @@ from zope.component import adapter
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.publisher.interfaces import IRequest
-from plone.app.event.base import default_timezone
 
 
 @implementer(ISerializeToJson)
@@ -23,11 +22,15 @@ class PrenotazioneSerializer:
     def __call__(self, *args, **kwargs):
         booking_folder = self.prenotazione.getPrenotazioniFolder()
         useful_docs = getattr(booking_folder, "cosa_serve", "")
-        tzinfo = default_timezone(as_tzinfo=True)
         if self.prenotazione.fiscalcode:
             fiscalcode = self.prenotazione.fiscalcode.upper()
         else:
             fiscalcode = None
+
+        status = api.portal.get_tool("portal_workflow").getStatusOf(
+            "prenotazioni_workflow", self.prenotazione
+        )
+
         return {
             "UID": self.prenotazione.UID(),
             "@type": self.prenotazione.portal_type,
@@ -40,13 +43,15 @@ class PrenotazioneSerializer:
             "fiscalcode": fiscalcode,
             "company": self.prenotazione.company,
             "staff_notes": self.prenotazione.staff_notes,
-            "booking_date": datetimelike_to_iso_tz(
-                self.prenotazione.booking_date, tzinfo
+            "booking_date": json_compatible(self.prenotazione.booking_date),
+            "booking_expiration_date": json_compatible(
+                self.prenotazione.booking_expiration_date
             ),
-            "booking_expiration_date": datetimelike_to_iso_tz(
-                self.prenotazione.booking_expiration_date, tzinfo
+            "booking_status_label": translate(
+                status["review_state"], context=self.request
             ),
             "booking_type": self.prenotazione.booking_type,
+            "vacation": self.prenotazione.isVacation(),
             "booking_code": self.prenotazione.getBookingCode(),
             "cosa_serve": useful_docs,
         }
@@ -62,17 +67,14 @@ class PrenotazioneSearchableItemSerializer:
     def __call__(self, *args, **kwargs):
         wf_tool = api.portal.get_tool("portal_workflow")
         status = wf_tool.getStatusOf("prenotazioni_workflow", self.prenotazione)
-        tzinfo = default_timezone(as_tzinfo=True)
         return {
             "title": self.prenotazione.Title(),
             "booking_id": self.prenotazione.UID(),
             "booking_code": self.prenotazione.getBookingCode(),
             "booking_url": self.prenotazione.absolute_url(),
-            "booking_date": datetimelike_to_iso_tz(
-                self.prenotazione.booking_date, tzinfo
-            ),
-            "booking_expiration_date": datetimelike_to_iso_tz(
-                self.prenotazione.booking_expiration_date, tzinfo
+            "booking_date": json_compatible(self.prenotazione.booking_date),
+            "booking_expiration_date": json_compatible(
+                self.prenotazione.booking_expiration_date
             ),
             "booking_type": self.prenotazione.booking_type,
             # "booking_room": None,
@@ -81,11 +83,12 @@ class PrenotazioneSearchableItemSerializer:
             "booking_status_label": translate(
                 status["review_state"], context=self.request
             ),
-            "booking_status_date": datetimelike_to_iso_tz(status["time"], tzinfo),
+            "booking_status_date": json_compatible(status["time"]),
             "booking_status_notes": status["comments"],
             "email": self.prenotazione.email,
             "fiscalcode": self.prenotazione.fiscalcode,
             "phone": self.prenotazione.phone,
             "staff_notes": self.prenotazione.staff_notes,
             "company": self.prenotazione.company,
+            "vacation": self.prenotazione.isVacation(),
         }

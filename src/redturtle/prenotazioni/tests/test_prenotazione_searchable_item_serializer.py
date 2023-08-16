@@ -5,8 +5,7 @@ from dateutil import parser
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from redturtle.prenotazioni.utilities.dateutils import datetimelike_to_iso_tz
-from plone.app.event.base import default_timezone
+from plone.restapi.serializer.converters import json_compatible
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
 from zope.i18n import translate
@@ -77,7 +76,6 @@ class TestPrenotazioniSearch(unittest.TestCase):
         )()
         wf_tool = api.portal.get_tool("portal_workflow")
         status = wf_tool.getStatusOf("prenotazioni_workflow", self.prenotazione_fscode)
-        tzinfo = default_timezone(self.portal, as_tzinfo=True)
         self.assertEqual(
             result,
             {
@@ -85,11 +83,9 @@ class TestPrenotazioniSearch(unittest.TestCase):
                 "booking_id": self.prenotazione_fscode.UID(),
                 "booking_code": self.prenotazione_fscode.getBookingCode(),
                 "booking_url": self.prenotazione_fscode.absolute_url(),
-                "booking_date": datetimelike_to_iso_tz(
-                    self.prenotazione_fscode.booking_date, tzinfo
-                ),
-                "booking_expiration_date": datetimelike_to_iso_tz(
-                    self.prenotazione_fscode.booking_expiration_date, tzinfo
+                "booking_date": json_compatible(self.prenotazione_fscode.booking_date),
+                "booking_expiration_date": json_compatible(
+                    self.prenotazione_fscode.booking_expiration_date
                 ),
                 "booking_type": self.prenotazione_fscode.booking_type,
                 # "booking_room": "stanza-1",
@@ -98,7 +94,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
                 "booking_status_label": translate(
                     status["review_state"], context=getRequest()
                 ),
-                "booking_status_date": datetimelike_to_iso_tz(status["time"], tzinfo),
+                "booking_status_date": json_compatible(status["time"]),
                 "booking_status_notes": status["comments"],
                 "fiscalcode": self.prenotazione_fscode.fiscalcode,
                 # 'cosa_serve': None,
@@ -109,5 +105,6 @@ class TestPrenotazioniSearch(unittest.TestCase):
                 "phone": self.prenotazione_fscode.phone,
                 "staff_notes": self.prenotazione_fscode.staff_notes,
                 "company": self.prenotazione_fscode.company,
+                "vacation": None,
             },
         )

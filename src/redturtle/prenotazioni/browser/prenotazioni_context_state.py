@@ -16,54 +16,15 @@ from redturtle.prenotazioni.adapters.slot import ISlot
 from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE
 from redturtle.prenotazioni.config import PAUSE_SLOT
 from redturtle.prenotazioni.content.pause import Pause
+from redturtle.prenotazioni.utilities.dateutils import hm2DT
+from redturtle.prenotazioni.utilities.dateutils import hm2seconds
 from redturtle.prenotazioni.utilities.urls import urlify
 from six.moves import map
 from six.moves import range
 
+import itertools
 import json
 import six
-
-
-def hm2handm(hm):
-    """This is a utility function that will return the hour and date of day
-    to the value passed in the string hm
-
-    :param hm: a string in the format "%H%m"
-
-    XXX: manage the case of `hm` as tuple, eg. ("0700", )
-    """
-    if hm and isinstance(hm, tuple):
-        hm = hm[0]
-    if (not hm) or (not isinstance(hm, six.string_types)) or (len(hm) != 4):
-        raise ValueError(hm)
-    return (hm[:2], hm[2:])
-
-
-def hm2DT(day, hm):
-    """This is a utility function that will return the hour and date of day
-    to the value passed in the string hm
-
-    :param day: a datetime date
-    :param hm: a string in the format "%H%m"
-    """
-    if not hm or hm == "--NOVALUE--" or hm == ("--NOVALUE--",):
-        return None
-    date = day.strftime("%Y/%m/%d")
-    h, m = hm2handm(hm)
-    tzone = DateTime().timezone()
-    return DateTime("%s %s:%s %s" % (date, h, m, tzone))
-
-
-def hm2seconds(hm):
-    """This is a utility function that will return
-    to the value passed in the string hm
-
-    :param hm: a string in the format "%H%m"
-    """
-    if not hm:
-        return None
-    h, m = hm2handm(hm)
-    return int(h) * 3600 + int(m) * 60
 
 
 class PrenotazioniContextState(BrowserView):
@@ -314,25 +275,25 @@ class PrenotazioniContextState(BrowserView):
         if self.maximum_bookable_date:
             if day > self.maximum_bookable_date.date():
                 return []
-        date = day.strftime("%Y-%m-%d")
+        # date = day.strftime("%Y-%m-%d")
         params = self.remembered_params.copy()
         times = slot.get_values_hr_every(300, slot_min_size=slot_min_size)
         base_url = self.base_booking_url
         urls = []
-        now_str = tznow().strftime("%Y-%m-%dT%H:%M")
+        now = tznow()
+        # times are in localtime
         for t in times:
-            form_booking_date = "T".join((date, t))
-            params["form.booking_date"] = form_booking_date
+            booking_date = hm2DT(day, t)
+            params["form.booking_date"] = booking_date.isoformat()
             if gate:
                 params["gate"] = gate
-            booking_date = DateTime(params["form.booking_date"]).asdatetime()  # noqa
             urls.append(
                 {
                     "title": t,
                     "url": urlify(base_url, params=params),
                     "class": t.endswith(":00") and "oclock" or None,
                     "booking_date": booking_date,
-                    "future": (now_str <= form_booking_date),
+                    "future": now <= booking_date,
                 }
             )
         return urls
@@ -340,7 +301,24 @@ class PrenotazioniContextState(BrowserView):
     def get_all_booking_urls_by_gate(self, day, slot_min_size=0):
         """Get all the booking urls divided by gate
 
+        XXX: used only by 'get_all_booking_urls' !!!
+
         slot_min_size: seconds
+
+        Return a dict like {
+            gate: [
+                {
+                    'title': '08:00',
+                    'url': 'http://.../prenotazione_add?form.booking_date=2023-08-09T08%3A00%3A00%2B02%3A00',
+                    'class': 'oclock',
+                    'booking_date': datetime.datetime(2023, 8, 9, 8, 0, tzinfo=<DstTzInfo 'Europe/Rome' CEST+2:00:00 DST>),
+                    'future': False
+                 },
+                {
+                    'title': '08:05',
+                 ...
+                ]
+            }
         """
         slots_by_gate = self.get_free_slots(day)
         urls = {}
@@ -362,10 +340,9 @@ class PrenotazioniContextState(BrowserView):
         """
         urls_by_gate = self.get_all_booking_urls_by_gate(day, slot_min_size)
         urls = {}
-        for gate in urls_by_gate:
-            for url in urls_by_gate[gate]:
-                urls[url["title"]] = url
-        return sorted(six.itervalues(urls), key=lambda x: x["title"])
+        for url in itertools.chain.from_iterable(urls_by_gate.values()):
+            urls[url["title"]] = url
+        return sorted(urls.values(), key=lambda x: x["title"])
 
     def is_slot_busy(self, day, slot):
         """Check if a slot is busy (i.e. the is no free slot overlapping it)"""
@@ -382,6 +359,9 @@ class PrenotazioniContextState(BrowserView):
     def get_anonymous_booking_url(self, day, slot, slot_min_size=0):
         """Returns, the the booking url for an anonymous user
 
+        Returns the first available/bookable slot/url that fits
+        the slot boundaries
+
         slot_min_size: seconds
         """
         # First we check if we have booking urls
@@ -393,6 +373,7 @@ class PrenotazioniContextState(BrowserView):
             else:
                 return self.unavailable_slot_booking_url
         # Otherwise we check if the URL fits the slot boundaries
+        # HH:MM in localtime
         slot_start = slot.start()
         slot_stop = slot.stop()
 
@@ -436,7 +417,14 @@ class PrenotazioniContextState(BrowserView):
                     if fromDate <= booking_date <= toDate:
                         gates = gates_override
 
-        return gates
+        unavailable = self.context.getUnavailable_gates() or []
+        return [
+            {
+                "name": gate,
+                "available": gate not in unavailable,
+            }
+            for gate in gates or [""]
+        ]
 
     @memoize
     def get_unavailable_gates(self):
@@ -450,12 +438,7 @@ class PrenotazioniContextState(BrowserView):
         """
         Get's the gates declared available
         """
-        total = set(self.get_gates(booking_date))
-        if self.get_unavailable_gates():
-            unavailable = set(self.get_unavailable_gates())
-        else:
-            unavailable = set()
-        return total - unavailable
+        return [gate["name"] for gate in self.get_gates(booking_date) if gate["available"]]
 
     def get_busy_gates_in_slot(self, booking_date, booking_end_date=None):
         """
@@ -523,7 +506,7 @@ class PrenotazioniContextState(BrowserView):
         weekday = day.weekday()
         week_table = self.get_week_table(day=day)
         day_table = week_table[weekday]
-        # Convert hours to DateTime
+        # Convert date + time (localtime) to datetime (utc)
         morning_start = hm2DT(day, day_table["morning_start"])
         morning_end = hm2DT(day, day_table["morning_end"])
         afternoon_start = hm2DT(day, day_table["afternoon_start"])
@@ -534,11 +517,15 @@ class PrenotazioniContextState(BrowserView):
         break_start = morning_end or afternoon_end
         break_stop = afternoon_start or morning_end
         return {
-            "morning": BaseSlot(morning_start, morning_end),
-            "break": BaseSlot(break_start, break_stop),
-            "afternoon": BaseSlot(afternoon_start, afternoon_end),
-            "day": BaseSlot(day_start, day_end),
-            "stormynight": BaseSlot(0, 86400),
+            "morning": BaseSlot(
+                start=morning_start, stop=morning_end, gate="", date=day
+            ),
+            "break": BaseSlot(start=break_start, stop=break_stop, gate="", date=day),
+            "afternoon": BaseSlot(
+                start=afternoon_start, stop=afternoon_end, gate="", date=day
+            ),
+            "day": BaseSlot(start=day_start, stop=day_end, gate="", date=day),
+            "stormynight": BaseSlot(start=0, stop=86400, gate="", date=day),
         }
 
     @property
@@ -635,7 +622,6 @@ class PrenotazioniContextState(BrowserView):
         )
         return bookings
 
-    @memoize
     def get_pauses_in_day_folder(self, booking_date):
         """
         This method takes all pauses from the week table and convert it on slot
@@ -672,14 +658,13 @@ class PrenotazioniContextState(BrowserView):
 
         today_pauses = [row for row in pause_table if row["day"] == str(weekday)]
         pauses = []
-        if today_pauses:
-            for pause in today_pauses:
-                pause = Pause(
-                    pause["pause_start"][:2] + ":" + pause["pause_start"][2:],
-                    pause["pause_end"][:2] + ":" + pause["pause_end"][2:],
-                    "",
-                )
-                pauses.append(pause)
+        for pause in today_pauses:
+            pause = Pause(
+                start=pause["pause_start"][:2] + ":" + pause["pause_start"][2:],
+                stop=pause["pause_end"][:2] + ":" + pause["pause_end"][2:],
+                date=booking_date,
+            )
+            pauses.append(pause)
         return pauses
 
     @memoize
@@ -753,13 +738,12 @@ class PrenotazioniContextState(BrowserView):
         for slot in slots:
             if slot.context.portal_type == PAUSE_PORTAL_TYPE:
                 for gate in self.get_gates(booking_date):
-                    slots_by_gate.setdefault(gate, []).append(slot)
+                    slots_by_gate.setdefault(gate["name"], []).append(slot)
             else:
                 slots_by_gate.setdefault(slot.gate, []).append(slot)
         return slots_by_gate
 
-    # TODO: perchè memozie qui ?
-    # @memoize
+    @memoize
     def get_free_slots(self, booking_date, period="day"):
         """This will return the free slots divided by gate
 
@@ -776,11 +760,10 @@ class PrenotazioniContextState(BrowserView):
         else:
             intervals = [day_intervals[period]]
         slots_by_gate = self.get_busy_slots(booking_date, period)
-        gates = self.get_gates(booking_date)
+        gates = [gate["name"] for gate in self.get_gates(booking_date)]
         availability = {}
         for gate in gates:
             # unavailable gates doesn't have free slots
-            # XXX Riprendi da qui:
             if self.get_unavailable_gates() and gate in self.get_unavailable_gates():
                 availability[gate] = []
             else:

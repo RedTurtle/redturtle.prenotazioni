@@ -3,18 +3,17 @@ from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
-from plone.app.contentrules.conditions.wftransition import (
-    WorkflowTransitionCondition,
-)
+from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
+from plone.app.event.base import default_timezone
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
 from plone.contentrules.engine.interfaces import IRuleStorage
-from zope.component import queryUtility
-from zope.component import getUtility
-
 from redturtle.prenotazioni import _
+from zope.component import getUtility
+from zope.component import queryUtility
 
 import logging
+import pytz
 
 
 logger = logging.getLogger(__name__)
@@ -340,3 +339,32 @@ def to_1600_upgrade_contentrules(context):
             del rule_storage[rule]
 
     update_contentrules(context)
+
+
+def to_1601(context):
+    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
+        brain.getObject().reindexObject(idxs=["SearchableText"])
+
+
+def to_1700(context):
+    """
+    Fix timezones in bookings
+    """
+    from dateutil.tz.tz import tzutc
+
+    brains = api.content.find(portal_type="Prenotazione")
+    tot = len(brains)
+    i = 0
+    for brain in brains:
+        i += 1
+        if i % 100 == 0:
+            logger.info("Progress: {}/{}".format(i, tot))
+        prenotazione = brain.getObject()
+
+        fields = ["booking_date", "booking_expiration_date"]
+        for field in fields:
+            date = getattr(prenotazione, field, None)
+            if date.tzinfo is None or isinstance(date.tzinfo, tzutc):
+                # set current timezone
+                tz = pytz.timezone(default_timezone())
+                setattr(prenotazione, field, date.astimezone(tz))

@@ -11,6 +11,7 @@
   <include file="permissions.zcml" />
   <include package=".actions" />
   <include package=".adapters" />
+  <include package=".behaviors" />
   <include package=".browser" />
   <include package=".contentrules" />
   <include package=".vocabularies" />

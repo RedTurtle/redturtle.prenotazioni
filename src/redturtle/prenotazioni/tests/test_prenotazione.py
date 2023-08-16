@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
 from datetime import date
-from datetime import timedelta
+from datetime import timedelta, datetime
+from Acquisition import aq_parent
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
-
-# from plone.app.testing import TEST_USER_NAME
-# from plone.app.testing import TEST_USER_PASSWORD
 from plone.autoform.interfaces import MODES_KEY
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+)
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING,
+)
 import transaction
 from zope.interface import Interface
 
@@ -56,7 +59,8 @@ class TestPrenotazioniRestAPIInfo(unittest.TestCase):
         self.assertEqual(content_type_properties["booking_date"]["mode"], "display")
         self.assertEqual(content_type_properties["gate"]["mode"], "display")
         self.assertEqual(
-            content_type_properties["booking_expiration_date"]["mode"], "display"
+            content_type_properties["booking_expiration_date"]["mode"],
+            "display",
         )
 
 
@@ -104,7 +108,7 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
                 "booking_date": booking_date,
                 "booking_type": "Type A",
                 "fields": [
-                    {"name": "fullname", "value": "Mario Rossi"},
+                    {"name": "title", "value": "Mario Rossi"},
                     {"name": "email", "value": "mario.rossi@example"},
                 ],
             },
@@ -127,7 +131,7 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
                 % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
                 "booking_type": "Type A (30 min)",
                 "fields": [
-                    {"name": "fullname", "value": "Mario Rossi"},
+                    {"name": "title", "value": "Mario Rossi"},
                     {"name": "email", "value": "mario.rossi@example"},
                 ],
             },
@@ -136,13 +140,81 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
         self.assertEqual(
             res.json(),
             {
-                "error": {
-                    "message": "Unknown booking type 'Type A (30 min)'.",
-                    "type": "Bad Request",
-                }
+                "message": "Unknown booking type 'Type A (30 min)'.",
+                "type": "BadRequest",
             },
         )
 
     # def test_add_booking_auth(self):
     #     # TODO: testare anche con uno user non manager
     #     self.api_session.auth = (TEST_USER_NAME, TEST_USER_PASSWORD)
+
+
+class TestPrenotazioniIntegrationTesting(unittest.TestCase):
+    layer = REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.app = self.layer["app"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.portal_url = self.portal.absolute_url()
+        self.folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            booking_types=[
+                {"name": "Type A", "duration": "30"},
+            ],
+            gates=["Gate A", "Gate B"],
+        )
+        week_table = self.folder_prenotazioni.week_table
+        for row in week_table:
+            row["morning_start"] = "0700"
+            row["morning_end"] = "1000"
+        self.folder_prenotazioni.week_table = week_table
+
+    def test_booking_code_uniqueness(self):
+        booker = IBooker(self.folder_prenotazioni)
+
+        booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
+            days=1, hours=9
+        )
+        booking_expiration_date = datetime.fromisoformat(
+            date.today().isoformat()
+        ) + timedelta(days=1, hours=9, minutes=30)
+
+        # need this just to have the day container
+        container = aq_parent(
+            booker.create(
+                {
+                    "booking_date": booking_date + timedelta(hours=5),
+                    "booking_type": "Type A",
+                    "title": "foo",
+                }
+            )
+        )
+
+        booking_gate_A = api.content.create(
+            container=container,
+            type="Prenotazione",
+            title="Booking A",
+            booking_date=booking_date,
+            gate="Gate A",
+            booking_type="Type A",
+            booking_expiration_date=booking_expiration_date,
+        )
+        booking_gate_B = api.content.create(
+            container=container,
+            type="Prenotazione",
+            title="Booking B",
+            booking_date=booking_date,
+            gate="Gate B",
+            booking_type="Type A",
+            booking_expiration_date=booking_expiration_date,
+        )
+
+        self.assertNotEqual(
+            booking_gate_A.getBookingCode(), booking_gate_B.getBookingCode()
+        )

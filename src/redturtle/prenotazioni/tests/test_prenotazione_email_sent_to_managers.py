@@ -15,6 +15,7 @@ from zope.interface.interfaces import IObjectEvent
 
 import email
 import unittest
+import pytz
 
 
 @implementer(IObjectEvent)
@@ -23,8 +24,12 @@ class DummyEvent(object):
         self.object = object
 
 
-class TestSendIcal(unittest.TestCase):
+class TestEmailToManagers(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+    timezone = "Europe/Rome"
+
+    def dt_local_to_utc(self, value):
+        return pytz.timezone(self.timezone).localize(value).astimezone(pytz.utc)
 
     def setUp(self):
         self.app = self.layer["app"]
@@ -38,71 +43,32 @@ class TestSendIcal(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            week_table=[
-                {
-                    "day": "Lunedì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Martedì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Mercoledì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Giovedì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Venerdì",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Sabato",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-                {
-                    "day": "Domenica",
-                    "morning_start": "0700",
-                    "morning_end": "1000",
-                    "afternoon_start": None,
-                    "afternoon_end": None,
-                },
-            ],
             booking_types=[
                 {"name": "Type A", "duration": "30"},
             ],
             gates=["Gate A"],
         )
-        self.today = datetime.now().replace(hour=8)
-        self.tomorrow = self.today + timedelta(1)
+        week_table = self.folder_prenotazioni.week_table
+        for data in week_table:
+            data["morning_start"] = "0700"
+            data["morning_end"] = "1000"
+        self.folder_prenotazioni.week_table = week_table
+
+        self.today_8_0 = self.dt_local_to_utc(
+            datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
+        )
+        self.tomorrow_8_0 = self.today_8_0 + timedelta(1)
         self.folder_prenotazioni.email_responsabile = ["admin@test.com"]
+        api.portal.set_registry_record(
+            "plone.portal_timezone",
+            self.timezone,
+        )
 
     def create_booking(self):
         booker = IBooker(self.folder_prenotazioni)
         return booker.create(
             {
-                "booking_date": self.tomorrow,  # tomorrow
+                "booking_date": self.tomorrow_8_0,  # tomorrow
                 "booking_type": "Type A",
                 "title": "foo",
                 "email": "jdoe@redturtle.it",
@@ -135,4 +101,6 @@ class TestSendIcal(unittest.TestCase):
         mailSent = self.mailhost.messages[0]
         message = email.message_from_bytes(mailSent)
 
-        self.assertIn("admin@test.com", message.values())
+        # expected local time
+        expected = self.tomorrow_8_0.strftime("%d/%m/%Y at 08:00")
+        self.assertIn(expected, message.get_payload())

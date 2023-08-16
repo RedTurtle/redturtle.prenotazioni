@@ -180,7 +180,8 @@ class VacationBooking(form.Form):
             return False
         vacation_slot = self.get_vacation_slot(data)
         for slot in gate_busy_slots:
-            if vacation_slot.intersect(slot):
+            intersection = vacation_slot.intersect(slot)
+            if intersection and intersection.lower_value != intersection.upper_value:
                 return True
         return False
 

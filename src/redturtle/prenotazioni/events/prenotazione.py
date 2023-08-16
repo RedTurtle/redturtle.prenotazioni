@@ -1,25 +1,21 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_chain
-from zope.component import getMultiAdapter
-from plone import api
-
-from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
-from redturtle.prenotazioni.adapters.booker import IBooker
-from zope.i18n import translate
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from email.utils import formataddr
 from email.utils import parseaddr
+from logging import getLogger
+from plone import api
+from plone.app.event.base import default_timezone
 from plone.registry.interfaces import IRegistry
-from zope.component import getUtility
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.i18n import translate
+from plone.stringinterp.interfaces import IStringSubstitution
+from zope.component import getAdapter
 
-
-def get_prenotazione_folder(prenotazione):
-    return [
-        i
-        for i in aq_chain(prenotazione)
-        if getattr(i, "portal_type", "") == "PrenotazioniFolder"
-    ][0]
+logger = getLogger(__name__)
 
 
 def reallocate_gate(obj):
@@ -52,15 +48,18 @@ def reallocate_container(obj):
 
 def notify_on_after_transition_event(context, event):
     """The messages are being send only if the following flags on the PrenotazioniFolder are set"""
-
+    booking_folder = context.getPrenotazioniFolder()
     flags = {
-        i: getattr(get_prenotazione_folder(context), f"notify_on_{i}", False)
+        i: getattr(booking_folder, f"notify_on_{i}", False)
         for i in ("confirm", "submit", "refuse")
     }
     if flags["confirm"] and flags["submit"]:
         flags["submit"] = False
 
     if flags.get(event.transition and event.transition.__name__ or "", False):
+        if not getattr(context, "email", ""):
+            # booking does not have an email set
+            return
         adapter = getMultiAdapter(
             (context, event),
             IPrenotazioneEmailMessage,
@@ -72,22 +71,30 @@ def notify_on_after_transition_event(context, event):
                 send_email(adapter.message)
 
 
-def autoconfirm(context, event):
-    if api.content.get_state(obj=context, default=None) == "pending":
-        if getattr(get_prenotazione_folder(context), "auto_confirm", False):
-            api.content.transition(obj=context, transition="confirm")
-            context.reindexObject(idxs="review_state")
+def autoconfirm(booking, event):
+    if api.content.get_state(obj=booking, default=None) == "pending":
+        if getattr(booking.getPrenotazioniFolder(), "auto_confirm", False):
+            api.content.transition(obj=booking, transition="confirm")
+            booking.reindexObject(idxs="review_state")
 
 
-def notify_on_move(context, event):
-    if getattr(get_prenotazione_folder(context), "notify_on_move", False):
-        adapter = getMultiAdapter((context, event), IPrenotazioneEmailMessage)
-        if adapter:
-            if adapter.message:
-                send_email(adapter.message)
+def notify_on_move(booking, event):
+    if not getattr(booking.getPrenotazioniFolder(), "notify_on_move", False):
+        return
+    if not getattr(booking, "email", ""):
+        # booking does not have an email set
+        return
+    adapter = getMultiAdapter((booking, event), IPrenotazioneEmailMessage)
+    if adapter:
+        if adapter.message:
+            send_email(adapter.message)
 
 
 def send_email(msg):
+    if not msg:
+        logger.error("Could not send email due to no message was provided")
+        return
+
     host = api.portal.get_tool(name="MailHost")
     registry = getUtility(IRegistry)
     encoding = registry.get("plone.email_charset", "utf-8")
@@ -111,11 +118,15 @@ def get_mail_from_address():
 
 
 def send_email_to_managers(booking, event):
-    booking_folder = None
-    for item in booking.aq_chain:
-        if getattr(item, "portal_type", "") == "PrenotazioniFolder":
-            booking_folder = item
-            break
+    # skip email for vacation/out-of-office
+    if booking.isVacation():
+        return
+
+    booking_folder = booking.getPrenotazioniFolder()
+
+    booking_operator_url = (
+        getAdapter(booking, IStringSubstitution, "booking_operator_url")(),
+    )
 
     email_list = getattr(booking_folder, "email_responsabile", "")
     if email_list:
@@ -124,11 +135,17 @@ def send_email_to_managers(booking, event):
             context=booking,
             request=booking.REQUEST,
         )
+        booking_date = getattr(booking, "booking_date", None)
         parameters = {
             "company": getattr(booking, "company", ""),
             "booking_folder": booking_folder.title,
-            "booking_url": booking.absolute_url(),
-            "booking_date": getattr(booking, "booking_date", ""),
+            "booking_url": booking_operator_url,
+            "booking_date": booking_date.astimezone(
+                default_timezone(as_tzinfo=True)
+            ).strftime("%d/%m/%Y"),
+            "booking_hour": booking_date.astimezone(
+                default_timezone(as_tzinfo=True)
+            ).strftime("%H:%M"),
             "booking_expiration_date": getattr(booking, "booking_expiration_date", ""),
             "description": getattr(booking, "description", ""),
             "email": getattr(booking, "email", ""),

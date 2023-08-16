@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
 from AccessControl import Unauthorized
 from App.config import getConfiguration
+from DateTime import DateTime
 from datetime import datetime
 from datetime import timedelta
+from dateutil.tz.tz import tzutc
 from logging import FileHandler
 from logging import Formatter
 from logging import getLogger
 from plone import api
 from plone.api.exc import UserNotFoundError
+from plone.app.event.base import default_timezone
 from six.moves import map
 from zope.i18nmessageid import MessageFactory
 
+import pytz
+import dateutil
 
 logger = getLogger("redturtle.prenotazioni")
 _ = MessageFactory("redturtle.prenotazioni")
@@ -21,7 +26,28 @@ prenotazioniFileLogger = getLogger("redturtle.prenotazioni.file")
 
 def tznow():
     """Return a timezone aware now"""
-    return datetime.now()
+    tz = pytz.timezone(default_timezone())
+    return datetime.now().astimezone(tz)
+
+
+def datetime_with_tz(date_str):
+    """
+    Return a datetime timezone aware
+    """
+    if isinstance(date_str, datetime):
+        date = date_str
+    elif isinstance(date_str, DateTime):
+        date = date_str.asdatetime()
+    else:
+        try:
+            date = dateutil.parser.parse(date_str)
+        except ValueError:
+            raise ValueError(f"Invalid date: {date_str}")
+
+    if date.tzinfo is None or isinstance(date.tzinfo, tzutc):
+        tz = pytz.timezone(default_timezone())
+        date = date.astimezone(tz)
+    return date
 
 
 def time2timedelta(value):

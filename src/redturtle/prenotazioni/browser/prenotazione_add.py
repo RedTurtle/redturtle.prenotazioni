@@ -1,24 +1,20 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-
-from os import environ
 from plone import api
 from plone.memoize.view import memoize
-from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
+from redturtle.prenotazioni.adapters.booker import BookerException
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.browser.week import TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE
 from redturtle.prenotazioni.browser.z3c_custom_widget import CustomRadioFieldWidget
 from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.utilities.urls import urlify
-from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
-from six.moves.urllib.parse import parse_qs
-from six.moves.urllib.parse import urlparse
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
+from z3c.form.interfaces import ActionExecutionError
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import WidgetActionExecutionError
 from zope.component import getUtility
@@ -28,7 +24,6 @@ from zope.schema import Text
 from zope.schema import TextLine
 from zope.schema.interfaces import IVocabularyFactory
 
-import pytz
 
 DEFAULT_REQUIRED_FIELDS = []
 
@@ -80,6 +75,7 @@ class AddForm(form.AddForm):
             "form.booking_date",
             self.request.form.get("form.widgets.booking_date"),
         )
+
         self.widgets["booking_date"].value = bookingdate
         required_fields_factory = getUtility(
             IVocabularyFactory,
@@ -170,19 +166,7 @@ class AddForm(form.AddForm):
 
         if not booking_date:
             return None
-
-        booking_date = datetime.fromisoformat(booking_date)
-        return pytz.timezone(self.get_timezone()).localize(booking_date)
-
-    def get_timezone(self):
-        """
-        get from environment vars or site settings
-        """
-        tz = environ.get("TZ", "")
-        if tz:
-            return tz
-        registry = getUtility(IRegistry)
-        return registry.get("plone.portal_timezone", None)
+        return datetime_with_tz(booking_date)
 
     @property
     @memoize
@@ -200,19 +184,6 @@ class AddForm(form.AddForm):
             "prenotazioni_context_state", self.context, self.request
         )
 
-    def do_book(self, data):
-        """
-        Create a Booking!
-        """
-        booker = IBooker(self.context.aq_inner)
-        referer = self.request.get("HTTP_REFERER", None)
-        if referer:
-            parsed_url = urlparse(referer)
-            params = parse_qs(parsed_url.query)
-            if "gate" in params:
-                return booker.create(data, force_gate=params["gate"][0])
-        return booker.create(data)
-
     @property
     @memoize
     def back_to_booking_url(self):
@@ -223,15 +194,6 @@ class AddForm(form.AddForm):
             params["data"] = b_date.strftime("%d/%m/%Y")
         target = urlify(self.context.absolute_url(), params=params)
         return target
-
-    def exceedes_date_limit(self, data):
-        """
-        Check if we can book this slot or is it too much in the future.
-        """
-        future_days = self.context.getFutureDays()
-        if not future_days:
-            return False
-        return exceedes_date_limit(data, future_days)
 
     @button.buttonAndHandler(_("action_book", "Book"))
     def action_book(self, action):
@@ -258,23 +220,16 @@ class AddForm(form.AddForm):
                 "booking_date", Invalid(_("Please provide a booking date"))
             )
 
-        conflict_manager = self.prenotazioni.conflict_manager
-        if conflict_manager.conflicts(data):
-            msg = _("Sorry, this slot is not available anymore.")
-            raise WidgetActionExecutionError("booking_date", Invalid(msg))
-        if self.exceedes_date_limit(data):
-            msg = _("Sorry, you can not book this slot for now.")
-            raise WidgetActionExecutionError("booking_date", Invalid(msg))
+        booker = IBooker(self.context.aq_inner)
+        try:
+            obj = booker.book(data=data)
+        except BookerException as e:
+            api.portal.show_message(e.args[0], self.request, type="error")
+            raise ActionExecutionError(Invalid(e.args[0]))
 
-        obj = self.do_book(data)
-        if not obj:
-            msg = _("Sorry, this slot is not available anymore.")
-            api.portal.show_message(message=msg, type="warning", request=self.request)
-            target = self.back_to_booking_url
-            return self.request.response.redirect(target)
         msg = _("booking_created")
         api.portal.show_message(message=msg, type="info", request=self.request)
-        booking_date = data["booking_date"].strftime("%d/%m/%Y")
+        booking_date = getattr(obj, "booking_date", None).strftime("%d/%m/%Y")
 
         params = {
             "data": booking_date,

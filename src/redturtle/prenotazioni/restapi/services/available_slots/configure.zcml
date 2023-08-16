@@ -5,10 +5,10 @@
 
   <plone:service
       method="GET"
-      factory=".get.MonthSlots"
+      factory=".get.AvailableSlots"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
       permission="zope2.View"
-      name="@month-slots"
+      name="@available-slots"
       />
 
 </configure>

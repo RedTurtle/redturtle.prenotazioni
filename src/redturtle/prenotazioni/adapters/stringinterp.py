@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone.app.event.base import default_timezone
 from plone.stringinterp.adapters import BaseSubstitution
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
@@ -59,11 +60,10 @@ class BookingTimeSubstitution(BaseSubstitution):
     description = _("The booked time.")
 
     def safe_call(self):
-        plone = self.context.restrictedTraverse("@@plone")
         date = getattr(self.context, "booking_date", "")
         if not date:
             return ""
-        return plone.toLocalizedTime(date, time_only=True)
+        return date.astimezone(default_timezone(as_tzinfo=True)).strftime("%H:%M")
 
 
 @adapter(Interface)
@@ -72,11 +72,10 @@ class BookingTimeEndSubstitution(BaseSubstitution):
     description = _("The booking time end.")
 
     def safe_call(self):
-        plone = self.context.restrictedTraverse("@@plone")
         date = getattr(self.context, "booking_expiration_date", "")
         if not date:
             return ""
-        return plone.toLocalizedTime(date, time_only=True)
+        return date.astimezone(default_timezone(as_tzinfo=True)).strftime("%H:%M")
 
 
 @adapter(Interface)
@@ -231,3 +230,12 @@ class BookingUrlWithDeleteToken(BaseSubstitution):
             booking_url=self.context.getPrenotazioniFolder().absolute_url(),
             uid=self.context.UID(),
         )
+
+
+@adapter(Interface)
+class BookingOperatorUrlSubstitution(BaseSubstitution):
+    category = _("Booking")
+    description = _("The booking operator url")
+
+    def safe_call(self):
+        return self.context.absolute_url()

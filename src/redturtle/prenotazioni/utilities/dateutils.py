@@ -1,9 +1,56 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from datetime import time
 from datetime import timedelta
+from plone.app.event.base import default_timezone
 from redturtle.prenotazioni import tznow
-from plone.restapi.serializer.converters import datetimelike_to_iso
-from DateTime import DateTime
+
+import six
+
+
+def hm2handm(hm):
+    """This is a utility function that will return the hour and date of day
+    to the value passed in the string hm
+
+    :param hm: a string in the format "%H%m"
+
+    XXX: manage the case of `hm` as tuple, eg. ("0700", )
+    """
+    if hm and isinstance(hm, tuple):
+        hm = hm[0]
+    if (not hm) or (not isinstance(hm, six.string_types)) or (len(hm) != 4):
+        raise ValueError(hm)
+    return (hm[:2], hm[2:])
+
+
+def hm2DT(day, hm, tzinfo=None):
+    """This is a utility function that will return the hour and date of day
+    to the value passed in the string hm
+
+    :param day: a datetime date
+    :param hm: a string in the format "%H%m" or "%H:%m"
+    :param tzinfo: a timezone object (default: the default local timezone as in plone)
+    """
+    if tzinfo is None:
+        tzinfo = default_timezone(as_tzinfo=True)
+
+    if not hm or hm == "--NOVALUE--" or hm == ("--NOVALUE--",):
+        return None
+    if len(hm) == 4 and ":" not in hm:
+        hm = f"{hm[:2]}:{hm[2:]}"
+    return tzinfo.localize(datetime.combine(day, time.fromisoformat(hm)))
+
+
+def hm2seconds(hm):
+    """This is a utility function that will return
+    to the value passed in the string hm
+
+    :param hm: a string in the format "%H%m"
+    """
+    if not hm:
+        return None
+    h, m = hm2handm(hm)
+    return int(h) * 3600 + int(m) * 60
 
 
 def exceedes_date_limit(data, future_days):
@@ -23,16 +70,3 @@ def exceedes_date_limit(data, future_days):
     if booking_date <= date_limit:
         return False
     return True
-
-
-def datetimelike_to_iso_tz(value, tzinfo):
-    """se sul db non c'è timezone la data è stata salvata con il
-    default_timezone
-    """
-    if value is None:
-        return None
-    if isinstance(value, DateTime):
-        return datetimelike_to_iso(value)
-    if value.tzinfo is None:
-        return value.astimezone(tzinfo).isoformat()
-    return value.isoformat()

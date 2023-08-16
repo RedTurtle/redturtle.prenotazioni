@@ -335,66 +335,30 @@ Example::
         }'
 
 
-@week-slots
------------
-
-Endpoint that need to be called on a PrenotazioniFolder, and returns the combination of all busy and available slots of a week.
-By default returns the current week, and if you pass a custom date in querystring, you will get the slots of that week.
-
-Example::
-
-   curl -i http://localhost:8080/Plone/folder/@week-slots -H 'Accept: application/json'
-
-Response::
-
-    {
-        "@id": "http://localhost:8080/Plone/folder/@week-slots",
-        "items": {
-            '01-01-1970': {
-                'busy_slots': [
-                    'Gate': {
-                        'start': '09:00',
-                        'stop': '09:30'
-                    ],
-                    'Gate1': [],
-                    ...
-                },
-                'free_slots': {
-                    'Gate': [
-                        'start': '09:30',
-                        'stop': '12:00'
-                    ],
-                    'Gate1': [
-                        'start': '09:00',
-                        'stop': '12:00'
-                    ],
-                    ...
-                }
-            },
-            ...
-        }
-    }
-
-@month-slots
-------------
+@available-slots
+----------------
 
 Endpoint that need to be called on a PrenotazioniFolder.
-It returns the list of all available slots of a single month.
+It returns the list of all available slots based on some parameters.
+
 An available slot is the first free time on each hour slot (each day is split in 1h slots).
 
-By default (without parameters) the endpoint returns the current month, starting from today.
+By default (without parameters) the endpoint returns available slots for the current month, starting from today.
 
-If a `date`` is passed via querystring, the endpoint returns date's month starting from date's day.
+Parameters:
+
+- **start** a start date. If not given, the start will be today.
+- **end** an end date. If not given, the end will be the last day of current month.
 
 
 Example::
 
-   curl -i http://localhost:8080/Plone/folder/@month-slots -H 'Accept: application/json'
+   curl -i http://localhost:8080/Plone/folder/@available-slots -H 'Accept: application/json'
 
 Response::
 
     {
-        "@id": "http://localhost:8080/Plone/folder/@month-slots",
+        "@id": "http://localhost:8080/Plone/folder/@available-slots",
         "items": [
             '2023-04-10T07:30:00',
             '2023-04-10T08:00:00',
@@ -411,12 +375,12 @@ Response::
 
 Example::
 
-   curl -i http://localhost:8080/Plone/folder/@month-slots?date=2023-04-12 -H 'Accept: application/json'
+   curl -i http://localhost:8080/Plone/folder/@available-slots?start=2023-04-12 -H 'Accept: application/json'
 
 Response::
 
     {
-        "@id": "http://localhost:8080/Plone/folder/@month-slots",
+        "@id": "http://localhost:8080/Plone/folder/@available-slots",
         "items": [
             '2023-04-17T07:00:00',
             '2023-04-17T08:00:00',
@@ -427,17 +391,17 @@ Response::
         ]
     }
 
-@prenotazione-schema
+@booking-schema
 --------------------
 
 Endpoint that need to be called on a PrenotazioniFolder.
 It returns the list of all fields to fill in for the booking.
 
-The booking date is passed via querystring (e.g ?form.booking_date=2023-04-13+10%3A00')
+The booking date is passed via querystring (e.g ?booking_date=2023-04-13+10%3A00')
 
 Example::
 
-   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?form.booking_date=2023-05-15T13:00:00' -H 'Accept: application/json'
+   curl -i -X GET 'http://localhost:8080/Plone/prenotazioni/@prenotazione-schema?booking_date=2023-05-15T13:00:00' -H 'Accept: application/json'
 
 Response::
 
@@ -553,11 +517,82 @@ If the user has a special permission, the endpoint can be called with any `fisca
   curl -i http://localhost:8080/Plone/@bookings/FISCALCODE?from=10-10-2023 \
      -H 'Accept: application/json'
 
+
+@day-busy-slots
+---------------
+
+Endpoint that returns a list of busy slots and pauses based on the passed date
+
+Parameters:
+
+- **date**: Date
+
+Example::
+
+    curl -i  "http://localhost:8080/Plone/prenotazioni_folder/@day-busy-slots?date=2023/05/22"\
+        -H 'Accept: application/json'\
+
+Response::
+
+    {
+        "@id": "http://localhost:8080/Plone/prenotazioni_folder/@day-busy-slots",
+        "bookings": {
+            "gate1":
+                [
+                    {
+                        "booking_code": "17E3E6",
+                        "booking_date": "2023-05-22T09:09:00",
+                        "booking_expiration_date": "2023-05-22T09:10:00",
+                        "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+                        "company": null,
+                        "cosa_serve": null,
+                        "description": "",
+                        "email": "mario.rossi@example",
+                        "fiscalcode": "",
+                        "gate": "postazione1",
+                        "id": "mario-rossi-1",
+                        "phone": "",
+                        "staff_notes": null,
+                        "title": "Mario Rossi"
+                    },
+                    ...
+                ],
+            "gate2":
+                [
+                    {
+                        "booking_code": "17E3E6",
+                        "booking_date": "2023-05-22T09:09:00",
+                        "booking_expiration_date": "2023-05-22T09:10:00",
+                        "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+                        "company": null,
+                        "cosa_serve": null,
+                        "description": "",
+                        "email": "mario.rossi@example",
+                        "fiscalcode": "",
+                        "gate": "postazione2",
+                        "id": "mario-rossi",
+                        "phone": "",
+                        "staff_notes": null,
+                        "title": "Mario Rossi"
+                    },
+                    ...
+                ]
+        },
+        "pauses": [
+            {
+                "start": "2023-05-22T07:15:00+00:00",
+                "stop": "2023-05-22T08:30:00+00:00"
+            },
+            ...
+        ]
+    }
+
 Special Views
 ==============
 
-@@download_reservation
-----------------------
+@@download/bookings.xlsx
+------------------------
+
 This view allows to download the bookings filtered by passed parameters
 
 - **text**: The SearchableText of content.
@@ -570,7 +605,7 @@ This view allows to download the bookings filtered by passed parameters
 
 
 Example::
-    curl -i http://localhost:8080/Plone/folder?text=Text&review_state=confirmed&gate=Gate1&start=2010-10-10&end=2025-10-10&booking_type=Type1
+    curl -i http://localhost:8080/Plone/folder/@@download/bookings.xlsx?text=Text&review_state=confirmed&gate=Gate1&start=2010-10-10&end=2025-10-10&booking_type=Type1
 
 Response::
     Binary file

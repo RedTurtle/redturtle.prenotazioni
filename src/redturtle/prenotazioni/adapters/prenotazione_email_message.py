@@ -2,12 +2,10 @@
 """In this module we implemented the booking email templates which were used
     by plone contenttrules in previous verisions of the package"""
 
-from logging import getLogger
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 
-from Acquisition import aq_chain
 from zope.component import adapter, getAdapter
 from zope.interface import implementer
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
@@ -19,12 +17,7 @@ from plone.event.interfaces import IICalendar
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.content.prenotazioni_folder import (
-    PrenotazioniFolder,
-)
-
-
-logger = getLogger(__name__)
+from redturtle.prenotazioni import logger
 
 
 class PrenotazioneEventEmailMessage:
@@ -34,14 +27,6 @@ class PrenotazioneEventEmailMessage:
     def __init__(self, prenotazione, event):
         self.prenotazione = prenotazione
         self.event = event
-
-    @property
-    def folder(self) -> PrenotazioniFolder:
-        return [
-            i
-            for i in aq_chain(self.prenotazione)
-            if getattr(i, "portal_type", "") == "PrenotazioniFolder"
-        ][0]
 
     @property
     def message_subject(self) -> str:
@@ -87,6 +72,12 @@ class PrenotazioneEventMessageICalMixIn:
     def message(self, *args, **kwargs):
         message = super().message
 
+        if not message:
+            logger.error(
+                logger.error("Could not compose email due to no message was created")
+            )
+            return None
+
         message.add_header("Content-class", "urn:content-classes:calendarmessage")
 
         ical = getAdapter(object=self.prenotazione, interface=IICalendar)
@@ -110,7 +101,7 @@ class PrenotazioneMovedICalEmailMessage(
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(
-                self.folder,
+                self.prenotazione.getPrenotazioniFolder(),
                 "notify_on_move_subject",
                 "",
             )
@@ -121,7 +112,7 @@ class PrenotazioneMovedICalEmailMessage(
         return MIMEText(
             IStringInterpolator(IContextWrapper(self.prenotazione)())(
                 getattr(
-                    self.folder,
+                    self.prenotazione.getPrenotazioniFolder(),
                     "notify_on_move_message",
                     None,
                 ),
@@ -137,7 +128,7 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEventEmailMessage):
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(
-                self.folder,
+                self.prenotazione.getPrenotazioniFolder(),
                 f"notify_on_{self.event.transition and self.event.transition.__name__}_subject",
                 "",
             )
@@ -148,7 +139,7 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEventEmailMessage):
         return MIMEText(
             IStringInterpolator(IContextWrapper(self.prenotazione)())(
                 getattr(
-                    self.folder,
+                    self.prenotazione.getPrenotazioniFolder(),
                     f"notify_on_{self.event.transition and self.event.transition.__name__}_message",
                     None,
                 ),
