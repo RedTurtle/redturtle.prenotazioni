@@ -104,7 +104,7 @@ init_handler()
 
 
 # TODO: Delete this as soon as possible
-def monkey_path_restapi_validation():
+def monkey_patch_restapi_validation():
     """This is needed this to migrate the data properly"""
     from plone.restapi.deserializer.dxcontent import DeserializeFromJson
 
@@ -120,4 +120,4 @@ def monkey_path_restapi_validation():
     DeserializeFromJson.get_schema_data = get_schema_data_impostor
 
 
-monkey_path_restapi_validation()
+monkey_patch_restapi_validation()
