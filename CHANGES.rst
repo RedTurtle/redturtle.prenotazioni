@@ -8,6 +8,8 @@ Changelog
 - Add logic to override pauses and gates.
   [daniele]
 
+- permit to force gate / duration to operator (restapi add booking)
+  [mamico]
 
 2.0.0.dev4 (2023-08-11)
 -----------------------
