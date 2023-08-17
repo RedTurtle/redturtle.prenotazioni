@@ -25,7 +25,10 @@
       />
 
   <include package=".stats" />
-  <include zcml:condition="installed collective.exportimport" package=".export" />
+  <include
+      package=".export"
+      zcml:condition="installed collective.exportimport"
+      />
 
   <browser:page
       name="edit"
