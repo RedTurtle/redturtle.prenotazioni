@@ -77,14 +77,10 @@ def get_or_create_obj(folder, key, portal_type):
         if not userid:
             raise UserNotFoundError()
         with api.env.adopt_user(userid):
-            return api.content.create(
-                type=portal_type, title=key, container=folder
-            )
+            return api.content.create(type=portal_type, title=key, container=folder)
     except (UserNotFoundError, Unauthorized):
         with api.env.adopt_roles(["Manager"]):
-            return api.content.create(
-                type=portal_type, title=key, container=folder
-            )
+            return api.content.create(type=portal_type, title=key, container=folder)
 
 
 def init_handler():
@@ -99,9 +95,7 @@ def init_handler():
     if not logfile:
         return
     hdlr = FileHandler(logfile)
-    formatter = Formatter(
-        "%(asctime)s %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S"
-    )
+    formatter = Formatter("%(asctime)s %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S")
     hdlr.setFormatter(formatter)
     prenotazioniFileLogger.addHandler(hdlr)
 
@@ -131,19 +125,13 @@ def monkey_patch_restapi_validation():
 
     DatetimeFieldDeserializer___call__ = DatetimeFieldDeserializer.__call__
 
-    def DatetimeFieldDeserializer___call___impostor(
-        value=None, *args, **kwargs
-    ):
+    def DatetimeFieldDeserializer___call___impostor(value=None, *args, **kwargs):
         if is_migration():
             return datetime_with_tz(value)
         else:
-            return DatetimeFieldDeserializer___call__(
-                value=value, *args, **kwargs
-            )
+            return DatetimeFieldDeserializer___call__(value=value, *args, **kwargs)
 
-    DatetimeFieldDeserializer.__call__ = (
-        DatetimeFieldDeserializer___call___impostor
-    )
+    DatetimeFieldDeserializer.__call__ = DatetimeFieldDeserializer___call___impostor
 
 
 monkey_patch_restapi_validation()
