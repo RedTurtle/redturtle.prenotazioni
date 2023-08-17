@@ -1,7 +1,11 @@
 from zope.globalrequest import getRequest
-from collective.exportimport.interfaces import IMigrationMarker
+
+try:
+    from collective.exportimport.interfaces import IMigrationMarker
+except ImportError:
+    IMigrationMarker = None
 
 
 def is_migration():
     """Returns True if the current reqeust provides the migration marker"""
-    return IMigrationMarker.providedBy(getRequest())
+    return IMigrationMarker and IMigrationMarker.providedBy(getRequest())
