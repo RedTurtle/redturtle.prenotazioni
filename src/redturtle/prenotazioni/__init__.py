@@ -119,9 +119,12 @@ def monkey_patch_restapi_validation():
 
     DeserializeFromJson.get_schema_data = get_schema_data_impostor
 
-    from redturtle.volto.restapi.deserializer.dxfields import (
-        DatetimeFieldDeserializer,
-    )
+    try:
+        from redturtle.volto.restapi.deserializer.dxfields import (
+            DatetimeFieldDeserializer,
+        )
+    except ImportError:
+        return
 
     DatetimeFieldDeserializer___call__ = DatetimeFieldDeserializer.__call__
 
