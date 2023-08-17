@@ -127,7 +127,7 @@ def monkey_patch_restapi_validation():
 
     def DatetimeFieldDeserializer___call___impostor(*args, **kwargs):
         if is_migration():
-            return datetime_with_tz(kwargs.get("value", ""))
+            return datetime_with_tz(args[1])
         else:
             return DatetimeFieldDeserializer___call__(*args, **kwargs)
 
