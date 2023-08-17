@@ -109,7 +109,9 @@ class Booker(object):
         annotations = IAnnotations(obj)
 
         annotations[VERIFIED_BOOKING] = False
-        if not api.user.is_anonymous():
+        if not api.user.is_anonymous() and not api.user.has_permission(
+            "Modify portal content", obj=container
+        ):
             user = api.user.get_current()
             data_fiscalcode = getattr(obj, "fiscalcode", "") or ""
             fiscalcode = data_fiscalcode.upper()
