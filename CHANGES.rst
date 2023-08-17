@@ -4,7 +4,8 @@ Changelog
 1.7.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add an export view customization for booking contents.
+  [folix-01]
 
 
 1.7.3 (2023-07-26)

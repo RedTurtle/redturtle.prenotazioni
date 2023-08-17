@@ -3,6 +3,7 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="redturtle.prenotazioni"
     >
 
@@ -24,7 +25,10 @@
       />
 
   <include package=".stats" />
-
+  <include
+      package=".export"
+      zcml:condition="installed collective.exportimport"
+      />
 
   <browser:page
       name="edit"
