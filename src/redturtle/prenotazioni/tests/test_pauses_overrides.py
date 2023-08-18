@@ -64,7 +64,7 @@ class TestContextState(unittest.TestCase):
                         "from_day": "1",
                         "from_month": "1",
                         "to_month": "2",
-                        "pauses": [
+                        "pause_table": [
                             {"day": "0", "pause_end": "1200", "pause_start": "1000"},
                             {"day": "1", "pause_end": "1200", "pause_start": "1000"},
                             {"day": "2", "pause_end": "1200", "pause_start": "1000"},
@@ -153,7 +153,7 @@ class TestAPIPost(unittest.TestCase):
                         "from_day": "1",
                         "from_month": "1",
                         "to_month": "2",
-                        "pauses": [
+                        "pause_table": [
                             {"day": "0", "pause_end": "1200", "pause_start": "1000"},
                             {"day": "1", "pause_end": "1200", "pause_start": "1000"},
                             {"day": "2", "pause_end": "1200", "pause_start": "1000"},

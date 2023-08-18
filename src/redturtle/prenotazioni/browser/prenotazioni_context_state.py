@@ -413,8 +413,7 @@ class PrenotazioniContextState(BrowserView):
 
                     fromDate = date(booking_date.year, from_month, from_day)
                     toDate = date(toYear, to_month, to_day)
-
-                    if fromDate <= booking_date <= toDate:
+                    if fromDate <= booking_date.date() <= toDate:
                         gates = gates_override
                         break
 
@@ -638,7 +637,7 @@ class PrenotazioniContextState(BrowserView):
 
         pause_override = []
         if week_table_overrides:
-            pause_override = week_table_overrides[0].get("pauses", [])
+            pause_override = week_table_overrides[0].get("pause_table", [])
         pause_table = self.context.pause_table or []
 
         if pause_override:
@@ -679,9 +678,9 @@ class PrenotazioniContextState(BrowserView):
         """
         bookings = self.get_bookings_in_day_folder(booking_date)
         pauses = self.get_pauses_in_day_folder(booking_date)
-        bookins_list = list(map(ISlot, bookings))
+        bookings_list = list(map(ISlot, bookings))
         pauses_list = list(map(ISlot, pauses))
-        return bookins_list + pauses_list
+        return bookings_list + pauses_list
 
     def get_busy_slots_in_stormynight(self, booking_date):
         """This will show the slots that will not show elsewhere"""
