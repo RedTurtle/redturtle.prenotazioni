@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from zope.globalrequest import getRequest
 
 try:
