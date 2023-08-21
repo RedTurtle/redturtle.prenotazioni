@@ -7,6 +7,7 @@ from plone.app.event.base import default_timezone
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni.utils import is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 from zope.component import getMultiAdapter
@@ -119,6 +120,10 @@ def get_mail_from_address():
 
 def send_email_to_managers(booking, event):
     # skip email for vacation/out-of-office
+
+    if is_migration():
+        return
+
     if booking.isVacation():
         return
 
