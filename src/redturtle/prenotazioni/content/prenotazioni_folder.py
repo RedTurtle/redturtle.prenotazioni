@@ -433,22 +433,6 @@ class IPrenotazioniFolder(model.Schema):
         default=[],
     )
 
-    unavailable_gates = schema.List(
-        title=_("unavailable_gates_label", "Unavailable gates"),
-        description=_(
-            "unavailable_gates_help",
-            default="Add a gate here (one per line) if, "
-            "for some reason, "
-            "it is not be available."
-            "The specified gate will not be taken in to "  # noqa
-            "account for slot allocation. "
-            "Each line should match a corresponding "
-            'line in the "Gates" field',
-        ),
-        required=False,
-        value_type=schema.TextLine(),
-        default=[],
-    )
     auto_confirm = schema.Bool(
         title=_("auto_confirm", default="Automatically confirm."),
         description=_(
@@ -718,9 +702,6 @@ class PrenotazioniFolder(Container):
 
     def getGates(self):
         return self.gates
-
-    def getUnavailable_gates(self):
-        return self.unavailable_gates
 
     def getDaData(self):
         return self.daData

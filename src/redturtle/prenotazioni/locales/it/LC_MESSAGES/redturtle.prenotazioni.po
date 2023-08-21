@@ -1381,16 +1381,6 @@ msgstr "Devi impostare una data di inizio."
 msgid "to_month_too_days_error"
 msgstr "Il giorno selezionato non è compatibile col mese selezionato nel campo \"Al\"."
 
-#. Default: "Add a gate here (one per line) if, for some reason, it is not be available.The specified gate will not be taken in to account for slot allocation. Each line should match a corresponding line in the \"Gates\" field"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:437
-msgid "unavailable_gates_help"
-msgstr "Aggiungi una postazione (uno per riga) se, per qualche motivo, non è disponibile. La postazione specificata non sarà considerata per l'allocazione degli appuntamenti. Le righe devono essere uguali a quelle nel campo \"Postazioni preposte\"."
-
-#. Default: "Unavailable gates"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:436
-msgid "unavailable_gates_label"
-msgstr "Postazioni non disponibili"
-
 #. Default: "Unbookable time"
 #: redturtle/prenotazioni/browser/templates/prenotazione_macros.pt:304
 msgid "unbookable_time"

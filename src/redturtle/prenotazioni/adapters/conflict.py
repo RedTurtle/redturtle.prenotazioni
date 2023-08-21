@@ -60,7 +60,7 @@ class ConflictManager(object):
         # XXX: per come è ora la funzione probabilmente questa condizione non è mai vera
         # if not self.prenotazioni.get_gates():
         #     return 1
-        return len(self.prenotazioni.get_available_gates())
+        return len(self.prenotazioni.get_gates())
 
     def unrestricted_prenotazioni(self, **kw):
         """
