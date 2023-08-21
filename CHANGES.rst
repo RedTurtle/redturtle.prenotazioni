@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.4 (unreleased)
+1.7.4 (2023-08-21)
 ------------------
 
 - Add an export view customization for the booking contents.
