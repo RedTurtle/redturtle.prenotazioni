@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-2.0.0 (unreleased)
-------------------
+2.0.0.dev5 (2023-08-21)
+-----------------------
 
 - permit to force gate / duration to operator (restapi add booking)
   [mamico]
