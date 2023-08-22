@@ -368,3 +368,15 @@ def to_1700(context):
                 # set current timezone
                 tz = pytz.timezone(default_timezone())
                 setattr(prenotazione, field, date.astimezone(tz))
+
+
+def to_1800(self):
+    brains = api.content.find(portal_type="PrenotazioniFolder")
+    for brain in brains:
+        item = brain.getObject()
+        same_day_booking_disallowed = getattr(item, "same_day_booking_disallowed", None)
+        if same_day_booking_disallowed not in ("yes", "no"):
+            item.same_day_booking_disallowed = "no"
+            logger.info(
+                f'- [{brain.getPath()}] set same_day_booking_disallowed to "no"'
+            )
