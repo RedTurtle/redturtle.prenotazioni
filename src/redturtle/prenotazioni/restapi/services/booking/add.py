@@ -9,6 +9,7 @@ from redturtle.prenotazioni.restapi.services.booking_schema.get import BookingSc
 from zExceptions import BadRequest
 from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
+from redturtle.prenotazioni.adapters.booker import BookerException
 
 
 # src/redturtle/prenotazioni/browser/prenotazione_add.py
@@ -30,20 +31,24 @@ class AddBooking(BookingSchema):
         for field in data_fields:
             book_data[field] = data_fields[field]
         alsoProvides(self.request, IDisableCSRFProtection)
-        if force:
-            # TODO: in futuro potrebbe forzare anche la data di fine oltre al gate
-            # create ha un parametro "duration" che può essere usato a questo scopo
-            if not api.user.has_permission("Modify portal content", obj=self.context):
-                msg = self.context.translate(
-                    _("You are not allowed to force the gate.")
-                )
-                raise BadRequest(msg)
-            gate = data.get("gate", None)
-            duration = int(data.get("duration", -1))
-            obj = booker.book(data=book_data, force_gate=gate, duration=duration)
-        else:
-            obj = booker.book(data=book_data)
-
+        try:
+            if force:
+                # TODO: in futuro potrebbe forzare anche la data di fine oltre al gate
+                # create ha un parametro "duration" che può essere usato a questo scopo
+                if not api.user.has_permission(
+                    "Modify portal content", obj=self.context
+                ):
+                    msg = self.context.translate(
+                        _("You are not allowed to force the gate.")
+                    )
+                    raise BadRequest(msg)
+                gate = data.get("gate", None)
+                duration = int(data.get("duration", -1))
+                obj = booker.book(data=book_data, force_gate=gate, duration=duration)
+            else:
+                obj = booker.book(data=book_data)
+        except BookerException as e:
+            raise BadRequest(e.args[0])
         if not obj:
             msg = self.context.translate(
                 _("Sorry, this slot is not available anymore.")

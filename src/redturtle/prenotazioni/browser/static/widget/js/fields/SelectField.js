@@ -6,21 +6,26 @@ import WidgetContext from '../utils/widgetContext';
 // import './index.less';
 
 const SelectField = ({ value, id, row, vocId, multi, customUpdateField }) => {
-  const { vocabularies, updateField } = useContext(WidgetContext);
+  const { vocabularies, updateField, getTranslationFor } = useContext(
+    WidgetContext,
+  );
   const vocab = vocabularies[vocId];
   if (!vocab) {
     return '';
   }
   const options = vocab.items.map(item => {
-    return { value: item.token, label: item.title };
+    return { value: item.token, label: getTranslationFor(item.title) };
   });
-  const selectValue = options.filter(option => {
+  let selectValue = options.filter(option => {
     if (Array.isArray(value)) {
       return value.includes(option.value);
     } else {
       return value === option.value;
     }
   });
+  if (!multi) {
+    selectValue = selectValue[0] || null;
+  }
   return (
     <Select
       isMulti={multi ? true : false}
