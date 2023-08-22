@@ -141,5 +141,15 @@
         />
 
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1700"
+      destination="1800"
+      >
+    <genericsetup:upgradeStep
+        title="Fix same_day_booking_disallowed"
+        handler=".upgrades.to_1800"
+        />
 
+  </genericsetup:upgradeSteps>
 </configure>
