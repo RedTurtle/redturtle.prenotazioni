@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
-from datetime import date
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
@@ -259,11 +258,9 @@ class IPrenotazioniFolder(model.Schema):
 
     def get_options():
         """Return the options for this widget"""
-        today = date.today().strftime("%Y/%m/%d")
         options = [
             SimpleTerm(value="yes", token="yes", title=_("Yes")),
             SimpleTerm(value="no", token="no", title=_("No")),
-            SimpleTerm(value=today, token=today, title=_("No, just for today")),
         ]
 
         return SimpleVocabulary(options)

@@ -113,7 +113,7 @@ class PrenotazioniContextState(BrowserView):
     def same_day_booking_allowed(self):
         """State if the same day booking is allowed"""
         value = getattr(self.context, "same_day_booking_disallowed")
-        return value == "no" or value == self.today.strftime("%Y/%m/%d")
+        return value == "no"
 
     @property
     @memoize
