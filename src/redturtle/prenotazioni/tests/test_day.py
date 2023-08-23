@@ -159,4 +159,18 @@ class TestDaySlots(unittest.TestCase):
             results["daily_schedule"],
         )
 
+    def test_gates_returned(self):
+        # TODO: testare con timezone differenti
+        response = self.api_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
+        )
+        self.assertEqual(response.status_code, 200)
+        results = response.json()
+
+        self.assertIn("gates", results)
+        self.assertEqual(
+            [{"name": "Gate A", "available": True}],
+            results["gates"],
+        )
+
     # TODO: test vacation slots
