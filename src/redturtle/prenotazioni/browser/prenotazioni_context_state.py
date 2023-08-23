@@ -405,7 +405,14 @@ class PrenotazioniContextState(BrowserView):
         overrides = self.get_week_overrides(day=booking_date)
         if overrides:
             gates = overrides.get("gates", []) or gates
-        return gates or [""]
+
+        return [
+            {
+                "name": gate,
+                "available": True,
+            }
+            for gate in gates or [""]
+        ]
 
     def get_busy_gates_in_slot(self, booking_date, booking_end_date=None):
         """
@@ -460,7 +467,8 @@ class PrenotazioniContextState(BrowserView):
 
         :param booking_date: a DateTime object
         """
-        available = set(self.get_gates(booking_date))
+        gates = [x.get("name", "") for x in self.get_gates(booking_date)]
+        available = set(gates)
         busy = set(self.get_busy_gates_in_slot(booking_date, booking_end_date))
         return available - busy
 
@@ -690,7 +698,7 @@ class PrenotazioniContextState(BrowserView):
         for slot in slots:
             if slot.context.portal_type == PAUSE_PORTAL_TYPE:
                 for gate in self.get_gates(booking_date):
-                    slots_by_gate.setdefault(gate, []).append(slot)
+                    slots_by_gate.setdefault(gate.get("name", ""), []).append(slot)
             else:
                 slots_by_gate.setdefault(slot.gate, []).append(slot)
         return slots_by_gate
@@ -714,7 +722,7 @@ class PrenotazioniContextState(BrowserView):
         else:
             intervals = [day_intervals[period]]
         slots_by_gate = self.get_busy_slots(booking_date, period)
-        gates = self.get_gates(booking_date)
+        gates = [x.get("name", "") for x in self.get_gates(booking_date)]
         availability = {}
         for gate in gates:
             availability.setdefault(gate, [])

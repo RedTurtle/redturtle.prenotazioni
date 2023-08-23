@@ -55,12 +55,15 @@ class TestGatesOverrides(unittest.TestCase):
     def test_day_in_override_gates(self):
         now = date.today()
         gates = self.view.get_gates(date(now.year, 1, 10))
-        self.assertEqual(gates, ["foo", "bar"])
+        self.assertEqual(
+            gates,
+            [{"name": "foo", "available": True}, {"name": "bar", "available": True}],
+        )
 
     def test_day_not_in_override_gates(self):
         now = date.today()
         gates = self.view.get_gates(date(now.year, 6, 10))
-        self.assertEqual(gates, self.folder_prenotazioni.gates)
+        self.assertEqual(gates, [{"name": "Gate A", "available": True}])
 
     def test_if_gates_override_not_set_use_default(self):
         folder = api.content.create(
@@ -94,4 +97,4 @@ class TestGatesOverrides(unittest.TestCase):
         )
         now = date.today()
         gates = view.get_gates(date(now.year, 1, 10))
-        self.assertEqual(gates, self.folder_prenotazioni.gates)
+        self.assertEqual(gates, [{"name": "Gate A", "available": True}])
