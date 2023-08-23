@@ -47,6 +47,7 @@ const DaysTableField = ({ value, row }) => {
                   row={dayIdx}
                   vocId="timetable"
                   customUpdateField={onUpdateSelect}
+                  placeholder={getTranslationFor('morning_start_label')}
                 />
               </td>
               <td>
@@ -56,6 +57,7 @@ const DaysTableField = ({ value, row }) => {
                   row={dayIdx}
                   vocId="timetable"
                   customUpdateField={onUpdateSelect}
+                  placeholder={getTranslationFor('morning_end_label')}
                 />
               </td>
               <td>
@@ -65,6 +67,7 @@ const DaysTableField = ({ value, row }) => {
                   row={dayIdx}
                   vocId="timetable"
                   customUpdateField={onUpdateSelect}
+                  placeholder={getTranslationFor('afternoon_start_label')}
                 />
               </td>
               <td>
@@ -74,6 +77,7 @@ const DaysTableField = ({ value, row }) => {
                   row={dayIdx}
                   vocId="timetable"
                   customUpdateField={onUpdateSelect}
+                  placeholder={getTranslationFor('afternoon_end_label')}
                 />
               </td>
             </tr>

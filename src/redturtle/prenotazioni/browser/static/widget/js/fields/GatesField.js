@@ -15,7 +15,7 @@ const LineField = ({ value, row, updateField }) => {
     }
     const timeout = setTimeout(() => {
       updateField({ row, id: 'gates', value: targetValue });
-    }, 1000);
+    }, 400);
     setData({ text: targetValue, timeout });
   };
   useEffect(() => {
@@ -58,16 +58,14 @@ const GatesField = ({ value, row }) => {
   };
 
   return (
-    <div className="array-rows">
-      <strong>{getTranslationFor('gates_label')}</strong>
+    <div className="gates-rows">
+      <div>
+        <strong>{getTranslationFor('gates_label')}</strong>
+      </div>
       {gates.map((rowValue, idx) => (
         <div className="row" key={`gates-row-${idx}`}>
           <div className="column">
-            <LineField
-              row={idx}
-              updateField={onUpdateRow}
-              value={rowValue}
-            ></LineField>
+            <LineField row={idx} updateField={onUpdateRow} value={rowValue} />
           </div>
           <div className="column">
             <button
@@ -84,9 +82,11 @@ const GatesField = ({ value, row }) => {
           </div>
         </div>
       ))}
-      <button className="context" type="button" onClick={onAddRow}>
-        <FontAwesomeIcon icon={faPlus} /> {getTranslationFor('Add')}
-      </button>
+      <div>
+        <button className="context" type="button" onClick={onAddRow}>
+          <FontAwesomeIcon icon={faPlus} /> {getTranslationFor('Add')}
+        </button>
+      </div>
     </div>
   );
 };

@@ -15,37 +15,43 @@ const PauseRow = ({ value, row, updateField, onDeleteRow }) => {
     newValue[id] = selectValue;
     updateField({ row, value: newValue });
   };
-  console.log(value);
+
   return (
-    <tr>
+    <tr key={row}>
       <td>
         <SelectField
           value={value.day}
           id="day"
-          row={row}
           vocId="weekDays"
+          key={'day' + row}
+          row={row}
           customUpdateField={onUpdateSelect}
+          placeholder={getTranslationFor('day_label')}
         />
       </td>
       <td>
         <SelectField
           value={value.pause_start}
           id="pause_start"
-          row={row}
           vocId="timetable"
+          key={'pause_start' + row}
+          row={row}
           customUpdateField={onUpdateSelect}
+          placeholder={getTranslationFor('pause_start_label')}
         />
       </td>
       <td>
         <SelectField
           value={value.pause_end}
           id="pause_end"
-          row={row}
           vocId="timetable"
+          key={'pause_end' + row}
+          row={row}
           customUpdateField={onUpdateSelect}
+          placeholder={getTranslationFor('pause_end_label')}
         />
       </td>
-      <td>
+      <td className="actions">
         <button
           className="destructive"
           type="button"
@@ -79,46 +85,54 @@ const PauseTableField = ({ value, row }) => {
     newValue.push({ day: null, pause_start: null, pause_end: null });
     updateField({ row, id: 'pause_table', value: newValue });
   };
+
   const onDeleteRow = deletedRow => {
     let newValue = pause_table.filter((value, idx) => idx !== deletedRow);
+    console.log(newValue);
     updateField({ row, id: 'pause_table', value: newValue });
   };
 
   return (
-    <div className="array-rows">
-      <strong>{getTranslationFor('pause_table_label')}</strong>
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <span>{getTranslationFor('day_label')}</span>
-            </th>
-            <th>
-              <span>{getTranslationFor('pause_start_label')}</span>
-            </th>
+    <div className="pause-table-wrapper">
+      <div>
+        <strong>{getTranslationFor('pause_table_label')}</strong>
+      </div>
+      <div>
+        {pause_table.length > 0 && (
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  <span>{getTranslationFor('day_label')}</span>
+                </th>
+                <th>
+                  <span>{getTranslationFor('pause_start_label')}</span>
+                </th>
 
-            <th>
-              <span>{getTranslationFor('pause_end_label')}</span>
-            </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {pause_table.map((rowValue, idx) => (
-            <PauseRow
-              row={idx}
-              key={`row-${idx}`}
-              updateField={onUpdateRow}
-              onDeleteRow={onDeleteRow}
-              value={rowValue}
-            ></PauseRow>
-          ))}
-        </tbody>
-      </table>
+                <th>
+                  <span>{getTranslationFor('pause_end_label')}</span>
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {pause_table.map((rowValue, idx) => (
+                <PauseRow
+                  row={idx}
+                  key={`row-${idx}`}
+                  updateField={onUpdateRow}
+                  onDeleteRow={onDeleteRow}
+                  value={rowValue}
+                ></PauseRow>
+              ))}
+            </tbody>
+          </table>
+        )}
 
-      <button className="context" type="button" onClick={onAddRow}>
-        <FontAwesomeIcon icon={faPlus} /> {getTranslationFor('Add')}
-      </button>
+        <button className="context" type="button" onClick={onAddRow}>
+          <FontAwesomeIcon icon={faPlus} /> {getTranslationFor('Add')}
+        </button>
+      </div>
     </div>
   );
 };

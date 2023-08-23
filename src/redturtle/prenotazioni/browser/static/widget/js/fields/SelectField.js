@@ -5,7 +5,16 @@ import WidgetContext from '../utils/widgetContext';
 
 // import './index.less';
 
-const SelectField = ({ value, id, row, vocId, multi, customUpdateField }) => {
+const SelectField = ({
+  value,
+  id,
+  row,
+  vocId,
+  multi,
+  customUpdateField,
+  key,
+  placeholder,
+}) => {
   const { vocabularies, updateField, getTranslationFor } = useContext(
     WidgetContext,
   );
@@ -30,8 +39,10 @@ const SelectField = ({ value, id, row, vocId, multi, customUpdateField }) => {
     <Select
       isMulti={multi ? true : false}
       isClearable={true}
-      defaultValue={selectValue}
+      value={selectValue}
       options={options}
+      key={key}
+      placeholder={placeholder}
       onChange={option => {
         let newValue = null;
         if (Array.isArray(value)) {
@@ -53,6 +64,8 @@ SelectField.propTypes = {
   multi: PropTypes.bool,
   row: PropTypes.number,
   customUpdateField: PropTypes.func,
+  key: PropTypes.any,
+  placeholder: PropTypes.string,
 };
 
 export default SelectField;
