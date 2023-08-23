@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import WidgetContext from '../utils/widgetContext';
 import IntervalSelectorField from '../fields/IntervalSelectorField';
 import DaysTableField from '../fields/DaysTableField';
+import GatesField from '../fields/GatesField';
+import PauseTableField from '../fields/PauseTableField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlus,
@@ -113,6 +115,8 @@ const WidgetDataContainer = () => {
               <div className="row-content">
                 <IntervalSelectorField value={entry} row={idx} />
                 <DaysTableField value={entry} row={idx} />
+                <GatesField value={entry} row={idx} />
+                <PauseTableField value={entry} row={idx} />
               </div>
             </Collapse>
           </div>

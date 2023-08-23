@@ -1377,16 +1377,6 @@ msgstr ""
 msgid "to_month_too_days_error"
 msgstr ""
 
-#. Default: "Add a gate here (one per line) if, for some reason, it is not be available.The specified gate will not be taken in to account for slot allocation. Each line should match a corresponding line in the \"Gates\" field"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:437
-msgid "unavailable_gates_help"
-msgstr ""
-
-#. Default: "Unavailable gates"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:436
-msgid "unavailable_gates_label"
-msgstr ""
-
 #. Default: "Unbookable time"
 #: redturtle/prenotazioni/browser/templates/prenotazione_macros.pt:304
 msgid "unbookable_time"

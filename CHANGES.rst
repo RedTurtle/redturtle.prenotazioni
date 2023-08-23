@@ -12,11 +12,20 @@ Changelog
 2.0.0.dev5 (2023-08-21)
 -----------------------
 
-- permit to force gate / duration to operator (restapi add booking)
+- Add logic to override pauses and gates.
+  [daniele]
+
+- Permit to force gate / duration to operator (restapi add booking)
   [mamico]
 - Changes required to migrate the old bookings.
   [folix-01]
 
+
+- Allow to override also gates and pauses.
+  [cekk]
+
+- Remove unused unavailable_gates field.
+  [cekk]
 
 2.0.0.dev4 (2023-08-11)
 -----------------------

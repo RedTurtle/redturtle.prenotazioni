@@ -9,38 +9,52 @@ const IntervalSelectorField = ({ value, row }) => {
 
   return (
     <div className="period-selector-wrapper">
-      <strong>{getTranslationFor('from_label')}</strong>
-      <div className="column block">
-        <label>{getTranslationFor('day_label')}</label>
-        <SelectField
-          value={value.from_day}
-          id="from_day"
-          row={row}
-          vocId="days"
-        />
+      <div className="period">
+        <div className="column block label">
+          <strong>{getTranslationFor('from_label')}</strong>
+        </div>
+        <div className="column block">
+          <SelectField
+            value={value.from_day}
+            id="from_day"
+            row={row}
+            vocId="days"
+            placeholder={getTranslationFor('day_label')}
+          />
+        </div>
+
+        <div className="column block">
+          <SelectField
+            value={value.from_month}
+            id="from_month"
+            row={row}
+            vocId="months"
+            placeholder={getTranslationFor('month_label')}
+          />
+        </div>
       </div>
-      <div className="column block">
-        <label>{getTranslationFor('month_label')}</label>
-        <SelectField
-          value={value.from_month}
-          id="from_month"
-          row={row}
-          vocId="months"
-        />
-      </div>
-      <strong>{getTranslationFor('to_label')}</strong>
-      <div className="column block">
-        <label>{getTranslationFor('day_label')}</label>
-        <SelectField value={value.to_day} id="to_day" row={row} vocId="days" />
-      </div>
-      <div className="column block">
-        <label>{getTranslationFor('month_label')}</label>
-        <SelectField
-          value={value.to_month}
-          id="to_month"
-          row={row}
-          vocId="months"
-        />
+      <div className="period">
+        <div className="column block label">
+          <strong>{getTranslationFor('to_label')}</strong>
+        </div>
+        <div className="column block">
+          <SelectField
+            value={value.to_day}
+            id="to_day"
+            row={row}
+            vocId="days"
+            placeholder={getTranslationFor('day_label')}
+          />
+        </div>
+        <div className="column block">
+          <SelectField
+            value={value.to_month}
+            id="to_month"
+            row={row}
+            vocId="months"
+            placeholder={getTranslationFor('month_label')}
+          />
+        </div>
       </div>
     </div>
   );

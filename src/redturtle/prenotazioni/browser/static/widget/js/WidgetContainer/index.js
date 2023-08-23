@@ -18,6 +18,7 @@ class WidgetContainer extends Component {
     };
 
     const updateWidgetField = value => {
+      console.log('VALORE AGGIORNATO: ', value);
       document.getElementById(this.props.fieldId).value = JSON.stringify(value);
     };
 
@@ -79,6 +80,8 @@ class WidgetContainer extends Component {
             afternoon_end: '',
           },
         ],
+        gates: [],
+        pause_table: [],
       });
       this.setState({
         ...this.state,
@@ -123,6 +126,17 @@ class WidgetContainer extends Component {
             const key = index + 1;
             return { token: key.toString(), title: key.toString() };
           }),
+        },
+        weekDays: {
+          items: [
+            { token: '0', title: 'Monday' },
+            { token: '1', title: 'Tuesday' },
+            { token: '2', title: 'Wednesday' },
+            { token: '3', title: 'Thursday' },
+            { token: '4', title: 'Friday' },
+            { token: '5', title: 'Saturday' },
+            { token: '6', title: 'Sunday' },
+          ],
         },
       },
       translations: {},

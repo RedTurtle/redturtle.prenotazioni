@@ -113,13 +113,10 @@ class TestVacationgApi(unittest.TestCase):
                 ],
             },
         )
-        self.assertEqual(res.status_code, 500)
+        self.assertEqual(res.status_code, 400)
         self.assertEqual(
-            res.json(),
-            {
-                "message": "Sorry, this slot is not available anymore.",
-                "type": "BookerException",
-            },
+            res.json()["message"],
+            "Sorry, this slot is not available anymore.",
         )
 
     def test_add_vacation_wrong_hours(self):
