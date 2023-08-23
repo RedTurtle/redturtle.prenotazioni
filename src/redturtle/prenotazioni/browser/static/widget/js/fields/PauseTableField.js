@@ -88,14 +88,13 @@ const PauseTableField = ({ value, row }) => {
 
   const onDeleteRow = deletedRow => {
     let newValue = pause_table.filter((value, idx) => idx !== deletedRow);
-    console.log(newValue);
     updateField({ row, id: 'pause_table', value: newValue });
   };
 
   return (
     <div className="pause-table-wrapper">
       <div>
-        <strong>{getTranslationFor('pause_table_label')}</strong>
+        <strong>{getTranslationFor('Pause table')}</strong>
       </div>
       <div>
         {pause_table.length > 0 && (
