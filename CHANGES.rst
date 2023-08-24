@@ -8,6 +8,12 @@ Changelog
 - Remove complexity in `same_day_booking_disallowed`` field: now you can set only *yes* or *no*.
   [cekk]
 
+- duration in minutes instead of days
+  [mamico]
+
+- allow to add out-of-office in api (aka blocco prenotazione)
+  [mamico]
+
 
 2.0.0.dev5 (2023-08-21)
 -----------------------
@@ -17,6 +23,7 @@ Changelog
 
 - Permit to force gate / duration to operator (restapi add booking)
   [mamico]
+
 - Changes required to migrate the old bookings.
   [folix-01]
 
@@ -26,12 +33,6 @@ Changelog
 
 - Remove unused unavailable_gates field.
   [cekk]
-
-- duration in minutes instead of days
-  [mamico]
-
-- allow to add out-of-office in api (aka blocco prenotazione)
-  [mamico]
 
 2.0.0.dev4 (2023-08-11)
 -----------------------
