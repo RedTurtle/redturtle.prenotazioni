@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-### DEPRECATED ####
+# #### DEPRECATED ####
 
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
