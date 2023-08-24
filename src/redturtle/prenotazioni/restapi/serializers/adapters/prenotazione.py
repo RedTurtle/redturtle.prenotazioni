@@ -33,7 +33,10 @@ class PrenotazioneSerializer:
         )
         booking_date = self.prenotazione.booking_date
         booking_expiration_date = self.prenotazione.booking_expiration_date
-        if booking_expiration_date and booking_date.date() != booking_expiration_date.date():
+        if (
+            booking_expiration_date
+            and booking_date.date() != booking_expiration_date.date()
+        ):
             logger.warning("Booking date and expiration date are different, fixing")
             booking_date = booking_date.date()
             booking_expiration_date = booking_expiration_date.replace(

@@ -83,7 +83,9 @@ class Booker(object):
                 minutes=duration
             )
         else:
-            booking_expiration_date = params["booking_date"] + timedelta(minutes=duration)
+            booking_expiration_date = params["booking_date"] + timedelta(
+                minutes=duration
+            )
 
         gate = ""
         if not force_gate:
