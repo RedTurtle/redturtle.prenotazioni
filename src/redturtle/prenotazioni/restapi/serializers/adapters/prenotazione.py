@@ -6,6 +6,7 @@ from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import (
     ISerializeToPrenotazioneSearchableItem,
 )
+from redturtle.prenotazioni import logger
 from zope.component import adapter
 from zope.i18n import translate
 from zope.interface import implementer
@@ -30,7 +31,17 @@ class PrenotazioneSerializer:
         status = api.portal.get_tool("portal_workflow").getStatusOf(
             "prenotazioni_workflow", self.prenotazione
         )
-
+        booking_date = self.prenotazione.booking_date
+        booking_expiration_date = self.prenotazione.booking_expiration_date
+        if (
+            booking_expiration_date
+            and booking_date.date() != booking_expiration_date.date()
+        ):
+            logger.warning("Booking date and expiration date are different, fixing")
+            booking_date = booking_date.date()
+            booking_expiration_date = booking_expiration_date.replace(
+                booking_date.year, booking_date.month, booking_date.day
+            )
         return {
             "UID": self.prenotazione.UID(),
             "@type": self.prenotazione.portal_type,
@@ -43,10 +54,8 @@ class PrenotazioneSerializer:
             "fiscalcode": fiscalcode,
             "company": self.prenotazione.company,
             "staff_notes": self.prenotazione.staff_notes,
-            "booking_date": json_compatible(self.prenotazione.booking_date),
-            "booking_expiration_date": json_compatible(
-                self.prenotazione.booking_expiration_date
-            ),
+            "booking_date": json_compatible(booking_date),
+            "booking_expiration_date": json_compatible(booking_expiration_date),
             "booking_status_label": translate(
                 status["review_state"], context=self.request
             ),
