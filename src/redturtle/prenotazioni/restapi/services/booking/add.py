@@ -5,6 +5,7 @@ from plone.restapi.deserializer import json_body
 from plone.restapi.interfaces import ISerializeToJson
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
 from redturtle.prenotazioni.restapi.services.booking_schema.get import BookingSchema
 from zExceptions import BadRequest
 from zope.component import queryMultiAdapter
@@ -77,7 +78,10 @@ class AddBooking(BookingSchema):
                 )
                 raise BadRequest(msg)
 
-        if data["booking_type"] not in [
+        if data["booking_type"] in [VACATION_TYPE]:
+            # TODO: check permission for special booking_types ?
+            pass
+        elif data["booking_type"] not in [
             _t["name"] for _t in self.context.booking_types or [] if "name" in _t
         ]:
             msg = self.context.translate(

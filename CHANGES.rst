@@ -8,6 +8,12 @@ Changelog
 - permit to force gate / duration to operator (restapi add booking)
   [mamico]
 
+- duration in minutes instead of days
+  [mamico]
+
+- allow to add out-of-office in api (aka blocco prenotazione)
+  [mamico]
+
 2.0.0.dev4 (2023-08-11)
 -----------------------
 

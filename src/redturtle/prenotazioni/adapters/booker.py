@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import math
 from datetime import timedelta
 from plone import api
 from plone.memoize.instance import memoize
@@ -82,8 +83,7 @@ class Booker(object):
                 minutes=duration
             )
         else:
-            # in this case we need to deal with seconds converted in days
-            booking_expiration_date = params["booking_date"] + timedelta(days=duration)
+            booking_expiration_date = params["booking_date"] + timedelta(minutes=duration)
 
         gate = ""
         if not force_gate:
@@ -255,7 +255,7 @@ class Booker(object):
             for slot in gate_free_slots:
                 if vacation_slot.overlaps(slot):
                     # there is a slot that overlaps with the vacation
-                    duration = (end - start).seconds / 24 / 60 / 60
+                    duration = math.ceil((end - start).seconds / 60)
                     # XXX: weird to remove the gate from data and then force it ...
                     slot_data = {k: v for k, v in data.items() if k != "gate"}
                     slot_data["booking_date"] = start

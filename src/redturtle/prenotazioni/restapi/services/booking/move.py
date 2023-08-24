@@ -27,6 +27,8 @@ class MoveBooking(Service):
             return self.reply_no_content(status=404)
 
         booker = IBooker(booking.getPrenotazioniFolder())
+
+        # TODO: gestire eccezioni nel caso ci sia sovrapposizione
         booker.move(booking=booking, data=data)
 
         alsoProvides(self.request, IDisableCSRFProtection)
