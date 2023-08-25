@@ -52,12 +52,18 @@ class TestGatesOverrides(unittest.TestCase):
             request=self.request,
         )
 
-    def test_day_in_override_gates(self):
+    def test_day_in_override_gates_return_overrided_gates_available_and_default_unavailable(
+        self,
+    ):
         now = date.today()
         gates = self.view.get_gates(date(now.year, 1, 10))
         self.assertEqual(
             gates,
-            [{"name": "foo", "available": True}, {"name": "bar", "available": True}],
+            [
+                {"name": "Gate A", "available": False},
+                {"name": "foo", "available": True},
+                {"name": "bar", "available": True},
+            ],
         )
 
     def test_day_not_in_override_gates(self):
