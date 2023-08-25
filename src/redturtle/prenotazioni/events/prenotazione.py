@@ -129,9 +129,9 @@ def send_email_to_managers(booking, event):
 
     booking_folder = booking.getPrenotazioniFolder()
 
-    booking_operator_url = (
-        getAdapter(booking, IStringSubstitution, "booking_operator_url")(),
-    )
+    booking_operator_url = getAdapter(
+        booking, IStringSubstitution, "booking_operator_url"
+    )()
 
     email_list = getattr(booking_folder, "email_responsabile", "")
     if email_list:
