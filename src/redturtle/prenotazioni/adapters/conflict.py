@@ -99,7 +99,9 @@ class ConflictManager(object):
             for slot in slots:
                 if gate_slots[i].overlaps(slot):
                     interval = gate_slots[i].union(slot)
-                    gate_slots[i] = BaseSlot(interval.lower_value, interval.upper_value)
+                    gate_slots[i] = BaseSlot(
+                        interval.lower_value, interval.upper_value
+                    )
 
         return gate_slots + slots
 
@@ -130,6 +132,11 @@ class ConflictManager(object):
 
         if exclude:
             availability = self.add_exclude(exclude, availability)
+
+        # remove not interesting gates
+        for key in set(availability.keys()):
+            if key != data.get("gate", None):
+                del availability[key]
 
         for gate_slots in six.itervalues(availability):
             for gate_slot in gate_slots:
