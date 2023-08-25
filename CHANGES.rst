@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-2.0.0.dev6 (unreleased)
------------------------
+2.0.0.rc1 (2023-08-25)
+----------------------
 
 - Remove complexity in `same_day_booking_disallowed`` field: now you can set only *yes* or *no*.
   [cekk]
