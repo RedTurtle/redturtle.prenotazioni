@@ -133,7 +133,8 @@ class ConflictManager(object):
 
         # remove not interesting gates
         for key in set(availability.keys()):
-            if key != data.get("gate", None):
+            gate = data.get("gate", None)
+            if gate and key != gate:
                 del availability[key]
 
         for gate_slots in six.itervalues(availability):
