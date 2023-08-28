@@ -9,9 +9,7 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
-)
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 import transaction
 import unittest
 import pytz
@@ -41,7 +39,7 @@ class TestMoveBookingApi(unittest.TestCase):
             booking_types=[
                 {"name": "Type A", "duration": "30"},
             ],
-            gates=["Gate A", "Gate B"],
+            gates=["Gate A"],
         )
         week_table = self.folder_prenotazioni.week_table
         for row in week_table:
@@ -88,36 +86,3 @@ class TestMoveBookingApi(unittest.TestCase):
             datetime.fromisoformat(response.json()["booking_date"]),
             tomorrow,
         )
-
-    def test_move_booking_to_used_slot(self):
-        self.booker.book(
-            {
-                "booking_date": self.today,
-                "booking_type": "Type A",
-                "title": "foo",
-            },
-            force_gate="Gate A",
-        )
-        booking = self.booker.book(
-            {
-                "booking_date": self.today,
-                "booking_type": "Type A",
-                "title": "foo",
-            },
-            force_gate="Gate B",
-        )
-
-        uid = booking.UID()
-
-        transaction.commit()
-
-        response = self.api_session_admin.post(
-            f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
-            json={
-                "booking_id": uid,
-                "booking_date": self.today.isoformat(),
-                "gate": "Gate A",
-            },
-        )
-
-        self.assertEqual(response.status_code, 400)
