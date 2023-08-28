@@ -418,19 +418,21 @@ class PrenotazioniContextState(BrowserView):
             return gates
 
         # set default gates as unavailable
-        return [
+        gates = [
             {
                 "name": gate["name"],
                 "available": False,
             }
             for gate in gates
-        ] + [
+        ]
+        overrided_gates = [
             {
                 "name": gate,
                 "available": True,
             }
             for gate in overrided_gates or [""]
         ]
+        return gates + overrided_gates
 
     def get_busy_gates_in_slot(self, booking_date, booking_end_date=None):
         """
