@@ -17,9 +17,10 @@ from redturtle.prenotazioni.testing import (
 from redturtle.prenotazioni.testing import (
     REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING,
 )
-import transaction
+from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 from zope.interface import Interface
 
+import transaction
 import unittest
 
 
@@ -37,7 +38,7 @@ class TestSchemaDirectives(unittest.TestCase):
         )
 
 
-class TestPrenotazioniRestAPIInfo(unittest.TestCase):
+class TestBookingRestAPIInfo(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
     def setUp(self):
@@ -64,7 +65,7 @@ class TestPrenotazioniRestAPIInfo(unittest.TestCase):
         )
 
 
-class TestPrenotazioniRestAPIAdd(unittest.TestCase):
+class TestBookingRestAPIAdd(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
     def setUp(self):
@@ -82,12 +83,8 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
                 {"name": "Type A", "duration": "30"},
             ],
             gates=["Gate A", "Gate B"],
+            week_table=WEEK_TABLE_SCHEMA,
         )
-        week_table = self.folder_prenotazioni.week_table
-        for row in week_table:
-            row["morning_start"] = "0700"
-            row["morning_end"] = "1000"
-        self.folder_prenotazioni.week_table = week_table
         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
         transaction.commit()
 
@@ -189,6 +186,36 @@ class TestPrenotazioniRestAPIAdd(unittest.TestCase):
             res.json(),
             {"message": "You are not allowed to force the gate.", "type": "BadRequest"},
         )
+
+    def test_cant_add_booking_if_missing_required_fields(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            booking_types=[
+                {"name": "Type A", "duration": "30"},
+            ],
+            gates=["Gate A", "Gate B"],
+            week_table=WEEK_TABLE_SCHEMA,
+            required_booking_fields=["email"],
+        )
+        api.content.transition(obj=folder, transition="publish")
+        transaction.commit()
+        res = self.api_session.post(
+            folder.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                ],
+            },
+        )
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.json()["message"], "Required input 'email' is missing.")
 
 
 class TestPrenotazioniIntegrationTesting(unittest.TestCase):

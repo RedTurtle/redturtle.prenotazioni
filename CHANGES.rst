@@ -5,7 +5,10 @@ Changelog
 2.0.0rc2 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+- Skip required field validation when add out of office bookings in @booking endpoint.
+  [cekk]
+- Only users with permission can add out of office bookings in @booking endpoint.
+  [cekk]
 
 
 2.0.0.rc1 (2023-08-25)
