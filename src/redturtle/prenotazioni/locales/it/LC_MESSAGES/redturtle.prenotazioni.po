@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-08-28 10:17+0000\n"
+"POT-Creation-Date: 2023-08-28 10:23+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -1187,12 +1187,12 @@ msgstr ""
 #. Default: "Notify when rejected."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:513
 msgid "notify_on_refuse"
-msgstr "Notifica alla cancellazione"
+msgstr "Notifica se viene cancellata"
 
 #. Default: "Notify via mail the user when his booking has been rejected."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:514
 msgid "notify_on_refuse_help"
-msgstr "Notifica l'utente se la prenotazione viene cancellata"
+msgstr "Notifica l'utente via mail se la prenotazione viene cancellata"
 
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:585
