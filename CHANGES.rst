@@ -5,7 +5,8 @@ Changelog
 2.0.0rc2 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+- Show default gates as unavailable in get_gates method, if they are overrided.
+  [cekk]
 
 
 2.0.0.rc1 (2023-08-25)
