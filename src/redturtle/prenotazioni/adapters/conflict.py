@@ -132,11 +132,11 @@ class ConflictManager(object):
             availability = self.add_exclude(exclude, availability)
 
         # remove not interesting gates
-        # for key in set(availability.keys()):
-        #     if key != data.get("gate", None):
-        #         gate = data.get("gate", None)
-        #         if gate and key != gate:
-        #             del availability[key]
+        for key in set(availability.keys()):
+            if key != data.get("gate", None):
+                gate = data.get("gate", None)
+                if gate and key != gate:
+                    del availability[key]
 
         for gate_slots in six.itervalues(availability):
             for gate_slot in gate_slots:

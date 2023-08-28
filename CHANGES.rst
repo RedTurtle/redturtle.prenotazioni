@@ -5,6 +5,8 @@ Changelog
 2.0.0rc2 (unreleased)
 ---------------------
 
+- Fix slots overlap valiation on booking move
+  [folix-01]
 - Show default gates as unavailable in get_gates method, if they are overrided.
   [cekk]
 
@@ -90,8 +92,8 @@ Changelog
   months-slots => available-slots
   prenotazione-schema => booking-schema
   @@download_reservation => @@download/bookings.xlsx
-  [cekk] [mamico]  
-  
+  [cekk] [mamico]
+
 
 2.0.0.dev3 (2023-07-20)
 -----------------------
