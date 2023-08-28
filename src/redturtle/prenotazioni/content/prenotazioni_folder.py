@@ -509,10 +509,10 @@ class IPrenotazioniFolder(model.Schema):
         default=False,
         required=False,
     )
-    notify_on_reject = schema.Bool(
-        title=_("notify_on_reject", default="Notify when rejected."),
+    notify_on_refuse = schema.Bool(
+        title=_("notify_on_refuse", default="Notify when rejected."),
         description=_(
-            "notify_on_reject_help",
+            "notify_on_refuse_help",
             default="Notify via mail the user when his booking has been rejected.",
         ),
         default=False,
@@ -628,7 +628,7 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_submit",
             "notify_on_confirm",
             "notify_on_move",
-            "notify_on_reject",
+            "notify_on_refuse",
         ],
     )
     model.fieldset(
