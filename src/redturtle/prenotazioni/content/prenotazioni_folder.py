@@ -208,25 +208,7 @@ class IPrenotazioniFolder(model.Schema):
         ),
     )
 
-    directives.widget(required_booking_fields=CheckBoxFieldWidget)
-    required_booking_fields = schema.List(
-        title=_("label_required_booking_fields", default="Required booking fields"),
-        description=_(
-            "help_required_booking_fields",
-            "User will not be able to add a booking unless those "
-            "fields are filled. "
-            "Remember that, whatever you selected in this list, "
-            "users have to supply at least one "
-            'of "Email", "Mobile", or "Telephone"',
-        ),
-        required=False,
-        value_type=schema.Choice(
-            vocabulary="redturtle.prenotazioni.requirable_booking_fields"
-        ),
-    )
-
-    directives.widget(required_booking_fields=CheckBoxFieldWidget)
-
+    directives.widget(visible_booking_fields=CheckBoxFieldWidget)
     visible_booking_fields = schema.List(
         title=_("label_visible_booking_fields", default="Visible booking fields"),
         description=_(
@@ -243,7 +225,23 @@ class IPrenotazioniFolder(model.Schema):
             vocabulary="redturtle.prenotazioni.requirable_booking_fields"
         ),
     )
-    directives.widget(visible_booking_fields=CheckBoxFieldWidget)
+
+    directives.widget(required_booking_fields=CheckBoxFieldWidget)
+    required_booking_fields = schema.List(
+        title=_("label_required_booking_fields", default="Required booking fields"),
+        description=_(
+            "help_required_booking_fields",
+            "User will not be able to add a booking unless those "
+            "fields are filled. "
+            "Remember that, whatever you selected in this list, "
+            "users have to supply at least one "
+            'of "Email", "Mobile", or "Telephone"',
+        ),
+        required=False,
+        value_type=schema.Choice(
+            vocabulary="redturtle.prenotazioni.requirable_booking_fields"
+        ),
+    )
 
     daData = schema.Date(title=_("Data inizio validità"))
 
