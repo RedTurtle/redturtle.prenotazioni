@@ -98,7 +98,6 @@ class TestAvailableSlots(unittest.TestCase):
                     )
         self.assertEqual(expected, response.json()["items"])
 
-    @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
     def test_month_slots_called_without_params_return_available_slots_of_current_month_when_some_are_full(
         self,
     ):

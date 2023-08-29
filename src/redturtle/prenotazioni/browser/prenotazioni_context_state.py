@@ -401,38 +401,18 @@ class PrenotazioniContextState(BrowserView):
             # sometimes booking_date is passed as date and sometimes as datetime
             booking_date = booking_date.date()
 
-        gates = [
-            {
-                "name": gate,
-                "available": True,
-            }
-            for gate in self.context.getGates() or [""]
-        ]
-
+        gates = self.context.getGates()
         overrides = self.get_week_overrides(day=booking_date)
-        if not overrides:
-            return gates
+        if overrides:
+            gates = overrides.get("gates", []) or gates
 
-        overrided_gates = overrides.get("gates", [])
-        if not overrided_gates:
-            return gates
-
-        # set default gates as unavailable
-        gates = [
-            {
-                "name": gate["name"],
-                "available": False,
-            }
-            for gate in gates
-        ]
-        overrided_gates = [
+        return [
             {
                 "name": gate,
                 "available": True,
             }
-            for gate in overrided_gates or [""]
+            for gate in gates or [""]
         ]
-        return gates + overrided_gates
 
     def get_busy_gates_in_slot(self, booking_date, booking_end_date=None):
         """

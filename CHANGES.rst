@@ -7,9 +7,6 @@ Changelog
 
 - Fix slots overlap valiation on booking move
   [folix-01]
-- Show default gates as unavailable in get_gates method, if they are overrided.
-  [cekk]
-
 
 2.0.0.rc1 (2023-08-25)
 ----------------------
@@ -22,7 +19,6 @@ Changelog
 
 - allow to add out-of-office in api (aka blocco prenotazione)
   [mamico]
-
 
 2.0.0.dev5 (2023-08-21)
 -----------------------
