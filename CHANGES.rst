@@ -5,8 +5,8 @@ Changelog
 2.0.0rc2 (unreleased)
 ---------------------
 
-- Nothing changed yet.
-
+- Fix slots overlap valiation on booking move
+  [folix-01]
 
 2.0.0.rc1 (2023-08-25)
 ----------------------
@@ -19,7 +19,6 @@ Changelog
 
 - allow to add out-of-office in api (aka blocco prenotazione)
   [mamico]
-
 
 2.0.0.dev5 (2023-08-21)
 -----------------------
@@ -89,8 +88,8 @@ Changelog
   months-slots => available-slots
   prenotazione-schema => booking-schema
   @@download_reservation => @@download/bookings.xlsx
-  [cekk] [mamico]  
-  
+  [cekk] [mamico]
+
 
 2.0.0.dev3 (2023-07-20)
 -----------------------
