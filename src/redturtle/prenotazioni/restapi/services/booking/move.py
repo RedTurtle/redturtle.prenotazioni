@@ -3,8 +3,10 @@ from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
-from redturtle.prenotazioni.adapters.booker import IBooker
 from zope.interface import alsoProvides
+from zExceptions import BadRequest
+
+from redturtle.prenotazioni.adapters.booker import IBooker, BookerException
 
 
 class MoveBooking(Service):
@@ -28,8 +30,10 @@ class MoveBooking(Service):
 
         booker = IBooker(booking.getPrenotazioniFolder())
 
-        # TODO: gestire eccezioni nel caso ci sia sovrapposizione
-        booker.move(booking=booking, data=data)
+        try:
+            booker.move(booking=booking, data=data)
+        except BookerException as e:
+            raise BadRequest(str(e))
 
         alsoProvides(self.request, IDisableCSRFProtection)
         # TODO: valutare se serve tornare del contenuto
