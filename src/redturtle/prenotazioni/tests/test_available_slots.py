@@ -10,7 +10,9 @@ from plone.app.testing import TEST_USER_ID
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+)
 
 import calendar
 import pytz
@@ -57,7 +59,9 @@ class TestAvailableSlots(unittest.TestCase):
         self.folder_prenotazioni.week_table = week_table
 
         year = api.content.create(
-            container=self.folder_prenotazioni, type="PrenotazioniYear", title="Year"
+            container=self.folder_prenotazioni,
+            type="PrenotazioniYear",
+            title="Year",
         )
         week = api.content.create(container=year, type="PrenotazioniWeek", title="Week")
         self.day_folder = api.content.create(

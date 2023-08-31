@@ -5,6 +5,8 @@ Changelog
 2.0.0rc2 (unreleased)
 ---------------------
 
+- Show default gates as unavailable in get_gates method, if they are overrided.
+  [cekk]
 - Skip required field validation when add out of office bookings in @booking endpoint.
   [cekk]
 - Only users with permission can add out of office bookings in @booking endpoint.

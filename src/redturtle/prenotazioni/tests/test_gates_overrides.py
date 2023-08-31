@@ -2,7 +2,9 @@
 from datetime import date
 from plone import api
 from plone.app.testing import TEST_USER_ID, setRoles
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
+)
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 
 import json
@@ -27,7 +29,7 @@ class TestGatesOverrides(unittest.TestCase):
             booking_types=[
                 {"name": "Type A", "duration": "30"},
             ],
-            gates=["Gate A"],
+            gates=["Gate A", "Gate B"],
             week_table=WEEK_TABLE_SCHEMA,
             week_table_overrides=json.dumps(
                 [
@@ -35,7 +37,7 @@ class TestGatesOverrides(unittest.TestCase):
                         "from_day": "1",
                         "from_month": "1",
                         "to_month": "2",
-                        "gates": ["foo", "bar"],
+                        "gates": ["Gate B", "foo", "bar"],
                         "to_day": "18",
                         "week_table": [],
                         "pause_table": [],
@@ -52,18 +54,31 @@ class TestGatesOverrides(unittest.TestCase):
             request=self.request,
         )
 
-    def test_day_in_override_gates(self):
+    def test_day_in_override_gates_return_overrided_gates_available_and_default_unavailable(
+        self,
+    ):
         now = date.today()
         gates = self.view.get_gates(date(now.year, 1, 10))
         self.assertEqual(
             gates,
-            [{"name": "foo", "available": True}, {"name": "bar", "available": True}],
+            [
+                {"name": "Gate A", "available": False},
+                {"name": "Gate B", "available": True},
+                {"name": "foo", "available": True},
+                {"name": "bar", "available": True},
+            ],
         )
 
     def test_day_not_in_override_gates(self):
         now = date.today()
         gates = self.view.get_gates(date(now.year, 6, 10))
-        self.assertEqual(gates, [{"name": "Gate A", "available": True}])
+        self.assertEqual(
+            gates,
+            [
+                {"name": "Gate A", "available": True},
+                {"name": "Gate B", "available": True},
+            ],
+        )
 
     def test_if_gates_override_not_set_use_default(self):
         folder = api.content.create(
