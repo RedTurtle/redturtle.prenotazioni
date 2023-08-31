@@ -5,6 +5,10 @@ Changelog
 2.0.0rc2 (unreleased)
 ---------------------
 
+- Skip required field validation when add out of office bookings in @booking endpoint.
+  [cekk]
+- Only users with permission can add out of office bookings in @booking endpoint.
+  [cekk]
 - Fix slots overlap valiation on booking move
   [folix-01]
 
