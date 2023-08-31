@@ -2,7 +2,9 @@
 from datetime import date
 from plone import api
 from plone.app.testing import TEST_USER_ID, setRoles
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
+)
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 
 import json
@@ -70,7 +72,13 @@ class TestGatesOverrides(unittest.TestCase):
     def test_day_not_in_override_gates(self):
         now = date.today()
         gates = self.view.get_gates(date(now.year, 6, 10))
-        self.assertEqual(gates, [{"name": "Gate A", "available": True}])
+        self.assertEqual(
+            gates,
+            [
+                {"name": "Gate A", "available": True},
+                {"name": "Gate B", "available": True},
+            ],
+        )
 
     def test_if_gates_override_not_set_use_default(self):
         folder = api.content.create(

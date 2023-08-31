@@ -20,7 +20,9 @@ class AvailableSlots(Service):
         If not, the search will start from current date until the end of current month.
         """
         prenotazioni_week_view = api.content.get_view(
-            "prenotazioni_week_view", context=self.context, request=self.request
+            "prenotazioni_week_view",
+            context=self.context,
+            request=self.request,
         )
         start = self.request.form.get("start", "")
         end = self.request.form.get("end", "")

@@ -417,14 +417,6 @@ class PrenotazioniContextState(BrowserView):
         if not overrided_gates:
             return gates
 
-        # set default gates as unavailable
-        gates = [
-            {
-                "name": gate["name"],
-                "available": False,
-            }
-            for gate in gates
-        ]
         overrided_gates = [
             {
                 "name": gate,
@@ -432,6 +424,17 @@ class PrenotazioniContextState(BrowserView):
             }
             for gate in overrided_gates or [""]
         ]
+
+        # set default gates as unavailable
+        gates = [
+            {
+                "name": gate["name"],
+                "available": False,
+            }
+            for gate in gates
+            if gate["name"] not in [i["name"] for i in overrided_gates]
+        ]
+
         return gates + overrided_gates
 
     def get_busy_gates_in_slot(self, booking_date, booking_end_date=None):
