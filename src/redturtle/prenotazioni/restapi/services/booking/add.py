@@ -73,6 +73,22 @@ class AddBooking(BookingSchema):
                     )
                 )
                 raise BadRequest(msg)
+
+        if data["booking_type"] in [VACATION_TYPE]:
+            if not api.user.has_permission(
+                "redturtle.prenotazioni.ManagePrenotazioni", obj=self.context
+            ):
+                msg = self.context.translate(
+                    _(
+                        "unauthorized_add_vacation",
+                        "You can't add a booking with type '${booking_type}'.",
+                        mapping=dict(booking_type=data["booking_type"]),
+                    )
+                )
+                raise BadRequest(msg)
+            # TODO: check permission for special booking_types ?
+            return data, data_fields
+
         for field in self.required_fields:
             if not data_fields.get(field):
                 msg = self.context.translate(
@@ -83,10 +99,7 @@ class AddBooking(BookingSchema):
                 )
                 raise BadRequest(msg)
 
-        if data["booking_type"] in [VACATION_TYPE]:
-            # TODO: check permission for special booking_types ?
-            pass
-        elif data["booking_type"] not in [
+        if data["booking_type"] not in [
             _t["name"] for _t in self.context.booking_types or [] if "name" in _t
         ]:
             msg = self.context.translate(
