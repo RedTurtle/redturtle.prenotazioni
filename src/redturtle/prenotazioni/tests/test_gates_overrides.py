@@ -27,7 +27,7 @@ class TestGatesOverrides(unittest.TestCase):
             booking_types=[
                 {"name": "Type A", "duration": "30"},
             ],
-            gates=["Gate A"],
+            gates=["Gate A", "Gate B"],
             week_table=WEEK_TABLE_SCHEMA,
             week_table_overrides=json.dumps(
                 [
@@ -35,7 +35,7 @@ class TestGatesOverrides(unittest.TestCase):
                         "from_day": "1",
                         "from_month": "1",
                         "to_month": "2",
-                        "gates": ["foo", "bar"],
+                        "gates": ["Gate B", "foo", "bar"],
                         "to_day": "18",
                         "week_table": [],
                         "pause_table": [],
@@ -61,6 +61,7 @@ class TestGatesOverrides(unittest.TestCase):
             gates,
             [
                 {"name": "Gate A", "available": False},
+                {"name": "Gate B", "available": True},
                 {"name": "foo", "available": True},
                 {"name": "bar", "available": True},
             ],
