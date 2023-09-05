@@ -5,7 +5,8 @@ Changelog
 2.0.0rc6 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+- Traduzioni
+  [mamico]
 
 
 2.0.0rc5 (2023-09-05)

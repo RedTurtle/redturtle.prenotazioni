@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2023-09-05 08:11+0000\n"
+"POT-Creation-Date: 2023-09-05 13:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -819,7 +819,7 @@ msgstr ""
 msgid "holidays_label"
 msgstr ""
 
-#. Default: "Booking for {}"
+#. Default: "Booking for ${title}"
 #: redturtle/prenotazioni/adapters/ical.py:67
 msgid "ical_booking_label"
 msgstr ""

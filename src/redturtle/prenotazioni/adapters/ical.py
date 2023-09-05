@@ -66,7 +66,8 @@ class ICalendarBookingComponent(ICalendarEventComponent):
         title = translate(
             _(
                 "ical_booking_label",
-                default="Booking for {}".format(self.parent.title),
+                default="Booking for ${title}",
+                mapping={"title": self.parent.title},
             )
         )
         return {"value": title}
