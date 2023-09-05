@@ -8,6 +8,8 @@ Changelog
 - add booking_code field to IPrenotazione schema
   update locales
   [lucabel]
+- Traduzioni
+  [mamico]
 
 
 2.0.0rc5 (2023-09-05)

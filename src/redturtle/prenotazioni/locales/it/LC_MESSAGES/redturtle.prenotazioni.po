@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-09-05 12:38+0000\n"
+"POT-Creation-Date: 2023-09-05 13:34+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -143,7 +143,7 @@ msgid "Days booking is not allowed before"
 msgstr "Giorni da cui si può effettuare una prenotazione"
 
 msgid "Delete"
-msgstr "Cancella"
+msgstr "Elimina"
 
 #. Default: "Descrizione Agenda"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:197
@@ -825,10 +825,10 @@ msgstr "Imposta eventuali festività (una per riga) nel formato GG/MM/AAAA. Se l
 msgid "holidays_label"
 msgstr "Festività"
 
-#. Default: "Booking for {}"
+#. Default: "Booking for ${title}"
 #: redturtle/prenotazioni/adapters/ical.py:67
 msgid "ical_booking_label"
-msgstr "Prenotazione appuntamento {}"
+msgstr "Prenotazione appuntamento per ${title}"
 
 #. Default: "Date should be in the format YYYY/mm/dd"
 #: redturtle/prenotazioni/browser/vacations.py:31
@@ -1058,7 +1058,6 @@ msgstr "Impossibile trovare la prenotazione con id: ${uid}."
 msgid "missing_uid"
 msgstr "Devi fornite un'id prenotazione."
 
-#. Default: "End time in the morning"
 msgid "month_label"
 msgstr "Mese"
 
