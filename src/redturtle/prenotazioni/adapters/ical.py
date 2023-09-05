@@ -11,7 +11,6 @@ from plone.stringinterp.interfaces import IStringSubstitution
 from redturtle.prenotazioni import _
 from zope.component import getAdapter
 from zope.component import getUtility
-from zope.i18n import translate
 from zope.interface import implementer
 
 import icalendar
@@ -63,7 +62,7 @@ class ICalendarBookingComponent(ICalendarEventComponent):
 
     @property
     def summary(self):
-        title = translate(
+        title = self.context.translate(
             _(
                 "ical_booking_label",
                 default="Booking for ${title}",
