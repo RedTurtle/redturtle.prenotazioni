@@ -393,9 +393,9 @@ def update_booking_code(self):
     brains = api.content.find(portal_type="Prenotazione")
     for brain in brains:
         item = brain.getObject()
-        if not getattr(item, 'booking_code', None):
+        if not getattr(item, "booking_code", None):
             set_booking_code(item, None)
             item.reindexObject(idxs=["SearchableText"])
             logger.info(
-                f'- [{brain.getPath()}] set booking_code to {item.booking_code}'
+                f"- [{brain.getPath()}] set booking_code to {item.booking_code}"
             )
