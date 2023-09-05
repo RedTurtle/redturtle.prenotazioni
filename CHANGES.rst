@@ -5,7 +5,8 @@ Changelog
 2.0.0rc5 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+- Update locales.
+  [foxli-01]
 
 
 2.0.0rc4 (2023-09-05)
