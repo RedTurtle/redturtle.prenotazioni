@@ -166,4 +166,14 @@
         handler=".upgrades.update_sharing"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1801"
+      destination="1802"
+      >
+    <genericsetup:upgradeStep
+        title="Update PrenotazioniFolder.booking_types field schema"
+        handler=".upgrades.to_1802"
+        />
+  </genericsetup:upgradeSteps>
 </configure>

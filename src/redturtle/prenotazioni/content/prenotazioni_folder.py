@@ -132,6 +132,10 @@ class IBookingTypeRow(Interface):
         required=True,
         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
     )
+    queue_id = schema.TextLine(title=_("Queue ID"), required=False, max_length=8)
+    turn_number_prefix = schema.TextLine(
+        title=_("Turn number prefix"), required=False, max_length=8
+    )
 
 
 def notify_on_submit_subject_default_factory():
@@ -597,6 +601,16 @@ class IPrenotazioniFolder(model.Schema):
         ),
         description=_("notify_on_refuse_message_help", default=""),
         default=notify_on_refuse_message_default_factory(),
+        required=False,
+    )
+
+    sync_with_teom = schema.Bool(
+        title=_("sync_with_teom_title", "Synchronize with TEOM"),
+        description=_(
+            "sync_with_teom_description",
+            "Syncronize with TEOM external service",
+        ),
+        default=False,
         required=False,
     )
 

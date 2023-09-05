@@ -376,7 +376,7 @@ def to_1700(context):
                 setattr(prenotazione, field, date.astimezone(tz))
 
 
-def to_1800(self):
+def to_1800(context):
     brains = api.content.find(portal_type="PrenotazioniFolder")
     for brain in brains:
         item = brain.getObject()
@@ -386,3 +386,18 @@ def to_1800(self):
             logger.info(
                 f'- [{brain.getPath()}] set same_day_booking_disallowed to "no"'
             )
+
+
+def to_1802(context):
+    """Update PrenotazioniFolder.booking_types field schema"""
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        booking_folder = brain.getObject()
+
+        for type in booking_folder.booking_types:
+            if not type.get("queue_id", None):
+                type["queue_id"] = ""
+
+            if not type.get("turn_number_prefix", None):
+                type["turn_number_prefix"] = ""
