@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from datetime import date
-from datetime import timedelta, datetime
 from Acquisition import aq_parent
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
@@ -9,14 +10,10 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.autoform.interfaces import MODES_KEY
 from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
-)
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING,
-)
+from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 from zope.interface import Interface
 
@@ -33,6 +30,7 @@ class TestSchemaDirectives(unittest.TestCase):
                 (Interface, "booking_date", "display"),
                 (Interface, "gate", "display"),
                 (Interface, "booking_expiration_date", "display"),
+                (Interface, "booking_code", "display")
             ],
             IPrenotazione.queryTaggedValue(MODES_KEY),
         )
@@ -242,6 +240,39 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
             row["morning_start"] = "0700"
             row["morning_end"] = "1000"
         self.folder_prenotazioni.week_table = week_table
+
+    def test_booking_code_generation(self):
+        booker = IBooker(self.folder_prenotazioni)
+
+        booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
+            days=1, hours=9
+        )
+        booking_expiration_date = datetime.fromisoformat(
+            date.today().isoformat()
+        ) + timedelta(days=1, hours=9, minutes=30)
+
+        # need this just to have the day container
+        container = aq_parent(
+            booker.create(
+                {
+                    "booking_date": booking_date + timedelta(hours=5),
+                    "booking_type": "Type A",
+                    "title": "foo",
+                }
+            )
+        )
+
+        new_booking = api.content.create(
+            container=container,
+            type="Prenotazione",
+            title="Booking A",
+            booking_date=booking_date,
+            gate="Gate A",
+            booking_type="Type A",
+            booking_expiration_date=booking_expiration_date,
+        )
+        self.assertIsNot(new_booking.getBookingCode(), None)
+        self.assertTrue(len(new_booking.getBookingCode()) > 0)
 
     def test_booking_code_uniqueness(self):
         booker = IBooker(self.folder_prenotazioni)

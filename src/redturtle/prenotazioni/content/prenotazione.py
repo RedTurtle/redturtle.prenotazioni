@@ -15,7 +15,6 @@ from zope import schema
 from zope.interface import implementer
 from zope.schema import ValidationError
 
-import hashlib
 import re
 import six
 
@@ -174,6 +173,13 @@ class IPrenotazione(model.Schema):
         title=_("Expiration date booking"), required=True
     )
 
+    directives.mode(booking_code="display")
+    booking_code = schema.TextLine(
+        title=_("Booking code"),
+        description=_("Codice univoco della prenotazione"),
+        required=False
+    )
+
     staff_notes = schema.Text(
         required=False, title=_("label_booking_staff_notes", "Staff notes")
     )
@@ -255,8 +261,7 @@ class Prenotazione(Item):
         return DateTime(self.getBooking_date())
 
     def getBookingCode(self):
-        hash_obj = hashlib.blake2b(bytes(self.UID(), encoding="utf8"), digest_size=3)
-        return hash_obj.hexdigest().upper()
+        return self.booking_code
 
     def canAccessBooking(self):
         creator = self.Creator()

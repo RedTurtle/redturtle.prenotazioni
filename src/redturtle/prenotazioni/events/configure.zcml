@@ -26,6 +26,12 @@
   <subscriber
       for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
            zope.lifecycleevent.IObjectAddedEvent"
+      handler=".prenotazione.set_booking_code"
+      />
+
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           zope.lifecycleevent.IObjectAddedEvent"
       handler=".prenotazione.send_email_to_managers"
       />
 
