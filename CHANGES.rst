@@ -2,11 +2,25 @@ Changelog
 =========
 
 
-2.0.0rc3 (unreleased)
+2.0.0rc6 (unreleased)
 ---------------------
 
 - Traduzioni
   [mamico]
+
+
+2.0.0rc5 (2023-09-05)
+---------------------
+
+- Update locales.
+  [foxli-01]
+
+
+2.0.0rc4 (2023-09-05)
+---------------------
+
+- Add a dedicated role to manage the bookings.
+  [folix-01]
 
 
 2.0.0.rc2 (2023-08-31)
