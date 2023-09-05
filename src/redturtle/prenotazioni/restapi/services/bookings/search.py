@@ -31,7 +31,9 @@ class BookingsSearch(Service):
 
         if api.user.is_anonymous():
             raise Unauthorized("You must be logged in to perform this action")
-        elif api.user.has_permission("redturtle.prenotazioni: search prenotazioni"):
+        elif api.user.has_permission(
+            "redturtle.prenotazioni: search prenotazioni", obj=self.context
+        ):
             userid = self.request.get("userid", None)
         else:
             userid = api.user.get_current().getUserId()

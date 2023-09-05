@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-09-04 14:24+0000\n"
+"POT-Creation-Date: 2023-09-05 08:11+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -1129,7 +1129,7 @@ msgstr "Testo notifica prenotazione confermata"
 
 #. Default: "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:156
-#: redturtle/prenotazioni/upgrades.py:248
+#: redturtle/prenotazioni/upgrades.py:254
 msgid "notify_on_confirm_message_default_value"
 msgstr "La prenotazione ${booking_type} per ${title} è stata confermata! Se non hai salvato o stampato il promemoria, puoi visualizzarlo su <a href=${booking_print_url}>questo link</a> Se desideri cancellare la prenotazione, accedi a <a href=${booking_print_url}>questo link</a>"
 
@@ -1144,7 +1144,7 @@ msgstr "Oggetto notifica prenotazione confermata"
 
 #. Default: "Booking of ${booking_date} at ${booking_time} was accepted"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:149
-#: redturtle/prenotazioni/upgrades.py:241
+#: redturtle/prenotazioni/upgrades.py:247
 msgid "notify_on_confirm_subject_default_value"
 msgstr "Prenotazione del ${booking_date} alle ${booking_time} accettata"
 
@@ -1169,7 +1169,7 @@ msgstr "Testo notifica prenotazione spostata"
 
 #. Default: "The booking scheduling of ${booking_type} was modified.The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:170
-#: redturtle/prenotazioni/upgrades.py:262
+#: redturtle/prenotazioni/upgrades.py:268
 msgid "notify_on_move_message_default_value"
 msgstr "L'orario della sua prenotazione ${booking_type} è stata modificata. La nuova data è ${booking_date} alle ore ${booking_time}. Controlla o stampa il nuovo promemoria su <a href=${booking_print_url}>questo link</a>."
 
@@ -1184,7 +1184,7 @@ msgstr "Oggetto notifica prenotazione spostata"
 
 #. Default: "Modified the boolking date for ${title}"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:163
-#: redturtle/prenotazioni/upgrades.py:255
+#: redturtle/prenotazioni/upgrades.py:261
 msgid "notify_on_move_subject_default_value"
 msgstr "Modifica data di prenotazione per ${title}"
 
@@ -1209,7 +1209,7 @@ msgstr "Testo notifica prenotazione rifiutata"
 
 #. Default: "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:185
-#: redturtle/prenotazioni/upgrades.py:277
+#: redturtle/prenotazioni/upgrades.py:283
 msgid "notify_on_refuse_message_default_value"
 msgstr "La prenotazione ${booking_type} del ${booking_date} delle ore ${booking_time} è stata rifiutata."
 
@@ -1224,7 +1224,7 @@ msgstr "Oggetto notifica prenotazione rifiutata"
 
 #. Default: "Booking refused for ${title}"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:178
-#: redturtle/prenotazioni/upgrades.py:270
+#: redturtle/prenotazioni/upgrades.py:276
 msgid "notify_on_refuse_subject_default_value"
 msgstr "Prenotazione rifiutata per ${title}"
 
@@ -1249,7 +1249,7 @@ msgstr "Testo notifica prenotazione creata"
 
 #. Default: "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:142
-#: redturtle/prenotazioni/upgrades.py:234
+#: redturtle/prenotazioni/upgrades.py:240
 msgid "notify_on_submit_message_default_value"
 msgstr "La prenotazione ${booking_type} per il ${booking_date} alle ${booking_time} è stata creata. Riceverete una mail di conferma quando la prenotazione verrà confermata definitivamente. Se non hai salvato o stampato il promemoria, puoi visualizzarlo <a href=${booking_print_url}>questo link</a>"
 
@@ -1264,7 +1264,7 @@ msgstr "Oggetto notifica prenotazione creata"
 
 #. Default: "Booking created ${title}"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:138
-#: redturtle/prenotazioni/upgrades.py:230
+#: redturtle/prenotazioni/upgrades.py:236
 msgid "notify_on_submit_subject_default_value"
 msgstr "Prenotazione creata correttamente per ${title}"
 
