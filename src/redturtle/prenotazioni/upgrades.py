@@ -11,6 +11,7 @@ from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
 from plone.contentrules.engine.interfaces import IRuleStorage
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni.events.prenotazione import set_booking_code
 from zope.component import getUtility
 from zope.component import queryUtility
 
@@ -385,4 +386,16 @@ def to_1800(self):
             item.same_day_booking_disallowed = "no"
             logger.info(
                 f'- [{brain.getPath()}] set same_day_booking_disallowed to "no"'
+            )
+
+
+def update_booking_code(self):
+    brains = api.content.find(portal_type="Prenotazione")
+    for brain in brains:
+        item = brain.getObject()
+        if not getattr(item, 'booking_code', None):
+            set_booking_code(item, None)
+            item.reindexObject(idxs=["SearchableText"])
+            logger.info(
+                f'- [{brain.getPath()}] set booking_code to {item.booking_code}'
             )
