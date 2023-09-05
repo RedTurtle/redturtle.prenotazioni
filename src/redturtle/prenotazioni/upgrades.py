@@ -3,7 +3,9 @@ from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
+from plone.app.contentrules.conditions.wftransition import (
+    WorkflowTransitionCondition,
+)
 from plone.app.event.base import default_timezone
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
@@ -54,6 +56,10 @@ def update_rolemap(context):
 
 def update_contentrules(context):
     update_profile(context, "contentrules")
+
+
+def update_sharing(context):
+    update_profile(context, "sharing")
 
 
 def reload_gs_profile(context):

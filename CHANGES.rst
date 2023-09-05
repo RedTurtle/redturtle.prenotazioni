@@ -5,7 +5,8 @@ Changelog
 2.0.0rc3 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+- Add a dedicated role to manage the bookings.
+  [folix-01]
 
 
 2.0.0.rc2 (2023-08-31)
