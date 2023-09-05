@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.0rc3 (unreleased)
+2.0.0rc4 (unreleased)
 ---------------------
 
 - Add a dedicated role to manage the bookings.
