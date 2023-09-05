@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-09-05 13:25+0000\n"
+"POT-Creation-Date: 2023-09-05 13:51+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -1397,12 +1397,12 @@ msgstr "Il mittente della mail. Se nessun indirizzo viene inserito verrà utiliz
 #. Default: "Syncronize with TEOM external service"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:609
 msgid "sync_with_teom_description"
-msgstr "Sincronizza con il servizio esterno TEOM"
+msgstr "Le prenotazioni verranno inviate al sistema di smistamento code TEOM"
 
 #. Default: "Synchronize with TEOM"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:608
 msgid "sync_with_teom_title"
-msgstr "Sincronizza con il TEOM"
+msgstr "Sincronizza con il sistema smistacode TEOM"
 
 #. Default: "You cannot book any booking_type at this time"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:283
