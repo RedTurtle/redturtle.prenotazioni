@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2023-09-04 13:57+0000\n"
+"POT-Creation-Date: 2023-09-05 08:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,10 +78,6 @@ msgstr ""
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:129
 msgid "Booking type name"
-msgstr ""
-
-#: redturtle/prenotazioni/profiles/default/sharing.xml
-msgid "Can Manage Bookings"
 msgstr ""
 
 #. Default: "Change date/time"
@@ -1118,7 +1114,7 @@ msgstr ""
 
 #. Default: "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:156
-#: redturtle/prenotazioni/upgrades.py:248
+#: redturtle/prenotazioni/upgrades.py:254
 msgid "notify_on_confirm_message_default_value"
 msgstr ""
 
@@ -1133,7 +1129,7 @@ msgstr ""
 
 #. Default: "Booking of ${booking_date} at ${booking_time} was accepted"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:149
-#: redturtle/prenotazioni/upgrades.py:241
+#: redturtle/prenotazioni/upgrades.py:247
 msgid "notify_on_confirm_subject_default_value"
 msgstr ""
 
@@ -1158,7 +1154,7 @@ msgstr ""
 
 #. Default: "The booking scheduling of ${booking_type} was modified.The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:170
-#: redturtle/prenotazioni/upgrades.py:262
+#: redturtle/prenotazioni/upgrades.py:268
 msgid "notify_on_move_message_default_value"
 msgstr ""
 
@@ -1173,7 +1169,7 @@ msgstr ""
 
 #. Default: "Modified the boolking date for ${title}"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:163
-#: redturtle/prenotazioni/upgrades.py:255
+#: redturtle/prenotazioni/upgrades.py:261
 msgid "notify_on_move_subject_default_value"
 msgstr ""
 
@@ -1198,7 +1194,7 @@ msgstr ""
 
 #. Default: "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:185
-#: redturtle/prenotazioni/upgrades.py:277
+#: redturtle/prenotazioni/upgrades.py:283
 msgid "notify_on_refuse_message_default_value"
 msgstr ""
 
@@ -1213,7 +1209,7 @@ msgstr ""
 
 #. Default: "Booking refused for ${title}"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:178
-#: redturtle/prenotazioni/upgrades.py:270
+#: redturtle/prenotazioni/upgrades.py:276
 msgid "notify_on_refuse_subject_default_value"
 msgstr ""
 
@@ -1238,7 +1234,7 @@ msgstr ""
 
 #. Default: "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:142
-#: redturtle/prenotazioni/upgrades.py:234
+#: redturtle/prenotazioni/upgrades.py:240
 msgid "notify_on_submit_message_default_value"
 msgstr ""
 
@@ -1253,7 +1249,7 @@ msgstr ""
 
 #. Default: "Booking created ${title}"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:138
-#: redturtle/prenotazioni/upgrades.py:230
+#: redturtle/prenotazioni/upgrades.py:236
 msgid "notify_on_submit_subject_default_value"
 msgstr ""
 
