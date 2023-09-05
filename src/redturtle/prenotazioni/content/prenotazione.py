@@ -177,7 +177,7 @@ class IPrenotazione(model.Schema):
     booking_code = schema.TextLine(
         title=_("Booking code"),
         description=_("Codice univoco della prenotazione"),
-        required=False
+        required=False,
     )
 
     staff_notes = schema.Text(

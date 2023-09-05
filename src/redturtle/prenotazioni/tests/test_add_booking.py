@@ -30,7 +30,7 @@ class TestSchemaDirectives(unittest.TestCase):
                 (Interface, "booking_date", "display"),
                 (Interface, "gate", "display"),
                 (Interface, "booking_expiration_date", "display"),
-                (Interface, "booking_code", "display")
+                (Interface, "booking_code", "display"),
             ],
             IPrenotazione.queryTaggedValue(MODES_KEY),
         )
