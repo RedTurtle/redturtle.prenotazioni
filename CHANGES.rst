@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.0rc5 (unreleased)
+2.0.0rc5 (2023-09-05)
 ---------------------
 
 - Update locales.
