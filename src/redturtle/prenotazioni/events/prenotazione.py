@@ -189,6 +189,12 @@ def send_email_to_managers(booking, event):
 
 
 def set_booking_code(booking, event):
+    """
+    set booking code. skip if we are importing old booking
+    """
+    if is_migration():
+        return
+
     hash_obj = hashlib.blake2b(bytes(booking.UID(), encoding="utf8"), digest_size=3)
     hash_value = hash_obj.hexdigest().upper()
     setattr(booking, "booking_code", hash_value)

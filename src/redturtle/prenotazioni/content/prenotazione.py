@@ -175,8 +175,8 @@ class IPrenotazione(model.Schema):
 
     directives.mode(booking_code="display")
     booking_code = schema.TextLine(
-        title=_("Booking code"),
-        description=_("Codice univoco della prenotazione"),
+        title=_("label_booking_code", default="Booking code"),
+        description=_("description_booking_code", default="Unique booking code"),
         required=False,
     )
 

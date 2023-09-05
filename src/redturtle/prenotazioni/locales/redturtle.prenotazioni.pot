@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2023-09-05 08:11+0000\n"
+"POT-Creation-Date: 2023-09-05 12:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,10 +71,6 @@ msgstr ""
 msgid "Booking Year Folder"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazione.py:178
-msgid "Booking code"
-msgstr ""
-
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:33
 msgid "Booking for"
 msgstr ""
@@ -90,10 +86,6 @@ msgstr ""
 #. Default: "Change date/time"
 #: redturtle/prenotazioni/profiles/default/actions.xml
 msgid "Change date/time"
-msgstr ""
-
-#: redturtle/prenotazioni/content/prenotazione.py:179
-msgid "Codice univoco della prenotazione"
 msgstr ""
 
 #. Default: "Complete address"
@@ -180,7 +172,7 @@ msgstr ""
 msgid "Email report to prenotazione owner"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazione.py:174
+#: redturtle/prenotazioni/content/prenotazione.py:173
 msgid "Expiration date booking"
 msgstr ""
 
@@ -194,7 +186,7 @@ msgid "Friday"
 msgstr ""
 
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:80
-#: redturtle/prenotazioni/content/prenotazione.py:169
+#: redturtle/prenotazioni/content/prenotazione.py:168
 msgid "Gate"
 msgstr ""
 
@@ -305,7 +297,7 @@ msgstr ""
 msgid "Pause table"
 msgstr ""
 
-#: redturtle/prenotazioni/browser/prenotazione_add.py:220
+#: redturtle/prenotazioni/browser/prenotazione_add.py:221
 msgid "Please provide a booking date"
 msgstr ""
 
@@ -337,7 +329,7 @@ msgstr ""
 msgid "Required input '${field}' is missing."
 msgstr ""
 
-#: redturtle/prenotazioni/browser/prenotazione_add.py:216
+#: redturtle/prenotazioni/browser/prenotazione_add.py:217
 msgid "Required input is missing."
 msgstr ""
 
@@ -378,7 +370,7 @@ msgstr ""
 msgid "Sorry, you can not book this slot for now."
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazione.py:170
+#: redturtle/prenotazioni/content/prenotazione.py:169
 msgid "Sportello a cui presentarsi"
 msgstr ""
 
@@ -554,13 +546,13 @@ msgid "aData_help"
 msgstr ""
 
 #. Default: "Book"
-#: redturtle/prenotazioni/browser/prenotazione_add.py:198
+#: redturtle/prenotazioni/browser/prenotazione_add.py:199
 #: redturtle/prenotazioni/browser/vacations.py:206
 msgid "action_book"
 msgstr ""
 
 #. Default: "Cancel"
-#: redturtle/prenotazioni/browser/prenotazione_add.py:251
+#: redturtle/prenotazioni/browser/prenotazione_add.py:252
 #: redturtle/prenotazioni/browser/prenotazione_move.py:149
 #: redturtle/prenotazioni/browser/vacations.py:231
 msgid "action_cancel"
@@ -621,7 +613,7 @@ msgstr ""
 msgid "booking_confirmed"
 msgstr ""
 
-#: redturtle/prenotazioni/browser/prenotazione_add.py:230
+#: redturtle/prenotazioni/browser/prenotazione_add.py:231
 #: redturtle/prenotazioni/browser/vacations.py:203
 msgid "booking_created"
 msgstr ""
@@ -735,8 +727,13 @@ msgstr ""
 msgid "delete_reservation_request"
 msgstr ""
 
+#. Default: "Unique booking code"
+#: redturtle/prenotazioni/content/prenotazione.py:179
+msgid "description_booking_code"
+msgstr ""
+
 #. Default: "If you work for a company, please specify its name."
-#: redturtle/prenotazioni/content/prenotazione.py:160
+#: redturtle/prenotazioni/content/prenotazione.py:159
 msgid "description_company"
 msgstr ""
 
@@ -793,7 +790,7 @@ msgstr ""
 msgid "gates_label"
 msgstr ""
 
-#: redturtle/prenotazioni/browser/prenotazione_add.py:155
+#: redturtle/prenotazioni/browser/prenotazione_add.py:156
 msgid "help_prenotazione_add"
 msgstr ""
 
@@ -837,7 +834,7 @@ msgid "invalid_date"
 msgstr ""
 
 #. Default: "Invalid email address"
-#: redturtle/prenotazioni/content/prenotazione.py:31
+#: redturtle/prenotazioni/content/prenotazione.py:30
 msgid "invalid_email_address"
 msgstr ""
 
@@ -848,12 +845,12 @@ msgid "invalid_end:search_date"
 msgstr ""
 
 #. Default: "Invalid fiscal code"
-#: redturtle/prenotazioni/content/prenotazione.py:39
+#: redturtle/prenotazioni/content/prenotazione.py:38
 msgid "invalid_fiscalcode"
 msgstr ""
 
 #. Default: "Invalid phone number"
-#: redturtle/prenotazioni/content/prenotazione.py:27
+#: redturtle/prenotazioni/content/prenotazione.py:26
 msgid "invalid_phone_number"
 msgstr ""
 
@@ -862,7 +859,7 @@ msgid "invalid_time"
 msgstr ""
 
 #. Default: "This date is past"
-#: redturtle/prenotazioni/content/prenotazione.py:35
+#: redturtle/prenotazioni/content/prenotazione.py:34
 msgid "is_not_future_date"
 msgstr ""
 
@@ -924,13 +921,13 @@ msgstr ""
 
 #. Default: "Staff notes"
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:84
-#: redturtle/prenotazioni/content/prenotazione.py:182
+#: redturtle/prenotazioni/content/prenotazione.py:184
 msgid "label_booking_staff_notes"
 msgstr ""
 
 #. Default: "Booking time"
 #: redturtle/prenotazioni/browser/prenotazione_move.py:33
-#: redturtle/prenotazioni/content/prenotazione.py:125
+#: redturtle/prenotazioni/content/prenotazione.py:124
 msgid "label_booking_time"
 msgstr ""
 
@@ -987,7 +984,7 @@ msgid "label_same_day_booking_disallowed"
 msgstr ""
 
 #. Default: "Selected date: ${date} — Time: ${slot}"
-#: redturtle/prenotazioni/browser/prenotazione_add.py:140
+#: redturtle/prenotazioni/browser/prenotazione_add.py:141
 msgid "label_selected_date"
 msgstr ""
 
@@ -1089,7 +1086,7 @@ msgid "move_message"
 msgstr ""
 
 #. Default: "New booking for ${context}"
-#: redturtle/prenotazioni/events/prenotazione.py:168
+#: redturtle/prenotazioni/events/prenotazione.py:171
 msgid "new_booking_admin_notify_subject"
 msgstr ""
 
@@ -1279,7 +1276,7 @@ msgid "pause_start_label"
 msgstr ""
 
 #. Default: "Please select a time slot"
-#: redturtle/prenotazioni/browser/prenotazione_add.py:279
+#: redturtle/prenotazioni/browser/prenotazione_add.py:280
 msgid "please_pick_a_date"
 msgstr ""
 
@@ -1390,7 +1387,7 @@ msgid "source_help"
 msgstr ""
 
 #. Default: "You cannot book any booking_type at this time"
-#: redturtle/prenotazioni/browser/prenotazione_add.py:283
+#: redturtle/prenotazioni/browser/prenotazione_add.py:284
 msgid "time_slot_to_short"
 msgstr ""
 
