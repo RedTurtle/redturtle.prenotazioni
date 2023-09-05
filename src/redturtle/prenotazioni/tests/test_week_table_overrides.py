@@ -162,7 +162,12 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "week_table_overrides": json.dumps(data),
                 "same_day_booking_disallowed": "yes",
                 "booking_types": [
-                    {"name": "Type A", "duration": "30"},
+                    {
+                        "name": "Type A",
+                        "duration": "30",
+                        "queue_id": "",
+                        "turn_number_prefix": "",
+                    },
                 ],
                 "gates": ["Gate A"],
             },
@@ -261,7 +266,12 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "week_table_overrides": json.dumps(data),
                 "same_day_booking_disallowed": "yes",
                 "booking_types": [
-                    {"name": "Type A", "duration": "30"},
+                    {
+                        "name": "Type A",
+                        "duration": "30",
+                        "queue_id": "",
+                        "turn_number_prefix": "",
+                    },
                 ],
                 "gates": ["Gate A"],
             },
@@ -323,7 +333,12 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "week_table_overrides": json.dumps(data),
                 "same_day_booking_disallowed": "yes",
                 "booking_types": [
-                    {"name": "Type A", "duration": "30"},
+                    {
+                        "name": "Type A",
+                        "duration": "30",
+                        "queue_id": "",
+                        "turn_number_prefix": "",
+                    },
                 ],
                 "gates": ["Gate A"],
             },
@@ -363,7 +378,12 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "week_table_overrides": json.dumps(data),
                 "same_day_booking_disallowed": "yes",
                 "booking_types": [
-                    {"name": "Type A", "duration": "30"},
+                    {
+                        "name": "Type A",
+                        "duration": "30",
+                        "queue_id": "",
+                        "turn_number_prefix": "",
+                    },
                 ],
                 "gates": ["Gate A"],
             },
