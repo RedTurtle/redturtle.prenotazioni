@@ -59,7 +59,8 @@ class AddForm(form.AddForm):
         fields["booking_type"].widgetFactory = CustomRadioFieldWidget
 
         # omit some fields
-        fields = fields.omit("gate").omit("booking_expiration_date").omit("staff_notes")
+        fields = fields.omit("gate").omit("booking_expiration_date")
+        fields = fields.omit("staff_notes").omit("booking_code")
 
         # move title on top (after the type)
         ids = [x for x in fields.keys()]

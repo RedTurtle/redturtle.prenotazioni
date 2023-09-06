@@ -166,4 +166,15 @@
         handler=".upgrades.update_sharing"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1801"
+      destination="1802"
+      >
+    <genericsetup:upgradeStep
+        title="Updat booking code"
+        handler=".upgrades.update_booking_code"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

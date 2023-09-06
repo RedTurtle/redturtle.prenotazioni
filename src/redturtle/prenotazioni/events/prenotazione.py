@@ -5,16 +5,19 @@ from logging import getLogger
 from plone import api
 from plone.app.event.base import default_timezone
 from plone.registry.interfaces import IRegistry
+from plone.stringinterp.interfaces import IStringSubstitution
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni.utils import is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
+from redturtle.prenotazioni.utils import is_migration
+from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.i18n import translate
-from plone.stringinterp.interfaces import IStringSubstitution
-from zope.component import getAdapter
+
+import hashlib
+
 
 logger = getLogger(__name__)
 
@@ -183,3 +186,16 @@ def send_email_to_managers(booking, event):
                     msg_type="text/html",
                     immediate=True,
                 )
+
+
+def set_booking_code(booking, event):
+    """
+    set booking code. skip if we are importing old booking
+    """
+    if is_migration():
+        return
+
+    hash_obj = hashlib.blake2b(bytes(booking.UID(), encoding="utf8"), digest_size=3)
+    hash_value = hash_obj.hexdigest().upper()
+    setattr(booking, "booking_code", hash_value)
+    return
