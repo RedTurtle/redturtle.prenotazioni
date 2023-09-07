@@ -5,9 +5,13 @@ Changelog
 2.0.0rc6 (unreleased)
 ---------------------
 
+- add booking description in @bookings
+  [mamico]
+
 - add booking_code field to IPrenotazione schema
   update locales
   [lucabel]
+
 - Traduzioni
   [mamico]
 

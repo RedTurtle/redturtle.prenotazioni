@@ -80,6 +80,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
             result,
             {
                 "title": self.prenotazione_fscode.Title(),
+                "description": self.prenotazione_fscode.Description(),
                 "booking_id": self.prenotazione_fscode.UID(),
                 "booking_code": self.prenotazione_fscode.getBookingCode(),
                 "booking_url": self.prenotazione_fscode.absolute_url(),
