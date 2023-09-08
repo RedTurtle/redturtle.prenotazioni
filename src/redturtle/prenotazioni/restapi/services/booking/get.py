@@ -17,7 +17,7 @@ class BookingInfo(Service):
             self.booking_uid = booking_uid
         return self
 
-    def reply(self):
+    def get_booking(self):
         if not self.booking_uid:
             return self.reply_no_content(status=404)
         catalog = api.portal.get_tool("portal_catalog")
@@ -28,9 +28,15 @@ class BookingInfo(Service):
             return self.reply_no_content(status=404)
 
         booking = booking[0]._unrestrictedGetObject()
+
         if not booking.canAccessBooking():
             raise Unauthorized
 
-        response = getMultiAdapter((booking, self.request), ISerializeToJson)()
+        return booking
+
+    def reply(self):
+        response = getMultiAdapter(
+            (self.get_booking(), self.request), ISerializeToJson
+        )()
 
         return response

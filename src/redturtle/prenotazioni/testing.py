@@ -60,7 +60,7 @@ REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING = FunctionalTesting(
 
 
 class RedturtlePrenotazioniRestApiLayer(PloneRestApiDXLayer):
-    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE, MOCK_MAILHOST_FIXTURE)
 
     def setUpZope(self, app, configurationContext):
         super(RedturtlePrenotazioniRestApiLayer, self).setUpZope(
