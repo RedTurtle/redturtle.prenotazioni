@@ -55,7 +55,7 @@
       factory=".notify_about_confirm.NotifyUserAboutBookingConfirm"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
       permission="cmf.ManagePortal"
-      name="@booking_notify_about_confirm"
+      name="@booking-notify"
       />
 
 </configure>
