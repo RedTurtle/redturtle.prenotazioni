@@ -1,136 +1,114 @@
-# # -*- coding: UTF-8 -*-
-# Doesn't work yet
-pass
+# -*- coding: UTF-8 -*-
 
-# from datetime import date
-# from datetime import datetime
-# from datetime import timedelta
-# from plone import api
-# from plone.app.testing import setRoles
-# from plone.app.testing import SITE_OWNER_NAME
-# from plone.app.testing import SITE_OWNER_PASSWORD
-# from plone.app.testing import TEST_USER_ID
-# from plone.restapi.testing import RelativeSession
-# from redturtle.prenotazioni.adapters.booker import IBooker
-# from redturtle.prenotazioni.testing import (
-#     REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
-# )
-# from zope.interface import implementer
-# from zope.interface.interfaces import IObjectEvent
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
+from plone import api
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING,
+)
+from zope.interface import implementer
+from zope.interface.interfaces import IObjectEvent
+from zope.globalrequest import getRequest
 
-# from transaction import commit
-
-# import email
-# import pytz
-# import unittest
+import email
+import pytz
+import unittest
 
 
-# @implementer(IObjectEvent)
-# class DummyEvent(object):
-#     def __init__(self, object):
-#         self.object = object
+@implementer(IObjectEvent)
+class DummyEvent(object):
+    def __init__(self, object):
+        self.object = object
 
 
-# class TestSPrenotazioneEvents(unittest.TestCase):
-#     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
-#     maxDiff = None
-#     timezone = "Europe/Rome"
+class TestSPrenotazioneEvents(unittest.TestCase):
+    layer = REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING
+    maxDiff = None
+    timezone = "Europe/Rome"
 
-#     def dt_local_to_utc(self, value):
-#         return (
-#             pytz.timezone(self.timezone).localize(value).astimezone(pytz.utc)
-#         )
+    def dt_local_to_utc(self, value):
+        return pytz.timezone(self.timezone).localize(value).astimezone(pytz.utc)
 
-#     def setUp(self):
-#         self.app = self.layer["app"]
-#         self.portal = self.layer["portal"]
-#         self.portal_url = self.portal.absolute_url()
-#         self.mailhost = self.portal.MailHost
-#         self.email_subject = "Testing subject"
-#         self.email_message = "Testing message"
+    def setUp(self):
+        self.app = self.layer["app"]
+        self.portal = self.layer["portal"]
+        self.mailhost = self.portal.MailHost
+        self.email_subject = "Testing subject"
+        self.email_message = "Testing message"
 
-#         setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
-#         self.api_session = RelativeSession(self.portal_url)
-#         self.api_session.headers.update({"Accept": "application/json"})
-#         self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
+        self.folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            booking_types=[
+                {"name": "Type A", "duration": "30"},
+            ],
+            gates=["Gate A"],
+        )
+        self.today_8_0 = self.dt_local_to_utc(
+            datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
+        )
+        self.tomorrow_8_0 = self.today_8_0 + timedelta(1)
+        week_table = self.folder_prenotazioni.week_table
+        for data in week_table:
+            data["morning_start"] = "0700"
+            data["morning_end"] = "1000"
+        self.folder_prenotazioni.week_table = week_table
 
-#         self.folder_prenotazioni = api.content.create(
-#             container=self.portal,
-#             type="PrenotazioniFolder",
-#             title="Prenota foo",
-#             description="",
-#             daData=date.today(),
-#             booking_types=[
-#                 {"name": "Type A", "duration": "30"},
-#             ],
-#             gates=["Gate A"],
-#         )
-#         self.today_8_0 = self.dt_local_to_utc(
-#             datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
-#         )
-#         self.tomorrow_8_0 = self.today_8_0 + timedelta(1)
-#         week_table = self.folder_prenotazioni.week_table
-#         for data in week_table:
-#             data["morning_start"] = "0700"
-#             data["morning_end"] = "1000"
-#         self.folder_prenotazioni.week_table = week_table
+        api.portal.set_registry_record(
+            "plone.portal_timezone",
+            self.timezone,
+        )
 
-#         api.portal.set_registry_record(
-#             "plone.portal_timezone",
-#             self.timezone,
-#         )
+        self.booking = self.create_booking()
+        self.view = api.content.get_view(
+            context=self.booking.getPrenotazioniFolder(),
+            request=getRequest(),
+            name="GET_application_json_@booking_notify_about_confirm",
+        )
+        self.view.booking_uid = self.booking.UID()
 
-#         commit()
+    def create_booking(self, booking_date=None):
+        booker = IBooker(self.folder_prenotazioni)
+        if booking_date is None:
+            booking_date = self.tomorrow_8_0
+        return booker.create(
+            {
+                "booking_date": booking_date,
+                "booking_type": "Type A",
+                "title": "foo",
+                "email": "jdoe@redturtle.it",
+            }
+        )
 
-#     def tearDown(self):
-#         self.api_session.close()
+    def test_email_send_on_enpoint_call(self):
+        self.folder_prenotazioni.notify_on_confirm = True
+        self.folder_prenotazioni.notify_on_confirm_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_confirm_message = self.email_message
 
-#     def create_booking(self, booking_date=None):
-#         booker = IBooker(self.folder_prenotazioni)
-#         if booking_date is None:
-#             booking_date = self.tomorrow_8_0
-#         return booker.create(
-#             {
-#                 "booking_date": booking_date,
-#                 "booking_type": "Type A",
-#                 "title": "foo",
-#                 "email": "jdoe@redturtle.it",
-#             }
-#         )
+        self.assertFalse(self.mailhost.messages)
 
-#     def test_email_send_on_enpoint_call(self):
-#         self.folder_prenotazioni.notify_on_confirm = True
-#         self.folder_prenotazioni.notify_on_confirm_subject = self.email_subject
-#         self.folder_prenotazioni.notify_on_confirm_message = self.email_message
+        self.view.reply()
 
-#         self.assertFalse(self.mailhost.messages)
+        self.assertEqual(len(self.mailhost.messages), 1)
 
-#         booking = self.create_booking()
+        mail = email.message_from_bytes(self.mailhost.messages[0])
 
-#         commit()
+        self.assertTrue(mail.is_multipart())
 
-#         resp = self.api_session.get(
-#             f"{booking.getPrenotazioniFolder().absolute_url()}/@booking_notify_about_confirm/{booking.UID()}"
-#         )
-
-#         self.assertEquals(resp.status_code, 200)
-
-#         import pdb
-
-#         pdb.set_trace()
-
-#         self.assertEqual(len(self.mailhost.messages), 1)
-
-#         mail = email.message_from_bytes(self.mailhost.messages[0])
-
-#         self.assertTrue(mail.is_multipart())
-
-#         self.assertIn(
-#             self.email_subject,
-#             "".join([i for i in mail.values()]),
-#         )
-#         self.assertIn(
-#             self.email_message,
-#             mail.get_payload()[0].get_payload(),
-#         )
+        self.assertIn(
+            self.email_subject,
+            "".join([i for i in mail.values()]),
+        )
+        self.assertIn(
+            self.email_message,
+            mail.get_payload()[0].get_payload(),
+        )
