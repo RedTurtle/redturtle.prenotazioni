@@ -8,9 +8,7 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
-)
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 
 import transaction

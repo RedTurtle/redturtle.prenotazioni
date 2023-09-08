@@ -6,15 +6,11 @@ from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.restapi.serializer.converters import json_compatible
+from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
 from zope.i18n import translate
-from redturtle.prenotazioni.interfaces import (
-    ISerializeToPrenotazioneSearchableItem,
-)
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING,
-)
 
 import unittest
 

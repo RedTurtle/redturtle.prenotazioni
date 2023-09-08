@@ -9,7 +9,6 @@ A message is conceptually very similar to an email and, in its simplest form, is
 
 """
 from . import logger
-
 # from pkg_resources import resource_filename
 # from bravado.swagger_model import load_file
 from bravado.client import SwaggerClient

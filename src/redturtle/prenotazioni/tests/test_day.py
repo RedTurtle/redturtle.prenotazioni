@@ -1,24 +1,21 @@
 # -*- coding: UTF-8 -*-
-from zope.interface import implementer
-from zope.interface.interfaces import IObjectEvent
-from zope.component import getMultiAdapter
-from zope.globalrequest import getRequest
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 from plone import api
-from plone.restapi.interfaces import ISerializeToJson
 from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from plone.restapi.testing import RelativeSession
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
-
+from plone.app.testing import TEST_USER_ID
+from plone.restapi.interfaces import ISerializeToJson
+from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
-)
-
-from datetime import date, datetime
-from datetime import timedelta
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 from transaction import commit
+from zope.component import getMultiAdapter
+from zope.globalrequest import getRequest
+from zope.interface import implementer
+from zope.interface.interfaces import IObjectEvent
 
 import unittest
 

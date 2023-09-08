@@ -10,9 +10,7 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
-)
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
 import transaction
 import unittest

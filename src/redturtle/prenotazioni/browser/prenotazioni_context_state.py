@@ -22,10 +22,11 @@ from redturtle.prenotazioni.utilities.urls import urlify
 from six.moves import map
 from six.moves import range
 
-import logging
 import itertools
 import json
+import logging
 import six
+
 
 logger = logging.getLogger(__name__)
 

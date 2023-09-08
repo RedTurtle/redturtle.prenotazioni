@@ -3,9 +3,7 @@ from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
-from plone.app.contentrules.conditions.wftransition import (
-    WorkflowTransitionCondition,
-)
+from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
 from plone.app.event.base import default_timezone
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
@@ -302,8 +300,8 @@ def to_1600_popolate_templates(context):
 
 
 def to_1600_upgrade_contentrules(context):
-    from plone.contentrules.engine.interfaces import IRuleStorage
     from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+    from plone.contentrules.engine.interfaces import IRuleStorage
 
     rules_to_delete = [
         "booking-accepted",

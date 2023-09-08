@@ -4,8 +4,8 @@ from plone.memoize.view import memoize
 from plone.restapi.services import Service
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
-from zExceptions import BadRequest
 from redturtle.prenotazioni.config import STATIC_REQUIRED_FIELDS
+from zExceptions import BadRequest
 
 
 class BookingSchema(Service):

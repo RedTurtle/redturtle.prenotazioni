@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from zope.globalrequest import getRequest
 
+
 try:
     from collective.exportimport.interfaces import IMigrationMarker
 except ImportError:
