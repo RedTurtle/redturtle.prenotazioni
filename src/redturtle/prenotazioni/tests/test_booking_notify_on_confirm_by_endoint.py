@@ -72,7 +72,7 @@ class TestSPrenotazioneEvents(unittest.TestCase):
         self.view = api.content.get_view(
             context=self.booking.getPrenotazioniFolder(),
             request=getRequest(),
-            name="GET_application_json_@booking_notify_about_confirm",
+            name="GET_application_json_@booking-notify",
         )
         self.view.booking_uid = self.booking.UID()
 
