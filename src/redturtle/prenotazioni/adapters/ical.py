@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import icalendar
+
 from Acquisition import aq_inner
 from plone.app.event.base import default_timezone
 from plone.app.event.ical.exporter import ICalendarEventComponent
@@ -8,12 +10,13 @@ from plone.event.interfaces import IICalendar
 from plone.event.interfaces import IICalendarEventComponent
 from plone.registry.interfaces import IRegistry
 from plone.stringinterp.interfaces import IStringSubstitution
-from redturtle.prenotazioni import _
+from plone.stringinterp.interfaces import IContextWrapper
 from zope.component import getAdapter
 from zope.component import getUtility
 from zope.interface import implementer
 
-import icalendar
+
+from redturtle.prenotazioni import _
 
 
 def construct_icalendar(context, bookings):
@@ -84,7 +87,9 @@ class ICalendarBookingComponent(ICalendarEventComponent):
     def url(self):
         return {
             "value": getAdapter(
-                self.context, IStringSubstitution, "booking_print_url"
+                IContextWrapper(self.context),
+                IStringSubstitution,
+                "booking_print_url",
             )()
         }
 
