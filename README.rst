@@ -510,12 +510,22 @@ Response::
     }
 
 
+@booking_notify_about_confirm
+-----------------------------
+
+Endpoint that fires the confirm email to user
+
+
+Example::
+
+   curl -i http://localhost:8080/Plone/booking_folder/@booking_notify_about_confirm/<booking UID> \
+     -H 'Accept: application/json'
+
+
 If the user is not logged in, the endpoint will return a 401 error.
 
-If the user has a special permission, the endpoint can be called with any `fiscalcode`::
-
-  curl -i http://localhost:8080/Plone/@bookings/FISCALCODE?from=10-10-2023 \
-     -H 'Accept: application/json'
+Response::
+    HTTP 200 OK
 
 
 @day-busy-slots
