@@ -510,15 +510,15 @@ Response::
     }
 
 
-@booking_notify_about_confirm
------------------------------
+@booking-notify
+---------------
 
 Endpoint that fires the confirm email to user
 
 
 Example::
 
-   curl -i http://localhost:8080/Plone/booking_folder/@booking_notify_about_confirm/<booking UID> \
+   curl -i http://localhost:8080/Plone/booking_folder/@booking-notify/<booking UID> \
      -H 'Accept: application/json'
 
 
