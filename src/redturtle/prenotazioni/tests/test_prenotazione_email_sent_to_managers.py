@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from collective.contentrules.mailfromfield.actions.mail import MailFromFieldAction
-from datetime import date, datetime
+from datetime import date
+from datetime import datetime
 from datetime import timedelta
 from plone import api
 from plone.app.testing import setRoles
@@ -14,8 +15,8 @@ from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
 import email
-import unittest
 import pytz
+import unittest
 
 
 @implementer(IObjectEvent)

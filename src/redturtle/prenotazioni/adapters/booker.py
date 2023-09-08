@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import math
 from datetime import timedelta
 from plone import api
 from plone.memoize.instance import memoize
@@ -18,6 +17,8 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import Interface
 from zope.event import notify
 from zope.interface import implementer
+
+import math
 
 
 class BookerException(Exception):

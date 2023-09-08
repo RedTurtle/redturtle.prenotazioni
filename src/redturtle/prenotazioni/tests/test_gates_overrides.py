@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from plone import api
-from plone.app.testing import TEST_USER_ID, setRoles
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
-)
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 
 import json

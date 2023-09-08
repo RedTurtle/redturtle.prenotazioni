@@ -8,8 +8,8 @@ from plone.restapi.services import Service
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.adapters.booker import BookerException
 from redturtle.prenotazioni.adapters.booker import IBooker
-from zope.interface import alsoProvides
 from zExceptions import BadRequest
+from zope.interface import alsoProvides
 
 
 class AddVacation(Service):
