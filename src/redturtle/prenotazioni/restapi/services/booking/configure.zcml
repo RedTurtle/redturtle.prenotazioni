@@ -48,7 +48,7 @@
       />
 
 
-    <!-- Special endpoints -->
+  <!-- Special endpoints -->
 
   <plone:service
       method="GET"
