@@ -54,7 +54,7 @@
       method="GET"
       factory=".notify_about_confirm.NotifyUserAboutBookingConfirm"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
-      permission="cmf.ManagePortalContent"
+      permission="redturtle.prenotazioni.ManagePrenotazioni"
       name="@booking-notify"
       />
 
