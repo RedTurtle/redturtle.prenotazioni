@@ -2,11 +2,9 @@
 from plone import api
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.serializer.converters import json_compatible
-from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.interfaces import (
-    ISerializeToPrenotazioneSearchableItem,
-)
 from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
 from zope.component import adapter
 from zope.i18n import translate
 from zope.interface import implementer
@@ -78,6 +76,7 @@ class PrenotazioneSearchableItemSerializer:
         status = wf_tool.getStatusOf("prenotazioni_workflow", self.prenotazione)
         return {
             "title": self.prenotazione.Title(),
+            "description": self.prenotazione.description,
             "booking_id": self.prenotazione.UID(),
             "booking_code": self.prenotazione.getBookingCode(),
             "booking_url": self.prenotazione.absolute_url(),

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from AccessControl import Unauthorized
 from App.config import getConfiguration
-from DateTime import DateTime
 from datetime import datetime
 from datetime import timedelta
+from DateTime import DateTime
 from dateutil.tz.tz import tzutc
 from logging import FileHandler
 from logging import Formatter
@@ -11,12 +11,13 @@ from logging import getLogger
 from plone import api
 from plone.api.exc import UserNotFoundError
 from plone.app.event.base import default_timezone
+from redturtle.prenotazioni.utils import is_migration
 from six.moves import map
 from zope.i18nmessageid import MessageFactory
-from redturtle.prenotazioni.utils import is_migration
 
-import pytz
 import dateutil
+import pytz
+
 
 logger = getLogger("redturtle.prenotazioni")
 _ = MessageFactory("redturtle.prenotazioni")

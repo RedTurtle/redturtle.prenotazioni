@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from DateTime import DateTime
+
+# from ZPublisher.Iterators import filestream_iterator
+from io import BytesIO
 from plone import api
 from plone.api.content import get_state
+from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
 from plone.z3cform.layout import wrap_form
 from Products.CMFPlone import PloneMessageFactory as __
@@ -15,21 +19,17 @@ from redturtle.prenotazioni.utilities.urls import urlify
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
+from zExceptions import NotFound
 from zope.component import getUtility
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import Interface
+from zope.publisher.interfaces import IPublishTraverse
 from zope.schema import Choice
 from zope.schema import Date
 from zope.schema import TextLine
 from zope.schema import ValidationError
 from zope.schema.interfaces import IVocabularyFactory
-
-# from ZPublisher.Iterators import filestream_iterator
-from io import BytesIO
-from zope.publisher.interfaces import IPublishTraverse
-from zExceptions import NotFound
-from plone.app.event.base import default_timezone
 
 
 class InvalidDate(ValidationError):

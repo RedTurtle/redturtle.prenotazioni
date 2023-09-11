@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from datetime import date
-from zope.schema import ValidationError
 from redturtle.prenotazioni import _
-from zope.interface import Invalid
-from z3c.form import validator
 from redturtle.prenotazioni.adapters.slot import interval_is_contained
 from redturtle.prenotazioni.adapters.slot import is_intervals_overlapping
-from zope.i18n import translate
+from z3c.form import validator
 from zope.globalrequest import getRequest
+from zope.i18n import translate
+from zope.interface import Invalid
+from zope.schema import ValidationError
 
 import calendar
 import json

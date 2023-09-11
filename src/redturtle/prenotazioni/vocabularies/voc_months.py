@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
-from plone import api
 
 
 @implementer(IVocabularyFactory)

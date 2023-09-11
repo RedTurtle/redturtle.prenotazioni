@@ -2,6 +2,7 @@
 from plone import api
 from plone.app.layout.viewlets.common import ViewletBase
 from zope.interface import Interface
+
 import importlib.metadata
 
 

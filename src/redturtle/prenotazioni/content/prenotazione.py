@@ -18,6 +18,7 @@ from zope.schema import ValidationError
 import re
 import six
 
+
 VACATION_TYPE = "out-of-office"
 TELEPHONE_PATTERN = re.compile(r"^(\+){0,1}([0-9]| )*$")
 
