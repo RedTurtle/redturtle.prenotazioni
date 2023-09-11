@@ -18,6 +18,8 @@ Changelog
 - Traduzioni
   [mamico]
 
+- Restapi @booking-notify.
+  [foxli-01]
 
 2.0.0rc5 (2023-09-05)
 ---------------------

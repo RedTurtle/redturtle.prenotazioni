@@ -83,7 +83,7 @@ class RedturtlePrenotazioniRestApiLayer(PloneRestApiDXLayer):
 
 REDTURTLE_PRENOTAZIONI_API_FIXTURE = RedturtlePrenotazioniRestApiLayer()
 REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(REDTURTLE_PRENOTAZIONI_API_FIXTURE,),
+    bases=(REDTURTLE_PRENOTAZIONI_API_FIXTURE, MOCK_MAILHOST_FIXTURE),
     name="RedturtlePrenotazioniRestApiLayer:Integration",
 )
 
