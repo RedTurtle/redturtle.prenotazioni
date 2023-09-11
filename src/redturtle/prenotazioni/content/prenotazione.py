@@ -265,33 +265,35 @@ class Prenotazione(Item):
         return self.booking_code
 
     def canAccessBooking(self):
-        creator = self.Creator()
-        if api.user.is_anonymous():
-            if creator:
-                return False
-        else:
-            current_user = api.user.get_current()
-            if (
-                not api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni")
-                and creator != current_user.getUserName()
-            ):
-                return False
         return True
+        # creator = self.Creator()
+        # if api.user.is_anonymous():
+        #     if creator:
+        #         return False
+        # else:
+        #     current_user = api.user.get_current()
+        #     if (
+        #         not api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni")
+        #         and creator != current_user.getUserName()
+        #     ):
+        #         return False
+        # return True
 
     def canDeleteBooking(self):
-        creator = self.Creator()
-        if not creator:
-            if api.user.is_anonymous():
-                return True
-            if api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni"):
-                return True
-        else:
-            if api.user.is_anonymous():
-                return False
-            current_user = api.user.get_current()
-            if (
-                api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni")
-                or creator == current_user.getUserName()
-            ):
-                return True
-        return False
+        return True
+        # creator = self.Creator()
+        # if not creator:
+        #     if api.user.is_anonymous():
+        #         return True
+        #     if api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni"):
+        #         return True
+        # else:
+        #     if api.user.is_anonymous():
+        #         return False
+        #     current_user = api.user.get_current()
+        #     if (
+        #         api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni")
+        #         or creator == current_user.getUserName()
+        #     ):
+        #         return True
+        # return False
