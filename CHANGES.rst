@@ -8,6 +8,10 @@ Changelog
 - add booking_code field to IPrenotazione schema
   update locales
   [lucabel]
+
+- Call booking url adapter on plone.stringinterp.adapters.ContextWrapper
+  [foxli-01]
+
 - Traduzioni
   [mamico]
 
