@@ -12,6 +12,9 @@ Changelog
   update locales
   [lucabel]
 
+- Call booking url adapter on plone.stringinterp.adapters.ContextWrapper
+  [foxli-01]
+
 - Traduzioni
   [mamico]
 
