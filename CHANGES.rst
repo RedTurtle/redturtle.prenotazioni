@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-2.0.0rc6 (unreleased)
----------------------
+2.0.0 (2023-09-12)
+------------------
 
 - workaround per download prenotazioni, parametri in base64 sul path
   per gestire bug Volto
