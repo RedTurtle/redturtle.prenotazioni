@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import date
 from datetime import timedelta
 from dateutil import parser
+from io import BytesIO
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
@@ -10,8 +11,10 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.restapi.testing import RelativeSession
+from plone.testing.zope import Browser
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
+import openpyxl
 import transaction
 import unittest
 
@@ -36,6 +39,8 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.api_session = RelativeSession(self.portal_url)
         self.api_session.headers.update({"Accept": "application/json"})
         self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
+
+        self.browser = Browser(self.layer["app"])
 
         self.folder_prenotazioni = api.content.create(
             container=self.portal,
@@ -277,3 +282,50 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
         self.assertEqual(len(result_uids), 1)
         self.assertIn(self.prenotazione_confirmed.UID(), result_uids)
+
+    def test_download_xlsx(self):
+        self.browser.addHeader(
+            "Authorization",
+            f"Basic {SITE_OWNER_NAME}:{SITE_OWNER_PASSWORD}",
+        )
+
+        self.browser.open(
+            f"{self.folder_prenotazioni.absolute_url()}/@@download/bookings.xlsx"
+        )
+        self.assertEqual(self.browser._response.status, "200 OK")
+        data = openpyxl.load_workbook(BytesIO(self.browser._response.body))
+        self.assertEqual(len(list(data['Sheet 1'].rows)), 8)
+        self.assertEqual(
+            [r[1].value for r in data['Sheet 1'].rows],
+            ['Stato', 'Private', 'Private', 'Confermato', 'Private', 'Private', 'Private', 'Private'],
+        )
+
+        self.browser.open(
+            f"{self.folder_prenotazioni.absolute_url()}/@@download/bookings.xlsx?review_state=confirmed"
+        )
+        self.assertEqual(self.browser._response.status, "200 OK")
+        data = openpyxl.load_workbook(BytesIO(self.browser._response.body))
+        self.assertEqual(len(list(data['Sheet 1'].rows)), 2)
+        self.assertEqual(
+            [r[1].value for r in data['Sheet 1'].rows],
+            ['Stato', 'Confermato'],
+        )
+
+    def test_download_xlsx_post(self):
+        self.browser.addHeader(
+            "Authorization",
+            f"Basic {SITE_OWNER_NAME}:{SITE_OWNER_PASSWORD}",
+        )
+        self.browser.open(
+            f"{self.folder_prenotazioni.absolute_url()}/@@download/bookings.xlsx",
+            data={
+                "review_state": "confirmed",
+            },
+        )
+        self.assertEqual(self.browser._response.status, "200 OK")
+        data = openpyxl.load_workbook(BytesIO(self.browser._response.body))
+        self.assertEqual(len(list(data['Sheet 1'].rows)), 2)
+        self.assertEqual(
+            [r[1].value for r in data['Sheet 1'].rows],
+            ['Stato', 'Confermato'],
+        )

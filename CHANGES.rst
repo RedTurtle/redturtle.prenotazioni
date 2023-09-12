@@ -5,6 +5,9 @@ Changelog
 2.0.0rc6 (unreleased)
 ---------------------
 
+- add xlsx tests
+  [mamico]
+
 - add booking description in @bookings
   [mamico]
 

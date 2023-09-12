@@ -339,7 +339,7 @@ class DownloadReservation(SearchForm):
         return states.get(get_state(obj), "")
 
     def __call__(self):
-        data = {
+        args = {
             "sort_on": "Date",
             "sort_order": "reverse",
             "path": "/".join(self.context.getPhysicalPath()),
@@ -348,13 +348,10 @@ class DownloadReservation(SearchForm):
         for k in self.request.form:
             v = self.request.form.get(k, None)
             if v and v != "None":
-                data[k] = v
-        if data:
-            query = self.get_query(data=data)
-            # TODO: serve unrestricted ?
-            brains = self.conflict_manager.unrestricted_prenotazioni(**query)
-        else:
-            brains = []
+                args[k] = v
+        query = self.get_query(data=args)
+        # TODO: serve unrestricted ?
+        brains = self.conflict_manager.unrestricted_prenotazioni(**query)
         data = {"Sheet 1": [self.columns]}
         for brain in brains:
             data["Sheet 1"].append(self.get_row_data(brain=brain))
