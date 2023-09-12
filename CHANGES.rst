@@ -5,6 +5,10 @@ Changelog
 2.0.0rc6 (unreleased)
 ---------------------
 
+- workaround per download prenotazioni, parametri in base64 sul path
+  per gestire bug Volto
+  [mamico]
+
 - add xlsx tests
   [mamico]
 

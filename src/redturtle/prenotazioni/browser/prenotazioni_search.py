@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from DateTime import DateTime
+import json
+import base64
 
 # from ZPublisher.Iterators import filestream_iterator
 from io import BytesIO
@@ -267,19 +269,29 @@ WrappedSearchForm = wrap_form(SearchForm)
 
 @implementer(IPublishTraverse)
 class DownloadReservation(SearchForm):
+    filename = None
+    request_path = None
+
     def publishTraverse(self, request, name):
         if name == "bookings.xlsx":
+            self.filename = name
+            return self
+        elif self.filename and not self.request_path:
+            # XXX: il middleware @dwonload di volto ignora i parametri in querystring
+            # e riporta ogni richiesta come GET, quindi come workaround viene passata la query
+            # in base64 nel path
+            self.request_path = json.loads(base64.b64decode(name))
             return self
         raise NotFound(self, name, request)
         # return super(DownloadReservation, self).publishTraverse(request, name)
 
     @property
     def columns(self):
-        # TODO: translate
         custom_fields = [
             translate(_("label_booking_{}".format(x)), context=self.request)
             for x in self.context.visible_booking_fields
         ]
+        # TODO: translate
         return (
             ["Nome completo", "Stato", "Postazione", "Tipologia prenotazione"]
             + custom_fields
@@ -345,8 +357,8 @@ class DownloadReservation(SearchForm):
             "path": "/".join(self.context.getPhysicalPath()),
         }
         # TODO: restringere la ricerca solo su parametri precisi
-        for k in self.request.form:
-            v = self.request.form.get(k, None)
+        req = self.request_path or self.request.form
+        for k, v in req.items():
             if v and v != "None":
                 args[k] = v
         query = self.get_query(data=args)

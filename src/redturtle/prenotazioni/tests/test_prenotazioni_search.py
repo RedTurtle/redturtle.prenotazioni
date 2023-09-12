@@ -294,10 +294,19 @@ class TestPrenotazioniSearch(unittest.TestCase):
         )
         self.assertEqual(self.browser._response.status, "200 OK")
         data = openpyxl.load_workbook(BytesIO(self.browser._response.body))
-        self.assertEqual(len(list(data['Sheet 1'].rows)), 8)
+        self.assertEqual(len(list(data["Sheet 1"].rows)), 8)
         self.assertEqual(
-            [r[1].value for r in data['Sheet 1'].rows],
-            ['Stato', 'Private', 'Private', 'Confermato', 'Private', 'Private', 'Private', 'Private'],
+            [r[1].value for r in data["Sheet 1"].rows],
+            [
+                "Stato",
+                "Private",
+                "Private",
+                "Confermato",
+                "Private",
+                "Private",
+                "Private",
+                "Private",
+            ],
         )
 
         self.browser.open(
@@ -305,10 +314,10 @@ class TestPrenotazioniSearch(unittest.TestCase):
         )
         self.assertEqual(self.browser._response.status, "200 OK")
         data = openpyxl.load_workbook(BytesIO(self.browser._response.body))
-        self.assertEqual(len(list(data['Sheet 1'].rows)), 2)
+        self.assertEqual(len(list(data["Sheet 1"].rows)), 2)
         self.assertEqual(
-            [r[1].value for r in data['Sheet 1'].rows],
-            ['Stato', 'Confermato'],
+            [r[1].value for r in data["Sheet 1"].rows],
+            ["Stato", "Confermato"],
         )
 
     def test_download_xlsx_post(self):
@@ -324,8 +333,8 @@ class TestPrenotazioniSearch(unittest.TestCase):
         )
         self.assertEqual(self.browser._response.status, "200 OK")
         data = openpyxl.load_workbook(BytesIO(self.browser._response.body))
-        self.assertEqual(len(list(data['Sheet 1'].rows)), 2)
+        self.assertEqual(len(list(data["Sheet 1"].rows)), 2)
         self.assertEqual(
-            [r[1].value for r in data['Sheet 1'].rows],
-            ['Stato', 'Confermato'],
+            [r[1].value for r in data["Sheet 1"].rows],
+            ["Stato", "Confermato"],
         )
