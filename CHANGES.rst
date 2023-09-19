@@ -5,7 +5,7 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Remove Contributor from the package permission map
+- Remove Contributor from the package permissions map
   [folix-01]
 
 
