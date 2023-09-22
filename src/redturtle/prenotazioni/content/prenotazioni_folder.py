@@ -543,7 +543,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione created notification message.",
         ),
         description=_("notify_on_submit_message_help", default=""),
-        default=notify_on_submit_message_default_factory(),
+        defaultFactory=notify_on_submit_message_default_factory,
         required=False,
     )
     notify_on_confirm_subject = schema.TextLine(
@@ -552,7 +552,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione confirmed notification subject.",
         ),
         description=_("notify_on_confirm_subject_help", default=""),
-        default=notify_on_confirm_subject_default_factory(),
+        defaultFactory=notify_on_confirm_subject_default_factory,
         required=False,
     )
     notify_on_confirm_message = schema.Text(
@@ -561,7 +561,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione confirmed notification message.",
         ),
         description=_("notify_on_confirm_message_help", default=""),
-        default=notify_on_confirm_message_default_factory(),
+        defaultFactory=notify_on_confirm_message_default_factory,
         required=False,
     )
     notify_on_move_subject = schema.TextLine(
@@ -570,7 +570,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione moved notification subject.",
         ),
         description=_("notify_on_move_subject_help", default=""),
-        default=notify_on_move_subject_default_factory(),
+        defaultFactory=notify_on_move_subject_default_factory,
         required=False,
     )
     notify_on_move_message = schema.Text(
@@ -579,7 +579,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione moved notification message.",
         ),
         description=_("notify_on_move_message_help", default=""),
-        default=notify_on_move_message_default_factory(),
+        defaultFactory=notify_on_move_message_default_factory,
         required=False,
     )
     notify_on_refuse_subject = schema.TextLine(
@@ -588,7 +588,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione refused notification subject.",
         ),
         description=_("notify_on_refuse_subject_help", default=""),
-        default=notify_on_refuse_subject_default_factory(),
+        defaultFactory=notify_on_refuse_subject_default_factory,
         required=False,
     )
     notify_on_refuse_message = schema.Text(
@@ -597,7 +597,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione created notification message.",
         ),
         description=_("notify_on_refuse_message_help", default=""),
-        default=notify_on_refuse_message_default_factory(),
+        defaultFactory=notify_on_refuse_message_default_factory,
         required=False,
     )
 

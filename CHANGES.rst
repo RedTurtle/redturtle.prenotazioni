@@ -5,8 +5,9 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Utilizzare defaultFactory se il default è una funzione, altrimenti non viene
+  eseguita nel momento corretto.
+  [mamico]
 
 2.0.0 (2023-09-12)
 ------------------
