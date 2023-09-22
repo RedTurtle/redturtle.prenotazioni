@@ -3,9 +3,24 @@
     i18n_domain="redturtle.prenotazioni"
     >
 
+<adapter
+      factory=".prenotazione.Subject_prenotazione"
+      name="Subject"
+      />
+
   <adapter
-      factory=".searchable_text.prenotazione"
+      factory=".prenotazione.SearchableText_prenotazione"
       name="SearchableText"
+      />
+
+  <adapter
+      factory=".prenotazione.Date"
+      name="Date"
+      />
+
+  <adapter
+      factory=".prenotazione.fiscalcode"
+      name="fiscalcode"
       />
 
 </configure>
