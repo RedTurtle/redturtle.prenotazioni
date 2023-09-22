@@ -3,7 +3,7 @@
     i18n_domain="redturtle.prenotazioni"
     >
 
-<adapter
+  <adapter
       factory=".prenotazione.Subject_prenotazione"
       name="Subject"
       />
