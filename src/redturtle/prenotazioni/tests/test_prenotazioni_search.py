@@ -200,13 +200,10 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
     def test_search_by_fiscalcode_case_insensitive(self):
         # ABCDEF12G34H567I -> AbCdEf12G34H567i
-        camelcase_fiscalcode = "".join(
-            x + y
-            for x, y in zip(
-                self.testing_fiscal_code[0::2].upper(),
-                self.testing_fiscal_code[1::2].lower(),
-            )
-        )
+        camelcase_fiscalcode = "".join([
+            c.upper() if i % 2 == 0 else c.lower()
+            for i, c in enumerate(self.testing_fiscal_code)
+        ])
         result_uids = [
             i["booking_id"]
             for i in self.api_session.get(
