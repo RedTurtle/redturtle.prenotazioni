@@ -5,7 +5,12 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Rimosso searchabletext di prenotazioni doppio
+  [mamico]
+
+- Aggiunto indexer per fiscalcode uppercase per
+  fare ricerche case insensitive
+  [mamico]
 
 
 2.0.0 (2023-09-12)
