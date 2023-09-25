@@ -2,10 +2,11 @@
 from plone import api
 from plone.restapi.services import Service
 from Products.DCWorkflow.events import AfterTransitionEvent
-from redturtle.prenotazioni.events.prenotazione import notify_on_after_transition_event
 from zExceptions import BadRequest
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
+
+from redturtle.prenotazioni.events.prenotazione import notify_on_after_transition_event
 
 
 @implementer(IPublishTraverse)

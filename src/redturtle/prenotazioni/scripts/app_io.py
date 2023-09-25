@@ -1,19 +1,18 @@
 # -*- encoding: utf-8 -*-
-from .io_tools.api import Api
-from .io_tools.storage import logstorage
-from datetime import datetime
-from datetime import timedelta
-from plone import api
-from redturtle.prenotazioni.config import NOTIFICATIONS_LOGS
-from redturtle.prenotazioni.config import VERIFIED_BOOKING
-from zope.annotation.interfaces import IAnnotations
-
-import click
 import locale
 import logging
 import sys
-import transaction
+from datetime import datetime, timedelta
 
+import click
+import transaction
+from plone import api
+from zope.annotation.interfaces import IAnnotations
+
+from redturtle.prenotazioni.config import NOTIFICATIONS_LOGS, VERIFIED_BOOKING
+
+from .io_tools.api import Api
+from .io_tools.storage import logstorage
 
 logger = logging.getLogger("redturtle.prenotazioni.app_io")
 locale.setlocale(locale.LC_ALL, "it_IT.UTF-8")

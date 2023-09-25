@@ -1,24 +1,22 @@
 # -*- coding: utf-8 -*-
+import math
 from datetime import timedelta
+from random import choice
+
 from plone import api
 from plone.memoize.instance import memoize
-from random import choice
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni import datetime_with_tz
-from redturtle.prenotazioni import logger
-from redturtle.prenotazioni.adapters.slot import BaseSlot
-from redturtle.prenotazioni.config import VERIFIED_BOOKING
-from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
-from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
-from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
-from six.moves.urllib.parse import parse_qs
-from six.moves.urllib.parse import urlparse
+from six.moves.urllib.parse import parse_qs, urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import Interface
 from zope.event import notify
 from zope.interface import implementer
 
-import math
+from redturtle.prenotazioni import _, datetime_with_tz, logger
+from redturtle.prenotazioni.adapters.slot import BaseSlot
+from redturtle.prenotazioni.config import VERIFIED_BOOKING
+from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
+from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
+from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
 
 
 class BookerException(Exception):

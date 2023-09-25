@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
-from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
-
 import unittest
 
+from plone import api
+from plone.app.testing import TEST_USER_ID, setRoles
+
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 
 try:
     from Products.CMFPlone.utils import get_installer
@@ -40,6 +39,7 @@ class TestSetup(unittest.TestCase):
     def test_browserlayer(self):
         """Test that IRedturtlePrenotazioniLayer is registered."""
         from plone.browserlayer import utils
+
         from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 
         self.assertIn(IRedturtlePrenotazioniLayer, utils.registered_layers())
@@ -87,6 +87,7 @@ class TestUninstall(unittest.TestCase):
     def test_browserlayer_removed(self):
         """Test that IRedturtlePrenotazioniLayer is removed."""
         from plone.browserlayer import utils
+
         from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 
         self.assertNotIn(IRedturtlePrenotazioniLayer, utils.registered_layers())

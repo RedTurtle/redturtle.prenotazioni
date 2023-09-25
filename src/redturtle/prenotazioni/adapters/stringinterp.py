@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from plone.app.event.base import default_timezone
 from plone.stringinterp.adapters import BaseSubstitution
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni import logger
 from zope.component import adapter
 from zope.interface import Interface
 
+from redturtle.prenotazioni import _, logger
 
 try:
     from plone.app.event.base import spell_date

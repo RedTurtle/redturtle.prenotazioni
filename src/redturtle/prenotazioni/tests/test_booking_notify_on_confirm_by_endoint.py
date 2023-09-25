@@ -1,22 +1,20 @@
 # -*- coding: UTF-8 -*-
 
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
+import email
+import unittest
+from datetime import date, datetime, timedelta
+
+import pytz
 from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING,
-)
+from plone.app.testing import TEST_USER_ID, setRoles
 from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
-import email
-import pytz
-import unittest
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING,
+)
 
 
 @implementer(IObjectEvent)

@@ -6,22 +6,17 @@ from plone.autoform import directives
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
-from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
-from redturtle.prenotazioni.content.validators import checkOverrides
-from redturtle.prenotazioni.content.validators import PauseValidator
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.component import provideAdapter
-from zope.interface import implementer
-from zope.interface import Interface
-from zope.interface import Invalid
-from zope.interface import invariant
-from zope.schema.vocabulary import SimpleTerm
-from zope.schema.vocabulary import SimpleVocabulary
+from zope.interface import Interface, Invalid, implementer, invariant
+from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
+from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
+from redturtle.prenotazioni.content.validators import PauseValidator, checkOverrides
 
 try:
     from plone.app.dexterity import textindexer

@@ -1,21 +1,20 @@
 # -*- coding: utf-8 -*-
-from datetime import date
-from datetime import timedelta
+import time
+from datetime import date, timedelta
 from email.utils import formatdate
+
 from plone import api
 from plone.memoize.view import memoize
 from Products.CMFCore.utils import getToolByName
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni.browser.base import BaseView
-from redturtle.prenotazioni.browser.interfaces import IDontFollowMe
-from redturtle.prenotazioni.utilities.urls import urlify
 from six.moves import range
 from zope.deprecation import deprecate
 from zope.interface import implementer
 from zope.schema.vocabulary import getVocabularyRegistry
 
-import time
-
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.browser.base import BaseView
+from redturtle.prenotazioni.browser.interfaces import IDontFollowMe
+from redturtle.prenotazioni.utilities.urls import urlify
 
 TIPOLOGIA_PRENOTAZIONE_NAME = "TipologiaPrenotazione"
 TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE = "TipologiaPrenotazione_cookie"

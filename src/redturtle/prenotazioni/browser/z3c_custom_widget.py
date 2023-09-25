@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
+import zope
 from plone import api
 from plone.memoize.view import memoize
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.Five.browser.metaconfigure import ViewMixinForTemplates
-from redturtle.prenotazioni import _
-from z3c.form import interfaces
-from z3c.form import util
+from z3c.form import interfaces, util
 from z3c.form.browser.radio import RadioWidget
 from z3c.form.interfaces import IRadioWidget
-from z3c.form.widget import FieldWidget
-from z3c.form.widget import SequenceWidget
+from z3c.form.widget import FieldWidget, SequenceWidget
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile as VPTF
 from zope.component import getUtility
 from zope.i18n import translate
@@ -18,7 +16,7 @@ from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 
-import zope
+from redturtle.prenotazioni import _
 
 
 class ICustomRadioFieldWidget(interfaces.IFieldWidget):
