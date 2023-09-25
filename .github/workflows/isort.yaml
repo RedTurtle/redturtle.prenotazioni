@@ -1,4 +1,4 @@
-name: Run isort
+name: Isort
 on: [push]
 
 jobs:
@@ -11,4 +11,4 @@ jobs:
           python-version: 3.8
       - uses: isort/isort-action@master
         with:
-          args: --profile black
+          configuration: --profile black
