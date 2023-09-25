@@ -12,6 +12,9 @@ Changelog
   fare ricerche case insensitive
   [mamico]
 
+- Remove Contributor from the package permissions map
+  [folix-01]
+
 
 2.0.0 (2023-09-12)
 ------------------

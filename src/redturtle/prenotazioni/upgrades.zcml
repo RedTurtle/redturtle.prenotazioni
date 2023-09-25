@@ -176,5 +176,14 @@
         handler=".upgrades.update_booking_code"
         />
   </genericsetup:upgradeSteps>
-
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1802"
+      destination="1803"
+      >
+    <genericsetup:upgradeStep
+        title="Remove Contributor from package permissions"
+        handler=".upgrades.update_rolemap"
+        />
+  </genericsetup:upgradeSteps>
 </configure>
