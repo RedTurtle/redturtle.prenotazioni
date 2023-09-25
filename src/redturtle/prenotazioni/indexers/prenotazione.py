@@ -47,3 +47,10 @@ def Date(obj):
     Set as booking_date
     """
     return obj.Date()
+
+
+@indexer(IPrenotazione)
+def fiscalcode(obj):
+    """upper-ize fiscalcode for case insensitive search"""
+    if obj.fiscalcode:
+        return obj.fiscalcode.upper()

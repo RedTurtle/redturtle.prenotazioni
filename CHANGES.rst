@@ -9,6 +9,16 @@ Changelog
   eseguita nel momento corretto.
   [mamico]
 
+- Rimosso searchabletext di prenotazioni doppio
+  [mamico]
+
+- Aggiunto indexer per fiscalcode uppercase per
+  fare ricerche case insensitive
+  [mamico]
+
+- Remove Contributor from the package permissions map
+  [folix-01]
+
 2.0.0 (2023-09-12)
 ------------------
 

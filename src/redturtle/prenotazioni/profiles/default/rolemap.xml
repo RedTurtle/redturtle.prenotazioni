@@ -11,14 +11,12 @@
       <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Bookings Manager" />
-      <role name="Contributor"/>
     </permission>
 
     <permission name="redturtle.prenotazioni: Add PrenotazioniDay" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
-      <role name="Contributor"/>
       <role name="Bookings Manager" />
     </permission>
 
@@ -26,7 +24,6 @@
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
-      <role name="Contributor"/>
       <role name="Bookings Manager" />
     </permission>
 
@@ -34,7 +31,6 @@
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
-      <role name="Contributor"/>
       <role name="Bookings Manager" />
     </permission>
 
@@ -42,14 +38,12 @@
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
-      <role name="Contributor"/>
       <role name="Bookings Manager" />
     </permission>
 
     <permission name="redturtle.prenotazioni: search prenotazioni" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
-      <role name="Contributor"/>
       <role name="Bookings Manager" />
     </permission>
 

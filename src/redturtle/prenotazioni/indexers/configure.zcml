@@ -4,8 +4,23 @@
     >
 
   <adapter
-      factory=".searchable_text.prenotazione"
+      factory=".prenotazione.Subject_prenotazione"
+      name="Subject"
+      />
+
+  <adapter
+      factory=".prenotazione.SearchableText_prenotazione"
       name="SearchableText"
+      />
+
+  <adapter
+      factory=".prenotazione.Date"
+      name="Date"
+      />
+
+  <adapter
+      factory=".prenotazione.fiscalcode"
+      name="fiscalcode"
       />
 
 </configure>

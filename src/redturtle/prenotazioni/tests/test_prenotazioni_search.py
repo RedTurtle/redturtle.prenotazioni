@@ -198,6 +198,24 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.assertIn(self.prenotazione_fscode.UID(), result_uids)
         self.assertNotIn(self.prenotazione_no_fscode.UID(), result_uids)
 
+    def test_search_by_fiscalcode_case_insensitive(self):
+        # ABCDEF12G34H567I -> AbCdEf12G34H567i
+        camelcase_fiscalcode = "".join(
+            [
+                c.upper() if i % 2 == 0 else c.lower()
+                for i, c in enumerate(self.testing_fiscal_code)
+            ]
+        )
+        result_uids = [
+            i["booking_id"]
+            for i in self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings/{camelcase_fiscalcode}"  # noqa: E501
+            ).json()["items"]
+        ]
+
+        self.assertIn(self.prenotazione_fscode.UID(), result_uids)
+        self.assertNotIn(self.prenotazione_no_fscode.UID(), result_uids)
+
     def test_search_by_fiscalcode_traverse(self):
         res = self.api_session.get(
             f"{self.portal.absolute_url()}/@bookings/{self.testing_fiscal_code}"
