@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
-from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import SITE_OWNER_NAME
-from plone.app.testing import SITE_OWNER_PASSWORD
-from plone.app.testing import TEST_USER_ID
-from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+import unittest
+from datetime import date, datetime, timedelta
 
 import pytz
 import transaction
-import unittest
+from plone import api
+from plone.app.testing import (
+    SITE_OWNER_NAME,
+    SITE_OWNER_PASSWORD,
+    TEST_USER_ID,
+    setRoles,
+)
+from plone.restapi.testing import RelativeSession
+
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
 
 class TestMoveBookingApi(unittest.TestCase):

@@ -1,17 +1,15 @@
 # -*- coding: UTF-8 -*-
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
-from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from plone.stringinterp.interfaces import IStringSubstitution
-from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
-from zope.component import getAdapter
+import unittest
+from datetime import date, datetime, timedelta
 
 import pytz
-import unittest
+from plone import api
+from plone.app.testing import TEST_USER_ID, setRoles
+from plone.stringinterp.interfaces import IStringSubstitution
+from zope.component import getAdapter
+
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 
 
 class TestStringInterp(unittest.TestCase):

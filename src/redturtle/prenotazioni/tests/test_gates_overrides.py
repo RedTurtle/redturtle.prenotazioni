@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
+import json
+import unittest
 from datetime import date
+
+import transaction
 from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_ID, setRoles
+
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
-
-import json
-import transaction
-import unittest
 
 
 class TestGatesOverrides(unittest.TestCase):
