@@ -601,6 +601,18 @@ class IPrenotazioniFolder(model.Schema):
         required=False,
     )
 
+    max_bookings_allowed = schema.Int(
+        title=_(
+            "max_bookings_allowed_label",
+            default="Maximum bookings number allowed",
+        ),
+        description=_(
+            "max_bookings_allowed_description",
+            default="Number of simultaneous bookins allowed for the same user.",
+        ),
+        required=False,
+    )
+
     model.fieldset(
         "dates",
         label=_("Date validità"),

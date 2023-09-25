@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+from DateTime import DateTime
 from plone import api
 from plone.memoize.instance import memoize
 from random import choice
@@ -9,6 +10,7 @@ from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
 from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
+from redturtle.prenotazioni.exceptions import BookingsLimitExceded
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
 from six.moves.urllib.parse import parse_qs
@@ -44,6 +46,41 @@ class Booker(object):
     def prenotazioni(self):
         """The prenotazioni context state view"""
         return self.context.unrestrictedTraverse("@@prenotazioni_context_state")  # noqa
+
+    def _validate_user_limit(self, fiscalcode):
+        """Control if user did not exceed the limit yet
+
+        Args:
+            fiscalcode (str): User's fiscal code
+
+        Returns:
+          None
+
+        Raises:
+            BookingsLimitExceded: User exceeded limit
+        """
+
+        if not self.context.max_bookings_allowed:
+            return
+
+        if len(self.get_future_bookings_by_fiscalcode(fiscalcode)) >= (
+            self.context.max_bookings_allowed
+        ):
+            raise BookingsLimitExceded
+
+    def get_future_bookings_by_fiscalcode(self, fiscalcode):
+        """Find all the future bookings registered for the same fiscalcode"""
+        result = []
+
+        for booking in api.content.find(
+            portal_type="Prenotazione",
+            fiscalcode=fiscalcode,
+            path={"query": "/".join(self.context.getPhysicalPath())},
+            Date={"query": DateTime(), "range": "min"},
+        ):
+            result.append(booking.getObject())
+
+        return result
 
     def get_available_gate(self, booking_date, booking_expiration_date=None):
         """
@@ -101,28 +138,35 @@ class Booker(object):
             gate = available_gate
         else:
             gate = force_gate
+
+        fiscalcode = data.get("fiscalcode", "").upper()
+        user = api.user.get_current()
+
+        if not fiscalcode:
+            fiscalcode = (
+                user.getProperty("fiscalcode", "") or user.getId() or ""
+            ).upper()  # noqa
+
+        params["fiscalcode"] = fiscalcode
+
+        self._validate_user_limit(fiscalcode)
+
         obj = api.content.create(
             type="Prenotazione",
             container=container,
             booking_expiration_date=booking_expiration_date,
             gate=gate,
-            **params
+            **params,
         )
 
         annotations = IAnnotations(obj)
 
         annotations[VERIFIED_BOOKING] = False
+
         if not api.user.is_anonymous() and not api.user.has_permission(
             "Modify portal content", obj=container
         ):
-            user = api.user.get_current()
-            data_fiscalcode = getattr(obj, "fiscalcode", "") or ""
-            fiscalcode = data_fiscalcode.upper()
-            if not fiscalcode:
-                obj.fiscalcode = (
-                    user.getProperty("fiscalcode", "") or user.getId() or ""
-                ).upper()  # noqa
-            elif user.hasProperty("fiscalcode") and fiscalcode:
+            if user.hasProperty("fiscalcode") and fiscalcode:
                 if (user.getProperty("fiscalcode") or "").upper() == fiscalcode:
                     logger.info("Booking verified: {}".format(obj.absolute_url()))
                     annotations[VERIFIED_BOOKING] = True
@@ -192,7 +236,10 @@ class Booker(object):
         data["booking_type"] = booking.getBooking_type()
         conflict_manager = self.prenotazioni.conflict_manager
         current_data = booking.getBooking_date()
-        current = {"booking_date": current_data, "booking_type": data["booking_type"]}
+        current = {
+            "booking_date": current_data,
+            "booking_type": data["booking_type"],
+        }
         current_slot = conflict_manager.get_choosen_slot(current)
         current_gate = getattr(booking, "gate", "")
         exclude = {current_gate: [current_slot]}

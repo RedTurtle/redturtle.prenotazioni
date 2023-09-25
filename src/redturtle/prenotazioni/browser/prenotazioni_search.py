@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from DateTime import DateTime
-import json
-import base64
 
 # from ZPublisher.Iterators import filestream_iterator
 from io import BytesIO
@@ -32,6 +30,9 @@ from zope.schema import Date
 from zope.schema import TextLine
 from zope.schema import ValidationError
 from zope.schema.interfaces import IVocabularyFactory
+
+import base64
+import json
 
 
 class InvalidDate(ValidationError):

@@ -10,9 +10,9 @@ from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import (
     REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING,
 )
+from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
-from zope.globalrequest import getRequest
 
 import email
 import pytz
