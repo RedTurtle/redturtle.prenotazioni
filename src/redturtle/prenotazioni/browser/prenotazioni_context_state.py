@@ -79,10 +79,6 @@ class PrenotazioniContextState(BrowserView):
         return self.user_can_manage
 
     @property
-    def user_exeed_limit(self):
-        """Check if user did not exceed the bookings limit"""
-
-    @property
     @memoize
     def booker(self):
         """
