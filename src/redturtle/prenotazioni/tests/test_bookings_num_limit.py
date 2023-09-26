@@ -7,9 +7,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.exceptions import BookingsLimitExceded
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
-)
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
