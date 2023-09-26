@@ -1,24 +1,27 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_parent
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
-from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import SITE_OWNER_NAME
-from plone.app.testing import SITE_OWNER_PASSWORD
-from plone.app.testing import TEST_USER_ID
-from plone.autoform.interfaces import MODES_KEY
-from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
-from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
-from zope.interface import Interface
+import unittest
+from datetime import date, datetime, timedelta
 
 import transaction
-import unittest
+from Acquisition import aq_parent
+from plone import api
+from plone.app.testing import (
+    SITE_OWNER_NAME,
+    SITE_OWNER_PASSWORD,
+    TEST_USER_ID,
+    setRoles,
+)
+from plone.autoform.interfaces import MODES_KEY
+from plone.restapi.testing import RelativeSession
+from zope.interface import Interface
+
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+    REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING,
+)
+from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 
 
 class TestSchemaDirectives(unittest.TestCase):

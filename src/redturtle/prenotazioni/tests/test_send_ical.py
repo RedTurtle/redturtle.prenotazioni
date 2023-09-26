@@ -1,25 +1,23 @@
 # -*- coding: UTF-8 -*-
 # TODO: Evaluate if we can join the prenotazioni event tests with the tests below so
 # as now the ical is being added in the templates adaptes used py plone event
+import base64
+import email
+import unittest
+from datetime import date, datetime, timedelta
+
 from collective.contentrules.mailfromfield.actions.mail import MailFromFieldAction
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
 from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_ID, setRoles
 from plone.contentrules.rule.interfaces import IExecutable
 from Products.CMFCore.WorkflowCore import ActionSucceededEvent
-from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
-import base64
-import email
-import unittest
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 
 
 @implementer(IObjectEvent)

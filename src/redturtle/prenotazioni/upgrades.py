@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import logging
+
+import pytz
 from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
@@ -8,14 +11,10 @@ from plone.app.event.base import default_timezone
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
 from plone.contentrules.engine.interfaces import IRuleStorage
+from zope.component import getUtility, queryUtility
+
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.events.prenotazione import set_booking_code
-from zope.component import getUtility
-from zope.component import queryUtility
-
-import logging
-import pytz
-
 
 logger = logging.getLogger(__name__)
 
@@ -300,8 +299,10 @@ def to_1600_popolate_templates(context):
 
 
 def to_1600_upgrade_contentrules(context):
-    from plone.contentrules.engine.interfaces import IRuleAssignmentManager
-    from plone.contentrules.engine.interfaces import IRuleStorage
+    from plone.contentrules.engine.interfaces import (
+        IRuleAssignmentManager,
+        IRuleStorage,
+    )
 
     rules_to_delete = [
         "booking-accepted",

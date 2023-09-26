@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
+import icalendar
 from Acquisition import aq_inner
 from plone.app.event.base import default_timezone
-from plone.app.event.ical.exporter import ICalendarEventComponent
-from plone.app.event.ical.exporter import PRODID
-from plone.app.event.ical.exporter import VERSION
-from plone.event.interfaces import IICalendar
-from plone.event.interfaces import IICalendarEventComponent
+from plone.app.event.ical.exporter import PRODID, VERSION, ICalendarEventComponent
+from plone.event.interfaces import IICalendar, IICalendarEventComponent
 from plone.registry.interfaces import IRegistry
-from plone.stringinterp.interfaces import IContextWrapper
-from plone.stringinterp.interfaces import IStringSubstitution
-from redturtle.prenotazioni import _
-from zope.component import getAdapter
-from zope.component import getUtility
+from plone.stringinterp.interfaces import IContextWrapper, IStringSubstitution
+from zope.component import getAdapter, getUtility
 from zope.interface import implementer
 
-import icalendar
+from redturtle.prenotazioni import _
 
 
 def construct_icalendar(context, bookings):

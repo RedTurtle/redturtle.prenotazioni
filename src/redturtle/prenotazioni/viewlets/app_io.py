@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 from plone.app.layout.viewlets.common import ViewletBase
-from redturtle.prenotazioni.config import NOTIFICATIONS_LOGS
 from zope.annotation.interfaces import IAnnotations
+
+from redturtle.prenotazioni.config import NOTIFICATIONS_LOGS
 
 
 class Viewlet(ViewletBase):

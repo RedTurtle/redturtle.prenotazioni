@@ -1,32 +1,24 @@
 # -*- coding: utf-8 -*-
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
+import itertools
+import json
+import logging
+from datetime import date, datetime, timedelta
+
+import six
 from DateTime import DateTime
 from plone import api
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni import get_or_create_obj
-from redturtle.prenotazioni import tznow
+from six.moves import map, range
+
+from redturtle.prenotazioni import _, get_or_create_obj, tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.adapters.conflict import IConflictManager
-from redturtle.prenotazioni.adapters.slot import BaseSlot
-from redturtle.prenotazioni.adapters.slot import ISlot
-from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE
-from redturtle.prenotazioni.config import PAUSE_SLOT
+from redturtle.prenotazioni.adapters.slot import BaseSlot, ISlot
+from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE, PAUSE_SLOT
 from redturtle.prenotazioni.content.pause import Pause
-from redturtle.prenotazioni.utilities.dateutils import hm2DT
-from redturtle.prenotazioni.utilities.dateutils import hm2seconds
+from redturtle.prenotazioni.utilities.dateutils import hm2DT, hm2seconds
 from redturtle.prenotazioni.utilities.urls import urlify
-from six.moves import map
-from six.moves import range
-
-import itertools
-import json
-import logging
-import six
-
 
 logger = logging.getLogger(__name__)
 

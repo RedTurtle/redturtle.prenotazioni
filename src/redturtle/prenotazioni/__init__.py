@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
-from AccessControl import Unauthorized
-from App.config import getConfiguration
-from datetime import datetime
-from datetime import timedelta
-from DateTime import DateTime
-from dateutil.tz.tz import tzutc
-from logging import FileHandler
-from logging import Formatter
-from logging import getLogger
-from plone import api
-from plone.api.exc import UserNotFoundError
-from plone.app.event.base import default_timezone
-from redturtle.prenotazioni.utils import is_migration
-from six.moves import map
-from zope.i18nmessageid import MessageFactory
+from datetime import datetime, timedelta
+from logging import FileHandler, Formatter, getLogger
 
 import dateutil
 import pytz
+from AccessControl import Unauthorized
+from App.config import getConfiguration
+from DateTime import DateTime
+from dateutil.tz.tz import tzutc
+from plone import api
+from plone.api.exc import UserNotFoundError
+from plone.app.event.base import default_timezone
+from six.moves import map
+from zope.i18nmessageid import MessageFactory
 
+from redturtle.prenotazioni.utils import is_migration
 
 logger = getLogger("redturtle.prenotazioni")
 _ = MessageFactory("redturtle.prenotazioni")
@@ -121,7 +118,9 @@ def monkey_patch_restapi_validation():
     DeserializeFromJson.get_schema_data = get_schema_data_impostor
 
     try:
-        from redturtle.volto.restapi.deserializer.dxfields import DatetimeFieldDeserializer
+        from redturtle.volto.restapi.deserializer.dxfields import (
+            DatetimeFieldDeserializer,
+        )
     except ImportError:
         return
 
