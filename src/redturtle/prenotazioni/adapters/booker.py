@@ -16,13 +16,9 @@ from redturtle.prenotazioni import _, datetime_with_tz, logger
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
 from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
-from redturtle.prenotazioni.exceptions import BookingsLimitExceded
+from redturtle.prenotazioni.exceptions import BookerException, BookingsLimitExceded
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
-
-
-class BookerException(Exception):
-    pass
 
 
 class IBooker(Interface):

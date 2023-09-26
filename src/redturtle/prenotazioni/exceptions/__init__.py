@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-from .booker import BookingsLimitExceded  # noqa
+from .booker import BookerException, BookingsLimitExceded  # noqa
