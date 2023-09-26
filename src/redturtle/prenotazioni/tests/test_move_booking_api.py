@@ -120,8 +120,8 @@ class TestMoveBookingApi(unittest.TestCase):
             },
         )
 
-        self.assertEquals(response.status_code, 400)
-        self.assertEquals(
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(
             response.json()["message"],
             "Sorry, this slot is not available or does not fit your booking.",
         )

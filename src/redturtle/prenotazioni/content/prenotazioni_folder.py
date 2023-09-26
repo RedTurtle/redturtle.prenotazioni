@@ -10,6 +10,7 @@ from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.component import provideAdapter
+from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import Invalid
@@ -138,14 +139,14 @@ class IBookingTypeRow(Interface):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_submit_subject_default_factory(context):
-    return context.translate(
+    return getattr(context, "translate", translate)(
         _("notify_on_submit_subject_default_value", "Booking created ${title}")
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_submit_message_default_factory(context):
-    return context.translate(
+    return getattr(context, "translate", translate)(
         _(
             "notify_on_submit_message_default_value",
             "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
@@ -155,7 +156,7 @@ def notify_on_submit_message_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_confirm_subject_default_factory(context):
-    return context.translate(
+    return getattr(context, "translate", translate)(
         _(
             "notify_on_confirm_subject_default_value",
             "Booking of ${booking_date} at ${booking_time} was accepted",
@@ -165,7 +166,7 @@ def notify_on_confirm_subject_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_confirm_message_default_factory(context):
-    return context.translate(
+    return getattr(context, "translate", translate)(
         _(
             "notify_on_confirm_message_default_value",
             "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
@@ -175,7 +176,7 @@ def notify_on_confirm_message_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_move_subject_default_factory(context):
-    return context.translate(
+    return getattr(context, "translate", translate)(
         _(
             "notify_on_move_subject_default_value",
             "Modified the boolking date for ${title}",
@@ -185,7 +186,7 @@ def notify_on_move_subject_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_move_message_default_factory(context):
-    return context.translate(
+    return getattr(context, "translate", translate)(
         _(
             "notify_on_move_message_default_value",
             "The booking scheduling of ${booking_type} was modified."
@@ -196,7 +197,7 @@ def notify_on_move_message_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_refuse_subject_default_factory(context):
-    return context.translate(
+    return getattr(context, "translate", translate)(
         _(
             "notify_on_refuse_subject_default_value",
             "Booking refused for ${title}",
@@ -206,7 +207,7 @@ def notify_on_refuse_subject_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_refuse_message_default_factory(context):
-    return context.translate(
+    return getattr(context, "translate", translate)(
         _(
             "notify_on_refuse_message_default_value",
             "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
