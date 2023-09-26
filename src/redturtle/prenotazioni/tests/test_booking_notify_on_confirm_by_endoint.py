@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-
 import email
 import unittest
 from datetime import date, datetime, timedelta
