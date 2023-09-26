@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-from datetime import date
-from datetime import datetime
+from datetime import date, datetime
+
 from plone import api
 from plone.memoize.view import memoize
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
-from redturtle.prenotazioni.adapters.slot import ISlot
 from zExceptions import BadRequest
 from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
+
+from redturtle.prenotazioni.adapters.slot import ISlot
 
 
 @implementer(IPublishTraverse)

@@ -3,15 +3,14 @@ from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.interfaces import ISerializeToJson
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.booker import BookerException
-from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
-from redturtle.prenotazioni.restapi.services.booking_schema.get import BookingSchema
 from zExceptions import BadRequest
 from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
 
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.adapters.booker import BookerException, IBooker
+from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
+from redturtle.prenotazioni.restapi.services.booking_schema.get import BookingSchema
 
 # src/redturtle/prenotazioni/browser/prenotazione_add.py
 
@@ -49,7 +48,7 @@ class AddBooking(BookingSchema):
             else:
                 obj = booker.book(data=book_data)
         except BookerException as e:
-            raise BadRequest(e.args[0])
+            raise BadRequest(str(e))
         if not obj:
             msg = self.context.translate(
                 _("Sorry, this slot is not available anymore.")

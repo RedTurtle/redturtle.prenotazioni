@@ -4,18 +4,18 @@
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+
 from plone import api
 from plone.event.interfaces import IICalendar
-from plone.stringinterp.interfaces import IContextWrapper
-from plone.stringinterp.interfaces import IStringInterpolator
+from plone.stringinterp.interfaces import IContextWrapper, IStringInterpolator
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
+from zope.component import adapter, getAdapter
+from zope.interface import implementer
+
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
-from zope.component import adapter
-from zope.component import getAdapter
-from zope.interface import implementer
 
 
 class PrenotazioneEventEmailMessage:

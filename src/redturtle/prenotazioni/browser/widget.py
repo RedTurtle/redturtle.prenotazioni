@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 from z3c.form.browser import widget
 from z3c.form.browser.textarea import TextAreaWidget
-from z3c.form.interfaces import IFieldWidget
-from z3c.form.interfaces import IFormLayer
-from z3c.form.interfaces import ITextAreaWidget
+from z3c.form.interfaces import IFieldWidget, IFormLayer, ITextAreaWidget
 from z3c.form.widget import FieldWidget
 from zope.component import adapter
-from zope.interface import implementer
-from zope.interface import implementer_only
+from zope.interface import implementer, implementer_only
 from zope.schema.interfaces import IField
 
 

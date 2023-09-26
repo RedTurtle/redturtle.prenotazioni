@@ -6,11 +6,6 @@ from plone.autoform import directives
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
-from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
-from redturtle.prenotazioni.content.validators import checkOverrides
-from redturtle.prenotazioni.content.validators import PauseValidator
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
@@ -24,6 +19,10 @@ from zope.schema.interfaces import IContextAwareDefaultFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
+from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
+from redturtle.prenotazioni.content.validators import PauseValidator, checkOverrides
 
 try:
     from plone.app.dexterity import textindexer
@@ -624,6 +623,18 @@ class IPrenotazioniFolder(model.Schema):
         ),
         description=_("notify_on_refuse_message_help", default=""),
         defaultFactory=notify_on_refuse_message_default_factory,
+        required=False,
+    )
+
+    max_bookings_allowed = schema.Int(
+        title=_(
+            "max_bookings_allowed_label",
+            default="Maximum bookings number allowed",
+        ),
+        description=_(
+            "max_bookings_allowed_description",
+            default="Number of simultaneous bookins allowed for the same user.",
+        ),
         required=False,
     )
 

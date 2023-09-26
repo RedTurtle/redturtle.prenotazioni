@@ -17,6 +17,7 @@ Changelog
   [mamico]
 
 - Remove Contributor from the package permissions map
+- Add configurable simultaneous bookings limit for the same user.
   [folix-01]
 
 2.0.0 (2023-09-12)

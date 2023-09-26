@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from datetime import time
-from datetime import timedelta
-from plone.app.event.base import default_timezone
-from redturtle.prenotazioni import tznow
+from datetime import datetime, time, timedelta
 
 import six
+from plone.app.event.base import default_timezone
+
+from redturtle.prenotazioni import tznow
 
 
 def hm2handm(hm):

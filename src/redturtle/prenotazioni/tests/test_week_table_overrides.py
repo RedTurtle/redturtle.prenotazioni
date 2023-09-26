@@ -1,17 +1,22 @@
 # -*- coding: utf-8 -*-
-from datetime import date
-from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import SITE_OWNER_NAME
-from plone.app.testing import SITE_OWNER_PASSWORD
-from plone.app.testing import TEST_USER_ID
-from plone.restapi.serializer.converters import json_compatible
-from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
-
 import json
 import unittest
+from datetime import date
+
+from plone import api
+from plone.app.testing import (
+    SITE_OWNER_NAME,
+    SITE_OWNER_PASSWORD,
+    TEST_USER_ID,
+    setRoles,
+)
+from plone.restapi.serializer.converters import json_compatible
+from plone.restapi.testing import RelativeSession
+
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
+)
 
 
 class TestContextState(unittest.TestCase):
