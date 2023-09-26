@@ -5,6 +5,10 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
+- Utilizzare defaultFactory se il default è una funzione, altrimenti non viene
+  eseguita nel momento corretto.
+  [mamico]
+
 - Rimosso searchabletext di prenotazioni doppio
   [mamico]
 
@@ -15,7 +19,6 @@ Changelog
 - Remove Contributor from the package permissions map
 - Add configurable simultaneous bookings limit for the same user.
   [folix-01]
-
 
 2.0.0 (2023-09-12)
 ------------------

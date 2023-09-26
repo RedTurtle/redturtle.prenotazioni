@@ -10,8 +10,14 @@ from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.component import provideAdapter
-from zope.interface import Interface, Invalid, implementer, invariant
-from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.interface import implementer
+from zope.interface import Interface
+from zope.interface import Invalid
+from zope.interface import invariant
+from zope.interface import provider
+from zope.schema.interfaces import IContextAwareDefaultFactory
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
@@ -130,57 +136,81 @@ class IBookingTypeRow(Interface):
     )
 
 
-def notify_on_submit_subject_default_factory():
-    return _("notify_on_submit_subject_default_value", "Booking created ${title}")
-
-
-def notify_on_submit_message_default_factory():
-    return _(
-        "notify_on_submit_message_default_value",
-        "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
+@provider(IContextAwareDefaultFactory)
+def notify_on_submit_subject_default_factory(context):
+    return context.translate(
+        _("notify_on_submit_subject_default_value", "Booking created ${title}")
     )
 
 
-def notify_on_confirm_subject_default_factory():
-    return _(
-        "notify_on_confirm_subject_default_value",
-        "Booking of ${booking_date} at ${booking_time} was accepted",
+@provider(IContextAwareDefaultFactory)
+def notify_on_submit_message_default_factory(context):
+    return context.translate(
+        _(
+            "notify_on_submit_message_default_value",
+            "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
+        )
     )
 
 
-def notify_on_confirm_message_default_factory():
-    return _(
-        "notify_on_confirm_message_default_value",
-        "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
+@provider(IContextAwareDefaultFactory)
+def notify_on_confirm_subject_default_factory(context):
+    return context.translate(
+        _(
+            "notify_on_confirm_subject_default_value",
+            "Booking of ${booking_date} at ${booking_time} was accepted",
+        )
     )
 
 
-def notify_on_move_subject_default_factory():
-    return _(
-        "notify_on_move_subject_default_value",
-        "Modified the boolking date for ${title}",
+@provider(IContextAwareDefaultFactory)
+def notify_on_confirm_message_default_factory(context):
+    return context.translate(
+        _(
+            "notify_on_confirm_message_default_value",
+            "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
+        )
     )
 
 
-def notify_on_move_message_default_factory():
-    return _(
-        "notify_on_move_message_default_value",
-        "The booking scheduling of ${booking_type} was modified."
-        "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
+@provider(IContextAwareDefaultFactory)
+def notify_on_move_subject_default_factory(context):
+    return context.translate(
+        _(
+            "notify_on_move_subject_default_value",
+            "Modified the boolking date for ${title}",
+        )
     )
 
 
-def notify_on_refuse_subject_default_factory():
-    return _(
-        "notify_on_refuse_subject_default_value",
-        "Booking refused for ${title}",
+@provider(IContextAwareDefaultFactory)
+def notify_on_move_message_default_factory(context):
+    return context.translate(
+        _(
+            "notify_on_move_message_default_value",
+            "The booking scheduling of ${booking_type} was modified."
+            "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
+        )
     )
 
 
-def notify_on_refuse_message_default_factory():
-    return _(
-        "notify_on_refuse_message_default_value",
-        "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
+@provider(IContextAwareDefaultFactory)
+def notify_on_refuse_subject_default_factory(context):
+    return context.translate(
+        _(
+            "notify_on_refuse_subject_default_value",
+            "Booking refused for ${title}",
+        )
+    )
+
+
+@provider(IContextAwareDefaultFactory)
+def notify_on_refuse_message_default_factory(context):
+    return context.translate(
+        _(
+            "notify_on_refuse_message_default_value",
+            "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
+        )
     )
 
 
@@ -529,7 +559,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione created notification subject.",
         ),
         description=_("notify_on_submit_subject_help", default=""),
-        default=notify_on_submit_subject_default_factory(),
+        defaultFactory=notify_on_submit_subject_default_factory,
         required=False,
     )
     notify_on_submit_message = schema.Text(
@@ -538,7 +568,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione created notification message.",
         ),
         description=_("notify_on_submit_message_help", default=""),
-        default=notify_on_submit_message_default_factory(),
+        defaultFactory=notify_on_submit_message_default_factory,
         required=False,
     )
     notify_on_confirm_subject = schema.TextLine(
@@ -547,7 +577,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione confirmed notification subject.",
         ),
         description=_("notify_on_confirm_subject_help", default=""),
-        default=notify_on_confirm_subject_default_factory(),
+        defaultFactory=notify_on_confirm_subject_default_factory,
         required=False,
     )
     notify_on_confirm_message = schema.Text(
@@ -556,7 +586,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione confirmed notification message.",
         ),
         description=_("notify_on_confirm_message_help", default=""),
-        default=notify_on_confirm_message_default_factory(),
+        defaultFactory=notify_on_confirm_message_default_factory,
         required=False,
     )
     notify_on_move_subject = schema.TextLine(
@@ -565,7 +595,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione moved notification subject.",
         ),
         description=_("notify_on_move_subject_help", default=""),
-        default=notify_on_move_subject_default_factory(),
+        defaultFactory=notify_on_move_subject_default_factory,
         required=False,
     )
     notify_on_move_message = schema.Text(
@@ -574,7 +604,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione moved notification message.",
         ),
         description=_("notify_on_move_message_help", default=""),
-        default=notify_on_move_message_default_factory(),
+        defaultFactory=notify_on_move_message_default_factory,
         required=False,
     )
     notify_on_refuse_subject = schema.TextLine(
@@ -583,7 +613,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione refused notification subject.",
         ),
         description=_("notify_on_refuse_subject_help", default=""),
-        default=notify_on_refuse_subject_default_factory(),
+        defaultFactory=notify_on_refuse_subject_default_factory,
         required=False,
     )
     notify_on_refuse_message = schema.Text(
@@ -592,7 +622,7 @@ class IPrenotazioniFolder(model.Schema):
             default="Prenotazione created notification message.",
         ),
         description=_("notify_on_refuse_message_help", default=""),
-        default=notify_on_refuse_message_default_factory(),
+        defaultFactory=notify_on_refuse_message_default_factory,
         required=False,
     )
 
