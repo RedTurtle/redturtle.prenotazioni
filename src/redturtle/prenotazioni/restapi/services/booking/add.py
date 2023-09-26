@@ -48,7 +48,7 @@ class AddBooking(BookingSchema):
             else:
                 obj = booker.book(data=book_data)
         except BookerException as e:
-            raise BadRequest(e.args[0])
+            raise BadRequest(str(e))
         if not obj:
             msg = self.context.translate(
                 _("Sorry, this slot is not available anymore.")
