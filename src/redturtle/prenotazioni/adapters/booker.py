@@ -57,12 +57,12 @@ class Booker(object):
         if not self.context.max_bookings_allowed:
             return
 
-        if len(self.get_future_bookings_by_fiscalcode(fiscalcode)) >= (
+        if len(self.search_future_bookings_by_fiscalcode(fiscalcode)) >= (
             self.context.max_bookings_allowed
         ):
             raise BookingsLimitExceded
 
-    def get_future_bookings_by_fiscalcode(self, fiscalcode):
+    def search_future_bookings_by_fiscalcode(self, fiscalcode):
         """Find all the future bookings registered for the same fiscalcode"""
         result = []
 
@@ -75,7 +75,7 @@ class Booker(object):
                 "query": ("confirmed", "pending", "private"),
             },
         ):
-            result.append(booking.getObject())
+            result.append(booking)
 
         return result
 
