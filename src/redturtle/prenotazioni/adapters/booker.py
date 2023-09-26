@@ -144,9 +144,9 @@ class Booker(object):
                 user.getProperty("fiscalcode", "") or user.getId() or ""
             ).upper()  # noqa
 
-        params["fiscalcode"] = fiscalcode
-
-        self._validate_user_limit(fiscalcode)
+        if fiscalcode:
+            params["fiscalcode"] = fiscalcode
+            self._validate_user_limit(fiscalcode)
 
         obj = api.content.create(
             type="Prenotazione",
