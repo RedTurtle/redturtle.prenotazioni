@@ -7,7 +7,9 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.exceptions import BookingsLimitExceded
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
+)
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
@@ -153,6 +155,34 @@ class TestEmailToManagers(unittest.TestCase):
                 "fiscalcode": self.testing_fiscalcode,
             }
         )
+
+        self.assertTrue(
+            self.create_booking(
+                data={
+                    "booking_date": self.tomorrow_8_0 + timedelta(days=1),
+                    "booking_type": "Type A",
+                    "title": "foo",
+                    "email": "jdoe@redturtle.it",
+                    "fiscalcode": self.testing_fiscalcode,
+                }
+            )
+        )
+
+    def test_limit_exceeded_is_not_raised_if_have_refused_bookings(self):
+        self.folder_prenotazioni.max_bookings_allowed = 1
+
+        booking = self.create_booking(
+            data={
+                "booking_date": self.tomorrow_8_0,
+                "booking_type": "Type A",
+                "title": "foo",
+                "email": "jdoe@redturtle.it",
+                "fiscalcode": self.testing_fiscalcode,
+            }
+        )
+
+        api.content.transition(obj=booking, transition="refuse")
+        booking.reindexObject(idxs=["review_state"])
 
         self.assertTrue(
             self.create_booking(

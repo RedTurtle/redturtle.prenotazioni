@@ -3,7 +3,9 @@ from Acquisition import aq_base
 from Acquisition import aq_inner
 from collective.contentrules.mailfromfield import logger
 from collective.contentrules.mailfromfield.actions.mail import IMailFromFieldAction
-from collective.contentrules.mailfromfield.actions.mail import MailActionExecutor as BaseExecutor
+from collective.contentrules.mailfromfield.actions.mail import (
+    MailActionExecutor as BaseExecutor,
+)
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.dexterity.interfaces import IDexterityContainer
 from plone.event.interfaces import IICalendar

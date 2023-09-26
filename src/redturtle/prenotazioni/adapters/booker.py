@@ -77,6 +77,9 @@ class Booker(object):
             fiscalcode=fiscalcode,
             path={"query": "/".join(self.context.getPhysicalPath())},
             Date={"query": DateTime(), "range": "min"},
+            review_state={
+                "query": ("confirmed", "pending", "private"),
+            },
         ):
             result.append(booking.getObject())
 

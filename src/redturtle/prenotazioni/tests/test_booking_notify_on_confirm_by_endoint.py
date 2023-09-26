@@ -7,7 +7,9 @@ from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING,
+)
 from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
