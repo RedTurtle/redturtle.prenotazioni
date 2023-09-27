@@ -181,7 +181,6 @@ def send_email_to_managers(booking, event):
                     subject=subject,
                     charset="utf-8",
                     msg_type="text/html",
-                    immediate=True,
                 )
 
 
