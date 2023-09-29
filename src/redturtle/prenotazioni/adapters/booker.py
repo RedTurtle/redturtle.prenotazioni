@@ -60,7 +60,7 @@ class Booker(object):
         if len(self.search_future_bookings_by_fiscalcode(fiscalcode)) >= (
             self.context.max_bookings_allowed
         ):
-            raise BookingsLimitExceded
+            raise BookingsLimitExceded(self.context)
 
     def search_future_bookings_by_fiscalcode(self, fiscalcode):
         """Find all the future bookings registered for the same fiscalcode"""
