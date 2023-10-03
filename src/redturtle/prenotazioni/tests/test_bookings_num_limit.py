@@ -42,6 +42,7 @@ class TestEmailToManagers(unittest.TestCase):
             daData=date.today(),
             booking_types=[
                 {"name": "Type A", "duration": "30"},
+                {"name": "Type B", "duration": "30"},
             ],
             gates=["Gate A"],
         )
@@ -185,6 +186,29 @@ class TestEmailToManagers(unittest.TestCase):
                 data={
                     "booking_date": self.tomorrow_8_0 + timedelta(days=1),
                     "booking_type": "Type A",
+                    "title": "foo",
+                    "email": "jdoe@redturtle.it",
+                    "fiscalcode": self.testing_fiscalcode,
+                }
+            )
+        )
+
+    def test_limit_exceeded_is_not_raised_if_different_booking_type(self):
+        self.create_booking(
+            data={
+                "booking_date": self.tomorrow_8_0,
+                "booking_type": "Type A",
+                "title": "foo",
+                "email": "jdoe@redturtle.it",
+                "fiscalcode": self.testing_fiscalcode,
+            }
+        )
+
+        self.assertTrue(
+            self.create_booking(
+                data={
+                    "booking_date": self.tomorrow_8_0 + timedelta(days=1),
+                    "booking_type": "Type B",
                     "title": "foo",
                     "email": "jdoe@redturtle.it",
                     "fiscalcode": self.testing_fiscalcode,

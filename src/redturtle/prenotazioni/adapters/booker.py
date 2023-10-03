@@ -41,11 +41,11 @@ class Booker(object):
         """The prenotazioni context state view"""
         return self.context.unrestrictedTraverse("@@prenotazioni_context_state")  # noqa
 
-    def _validate_user_limit(self, fiscalcode):
+    def _validate_user_limit(self, data: dict):
         """Control if user did not exceed the limit yet
 
         Args:
-            fiscalcode (str): User's fiscal code
+            data (dict): booking data
 
         Returns:
           None
@@ -57,15 +57,17 @@ class Booker(object):
         if not self.context.max_bookings_allowed:
             return
 
-        if len(self.search_future_bookings_by_fiscalcode(fiscalcode)) >= (
-            self.context.max_bookings_allowed
-        ):
+        if len(
+            self.search_future_bookings_by_fiscalcode(
+                data["fiscalcode"], data["booking_type"]
+            )
+        ) >= (self.context.max_bookings_allowed):
             raise BookingsLimitExceded(self.context)
 
-    def search_future_bookings_by_fiscalcode(self, fiscalcode):
+    def search_future_bookings_by_fiscalcode(self, fiscalcode, booking_type=None):
         """Find all the future bookings registered for the same fiscalcode"""
         result = []
-        for booking in api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
+        query = dict(
             portal_type="Prenotazione",
             fiscalcode=fiscalcode,
             path={"query": "/".join(self.context.getPhysicalPath())},
@@ -73,6 +75,13 @@ class Booker(object):
             review_state={
                 "query": ("confirmed", "pending", "private"),
             },
+        )
+
+        if booking_type:
+            query["booking_type"] = booking_type
+
+        for booking in api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
+            **query
         ):
             result.append(booking)
 
@@ -145,7 +154,7 @@ class Booker(object):
 
         if fiscalcode:
             params["fiscalcode"] = fiscalcode
-            self._validate_user_limit(fiscalcode)
+            self._validate_user_limit(params)
 
         obj = api.content.create(
             type="Prenotazione",
