@@ -65,8 +65,7 @@ class Booker(object):
     def search_future_bookings_by_fiscalcode(self, fiscalcode):
         """Find all the future bookings registered for the same fiscalcode"""
         result = []
-
-        for booking in api.content.find(
+        for booking in api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
             portal_type="Prenotazione",
             fiscalcode=fiscalcode,
             path={"query": "/".join(self.context.getPhysicalPath())},
