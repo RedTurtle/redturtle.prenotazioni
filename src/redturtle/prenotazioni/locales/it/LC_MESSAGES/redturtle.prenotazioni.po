@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-10-04 08:12+0000\n"
+"POT-Creation-Date: 2023-10-04 08:21+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -1050,7 +1050,6 @@ msgstr "L'unità di tempo minima è 5 minuti. La tua prenotazione non può ecced
 
 #. Default: "The number of simultaneous bookings allowed for the same user."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:630
-#, fuzzy
 msgid "max_bookings_allowed_description"
 msgstr "Numero massimo delle prenotazioni contemporanee per una stessa tipologia, per lo stesso utente. Impostare '0' o lasciare vuoto per non porre limitazioni. Per attivare questo controllo è necessario richiedere obbligatoriamente all'utente il campo 'codice fiscale'"
 
