@@ -186,4 +186,14 @@
         handler=".upgrades.update_rolemap"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1803"
+      destination="1804"
+      >
+    <genericsetup:upgradeStep
+        title="Set up PrenotazioniFolder.max_bookings_allowed default value(2)"
+        handler=".upgrades.to_1804"
+        />
+  </genericsetup:upgradeSteps>
 </configure>

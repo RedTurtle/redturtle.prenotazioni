@@ -398,3 +398,11 @@ def update_booking_code(self):
             logger.info(
                 f"- [{brain.getPath()}] set booking_code to {item.booking_code}"
             )
+
+
+def to_1804(self):
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        logger.info("Updating <{UID}>.max_bookings_allowed=2".format(UID=brain.UID))
+        brain.getObject().max_bookings_allowed = 2
