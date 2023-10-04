@@ -629,9 +629,10 @@ class IPrenotazioniFolder(model.Schema):
         ),
         description=_(
             "max_bookings_allowed_description",
-            default="Number of simultaneous bookins allowed for the same user.",
+            default="The number of simultaneous bookings allowed for the same user.",
         ),
         required=False,
+        default=2,
     )
 
     model.fieldset(

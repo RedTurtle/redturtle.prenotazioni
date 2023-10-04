@@ -51,6 +51,7 @@ class TestDaySlots(unittest.TestCase):
                 {"name": "Type A", "duration": "30"},
             ],
             gates=["Gate A"],
+            max_bookings_allowed=100,
         )
         week_table = self.folder_prenotazioni.week_table
         for row in week_table:

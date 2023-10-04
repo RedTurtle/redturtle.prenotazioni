@@ -11,6 +11,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import Interface
 from zope.event import notify
 from zope.interface import implementer
+from ZTUtils.Lazy import LazyMap
 
 from redturtle.prenotazioni import _, datetime_with_tz, logger
 from redturtle.prenotazioni.adapters.slot import BaseSlot
@@ -62,11 +63,12 @@ class Booker(object):
                 data["fiscalcode"], data["booking_type"]
             )
         ) >= (self.context.max_bookings_allowed):
-            raise BookingsLimitExceded(self.context)
+            raise BookingsLimitExceded(self.context, booking_type=data["booking_type"])
 
-    def search_future_bookings_by_fiscalcode(self, fiscalcode, booking_type=None):
+    def search_future_bookings_by_fiscalcode(
+        self, fiscalcode: str, booking_type: str = None
+    ) -> LazyMap:
         """Find all the future bookings registered for the same fiscalcode"""
-        result = []
         query = dict(
             portal_type="Prenotazione",
             fiscalcode=fiscalcode,
@@ -80,12 +82,7 @@ class Booker(object):
         if booking_type:
             query["booking_type"] = booking_type
 
-        for booking in api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
-            **query
-        ):
-            result.append(booking)
-
-        return result
+        return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(**query)
 
     def get_available_gate(self, booking_date, booking_expiration_date=None):
         """
