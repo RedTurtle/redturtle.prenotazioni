@@ -423,4 +423,6 @@ def to_1805(self):
                 outputMimeType="text/html",
                 encoding="utf-8",
             )
-            logger.info("Converted <{UID}>.cosa_serve to RichText".format(UID=brain.UID))
+            logger.info(
+                "Converted <{UID}>.cosa_serve to RichText".format(UID=brain.UID)
+            )
