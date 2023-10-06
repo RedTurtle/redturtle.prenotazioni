@@ -25,6 +25,9 @@ Changelog
 - Remove "immediate=True" from mailhost send in send_email_to_managers because can cause multiple sends when there are conflicts.
   [cekk]
 
+- Better handle edge-case when a booking is created inside a pause (booking created before pause set in folder config).
+  [cekk]
+
 2.0.0 (2023-09-12)
 ------------------
 
