@@ -18,7 +18,10 @@ from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
 from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
-from redturtle.prenotazioni.content.validators import PauseValidator, checkOverrides
+from redturtle.prenotazioni.content.validators import (
+    PauseValidator,
+    checkOverrides,
+)
 
 try:
     from plone.app.dexterity import textindexer
@@ -42,7 +45,9 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
                 return value
         return None
 
-    number_of_entry = request.form.get("form.widgets.{}.count".format(fieldname))
+    number_of_entry = request.form.get(
+        "form.widgets.{}.count".format(fieldname)
+    )
     data = []
     prefix = "form.widgets.{}".format(fieldname)
     for counter in range(int(number_of_entry)):
@@ -82,7 +87,9 @@ class IWeekTableRow(model.Schema):
     )
 
     afternoon_start = schema.Choice(
-        title=_("afternoon_start_label", default="Start time in the afternoon"),
+        title=_(
+            "afternoon_start_label", default="Start time in the afternoon"
+        ),
         vocabulary="redturtle.prenotazioni.VocOreInizio",
         required=False,
     )
@@ -217,12 +224,14 @@ class IPrenotazioniFolder(model.Schema):
     descriptionAgenda = RichText(
         required=False,
         title=_("Descrizione Agenda", default="Descrizione Agenda"),
-        description=_("Inserire il testo di presentazione dell'agenda corrente"),
+        description=_(
+            "Inserire il testo di presentazione dell'agenda corrente"
+        ),
     )
 
     form.mode(descriptionAgenda="display")
 
-    cosa_serve = schema.Text(
+    cosa_serve = RichText(
         required=False,
         title=_("Cosa serve", default="Cosa serve"),
         description=_(
@@ -232,7 +241,9 @@ class IPrenotazioniFolder(model.Schema):
 
     directives.widget(visible_booking_fields=CheckBoxFieldWidget)
     visible_booking_fields = schema.List(
-        title=_("label_visible_booking_fields", default="Visible booking fields"),
+        title=_(
+            "label_visible_booking_fields", default="Visible booking fields"
+        ),
         description=_(
             "help_visible_booking_fields",
             "User will not be able to add a booking unless those "
@@ -250,7 +261,9 @@ class IPrenotazioniFolder(model.Schema):
 
     directives.widget(required_booking_fields=CheckBoxFieldWidget)
     required_booking_fields = schema.List(
-        title=_("label_required_booking_fields", default="Required booking fields"),
+        title=_(
+            "label_required_booking_fields", default="Required booking fields"
+        ),
         description=_(
             "help_required_booking_fields",
             "User will not be able to add a booking unless those "
@@ -500,10 +513,14 @@ class IPrenotazioniFolder(model.Schema):
                 raise Invalid(_("You should set a start time for afternoon."))
             if interval["morning_start"] and interval["morning_end"]:
                 if interval["morning_start"] > interval["morning_end"]:
-                    raise Invalid(_("Morning start should not be greater than end."))
+                    raise Invalid(
+                        _("Morning start should not be greater than end.")
+                    )
             if interval["afternoon_start"] and interval["afternoon_end"]:
                 if interval["afternoon_start"] > interval["afternoon_end"]:
-                    raise Invalid(_("Afternoon start should not be greater than end."))
+                    raise Invalid(
+                        _("Afternoon start should not be greater than end.")
+                    )
 
     # TODO: definire o descrivere quando avviee la notifica
     # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?
