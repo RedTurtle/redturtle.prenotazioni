@@ -5,6 +5,9 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
+- Change PrenotazioniFolder.cosa_serve field type to RichText
+  [folix-01]
+
 - Utilizzare defaultFactory se il default è una funzione, altrimenti non viene
   eseguita nel momento corretto.
   [mamico]

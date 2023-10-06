@@ -222,7 +222,7 @@ class IPrenotazioniFolder(model.Schema):
 
     form.mode(descriptionAgenda="display")
 
-    cosa_serve = schema.Text(
+    cosa_serve = RichText(
         required=False,
         title=_("Cosa serve", default="Cosa serve"),
         description=_(
