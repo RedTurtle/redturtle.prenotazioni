@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 from plone import api
-from plone.restapi.interfaces import ISerializeToJson
+from plone.restapi.interfaces import IFieldSerializer, ISerializeToJson
 from plone.restapi.serializer.converters import json_compatible
-from zope.component import adapter
+from zope.component import adapter, getMultiAdapter
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.publisher.interfaces import IRequest
+from zope.schema import getFields
 
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.content.prenotazioni_folder import IPrenotazioniFolder
 from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
 
 
@@ -21,7 +23,15 @@ class PrenotazioneSerializer:
 
     def __call__(self, *args, **kwargs):
         booking_folder = self.prenotazione.getPrenotazioniFolder()
-        useful_docs = getattr(booking_folder, "cosa_serve", "")
+        useful_docs = getMultiAdapter(
+            (
+                getFields(IPrenotazioniFolder)["cosa_serve"],
+                booking_folder,
+                self.request,
+            ),
+            IFieldSerializer,
+        )()
+
         if self.prenotazione.fiscalcode:
             fiscalcode = self.prenotazione.fiscalcode.upper()
         else:
