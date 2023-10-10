@@ -5,6 +5,9 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
+- Add booking details to the export file
+  [folix-01]
+
 - Change PrenotazioniFolder.cosa_serve field type to RichText
   [folix-01]
 
