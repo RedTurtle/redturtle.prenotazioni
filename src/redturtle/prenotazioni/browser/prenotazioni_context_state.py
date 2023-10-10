@@ -742,7 +742,28 @@ class PrenotazioniContextState(BrowserView):
         availability = {}
         for gate in gates:
             availability.setdefault(gate, [])
-            gate_slots = slots_by_gate.get(gate, [])
+            all_gate_slots = slots_by_gate.get(gate, [])
+            pauses_slots = [
+                x for x in all_gate_slots if x.context.portal_type == PAUSE_PORTAL_TYPE
+            ]
+            booking_slots = [
+                x for x in all_gate_slots if x.context.portal_type != PAUSE_PORTAL_TYPE
+            ]
+            gate_slots = []
+            gate_slots.extend(pauses_slots)
+            for slot in booking_slots:
+                skip = False
+                for pause in pauses_slots:
+                    if slot in pause:
+                        # edge-case when there is a slot created inside a pause range.
+                        # probably this is because the slot (booking) has been created before
+                        # someone set the pause.
+                        # the booking should be listed, but its slot can't appear here because
+                        # could mess free slots calc.
+                        skip = True
+                        break
+                if not skip:
+                    gate_slots.append(slot)
             for interval in intervals:
                 if interval:
                     availability[gate].extend(interval - gate_slots)
