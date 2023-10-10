@@ -6,5 +6,6 @@
   <adapter factory=".slot.SlotSerializer" />
   <adapter factory=".prenotazione.PrenotazioneSerializer" />
   <adapter factory=".prenotazione.PrenotazioneSearchableItemSerializer" />
+  <adapter factory=".prenotazioni_folder.PrenotazioniFolderSerializer" />
 
 </configure>
