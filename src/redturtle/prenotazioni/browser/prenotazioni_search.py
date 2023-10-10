@@ -295,6 +295,7 @@ class DownloadReservation(SearchForm):
                 "Data prenotazione",
                 "Codice prenotazione",
                 "Note del personale",
+                "Dettagli",
             ]
         )
 
@@ -329,6 +330,7 @@ class DownloadReservation(SearchForm):
                 # ),
                 obj.getBookingCode(),
                 obj.getStaff_notes() or "",
+                obj.description,
             ]
         )
 
