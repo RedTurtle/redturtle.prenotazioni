@@ -206,4 +206,14 @@
         handler=".upgrades.to_1805"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1805"
+      destination="1806"
+      >
+    <genericsetup:upgradeStep
+        title="Update booking_types by hidden default(False) value"
+        handler=".upgrades.to_1806"
+        />
+  </genericsetup:upgradeSteps>
 </configure>
