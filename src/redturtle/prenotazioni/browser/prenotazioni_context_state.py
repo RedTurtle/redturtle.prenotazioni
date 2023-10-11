@@ -766,7 +766,7 @@ class PrenotazioniContextState(BrowserView):
                     gate_slots.append(slot)
             for interval in intervals:
                 if interval:
-                    availability[gate].extend(interval - gate_slots)
+                    availability[gate].extend(interval - sorted(gate_slots))
         return availability
 
     def get_freebusy_slots(self, booking_date, period="day"):

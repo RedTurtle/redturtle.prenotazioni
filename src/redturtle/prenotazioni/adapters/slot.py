@@ -145,7 +145,6 @@ class BaseSlot(Interval):
         """Subtract something from this"""
         if isinstance(value, Interval):
             value = [value]
-
         # We filter not overlapping intervals
         good_intervals = [x for x in value if x.overlaps(self)]
         points = slots_to_points(good_intervals)

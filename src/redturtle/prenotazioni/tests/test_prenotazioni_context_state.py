@@ -83,3 +83,64 @@ class TestPrenotazioniContextState(unittest.TestCase):
         self.assertEqual(view.get_free_slots(today)["Gate A"][0].stop(), "08:00")
         self.assertEqual(view.get_free_slots(today)["Gate A"][1].start(), "11:00")
         self.assertEqual(view.get_free_slots(today)["Gate A"][1].stop(), "13:00")
+
+    def test_get_free_slots_handle_pauses_correctly(self):
+        booker = IBooker(self.folder_prenotazioni)
+
+        today = date.today()
+        # need this just to have the day container
+        aq_parent(
+            booker.create(
+                {
+                    "booking_date": datetime(
+                        today.year, today.month, today.day, 10, 30
+                    ),
+                    "booking_type": "Type A",
+                    "title": "foo",
+                }
+            )
+        )
+        for hour in [7, 8, 9, 11, 12]:
+            aq_parent(
+                booker.create(
+                    {
+                        "booking_date": datetime(
+                            today.year, today.month, today.day, hour, 00
+                        ),
+                        "booking_type": "Type A",
+                        "title": "foo",
+                    }
+                )
+            )
+
+            aq_parent(
+                booker.create(
+                    {
+                        "booking_date": datetime(
+                            today.year, today.month, today.day, hour, 30
+                        ),
+                        "booking_type": "Type A",
+                        "title": "foo",
+                    }
+                )
+            )
+
+        self.folder_prenotazioni.pause_table = [
+            {"day": "0", "pause_end": "1030", "pause_start": "1000"},
+            {"day": "1", "pause_end": "1030", "pause_start": "1000"},
+            {"day": "2", "pause_end": "1030", "pause_start": "1000"},
+            {"day": "3", "pause_end": "1030", "pause_start": "1000"},
+            {"day": "4", "pause_end": "1030", "pause_start": "1000"},
+            {"day": "5", "pause_end": "1030", "pause_start": "1000"},
+            {"day": "6", "pause_end": "1030", "pause_start": "1000"},
+            {"day": "7", "pause_end": "1030", "pause_start": "1000"},
+        ]
+
+        view = api.content.get_view(
+            context=self.folder_prenotazioni,
+            request=self.request,
+            name="prenotazioni_context_state",
+        )
+        res = view.get_free_slots(today)
+        # there are no free slots because are all taken by bookings or pause
+        self.assertEqual(len(res["Gate A"]), 0)
