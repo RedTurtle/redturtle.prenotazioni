@@ -406,3 +406,23 @@ def to_1804(self):
     ):
         logger.info("Updating <{UID}>.max_bookings_allowed=2".format(UID=brain.UID))
         brain.getObject().max_bookings_allowed = 2
+
+
+def to_1805(self):
+    from plone.app.textfield.value import RichTextValue
+
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        obj = brain.getObject()
+
+        if obj.cosa_serve and type(obj.cosa_serve) is not RichTextValue:
+            obj.cosa_serve = RichTextValue(
+                raw=obj.cosa_serve,
+                mimeType="text/html",
+                outputMimeType="text/html",
+                encoding="utf-8",
+            )
+            logger.info(
+                "Converted <{UID}>.cosa_serve to RichText".format(UID=brain.UID)
+            )

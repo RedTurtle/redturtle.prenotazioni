@@ -2,8 +2,20 @@ Changelog
 =========
 
 
-2.0.1 (unreleased)
+2.1.1 (unreleased)
 ------------------
+
+- Nothing changed yet.
+
+
+2.1.0 (2023-10-11)
+------------------
+
+- Add booking details to the export file
+  [folix-01]
+
+- Change PrenotazioniFolder.cosa_serve field type to RichText
+  [folix-01]
 
 - Utilizzare defaultFactory se il default è una funzione, altrimenti non viene
   eseguita nel momento corretto.

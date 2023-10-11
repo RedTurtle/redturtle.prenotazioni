@@ -196,4 +196,14 @@
         handler=".upgrades.to_1804"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1804"
+      destination="1805"
+      >
+    <genericsetup:upgradeStep
+        title="Convert PrenotazioniFolder.cosa_serve type to RichText"
+        handler=".upgrades.to_1805"
+        />
+  </genericsetup:upgradeSteps>
 </configure>
