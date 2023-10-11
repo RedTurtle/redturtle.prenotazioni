@@ -1,26 +1,16 @@
 # -*- coding: UTF-8 -*-
-import email
 import unittest
-from datetime import date, datetime, timedelta
+from datetime import date
 
-import pytz
-from collective.contentrules.mailfromfield.actions.mail import (
-    MailFromFieldAction,
-)
 from plone import api
 from plone.app.testing import TEST_USER_ID, setRoles
-from plone.contentrules.rule.interfaces import IExecutable
-from Products.CMFCore.WorkflowCore import ActionSucceededEvent
+from plone.restapi.interfaces import ISerializeToJson
 from zope.component import getMultiAdapter
+from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
-from zope.globalrequest import getRequest
-from plone.restapi.interfaces import ISerializeToJson
 
-from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
-)
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 
 
 @implementer(IObjectEvent)
