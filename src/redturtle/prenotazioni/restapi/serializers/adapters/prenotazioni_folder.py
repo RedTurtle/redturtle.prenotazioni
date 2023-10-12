@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from copy import deepcopy
-
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.serializer.dxcontent import SerializeFolderToJson
 from zope.component import adapter
@@ -16,8 +14,9 @@ class PrenotazioniFolderSerializer(SerializeFolderToJson):
     def __call__(self, *args, **kwargs):
         res = super().__call__()
 
-        for index, type in enumerate(deepcopy(res.get("booking_types", {}))):
-            if type.get("hidden"):
-                del res["booking_types"][index]
+        if res.get("booking_types"):
+            res["booking_types"] = [
+                t for t in res["booking_types"] if not t.get("hidden")
+            ]
 
         return res
