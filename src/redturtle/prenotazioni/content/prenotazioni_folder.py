@@ -447,7 +447,9 @@ class IPrenotazioniFolder(model.Schema):
             "booking_types_help",
             default="Put booking types there (one per line).\n"
             "If you do not provide this field, "
-            "not type selection will be available",
+            "not type selection will be available. "
+            "If the 'Hidden Type' flag is selected the type will only "
+            "be visible for the users with the 'Bookings Manager' permission",
         ),
         value_type=DictRow(schema=IBookingTypeRow),
     )
