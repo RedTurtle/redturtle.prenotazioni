@@ -215,5 +215,9 @@
         title="Update booking_types by hidden default(False) value"
         handler=".upgrades.to_1806"
         />
+    <genericsetup:upgradeStep
+        title="Update booking_types by hidden default(False) value"
+        handler=".upgrades.update_rolemap"
+        />
   </genericsetup:upgradeSteps>
 </configure>
