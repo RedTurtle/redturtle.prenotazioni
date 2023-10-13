@@ -3,6 +3,13 @@ Changelog
 
 
 2.1.3 (unreleased)
+2.1.4 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+2.1.3 (2023-10-13)
 ------------------
 
 - Resect hiddent booking types from @booking-schema.
