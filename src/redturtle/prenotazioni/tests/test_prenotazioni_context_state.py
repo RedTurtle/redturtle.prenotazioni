@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 from datetime import date, datetime
-
 from Acquisition import aq_parent
 from plone import api
 from plone.app.testing import (
@@ -11,7 +10,6 @@ from plone.app.testing import (
     setRoles,
 )
 from plone.restapi.testing import RelativeSession
-
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
@@ -43,7 +41,6 @@ class TestPrenotazioniContextState(unittest.TestCase):
             ],
             gates=["Gate A"],
             week_table=WEEK_TABLE_SCHEMA,
-            max_bookings_allowed=100,
         )
 
     def test_get_free_slots_skip_bookigs_inside_pause_range(self):
