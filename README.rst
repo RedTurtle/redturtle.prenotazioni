@@ -105,7 +105,8 @@ You can configure:
 Creating the hidden booking types
 ---------------------------------
 
-Yo can have the hiddent booking types for internal usage simply selecting the **Hidden type** checkbox in a bookign type field definition
+Yo can have the hiddent booking types for internal usage simply selecting the **Hidden type** checkbox in a bookign type field definition. So
+this type will not be visible for the simple or uanuthenticated users
 
 Creating a new booking content
 ------------------------------
