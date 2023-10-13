@@ -195,7 +195,7 @@ msgstr "Gruppo"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:134
 msgid "Hidden type"
-msgstr "Tipologia pernotazione privata ad uso operatore"
+msgstr "Tipologia prenotazione privata ad uso operatore"
 
 #. Default: "How to get here"
 #: redturtle/prenotazioni/behaviors/booking_folder.py:18
