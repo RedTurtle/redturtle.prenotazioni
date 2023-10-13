@@ -102,6 +102,11 @@ You can configure:
 - custom duration for booking types
 - week schedule for morning and afternoon time tables
 
+Creating the hidden booking types
+---------------------------------
+
+Yo can have the hiddent booking types for internal usage simply selecting the **Hidden type** checkbox in the bookign type field definition
+
 Creating a new booking content
 ------------------------------
 
