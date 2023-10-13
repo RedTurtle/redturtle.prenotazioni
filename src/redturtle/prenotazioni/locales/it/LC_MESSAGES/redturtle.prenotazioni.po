@@ -665,7 +665,7 @@ msgstr "Le seguenti tipologie non sono selezionabili nell'orario selezionato:"
 #. Default: "Put booking types there (one per line).\nIf you do not provide this field, not type selection will be available"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:446
 msgid "booking_types_help"
-msgstr "Inserisci le tipologie di prenotazioni."
+msgstr "Inserisci le tipologie di prenotazioni, se private potranno inserire gli appuntamenti solo gli operatori dell'Ente"
 
 #. Default: "Booking types"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:445
