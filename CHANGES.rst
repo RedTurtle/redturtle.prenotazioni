@@ -5,7 +5,8 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Change bookings default limit to 0.
+  [folix-01]
 
 
 2.1.1 (2023-10-11)
