@@ -2,7 +2,13 @@ Changelog
 =========
 
 
-2.1.2 (unreleased)
+2.1.3 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+2.1.2 (2023-10-13)
 ------------------
 
 - Add hidden booking types for operator use.
