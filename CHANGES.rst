@@ -5,7 +5,8 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add hidden booking types for operator use.
+  [folix-01]
 
 
 2.1.1 (2023-10-11)
@@ -17,9 +18,6 @@ Changelog
 
 2.1.0 (2023-10-11)
 ------------------
-
-- Add hidden booking types for the operator use.
-  [folix-01]
 
 - Add booking details to the export file.
   [folix-01]
