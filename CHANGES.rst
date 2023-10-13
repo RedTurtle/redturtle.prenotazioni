@@ -5,7 +5,8 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Resect hiddent booking types from @booking-schema.
+  [folix-01]
 
 
 2.1.2 (2023-10-13)
