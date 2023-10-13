@@ -10,10 +10,8 @@ from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
-)
 
 
 @implementer(IObjectEvent)
