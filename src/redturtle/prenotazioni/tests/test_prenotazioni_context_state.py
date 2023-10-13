@@ -13,7 +13,9 @@ from plone.app.testing import (
 from plone.restapi.testing import RelativeSession
 
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING,
+)
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 
 
@@ -43,6 +45,7 @@ class TestPrenotazioniContextState(unittest.TestCase):
             ],
             gates=["Gate A"],
             week_table=WEEK_TABLE_SCHEMA,
+            max_bookings_allowed=100,
         )
 
     def test_get_free_slots_skip_bookigs_inside_pause_range(self):
@@ -81,10 +84,18 @@ class TestPrenotazioniContextState(unittest.TestCase):
         res = view.get_free_slots(today)
         # available slots are only arount the pause and not inside it
         self.assertEqual(len(res["Gate A"]), 2)
-        self.assertEqual(view.get_free_slots(today)["Gate A"][0].start(), "07:00")
-        self.assertEqual(view.get_free_slots(today)["Gate A"][0].stop(), "08:00")
-        self.assertEqual(view.get_free_slots(today)["Gate A"][1].start(), "11:00")
-        self.assertEqual(view.get_free_slots(today)["Gate A"][1].stop(), "13:00")
+        self.assertEqual(
+            view.get_free_slots(today)["Gate A"][0].start(), "07:00"
+        )
+        self.assertEqual(
+            view.get_free_slots(today)["Gate A"][0].stop(), "08:00"
+        )
+        self.assertEqual(
+            view.get_free_slots(today)["Gate A"][1].start(), "11:00"
+        )
+        self.assertEqual(
+            view.get_free_slots(today)["Gate A"][1].stop(), "13:00"
+        )
 
     def test_get_free_slots_handle_pauses_correctly(self):
         booker = IBooker(self.folder_prenotazioni)

@@ -10,7 +10,10 @@ from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING,
+)
 
 
 @implementer(IObjectEvent)
@@ -19,7 +22,7 @@ class DummyEvent(object):
         self.object = object
 
 
-class TestEmailToManagers(unittest.TestCase):
+class TestPrenotazioniFolderSerializer(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 
     def setUp(self):
@@ -51,13 +54,11 @@ class TestEmailToManagers(unittest.TestCase):
             ],
             gates=["Gate A"],
         )
-        week_table = self.folder_prenotazioni.week_table
-        for data in week_table:
-            data["morning_start"] = "0700"
-            data["morning_end"] = "1000"
-        self.folder_prenotazioni.week_table = week_table
+        self.folder_prenotazioni.week_table = WEEK_TABLE_SCHEMA
 
-    def test_hidden_type_is_not_shown(self):
+        setRoles(self.portal, TEST_USER_ID, ["User"])
+
+    def test_hidden_type_is_not_shown_if_no_premission(self):
         self.assertNotIn(
             self.hidden_type_name,
             [
@@ -69,12 +70,14 @@ class TestEmailToManagers(unittest.TestCase):
         )
 
     def test_not_hidden_type_is_being_shown(self):
-        self.assertIn(
-            self.not_hidden_type_name,
-            [
-                i["name"]
-                for i in getMultiAdapter(
-                    (self.folder_prenotazioni, getRequest()), ISerializeToJson
-                )()["booking_types"]
-            ],
-        )
+        with api.env.adopt_roles(roles="Bookings Manager"):
+            self.assertIn(
+                self.not_hidden_type_name,
+                [
+                    i["name"]
+                    for i in getMultiAdapter(
+                        (self.folder_prenotazioni, getRequest()),
+                        ISerializeToJson,
+                    )()["booking_types"]
+                ],
+            )

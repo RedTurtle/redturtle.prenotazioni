@@ -96,7 +96,7 @@ Creating a new Booking Folder
 If the product is correctly installed the **Booking Folder** entry is available on the `add new` action menu.
 
 You can configure:
-
+- hidden booking types for the internal usage
 - more then one gate
 - booking vacations
 - custom duration for booking types

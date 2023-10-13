@@ -3,8 +3,11 @@ from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.serializer.dxcontent import SerializeFolderToJson
 from zope.component import adapter
 from zope.interface import implementer
+from plone import api
 
-from redturtle.prenotazioni.content.prenotazioni_folder import IPrenotazioniFolder
+from redturtle.prenotazioni.content.prenotazioni_folder import (
+    IPrenotazioniFolder,
+)
 from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 
 
@@ -15,6 +18,11 @@ class PrenotazioniFolderSerializer(SerializeFolderToJson):
         res = super().__call__()
 
         if res.get("booking_types"):
+            if api.user.has_permission(
+                "redturtle.prenotazioni.ViewHiddenTypes"
+            ):
+                return res
+
             res["booking_types"] = [
                 t for t in res["booking_types"] if not t.get("hidden")
             ]
