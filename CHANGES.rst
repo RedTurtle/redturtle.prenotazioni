@@ -5,7 +5,8 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add hidden booking types for operator use.
+  [folix-01]
 
 
 2.1.1 (2023-10-11)
@@ -18,24 +19,24 @@ Changelog
 2.1.0 (2023-10-11)
 ------------------
 
-- Add booking details to the export file
+- Add booking details to the export file.
   [folix-01]
 
-- Change PrenotazioniFolder.cosa_serve field type to RichText
+- Change PrenotazioniFolder.cosa_serve field type to RichText.
   [folix-01]
 
 - Utilizzare defaultFactory se il default è una funzione, altrimenti non viene
   eseguita nel momento corretto.
   [mamico]
 
-- Rimosso searchabletext di prenotazioni doppio
+- Rimosso searchabletext di prenotazioni doppio.
   [mamico]
 
 - Aggiunto indexer per fiscalcode uppercase per
-  fare ricerche case insensitive
+  fare ricerche case insensitive.
   [mamico]
 
-- Remove Contributor from the package permissions map
+- Remove Contributor from the package permissions map.
   [folix-01]
 
 - Add configurable simultaneous bookings limit for the same user.

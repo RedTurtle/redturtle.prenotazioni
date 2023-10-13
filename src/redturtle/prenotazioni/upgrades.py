@@ -426,3 +426,14 @@ def to_1805(self):
             logger.info(
                 "Converted <{UID}>.cosa_serve to RichText".format(UID=brain.UID)
             )
+
+
+def to_1806(self):
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        logger.info("Updating the <{UID}>.booking_types".format(UID=brain.UID))
+
+        for type in getattr(brain.getObject(), "booking_types", []):
+            if "hidden" not in type.keys():
+                type["hidden"] = False

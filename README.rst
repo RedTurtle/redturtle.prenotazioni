@@ -96,11 +96,18 @@ Creating a new Booking Folder
 If the product is correctly installed the **Booking Folder** entry is available on the `add new` action menu.
 
 You can configure:
-
+- hidden booking types for the internal usage
 - more then one gate
 - booking vacations
 - custom duration for booking types
 - week schedule for morning and afternoon time tables
+
+Creating the hidden booking types
+---------------------------------
+
+You can hide your booking types from simple and anonymous users by using the 'Hidden Booking' flag
+in your booking types definition. This way, it will only be available to users with the 'Bookings Manager'
+permission. This feature may be useful if you want to restrict booking types for internal corporate use.
 
 Creating a new booking content
 ------------------------------

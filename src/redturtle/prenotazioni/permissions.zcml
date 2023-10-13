@@ -46,6 +46,11 @@
         title="redturtle.prenotazioni: Manage Prenotazioni"
         />
 
+    <permission
+        id="redturtle.prenotazioni.ViewHiddenTypes"
+        title="redturtle.prenotazioni: View Hidden Types"
+        />
+
 
   </configure>
 
