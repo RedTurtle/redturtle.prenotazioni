@@ -437,3 +437,18 @@ def to_1806(self):
         for type in getattr(brain.getObject(), "booking_types", []):
             if "hidden" not in type.keys():
                 type["hidden"] = False
+
+
+def to_1807(self):
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        obj = brain.getObject()
+        if obj.notify_on_refuse_message:
+            obj.notify_on_refuse_message += (
+                " Motivo del rifiuto: ${booking_refuse_message}"
+            )
+
+        logger.info(
+            "Upgraded <{UID}>.notify_on_refuse_message value".format(UID=brain.UID)
+        )

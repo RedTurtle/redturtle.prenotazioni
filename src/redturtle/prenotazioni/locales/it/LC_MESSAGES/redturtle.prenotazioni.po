@@ -1226,7 +1226,7 @@ msgstr "Testo notifica prenotazione rifiutata"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:211
 #: redturtle/prenotazioni/upgrades.py:281
 msgid "notify_on_refuse_message_default_value"
-msgstr "La prenotazione ${booking_type} del ${booking_date} delle ore ${booking_time} è stata rifiutata."
+msgstr "La prenotazione ${booking_type} del ${booking_date} delle ore ${booking_time} è stata rifiutata. Motivo del rifiuto: ${booking_refuse_message}"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:625
 msgid "notify_on_refuse_message_help"
