@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.app.event.base import default_timezone
+from plone.app.layout.viewlets.content import ContentHistoryViewlet
 from plone.stringinterp.adapters import BaseSubstitution
 from zope.component import adapter
+from zope.globalrequest import getRequest
 from zope.interface import Interface
 
 from redturtle.prenotazioni import _, logger
@@ -238,3 +241,31 @@ class BookingOperatorUrlSubstitution(BaseSubstitution):
 
     def safe_call(self):
         return self.context.absolute_url()
+
+
+@adapter(Interface)
+class BookingRefuseMessage(BaseSubstitution):
+    category = _("Booking")
+    description = _("The booking refuse message")
+
+    def safe_call(self):
+        content_history_viewlet = ContentHistoryViewlet(
+            self.context, getRequest(), None, None
+        )
+        site_url = api.portal.get().absolute_url()
+        content_history_viewlet.navigation_root_url = site_url
+        content_history_viewlet.site_url = site_url
+        history = content_history_viewlet.fullHistory()
+        refuse_history = sorted(
+            [
+                i
+                for i in history
+                if i.get("type", "") == "workflow" and i.get("action", "") == "refuse"
+            ],
+            key=lambda i: i.get("time"),
+            reverse=True,
+        )
+
+        refuse_message = refuse_history and refuse_history[0].get("comments") or ""
+
+        return refuse_message
