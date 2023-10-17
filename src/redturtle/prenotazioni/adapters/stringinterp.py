@@ -255,16 +255,9 @@ class BookingRefuseMessage(BaseSubstitution):
         site_url = api.portal.get().absolute_url()
         content_history_viewlet.navigation_root_url = site_url
         content_history_viewlet.site_url = site_url
-        history = content_history_viewlet.fullHistory()
-        refuse_history = sorted(
-            [
-                i
-                for i in history
-                if i.get("type", "") == "workflow" and i.get("action", "") == "refuse"
-            ],
-            key=lambda i: i.get("time"),
-            reverse=True,
-        )
+        history = content_history_viewlet.workflowHistory()
+
+        refuse_history = [i for i in history if i.get("action", "") == "refuse"]
 
         refuse_message = refuse_history and refuse_history[0].get("comments") or ""
 
