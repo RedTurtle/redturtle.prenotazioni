@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-2.1.3 (unreleased)
 2.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add booking_refuse_message to Prenotazione stringinterp variables.
+  [folix-01]
 
 
 2.1.3 (2023-10-13)
