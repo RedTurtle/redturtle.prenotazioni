@@ -7,7 +7,9 @@ from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
-from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
+from redturtle.prenotazioni.interfaces import (
+    ISerializeToPrenotazioneSearchableItem,
+)
 
 
 @implementer(IPublishTraverse)
@@ -73,6 +75,15 @@ class BookingsSearch(Service):
         return query
 
     def reply(self):
+        if api.user.has_permission(
+            "redturtle.prenotazioni: search prenotazioni", obj=self.context
+        ):
+            with api.env.adopt_roles(["Manager"]):
+                return self.search()
+        else:
+            return self.search()
+
+    def search(self):
         response = {"id": self.context.absolute_url() + "/@bookings"}
         query = self.query()
         response["items"] = [
@@ -80,8 +91,11 @@ class BookingsSearch(Service):
                 (i.getObject(), self.request),
                 ISerializeToPrenotazioneSearchableItem,
             )()
-            for i in api.portal.get_tool("portal_catalog")(**query)
+            for i in api.portal.get_tool(
+                "portal_catalog"
+            ).unrestrictedSearchResults(**query)
         ]
+
         response["items_total"] = len(response["items"])
 
         return response

@@ -4,8 +4,8 @@
     <role name="Bookings Manager" />
   </roles>
 
-  <permissions>
 
+  <permissions>
     <permission name="redturtle.prenotazioni: Add Prenotazione" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
@@ -56,6 +56,10 @@
     <permission name="redturtle.prenotazioni: View Hidden Types" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
+      <role name="Bookings Manager" />
+    </permission>
+
+    <permission name="Review portal content" acquire="True">
       <role name="Bookings Manager" />
     </permission>
 

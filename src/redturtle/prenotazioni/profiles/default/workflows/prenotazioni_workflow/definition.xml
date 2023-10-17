@@ -3,6 +3,7 @@
  <permission>Access contents information</permission>
  <permission>Modify portal content</permission>
  <permission>View</permission>
+ <permission>redturtle.prenotazioni: Manage Prenotazioni</permission>
  <state state_id="pending" title="In attesa">
   <description>Waiting to be reviewed, not editable by the owner and not visible</description>
   <exit-transition transition_id="confirm"/>
@@ -13,10 +14,12 @@
    <permission-role>Manager</permission-role>
    <permission-role>Reader</permission-role>
    <permission-role>Reviewer</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="Modify portal content" acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>Reviewer</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
    <permission-role>Owner</permission-role>
@@ -24,6 +27,7 @@
    <permission-role>Manager</permission-role>
    <permission-role>Reader</permission-role>
    <permission-role>Reviewer</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
  </state>
  <state state_id="private" title="Private">
@@ -35,12 +39,14 @@
    <permission-role>Manager</permission-role>
    <permission-role>Owner</permission-role>
    <permission-role>Reader</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="Modify portal content" acquired="False">
    <permission-role>Anonymous</permission-role>
    <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
    <permission-role>Owner</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
    <permission-role>Anonymous</permission-role>
@@ -48,6 +54,7 @@
    <permission-role>Manager</permission-role>
    <permission-role>Owner</permission-role>
    <permission-role>Reader</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
  </state>
  <state state_id="confirmed" title="Confermato">
@@ -58,10 +65,12 @@
    <permission-role>Manager</permission-role>
    <permission-role>Reader</permission-role>
    <permission-role>Reviewer</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="Modify portal content" acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>Reviewer</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
    <permission-role>Owner</permission-role>
@@ -69,6 +78,7 @@
    <permission-role>Manager</permission-role>
    <permission-role>Reader</permission-role>
    <permission-role>Reviewer</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
  </state>
  <state state_id="refused" title="Rifiutato">
@@ -79,10 +89,12 @@
    <permission-role>Owner</permission-role>
    <permission-role>Reader</permission-role>
    <permission-role>Reviewer</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="Modify portal content" acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>Reviewer</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
    <permission-role>Editor</permission-role>
@@ -90,6 +102,7 @@
    <permission-role>Owner</permission-role>
    <permission-role>Reader</permission-role>
    <permission-role>Reviewer</permission-role>
+   <permission-role>Bookings Manager</permission-role>
   </permission-map>
  </state>
  <transition transition_id="confirm" title="Conferma" new_state="confirmed" trigger="USER" before_script="" after_script="">
