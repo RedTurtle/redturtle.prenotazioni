@@ -60,6 +60,10 @@ def update_sharing(context):
     update_profile(context, "sharing")
 
 
+def update_workflow(context):
+    update_profile(context, "workflow")
+
+
 def reload_gs_profile(context):
     loadMigrationProfile(
         context,
@@ -376,7 +380,7 @@ def to_1700(context):
                 setattr(prenotazione, field, date.astimezone(tz))
 
 
-def to_1800(self):
+def to_1800(context):
     brains = api.content.find(portal_type="PrenotazioniFolder")
     for brain in brains:
         item = brain.getObject()
@@ -388,7 +392,7 @@ def to_1800(self):
             )
 
 
-def update_booking_code(self):
+def update_booking_code(context):
     brains = api.content.find(portal_type="Prenotazione")
     for brain in brains:
         item = brain.getObject()
@@ -400,7 +404,7 @@ def update_booking_code(self):
             )
 
 
-def to_1804(self):
+def to_1804(context):
     for brain in api.portal.get_tool("portal_catalog")(
         portal_type="PrenotazioniFolder"
     ):
@@ -408,7 +412,7 @@ def to_1804(self):
         brain.getObject().max_bookings_allowed = 2
 
 
-def to_1805(self):
+def to_1805(context):
     from plone.app.textfield.value import RichTextValue
 
     for brain in api.portal.get_tool("portal_catalog")(
@@ -428,7 +432,7 @@ def to_1805(self):
             )
 
 
-def to_1806(self):
+def to_1806(context):
     for brain in api.portal.get_tool("portal_catalog")(
         portal_type="PrenotazioniFolder"
     ):
@@ -439,7 +443,7 @@ def to_1806(self):
                 type["hidden"] = False
 
 
-def to_1807(self):
+def to_1807(context):
     for brain in api.portal.get_tool("portal_catalog")(
         portal_type="PrenotazioniFolder"
     ):
@@ -452,3 +456,10 @@ def to_1807(self):
         logger.info(
             "Upgraded <{UID}>.notify_on_refuse_message value".format(UID=brain.UID)
         )
+
+
+def to_1808(context):
+    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
+        api.portal.get_tool("portal_workflow").updateRoleMappings()
+        brain.getObject().reindexObjectSecurity()
+        logger.info("Upgraded <{UID}> security settings".format(UID=brain.UID))

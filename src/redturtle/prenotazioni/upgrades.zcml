@@ -230,4 +230,18 @@
         handler=".upgrades.to_1807"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1807"
+      destination="1808"
+      >
+    <genericsetup:upgradeStep
+        title="Upgrade workflow policy"
+        handler=".upgrades.update_workflow"
+        />
+    <genericsetup:upgradeStep
+        title="Upgrade prenotazione security in according to new workflow rules"
+        handler=".upgrades.to_1808"
+        />
+  </genericsetup:upgradeSteps>
 </configure>

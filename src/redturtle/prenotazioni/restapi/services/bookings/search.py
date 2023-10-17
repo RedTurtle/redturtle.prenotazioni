@@ -7,9 +7,7 @@ from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
-from redturtle.prenotazioni.interfaces import (
-    ISerializeToPrenotazioneSearchableItem,
-)
+from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
 
 
 @implementer(IPublishTraverse)
@@ -91,9 +89,9 @@ class BookingsSearch(Service):
                 (i.getObject(), self.request),
                 ISerializeToPrenotazioneSearchableItem,
             )()
-            for i in api.portal.get_tool(
-                "portal_catalog"
-            ).unrestrictedSearchResults(**query)
+            for i in api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
+                **query
+            )
         ]
 
         response["items_total"] = len(response["items"])

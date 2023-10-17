@@ -8,6 +8,9 @@ Changelog
 - Change bookings default limit to 0.
   [folix-01]
   
+- Fix Bookings Manager permission in according to expected behavior
+  [folix-01]
+
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
 
