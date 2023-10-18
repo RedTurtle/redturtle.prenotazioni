@@ -639,7 +639,7 @@ class IPrenotazioniFolder(model.Schema):
             default="The number of simultaneous bookings allowed for the same user.",
         ),
         required=False,
-        default=2,
+        default=0,
     )
 
     model.fieldset(

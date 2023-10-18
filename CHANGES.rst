@@ -5,6 +5,9 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
+- Change bookings default limit to 0.
+  [folix-01]
+  
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
 
@@ -12,7 +15,7 @@ Changelog
 2.1.3 (2023-10-13)
 ------------------
 
-- Resect hiddent booking types from @booking-schema.
+- Resect hidden booking types from @booking-schema.
   [folix-01]
 
 
