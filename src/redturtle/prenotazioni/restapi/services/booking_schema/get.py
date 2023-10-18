@@ -113,7 +113,10 @@ class BookingSchema(Service):
                 }
             )
 
-        return {"fields": fields_list, "booking_types": self.get_booking_types()}
+        return {
+            "fields": fields_list,
+            "booking_types": self.get_booking_types(),
+        }
 
     def get_booking_types(self):
         booking_date = self.request.form.get("booking_date", None)
@@ -123,7 +126,9 @@ class BookingSchema(Service):
             return res
 
         booking_context_state_view = api.content.get_view(
-            "prenotazioni_context_state", context=self.context, request=self.request
+            "prenotazioni_context_state",
+            context=self.context,
+            request=self.request,
         )
 
         # fix timezone notation. querystring replaced + with a space
@@ -136,4 +141,10 @@ class BookingSchema(Service):
                 res["bookable"].append(item)
             else:
                 res["unbookable"].append(item)
+
+        if api.user.has_permission("redturtle.prenotazioni.ViewHiddenTypes"):
+            return res
+
+        res["bookable"] = [t for t in res["bookable"] if not t.get("hidden")]
+
         return res

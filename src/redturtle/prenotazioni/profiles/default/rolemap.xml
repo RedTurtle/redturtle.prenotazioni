@@ -53,5 +53,11 @@
       <role name="Bookings Manager" />
     </permission>
 
+    <permission name="redturtle.prenotazioni: View Hidden Types" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Bookings Manager" />
+    </permission>
+
   </permissions>
 </rolemap>

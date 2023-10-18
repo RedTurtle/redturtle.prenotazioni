@@ -206,4 +206,28 @@
         handler=".upgrades.to_1805"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1805"
+      destination="1806"
+      >
+    <genericsetup:upgradeStep
+        title="Update booking_types by hidden default(False) value"
+        handler=".upgrades.to_1806"
+        />
+    <genericsetup:upgradeStep
+        title="Update rolemap"
+        handler=".upgrades.update_rolemap"
+        />
+  </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1806"
+      destination="1807"
+      >
+    <genericsetup:upgradeStep
+        title="Update [Prenotazioni Folder].notify_on_refuse_message value"
+        handler=".upgrades.to_1807"
+        />
+  </genericsetup:upgradeSteps>
 </configure>
