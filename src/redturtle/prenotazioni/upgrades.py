@@ -461,6 +461,6 @@ def to_1807(context):
 def to_1808(context):
     api.portal.get_tool("portal_workflow").updateRoleMappings()
 
-    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
+    for brain in api.content.find(portal_type="Prenotazione"):
         brain.getObject().reindexObjectSecurity()
         logger.info("Upgraded <{UID}> security settings".format(UID=brain.UID))

@@ -59,9 +59,5 @@
       <role name="Bookings Manager" />
     </permission>
 
-    <permission name="Review portal content" acquire="True">
-      <role name="Bookings Manager" />
-    </permission>
-
   </permissions>
 </rolemap>
