@@ -824,15 +824,10 @@ class PrenotazioniContextState(BrowserView):
         }
         """
 
-        def get_duration(duration):
-            if isinstance(duration, tuple):
-                return int(duration[0])
-            return int(duration)
-
         return {
-            typ["name"]: get_duration(typ["duration"])
-            for typ in getattr(self.context, "booking_types", [])
-            if typ["duration"]
+            typ.title: typ.duration
+            for typ in self.context.get_booking_types()
+            if typ.duration
         }
 
     def get_booking_type_duration(self, booking_type):

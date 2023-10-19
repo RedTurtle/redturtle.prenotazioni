@@ -35,9 +35,6 @@ class TestPausesOverride(unittest.TestCase):
             type="PrenotazioniFolder",
             title="Prenota foo",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
             pause_table=[
                 {"day": "0", "pause_start": "0900", "pause_end": "0915"},
@@ -55,12 +52,36 @@ class TestPausesOverride(unittest.TestCase):
                         "from_month": "1",
                         "to_month": "2",
                         "pause_table": [
-                            {"day": "0", "pause_end": "1200", "pause_start": "1000"},
-                            {"day": "1", "pause_end": "1200", "pause_start": "1000"},
-                            {"day": "2", "pause_end": "1200", "pause_start": "1000"},
-                            {"day": "3", "pause_end": "1200", "pause_start": "1000"},
-                            {"day": "4", "pause_end": "1200", "pause_start": "1000"},
-                            {"day": "5", "pause_end": "1200", "pause_start": "1000"},
+                            {
+                                "day": "0",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
+                            {
+                                "day": "1",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
+                            {
+                                "day": "2",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
+                            {
+                                "day": "3",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
+                            {
+                                "day": "4",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
+                            {
+                                "day": "5",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
                         ],
                         "to_day": "18",
                         "week_table": [],
@@ -68,6 +89,15 @@ class TestPausesOverride(unittest.TestCase):
                 ]
             ),
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
         transaction.commit()
 
@@ -100,9 +130,6 @@ class TestPausesOverride(unittest.TestCase):
             type="PrenotazioniFolder",
             title="Prenota foo",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
             pause_table=[
                 {"day": "0", "pause_start": "0900", "pause_end": "0915"},
@@ -134,6 +161,15 @@ class TestPausesOverride(unittest.TestCase):
                 ]
             ),
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=folder,
+            gates=["all"],
+        )
+
         view = api.content.get_view(
             name="prenotazioni_context_state",
             context=folder,
@@ -162,9 +198,6 @@ class TestPauseOverrideAPIPost(unittest.TestCase):
             type="PrenotazioniFolder",
             title="Prenota foo",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
             pause_table=[
                 {"day": "0", "pause_start": "0900", "pause_end": "0915"},
@@ -182,12 +215,36 @@ class TestPauseOverrideAPIPost(unittest.TestCase):
                         "from_month": "1",
                         "to_month": "2",
                         "pause_table": [
-                            {"day": "0", "pause_end": "1200", "pause_start": "1000"},
-                            {"day": "1", "pause_end": "1200", "pause_start": "1000"},
-                            {"day": "2", "pause_end": "1200", "pause_start": "1000"},
-                            {"day": "3", "pause_end": "1200", "pause_start": "1000"},
-                            {"day": "4", "pause_end": "1200", "pause_start": "1000"},
-                            {"day": "5", "pause_end": "1200", "pause_start": "1000"},
+                            {
+                                "day": "0",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
+                            {
+                                "day": "1",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
+                            {
+                                "day": "2",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
+                            {
+                                "day": "3",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
+                            {
+                                "day": "4",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
+                            {
+                                "day": "5",
+                                "pause_end": "1200",
+                                "pause_start": "1000",
+                            },
                         ],
                         "to_day": "18",
                         "week_table": [],
@@ -195,7 +252,20 @@ class TestPauseOverrideAPIPost(unittest.TestCase):
                 ]
             ),
         )
+
+        booking_type_A = api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
+        api.content.transition(obj=booking_type_A, transition="publish")
+        self.folder_prenotazioni.reindexObject(idxs=["review_state"])
+        booking_type_A.reindexObject(idxs=["review_state"])
+
         transaction.commit()
 
         self.api_session = RelativeSession(self.portal_url)
@@ -260,9 +330,6 @@ class TestPauseOverrideAPIPost(unittest.TestCase):
             type="PrenotazioniFolder",
             title="Prenota foo",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
             pause_table=[
                 {"day": "0", "pause_start": "0900", "pause_end": "0915"},
@@ -286,6 +353,15 @@ class TestPauseOverrideAPIPost(unittest.TestCase):
                 ]
             ),
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=folder,
+            gates=["all"],
+        )
+
         transaction.commit()
 
         booking_date = "{}T09:00:00+00:00".format(

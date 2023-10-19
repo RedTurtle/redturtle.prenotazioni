@@ -3,41 +3,32 @@ from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
-from redturtle.prenotazioni.content.prenotazione import Prenotazione
+from redturtle.prenotazioni.utils.get_prenotazioni_folder import getPrenotazioniFolder
 
 
 @implementer(IVocabularyFactory)
 class BookingTypesVocabulary(object):
-    def get_tipologies(self, context):
-        """Return the tipologies in the PrenotazioniFolder"""
-        if isinstance(context, Prenotazione):
-            context = context.getPrenotazioniFolder()
-        return getattr(context, "booking_types", [])
-
-    def booking_type2term(self, idx, booking_type):
+    def booking_type2term(self, booking_type):
         """return a vocabulary tern with this"""
-        idx = str(idx)
-        name = booking_type.get("name", "")
-        if isinstance(name, str):
-            name = name
-        duration = booking_type.get("duration", "")
-        if isinstance(duration, str):
-            duration = duration
+        name = booking_type.title
+        duration = booking_type.duration
 
         if not duration:
             title = name
         else:
-            title = "%s (%s min)" % (name, duration)
-        # fix for buggy implementation
-        term = SimpleTerm(name, token="changeme", title=title)
-        term.token = name
-        return term
+            title = "%s (%d min)" % (name, duration)
+
+        return SimpleTerm(name, token=name, title=title)
 
     def get_terms(self, context):
         """The vocabulary terms"""
+        prenotazioni_folder = getPrenotazioniFolder(context)
+
         return [
-            self.booking_type2term(idx, booking_type)
-            for idx, booking_type in enumerate(self.get_tipologies(context))
+            self.booking_type2term(booking_type)
+            for booking_type in prenotazioni_folder
+            and prenotazioni_folder.get_booking_types()
+            or []
         ]
 
     def __call__(self, context):

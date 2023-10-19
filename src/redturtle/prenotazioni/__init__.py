@@ -12,15 +12,24 @@ from plone import api
 from plone.api.exc import UserNotFoundError
 from plone.app.event.base import default_timezone
 from six.moves import map
+from zope.globalrequest import getRequest
 from zope.i18nmessageid import MessageFactory
-
-from redturtle.prenotazioni.utils import is_migration
 
 logger = getLogger("redturtle.prenotazioni")
 _ = MessageFactory("redturtle.prenotazioni")
 
 prenotazioniMessageFactory = MessageFactory("redturtle.prenotazioni")
 prenotazioniFileLogger = getLogger("redturtle.prenotazioni.file")
+
+try:
+    from collective.exportimport.interfaces import IMigrationMarker
+except ImportError:
+    IMigrationMarker = None
+
+
+def is_migration():
+    """Returns True if the current reqeust provides the migration marker"""
+    return IMigrationMarker and IMigrationMarker.providedBy(getRequest())
 
 
 def tznow():

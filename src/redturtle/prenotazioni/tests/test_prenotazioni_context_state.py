@@ -38,11 +38,16 @@ class TestPrenotazioniContextState(unittest.TestCase):
             title="Folder",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
             week_table=WEEK_TABLE_SCHEMA,
+        )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
         )
 
     def test_get_free_slots_skip_bookigs_inside_pause_range(self):

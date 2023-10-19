@@ -46,12 +46,24 @@ class TestAvailableSlots(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-                {"name": "Type B", "duration": "90"},
-            ],
             gates=["Gate A"],
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.create(
+            type="BookingType",
+            title="Type B",
+            duration=90,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         week_table = self.folder_prenotazioni.week_table
         week_table[0]["morning_start"] = "0700"
         week_table[0]["morning_end"] = "1000"
@@ -297,6 +309,7 @@ class TestAvailableSlots(unittest.TestCase):
             ],
             gates=["Gate A"],
         )
+
         transaction.commit()
 
         response = self.api_session.get(

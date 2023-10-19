@@ -1,1 +1,1 @@
-from .migration import is_migration  # noqa
+from .get_prenotazioni_folder import getPrenotazioniFolder  # noqa

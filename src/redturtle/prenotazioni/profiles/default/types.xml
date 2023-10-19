@@ -19,4 +19,7 @@
   <object meta_type="Dexterity FTI"
           name="Prenotazione"
   />
+  <object meta_type="Dexterity FTI"
+          name="BookingType"
+  />
 </object>

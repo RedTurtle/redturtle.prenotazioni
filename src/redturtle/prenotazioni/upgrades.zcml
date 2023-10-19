@@ -244,4 +244,14 @@
         handler=".upgrades.to_1808"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1808"
+      destination="2000"
+      >
+    <genericsetup:upgradeStep
+        title="Create Booking Types contenttypes"
+        handler=".upgrades.to_2000"
+        />
+  </genericsetup:upgradeSteps>
 </configure>

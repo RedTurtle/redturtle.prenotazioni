@@ -19,3 +19,7 @@ class ISerializeToPrenotazioneSearchableItem(Interface):
 
 class IPrenotazioneEmailMessage(Interface):
     """Prenotazione email message"""
+
+
+class ISerializeToRetrocompattibleJson(Interface):
+    """Interface used to cereate the TEMPORARY retrocomattible serializers"""

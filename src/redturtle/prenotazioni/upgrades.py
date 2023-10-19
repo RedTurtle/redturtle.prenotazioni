@@ -464,3 +464,32 @@ def to_1808(context):
     for brain in api.content.find(portal_type="Prenotazione"):
         brain.getObject().reindexObjectSecurity()
         logger.info("Upgraded <{UID}> security settings".format(UID=brain.UID))
+
+
+def to_2000(context):
+    for i in api.content.find(portal_type="PrenotazioniFolder"):
+        obj = i.getObject()
+        logger.info(
+            "[1808-2000] -| Transforming <{UID}>.booking_types to contenttypes themself".format(
+                UID=i.UID
+            )
+        )
+
+        for type in getattr(obj, "booking_types", []):
+            logger.info(f"[1808-2000] --| Creating {type.get('name')} booking type")
+
+            booking_type = api.content.create(
+                type="BookingType",
+                title=type.get("name"),
+                duration=type.get("duration"),
+                hidden=type.get("hidden"),
+                container=obj,
+                gates=["all"],
+            )
+
+            if not type.get("hidden", False):
+                api.content.transition(obj=booking_type, transition="publish")
+
+            booking_type.reindexObject(idxs=["review_state"])
+
+        delattr(obj, "booking_types")

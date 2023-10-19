@@ -6,6 +6,7 @@ Changelog
 ------------------
 
 - Allow Bookings Manager to create, move the bookings and create the vacations.
+- Convert bookgig types to c.t.
   [folix-01]
 
 - Change bookings default limit to 0.

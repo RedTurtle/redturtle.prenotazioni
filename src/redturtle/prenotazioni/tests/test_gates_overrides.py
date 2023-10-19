@@ -25,9 +25,6 @@ class TestGatesOverrides(unittest.TestCase):
             container=self.portal,
             type="PrenotazioniFolder",
             title="Prenota foo",
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A", "Gate B"],
             week_table=WEEK_TABLE_SCHEMA,
             week_table_overrides=json.dumps(
@@ -44,6 +41,15 @@ class TestGatesOverrides(unittest.TestCase):
                 ]
             ),
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
         transaction.commit()
 

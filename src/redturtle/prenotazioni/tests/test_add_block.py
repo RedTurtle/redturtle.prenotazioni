@@ -31,13 +31,19 @@ class TestBookingRestAPIAddBlock(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A", "Gate B"],
             week_table=WEEK_TABLE_SCHEMA,
             required_booking_fields=["email"],
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
         transaction.commit()
 
