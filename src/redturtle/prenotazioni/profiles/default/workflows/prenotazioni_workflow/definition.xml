@@ -3,6 +3,7 @@
  <permission>Access contents information</permission>
  <permission>Modify portal content</permission>
  <permission>View</permission>
+ <permission>Review portal content</permission>
  <permission>redturtle.prenotazioni: Manage Prenotazioni</permission>
  <state state_id="pending" title="In attesa">
   <description>Waiting to be reviewed, not editable by the owner and not visible</description>
