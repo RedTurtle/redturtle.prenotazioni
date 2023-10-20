@@ -30,7 +30,6 @@
    <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="Review portal content" acquired="False">
-   <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
    <permission-role>Reviewer</permission-role>
    <permission-role>Bookings Manager</permission-role>
@@ -63,7 +62,6 @@
    <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="Review portal content" acquired="False">
-   <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
    <permission-role>Reviewer</permission-role>
    <permission-role>Bookings Manager</permission-role>
@@ -93,7 +91,6 @@
    <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="Review portal content" acquired="False">
-   <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
    <permission-role>Reviewer</permission-role>
    <permission-role>Bookings Manager</permission-role>
@@ -123,7 +120,6 @@
    <permission-role>Bookings Manager</permission-role>
   </permission-map>
   <permission-map name="Review portal content" acquired="False">
-   <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
    <permission-role>Reviewer</permission-role>
    <permission-role>Bookings Manager</permission-role>
