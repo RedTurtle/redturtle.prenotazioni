@@ -82,6 +82,7 @@ class BookingsSearch(Service):
             )()
             for i in api.portal.get_tool("portal_catalog")(**query)
         ]
+
         response["items_total"] = len(response["items"])
 
         return response

@@ -4,8 +4,8 @@
     <role name="Bookings Manager" />
   </roles>
 
-  <permissions>
 
+  <permissions>
     <permission name="redturtle.prenotazioni: Add Prenotazione" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
