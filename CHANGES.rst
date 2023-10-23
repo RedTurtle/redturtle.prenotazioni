@@ -5,6 +5,9 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
+- Allow Bookings Manager to create and move the bookings
+  [folix-01]
+
 - Change bookings default limit to 0.
   [folix-01]
   
