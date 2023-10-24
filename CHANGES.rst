@@ -5,7 +5,7 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
-- Allow Bookings Manager to create and move the bookings
+- Allow Bookings Manager to create, move the bookings and create the vacations.
   [folix-01]
 
 - Change bookings default limit to 0.
