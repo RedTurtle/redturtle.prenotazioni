@@ -7,7 +7,7 @@ from zope.component import getMultiAdapter
 
 from redturtle.prenotazioni import _, datetime_with_tz
 from redturtle.prenotazioni.config import STATIC_REQUIRED_FIELDS
-from redturtle.prenotazioni.interfaces import ISerializeToRetrocompattibleJson
+from redturtle.prenotazioni.interfaces import ISerializeToRetroCompatibleJson
 
 
 class BookingSchema(Service):
@@ -141,7 +141,7 @@ class BookingSchema(Service):
 
         for item in self.context.get_booking_types():
             serialized_item = getMultiAdapter(
-                (item, self.request), ISerializeToRetrocompattibleJson
+                (item, self.request), ISerializeToRetroCompatibleJson
             )()
 
             if item.title in bookings["bookable"]:

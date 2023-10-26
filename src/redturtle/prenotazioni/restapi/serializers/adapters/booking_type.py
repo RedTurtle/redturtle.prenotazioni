@@ -5,13 +5,13 @@ from zope.interface import implementer
 from redturtle.prenotazioni.content.booking_type import IBookingType
 from redturtle.prenotazioni.interfaces import (
     IRedturtlePrenotazioniLayer,
-    ISerializeToRetrocompattibleJson,
+    ISerializeToRetroCompatibleJson,
 )
 
 
-@implementer(ISerializeToRetrocompattibleJson)
+@implementer(ISerializeToRetroCompatibleJson)
 @adapter(IBookingType, IRedturtlePrenotazioniLayer)
-class BookingTypeRetrocompattibleSerializer:
+class BookingTypeRetroCompatibleSerializer:
     def __init__(self, context, request):
         self.context = context
         self.request = request

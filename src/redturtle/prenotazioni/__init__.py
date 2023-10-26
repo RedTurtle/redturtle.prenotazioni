@@ -28,7 +28,7 @@ except ImportError:
 
 
 def is_migration():
-    """Returns True if the current reqeust provides the migration marker"""
+    """Returns True if the current request provides the migration marker"""
     return IMigrationMarker and IMigrationMarker.providedBy(getRequest())
 
 

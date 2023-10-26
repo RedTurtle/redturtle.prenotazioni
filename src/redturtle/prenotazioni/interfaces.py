@@ -21,5 +21,5 @@ class IPrenotazioneEmailMessage(Interface):
     """Prenotazione email message"""
 
 
-class ISerializeToRetrocompattibleJson(Interface):
+class ISerializeToRetroCompatibleJson(Interface):
     """Interface used to cereate the TEMPORARY retrocomattible serializers"""
