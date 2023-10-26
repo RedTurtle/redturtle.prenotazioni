@@ -3,7 +3,6 @@ from typing import Generator
 
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
-from plone import api
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
@@ -736,11 +735,4 @@ class PrenotazioniFolder(Container):
         return self.cosa_serve
 
     def get_booking_types(self) -> Generator[BookingType, None, None]:
-        for booking_type in api.content.find(
-            portal_type="BookingType",
-            path={
-                "query": "/".join(self.getPhysicalPath()),
-                "depth": 1,
-            },
-        ):
-            yield booking_type.getObject()
+        return self.listFolderContents(contentFilter={"portal_type": "BookingType"})
