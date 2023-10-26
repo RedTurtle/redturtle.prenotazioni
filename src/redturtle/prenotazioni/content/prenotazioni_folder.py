@@ -127,20 +127,6 @@ class IPauseTableRow(model.Schema):
     )
 
 
-# class IBookingTypeRow(Interface):
-#     name = schema.TextLine(title=_("Booking type name"), required=True)
-#     duration = schema.Choice(
-#         title=_("Duration value"),
-#         required=True,
-#         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
-#     )
-#     hidden = schema.Bool(
-#         title=_("Hidden type"),
-#         required=False,
-#         default=False,
-#     )
-
-
 @provider(IContextAwareDefaultFactory)
 def notify_on_submit_subject_default_factory(context):
     return getattr(context, "translate", translate)(
@@ -444,25 +430,6 @@ class IPrenotazioniFolder(model.Schema):
             "Keep 0 to give no limits.",
         ),
     )
-
-    # booking_types = schema.List(
-    #     title=_("booking_types_label", default="Booking types"),
-    #     description=_(
-    #         "booking_types_help",
-    #         default="Put booking types there (one per line).\n"
-    #         "If you do not provide this field, "
-    #         "not type selection will be available. "
-    #         "If the 'Hidden Type' flag is selected the type will only "
-    #         "be available to users with the 'Bookings Manager' permission",
-    #     ),
-    #     value_type=DictRow(schema=IBookingTypeRow),
-    # )
-    # form.widget(
-    #     "booking_types",
-    #     DataGridFieldFactory,
-    #     auto_append=False,
-    #     frontendOptions={"widget": "data_grid"},
-    # )
 
     gates = schema.List(
         title=_("gates_label", "Gates"),

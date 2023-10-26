@@ -12,21 +12,22 @@ class IBookingType(model.Schema):
     """Marker interface and Dexterity Python Schema for Prenotazione"""
 
     duration = schema.Choice(
-        title=_("Duration value"),
+        title=_("booking_type_duration_label", default="Duration value"),
         required=True,
         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
     )
 
     requirements = RichText(
         required=False,
-        title=_("Cosa serve", default="Cosa serve"),
+        title=_("booking_type_requirements_labled", default="Requirements"),
         description=_(
-            "Elencare le informazioni utili per il giorno della prenotazione, come ad esempio i documenti da presentare."
+            "booking_type_requirements_help",
+            default="List of requirements to recieve the service",
         ),
     )
 
     gates = schema.List(
-        title=_("gates_label", "Gates"),
+        title=_("gates_label", default="Gates"),
         description=_("gates_help", default="Put gates here (one per line)."),
         required=True,
         value_type=schema.Choice(

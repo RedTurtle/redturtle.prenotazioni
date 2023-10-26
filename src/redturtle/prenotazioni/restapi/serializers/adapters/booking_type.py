@@ -12,6 +12,8 @@ from redturtle.prenotazioni.interfaces import (
 @implementer(ISerializeToRetroCompatibleJson)
 @adapter(IBookingType, IRedturtlePrenotazioniLayer)
 class BookingTypeRetroCompatibleSerializer:
+    """BookingType c.t. serializer retrocompatible with earlier frontend implementation"""
+
     def __init__(self, context, request):
         self.context = context
         self.request = request

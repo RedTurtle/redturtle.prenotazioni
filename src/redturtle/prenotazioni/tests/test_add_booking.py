@@ -95,8 +95,6 @@ class TestBookingRestAPIAdd(unittest.TestCase):
 
         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
         api.content.transition(obj=booking_type_A, transition="publish")
-        self.folder_prenotazioni.reindexObject(idxs="review_state")
-        booking_type_A.reindexObject(idxs="review_state")
 
         transaction.commit()
 
