@@ -1,17 +1,19 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <registry>
-<!-- -*- extra stuff goes here -*- -->
+  <!-- -*- extra stuff goes here -*- -->
 
-  <records prefix="plone.resources/rgprenotazioni"
-           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
-           <value key="js">++plone++redturtle.prenotazioni/redturtle-reservation.js</value>
+  <records interface="Products.CMFPlone.interfaces.IResourceRegistry"
+           prefix="plone.resources/rgprenotazioni"
+  >
+    <value key="js">++plone++redturtle.prenotazioni/redturtle-reservation.js</value>
     <value key="css">
-        <element>++plone++redturtle.prenotazioni/redturtle-reservation.css</element>
+      <element>++plone++redturtle.prenotazioni/redturtle-reservation.css</element>
     </value>
   </records>
 
-  <records prefix="plone.bundles/rgprenotazioni-bundle"
-           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/rgprenotazioni-bundle"
+  >
     <value key="enabled">True</value>
     <value key="resources">
       <element>rgprenotazioni</element>
@@ -23,15 +25,18 @@
     <value key="last_compilation">2019-11-26 00:00:00</value>
   </records>
 
-  <records prefix="plone.resources/week-table-overrides-widget"
-           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IResourceRegistry"
+           prefix="plone.resources/week-table-overrides-widget"
+  >
     <value key="js">++plone++redturtle.prenotazioni/widget/dist/dev/main.js</value>
     <value key="css">
       <element>++plone++redturtle.prenotazioni/widget/dist/dev/main.css</element>
     </value>
   </records>
 
-  <records prefix="plone.bundles/week-table-overrides-widget-bundle" interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/week-table-overrides-widget-bundle"
+  >
     <value key="resources">
       <element>week-table-overrides-widget</element>
     </value>
@@ -44,4 +49,4 @@
   </records>
 
 
-  </registry>
+</registry>

@@ -1,61 +1,86 @@
-<div
-   metal:define-macro="widget-wrapper"
-   i18n:domain="plone"
-   tal:define="widget nocall:context;
-               hidden python:widget.mode == 'hidden';
-               error widget/error;
-               error_class python:error and ' error' or '';
-               empty_values python: (None, '', [], ('', '', '', '00', '00', ''), ('', '', ''));
-               empty_class python: (widget.value in empty_values) and ' empty' or '';
-           wrapper_css_class  widget/wrapper_css_class|nothing;
-               fieldname_class string:kssattr-fieldname-${widget/name};"
-   data-pat-inlinevalidation='{"type":"z3c.form"}'
-   tal:attributes="class string:field pat-inlinevalidation ${fieldname_class}${error_class}${empty_class} ${wrapper_css_class};
-                   data-fieldname widget/name;
-                   id string:formfield-${widget/id};">
-    <label for="" class="horizontal"
-        tal:attributes="for widget/id;
-                        aria-label python: widget.get_radio_message(widget.label)"
-        tal:condition="python: not hidden and widget.label"
-        tabindex="0"
-        aria-label="Selezionare un elemento dalla check list seguente">
-        <span i18n:translate="" tal:replace="widget/label">label</span>
-        <span class="required horizontal" title="Required"
-              tal:condition="python:widget.required and widget.mode == 'input'"
-              i18n:attributes="title title_required;">&nbsp;</span>
+<div metal:define-macro="widget-wrapper"
+     data-pat-inlinevalidation='{"type":"z3c.form"}'
+     tal:define="
+       widget nocall:context;
+       hidden python:widget.mode == 'hidden';
+       error widget/error;
+       error_class python:error and ' error' or '';
+       empty_values python: (None, '', [], ('', '', '', '00', '00', ''), ('', '', ''));
+       empty_class python: (widget.value in empty_values) and ' empty' or '';
+       wrapper_css_class  widget/wrapper_css_class|nothing;
+       fieldname_class string:kssattr-fieldname-${widget/name};
+     "
+     tal:attributes="
+       class string:field pat-inlinevalidation ${fieldname_class}${error_class}${empty_class} ${wrapper_css_class};
+       data-fieldname widget/name;
+       id string:formfield-${widget/id};
+     "
+     i18n:domain="plone"
+>
+  <label class="horizontal"
+         aria-label="Selezionare un elemento dalla check list seguente"
+         for=""
+         tabindex="0"
+         tal:condition="python: not hidden and widget.label"
+         tal:attributes="
+           for widget/id;
+           aria-label python: widget.get_radio_message(widget.label);
+         "
+  >
+    <span tal:replace="widget/label"
+          i18n:translate=""
+    >label</span>
+    <span class="required horizontal"
+          title="Required"
+          tal:condition="python:widget.required and widget.mode == 'input'"
+          i18n:attributes="title title_required;"
+    >&nbsp;</span>
 
-        <span class="formHelp"
-            tal:define="description python: getattr(widget, 'description', widget.field.description)"
-            i18n:translate=""
-            tal:content="structure description"
-            tal:condition="python:description and not hidden"
-            >field description
-        </span>
-    </label>
-    <div class="fieldErrorBox"
-         tal:content="structure error/render|nothing">
+    <span class="formHelp"
+          tal:define="
+            description python: getattr(widget, 'description', widget.field.description);
+          "
+          tal:condition="python:description and not hidden"
+          tal:content="structure description"
+          i18n:translate=""
+    >field description
+    </span>
+  </label>
+  <div class="fieldErrorBox"
+       tal:content="structure error/render|nothing"
+  >
         Error
-    </div>
-    <input type="text" tal:replace="structure widget/render"
-           metal:define-slot="widget" />
-    <div class="unbookable" 
-         tal:define="unbookable_items nocall:view/unbookable_items"
-         tal:condition="unbookable_items"
-         i18n:domain="redturtle.prenotazioni">
-      <p class="formHelp" i18n:translate="booking_type_widget_warn_unavailable">
+  </div>
+  <input metal:define-slot="widget"
+         type="text"
+         tal:replace="structure widget/render"
+  />
+  <div class="unbookable"
+       tal:define="
+         unbookable_items nocall:view/unbookable_items;
+       "
+       tal:condition="unbookable_items"
+       i18n:domain="redturtle.prenotazioni"
+  >
+    <p class="formHelp"
+       i18n:translate="booking_type_widget_warn_unavailable"
+    >
         The following tipologies will not fit the time you selected:
-      </p>
-      <ul>
-        <li tal:repeat="item unbookable_items">
-          <tal:li replace="item/title">Vocabulary title</tal:li>
-        </li>
-      </ul>
-      <div class="visualClear"></div>
-      <p class="formHelp">
-        <a tal:attributes="href view/prenotazione_add/back_to_booking_url"
-          i18n:translate="booking_type_widget_suggest_reselect">
+    </p>
+    <ul>
+      <li tal:repeat="item unbookable_items">
+        <tal:li replace="item/title">Vocabulary title</tal:li>
+      </li>
+    </ul>
+    <div class="visualClear"></div>
+    <p class="formHelp">
+      <a tal:attributes="
+           href view/prenotazione_add/back_to_booking_url;
+         "
+         i18n:translate="booking_type_widget_suggest_reselect"
+      >
           You may want to select another time slot to book one of these.
-        </a>
-      </p>
-    </div>
+      </a>
+    </p>
+  </div>
 </div>

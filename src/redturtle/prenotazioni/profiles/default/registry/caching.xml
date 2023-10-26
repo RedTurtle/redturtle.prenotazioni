@@ -1,12 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <registry>
-  <record name="plone.caching.interfaces.ICacheSettings.enabled"
-          interface="plone.caching.interfaces.ICacheSettings" field="enabled">
+  <record field="enabled"
+          interface="plone.caching.interfaces.ICacheSettings"
+          name="plone.caching.interfaces.ICacheSettings.enabled"
+  >
     <value>True</value>
   </record>
 
-  <record name="plone.app.caching.interfaces.IPloneCacheSettings.purgedContentTypes"
+  <record field="purgedContentTypes"
           interface="plone.app.caching.interfaces.IPloneCacheSettings"
-          field="purgedContentTypes">
+          name="plone.app.caching.interfaces.IPloneCacheSettings.purgedContentTypes"
+  >
     <value>
       <element>PrenotazioniFolder</element>
       <element>File</element>
@@ -32,7 +36,7 @@
   <record name="plone.app.caching.weakCaching.plone.content.itemView.etags">
     <field ref="plone.app.caching.weakCaching.etags" />
     <value>
-    </value>
+</value>
   </record>
   <record name="plone.app.caching.weakCaching.plone.content.itemView.ramCache">
     <field ref="plone.app.caching.weakCaching.ramCache" />
@@ -44,7 +48,7 @@
   <record name="plone.app.caching.weakCaching.plone.content.folderView.etags">
     <field ref="plone.app.caching.weakCaching.etags" />
     <value>
-    </value>
+</value>
   </record>
   <record name="plone.app.caching.weakCaching.plone.content.folderView.ramCache">
     <field ref="plone.app.caching.weakCaching.ramCache" />

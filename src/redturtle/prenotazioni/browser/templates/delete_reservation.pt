@@ -1,111 +1,134 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-xmlns:tal="http://xml.zope.org/namespaces/tal"
-xmlns:metal="http://xml.zope.org/namespaces/metal"
-xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-lang="en"
-metal:use-macro="context/main_template/macros/master"
-i18n:domain="redturtle.prenotazioni">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="redturtle.prenotazioni"
+>
 
-    <head>
-        <metal:block fill-slot="top_slot"
-        tal:define="dummy python:request.set('disable_border',1);
-        disable_column_one python:request.set('disable_plone.leftcolumn',1);
-        disable_column_two python:request.set('disable_plone.rightcolumn',1);" />
-    </head>
-    <body>
+  <head>
+    <metal:block fill-slot="top_slot"
+                 tal:define="
+                   dummy python:request.set('disable_border',1);
+                   disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                   disable_column_two python:request.set('disable_plone.rightcolumn',1);
+                 "
+    />
+  </head>
+  <body>
 
-        <metal:content fill-slot="main"
-                       tal:define="prenotazione nocall:view/prenotazione;
-                                   toLocalizedTime nocall:context/@@plone/toLocalizedTime"
+    <metal:content fill-slot="main"
+                   tal:define="
+                     prenotazione nocall:view/prenotazione;
+                     toLocalizedTime nocall:context/@@plone/toLocalizedTime;
+                   "
+    >
+      <div tabindex="0">
+        <h1 class="documentFirstHeading"
+            tal:content="view/label"
         >
-            <div tabindex="0">
-                <h1 class="documentFirstHeading" tal:content="view/label">
                 Booking request
-                </h1>
-                <p>
-                    Gentile <b tal:content="prenotazione/Title">Fullname</b>,
-                    di seguito sono elencati i dati relativi alla sua prenotazione.<br/>
+        </h1>
+        <p>
+                    Gentile
+          <b tal:content="prenotazione/Title">Fullname</b>,
+          di seguito sono elencati i dati relativi alla sua prenotazione.<br />
                     Verifichi se si tratta della prenotazione corretta e confermi la cancellazione.
-                </p>
-                <table class="listing">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <b i18n:translate="label_booking_type">Booking type</b>
-                            </td>
-                            <td tal:content="prenotazione/getBooking_type"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b i18n:translate="label_booking_email">Email</b>
-                            </td>
-                            <td tal:content="prenotazione/getEmail"></td>
-                        </tr>
-                        <tr tal:condition="prenotazione/getPhone">
-                            <td>
-                                <b i18n:translate="label_booking_phone">Phone number</b>
-                            </td>
-                            <td tal:content="prenotazione/getPhone"></td>
-                        </tr>
-                        <tr tal:condition="prenotazione/company">
-                            <td>
-                                <b i18n:translate="label_booking_company">Company</b>
-                            </td>
-                            <td tal:content="prenotazione/company"></td>
-                        </tr>
-                        <tr tal:condition="prenotazione/getFiscalcode">
-                            <td>
-                                <b i18n:translate="label_booking_fiscalcode">Fiscal code</b>
-                            </td>
-                            <td tal:content="prenotazione/getFiscalcode"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b i18n:translate="label_booking_description">Subject</b>
-                            </td>
-                            <td tal:content="prenotazione/description"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b i18n:translate="label_booking_date">Booking date</b>
-                            </td>
-                            <td tal:define="booking_date prenotazione/getBooking_date|nothing;
-                                            booking_expiration_date python:getattr(prenotazione, 'booking_expiration_date', '');
-                                            toLocalizedTime nocall:context/@@plone/toLocalizedTime">
-                                <span i18n:translate="label_booking_date_range">
-                                <tal:from_date i18n:name="from_date" tal:content="python:toLocalizedTime(booking_date)"></tal:from_date>
-                                at <tal:from i18n:name="at" tal:content="python:toLocalizedTime(booking_date, time_only=True)"></tal:from>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b i18n:translate="label_gate">Gate</b>
-                            </td>
-                            <td tal:content="prenotazione/gate"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b i18n:translate="label_booking_code">Booking code</b>
-                            </td>
-                            <td tal:content="prenotazione/getBookingCode"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        <div class="actions">
-            <form action="${context/absolute_url}/confirm-delete"
-                  method="POST">
-                <span tal:replace="structure context/@@authenticator/authenticator"/>
-                <input type="hidden" id="uid" name="uid" value="${request/uid}" />
-                <input type="submit"
-                       tal:condition="prenotazione/canDeleteBooking"
-                       value="Cancella Prenotazione"
-                       id="delete"
-                       class="button btn btn-danger" />
-            </form>
-            
-        </div>
-        </metal:content>
-    </body>
+        </p>
+        <table class="listing">
+          <tbody>
+            <tr>
+              <td>
+                <b i18n:translate="label_booking_type">Booking type</b>
+              </td>
+              <td tal:content="prenotazione/getBooking_type"></td>
+            </tr>
+            <tr>
+              <td>
+                <b i18n:translate="label_booking_email">Email</b>
+              </td>
+              <td tal:content="prenotazione/getEmail"></td>
+            </tr>
+            <tr tal:condition="prenotazione/getPhone">
+              <td>
+                <b i18n:translate="label_booking_phone">Phone number</b>
+              </td>
+              <td tal:content="prenotazione/getPhone"></td>
+            </tr>
+            <tr tal:condition="prenotazione/company">
+              <td>
+                <b i18n:translate="label_booking_company">Company</b>
+              </td>
+              <td tal:content="prenotazione/company"></td>
+            </tr>
+            <tr tal:condition="prenotazione/getFiscalcode">
+              <td>
+                <b i18n:translate="label_booking_fiscalcode">Fiscal code</b>
+              </td>
+              <td tal:content="prenotazione/getFiscalcode"></td>
+            </tr>
+            <tr>
+              <td>
+                <b i18n:translate="label_booking_description">Subject</b>
+              </td>
+              <td tal:content="prenotazione/description"></td>
+            </tr>
+            <tr>
+              <td>
+                <b i18n:translate="label_booking_date">Booking date</b>
+              </td>
+              <td tal:define="
+                    booking_date prenotazione/getBooking_date|nothing;
+                    booking_expiration_date python:getattr(prenotazione, 'booking_expiration_date', '');
+                    toLocalizedTime nocall:context/@@plone/toLocalizedTime;
+                  ">
+                <span i18n:translate="label_booking_date_range">
+                  <tal:from_date tal:content="python:toLocalizedTime(booking_date)"
+                                 i18n:name="from_date"
+                  />
+                                at
+                  <tal:from tal:content="python:toLocalizedTime(booking_date, time_only=True)"
+                            i18n:name="at"
+                  />
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b i18n:translate="label_gate">Gate</b>
+              </td>
+              <td tal:content="prenotazione/gate"></td>
+            </tr>
+            <tr>
+              <td>
+                <b i18n:translate="label_booking_code">Booking code</b>
+              </td>
+              <td tal:content="prenotazione/getBookingCode"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="actions">
+        <form action="${context/absolute_url}/confirm-delete"
+              method="POST"
+        >
+          <span tal:replace="structure context/@@authenticator/authenticator"></span>
+          <input id="uid"
+                 name="uid"
+                 type="hidden"
+                 value="${request/uid}"
+          />
+          <input class="button btn btn-danger"
+                 id="delete"
+                 type="submit"
+                 value="Cancella Prenotazione"
+                 tal:condition="prenotazione/canDeleteBooking"
+          />
+        </form>
+
+      </div>
+    </metal:content>
+  </body>
 </html>

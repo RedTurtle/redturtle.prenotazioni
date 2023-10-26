@@ -1,55 +1,79 @@
-<?xml version="1.0"?>
-<object name="portal_actions" meta_type="Plone Actions Tool"
-   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        meta_type="Plone Actions Tool"
+        name="portal_actions"
+>
 
- <object name="object" meta_type="CMF Action Category">
-  <property name="title"></property>
+  <object meta_type="CMF Action Category"
+          name="object"
+  >
+    <property name="title" />
 
-  <!-- Vacation Booking -->
-  <object name="vacation-booking" meta_type="CMF Action" i18n:domain="redturtle.prenotazioni">
-   <property name="title" i18n:translate="vacation_booking">vacation_booking</property>
-   <property name="description" i18n:translate=""></property>
-   <property name="url_expr">
+    <!-- Vacation Booking -->
+    <object meta_type="CMF Action"
+            name="vacation-booking"
+            i18n:domain="redturtle.prenotazioni"
+    >
+      <property name="title"
+                i18n:translate="vacation_booking"
+      >vacation_booking</property>
+      <property name="description"
+                i18n:translate=""
+      />
+      <property name="url_expr">
      string:${plone_context_state/canonical_object_url}/@@vacation-booking
    </property>
-   <property name="icon_expr"></property>
-   <property name="available_expr">object/@@vacation-booking-show|nothing</property>
-   <property name="permissions">
-    <element value="Modify portal content"/>
-   </property>
-   <property name="visible">True</property>
-  </object>
+      <property name="icon_expr" />
+      <property name="available_expr">object/@@vacation-booking-show|nothing</property>
+      <property name="permissions">
+        <element value="Modify portal content" />
+      </property>
+      <property name="visible">True</property>
+    </object>
 
-  <!-- Prenotazione Search -->
-  <object name="prenotazioni_search" meta_type="CMF Action" i18n:domain="redturtle.prenotazioni">
-   <property name="title" i18n:translate="prenotazioni_search">prenotazioni_search</property>
-   <property name="description" i18n:translate=""></property>
-   <property name="url_expr">
+    <!-- Prenotazione Search -->
+    <object meta_type="CMF Action"
+            name="prenotazioni_search"
+            i18n:domain="redturtle.prenotazioni"
+    >
+      <property name="title"
+                i18n:translate="prenotazioni_search"
+      >prenotazioni_search</property>
+      <property name="description"
+                i18n:translate=""
+      />
+      <property name="url_expr">
      string:${plone_context_state/canonical_object_url}/@@prenotazioni_search
    </property>
-   <property name="icon_expr"></property>
-   <property name="available_expr">python:getattr(object, "portal_type", "")=='PrenotazioniFolder'</property>
-   <property name="permissions">
-    <element value="redturtle.prenotazioni: search prenotazioni"/>
-   </property>
-   <property name="visible">True</property>
-  </object>
+      <property name="icon_expr" />
+      <property name="available_expr">python:getattr(object, "portal_type", "")=='PrenotazioniFolder'</property>
+      <property name="permissions">
+        <element value="redturtle.prenotazioni: search prenotazioni" />
+      </property>
+      <property name="visible">True</property>
+    </object>
 
-  <!-- Prenotazione Move -->
-  <object name="prenotazione_move" meta_type="CMF Action" i18n:domain="redturtle.prenotazioni">
-   <property name="title" i18n:translate="Change date/time">Change date/time</property>
-   <property name="description" i18n:translate=""></property>
-   <property name="url_expr">
+    <!-- Prenotazione Move -->
+    <object meta_type="CMF Action"
+            name="prenotazione_move"
+            i18n:domain="redturtle.prenotazioni"
+    >
+      <property name="title"
+                i18n:translate="Change date/time"
+      >Change date/time</property>
+      <property name="description"
+                i18n:translate=""
+      />
+      <property name="url_expr">
      string:${plone_context_state/canonical_object_url}/prenotazione_move
    </property>
-   <property name="icon_expr"></property>
-   <property name="available_expr">python:getattr(object, "portal_type", "")=='Prenotazione'</property>
-   <property name="permissions">
-    <element value="Modify portal content"/>
-   </property>
-   <property name="visible">True</property>
+      <property name="icon_expr" />
+      <property name="available_expr">python:getattr(object, "portal_type", "")=='Prenotazione'</property>
+      <property name="permissions">
+        <element value="Modify portal content" />
+      </property>
+      <property name="visible">True</property>
+    </object>
+
   </object>
-
- </object>
 </object>
-

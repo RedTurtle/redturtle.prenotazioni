@@ -1,64 +1,67 @@
 <tal:root define="
-        booking_type options/booking_type|nothing;
-        booking_date options/booking_date|nothing;
-        booking_hour options/booking_hour|nothing;
-        company options/company|nothing;
-        gate options/gate|nothing;
-        booking_expiration_date options/booking_expiration_date|nothing;
-        staff_notes options/staff_notes|nothing;
-        description options/description|nothing;
-        title options/title|nothing;
-        email options/email|nothing;
-        phone options/phone|nothing;
-        fiscalcode options/fiscalcode|nothing;
-        booking_url options/booking_url|nothing;
-        booking_folder options/booking_folder|nothing;
-        toLocalizedTime nocall:context/@@plone/toLocalizedTime"
-        i18n:domain="redturtle.prenotazioni"
+            booking_type options/booking_type|nothing;
+            booking_date options/booking_date|nothing;
+            booking_hour options/booking_hour|nothing;
+            company options/company|nothing;
+            gate options/gate|nothing;
+            booking_expiration_date options/booking_expiration_date|nothing;
+            staff_notes options/staff_notes|nothing;
+            description options/description|nothing;
+            title options/title|nothing;
+            email options/email|nothing;
+            phone options/phone|nothing;
+            fiscalcode options/fiscalcode|nothing;
+            booking_url options/booking_url|nothing;
+            booking_folder options/booking_folder|nothing;
+            toLocalizedTime nocall:context/@@plone/toLocalizedTime;
+          "
+          i18n:domain="redturtle.prenotazioni"
 >
-<ul>
-  <li>
-    <strong><tal:label i18n:translate="label_booking_title">Fullname</tal:label>:</strong>
+  <ul>
+    <li>
+      <strong><tal:label i18n:translate="label_booking_title">Fullname</tal:label>:</strong>
     ${title}
-  </li>
-  <li>
-    <strong><tal:label i18n:translate="label_booking_type">Booking type</tal:label>:</strong>
+    </li>
+    <li>
+      <strong><tal:label i18n:translate="label_booking_type">Booking type</tal:label>:</strong>
     ${booking_type}
-  </li>
-  <li>
-    <strong><tal:label i18n:translate="label_booking_email">Email</tal:label>:</strong>
+    </li>
+    <li>
+      <strong><tal:label i18n:translate="label_booking_email">Email</tal:label>:</strong>
     ${email}
-  </li>
-  <li>
-    <strong><tal:label i18n:translate="label_booking_phone">Phone number</tal:label>:</strong>
+    </li>
+    <li>
+      <strong><tal:label i18n:translate="label_booking_phone">Phone number</tal:label>:</strong>
     ${phone}
-  </li>
-  <li>
-    <strong><tal:label i18n:translate="label_booking_company">Company</tal:label>:</strong>
+    </li>
+    <li>
+      <strong><tal:label i18n:translate="label_booking_company">Company</tal:label>:</strong>
     ${company}
-  </li>
-  <li>
-    <strong><tal:label i18n:translate="label_booking_fiscalcode">Fiscal code</tal:label>:</strong>
+    </li>
+    <li>
+      <strong><tal:label i18n:translate="label_booking_fiscalcode">Fiscal code</tal:label>:</strong>
     ${fiscalcode}
-  </li>
-  <li>
-    <strong><tal:label i18n:translate="label_booking_description">Subject</tal:label>:</strong>
+    </li>
+    <li>
+      <strong><tal:label i18n:translate="label_booking_description">Subject</tal:label>:</strong>
     ${description}
-  </li>
-  <li>
-    <strong><tal:label i18n:translate="label_booking_date">Booking date</tal:label>:</strong>
-    <span i18n:translate="label_booking_date_range">
-      <tal:from_date i18n:name="from_date">${booking_date}</tal:from_date>
-      at <tal:from i18n:name="at">${booking_hour}</tal:from>
-    </span>
-  </li>
-  <li>
-    <strong><tal:label i18n:translate="label_gate">Gate</tal:label>:</strong>
+    </li>
+    <li>
+      <strong><tal:label i18n:translate="label_booking_date">Booking date</tal:label>:</strong>
+      <span i18n:translate="label_booking_date_range">
+        <tal:from_date i18n:name="from_date">${booking_date}</tal:from_date>
+      at
+        <tal:from i18n:name="at">${booking_hour}</tal:from>
+      </span>
+    </li>
+    <li>
+      <strong><tal:label i18n:translate="label_gate">Gate</tal:label>:</strong>
     ${gate}
-  </li>
-</ul>
+    </li>
+  </ul>
 
-<p i18n:translate="label_new_booking_notify_link">
-  Go to the booking to see more details and manage it: <tal:url i18n:name="url">${booking_url}</tal:url>
-</p>
+  <p i18n:translate="label_new_booking_notify_link">
+  Go to the booking to see more details and manage it:
+    <tal:url i18n:name="url">${booking_url}</tal:url>
+  </p>
 </tal:root>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <rolemap>
   <roles>
     <role name="Bookings Manager" />
@@ -6,56 +6,72 @@
 
 
   <permissions>
-    <permission name="redturtle.prenotazioni: Add Prenotazione" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
-      <role name="Owner"/>
+    <permission acquire="True"
+                name="redturtle.prenotazioni: Add Prenotazione"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
       <role name="Bookings Manager" />
     </permission>
 
-    <permission name="redturtle.prenotazioni: Add PrenotazioniDay" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
-      <role name="Owner"/>
+    <permission acquire="True"
+                name="redturtle.prenotazioni: Add PrenotazioniDay"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
       <role name="Bookings Manager" />
     </permission>
 
-    <permission name="redturtle.prenotazioni: Add PrenotazioniWeek" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
-      <role name="Owner"/>
+    <permission acquire="True"
+                name="redturtle.prenotazioni: Add PrenotazioniWeek"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
       <role name="Bookings Manager" />
     </permission>
 
-    <permission name="redturtle.prenotazioni: Add PrenotazioniYear" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
-      <role name="Owner"/>
+    <permission acquire="True"
+                name="redturtle.prenotazioni: Add PrenotazioniYear"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
       <role name="Bookings Manager" />
     </permission>
 
-    <permission name="redturtle.prenotazioni: Add PrenotazioniFolder" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
-      <role name="Owner"/>
+    <permission acquire="True"
+                name="redturtle.prenotazioni: Add PrenotazioniFolder"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
       <role name="Bookings Manager" />
     </permission>
 
-    <permission name="redturtle.prenotazioni: search prenotazioni" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
+    <permission acquire="True"
+                name="redturtle.prenotazioni: search prenotazioni"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
       <role name="Bookings Manager" />
     </permission>
 
-    <permission name="redturtle.prenotazioni: Manage Prenotazioni" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
+    <permission acquire="True"
+                name="redturtle.prenotazioni: Manage Prenotazioni"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
       <role name="Bookings Manager" />
     </permission>
 
-    <permission name="redturtle.prenotazioni: View Hidden Types" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
+    <permission acquire="True"
+                name="redturtle.prenotazioni: View Hidden Types"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
       <role name="Bookings Manager" />
     </permission>
 

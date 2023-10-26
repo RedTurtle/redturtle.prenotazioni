@@ -3,41 +3,53 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="redturtle.prenotazioni"
+>
+
+  <metal:block fill-slot="content-description">
+    <div class="documentDescription-box clear-block"
+         tal:condition="context/description"
+    >
+      <p class="documentDescription"
+         tal:condition="context/description"
       >
-
-    <metal:block fill-slot="content-description">
-        <div tal:condition="context/description"
-             class="documentDescription-box clear-block">
-            <p class="documentDescription" tal:condition="context/description">
               ${context/description}
-            </p>
-        </div>
-        <p tal:attributes='class python:"callout red"' tal:condition="view/get_prenotation_type">Tipo di prenotazione: ${view/get_prenotation_type}</p>
-        <div class="documentDescription-box clear-block" tal:condition="context/descriptionAgenda">
-            <span tal:replace="structure context/descriptionAgenda/raw" />
-        </div>
-    </metal:block>
+      </p>
+    </div>
+    <p tal:condition="view/get_prenotation_type"
+       tal:attributes='
+         class python:"callout red";
+       '
+    >Tipo di prenotazione: ${view/get_prenotation_type}</p>
+    <div class="documentDescription-box clear-block"
+         tal:condition="context/descriptionAgenda"
+    >
+      <span tal:replace="structure context/descriptionAgenda/raw"></span>
+    </div>
+  </metal:block>
 
-    <metal:block fill-slot="content-core"
-                 tal:define="week_view nocall:view;
-                             prenotazione_macros nocall:view/prenotazione_macros;
-                             day_period_macro nocall:week_view/day_period_macro;
-                             slot_macro nocall:week_view/slot_macro;">
+  <metal:block fill-slot="content-core"
+               tal:define="
+                 week_view nocall:view;
+                 prenotazione_macros nocall:view/prenotazione_macros;
+                 day_period_macro nocall:week_view/day_period_macro;
+                 slot_macro nocall:week_view/slot_macro;
+               "
+  >
 
-        <div tal:condition="not:view/prenotazioni/is_anonymous">
-          <p i18n:translate="book_it">
+    <div tal:condition="not:view/prenotazioni/is_anonymous">
+      <p i18n:translate="book_it">
               Please select a booking slot.
-          </p>
-        </div>
+      </p>
+    </div>
 
-      <metal:block use-macro="prenotazione_macros/week-table" />
-        <div class="week-legends flex-wrap">
-          <metal:block use-macro="prenotazione_macros/week-tipologies-legend" />
-          <tal:legend condition="not:view/prenotazioni/is_anonymous">
-            <metal:block use-macro="prenotazione_macros/week-colors-legend" />
-          </tal:legend>
-          <div class="visualClear"></div>
-        </div>
-      </metal:block>
+    <metal:block use-macro="prenotazione_macros/week-table" />
+    <div class="week-legends flex-wrap">
+      <metal:block use-macro="prenotazione_macros/week-tipologies-legend" />
+      <tal:legend condition="not:view/prenotazioni/is_anonymous">
+        <metal:block use-macro="prenotazione_macros/week-colors-legend" />
+      </tal:legend>
+      <div class="visualClear"></div>
+    </div>
+  </metal:block>
 
 </html>

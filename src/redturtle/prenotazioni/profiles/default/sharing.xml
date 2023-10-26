@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <sharing xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-         i18n:domain="plone">
-  <role
-      id="Bookings Manager"
-      title="Can Manage Bookings"
-      permission="Manage portal"
-      i18n:attributes="title"
-      />
+         i18n:domain="plone"
+>
+  <role id="Bookings Manager"
+        permission="Manage portal"
+        title="Can Manage Bookings"
+        i18n:attributes="title"
+  />
 </sharing>
