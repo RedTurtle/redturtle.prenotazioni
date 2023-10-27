@@ -21,7 +21,7 @@ class PrenotazioneSerializer:
         self.prenotazione = prenotazione
         self.request = request
 
-    def __call__(self, *args, **kwargs):
+    def compose_booking_struct(self):
         booking_folder = self.prenotazione.getPrenotazioniFolder()
         useful_docs = getMultiAdapter(
             (
@@ -51,6 +51,7 @@ class PrenotazioneSerializer:
             booking_expiration_date = booking_expiration_date.replace(
                 booking_date.year, booking_date.month, booking_date.day
             )
+        
         return {
             "UID": self.prenotazione.UID(),
             "@type": self.prenotazione.portal_type,
@@ -74,6 +75,8 @@ class PrenotazioneSerializer:
             "cosa_serve": useful_docs,
         }
 
+    def __call__(self, *args, **kwargs):
+        return self.compose_booking_struct()
 
 @implementer(ISerializeToPrenotazioneSearchableItem)
 @adapter(IPrenotazione, IRequest)
