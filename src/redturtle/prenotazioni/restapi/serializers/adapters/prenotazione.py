@@ -51,7 +51,7 @@ class PrenotazioneSerializer:
             booking_expiration_date = booking_expiration_date.replace(
                 booking_date.year, booking_date.month, booking_date.day
             )
-        
+
         return {
             "UID": self.prenotazione.UID(),
             "@type": self.prenotazione.portal_type,
@@ -77,6 +77,7 @@ class PrenotazioneSerializer:
 
     def __call__(self, *args, **kwargs):
         return self.compose_booking_struct()
+
 
 @implementer(ISerializeToPrenotazioneSearchableItem)
 @adapter(IPrenotazione, IRequest)
