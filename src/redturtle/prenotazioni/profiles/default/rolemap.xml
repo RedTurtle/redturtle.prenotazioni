@@ -52,6 +52,14 @@
     </permission>
 
     <permission acquire="True"
+                name="redturtle.prenotazioni: Add BookingType"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+    </permission>
+
+    <permission acquire="True"
                 name="redturtle.prenotazioni: search prenotazioni"
     >
       <role name="Manager" />

@@ -11,10 +11,9 @@ from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from zope.component import getAdapter, getMultiAdapter, getUtility
 from zope.i18n import translate
 
-from redturtle.prenotazioni import _
+from redturtle.prenotazioni import _, is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
-from redturtle.prenotazioni.utils import is_migration
 
 logger = getLogger(__name__)
 

@@ -40,11 +40,17 @@ class TestDeleteBooking(unittest.TestCase):
             title="Folder",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         week_table = self.folder_prenotazioni.week_table
         for row in week_table:
             row["morning_start"] = "0700"
@@ -118,7 +124,8 @@ class TestDeleteBooking(unittest.TestCase):
         )
         uid = booking.UID()
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         self.request.form["uid"] = booking.UID()
@@ -126,7 +133,8 @@ class TestDeleteBooking(unittest.TestCase):
 
         self.assertIsNone(res)
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 0
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            0,
         )
 
     def test_user_can_delete_his_booking(self):
@@ -140,7 +148,8 @@ class TestDeleteBooking(unittest.TestCase):
         )
         uid = booking.UID()
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         self.request.form["uid"] = booking.UID()
@@ -148,7 +157,8 @@ class TestDeleteBooking(unittest.TestCase):
 
         self.assertIsNone(res)
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 0
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            0,
         )
 
     @unittest.skip("wip")
@@ -164,14 +174,16 @@ class TestDeleteBooking(unittest.TestCase):
         login(self.portal, "user2")
         uid = booking.UID()
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         self.request.form["uid"] = booking.UID()
 
         self.assertRaises(Unauthorized, self.view.do_delete)
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
     @unittest.skip("wip")
@@ -189,14 +201,16 @@ class TestDeleteBooking(unittest.TestCase):
 
         login(self.portal, "user")
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         self.request.form["uid"] = booking.UID()
 
         self.assertRaises(Unauthorized, self.view.do_delete)
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
     def test_cant_delete_past_booking(self):
@@ -210,7 +224,8 @@ class TestDeleteBooking(unittest.TestCase):
         uid = booking.UID()
 
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         self.request.form["uid"] = booking.UID()
@@ -220,7 +235,8 @@ class TestDeleteBooking(unittest.TestCase):
             "You can't delete your reservation; it's too late.", res["error"]
         )
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
     def test_cant_delete_today_booking(self):
@@ -234,7 +250,8 @@ class TestDeleteBooking(unittest.TestCase):
         uid = booking.UID()
 
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
         self.request.form["uid"] = booking.UID()
@@ -244,7 +261,8 @@ class TestDeleteBooking(unittest.TestCase):
             "You can't delete your reservation; it's too late.", res["error"]
         )
         self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)), 1
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
         )
 
     def test_unable_to_delete_other_types(self):

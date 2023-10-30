@@ -37,6 +37,11 @@
         />
 
     <permission
+        id="redturtle.prenotazioni.AddBookingType"
+        title="redturtle.prenotazioni: Add BookingType"
+        />
+
+    <permission
         id="redturtle.prenotazioni.SearchPrenotazioni"
         title="redturtle.prenotazioni: search prenotazioni"
         />

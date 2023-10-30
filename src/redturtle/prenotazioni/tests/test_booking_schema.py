@@ -88,15 +88,22 @@ class TestBookingSchema(unittest.TestCase):
                     "afternoon_end": None,
                 },
             ],
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
             required_booking_fields=["email", "fiscalcode"],
         )
 
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         year = api.content.create(
-            container=self.folder_prenotazioni, type="PrenotazioniYear", title="Year"
+            container=self.folder_prenotazioni,
+            type="PrenotazioniYear",
+            title="Year",
         )
         week = api.content.create(container=year, type="PrenotazioniWeek", title="Week")
         self.day_folder = api.content.create(

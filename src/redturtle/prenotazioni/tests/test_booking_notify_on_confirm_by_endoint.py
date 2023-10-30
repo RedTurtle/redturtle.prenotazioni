@@ -45,11 +45,17 @@ class TestSPrenotazioneEvents(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         self.today_8_0 = self.dt_local_to_utc(
             datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
         )

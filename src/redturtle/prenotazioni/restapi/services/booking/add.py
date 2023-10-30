@@ -101,7 +101,7 @@ class AddBooking(BookingSchema):
                 raise BadRequest(msg)
 
         if data["booking_type"] not in [
-            _t["name"] for _t in self.context.booking_types or [] if "name" in _t
+            _t.title for _t in self.context.get_booking_types()
         ]:
             msg = self.context.translate(
                 _(

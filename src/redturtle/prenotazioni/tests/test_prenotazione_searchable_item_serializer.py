@@ -35,11 +35,17 @@ class TestPrenotazioniSearch(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         week_table = self.folder_prenotazioni.week_table
         week_table[0]["morning_start"] = "0700"
         week_table[0]["morning_end"] = "1000"

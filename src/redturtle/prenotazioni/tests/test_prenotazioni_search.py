@@ -50,11 +50,17 @@ class TestPrenotazioniSearch(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         week_table = deepcopy(self.folder_prenotazioni.week_table)
         week_table[0]["morning_start"] = "0700"
         week_table[0]["morning_end"] = "1000"
@@ -66,13 +72,24 @@ class TestPrenotazioniSearch(unittest.TestCase):
             title="Prenota bar",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "10"},
-                {"name": "Type B", "duration": "20"},
-                {},
-            ],
             gates=["Gate A"],
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=10,
+            container=self.folder_prenotazioni2,
+            gates=["all"],
+        )
+        api.content.create(
+            type="BookingType",
+            title="Type B",
+            duration=20,
+            container=self.folder_prenotazioni2,
+            gates=["all"],
+        )
+
         week_table = deepcopy(self.folder_prenotazioni2.week_table)
         week_table[0]["morning_start"] = "0700"
         week_table[0]["morning_end"] = "1000"

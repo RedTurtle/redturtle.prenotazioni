@@ -3,9 +3,11 @@ from plone import api
 from plone.memoize.view import memoize
 from plone.restapi.services import Service
 from zExceptions import BadRequest
+from zope.component import getMultiAdapter
 
 from redturtle.prenotazioni import _, datetime_with_tz
 from redturtle.prenotazioni.config import STATIC_REQUIRED_FIELDS
+from redturtle.prenotazioni.interfaces import ISerializeToRetroCompatibleJson
 
 
 class BookingSchema(Service):
@@ -136,15 +138,15 @@ class BookingSchema(Service):
         booking_date = datetime_with_tz(booking_date)
 
         bookings = booking_context_state_view.booking_types_bookability(booking_date)
-        for item in self.context.booking_types:
-            if item["name"] in bookings["bookable"]:
-                res["bookable"].append(item)
+
+        for item in self.context.get_booking_types():
+            serialized_item = getMultiAdapter(
+                (item, self.request), ISerializeToRetroCompatibleJson
+            )()
+
+            if item.title in bookings["bookable"]:
+                res["bookable"].append(serialized_item)
             else:
-                res["unbookable"].append(item)
-
-        if api.user.has_permission("redturtle.prenotazioni.ViewHiddenTypes"):
-            return res
-
-        res["bookable"] = [t for t in res["bookable"] if not t.get("hidden")]
+                res["unbookable"].append(serialized_item)
 
         return res

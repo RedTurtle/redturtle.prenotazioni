@@ -57,6 +57,7 @@ class TestBookingRestAPIInfo(unittest.TestCase):
 
     def test_prenotazione_restapi_endpoint(self):
         result = self.api_session.get(self.portal_url + "/@types/Prenotazione")
+
         content_type_properties = result.json()["properties"]
         self.assertEqual(content_type_properties["booking_date"]["mode"], "display")
         self.assertEqual(content_type_properties["gate"]["mode"], "display")
@@ -80,13 +81,21 @@ class TestBookingRestAPIAdd(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A", "Gate B"],
             week_table=WEEK_TABLE_SCHEMA,
         )
+
+        booking_type_A = api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
+        api.content.transition(obj=booking_type_A, transition="publish")
+
         transaction.commit()
 
         self.api_session = RelativeSession(self.portal_url)
@@ -112,6 +121,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
                 ],
             },
         )
+
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["booking_date"], booking_date)
         self.assertEqual(res.json()["booking_expiration_date"], booking_expiration_date)
@@ -185,7 +195,10 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.status_code, 400)
         self.assertEqual(
             res.json(),
-            {"message": "You are not allowed to force the gate.", "type": "BadRequest"},
+            {
+                "message": "You are not allowed to force the gate.",
+                "type": "BadRequest",
+            },
         )
 
     def test_cant_add_booking_if_missing_required_fields(self):
@@ -195,13 +208,19 @@ class TestBookingRestAPIAdd(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A", "Gate B"],
             week_table=WEEK_TABLE_SCHEMA,
             required_booking_fields=["email"],
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=folder,
+            gates=["all"],
+        )
+
         api.content.transition(obj=folder, transition="publish")
         transaction.commit()
         res = self.api_session.post(
@@ -233,11 +252,17 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A", "Gate B"],
         )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         week_table = self.folder_prenotazioni.week_table
         for row in week_table:
             row["morning_start"] = "0700"

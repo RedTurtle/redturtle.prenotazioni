@@ -16,6 +16,7 @@ from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.adapters.conflict import IConflictManager
 from redturtle.prenotazioni.adapters.slot import BaseSlot, ISlot
 from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE, PAUSE_SLOT
+from redturtle.prenotazioni.content.booking_type import BookingType
 from redturtle.prenotazioni.content.pause import Pause
 from redturtle.prenotazioni.utilities.dateutils import hm2DT, hm2seconds
 from redturtle.prenotazioni.utilities.urls import urlify
@@ -824,27 +825,22 @@ class PrenotazioniContextState(BrowserView):
         }
         """
 
-        def get_duration(duration):
-            if isinstance(duration, tuple):
-                return int(duration[0])
-            return int(duration)
-
         return {
-            typ["name"]: get_duration(typ["duration"])
-            for typ in getattr(self.context, "booking_types", [])
-            if typ["duration"]
+            typ.title: typ.duration
+            for typ in self.context.get_booking_types()
+            if typ.duration
         }
 
     def get_booking_type_duration(self, booking_type):
         """Return the seconds for this booking_type"""
-        if isinstance(booking_type, dict):
-            return int(booking_type["duration"]) * 60
-        if isinstance(booking_type, six.string_types) and not isinstance(
-            booking_type, six.text_type
-        ):
-            booking_type = booking_type
+        if type(booking_type) is BookingType:
+            return booking_type.duration * 60
+
+        if type(booking_type) is str:
+            return self.booking_type_durations.get(booking_type, 1)
+
         # XXX: se il booking_type non esiste, ritorna 1 minuto, è corretto ????
-        return self.booking_type_durations.get(booking_type, 1)
+        return 1
 
     @memoize
     def booking_types_bookability(self, booking_date):

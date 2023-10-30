@@ -13,8 +13,7 @@ from zope import schema
 from zope.interface import implementer
 from zope.schema import ValidationError
 
-from redturtle.prenotazioni import _, datetime_with_tz, tznow
-from redturtle.prenotazioni.utils import is_migration
+from redturtle.prenotazioni import _, datetime_with_tz, is_migration, tznow
 
 from .prenotazioni_folder import IPrenotazioniFolder
 
