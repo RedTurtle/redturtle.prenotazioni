@@ -47,7 +47,7 @@
   <property name="default_view_fallback">False</property>
   <property name="immediate_view">view</property>
   <property name="view_methods">
-    <property name="default_view">goto-prenotazioni</property>
+    <element value="goto-prenotazioni" />
   </property>
 
   <!-- Method aliases -->
