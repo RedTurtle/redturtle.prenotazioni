@@ -834,7 +834,7 @@ class PrenotazioniContextState(BrowserView):
     def get_booking_type_duration(self, booking_type):
         """Return the seconds for this booking_type"""
         if type(booking_type) is BookingType:
-            return booking_type.duration * 60
+            return int(booking_type.duration) * 60
 
         if type(booking_type) is str:
             return self.booking_type_durations.get(booking_type, 1)

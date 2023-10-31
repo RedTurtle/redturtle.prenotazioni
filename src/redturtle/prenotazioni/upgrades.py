@@ -481,7 +481,7 @@ def to_2000(context):
             booking_type = api.content.create(
                 type="BookingType",
                 title=type.get("name"),
-                duration=int(type.get("duration")),
+                duration=type.get("duration"),
                 hidden=type.get("hidden"),
                 container=obj,
                 # gates=["all"],
