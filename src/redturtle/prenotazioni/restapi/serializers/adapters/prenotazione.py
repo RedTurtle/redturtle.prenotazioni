@@ -65,10 +65,12 @@ class PrenotazioneSerializer:
             "staff_notes": self.prenotazione.staff_notes,
             "booking_date": json_compatible(booking_date),
             "booking_expiration_date": json_compatible(booking_expiration_date),
+            "booking_status": status["review_state"],
             "booking_status_label": translate(
                 status["review_state"], context=self.request
             ),
             "booking_type": self.prenotazione.booking_type,
+            "booking_folder_uid": booking_folder.UID(),
             "vacation": self.prenotazione.isVacation(),
             "booking_code": self.prenotazione.getBookingCode(),
             "cosa_serve": useful_docs,
