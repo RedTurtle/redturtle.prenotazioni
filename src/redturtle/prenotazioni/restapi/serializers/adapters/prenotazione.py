@@ -74,6 +74,7 @@ class PrenotazioneSerializer:
             "vacation": self.prenotazione.isVacation(),
             "booking_code": self.prenotazione.getBookingCode(),
             "cosa_serve": useful_docs,
+            "notify_on_confirm": booking_folder.notify_on_confirm,
         }
 
 
