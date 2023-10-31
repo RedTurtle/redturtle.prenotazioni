@@ -484,7 +484,7 @@ def to_2000(context):
                 duration=int(type.get("duration")),
                 hidden=type.get("hidden"),
                 container=obj,
-                gates=["all"],
+                # gates=["all"],
             )
 
             if not type.get("hidden", False):

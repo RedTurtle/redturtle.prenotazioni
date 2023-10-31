@@ -26,15 +26,15 @@ class IBookingType(model.Schema):
         ),
     )
 
-    gates = schema.List(
-        title=_("gates_label", default="Gates"),
-        description=_("gates_help", default="Put gates here (one per line)."),
-        required=True,
-        value_type=schema.Choice(
-            vocabulary="redturtle.prenotazioni.VocBookingTypeGates"
-        ),
-        default=[],
-    )
+    # gates = schema.List(
+    #     title=_("gates_label", default="Gates"),
+    #     description=_("gates_help", default="Put gates here (one per line)."),
+    #     required=True,
+    #     value_type=schema.Choice(
+    #         vocabulary="redturtle.prenotazioni.VocBookingTypeGates"
+    #     ),
+    #     default=[],
+    # )
 
 
 @implementer(IBookingType)
