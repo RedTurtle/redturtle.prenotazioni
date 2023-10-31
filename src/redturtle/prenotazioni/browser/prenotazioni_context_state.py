@@ -857,7 +857,7 @@ class PrenotazioniContextState(BrowserView):
             return int(booking_type.duration) * 60
 
         if type(booking_type) is str:
-            return self.booking_type_durations.get(booking_type, 1)
+            return int(self.booking_type_durations.get(booking_type, 1))
 
         # XXX: se il booking_type non esiste, ritorna 1 minuto, è corretto ????
         return 1
