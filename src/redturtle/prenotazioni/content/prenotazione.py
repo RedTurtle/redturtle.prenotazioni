@@ -298,5 +298,5 @@ class Prenotazione(Item):
 
     def get_booking_type(self):
         return {
-            i.title: i.title for i in self.getPrenotazioniFolder().get_booking_types()
+            i.title: i for i in self.getPrenotazioniFolder().get_booking_types()
         }.get(self.booking_type, None)

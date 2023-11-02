@@ -12,9 +12,7 @@ from zope.schema import getFields
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.booking_type import IBookingType
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.interfaces import (
-    ISerializeToPrenotazioneSearchableItem,
-)
+from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
 
 
 @implementer(ISerializeToJson)
@@ -52,9 +50,7 @@ class PrenotazioneSerializer:
             booking_expiration_date
             and booking_date.date() != booking_expiration_date.date()
         ):
-            logger.warning(
-                "Booking date and expiration date are different, fixing"
-            )
+            logger.warning("Booking date and expiration date are different, fixing")
             booking_date = booking_date.date()
             booking_expiration_date = booking_expiration_date.replace(
                 booking_date.year, booking_date.month, booking_date.day
@@ -72,9 +68,7 @@ class PrenotazioneSerializer:
             "company": self.prenotazione.company,
             "staff_notes": self.prenotazione.staff_notes,
             "booking_date": json_compatible(booking_date),
-            "booking_expiration_date": json_compatible(
-                booking_expiration_date
-            ),
+            "booking_expiration_date": json_compatible(booking_expiration_date),
             "booking_status": status["review_state"],
             "booking_status_label": translate(
                 status["review_state"], context=self.request
@@ -97,9 +91,7 @@ class PrenotazioneSearchableItemSerializer:
 
     def __call__(self, *args, **kwargs):
         wf_tool = api.portal.get_tool("portal_workflow")
-        status = wf_tool.getStatusOf(
-            "prenotazioni_workflow", self.prenotazione
-        )
+        status = wf_tool.getStatusOf("prenotazioni_workflow", self.prenotazione)
         return {
             "title": self.prenotazione.Title(),
             "description": self.prenotazione.description,
