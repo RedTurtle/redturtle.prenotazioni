@@ -20,7 +20,7 @@ class VocDurataIncontro(object):
     """ """
 
     def __call__(self, context):
-        items = [VocabItem(x, x) for x in range(10, 95, 5)]
+        items = [VocabItem(x, x) for x in range(10, 185, 5)]
 
         if not IDexterityContent.providedBy(context):
             req = getRequest()
