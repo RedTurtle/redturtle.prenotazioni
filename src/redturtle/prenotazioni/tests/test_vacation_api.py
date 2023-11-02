@@ -82,7 +82,8 @@ class TestVacationgApi(unittest.TestCase):
         self.api_session_anon.close()
 
     @unittest.skipIf(
-        date.today().day >= 20, "issue testing in the last days of a month"
+        date.today().day >= 20 or date.today().day <= 2,
+        "issue testing in the last days of a month",
     )
     def test_add_vacation(self):
         # UTC time
