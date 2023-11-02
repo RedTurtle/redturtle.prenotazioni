@@ -16,7 +16,9 @@ from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
 
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+)
 
 
 class TestAvailableSlots(unittest.TestCase):
@@ -25,7 +27,9 @@ class TestAvailableSlots(unittest.TestCase):
     timezone = "Europe/Rome"
 
     def dt_local_to_utc(self, value):
-        return pytz.timezone(self.timezone).localize(value).astimezone(pytz.utc)
+        return (
+            pytz.timezone(self.timezone).localize(value).astimezone(pytz.utc)
+        )
 
     def dt_local_to_json(self, value):
         return json_compatible(self.dt_local_to_utc(value))
@@ -74,7 +78,9 @@ class TestAvailableSlots(unittest.TestCase):
             type="PrenotazioniYear",
             title="Year",
         )
-        week = api.content.create(container=year, type="PrenotazioniWeek", title="Week")
+        week = api.content.create(
+            container=year, type="PrenotazioniWeek", title="Week"
+        )
         self.day_folder = api.content.create(
             container=week, type="PrenotazioniDay", title="Day"
         )
@@ -94,7 +100,9 @@ class TestAvailableSlots(unittest.TestCase):
         self,
     ):
         response = self.api_session.get(
-            "{}/@available-slots".format(self.folder_prenotazioni.absolute_url())
+            "{}/@available-slots".format(
+                self.folder_prenotazioni.absolute_url()
+            )
         )
         # get next mondays in current month
         now = date.today()
@@ -108,12 +116,16 @@ class TestAvailableSlots(unittest.TestCase):
                 for hour in [7, 8, 9]:
                     expected.append(
                         json_compatible(
-                            datetime(current_year, current_month, week[0], hour, 0)
+                            datetime(
+                                current_year, current_month, week[0], hour, 0
+                            )
                         )
                     )
         self.assertEqual(expected, response.json()["items"])
 
-    @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
+    @unittest.skipIf(
+        date.today().day > 20, "issue testing in the last days of a month"
+    )
     def test_month_slots_called_without_params_return_available_slots_of_current_month_when_some_are_full(
         self,
     ):
@@ -171,7 +183,9 @@ class TestAvailableSlots(unittest.TestCase):
             )
         else:
             response = self.api_session.get(
-                "{}/@available-slots".format(self.folder_prenotazioni.absolute_url())
+                "{}/@available-slots".format(
+                    self.folder_prenotazioni.absolute_url()
+                )
             )
 
             # first free slot is at 7:30
@@ -277,7 +291,9 @@ class TestAvailableSlots(unittest.TestCase):
 
         self.assertEqual(400, response.status_code)
 
-    @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
+    @unittest.skipIf(
+        date.today().day > 20, "issue testing in the last days of a month"
+    )
     def test_month_slots_notBeforeDays_honored(
         self,
     ):
@@ -304,10 +320,15 @@ class TestAvailableSlots(unittest.TestCase):
             description="",
             daData=now,
             week_table=week_table,
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
+        )
+
+        api.content.create(
+            type="BookingType",
+            title="Type A",
+            duration=30,
+            container=folder,
+            gates=["all"],
         )
 
         transaction.commit()
@@ -326,10 +347,14 @@ class TestAvailableSlots(unittest.TestCase):
         folder.notBeforeDays = 0
         transaction.commit()
 
-        response = self.api_session.get(f"{folder.absolute_url()}/@available-slots")
+        response = self.api_session.get(
+            f"{folder.absolute_url()}/@available-slots"
+        )
         self.assertIn(tomorrow_7_0, response.json()["items"])
 
-    @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
+    @unittest.skipIf(
+        date.today().day > 20, "issue testing in the last days of a month"
+    )
     def test_month_slots_filtered_by_booking_type(self):
         # Type A 30 minutes
         response = self.api_session.get(
