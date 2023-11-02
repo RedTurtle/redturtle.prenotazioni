@@ -492,5 +492,5 @@ def to_2000(context):
 
             booking_type.reindexObject(idxs=["review_state"])
 
-        delattr(obj, "booking_types")
-        delattr(obj, "cosa_serve")
+        getattr(obj, "booking_types", None) and delattr(obj, "booking_types")
+        getattr(obj, "cosa_serve", None) and delattr(obj, "cosa_serve")
