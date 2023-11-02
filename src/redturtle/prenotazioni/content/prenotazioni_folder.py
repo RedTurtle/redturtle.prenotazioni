@@ -216,14 +216,6 @@ class IPrenotazioniFolder(model.Schema):
 
     form.mode(descriptionAgenda="display")
 
-    cosa_serve = RichText(
-        required=False,
-        title=_("Cosa serve", default="Cosa serve"),
-        description=_(
-            "Elencare le informazioni utili per il giorno della prenotazione, come ad esempio i documenti da presentare."
-        ),
-    )
-
     directives.widget(visible_booking_fields=CheckBoxFieldWidget)
     visible_booking_fields = schema.List(
         title=_("label_visible_booking_fields", default="Visible booking fields"),
@@ -730,9 +722,6 @@ class PrenotazioniFolder(Container):
 
     def getNotBeforeDays(self):
         return self.notBeforeDays
-
-    def getCosaServe(self):
-        return self.cosa_serve
 
     def get_booking_types(self) -> Generator[BookingType, None, None]:
         return self.listFolderContents(contentFilter={"portal_type": "BookingType"})
