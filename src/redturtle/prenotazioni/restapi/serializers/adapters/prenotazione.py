@@ -23,7 +23,7 @@ class PrenotazioneSerializer:
         self.request = request
 
     def __call__(self, *args, **kwargs):
-        booking_folder = self.prenotazione.getBookingFolder()
+        booking_folder = self.prenotazione.getPrenotazioniFolder()
         try:
             requirements = getMultiAdapter(
                 (
