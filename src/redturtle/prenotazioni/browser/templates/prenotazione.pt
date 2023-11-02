@@ -123,15 +123,6 @@
           <strong i18n:translate="label_booking_code">Booking code</strong>:
           <span tal:replace="here/getBookingCode"></span>
         </div>
-        <div class="field"
-             tal:define="
-               cosa_serve python: here.getPrenotazioniFolder().getCosaServe();
-             "
-             tal:condition="cosa_serve"
-        >
-          <strong i18n:translate="cosa_serve">Cosa serve</strong>:
-          <span tal:replace="cosa_serve"></span>
-        </div>
         <hr />
         <p>&nbsp;</p>
         <div class="field"

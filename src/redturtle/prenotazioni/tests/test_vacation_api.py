@@ -44,13 +44,19 @@ class TestVacationgApi(unittest.TestCase):
             same_day_booking_disallowed="no",
         )
 
-        api.content.create(
+        booking_type_A = api.content.create(
             type="BookingType",
             title="Type A",
             duration=30,
             container=self.folder_prenotazioni,
             gates=["all"],
         )
+
+        api.content.transition(
+            booking_type_A,
+            transition="publish",
+        )
+        booking_type_A.reindexObject(idxs=["review_state"])
 
         week_table = self.folder_prenotazioni.week_table
         for row in week_table:
@@ -105,6 +111,7 @@ class TestVacationgApi(unittest.TestCase):
                 ],
             },
         )
+
         self.assertEqual(res.status_code, 200)
         # gates[0] is busy because of vacation
         self.assertEqual(res.json()["gate"], self.folder_prenotazioni.gates[1])
@@ -123,6 +130,7 @@ class TestVacationgApi(unittest.TestCase):
                 ],
             },
         )
+
         self.assertEqual(res.status_code, 400)
         self.assertEqual(
             res.json()["message"],
