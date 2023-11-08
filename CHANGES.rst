@@ -5,13 +5,27 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Extend the booking duration limit to 180 min.
+  [folix-01]
+- Allow Bookings Manager to create, move the bookings and create the vacations.
+  [folix-01]
+- Convert booking types to c.t.
+  [folix-01]
+
+- Change bookings default limit to 0.
+  [folix-01]
+
+- Fix Bookings Manager permission in according to expected behavior
+  [folix-01]
+
+- Add booking_refuse_message to Prenotazione stringinterp variables.
+  [folix-01]
 
 
 2.1.3 (2023-10-13)
 ------------------
 
-- Resect hiddent booking types from @booking-schema.
+- Resect hidden booking types from @booking-schema.
   [folix-01]
 
 

@@ -60,6 +60,10 @@ def update_sharing(context):
     update_profile(context, "sharing")
 
 
+def update_workflow(context):
+    update_profile(context, "workflow")
+
+
 def reload_gs_profile(context):
     loadMigrationProfile(
         context,
@@ -376,7 +380,7 @@ def to_1700(context):
                 setattr(prenotazione, field, date.astimezone(tz))
 
 
-def to_1800(self):
+def to_1800(context):
     brains = api.content.find(portal_type="PrenotazioniFolder")
     for brain in brains:
         item = brain.getObject()
@@ -388,7 +392,7 @@ def to_1800(self):
             )
 
 
-def update_booking_code(self):
+def update_booking_code(context):
     brains = api.content.find(portal_type="Prenotazione")
     for brain in brains:
         item = brain.getObject()
@@ -400,7 +404,7 @@ def update_booking_code(self):
             )
 
 
-def to_1804(self):
+def to_1804(context):
     for brain in api.portal.get_tool("portal_catalog")(
         portal_type="PrenotazioniFolder"
     ):
@@ -408,7 +412,7 @@ def to_1804(self):
         brain.getObject().max_bookings_allowed = 2
 
 
-def to_1805(self):
+def to_1805(context):
     from plone.app.textfield.value import RichTextValue
 
     for brain in api.portal.get_tool("portal_catalog")(
@@ -428,7 +432,7 @@ def to_1805(self):
             )
 
 
-def to_1806(self):
+def to_1806(context):
     for brain in api.portal.get_tool("portal_catalog")(
         portal_type="PrenotazioniFolder"
     ):
@@ -437,3 +441,56 @@ def to_1806(self):
         for type in getattr(brain.getObject(), "booking_types", []):
             if "hidden" not in type.keys():
                 type["hidden"] = False
+
+
+def to_1807(context):
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        obj = brain.getObject()
+        if obj.notify_on_refuse_message:
+            obj.notify_on_refuse_message += (
+                " Motivo del rifiuto: ${booking_refuse_message}"
+            )
+
+        logger.info(
+            "Upgraded <{UID}>.notify_on_refuse_message value".format(UID=brain.UID)
+        )
+
+
+def to_1808(context):
+    api.portal.get_tool("portal_workflow").updateRoleMappings()
+
+    for brain in api.content.find(portal_type="Prenotazione"):
+        brain.getObject().reindexObjectSecurity()
+        logger.info("Upgraded <{UID}> security settings".format(UID=brain.UID))
+
+
+def to_2000(context):
+    for i in api.content.find(portal_type="PrenotazioniFolder"):
+        obj = i.getObject()
+        logger.info(
+            "[1808-2000] -| Transforming <{UID}>.booking_types to contenttypes themself".format(
+                UID=i.UID
+            )
+        )
+
+        for type in getattr(obj, "booking_types", []):
+            logger.info(f"[1808-2000] --| Creating {type.get('name')} booking type")
+
+            booking_type = api.content.create(
+                type="PrenotazioneType",
+                title=type.get("name"),
+                duration=type.get("duration"),
+                hidden=type.get("hidden"),
+                container=obj,
+                # gates=["all"],
+            )
+
+            if not type.get("hidden", False):
+                api.content.transition(obj=booking_type, transition="publish")
+
+            booking_type.reindexObject(idxs=["review_state"])
+
+        getattr(obj, "booking_types", None) and delattr(obj, "booking_types")
+        getattr(obj, "cosa_serve", None) and delattr(obj, "cosa_serve")

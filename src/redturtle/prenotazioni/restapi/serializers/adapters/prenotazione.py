@@ -5,12 +5,13 @@ from plone.restapi.serializer.converters import json_compatible
 from zope.component import adapter, getMultiAdapter
 from zope.i18n import translate
 from zope.interface import implementer
+from zope.interface.interfaces import ComponentLookupError
 from zope.publisher.interfaces import IRequest
 from zope.schema import getFields
 
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.content.prenotazioni_folder import IPrenotazioniFolder
+from redturtle.prenotazioni.content.prenotazione_type import IPrenotazioneType
 from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
 
 
@@ -23,14 +24,17 @@ class PrenotazioneSerializer:
 
     def __call__(self, *args, **kwargs):
         booking_folder = self.prenotazione.getPrenotazioniFolder()
-        useful_docs = getMultiAdapter(
-            (
-                getFields(IPrenotazioniFolder)["cosa_serve"],
-                booking_folder,
-                self.request,
-            ),
-            IFieldSerializer,
-        )()
+        try:
+            requirements = getMultiAdapter(
+                (
+                    getFields(IPrenotazioneType)["requirements"],
+                    self.prenotazione.get_booking_type(),
+                    self.request,
+                ),
+                IFieldSerializer,
+            )()
+        except ComponentLookupError:
+            requirements = ""
 
         if self.prenotazione.fiscalcode:
             fiscalcode = self.prenotazione.fiscalcode.upper()
@@ -65,13 +69,16 @@ class PrenotazioneSerializer:
             "staff_notes": self.prenotazione.staff_notes,
             "booking_date": json_compatible(booking_date),
             "booking_expiration_date": json_compatible(booking_expiration_date),
+            "booking_status": status["review_state"],
             "booking_status_label": translate(
                 status["review_state"], context=self.request
             ),
             "booking_type": self.prenotazione.booking_type,
+            "booking_folder_uid": booking_folder.UID(),
             "vacation": self.prenotazione.isVacation(),
             "booking_code": self.prenotazione.getBookingCode(),
-            "cosa_serve": useful_docs,
+            "notify_on_confirm": booking_folder.notify_on_confirm,
+            "cosa_serve": requirements,
         }
 
 

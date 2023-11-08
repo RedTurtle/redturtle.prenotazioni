@@ -35,8 +35,10 @@ class AddBooking(BookingSchema):
             if force:
                 # TODO: in futuro potrebbe forzare anche la data di fine oltre al gate
                 # create ha un parametro "duration" che può essere usato a questo scopo
+
                 if not api.user.has_permission(
-                    "Modify portal content", obj=self.context
+                    "redturtle.prenotazioni: Manage Prenotazioni",
+                    obj=self.context,
                 ):
                     msg = self.context.translate(
                         _("You are not allowed to force the gate.")
@@ -75,7 +77,7 @@ class AddBooking(BookingSchema):
 
         if data["booking_type"] in [VACATION_TYPE]:
             if not api.user.has_permission(
-                "redturtle.prenotazioni.ManagePrenotazioni", obj=self.context
+                "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
             ):
                 msg = self.context.translate(
                     _(
@@ -99,7 +101,7 @@ class AddBooking(BookingSchema):
                 raise BadRequest(msg)
 
         if data["booking_type"] not in [
-            _t["name"] for _t in self.context.booking_types or [] if "name" in _t
+            _t.title for _t in self.context.get_booking_types()
         ]:
             msg = self.context.translate(
                 _(

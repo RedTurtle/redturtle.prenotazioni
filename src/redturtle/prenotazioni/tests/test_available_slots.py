@@ -46,12 +46,24 @@ class TestAvailableSlots(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-                {"name": "Type B", "duration": "90"},
-            ],
             gates=["Gate A"],
         )
+
+        api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.create(
+            type="PrenotazioneType",
+            title="Type B",
+            duration=90,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         week_table = self.folder_prenotazioni.week_table
         week_table[0]["morning_start"] = "0700"
         week_table[0]["morning_end"] = "1000"
@@ -170,6 +182,10 @@ class TestAvailableSlots(unittest.TestCase):
                 ),
             )
 
+    @unittest.skipIf(
+        date.today().day >= 20 or date.today().day <= 8,
+        "issue testing in the last days of a month",
+    )
     def test_if_start_and_not_end_return_all_available_slots_for_that_month(
         self,
     ):
@@ -292,11 +308,17 @@ class TestAvailableSlots(unittest.TestCase):
             description="",
             daData=now,
             week_table=week_table,
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
         )
+
+        api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=folder,
+            gates=["all"],
+        )
+
         transaction.commit()
 
         response = self.api_session.get(

@@ -58,7 +58,7 @@
       name="booking_time"
       />
   <adapter
-      factory=".stringinterp.BookingTypeSubstitution"
+      factory=".stringinterp.PrenotazioneTypeSubstitution"
       provides="plone.stringinterp.interfaces.IStringSubstitution"
       for="*"
       name="booking_type"
@@ -152,6 +152,12 @@
       provides="plone.stringinterp.interfaces.IStringSubstitution"
       for="*"
       name="booking_url_with_delete_token"
+      />
+  <adapter
+      factory=".stringinterp.BookingRefuseMessage"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_refuse_message"
       />
 
   <!-- ical adapters -->

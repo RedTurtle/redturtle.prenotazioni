@@ -1,9 +1,13 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <object name="portal_catalog">
-  <index name="fiscalcode" meta_type="KeywordIndex">
-    <indexed_attr value="fiscalcode"/>
+  <index meta_type="KeywordIndex"
+         name="fiscalcode"
+  >
+    <indexed_attr value="fiscalcode" />
   </index>
-  <index name="booking_type" meta_type="KeywordIndex">
-    <indexed_attr value="booking_type"/>
+  <index meta_type="KeywordIndex"
+         name="booking_type"
+  >
+    <indexed_attr value="booking_type" />
   </index>
 </object>

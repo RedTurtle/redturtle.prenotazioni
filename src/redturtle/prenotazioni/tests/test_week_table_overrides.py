@@ -65,6 +65,14 @@ class TestContextState(unittest.TestCase):
             ),
         )
 
+        api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         self.view = api.content.get_view(
             name="prenotazioni_context_state",
             context=self.folder_prenotazioni,
@@ -160,9 +168,6 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "daData": json_compatible(date.today()),
                 "week_table_overrides": json.dumps(data),
                 "same_day_booking_disallowed": "yes",
-                "booking_types": [
-                    {"name": "Type A", "duration": "30", "hidden": False},
-                ],
                 "gates": ["Gate A"],
             },
         )
@@ -195,9 +200,6 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "daData": json_compatible(date.today()),
                 "week_table_overrides": json.dumps(data),
                 "same_day_booking_disallowed": "yes",
-                "booking_types": [
-                    {"name": "Type A", "duration": "30", "hidden": False},
-                ],
                 "gates": ["Gate A"],
             },
         )
@@ -219,9 +221,6 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "daData": json_compatible(date.today()),
                 "week_table_overrides": json.dumps(data),
                 "same_day_booking_disallowed": "yes",
-                "booking_types": [
-                    {"name": "Type A", "duration": "30", "hidden": False},
-                ],
                 "gates": ["Gate A"],
             },
         )
@@ -259,9 +258,6 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "daData": json_compatible(date.today()),
                 "week_table_overrides": json.dumps(data),
                 "same_day_booking_disallowed": "yes",
-                "booking_types": [
-                    {"name": "Type A", "duration": "30", "hidden": False},
-                ],
                 "gates": ["Gate A"],
             },
         )
@@ -283,9 +279,6 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "daData": json_compatible(date.today()),
                 "week_table_overrides": json.dumps(data),
                 "same_day_booking_disallowed": "yes",
-                "booking_types": [
-                    {"name": "Type A", "duration": "30", "hidden": False},
-                ],
                 "gates": ["Gate A"],
             },
         )
@@ -322,9 +315,6 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "daData": json_compatible(date.today()),
                 "week_table_overrides": json.dumps(data),
                 "same_day_booking_disallowed": "yes",
-                "booking_types": [
-                    {"name": "Type A", "duration": "30", "hidden": False},
-                ],
                 "gates": ["Gate A"],
             },
         )
@@ -362,9 +352,6 @@ class TestApiValidateDataOnPost(unittest.TestCase):
                 "daData": json_compatible(date.today()),
                 "week_table_overrides": json.dumps(data),
                 "same_day_booking_disallowed": "yes",
-                "booking_types": [
-                    {"name": "Type A", "duration": "30", "hidden": False},
-                ],
                 "gates": ["Gate A"],
             },
         )

@@ -1,86 +1,145 @@
 <!-- The macro used to go navigate through the weeks -->
-<metal:macro metal:define-macro="week_navigator" i18n:domain="redturtle.prenotazioni">
+<metal:macro metal:define-macro="week_navigator"
+             i18n:domain="redturtle.prenotazioni"
+>
   <div class="navigator">
-    <a class="floatleft" href="#" rel="nofollow"
-      tal:attributes="href week_view/prev_week_url">
+    <a class="floatleft"
+       href="#"
+       rel="nofollow"
+       tal:attributes="
+         href week_view/prev_week_url;
+       "
+    >
       <span class="icon-step-backward fa fa-chevron-left"></span>
       <tal:i18n i18n:translate="previous-week">previous week</tal:i18n>
     </a>
 
-    <strong class="table-title"><tal:month i18n:domain="plonelocales"
-                       i18n:translate=""
-                       content="week_view/actual_translated_month" />
-            <tal:year content="week_view/actual_date/year" /></strong>
-    <a class="resize" href="#" rel="nofollow"
-       tal:attributes="href week_view/toggle_columns_url"
+    <strong class="table-title"><tal:month content="week_view/actual_translated_month"
+                 i18n:domain="plonelocales"
+                 i18n:translate=""
+      />
+      <tal:year content="week_view/actual_date/year" /></strong>
+    <a class="resize"
+       href="#"
+       rel="nofollow"
        tal:condition="not:week_view/prenotazioni/is_anonymous"
-       >
+       tal:attributes="
+         href week_view/toggle_columns_url;
+       "
+    >
       <tal:i18n i18n:translate="resize">resize</tal:i18n>
     </a>
-    <a class="floatright" href="#" rel="nofollow"
-       tal:attributes="href week_view/next_week_url">
-       <tal:i18n i18n:translate="next-week">next week</tal:i18n>
-       <span class="icon-step-forward fa fa-chevron-right"></span></a>
- </div>
- <div class="visualClear"></div>
+    <a class="floatright"
+       href="#"
+       rel="nofollow"
+       tal:attributes="
+         href week_view/next_week_url;
+       "
+    >
+      <tal:i18n i18n:translate="next-week">next week</tal:i18n>
+      <span class="icon-step-forward fa fa-chevron-right"></span></a>
+  </div>
+  <div class="visualClear"></div>
 </metal:macro>
 
 <!-- Displays the bookability of a day period for managers -->
-<metal:macro metal:define-macro="manager_day_period" i18n:domain="redturtle.prenotazioni">
-        <div class="plain period"
-            tal:define="slots python:week_view.prenotazioni.get_freebusy_slots(day, period);">
-          <div class="interval" tal:condition="python:interval and period!='stormynight'"
-               tal:define="gates python:sorted(slots.keys());
-                           gate_ccs_width python:int(100/len(gates))">
-            <div class="fromto">
-              <tal:from replace="interval/start" /> &mdash; <tal:from replace="interval/stop" />
-            </div>
-            <div class="gatesheader">
-              <div class="gates">
-                <div class="gate" tal:repeat="gate python:sorted(slots.keys())"
-                     tal:attributes="style string:width:${gate_ccs_width}%">
-                  <a
-                     tal:omit-tag="python:not (gate and week_view.prenotazioni.user_can_search)"
-                     tal:condition="gate"
-                     tal:attributes="href python:week_view.get_search_gate_url(gate, day);
-                                     title gate;">
-                    <span class="icon-list-ul fa fa-list-ul" aria-hidden="true" aria-label="${gate}"></span>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="gateswrapper">
-              <div class="gates" tal:attributes="style python:getattr(interval, 'css_styles', None) and interval.css_styles(is_interval=True) or None">
-                <metal:macro use-macro="prenotazione_macros/hours_column" />
-                <div class="gate" tal:repeat="gate python:sorted(slots.keys())"
-                     tal:attributes="style string:width:${gate_ccs_width}%">
-                  <metal:macro metal:use-macro="slot_macro" />
-                </div>
-              </div>
-            </div>
+<metal:macro metal:define-macro="manager_day_period"
+             i18n:domain="redturtle.prenotazioni"
+>
+  <div class="plain period"
+       tal:define="
+         slots python:week_view.prenotazioni.get_freebusy_slots(day, period);
+       "
+  >
+    <div class="interval"
+         tal:define="
+           gates python:sorted(slots.keys());
+           gate_ccs_width python:int(100/len(gates));
+         "
+         tal:condition="python:interval and period!='stormynight'"
+    >
+      <div class="fromto">
+        <tal:from replace="interval/start" />
+        &mdash;
+        <tal:from replace="interval/stop" />
+      </div>
+      <div class="gatesheader">
+        <div class="gates">
+          <div class="gate"
+               tal:repeat="gate python:sorted(slots.keys())"
+               tal:attributes="
+                 style string:width:${gate_ccs_width}%;
+               "
+          >
+            <a tal:condition="gate"
+               tal:omit-tag="python:not (gate and week_view.prenotazioni.user_can_search)"
+               tal:attributes="
+                 href python:week_view.get_search_gate_url(gate, day);
+                 title gate;
+               "
+            >
+              <span class="icon-list-ul fa fa-list-ul"
+                    aria-hidden="true"
+                    aria-label="${gate}"
+              ></span>
+            </a>
           </div>
-          <div class="stormyinterval" tal:condition="python:period=='stormynight'">
-            <div class="fromto" tal:condition="python:week_view.prenotazioni.get_busy_slots_in_period(day, period)"
-                 i18n:translate="bookings_not_in_agenda"
-            >Bookings not in agenda</div>
-            <tal:gates tal:repeat="gate python:sorted(slots.keys())">
-              <metal:macro metal:use-macro="prenotazione_macros/stormy_slot" />
-            </tal:gates>
-          </div>
-          <div class="visualClear"></div>
         </div>
+      </div>
+      <div class="gateswrapper">
+        <div class="gates"
+             tal:attributes="
+               style python:getattr(interval, 'css_styles', None) and interval.css_styles(is_interval=True) or None;
+             "
+        >
+          <metal:macro use-macro="prenotazione_macros/hours_column" />
+          <div class="gate"
+               tal:repeat="gate python:sorted(slots.keys())"
+               tal:attributes="
+                 style string:width:${gate_ccs_width}%;
+               "
+          >
+            <metal:macro metal:use-macro="slot_macro" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="stormyinterval"
+         tal:condition="python:period=='stormynight'"
+    >
+      <div class="fromto"
+           tal:condition="python:week_view.prenotazioni.get_busy_slots_in_period(day, period)"
+           i18n:translate="bookings_not_in_agenda"
+      >Bookings not in agenda</div>
+      <tal:gates tal:repeat="gate python:sorted(slots.keys())">
+        <metal:macro metal:use-macro="prenotazione_macros/stormy_slot" />
+      </tal:gates>
+    </div>
+    <div class="visualClear"></div>
+  </div>
 </metal:macro>
 
 <!-- Displays the bookability of a day period for users -->
-<metal:macro metal:define-macro="anonymous_day_period" i18n:domain="redturtle.prenotazioni">
+<metal:macro metal:define-macro="anonymous_day_period"
+             i18n:domain="redturtle.prenotazioni"
+>
   <div class="plain period"
-      tal:condition="python:interval and period!='stormynight'"
-      tal:define="slots python:week_view.prenotazioni.get_anonymous_slots(day, period);">
-    <div class="interval" tal:condition="interval">
+       tal:define="
+         slots python:week_view.prenotazioni.get_anonymous_slots(day, period);
+       "
+       tal:condition="python:interval and period!='stormynight'"
+  >
+    <div class="interval"
+         tal:condition="interval"
+    >
       <div class="gateswrapper">
         <div>
-          <div class="gate" style="width:100%"
-               tal:define="evenodd_offset python:period=='afternoon' and len(week_view.prenotazioni.get_anonymous_slots(day, 'morning')['anonymous_gate']) or 0">
+          <div class="gate"
+               style="width:100%"
+               tal:define="
+                 evenodd_offset python:period=='afternoon' and len(week_view.prenotazioni.get_anonymous_slots(day, 'morning')['anonymous_gate']) or 0;
+               "
+          >
             <metal:macro metal:use-macro="slot_macro" />
           </div>
         </div>
@@ -91,42 +150,68 @@
 </metal:macro>
 
 <!-- This is the macro to show the hours left of the day period -->
-<metal:macro metal:define-macro="hours_column" i18n:domain="redturtle.prenotazioni">
-  <div class="hours" style="top:0"
-        tal:attributes="style python:getattr(interval, 'css_styles', None) and interval.css_styles(is_interval=True) or None"
-        tal:define="hour_style python:'top:-%spx' % (float(interval._lower_value)/60 + interval._lower_value / 3600)">
-    <div tal:repeat="hour python:range(24)" class="hour" tal:attributes="style hour_style">
-      <div tal:content="python:str(hour).zfill(2)" />
+<metal:macro metal:define-macro="hours_column"
+             i18n:domain="redturtle.prenotazioni"
+>
+  <div class="hours"
+       style="top:0"
+       tal:define="
+         hour_style python:'top:-%spx' % (float(interval._lower_value)/60 + interval._lower_value / 3600);
+       "
+       tal:attributes="
+         style python:getattr(interval, 'css_styles', None) and interval.css_styles(is_interval=True) or None;
+       "
+  >
+    <div class="hour"
+         tal:repeat="hour python:range(24)"
+         tal:attributes="
+           style hour_style;
+         "
+    >
+      <div tal:content="python:str(hour).zfill(2)"></div>
     </div>
   </div>
 </metal:macro>
 
 <!-- This is the html for a slot when we are in the week view and
      we can edit the prenotazione folder -->
-<metal:macro metal:define-macro="manager_slot" i18n:domain="redturtle.prenotazioni">
-  <div class="slot" tal:repeat="slot python:slots[gate]">
-    <tal:define define="booking nocall:slot/context;
-                        real_booking python:bool(booking) and not getattr(booking, 'is_pause', False)">
-      <div tal:attributes="class python:week_view.prenotazioni.get_state(booking);
-                           style slot/css_styles">
-        <tal:is_pause tal:condition="python:getattr(booking, 'is_pause', False)" >
-            <div><span>${booking/Title}</span></div>
+<metal:macro metal:define-macro="manager_slot"
+             i18n:domain="redturtle.prenotazioni"
+>
+  <div class="slot"
+       tal:repeat="slot python:slots[gate]"
+  >
+    <tal:define define="
+                  booking nocall:slot/context;
+                  real_booking python:bool(booking) and not getattr(booking, 'is_pause', False);
+                ">
+      <div tal:attributes="
+             class python:week_view.prenotazioni.get_state(booking);
+             style slot/css_styles;
+           ">
+        <tal:is_pause tal:condition="python:getattr(booking, 'is_pause', False)">
+          <div><span>${booking/Title}</span></div>
         </tal:is_pause>
-        <tal:is_real_booking tal:condition="real_booking" >
-          <a href=""
-            class="prenotazioni-popup pat-plone-modal"
-            tal:attributes="href string:${booking/absolute_url}?ajax_load=true;
-                            title python:week_view.get_booked_prenotation_message(day, booking);">
+        <tal:is_real_booking tal:condition="real_booking">
+          <a class="prenotazioni-popup pat-plone-modal"
+             href=""
+             tal:attributes="
+               href string:${booking/absolute_url}?ajax_load=true;
+               title python:week_view.get_booked_prenotation_message(day, booking);
+             "
+          >
             <div><span class="icon-search fa fa-search"></span></div>
           </a>
         </tal:is_real_booking>
-        <tal:not_real_booking tal:condition="python:not real_booking and not getattr(booking, 'is_pause', False)" >
+        <tal:not_real_booking tal:condition="python:not real_booking and not getattr(booking, 'is_pause', False)">
           <div class="links">
             <tal:urls repeat="link python:week_view.prenotazioni.get_booking_urls(day, slot, gate=gate)">
               <tal:future condition="link/future">
-                <a tal:attributes="href link/url;
-                                  title python:week_view.get_prenotation_message(day, link);
-                                  class link/class">&nbsp;</a>
+                <a tal:attributes="
+                     href link/url;
+                     title python:week_view.get_prenotation_message(day, link);
+                     class link/class;
+                   ">&nbsp;</a>
               </tal:future>
               <tal:past condition="not:link/future">
                 <span>&nbsp;</span>
@@ -140,41 +225,64 @@
 </metal:macro>
 
 <!-- This is the html for a slot in the stormynight period -->
-<metal:macro metal:define-macro="stormy_slot" i18n:domain="redturtle.prenotazioni">
-  <div class="slot" tal:repeat="slot python:slots[gate]">
-    <div tal:condition="nocall:slot/context"
-         tal:define="booking nocall:slot/context;
-                    is_pause python:getattr(booking, 'is_pause', False)"
-         tal:attributes="class python:week_view.prenotazioni.get_state(booking);">
-        <tal:is_pause condition="is_pause">
-            <div>
-              <span>${booking/Title}</span>
-            </div>
-        </tal:is_pause>
-        <tal:not_is_pause condition="not:is_pause">
-          <a href="${booking/absolute_url}"
-            title="${booking/Title}">
-            <tal:from replace="python:week_view.DT2time(booking.getBooking_date())" />
+<metal:macro metal:define-macro="stormy_slot"
+             i18n:domain="redturtle.prenotazioni"
+>
+  <div class="slot"
+       tal:repeat="slot python:slots[gate]"
+  >
+    <div tal:define="
+           booking nocall:slot/context;
+           is_pause python:getattr(booking, 'is_pause', False);
+         "
+         tal:condition="nocall:slot/context"
+         tal:attributes="
+           class python:week_view.prenotazioni.get_state(booking);
+         "
+    >
+      <tal:is_pause condition="is_pause">
+        <div>
+          <span>${booking/Title}</span>
+        </div>
+      </tal:is_pause>
+      <tal:not_is_pause condition="not:is_pause">
+        <a href="${booking/absolute_url}"
+           title="${booking/Title}"
+        >
+          <tal:from replace="python:week_view.DT2time(booking.getBooking_date())" />
             &mdash;
-            <tal:to replace="python:week_view.DT2time(booking.getBooking_expiration_date())" />
-          </a>
-        </tal:not_is_pause>
+          <tal:to replace="python:week_view.DT2time(booking.getBooking_expiration_date())" />
+        </a>
+      </tal:not_is_pause>
     </div>
   </div>
 </metal:macro>
 
 <!-- This is the html for a slot when we are in the prenotazioni_move view -->
-<metal:macro metal:define-macro="onmove_slot" i18n:domain="redturtle.prenotazioni">
-  <div class="slot" tal:repeat="slot python:slots[gate]">
-    <div tal:define="booking nocall:slot/context" class="links"
-         tal:attributes="style python:view.slot_styles(slot)">
+<metal:macro metal:define-macro="onmove_slot"
+             i18n:domain="redturtle.prenotazioni"
+>
+  <div class="slot"
+       tal:repeat="slot python:slots[gate]"
+  >
+    <div class="links"
+         tal:define="
+           booking nocall:slot/context;
+         "
+         tal:attributes="
+           style python:view.slot_styles(slot);
+         "
+    >
       <tal:free_slot tal:condition="python:not booking or booking==context">
         <tal:urls repeat="link python:view.move_to_slot_links(day, slot, gate)">
           <tal:future condition="link/future">
             <a href=""
-               tal:attributes="href link/url;
-                               title link/title;
-                               class link/class">&nbsp;</a>
+               tal:attributes="
+                 href link/url;
+                 title link/title;
+                 class link/class;
+               "
+            >&nbsp;</a>
           </tal:future>
           <tal:past condition="not:link/future">
             <span>&nbsp;</span>
@@ -182,8 +290,10 @@
         </tal:urls>
       </tal:free_slot>
       <tal:busy_slot tal:condition="python:booking and booking!=context">
-        <div tal:attributes="class string:previous;
-                             style slot/css_styles">
+        <div tal:attributes="
+               class string:previous;
+               style slot/css_styles;
+             ">
         </div>
       </tal:busy_slot>
     </div>
@@ -191,26 +301,40 @@
 </metal:macro>
 
 <!-- This is the html for a slot if the user is anonymous -->
-<metal:macro metal:define-macro="anonymous_slot" i18n:domain="redturtle.prenotazioni">
+<metal:macro metal:define-macro="anonymous_slot"
+             i18n:domain="redturtle.prenotazioni"
+>
   <tal:for repeat="slot python:slots['anonymous_gate']">
     <div class="slot"
-         tal:define="row_index python:evenodd_offset+repeat['slot'].number()"
-         tal:attributes="class python:'slot' + ' ' + (row_index%2 and 'slot-even' or 'slot-odd')">
-      <div tal:define="booking nocall:slot/context;"
-          class="anonymous_slot">
-        <div tal:define="link python:week_view.prenotazioni.get_anonymous_booking_url(day, slot);
-                         bookable python:link.get('url', '')">
+         tal:define="
+           row_index python:evenodd_offset+repeat['slot'].number();
+         "
+         tal:attributes="
+           class python:'slot' + ' ' + (row_index%2 and 'slot-even' or 'slot-odd');
+         "
+    >
+      <div class="anonymous_slot"
+           tal:define="
+             booking nocall:slot/context;
+           "
+      >
+        <div tal:define="
+               link python:week_view.prenotazioni.get_anonymous_booking_url(day, slot);
+               bookable python:link.get('url', '');
+             ">
           <tal:start replace="slot/start" />
           <tal:bookable condition="bookable">
 
             <tal:future condition="link/future">
-              <a href=""
-                 data-title="Foreseen booking time"
+              <a class="reservation-tooltip"
                  aria-label="Forseen booking time"
-                 class="reservation-tooltip"
-                 tal:attributes="href link/url;
-                                 data-title python:week_view.get_foreseen_booking_time(day, slot);
-                                 aria-label python:week_view.get_foreseen_booking_time(day, slot)"
+                 href=""
+                 data-title="Foreseen booking time"
+                 tal:attributes="
+                   href link/url;
+                   data-title python:week_view.get_foreseen_booking_time(day, slot);
+                   aria-label python:week_view.get_foreseen_booking_time(day, slot);
+                 "
               >+</a>
             </tal:future>
             <tal:past condition="not:link/future">
@@ -218,8 +342,12 @@
             </tal:past>
           </tal:bookable>
           <tal:bookable condition="not:bookable">
-            <div class="busy_slot" tal:attributes="data-title python:week_view.get_busy_message(day, slot);
-                                                   aria-label python:week_view.get_busy_message(day, slot)"></div>
+            <div class="busy_slot"
+                 tal:attributes="
+                   data-title python:week_view.get_busy_message(day, slot);
+                   aria-label python:week_view.get_busy_message(day, slot);
+                 "
+            ></div>
           </tal:bookable>
         </div>
       </div>
@@ -228,35 +356,45 @@
 </metal:macro>
 
 <!-- This is the week table macro -->
-<metal:macro metal:define-macro="week-table" i18n:domain="redturtle.prenotazioni">
+<metal:macro metal:define-macro="week-table"
+             i18n:domain="redturtle.prenotazioni"
+>
   <div id="week-table-wrapper">
-    <table id="week" class="pren">
+    <table class="pren"
+           id="week"
+    >
       <caption>
         <metal:macro metal:use-macro="prenotazione_macros/week_navigator" />
       </caption>
       <thead>
-          <tr>
-              <tal:days repeat="day week_view/actual_week_days">
+        <tr>
+          <tal:days repeat="day week_view/actual_week_days">
 
-                <th scope="col"
-                    tal:condition="python:week_view.show_day_column(day)">
-                  <tal:dayname
-                    i18n:domain="plonelocales"
-                    i18n:translate=""
-                    replace="python:week_view.get_day_msgid(day)"></tal:dayname>
-                  <tal:daynumber tal:replace="python:day.strftime('%d')"></tal:daynumber>
-                </th>
-              </tal:days>
-          </tr>
+            <th scope="col"
+                tal:condition="python:week_view.show_day_column(day)"
+            >
+              <tal:dayname replace="python:week_view.get_day_msgid(day)"
+                           i18n:domain="plonelocales"
+                           i18n:translate=""
+              />
+              <tal:daynumber tal:replace="python:day.strftime('%d')" />
+            </th>
+          </tal:days>
+        </tr>
       </thead>
       <tbody>
         <tr>
           <tal:days repeat="day week_view/actual_week_days">
             <td class="day"
                 tal:condition="python:week_view.show_day_column(day)"
-                tal:attributes="class python:day==week_view.actual_date and 'day selected' or 'day';">
+                tal:attributes="
+                  class python:day==week_view.actual_date and 'day selected' or 'day';
+                "
+            >
               <tal:periods repeat="period week_view/periods">
-                <tal:define define="interval python:week_view.prenotazioni.get_day_intervals(day)[period]">
+                <tal:define define="
+                              interval python:week_view.prenotazioni.get_day_intervals(day)[period];
+                            ">
                   <metal:macro metal:use-macro="day_period_macro" />
                 </tal:define>
               </tal:periods>
@@ -269,10 +407,15 @@
 </metal:macro>
 
 <!-- This is the html the legend for -->
-<metal:macro metal:define-macro="week-tipologies-legend" i18n:domain="redturtle.prenotazioni">
+<metal:macro metal:define-macro="week-tipologies-legend"
+             i18n:domain="redturtle.prenotazioni"
+>
   <div class="week-legend"
-        tal:define="booking_type_durations view/prenotazioni/booking_type_durations;
-                    keys python: booking_type_durations.keys()">
+       tal:define="
+         booking_type_durations view/prenotazioni/booking_type_durations;
+         keys python: booking_type_durations.keys();
+       "
+  >
     <fieldset>
       <legend i18n:translate="label_tipologies">Reservation types</legend>
       <p i18n:translate="help_tipologies">List of available reservation type for the current agenda</p>
@@ -283,8 +426,8 @@
         </tr>
         <tal:repeat repeat="key keys">
           <tr>
-            <td><span tal:replace="key" /></td>
-            <td><span tal:replace="python:booking_type_durations[key]" /></td>
+            <td><span tal:replace="key"></span></td>
+            <td><span tal:replace="python:booking_type_durations[key]"></span></td>
           </tr>
         </tal:repeat>
       </table>
@@ -293,7 +436,9 @@
 </metal:macro>
 
 <!-- This is the html the legend for -->
-<metal:macro metal:define-macro="week-colors-legend" i18n:domain="redturtle.prenotazioni">
+<metal:macro metal:define-macro="week-colors-legend"
+             i18n:domain="redturtle.prenotazioni"
+>
   <div class="week-legend">
     <fieldset>
       <legend i18n:translate="legend">Legend</legend>
@@ -301,20 +446,20 @@
         Short description of available action for the booking board
       </p>
       <ul class="legend legend-manager">
-          <li><i18n:tag translate="unbookable_time">Unbookable time</i18n:tag>
-              <div class="square unbookable">&nbsp;</div></li>
-          <li><i18n:tag translate="bookable_time">Bookable time</i18n:tag>
-              <div class="square bookable">&nbsp;</div></li>
-          <li><i18n:tag translate="booking_confirmed">Booking confirmed</i18n:tag>
-              <div class="square confirmed">&nbsp;</div></li>
-          <li><i18n:tag translate="booking_pending">Booking pending</i18n:tag>
-              <div class="square pending">&nbsp;</div></li>
-          <li><i18n:tag translate="booking_refused">Booking refused</i18n:tag>
-              <div class="square refused">&nbsp;</div></li>
-          <li><span class="icon-search fa fa-search"></span>
-              <i18n:tag translate="view_booking">View booking</i18n:tag></li>
-          <li><span class="icon-list-ul fa fa-list-ul"></span>
-              <i18n:tag translate="search-by-gate">Search by gate</i18n:tag></li>
+        <li><i18n:tag translate="unbookable_time">Unbookable time</i18n:tag>
+          <div class="square unbookable">&nbsp;</div></li>
+        <li><i18n:tag translate="bookable_time">Bookable time</i18n:tag>
+          <div class="square bookable">&nbsp;</div></li>
+        <li><i18n:tag translate="booking_confirmed">Booking confirmed</i18n:tag>
+          <div class="square confirmed">&nbsp;</div></li>
+        <li><i18n:tag translate="booking_pending">Booking pending</i18n:tag>
+          <div class="square pending">&nbsp;</div></li>
+        <li><i18n:tag translate="booking_refused">Booking refused</i18n:tag>
+          <div class="square refused">&nbsp;</div></li>
+        <li><span class="icon-search fa fa-search"></span>
+          <i18n:tag translate="view_booking">View booking</i18n:tag></li>
+        <li><span class="icon-list-ul fa fa-list-ul"></span>
+          <i18n:tag translate="search-by-gate">Search by gate</i18n:tag></li>
       </ul>
       <p class="legend-note">
         <strong>Note</strong>:

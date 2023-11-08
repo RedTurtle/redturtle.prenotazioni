@@ -20,8 +20,6 @@
       component=".voc_months.VocMonthsFactory"
       />
 
-
-
   <utility
       name="redturtle.prenotazioni.gates"
       component=".gates.GatesVocabularyFactory"
@@ -32,12 +30,18 @@
       />
   <utility
       name="redturtle.prenotazioni.booking_types"
-      component=".tipologies.BookingTypesVocabularyFactory"
+      component=".tipologies.PrenotazioneTypesVocabularyFactory"
       />
 
   <utility
       name="redturtle.prenotazioni.requirable_booking_fields"
       component=".requirable_booking_fields.RequirableBookingFieldsVocabularyFactory"
+      />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="redturtle.prenotazioni.VocPrenotazioneTypeGates"
+      component=".voc_booking_type_gates.VocPrenotazioneTypeGatesFactory"
       />
 
 

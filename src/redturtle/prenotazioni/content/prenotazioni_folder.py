@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from typing import Generator
+
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 from plone.app.textfield import RichText
@@ -11,13 +13,14 @@ from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.component import provideAdapter
 from zope.i18n import translate
-from zope.interface import Interface, Invalid, implementer, invariant, provider
+from zope.interface import Invalid, implementer, invariant, provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
 from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
+from redturtle.prenotazioni.content.prenotazione_type import PrenotazioneType
 from redturtle.prenotazioni.content.validators import PauseValidator, checkOverrides
 
 try:
@@ -123,20 +126,6 @@ class IPauseTableRow(model.Schema):
     )
 
 
-class IBookingTypeRow(Interface):
-    name = schema.TextLine(title=_("Booking type name"), required=True)
-    duration = schema.Choice(
-        title=_("Duration value"),
-        required=True,
-        vocabulary="redturtle.prenotazioni.VocDurataIncontro",
-    )
-    hidden = schema.Bool(
-        title=_("Hidden type"),
-        required=False,
-        default=False,
-    )
-
-
 @provider(IContextAwareDefaultFactory)
 def notify_on_submit_subject_default_factory(context):
     return getattr(context, "translate", translate)(
@@ -226,14 +215,6 @@ class IPrenotazioniFolder(model.Schema):
     )
 
     form.mode(descriptionAgenda="display")
-
-    cosa_serve = RichText(
-        required=False,
-        title=_("Cosa serve", default="Cosa serve"),
-        description=_(
-            "Elencare le informazioni utili per il giorno della prenotazione, come ad esempio i documenti da presentare."
-        ),
-    )
 
     directives.widget(visible_booking_fields=CheckBoxFieldWidget)
     visible_booking_fields = schema.List(
@@ -441,25 +422,6 @@ class IPrenotazioniFolder(model.Schema):
         ),
     )
 
-    booking_types = schema.List(
-        title=_("booking_types_label", default="Booking types"),
-        description=_(
-            "booking_types_help",
-            default="Put booking types there (one per line).\n"
-            "If you do not provide this field, "
-            "not type selection will be available. "
-            "If the 'Hidden Type' flag is selected the type will only "
-            "be available to users with the 'Bookings Manager' permission",
-        ),
-        value_type=DictRow(schema=IBookingTypeRow),
-    )
-    form.widget(
-        "booking_types",
-        DataGridFieldFactory,
-        auto_append=False,
-        frontendOptions={"widget": "data_grid"},
-    )
-
     gates = schema.List(
         title=_("gates_label", "Gates"),
         description=_("gates_help", default="Put gates here (one per line)."),
@@ -494,8 +456,6 @@ class IPrenotazioniFolder(model.Schema):
         """
         Needed because is the only way to validate a datagrid field
         """
-        if not data.booking_types:
-            raise Invalid(_("You should set at least one booking type."))
         for interval in data.week_table:
             if interval["morning_start"] and not interval["morning_end"]:
                 raise Invalid(_("You should set an end time for morning."))
@@ -639,7 +599,7 @@ class IPrenotazioniFolder(model.Schema):
             default="The number of simultaneous bookings allowed for the same user.",
         ),
         required=False,
-        default=2,
+        default=0,
     )
 
     model.fieldset(
@@ -763,5 +723,7 @@ class PrenotazioniFolder(Container):
     def getNotBeforeDays(self):
         return self.notBeforeDays
 
-    def getCosaServe(self):
-        return self.cosa_serve
+    def get_booking_types(self) -> Generator[PrenotazioneType, None, None]:
+        return self.listFolderContents(
+            contentFilter={"portal_type": "PrenotazioneType"}
+        )

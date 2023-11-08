@@ -1,60 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
         meta_type="Dexterity FTI"
-        name="PrenotazioniFolder"
+        name="PrenotazioneType"
         i18n:domain="redturtle.prenotazioni"
 >
 
   <!-- Basic properties -->
   <property name="title"
             i18n:translate=""
-  >Booking Folder</property>
+  >Booking Type</property>
   <property name="description"
             i18n:translate=""
-  >A folder that will contain booking</property>
+  >Booking Type</property>
 
   <property name="allow_discussion">False</property>
-  <property name="factory">PrenotazioniFolder</property>
+  <property name="factory">PrenotazioneType</property>
   <property name="icon_expr" />
   <property name="link_target" />
 
   <!-- Hierarchy control -->
-  <property name="global_allow">True</property>
-  <property name="filter_content_types">True</property>
-  <property name="allowed_content_types">
-    <element value="PrenotazioniYear" />
-    <element value="PrenotazioneType" />
-    <!--
-    <element value="Document" />
-    <element value="File" />
-  -->
-  </property>
+  <property name="global_allow">False</property>
   <!-- Schema, class and security -->
-  <property name="add_permission">redturtle.prenotazioni.AddPrenotazioniFolder</property>
-  <property name="klass">redturtle.prenotazioni.content.prenotazioni_folder.PrenotazioniFolder</property>
+  <property name="add_permission">redturtle.prenotazioni.AddPrenotazioneType</property>
+  <property name="klass">redturtle.prenotazioni.content.prenotazione_type.PrenotazioneType</property>
   <property name="model_file" />
   <property name="model_source" />
-  <property name="schema">redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder</property>
+  <property name="schema">redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType</property>
 
   <!-- Enabled behaviors -->
   <property name="behaviors"
             purge="false"
   >
     <element value="plone.app.content.interfaces.INameFromTitle" />
-    <element value="plone.app.dexterity.behaviors.discussion.IAllowDiscussion" />
     <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation" />
     <element value="plone.app.dexterity.behaviors.id.IShortName" />
+    <element value="plone.app.dexterity.behaviors.metadata.IOwnership" />
+    <element value="plone.app.dexterity.behaviors.metadata.IPublication" />
+    <element value="plone.app.dexterity.behaviors.metadata.ICategorization" />
     <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
     <element value="plone.app.lockingbehavior.behaviors.ILocking" />
   </property>
 
   <!-- View information -->
-  <property name="add_view_expr">string:${folder_url}/++add++PrenotazioniFolder</property>
-  <property name="default_view">prenotazioni_week_view</property>
+  <property name="add_view_expr">string:${folder_url}/++add++PrenotazioneType</property>
+  <property name="default_view">goto-prenotazioni</property>
   <property name="default_view_fallback">False</property>
   <property name="immediate_view">view</property>
   <property name="view_methods">
-    <element value="prenotazioni_week_view" />
+    <element value="goto-prenotazioni" />
   </property>
 
   <!-- Method aliases -->

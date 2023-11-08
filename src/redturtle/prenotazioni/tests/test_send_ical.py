@@ -92,11 +92,17 @@ class TestSendIcal(unittest.TestCase):
                     "afternoon_end": None,
                 },
             ],
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
         )
+
+        api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         self.today = datetime.now().replace(hour=8)
         self.tomorrow = self.today + timedelta(1)
 

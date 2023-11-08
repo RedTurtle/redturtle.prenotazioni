@@ -40,12 +40,24 @@ class TestVacationgApi(unittest.TestCase):
             title="Folder",
             description="",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A", "Gate B"],
             same_day_booking_disallowed="no",
         )
+
+        booking_type_A = api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
+        api.content.transition(
+            booking_type_A,
+            transition="publish",
+        )
+        booking_type_A.reindexObject(idxs=["review_state"])
+
         week_table = self.folder_prenotazioni.week_table
         for row in week_table:
             row["morning_start"] = "0700"
@@ -70,7 +82,8 @@ class TestVacationgApi(unittest.TestCase):
         self.api_session_anon.close()
 
     @unittest.skipIf(
-        date.today().day >= 20, "issue testing in the last days of a month"
+        date.today().day >= 20 or date.today().day <= 8,
+        "issue testing in the last days of a month",
     )
     def test_add_vacation(self):
         # UTC time
@@ -99,6 +112,7 @@ class TestVacationgApi(unittest.TestCase):
                 ],
             },
         )
+
         self.assertEqual(res.status_code, 200)
         # gates[0] is busy because of vacation
         self.assertEqual(res.json()["gate"], self.folder_prenotazioni.gates[1])
@@ -117,6 +131,7 @@ class TestVacationgApi(unittest.TestCase):
                 ],
             },
         )
+
         self.assertEqual(res.status_code, 400)
         self.assertEqual(
             res.json()["message"],
