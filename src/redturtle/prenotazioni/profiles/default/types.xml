@@ -20,6 +20,6 @@
           name="Prenotazione"
   />
   <object meta_type="Dexterity FTI"
-          name="BookingType"
+          name="PrenotazioneType"
   />
 </object>

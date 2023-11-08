@@ -81,7 +81,7 @@ class BookingTimeEndSubstitution(BaseSubstitution):
 
 
 @adapter(Interface)
-class BookingTypeSubstitution(BaseSubstitution):
+class PrenotazioneTypeSubstitution(BaseSubstitution):
     category = _("Booking")
     description = _("The booking type.")
 

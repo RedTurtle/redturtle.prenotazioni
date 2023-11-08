@@ -63,7 +63,7 @@ msgstr ""
 msgid "Booking Folder"
 msgstr ""
 
-#: redturtle/prenotazioni/profiles/default/types/BookingType.xml
+#: redturtle/prenotazioni/profiles/default/types/PrenotazioneType.xml
 msgid "Booking Type"
 msgstr ""
 
@@ -150,7 +150,7 @@ msgstr ""
 msgid "Descrizione Agenda"
 msgstr ""
 
-#: redturtle/prenotazioni/profiles/default/types/BookingType.xml
+#: redturtle/prenotazioni/profiles/default/types/PrenotazioneType.xml
 #: redturtle/prenotazioni/profiles/default/types/Prenotazione.xml
 #: redturtle/prenotazioni/profiles/default/types/PrenotazioniDay.xml
 msgid "Edit"
@@ -486,7 +486,7 @@ msgstr ""
 msgid "Used to add new contentrules"
 msgstr ""
 
-#: redturtle/prenotazioni/profiles/default/types/BookingType.xml
+#: redturtle/prenotazioni/profiles/default/types/PrenotazioneType.xml
 #: redturtle/prenotazioni/profiles/default/types/Prenotazione.xml
 #: redturtle/prenotazioni/profiles/default/types/PrenotazioniDay.xml
 msgid "View"

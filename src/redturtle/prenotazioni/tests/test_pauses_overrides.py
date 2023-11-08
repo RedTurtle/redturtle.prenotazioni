@@ -91,7 +91,7 @@ class TestPausesOverride(unittest.TestCase):
         )
 
         api.content.create(
-            type="BookingType",
+            type="PrenotazioneType",
             title="Type A",
             duration=30,
             container=self.folder_prenotazioni,
@@ -163,7 +163,7 @@ class TestPausesOverride(unittest.TestCase):
         )
 
         api.content.create(
-            type="BookingType",
+            type="PrenotazioneType",
             title="Type A",
             duration=30,
             container=folder,
@@ -254,7 +254,7 @@ class TestPauseOverrideAPIPost(unittest.TestCase):
         )
 
         booking_type_A = api.content.create(
-            type="BookingType",
+            type="PrenotazioneType",
             title="Type A",
             duration=30,
             container=self.folder_prenotazioni,
@@ -355,7 +355,7 @@ class TestPauseOverrideAPIPost(unittest.TestCase):
         )
 
         api.content.create(
-            type="BookingType",
+            type="PrenotazioneType",
             title="Type A",
             duration=30,
             container=folder,

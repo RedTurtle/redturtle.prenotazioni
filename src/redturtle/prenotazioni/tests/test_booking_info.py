@@ -93,7 +93,7 @@ class TestBookingInfo(unittest.TestCase):
         )
 
         api.content.create(
-            type="BookingType",
+            type="PrenotazioneType",
             title="Type A",
             duration=30,
             container=self.folder_prenotazioni,

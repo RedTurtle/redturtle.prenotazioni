@@ -14,7 +14,7 @@ class VocabItem(object):
 
 
 @implementer(IVocabularyFactory)
-class VocBookingTypeGatesFactory(object):
+class VocPrenotazioneTypeGatesFactory(object):
     """ """
 
     def __call__(self, context):
@@ -26,4 +26,4 @@ class VocBookingTypeGatesFactory(object):
         return SimpleVocabulary(terms)
 
 
-VocBookingTypeGatesFactory = VocBookingTypeGatesFactory()
+VocPrenotazioneTypeGatesFactory = VocPrenotazioneTypeGatesFactory()

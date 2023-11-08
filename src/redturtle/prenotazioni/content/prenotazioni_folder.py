@@ -20,7 +20,7 @@ from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
 from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
-from redturtle.prenotazioni.content.booking_type import BookingType
+from redturtle.prenotazioni.content.prenotazione_type import PrenotazioneType
 from redturtle.prenotazioni.content.validators import PauseValidator, checkOverrides
 
 try:
@@ -723,5 +723,7 @@ class PrenotazioniFolder(Container):
     def getNotBeforeDays(self):
         return self.notBeforeDays
 
-    def get_booking_types(self) -> Generator[BookingType, None, None]:
-        return self.listFolderContents(contentFilter={"portal_type": "BookingType"})
+    def get_booking_types(self) -> Generator[PrenotazioneType, None, None]:
+        return self.listFolderContents(
+            contentFilter={"portal_type": "PrenotazioneType"}
+        )
