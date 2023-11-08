@@ -8,7 +8,7 @@ from zope.interface import implementer
 from redturtle.prenotazioni import _
 
 
-class IBookingType(model.Schema):
+class IPrenotazioneType(model.Schema):
     """Marker interface and Dexterity Python Schema for Prenotazione"""
 
     duration = schema.Choice(
@@ -31,12 +31,12 @@ class IBookingType(model.Schema):
     #     description=_("gates_help", default="Put gates here (one per line)."),
     #     required=True,
     #     value_type=schema.Choice(
-    #         vocabulary="redturtle.prenotazioni.VocBookingTypeGates"
+    #         vocabulary="redturtle.prenotazioni.VocPrenotazioneTypeGates"
     #     ),
     #     default=[],
     # )
 
 
-@implementer(IBookingType)
-class BookingType(Item):
+@implementer(IPrenotazioneType)
+class PrenotazioneType(Item):
     """ """

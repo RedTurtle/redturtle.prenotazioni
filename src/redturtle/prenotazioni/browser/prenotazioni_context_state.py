@@ -16,7 +16,7 @@ from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.adapters.conflict import IConflictManager
 from redturtle.prenotazioni.adapters.slot import BaseSlot, ISlot
 from redturtle.prenotazioni.config import PAUSE_PORTAL_TYPE, PAUSE_SLOT
-from redturtle.prenotazioni.content.booking_type import BookingType
+from redturtle.prenotazioni.content.prenotazione_type import PrenotazioneType
 from redturtle.prenotazioni.content.pause import Pause
 from redturtle.prenotazioni.utilities.dateutils import hm2DT, hm2seconds
 from redturtle.prenotazioni.utilities.urls import urlify
@@ -833,7 +833,7 @@ class PrenotazioniContextState(BrowserView):
 
     def get_booking_type_duration(self, booking_type):
         """Return the seconds for this booking_type"""
-        if type(booking_type) is BookingType:
+        if type(booking_type) is PrenotazioneType:
             return int(booking_type.duration) * 60
 
         if type(booking_type) is str:

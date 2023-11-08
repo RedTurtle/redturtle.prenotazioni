@@ -30,7 +30,7 @@
       />
   <utility
       name="redturtle.prenotazioni.booking_types"
-      component=".tipologies.BookingTypesVocabularyFactory"
+      component=".tipologies.PrenotazioneTypesVocabularyFactory"
       />
 
   <utility
@@ -40,8 +40,8 @@
 
   <utility
       provides="zope.schema.interfaces.IVocabularyFactory"
-      name="redturtle.prenotazioni.VocBookingTypeGates"
-      component=".voc_booking_type_gates.VocBookingTypeGatesFactory"
+      name="redturtle.prenotazioni.VocPrenotazioneTypeGates"
+      component=".voc_booking_type_gates.VocPrenotazioneTypeGatesFactory"
       />
 
 

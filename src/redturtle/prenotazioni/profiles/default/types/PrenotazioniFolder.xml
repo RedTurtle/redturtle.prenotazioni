@@ -23,7 +23,7 @@
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
     <element value="PrenotazioniYear" />
-    <element value="BookingType" />
+    <element value="PrenotazioneType" />
     <!--
     <element value="Document" />
     <element value="File" />

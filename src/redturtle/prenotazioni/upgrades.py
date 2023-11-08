@@ -479,7 +479,7 @@ def to_2000(context):
             logger.info(f"[1808-2000] --| Creating {type.get('name')} booking type")
 
             booking_type = api.content.create(
-                type="BookingType",
+                type="PrenotazioneType",
                 title=type.get("name"),
                 duration=type.get("duration"),
                 hidden=type.get("hidden"),

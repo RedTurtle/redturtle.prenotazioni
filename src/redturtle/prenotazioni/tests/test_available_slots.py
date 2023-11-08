@@ -50,14 +50,14 @@ class TestAvailableSlots(unittest.TestCase):
         )
 
         api.content.create(
-            type="BookingType",
+            type="PrenotazioneType",
             title="Type A",
             duration=30,
             container=self.folder_prenotazioni,
             gates=["all"],
         )
         api.content.create(
-            type="BookingType",
+            type="PrenotazioneType",
             title="Type B",
             duration=90,
             container=self.folder_prenotazioni,
@@ -308,7 +308,7 @@ class TestAvailableSlots(unittest.TestCase):
         )
 
         api.content.create(
-            type="BookingType",
+            type="PrenotazioneType",
             title="Type A",
             duration=30,
             container=folder,

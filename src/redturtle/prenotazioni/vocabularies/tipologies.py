@@ -7,7 +7,7 @@ from redturtle.prenotazioni.utils.get_prenotazioni_folder import getPrenotazioni
 
 
 @implementer(IVocabularyFactory)
-class BookingTypesVocabulary(object):
+class PrenotazioneTypesVocabulary(object):
     def booking_type2term(self, booking_type):
         """return a vocabulary tern with this"""
         name = booking_type.title
@@ -38,4 +38,4 @@ class BookingTypesVocabulary(object):
         return SimpleVocabulary(self.get_terms(context))
 
 
-BookingTypesVocabularyFactory = BookingTypesVocabulary()
+PrenotazioneTypesVocabularyFactory = PrenotazioneTypesVocabulary()

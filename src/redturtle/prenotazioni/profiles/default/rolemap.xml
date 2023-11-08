@@ -52,7 +52,7 @@
     </permission>
 
     <permission acquire="True"
-                name="redturtle.prenotazioni: Add BookingType"
+                name="redturtle.prenotazioni: Add PrenotazioneType"
     >
       <role name="Manager" />
       <role name="Site Administrator" />
