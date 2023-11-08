@@ -6,9 +6,7 @@ from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
-from plone.app.contentrules.conditions.wftransition import (
-    WorkflowTransitionCondition,
-)
+from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
 from plone.app.event.base import default_timezone
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
@@ -158,19 +156,13 @@ def to_1400(context):
         )
 
         for portal_type_condition in portal_type_conditions:
-            if "Prenotazione" in getattr(
-                portal_type_condition, "check_types", []
-            ):
-                for (
-                    workflow_transition_condition
-                ) in workflow_transition_conditions:
+            if "Prenotazione" in getattr(portal_type_condition, "check_types", []):
+                for workflow_transition_condition in workflow_transition_conditions:
                     if isinstance(
                         workflow_transition_condition,
                         WorkflowTransitionCondition,
                     ):
-                        wf_states = list(
-                            workflow_transition_condition.wf_transitions
-                        )
+                        wf_states = list(workflow_transition_condition.wf_transitions)
 
                         if "publish" in wf_states:
                             wf_states.remove("publish")
@@ -181,9 +173,7 @@ def to_1400(context):
                             )
 
                 for workflow_state_condition in workflow_state_conditions:
-                    if isinstance(
-                        workflow_state_condition, WorkflowStateCondition
-                    ):
+                    if isinstance(workflow_state_condition, WorkflowStateCondition):
                         wf_states = list(workflow_state_condition.wf_states)
 
                         if "publish" in wf_states:
@@ -219,17 +209,13 @@ def to_1401(context):
 
 def to_1402(context):
     # load new content rules
-    context.runImportStepFromProfile(
-        CONTENT_RULES_EVOLUTION_PROFILE, "contentrules"
-    )
+    context.runImportStepFromProfile(CONTENT_RULES_EVOLUTION_PROFILE, "contentrules")
 
 
 def to_1403(context):
     update_catalog(context)
 
-    for brain in api.portal.get_tool("portal_catalog")(
-        portal_type="Prenotazione"
-    ):
+    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
         brain.getObject().reindexObject(idxs=["fiscalcode"])
 
 
@@ -242,9 +228,7 @@ def to_1500(context):
 def to_1502(context):
     update_catalog(context)
 
-    for brain in api.portal.get_tool("portal_catalog")(
-        portal_type="Prenotazione"
-    ):
+    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
         logger.info(f"[ 1500 - 1501 ] - Rindexing <{brain.getPath()}>")
         brain.getObject().reindexObject(idxs=["booking_type"])
 
@@ -368,9 +352,7 @@ def to_1600_upgrade_contentrules(context):
 
 
 def to_1601(context):
-    for brain in api.portal.get_tool("portal_catalog")(
-        portal_type="Prenotazione"
-    ):
+    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
         brain.getObject().reindexObject(idxs=["SearchableText"])
 
 
@@ -402,9 +384,7 @@ def to_1800(context):
     brains = api.content.find(portal_type="PrenotazioniFolder")
     for brain in brains:
         item = brain.getObject()
-        same_day_booking_disallowed = getattr(
-            item, "same_day_booking_disallowed", None
-        )
+        same_day_booking_disallowed = getattr(item, "same_day_booking_disallowed", None)
         if same_day_booking_disallowed not in ("yes", "no"):
             item.same_day_booking_disallowed = "no"
             logger.info(
@@ -428,9 +408,7 @@ def to_1804(context):
     for brain in api.portal.get_tool("portal_catalog")(
         portal_type="PrenotazioniFolder"
     ):
-        logger.info(
-            "Updating <{UID}>.max_bookings_allowed=2".format(UID=brain.UID)
-        )
+        logger.info("Updating <{UID}>.max_bookings_allowed=2".format(UID=brain.UID))
         brain.getObject().max_bookings_allowed = 2
 
 
@@ -450,9 +428,7 @@ def to_1805(context):
                 encoding="utf-8",
             )
             logger.info(
-                "Converted <{UID}>.cosa_serve to RichText".format(
-                    UID=brain.UID
-                )
+                "Converted <{UID}>.cosa_serve to RichText".format(UID=brain.UID)
             )
 
 
@@ -478,9 +454,7 @@ def to_1807(context):
             )
 
         logger.info(
-            "Upgraded <{UID}>.notify_on_refuse_message value".format(
-                UID=brain.UID
-            )
+            "Upgraded <{UID}>.notify_on_refuse_message value".format(UID=brain.UID)
         )
 
 
@@ -502,9 +476,7 @@ def to_2000(context):
         )
 
         for type in getattr(obj, "booking_types", []):
-            logger.info(
-                f"[1808-2000] --| Creating {type.get('name')} booking type"
-            )
+            logger.info(f"[1808-2000] --| Creating {type.get('name')} booking type")
 
             booking_type = api.content.create(
                 type="BookingType",
