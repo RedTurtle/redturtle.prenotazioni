@@ -48,6 +48,9 @@ def reallocate_container(obj):
 
 def notify_on_after_transition_event(context, event):
     """The messages are being send only if the following flags on the PrenotazioniFolder are set"""
+    if is_migration():
+        return
+
     booking_folder = context.getPrenotazioniFolder()
     flags = {
         i: getattr(booking_folder, f"notify_on_{i}", False)
@@ -119,7 +122,6 @@ def get_mail_from_address():
 
 def send_email_to_managers(booking, event):
     # skip email for vacation/out-of-office
-
     if is_migration():
         return
 
