@@ -10,8 +10,8 @@ from zope.publisher.interfaces import IRequest
 from zope.schema import getFields
 
 from redturtle.prenotazioni import logger
-from redturtle.prenotazioni.content.prenotazione_type import IPrenotazioneType
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.content.prenotazione_type import IPrenotazioneType
 from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
 
 
