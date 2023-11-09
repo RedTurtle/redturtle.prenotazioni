@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.1.4 (unreleased)
+2.2.0 (unreleased)
 ------------------
 
 - Extend the booking duration limit to 180 min.
