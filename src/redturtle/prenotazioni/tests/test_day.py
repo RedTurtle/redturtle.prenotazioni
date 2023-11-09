@@ -1,7 +1,9 @@
 # -*- coding: UTF-8 -*-
 import unittest
 from datetime import date, datetime, timedelta
+from DateTime import DateTime
 
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import (
     SITE_OWNER_NAME,
@@ -106,10 +108,7 @@ class TestDaySlots(unittest.TestCase):
                 results,
             )
 
-    @unittest.skipIf(
-        date.today().day >= 20 or date.today().day <= 8,
-        "issue testing in the last days of a month",
-    )
+    @freeze_time("2023-05-14")
     def test_pauses_returned(self):
         # le pause sono in localtime
         self.folder_prenotazioni.pause_table = [
@@ -127,10 +126,16 @@ class TestDaySlots(unittest.TestCase):
 
         results = response.json()["pauses"]
         # la risposta è in UTC
+        tomorrow_start_utc = DateTime(
+            self.tomorrow.replace(hour=7, minute=15)
+        ).utcdatetime()
+        tomorrow_end_utc = DateTime(
+            self.tomorrow.replace(hour=8, minute=30)
+        ).utcdatetime()
         self.assertIn(
             {
-                "start": self.tomorrow.strftime("%Y-%m-%d") + "T05:15:00+00:00",
-                "end": self.tomorrow.strftime("%Y-%m-%d") + "T06:30:00+00:00",
+                "start": tomorrow_start_utc.strftime("%Y-%m-%dT%H:%M:00+00:00"),
+                "end": tomorrow_end_utc.strftime("%Y-%m-%dT%H:%M:00+00:00"),
             },
             results,
         )
@@ -142,10 +147,7 @@ class TestDaySlots(unittest.TestCase):
         self.assertEqual(res.json()["type"], "BadRequest")
         self.assertEqual(res.status_code, 400)
 
-    @unittest.skipIf(
-        date.today().day >= 20 or date.today().day <= 8,
-        "issue testing in the last days of a month",
-    )
+    @freeze_time("2023-05-14")
     def test_daily_schedule(self):
         # TODO: testare con timezone differenti
         response = self.api_session.get(
@@ -161,12 +163,18 @@ class TestDaySlots(unittest.TestCase):
         )
         self.assertEqual(self.folder_prenotazioni.week_table[0]["morning_end"], "1000")
         # la risposta è in UTC
+        tomorrow_start_utc = DateTime(
+            self.tomorrow.replace(hour=7, minute=00)
+        ).utcdatetime()
+        tomorrow_end_utc = DateTime(
+            self.tomorrow.replace(hour=10, minute=00)
+        ).utcdatetime()
         self.assertEqual(
             {
                 "afternoon": {"start": None, "end": None},
                 "morning": {
-                    "start": self.tomorrow.strftime("%Y-%m-%d") + "T05:00:00+00:00",
-                    "end": self.tomorrow.strftime("%Y-%m-%d") + "T08:00:00+00:00",
+                    "start": tomorrow_start_utc.strftime("%Y-%m-%dT%H:%M:00+00:00"),
+                    "end": tomorrow_end_utc.strftime("%Y-%m-%dT%H:%M:00+00:00"),
                 },
             },
             results["daily_schedule"],
