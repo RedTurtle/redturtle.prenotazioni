@@ -131,7 +131,6 @@ class TestVacationgApi(unittest.TestCase):
                 ],
             },
         )
-
         self.assertEqual(res.status_code, 400)
         self.assertEqual(
             res.json()["message"],
