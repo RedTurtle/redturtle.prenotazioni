@@ -176,20 +176,27 @@ class PrenotazioniContextState(BrowserView):
             from_day = int(override.get("from_day", ""))
             to_month = int(override.get("to_month", ""))
             to_day = int(override.get("to_day", ""))
-            toYear = day.year
+            to_year = day.year
 
-            if from_month > to_month:
-                # next year
-                toYear += 1
-
-            fromDate = date(day.year, from_month, from_day)
-            toDate = date(toYear, to_month, to_day)
+            if from_month <= to_month:
+                # same year
+                from_date = date(to_year, from_month, from_day)
+                to_date = date(to_year, to_month, to_day)
+            else:
+                # ends next year
+                today_year = date.today().year
+                if today_year < to_year:
+                    from_date = date(today_year, from_month, from_day)
+                    to_date = date(to_year, to_month, to_day)
+                else:
+                    from_date = date(to_year, from_month, from_day)
+                    to_date = date(to_year + 1, to_month, to_day)
 
             if isinstance(day, datetime):
-                if fromDate <= day.date() <= toDate:
+                if from_date <= day.date() <= to_date:
                     return override
             else:
-                if fromDate <= day <= toDate:
+                if from_date <= day <= to_date:
                     return override
             return {}
 
