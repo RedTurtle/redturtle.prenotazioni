@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 import unittest
 from datetime import date, datetime, timedelta
-
+from dateutil import tz
 from plone import api
 from plone.app.testing import (
     SITE_OWNER_NAME,
@@ -25,6 +25,14 @@ from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL
 class DummyEvent(object):
     def __init__(self, object):
         self.object = object
+
+
+def hhmm_to_utc(hhmm, dt=None):
+    if dt is None:
+        dt = datetime.now()
+    h = dt.astimezone(tz.gettz("Europe/Rome")).utcoffset().seconds // 3600
+    hh, mm = map(int, hhmm.split(":"))
+    return f"{hh-h:02d}:{mm:02d}"
 
 
 class TestDaySlots(unittest.TestCase):
@@ -61,6 +69,7 @@ class TestDaySlots(unittest.TestCase):
 
         week_table = self.folder_prenotazioni.week_table
         for row in week_table:
+            # le ore sono in localtime
             row["morning_start"] = "0700"
             row["morning_end"] = "1000"
         self.folder_prenotazioni.week_table = week_table
@@ -129,8 +138,8 @@ class TestDaySlots(unittest.TestCase):
         # la risposta è in UTC
         self.assertIn(
             {
-                "start": self.tomorrow.strftime("%Y-%m-%d") + "T05:15:00+00:00",
-                "end": self.tomorrow.strftime("%Y-%m-%d") + "T06:30:00+00:00",
+                "start": f'{self.tomorrow.strftime("%Y-%m-%d")}T{hhmm_to_utc("07:15")}:00+00:00',
+                "end": f'{self.tomorrow.strftime("%Y-%m-%d")}T{hhmm_to_utc("08:30")}:00+00:00',
             },
             results,
         )
@@ -165,8 +174,8 @@ class TestDaySlots(unittest.TestCase):
             {
                 "afternoon": {"start": None, "end": None},
                 "morning": {
-                    "start": self.tomorrow.strftime("%Y-%m-%d") + "T05:00:00+00:00",
-                    "end": self.tomorrow.strftime("%Y-%m-%d") + "T08:00:00+00:00",
+                    "start": f'{self.tomorrow.strftime("%Y-%m-%d")}T{hhmm_to_utc("07:00")}:00+00:00',
+                    "end": f'{self.tomorrow.strftime("%Y-%m-%d")}T{hhmm_to_utc("10:00")}:00+00:00',
                 },
             },
             results["daily_schedule"],
