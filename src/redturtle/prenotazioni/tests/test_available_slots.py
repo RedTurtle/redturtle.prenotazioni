@@ -89,7 +89,7 @@ class TestAvailableSlots(unittest.TestCase):
     def tearDown(self):
         self.api_session.close()
 
-    @unittest.skip("issue testing in the last days of a month")
+    # @unittest.skip("issue testing in the last days of a month")
     def test_month_slots_called_without_params_return_all_available_slots_of_current_month(
         self,
     ):
@@ -113,7 +113,7 @@ class TestAvailableSlots(unittest.TestCase):
                     )
         self.assertEqual(expected, response.json()["items"])
 
-    @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
+    # @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
     def test_month_slots_called_without_params_return_available_slots_of_current_month_when_some_are_full(
         self,
     ):
@@ -182,10 +182,10 @@ class TestAvailableSlots(unittest.TestCase):
                 ),
             )
 
-    @unittest.skipIf(
-        date.today().day >= 20 or date.today().day <= 8,
-        "issue testing in the last days of a month",
-    )
+    # @unittest.skipIf(
+    #     date.today().day >= 20 or date.today().day <= 8,
+    #     "issue testing in the last days of a month",
+    # )
     def test_if_start_and_not_end_return_all_available_slots_for_that_month(
         self,
     ):
@@ -281,7 +281,7 @@ class TestAvailableSlots(unittest.TestCase):
 
         self.assertEqual(400, response.status_code)
 
-    @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
+    # @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
     def test_month_slots_notBeforeDays_honored(
         self,
     ):
@@ -338,7 +338,7 @@ class TestAvailableSlots(unittest.TestCase):
         response = self.api_session.get(f"{folder.absolute_url()}/@available-slots")
         self.assertIn(tomorrow_7_0, response.json()["items"])
 
-    @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
+    # @unittest.skipIf(date.today().day > 20, "issue testing in the last days of a month")
     def test_month_slots_filtered_by_booking_type(self):
         # Type A 30 minutes
         response = self.api_session.get(

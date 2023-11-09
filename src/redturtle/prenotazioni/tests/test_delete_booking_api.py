@@ -134,7 +134,7 @@ class TestDeleteBookingApi(unittest.TestCase):
         self.assertEqual(response.status_code, 204)
         self.assertIsNone(api.content.get(UID=uid))
 
-    @unittest.skip("wip")
+    # @unittest.skip("wip")
     def test_anon_cant_delete_other_user_booking(self):
         booking = self.booker.create(
             {
@@ -203,7 +203,7 @@ class TestDeleteBookingApi(unittest.TestCase):
             0,
         )
 
-    @unittest.skip("wip")
+    # @unittest.skip("wip")
     def test_user_cant_delete_other_user_booking(self):
         login(self.portal, "user")
         booking = self.booker.create(
@@ -229,7 +229,7 @@ class TestDeleteBookingApi(unittest.TestCase):
             1,
         )
 
-    @unittest.skip("wip")
+    # @unittest.skip("wip")
     def test_user_cant_delete_anon_booking(self):
         logout()
         booking = self.booker.create(
