@@ -2,6 +2,7 @@
 import json
 import unittest
 from datetime import date
+from freezegun import freeze_time
 
 from plone import api
 from plone.app.testing import (
@@ -19,7 +20,7 @@ from redturtle.prenotazioni.testing import (
 )
 
 
-class TestContextState(unittest.TestCase):
+class TestWeekTableOverridesContextState(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 
     def setUp(self):
@@ -93,6 +94,7 @@ class TestContextState(unittest.TestCase):
             json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
         )
 
+    @freeze_time("2023-05-14")
     def test_override_between_year(self):
         self.folder_prenotazioni.week_table_overrides = json.dumps(
             [
@@ -114,18 +116,27 @@ class TestContextState(unittest.TestCase):
             ]
         )
         now = date.today()
+
+        # if in range, return table overrides
         self.assertEqual(
             self.view.get_week_table(date(now.year, 12, 25)),
             json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
         )
 
+        # if in range and next year, return table overrides
         self.assertEqual(
-            self.view.get_week_table(date(now.year, 5, 10)),
+            self.view.get_week_table(date(now.year + 1, 1, 25)),
+            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
+        )
+
+        # if out of range, return base table
+        self.assertEqual(
+            self.view.get_week_table(date(now.year, 10, 10)),
             self.folder_prenotazioni.week_table,
         )
 
 
-class TestApiValidateDataOnPost(unittest.TestCase):
+class TestWeekTableOverridesApiValidateDataOnPost(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
     def setUp(self):
