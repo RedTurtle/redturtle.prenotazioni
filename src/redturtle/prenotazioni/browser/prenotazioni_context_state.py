@@ -765,6 +765,16 @@ class PrenotazioniContextState(BrowserView):
                         break
                 if not skip:
                     gate_slots.append(slot)
+            # XXX: workaround per evitare che i booking sovrapposti, facciano
+            #      saltare il calcolo dei free slots
+            for idx, slot in enumerate(sorted(gate_slots)):
+                if idx == 0:
+                    prev = slot
+                    continue
+                if slot._lower_value < prev._upper_value:
+                    slot._lower_value = prev._upper_value
+                prev = slot
+
             for interval in intervals:
                 if interval:
                     availability[gate].extend(interval - sorted(gate_slots))

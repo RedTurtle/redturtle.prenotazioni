@@ -5,10 +5,16 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
+- workaround per evitare che i booking sovrapposti, facciano
+  saltare il calcolo dei free slots
+  [mamico]
+
 - Extend the booking duration limit to 180 min.
   [folix-01]
+
 - Allow Bookings Manager to create, move the bookings and create the vacations.
   [folix-01]
+
 - Convert booking types to c.t.
   [folix-01]
 
