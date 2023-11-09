@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.1.4 (Unreleased)
+------------------
+
+- Fix week overrides when booking next year.
+  [cekk]
 
 2.1.3 (2023-10-13)
 ------------------
