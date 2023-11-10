@@ -7,6 +7,10 @@ Changelog
 - Fix week overrides when booking next year.
   [cekk]
 
+- Bypass limit for out-of-office bookings.
+  [cekk]
+
+
 2.1.3 (2023-10-13)
 ------------------
 
