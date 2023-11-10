@@ -735,7 +735,7 @@ class PrenotazioniFolder(Container):
             {
                 "name": t.title,
                 "duration": t.duration,
-                "hidden": t.hidden,
+                "hidden": getattr(t, "hidden", False),
             }
             for t in self.get_booking_types()
         ]

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
-
+from Acquisition import aq_base
 import pytz
 from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
@@ -468,29 +468,24 @@ def to_1808(context):
 
 def to_2000(context):
     for i in api.content.find(portal_type="PrenotazioniFolder"):
-        obj = i.getObject()
-        logger.info(
-            "[1808-2000] -| Transforming <{UID}>.booking_types to contenttypes themself".format(
-                UID=i.UID
-            )
-        )
-
-        for type in getattr(obj, "booking_types", []):
-            logger.info(f"[1808-2000] --| Creating {type.get('name')} booking type")
-
+        obj = aq_base(i.getObject())
+        if "booking_types" not in obj.__dict__:  # noqa
+            continue
+        logger.info(f"Transforming <{i.UID}>.booking_types to contenttypes themself")
+        for type in obj.__dict__["booking_types"]:
+            logger.info(f" --| Creating {type.get('name')} booking type")
             booking_type = api.content.create(
                 type="PrenotazioneType",
                 title=type.get("name"),
                 duration=type.get("duration"),
-                hidden=type.get("hidden"),
+                # hidden=type.get("hidden"),
                 container=obj,
                 # gates=["all"],
             )
-
             if not type.get("hidden", False):
                 api.content.transition(obj=booking_type, transition="publish")
-
             booking_type.reindexObject(idxs=["review_state"])
 
-        getattr(obj, "booking_types", None) and delattr(obj, "booking_types")
-        getattr(obj, "cosa_serve", None) and delattr(obj, "cosa_serve")
+        del obj.__dict__["booking_types"]
+        # getattr(obj, "booking_types", None) and delattr(obj, "booking_types")
+        # getattr(obj, "cosa_serve", None) and delattr(obj, "cosa_serve")
