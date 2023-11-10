@@ -5,8 +5,12 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
+
 - workaround per evitare che i booking sovrapposti, facciano
   saltare il calcolo dei free slots
+  [mamico]
+
+- Compatibility with old code that use booking_types field in PrenotazioniFolder
   [mamico]
 
 - Extend the booking duration limit to 180 min.
