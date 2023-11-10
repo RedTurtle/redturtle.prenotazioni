@@ -121,9 +121,7 @@ class TestVacationgApi(unittest.TestCase):
         res = self.api_session_anon.post(
             self.folder_prenotazioni.absolute_url() + "/@booking",
             json={
-                "booking_date": self.next_monday.replace(
-                    hour=10, minute=10
-                ).isoformat(),
+                "booking_date": start.isoformat(),
                 "booking_type": "Type A",
                 "fields": [
                     {"name": "title", "value": "Mario Rossi"},
@@ -131,7 +129,6 @@ class TestVacationgApi(unittest.TestCase):
                 ],
             },
         )
-
         self.assertEqual(res.status_code, 400)
         self.assertEqual(
             res.json()["message"],
