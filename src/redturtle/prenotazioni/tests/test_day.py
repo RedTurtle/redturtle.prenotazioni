@@ -1,9 +1,8 @@
 # -*- coding: UTF-8 -*-
+import pytz
 import unittest
-from datetime import date, datetime, timedelta
-from DateTime import DateTime
+from datetime import date, timedelta
 
-from freezegun import freeze_time
 from plone import api
 from plone.app.testing import (
     SITE_OWNER_NAME,
@@ -13,6 +12,7 @@ from plone.app.testing import (
 )
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.testing import RelativeSession
+from redturtle.prenotazioni import tznow
 from transaction import commit
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
@@ -67,13 +67,13 @@ class TestDaySlots(unittest.TestCase):
             row["morning_end"] = "1000"
         self.folder_prenotazioni.week_table = week_table
 
-        self.today = datetime.now().replace(hour=8)
-        self.tomorrow = self.today + timedelta(1)
-
+        # fix timezone
         api.portal.set_registry_record(
             "plone.portal_timezone",
             "Europe/Rome",
         )
+        self.today = tznow().replace(hour=8)
+        self.tomorrow = self.today + timedelta(1)
 
         commit()
 
@@ -108,7 +108,6 @@ class TestDaySlots(unittest.TestCase):
                 results,
             )
 
-    @freeze_time("2023-05-14")
     def test_pauses_returned(self):
         # le pause sono in localtime
         self.folder_prenotazioni.pause_table = [
@@ -126,12 +125,10 @@ class TestDaySlots(unittest.TestCase):
 
         results = response.json()["pauses"]
         # la risposta è in UTC
-        tomorrow_start_utc = DateTime(
-            self.tomorrow.replace(hour=7, minute=15)
-        ).utcdatetime()
-        tomorrow_end_utc = DateTime(
-            self.tomorrow.replace(hour=8, minute=30)
-        ).utcdatetime()
+        tomorrow_start_utc = self.tomorrow.replace(hour=7, minute=15).astimezone(
+            pytz.utc
+        )
+        tomorrow_end_utc = self.tomorrow.replace(hour=8, minute=30).astimezone(pytz.utc)
         self.assertIn(
             {
                 "start": tomorrow_start_utc.strftime("%Y-%m-%dT%H:%M:00+00:00"),
@@ -147,7 +144,6 @@ class TestDaySlots(unittest.TestCase):
         self.assertEqual(res.json()["type"], "BadRequest")
         self.assertEqual(res.status_code, 400)
 
-    @freeze_time("2023-05-14")
     def test_daily_schedule(self):
         # TODO: testare con timezone differenti
         response = self.api_session.get(
@@ -163,12 +159,13 @@ class TestDaySlots(unittest.TestCase):
         )
         self.assertEqual(self.folder_prenotazioni.week_table[0]["morning_end"], "1000")
         # la risposta è in UTC
-        tomorrow_start_utc = DateTime(
-            self.tomorrow.replace(hour=7, minute=00)
-        ).utcdatetime()
-        tomorrow_end_utc = DateTime(
-            self.tomorrow.replace(hour=10, minute=00)
-        ).utcdatetime()
+        tomorrow_start_utc = self.tomorrow.replace(hour=7, minute=00).astimezone(
+            pytz.utc
+        )
+        tomorrow_end_utc = self.tomorrow.replace(hour=10, minute=00).astimezone(
+            pytz.utc
+        )
+
         self.assertEqual(
             {
                 "afternoon": {"start": None, "end": None},
