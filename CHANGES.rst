@@ -29,6 +29,22 @@ Changelog
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
 
+2.1.5 (2023-11-10)
+------------------
+
+- Fix release (2.1.4 was already made).
+  [cekk]
+
+
+2.1.4 (2023-11-10)
+------------------
+
+- Fix week overrides when booking next year.
+  [cekk]
+
+- Bypass limit for out-of-office bookings.
+  [cekk]
+
 
 2.1.3 (2023-10-13)
 ------------------
