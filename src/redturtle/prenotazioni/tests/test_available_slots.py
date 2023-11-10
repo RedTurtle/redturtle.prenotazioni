@@ -5,6 +5,7 @@ from datetime import date, datetime, timedelta
 
 import pytz
 import transaction
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import (
     SITE_OWNER_NAME,
@@ -17,6 +18,8 @@ from plone.restapi.testing import RelativeSession
 
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+
+DATE_STR = "2023-05-14"
 
 
 class TestAvailableSlots(unittest.TestCase):
@@ -182,10 +185,7 @@ class TestAvailableSlots(unittest.TestCase):
                 ),
             )
 
-    @unittest.skipIf(
-        date.today().day >= 20 or date.today().day <= 8,
-        "issue testing in the last days of a month",
-    )
+    @freeze_time(DATE_STR)
     def test_if_start_and_not_end_return_all_available_slots_for_that_month(
         self,
     ):
@@ -194,6 +194,9 @@ class TestAvailableSlots(unittest.TestCase):
         current_month = now.month
         next_month = current_month + 1
 
+        self.folder_prenotazioni.daData = now
+        transaction.commit()
+
         # all mondays in next month
         response = self.api_session.get(
             "{}/@available-slots?start={}".format(
@@ -201,7 +204,6 @@ class TestAvailableSlots(unittest.TestCase):
                 json_compatible(date(current_year, next_month, 1)),
             )
         )
-
         # get next mondays in current month
         expected = []
         for week in calendar.monthcalendar(current_year, next_month):
