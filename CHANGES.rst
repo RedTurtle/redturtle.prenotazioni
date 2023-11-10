@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.4 (Unreleased)
+2.1.4 (2023-11-10)
 ------------------
 
 - Fix week overrides when booking next year.
