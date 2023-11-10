@@ -91,9 +91,6 @@ class TestGatesOverrides(unittest.TestCase):
             type="PrenotazioniFolder",
             title="Prenota foo",
             daData=date.today(),
-            booking_types=[
-                {"name": "Type A", "duration": "30"},
-            ],
             gates=["Gate A"],
             week_table=WEEK_TABLE_SCHEMA,
             week_table_overrides=json.dumps(
@@ -110,6 +107,14 @@ class TestGatesOverrides(unittest.TestCase):
                 ]
             ),
         )
+        api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
         view = api.content.get_view(
             name="prenotazioni_context_state",
             context=folder,
