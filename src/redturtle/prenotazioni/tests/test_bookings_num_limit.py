@@ -241,14 +241,14 @@ class TestEmailToManagers(unittest.TestCase):
             }
         )
 
-        self.assertRaises(
-            BookingsLimitExceded,
-            self.create_booking,
-            data={
-                "booking_date": self.tomorrow_8_0 + timedelta(days=1),
-                "booking_type": "out-of-office",
-                "title": "foo",
-                "email": "jdoe@redturtle.it",
-                "fiscalcode": self.testing_fiscalcode,
-            },
+        self.assertTrue(
+            self.create_booking(
+                data={
+                    "booking_date": self.tomorrow_8_0 + timedelta(days=1),
+                    "booking_type": "out-of-office",
+                    "title": "foo",
+                    "email": "jdoe@redturtle.it",
+                    "fiscalcode": self.testing_fiscalcode,
+                },
+            )
         )
