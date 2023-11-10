@@ -2,13 +2,7 @@ Changelog
 =========
 
 
-2.1.5 (unreleased)
-------------------
-
-- Nothing changed yet.
-
-
-2.1.4 (2023-11-10)
+2.2.0 (unreleased)
 ------------------
 
 - Compatibility with old code that use booking_types field in PrenotazioniFolder
