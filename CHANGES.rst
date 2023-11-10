@@ -5,10 +5,15 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
+- Compatibility with old code that use booking_types field in PrenotazioniFolder
+  [mamico]
+
 - Extend the booking duration limit to 180 min.
   [folix-01]
+
 - Allow Bookings Manager to create, move the bookings and create the vacations.
   [folix-01]
+
 - Convert booking types to c.t.
   [folix-01]
 

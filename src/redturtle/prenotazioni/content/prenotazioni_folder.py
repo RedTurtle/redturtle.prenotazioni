@@ -727,3 +727,15 @@ class PrenotazioniFolder(Container):
         return self.listFolderContents(
             contentFilter={"portal_type": "PrenotazioneType"}
         )
+
+    # BBB: compatibility with old code (booking_types was a List of IBookingTypeRow)
+    @property
+    def booking_types(self):
+        return [
+            {
+                "name": t.title,
+                "duration": t.duration,
+                "hidden": t.hidden,
+            }
+            for t in self.get_booking_types()
+        ]
