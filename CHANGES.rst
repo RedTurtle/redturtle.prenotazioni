@@ -26,6 +26,8 @@ Changelog
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
 
+- Bypass limit for out-of-office bookings.
+  [cekk]
 
 2.1.3 (2023-10-13)
 ------------------
