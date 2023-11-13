@@ -75,7 +75,7 @@ class AddBooking(BookingSchema):
 
         if data["booking_type"] in [VACATION_TYPE]:
             if not api.user.has_permission(
-                "redturtle.prenotazioni.ManagePrenotazioni", obj=self.context
+                "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
             ):
                 msg = self.context.translate(
                     _(
