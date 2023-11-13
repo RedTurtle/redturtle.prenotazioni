@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.7 (unreleased)
+2.1.7 (2023-11-13)
 ------------------
 
 - Add missing upgrde steps for rolemap
