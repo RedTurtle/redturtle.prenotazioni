@@ -220,4 +220,15 @@
         handler=".upgrades.update_rolemap"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="1806"
+      destination="1807"
+      >
+    <genericsetup:upgradeStep
+        title="Update rolemap"
+        handler=".upgrades.update_rolemap"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

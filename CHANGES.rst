@@ -4,7 +4,9 @@ Changelog
 2.1.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add missing upgrde steps for rolemap
+  Fix permission checking creating a booking
+  [lucabel]
 
 
 2.1.6 (2023-11-13)
