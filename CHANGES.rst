@@ -5,6 +5,9 @@ Changelog
 2.2.0 (unreleased)
 ------------------
 
+- Fix sub BaseSlots whene some slots overlap
+  [mamico]
+
 - Compatibility with old code that use booking_types field in PrenotazioniFolder
   [mamico]
 
