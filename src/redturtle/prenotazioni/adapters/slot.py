@@ -66,6 +66,25 @@ def slots_to_points(slots):
     return sorted(points)
 
 
+def merge_intervals(slots):
+    if not slots:
+        return slots
+    slots = sorted(slots)
+    stack = []
+    # insert first interval into stack
+    stack.append(slots[0])
+    for s in slots[1:]:
+        # Check for overlapping interval,
+        # if interval overlap
+        if stack[-1].lower_value <= s.lower_value <= stack[-1].upper_value:
+            stack[-1] = BaseSlot(
+                stack[-1].lower_value, max(stack[-1].upper_value, s.upper_value)
+            )
+        else:
+            stack.append(s)
+    return stack
+
+
 class ISlot(Interface):
 
     """
@@ -85,7 +104,6 @@ class UpperEndpoint(int):
 
 @implementer(ISlot)
 class BaseSlot(Interval):
-
     """Overrides and simplifies pyinter.Interval"""
 
     _lower = Interval.CLOSED
@@ -145,8 +163,8 @@ class BaseSlot(Interval):
         """Subtract something from this"""
         if isinstance(value, Interval):
             value = [value]
-        # We filter not overlapping intervals
-        good_intervals = [x for x in value if x.overlaps(self)]
+        # We filter not overlapping with self, and merge the overlapping ones
+        good_intervals = merge_intervals([x for x in value if x.overlaps(self)])
         points = slots_to_points(good_intervals)
 
         start = self.lower_value
