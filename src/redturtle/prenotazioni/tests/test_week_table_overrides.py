@@ -2,8 +2,8 @@
 import json
 import unittest
 from datetime import date
-from freezegun import freeze_time
 
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import (
     SITE_OWNER_NAME,
