@@ -4,7 +4,8 @@ Changelog
 2.1.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Better handle overrides between years.
+  [cekk]
 
 
 2.1.7 (2023-11-13)
