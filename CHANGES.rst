@@ -5,9 +5,6 @@ Changelog
 2.2.0 (unreleased)
 ------------------
 
-- Fix sub BaseSlots whene some slots overlap
-  [mamico]
-
 - Compatibility with old code that use booking_types field in PrenotazioniFolder
   [mamico]
 
@@ -29,6 +26,26 @@ Changelog
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
 
+
+2.1.8 (2023-11-15)
+------------------
+
+- Better handle overrides between years.
+  [cekk]
+
+2.1.7 (2023-11-13)
+------------------
+
+- Add missing upgrde steps for rolemap
+  Fix permission checking creating a booking
+  [lucabel]
+
+
+2.1.6 (2023-11-13)
+------------------
+
+- Fix sub BaseSlots whene some slots overlap
+  [mamico]
 
 2.1.5 (2023-11-10)
 ------------------
