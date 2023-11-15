@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.8 (unreleased)
+2.1.8 (2023-11-15)
 ------------------
 
 - Better handle overrides between years.
