@@ -254,7 +254,7 @@
         handler=".upgrades.update_rolemap"
         />
     <genericsetup:upgradeStep
-        title="Update rolemap"
+        title="Update types"
         handler=".upgrades.update_types"
         />
     <genericsetup:upgradeStep

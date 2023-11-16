@@ -16,7 +16,7 @@ class PrenotazioneTypesVocabulary(object):
         if not duration:
             title = name
         else:
-            title = "%s (%d min)" % (name, duration)
+            title = f"{name} ({duration} min)"
 
         return SimpleTerm(name, token=name, title=title)
 
