@@ -36,6 +36,7 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
+            gates=["Gate A"],
             week_table=[
                 {
                     "day": "Lunedì",
@@ -83,15 +84,18 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
     def test_if_day_not_in_overrides_use_default_week_table(self):
         now = date.today()
         res = self.view.get_week_table(date(now.year, 6, 1))
-
-        self.assertEqual(res, self.folder_prenotazioni.week_table)
+        self.assertEqual(res, {"Gate A": self.folder_prenotazioni.week_table})
 
     def test_if_day_is_in_overrides_use_override_week_table(self):
         now = date.today()
         res = self.view.get_week_table(date(now.year, 1, 10))
         self.assertEqual(
             res,
-            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
+            {
+                "Gate A": json.loads(self.folder_prenotazioni.week_table_overrides)[0][
+                    "week_table"
+                ]
+            },
         )
 
     @freeze_time("2023-05-14")
@@ -120,19 +124,27 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
         # if in range, return table overrides
         self.assertEqual(
             self.view.get_week_table(date(now.year, 12, 25)),
-            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
+            {
+                "Gate A": json.loads(self.folder_prenotazioni.week_table_overrides)[0][
+                    "week_table"
+                ]
+            },
         )
 
         # if in range and next year, return table overrides
         self.assertEqual(
             self.view.get_week_table(date(now.year + 1, 1, 25)),
-            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
+            {
+                "Gate A": json.loads(self.folder_prenotazioni.week_table_overrides)[0][
+                    "week_table"
+                ]
+            },
         )
 
         # if out of range, return base table
         self.assertEqual(
             self.view.get_week_table(date(now.year, 10, 10)),
-            self.folder_prenotazioni.week_table,
+            {"Gate A": self.folder_prenotazioni.week_table},
         )
 
 

@@ -273,17 +273,17 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         booker = IBooker(self.folder_prenotazioni)
 
         booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
-            days=1, hours=9
+            days=1, hours=8
         )
         booking_expiration_date = datetime.fromisoformat(
             date.today().isoformat()
-        ) + timedelta(days=1, hours=9, minutes=30)
+        ) + timedelta(days=1, hours=8, minutes=30)
 
         # need this just to have the day container
         container = aq_parent(
             booker.create(
                 {
-                    "booking_date": booking_date + timedelta(hours=5),
+                    "booking_date": booking_date + timedelta(hours=1),
                     "booking_type": "Type A",
                     "title": "foo",
                 }
@@ -306,17 +306,16 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         booker = IBooker(self.folder_prenotazioni)
 
         booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
-            days=1, hours=9
+            days=1, hours=8
         )
         booking_expiration_date = datetime.fromisoformat(
             date.today().isoformat()
-        ) + timedelta(days=1, hours=9, minutes=30)
-
+        ) + timedelta(days=1, hours=8, minutes=30)
         # need this just to have the day container
         container = aq_parent(
             booker.create(
                 {
-                    "booking_date": booking_date + timedelta(hours=5),
+                    "booking_date": booking_date + timedelta(hours=1),
                     "booking_type": "Type A",
                     "title": "foo",
                 }

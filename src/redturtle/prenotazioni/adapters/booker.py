@@ -100,7 +100,11 @@ class Booker(object):
             return None
         if len(available_gates) == 1:
             return available_gates.pop()
-        return choice(self.prenotazioni.get_less_used_gates(booking_date))
+        return choice(
+            self.prenotazioni.get_less_used_gates(
+                booking_date=booking_date, available_gates=available_gates
+            )
+        )
 
     def _create(self, data, duration=-1, force_gate=""):
         """Create a Booking object
@@ -128,7 +132,6 @@ class Booker(object):
             booking_expiration_date = params["booking_date"] + timedelta(
                 minutes=duration
             )
-
         gate = ""
         if not force_gate:
             available_gate = self.get_available_gate(
@@ -143,7 +146,9 @@ class Booker(object):
         else:
             gate = force_gate
 
-        fiscalcode = data.get("fiscalcode", "").upper()
+        fiscalcode = data.get("fiscalcode", "")
+        if fiscalcode:
+            fiscalcode = fiscalcode.upper()
         user = api.user.get_current()
 
         if not fiscalcode:
