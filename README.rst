@@ -186,7 +186,7 @@ The template variables list:
 * ``${booking_code}`` - Booking code.
 * ``${booking_type}`` - Booking type.
 * ``${booking_print_url}`` - Booking summary url.
-* ``${booking_url_with_delete_token}`` - Booking url to detele page.
+* ``${booking_url_with_delete_token}`` - Booking url to delete page.
 * ``${booking_user_phone}`` - Booking user phone.
 * ``${booking_user_email}`` - Booking user email.
 * ``${booking_user_details}`` - Booking user details.
