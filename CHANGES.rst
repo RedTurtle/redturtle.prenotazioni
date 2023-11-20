@@ -29,6 +29,9 @@ Changelog
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
 
+- Better handle overrides between years.
+  [cekk]
+
 
 2.1.5 (2023-11-10)
 ------------------
