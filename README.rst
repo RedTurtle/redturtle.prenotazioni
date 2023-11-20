@@ -179,6 +179,7 @@ You can create your own email templates for the booking events(confirm, refuse, 
 The temlates are being saved in the PrenotazioniFolder object.
 
 The template variables list:
+
 * ``${title}`` - booking title.
 * ``${booking_gate}`` - booking gate.
 * ``${booking_human_readable_start}`` - booking human readable start.
