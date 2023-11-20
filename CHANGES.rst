@@ -2,7 +2,13 @@ Changelog
 =========
 
 
-2.2.0 (unreleased)
+2.2.1 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+2.2.0 (2023-11-20)
 ------------------
 
 - Fix sub BaseSlots whene some slots overlap
@@ -17,7 +23,7 @@ Changelog
 - Allow Bookings Manager to create, move the bookings and create the vacations.
   [folix-01]
 
-- Convert booking types to c.t.
+- [BREAKING CHANGE] Convert booking types to c.t.
   [folix-01]
 
 - Change bookings default limit to 0.
@@ -31,6 +37,9 @@ Changelog
  
 - Extended PrenotaizoniFolder email templates var list.
   [folix-01]
+
+- Better handle overrides between years.
+  [cekk]
 
 
 2.1.5 (2023-11-10)
