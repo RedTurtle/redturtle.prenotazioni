@@ -198,7 +198,7 @@ The template variables list:
 * ``${booking_user_details}`` - Booking details inserted by user.
 * ``${booking_requirements}`` - Booking requeirements.
 * ``${prenotazioni_folder_title}`` - Booking folder title.
-* ``${booking_requirements}`` - booking_requirements
+* ``${booking_requirements}`` - Related PrenotazioneType.booking_requirements field
 
 
 Vacations
