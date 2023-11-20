@@ -102,40 +102,6 @@ You can configure:
 - custom duration for booking types
 - week schedule for morning and afternoon time tables
 
-Using the booking email templates
----------------------------------
-
-You can create your own email templates for the booking events(confirm, refuse, create, delete).
-The temlates are being saved in the PrenotazioniFolder object.
-
-The template variables list:
-* **${title}** - booking title.
-* **${booking_gate}** - booking gate.
-* **${booking_human_readable_start}** - booking human readable start.
-* **${booking_date}** - booking date.
-* **${booking_end_date}** - booking end date.
-* **${booking_time}** - booking time.
-* **${booking_time_end}** - booking time end.
-* **${booking_code}** - booking code.
-* **${booking_type}** - booking type.
-* **${booking_print_url}** - booking print url.
-* **${booking_url_with_delete_token}** - booking url with delete token.
-* **${booking_user_phone}** - booking user phone.
-* **${booking_user_email}** - booking user email.
-* **${booking_user_details}** - booking user details.
-* **${booking_office_contact_phone}** - booking office contact phone.
-* **${booking_office_contact_pec}** - booking office contact pec.
-* **${booking_office_contact_fax}** - booking office contact fax.
-* **${booking_how_to_get_to_office}** - booking how to get to office.
-* **${booking_office_complete_address}** - booking office complete address.
-* **${booking_user_details}** - booking user details
-* **${booking_requirements}** - booking requeirements.
-* **${prenotazioni_folder_title}** - prenotazioni folder title.
-* **${booking_user_details}** - booking details.
-* **${booking_requirements}** - booking_requirements
-* **${prenotazioni_folder_title}** - PrenotazioniFolder title
-
-
 Creating the hidden booking types
 ---------------------------------
 
@@ -207,6 +173,38 @@ The rules which are available by default:
 * `booking-created-user` (Invia un'email all'utente quando la prenotazione è stata creata)
 * `booking-refuse` (Invia un'email all'utente quando la prenotazione è stata rifiutata)
 * `booking-confirm` (Conferma automatica prenotazioni)
+
+
+You can create your own email templates for the booking events(confirm, refuse, create, delete).
+The temlates are being saved in the PrenotazioniFolder object.
+
+The template variables list:
+* ``${title}`` - booking title.
+* ``${booking_gate}`` - booking gate.
+* ``${booking_human_readable_start}`` - booking human readable start.
+* ``${booking_date}`` - booking date.
+* ``${booking_end_date}`` - booking end date.
+* ``${booking_time}`` - booking time.
+* ``${booking_time_end}`` - booking time end.
+* ``${booking_code}`` - booking code.
+* ``${booking_type}`` - booking type.
+* ``${booking_print_url}`` - booking print url.
+* ``${booking_url_with_delete_token}`` - booking url with delete token.
+* ``${booking_user_phone}`` - booking user phone.
+* ``${booking_user_email}`` - booking user email.
+* ``${booking_user_details}`` - booking user details.
+* ``${booking_office_contact_phone}`` - booking office contact phone.
+* ``${booking_office_contact_pec}`` - booking office contact pec.
+* ``${booking_office_contact_fax}`` - booking office contact fax.
+* ``${booking_how_to_get_to_office}`` - booking how to get to office.
+* ``${booking_office_complete_address}`` - booking office complete address.
+* ``${booking_user_details}`` - booking user details
+* ``${booking_requirements}`` - booking requeirements.
+* ``${prenotazioni_folder_title}`` - prenotazioni folder title.
+* ``${booking_user_details}`` - booking details.
+* ``${booking_requirements}`` - booking_requirements
+* ``${prenotazioni_folder_title}`` - PrenotazioniFolder title
+
 
 Vacations
 ---------
