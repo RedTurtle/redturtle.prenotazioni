@@ -28,6 +28,9 @@ Changelog
 
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
+ 
+- Extended PrenotaizoniFolder email templates var list.
+  [folix-01]
 
 - Better handle overrides between years.
   [cekk]
