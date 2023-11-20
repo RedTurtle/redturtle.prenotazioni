@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.2.0 (unreleased)
+2.2.0 (2023-11-20)
 ------------------
 
 - Fix sub BaseSlots whene some slots overlap
