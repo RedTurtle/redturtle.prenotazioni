@@ -186,6 +186,19 @@ class TestSPrenotazioneEvents(unittest.TestCase):
             mail.get_payload()[0].get_payload(),
         )
 
+    def test_email_not_sent_on_submit_if_autoconfirm(self):
+        self.folder_prenotazioni.notify_on_submit = True
+        self.folder_prenotazioni.notify_on_confirm = False
+        self.folder_prenotazioni.notify_on_confirm_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_confirm_message = self.email_message
+        self.folder_prenotazioni.auto_confirm = True
+
+        self.assertFalse(self.mailhost.messages)
+
+        self.create_booking()
+
+        self.assertEqual(len(self.mailhost.messages), 0)
+
     def test_email_send_on_prenotazione_move(self):
         self.folder_prenotazioni.notify_on_move = True
         self.folder_prenotazioni.notify_on_move_subject = self.email_subject

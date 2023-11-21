@@ -5,7 +5,9 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Do not send the booking created email if PrenotazioniFolder.auto_confirm is true.
+  [folix-01]
+
 
 
 2.2.0 (2023-11-20)

@@ -1259,7 +1259,7 @@ msgstr "Notifica alla prenotazione creata"
 #. Default: "Notify via mail the user when his booking has been created. If auto-confirm flag is selected and confirm notify is selected, this one will be ignored."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:511
 msgid "notify_on_submit_help"
-msgstr "Notifica l'utente via email quando la prenotazione viene creata. Se il flag di conferma automatica è stato selezionato, l'opzione corrente sarà ignorata"
+msgstr "Notifica l'utente via email quando la prenotazione viene creata. Se il flag di conferma automatica o di notifica alla conferma è stato selezionato, l'opzione corrente sarà ignorata"
 
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:555
