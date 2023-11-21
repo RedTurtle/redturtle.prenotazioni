@@ -5,7 +5,8 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Set PrenotazioniFolder and PrenotazioneType as not searchable (types_not_searched).
+  [cekk]
 
 
 2.2.0 (2023-11-20)
