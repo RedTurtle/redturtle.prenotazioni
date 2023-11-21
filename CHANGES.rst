@@ -5,7 +5,8 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Send email on the booking submit event if the send on confirm flag is true.
+  [folix-01]
 
 
 2.2.0 (2023-11-20)
