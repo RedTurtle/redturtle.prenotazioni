@@ -6,12 +6,19 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from plone import api
+from plone.app.event.base import default_timezone
 from plone.event.interfaces import IICalendar
-from plone.stringinterp.interfaces import IContextWrapper, IStringInterpolator
+from plone.stringinterp.interfaces import IContextWrapper
+from plone.stringinterp.interfaces import IStringInterpolator
+from plone.stringinterp.interfaces import IStringSubstitution
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
+from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter, getAdapter
 from zope.interface import implementer
+from zope.lifecycleevent import IObjectAddedEvent
+from zope.i18n import translate
 
+from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
@@ -77,9 +84,9 @@ class PrenotazioneEventMessageICalMixIn:
             return None
 
         message.add_header("Content-class", "urn:content-classes:calendarmessage")
+        name = f"{self.prenotazione.getId()}.ics"
 
         ical = getAdapter(object=self.prenotazione, interface=IICalendar)
-        name = f"{self.prenotazione.getId()}.ics"
         icspart = MIMEText(ical.to_ical().decode("utf-8"), "calendar")
 
         icspart.add_header("Filename", name)
@@ -152,3 +159,76 @@ class PrenotazioneAfterTransitionEmailICalMessage(
     PrenotazioneEventMessageICalMixIn, PrenotazioneAfterTransitionEmailMessage
 ):
     pass
+
+
+@implementer(IPrenotazioneEmailMessage)
+@adapter(IPrenotazione, IObjectAddedEvent)
+class PrenotazioneManagerEmailMessage(
+    PrenotazioneEventMessageICalMixIn, PrenotazioneEventEmailMessage
+):
+    def __init__(self, prenotazione, event):
+        super().__init__(prenotazione=prenotazione, event=event)
+
+        # set request annotation to mark it as manager notification.
+        # this will be used in ical adapter to change the title of the ical item
+        annotations = IAnnotations(prenotazione.REQUEST)
+        annotations["ical_manager_notification"] = True
+
+    @property
+    def message(self) -> MIMEMultipart:
+        """
+        customized to send Bcc instead To
+        """
+        msg = super().message
+        bcc = ", ".join(getattr(self.prenotazione, "email_responsabile", []))
+        del msg["To"]
+        msg["Bcc"] = bcc
+        return msg
+
+    @property
+    def message_subject(self) -> str:
+        booking_folder = self.prenotazione.getPrenotazioniFolder()
+        return translate(
+            _(
+                "new_booking_admin_notify_subject",
+                default="New booking for ${context}",
+                mapping={"context": booking_folder.title},
+            ),
+            context=self.prenotazione.REQUEST,
+        )
+
+    @property
+    def message_text(self) -> MIMEText:
+        booking = self.prenotazione
+        booking_folder = booking.getPrenotazioniFolder()
+        booking_operator_url = getAdapter(
+            booking, IStringSubstitution, "booking_operator_url"
+        )()
+
+        mail_template = api.content.get_view(
+            name="manager_notification_mail",
+            context=booking,
+            request=booking.REQUEST,
+        )
+        booking_date = getattr(booking, "booking_date", None)
+        parameters = {
+            "company": getattr(booking, "company", ""),
+            "booking_folder": booking_folder.title,
+            "booking_url": booking_operator_url,
+            "booking_date": booking_date.astimezone(
+                default_timezone(as_tzinfo=True)
+            ).strftime("%d/%m/%Y"),
+            "booking_hour": booking_date.astimezone(
+                default_timezone(as_tzinfo=True)
+            ).strftime("%H:%M"),
+            "booking_expiration_date": getattr(booking, "booking_expiration_date", ""),
+            "description": getattr(booking, "description", ""),
+            "email": getattr(booking, "email", ""),
+            "fiscalcode": getattr(booking, "fiscalcode", ""),
+            "gate": getattr(booking, "gate", ""),
+            "phone": getattr(booking, "phone", ""),
+            "staff_notes": getattr(booking, "staff_notes", ""),
+            "booking_type": getattr(booking, "booking_type", ""),
+            "title": getattr(booking, "title", ""),
+        }
+        return MIMEText(mail_template(**parameters), "html")
