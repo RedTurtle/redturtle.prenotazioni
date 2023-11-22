@@ -56,7 +56,8 @@ def notify_on_after_transition_event(context, event):
         i: getattr(booking_folder, f"notify_on_{i}", False)
         for i in ("confirm", "submit", "refuse")
     }
-    if flags["confirm"] and flags["submit"]:
+
+    if flags["confirm"] and getattr(booking_folder, "auto_confirm", False):
         flags["submit"] = False
 
     if flags.get(event.transition and event.transition.__name__ or "", False):
@@ -81,6 +82,7 @@ def autoconfirm(booking, event):
             booking.reindexObject(idxs="review_state")
 
 
+# TODO: use the notify_on_after_transition_event method techique instead
 def notify_on_move(booking, event):
     if not getattr(booking.getPrenotazioniFolder(), "notify_on_move", False):
         return

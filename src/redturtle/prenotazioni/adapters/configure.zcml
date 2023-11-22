@@ -97,6 +97,12 @@
       name="booking_user_email"
       />
   <adapter
+      factory=".stringinterp.BookingUserDetailsSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_user_details"
+      />
+  <adapter
       factory=".stringinterp.BookingCodeSubstitution"
       provides="plone.stringinterp.interfaces.IStringSubstitution"
       for="*"
@@ -158,6 +164,18 @@
       provides="plone.stringinterp.interfaces.IStringSubstitution"
       for="*"
       name="booking_refuse_message"
+      />
+  <adapter
+      factory=".stringinterp.BookingRequirements"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_requirements"
+      />
+  <adapter
+      factory=".stringinterp.PrenotazioniFolderTitle"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="prenotazioni_folder_title"
       />
 
   <!-- ical adapters -->

@@ -142,6 +142,15 @@ class BookingUserEmailSubstitution(BaseSubstitution):
 
 
 @adapter(Interface)
+class BookingUserDetailsSubstitution(BaseSubstitution):
+    category = _("Booking")
+    description = _("The email address of the user who made the reservation.")
+
+    def safe_call(self):
+        return getattr(self.context, "description", "")
+
+
+@adapter(Interface)
 class BookingOfficeContactPhoneSubstitution(BaseSubstitution):
     category = _("Booking")
     description = _("The booking office contact phone.")
@@ -262,3 +271,23 @@ class BookingRefuseMessage(BaseSubstitution):
         refuse_message = refuse_history and refuse_history[0].get("comments") or ""
 
         return refuse_message
+
+
+@adapter(Interface)
+class BookingRequirements(BaseSubstitution):
+    category = _("Booking")
+    description = _("The booking requirements url")
+
+    def safe_call(self):
+        requirements = self.context.get_booking_type().requirements
+
+        return requirements and requirements.output or ""
+
+
+@adapter(Interface)
+class PrenotazioniFolderTitle(BaseSubstitution):
+    category = _("Booking")
+    description = _("The booking folder title")
+
+    def safe_call(self):
+        return getattr(self.context.getPrenotazioniFolder(), "title", "")

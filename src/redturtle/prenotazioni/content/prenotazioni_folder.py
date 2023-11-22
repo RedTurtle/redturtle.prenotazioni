@@ -665,11 +665,15 @@ class IPrenotazioniFolder(model.Schema):
         #     "${booking_url_with_delete_token} - booking url with delete token."
         #     "${booking_user_phone} - booking user phone."
         #     "${booking_user_email} - booking user email."
+        #     "${booking_user_details} - booking user details."
         #     "${booking_office_contact_phone} - booking office contact phone."
         #     "${booking_office_contact_pec} - booking office contact pec."
         #     "${booking_office_contact_fax} - booking office contact fax."
         #     "${booking_how_to_get_to_office} - booking how to get to office."
         #     "${booking_office_complete_address} - booking office complete address.",
+        #     "${booking_user_details} - booking user details",
+        #     "${booking_requirements} - booking requeirements.",
+        #     "${prenotazioni_folder_title} - prenotazioni folder title.",
         # ),
         # description=_(
         #     "prenotazioni_email_templates_description",

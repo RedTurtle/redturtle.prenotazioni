@@ -2,8 +2,8 @@
 import json
 import unittest
 from datetime import date
-from freezegun import freeze_time
 
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import (
     SITE_OWNER_NAME,
@@ -139,6 +139,12 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
                     "week_table"
                 ]
             },
+        )
+
+        # if in range and next year +1, return table overrides
+        self.assertEqual(
+            self.view.get_week_table(date(now.year + 1, 12, 25)),
+            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
         )
 
         # if out of range, return base table

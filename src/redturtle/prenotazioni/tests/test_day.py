@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
-import pytz
 import unittest
 from datetime import date, timedelta
 
+import pytz
 from plone import api
 from plone.app.testing import (
     SITE_OWNER_NAME,
@@ -12,13 +12,13 @@ from plone.app.testing import (
 )
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.testing import RelativeSession
-from redturtle.prenotazioni import tznow
 from transaction import commit
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
+from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 

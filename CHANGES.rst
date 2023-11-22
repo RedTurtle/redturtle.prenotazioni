@@ -2,7 +2,20 @@ Changelog
 =========
 
 
-2.2.0 (unreleased)
+2.2.2 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+2.2.1 (2023-11-22)
+------------------
+
+- Do not send the booking created email if auto_confirm is true and notify on confirm is true.
+  [folix-01, cekk]
+
+
+2.2.0 (2023-11-20)
 ------------------
 
 - Fix sub BaseSlots whene some slots overlap
@@ -17,7 +30,7 @@ Changelog
 - Allow Bookings Manager to create, move the bookings and create the vacations.
   [folix-01]
 
-- Convert booking types to c.t.
+- [BREAKING CHANGE] Convert booking types to c.t.
   [folix-01]
 
 - Change bookings default limit to 0.
@@ -28,6 +41,12 @@ Changelog
 
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
+ 
+- Extended PrenotaizoniFolder email templates var list.
+  [folix-01]
+
+- Better handle overrides between years.
+  [cekk]
 
 - Handle possibility to create more overrides with different gates schedule.
   [cekk]

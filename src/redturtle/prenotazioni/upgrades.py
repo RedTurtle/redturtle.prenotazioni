@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
-from Acquisition import aq_base
+
 import pytz
 from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
@@ -467,25 +467,22 @@ def to_1808(context):
 
 
 def to_2000(context):
-    for i in api.content.find(portal_type="PrenotazioniFolder"):
-        obj = aq_base(i.getObject())
-        if "booking_types" not in obj.__dict__:  # noqa
+    for brain in api.content.find(portal_type="PrenotazioniFolder"):
+        obj = brain.getObject()
+        booking_types = obj.__dict__.get("booking_types", [])
+        if not booking_types:
             continue
-        logger.info(f"Transforming <{i.UID}>.booking_types to contenttypes themself")
-        for type in obj.__dict__["booking_types"]:
-            logger.info(f" --| Creating {type.get('name')} booking type")
-            booking_type = api.content.create(
+        logger.info(
+            f"Transforming <{brain.UID}>.booking_types to contenttypes themself"
+        )
+        for booking_type in booking_types:
+            logger.info(f" --| Creating {booking_type.get('name')} booking type")
+            booking_type_obj = api.content.create(
                 type="PrenotazioneType",
-                title=type.get("name"),
-                duration=type.get("duration"),
-                # hidden=type.get("hidden"),
+                title=booking_type.get("name"),
+                duration=booking_type.get("duration"),
                 container=obj,
-                # gates=["all"],
             )
-            if not type.get("hidden", False):
-                api.content.transition(obj=booking_type, transition="publish")
-            booking_type.reindexObject(idxs=["review_state"])
-
-        del obj.__dict__["booking_types"]
-        # getattr(obj, "booking_types", None) and delattr(obj, "booking_types")
-        # getattr(obj, "cosa_serve", None) and delattr(obj, "cosa_serve")
+            if not booking_type.get("hidden", False):
+                api.content.transition(obj=booking_type_obj, transition="publish")
+            booking_type_obj.reindexObject(idxs=["review_state"])

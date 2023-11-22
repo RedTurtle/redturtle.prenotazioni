@@ -187,13 +187,21 @@ class PrenotazioniContextState(BrowserView):
                 to_date = date(to_year, to_month, to_day)
             else:
                 # ends next year (i.e. from "20 dec" to "7 jan")
-                today_year = date.today().year
-                if today_year < to_year:
-                    from_date = date(today_year, from_month, from_day)
+                if day.month < from_month:
+                    # i.e day is 03 jan
+                    from_date = date(to_year - 1, from_month, from_day)
                     to_date = date(to_year, to_month, to_day)
                 else:
+                    # i.e day is 28 dec
                     from_date = date(to_year, from_month, from_day)
                     to_date = date(to_year + 1, to_month, to_day)
+                # today_year = date.today().year
+                # if today_year < to_year:
+                #     from_date = date(today_year, from_month, from_day)
+                #     to_date = date(to_year, to_month, to_day)
+                # else:
+                #     from_date = date(to_year, from_month, from_day)
+                #     to_date = date(to_year + 1, to_month, to_day)
 
             booking_date = day
             if isinstance(day, datetime):
