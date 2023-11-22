@@ -195,17 +195,24 @@ class TestSPrenotazioneEvents(unittest.TestCase):
             mail.get_payload()[0].get_payload(),
         )
 
-    def test_email_not_sent_on_submit_if_on_confirm_true(self):
+    def test_email_not_sent_on_submit_if_on_confirm_true_and_autoconfirm(self):
+        self.folder_prenotazioni.auto_confirm = True
         self.folder_prenotazioni.notify_on_submit = True
         self.folder_prenotazioni.notify_on_confirm = True
-        self.folder_prenotazioni.notify_on_confirm_subject = self.email_subject
-        self.folder_prenotazioni.notify_on_confirm_message = self.email_message
+        self.folder_prenotazioni.notify_on_submit_subject = (
+            f"{self.email_subject} on submit"
+        )
+        self.folder_prenotazioni.notify_on_submit_message = (
+            f"{self.email_message} on submit"
+        )
+        self.folder_prenotazioni.notify_on_confirm_subject = (
+            f"{self.email_subject} on confirm"
+        )
+        self.folder_prenotazioni.notify_on_confirm_message = (
+            f"{self.email_message} on confirm"
+        )
 
-        self.assertFalse(self.mailhost.messages)
-
-        booking = self.create_booking()
-
-        api.content.transition(booking, "confirm")
+        self.create_booking()
 
         self.assertEqual(len(self.mailhost.messages), 1)
 
@@ -214,26 +221,41 @@ class TestSPrenotazioneEvents(unittest.TestCase):
         self.assertTrue(mail.is_multipart())
 
         self.assertIn(
-            self.email_subject,
+            f"{self.email_subject} on confirm",
             "".join([i for i in mail.values()]),
         )
-        self.assertIn(
-            self.email_message,
-            mail.get_payload()[0].get_payload(),
-        )
 
-    def test_email_not_sent_on_submit_if_autoconfirm(self):
+    def test_email_sent_on_submit_if_autoconfirm_and_not_on_confirm(self):
         self.folder_prenotazioni.notify_on_submit = True
         self.folder_prenotazioni.notify_on_confirm = False
-        self.folder_prenotazioni.notify_on_confirm_subject = self.email_subject
-        self.folder_prenotazioni.notify_on_confirm_message = self.email_message
+        self.folder_prenotazioni.notify_on_submit_subject = (
+            f"{self.email_subject} on submit"
+        )
+        self.folder_prenotazioni.notify_on_submit_message = (
+            f"{self.email_message} on submit"
+        )
+        self.folder_prenotazioni.notify_on_confirm_subject = (
+            f"{self.email_subject} on confirm"
+        )
+        self.folder_prenotazioni.notify_on_confirm_message = (
+            f"{self.email_message} on confirm"
+        )
         self.folder_prenotazioni.auto_confirm = True
 
         self.assertFalse(self.mailhost.messages)
 
         self.create_booking()
 
-        self.assertEqual(len(self.mailhost.messages), 0)
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        mail = email.message_from_bytes(self.mailhost.messages[0])
+
+        self.assertTrue(mail.is_multipart())
+
+        self.assertIn(
+            f"{self.email_subject} on submit",
+            "".join([i for i in mail.values()]),
+        )
 
     def test_email_send_on_prenotazione_move(self):
         self.folder_prenotazioni.notify_on_move = True
