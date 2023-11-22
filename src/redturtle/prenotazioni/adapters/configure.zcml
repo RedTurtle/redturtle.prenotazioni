@@ -205,7 +205,7 @@
       factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailICalMessage"
       name="confirm"
       />
-  
+
   <adapter
       factory=".prenotazione_email_message.PrenotazioneManagerEmailMessage"
       name="notify_manager"
