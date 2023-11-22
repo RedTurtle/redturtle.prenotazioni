@@ -143,7 +143,8 @@ class Booker(object):
         else:
             gate = force_gate
 
-        fiscalcode = data.get("fiscalcode", "").upper()
+        fiscalcode = data.get("fiscalcode", "") or ""
+        fiscalcode.upper()
         user = api.user.get_current()
 
         if not fiscalcode:
