@@ -133,6 +133,42 @@ class TestSPrenotazioneEvents(unittest.TestCase):
             mail.get_payload()[0].get_payload(),
         )
 
+    def test_email_send_on_submit_and_confirm_if_not_autoconfirm(self):
+        self.folder_prenotazioni.notify_on_submit = True
+        self.folder_prenotazioni.notify_on_confirm = True
+        self.folder_prenotazioni.notify_on_submit_subject = (
+            f"{self.email_subject} on submit"
+        )
+        self.folder_prenotazioni.notify_on_submit_message = (
+            f"{self.email_message} on submit"
+        )
+        self.folder_prenotazioni.notify_on_confirm_subject = (
+            f"{self.email_subject} on confirm"
+        )
+        self.folder_prenotazioni.notify_on_confirm_message = (
+            f"{self.email_message} on confirm"
+        )
+
+        self.assertFalse(self.mailhost.messages)
+
+        booking = self.create_booking()
+
+        api.content.transition(booking, "confirm")
+
+        self.assertEqual(len(self.mailhost.messages), 2)
+
+        submit_mail = email.message_from_bytes(self.mailhost.messages[0])
+        confirm_mail = email.message_from_bytes(self.mailhost.messages[1])
+
+        self.assertIn(
+            f"{self.email_subject} on submit",
+            "".join([i for i in submit_mail.values()]),
+        )
+        self.assertIn(
+            f"{self.email_subject} on confirm",
+            "".join([i for i in confirm_mail.values()]),
+        )
+
     def test_email_send_on_reject(self):
         self.folder_prenotazioni.notify_on_refuse = True
         self.folder_prenotazioni.notify_on_refuse_subject = self.email_subject

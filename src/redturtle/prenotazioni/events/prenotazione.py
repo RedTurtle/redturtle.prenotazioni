@@ -57,7 +57,7 @@ def notify_on_after_transition_event(context, event):
         for i in ("confirm", "submit", "refuse")
     }
 
-    if flags["confirm"] or getattr(booking_folder, "auto_confirm", False):
+    if flags["confirm"] and getattr(booking_folder, "auto_confirm", False):
         flags["submit"] = False
 
     if flags.get(event.transition and event.transition.__name__ or "", False):
