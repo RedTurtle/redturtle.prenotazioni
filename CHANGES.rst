@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.2.1 (unreleased)
+2.2.1 (2023-11-22)
 ------------------
 
 - Do not send the booking created email if auto_confirm is true and notify on confirm is true.
