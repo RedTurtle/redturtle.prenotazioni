@@ -206,6 +206,10 @@
       name="confirm"
       />
 
+  <adapter
+      factory=".prenotazione_email_message.PrenotazioneManagerEmailMessage"
+      name="notify_manager"
+      />
   <!-- Prenotazione moved event message adapter -->
   <adapter factory=".prenotazione_email_message.PrenotazioneMovedICalEmailMessage" />
 

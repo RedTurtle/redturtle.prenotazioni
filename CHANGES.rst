@@ -2,11 +2,20 @@ Changelog
 =========
 
 
-2.2.1 (unreleased)
+2.2.2 (unreleased)
 ------------------
 
 - Set PrenotazioniFolder and PrenotazioneType as not searchable (types_not_searched).
   [cekk]
+- Send ical also for manager notifications.
+  [cekk]
+
+
+2.2.1 (2023-11-22)
+------------------
+
+- Do not send the booking created email if auto_confirm is true and notify on confirm is true.
+  [folix-01, cekk]
 
 
 2.2.0 (2023-11-20)

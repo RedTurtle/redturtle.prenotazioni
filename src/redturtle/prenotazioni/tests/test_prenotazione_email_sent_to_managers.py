@@ -4,12 +4,8 @@ import unittest
 from datetime import date, datetime, timedelta
 
 import pytz
-from collective.contentrules.mailfromfield.actions.mail import MailFromFieldAction
 from plone import api
 from plone.app.testing import TEST_USER_ID, setRoles
-from plone.contentrules.rule.interfaces import IExecutable
-from Products.CMFCore.WorkflowCore import ActionSucceededEvent
-from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
@@ -80,32 +76,62 @@ class TestEmailToManagers(unittest.TestCase):
             }
         )
 
-    def test_email_sent_to_managers_on_confirm(self):
-        booking = self.create_booking()
-        e = MailFromFieldAction()
-        e.source = "foo@bar.be"
-        e.fieldName = "email"
-        e.target = "target"
-        e.message = "Test mail"
-        e.subject = "Subject"
-        ex = getMultiAdapter(
-            (
-                self.portal,
-                e,
-                ActionSucceededEvent(
-                    object=booking,
-                    workflow=None,
-                    action="confirm",
-                    result="",
-                ),
-            ),
-            IExecutable,
+    def test_email_sent_to_managers_on_creation(self):
+        self.assertFalse(self.mailhost.messages)
+
+        self.create_booking()
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        mail = email.message_from_bytes(self.mailhost.messages[0])
+
+        self.assertTrue(mail.is_multipart())
+
+        self.assertIn(
+            "New booking for Prenota foo",
+            "".join([i for i in mail.values()]),
         )
-        ex()
+        self.assertIn(
+            "Go to the booking to see more details and manage it",
+            mail.get_payload()[0].get_payload(),
+        )
 
-        mailSent = self.mailhost.messages[0]
-        message = email.message_from_bytes(mailSent)
+    def test_email_sent_to_managers_has_ical(self):
+        self.assertFalse(self.mailhost.messages)
 
-        # expected local time
-        expected = self.tomorrow_8_0.strftime("%d/%m/%Y at 08:00")
-        self.assertIn(expected, message.get_payload())
+        self.assertFalse(self.mailhost.messages)
+        booking = self.create_booking()
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        mail_sent = self.mailhost.messages[0]
+        message = email.message_from_bytes(mail_sent)
+
+        self.assertTrue(len(message.get_payload()), 2)
+
+        attachment = message.get_payload()[1]
+        data = attachment.get_payload()
+
+        self.assertTrue(message.is_multipart())
+        self.assertIn(
+            f"SUMMARY:Booking for foo [{self.folder_prenotazioni.title}]", data
+        )
+        if api.env.plone_version() < "6":
+            self.assertIn(
+                f'DTSTART;VALUE=DATE-TIME:{booking.booking_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+            self.assertIn(
+                f'DTEND;VALUE=DATE-TIME:{booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+        else:
+            self.assertIn(
+                f'DTSTART:{booking.booking_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+            self.assertIn(
+                f'DTEND:{booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+        self.assertIn(f"UID:{booking.UID()}", data)
