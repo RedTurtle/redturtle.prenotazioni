@@ -536,15 +536,6 @@ class IPrenotazioniFolder(model.Schema):
         default=False,
         required=False,
     )
-    notify_as_reminder = schema.Bool(
-        title=_("notify_as_reminder", default="Notify about the upcomming bookings."),
-        description=_(
-            "notify_as_reminder_help",
-            default="Send reminders about the upcomming bookings.",
-        ),
-        default=False,
-        required=False,
-    )
     notify_on_submit_subject = schema.TextLine(
         title=_(
             "notify_on_submit_subject",
