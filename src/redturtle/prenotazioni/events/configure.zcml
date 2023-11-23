@@ -69,6 +69,10 @@
            redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
       handler=".prenotazione.notify_on_move"
       />
-
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           redturtle.prenotazioni.interfaces.IBookingReminderEvent"
+      handler=".prenotazione.send_booking_reminder"
+      />
 
 </configure>

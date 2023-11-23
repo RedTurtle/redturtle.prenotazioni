@@ -204,6 +204,26 @@ def notify_on_refuse_message_default_factory(context):
     )
 
 
+@provider(IContextAwareDefaultFactory)
+def notify_as_reminder_subject_default_factory(context):
+    return getattr(context, "translate", translate)(
+        _(
+            "notify_as_reminder_subject_default_value",
+            "You have the upcomming booking on ${booking_date}",
+        )
+    )
+
+
+@provider(IContextAwareDefaultFactory)
+def notify_as_reminder_message_default_factory(context):
+    return getattr(context, "translate", translate)(
+        _(
+            "notify_as_reminder_message_default_value",
+            'Booking details are available by the following <a href="${booking_pring_url}">link</a>',
+        )
+    )
+
+
 class IPrenotazioniFolder(model.Schema):
     """Marker interface and Dexterity Python Schema for PrenotazioniFolder"""
 
@@ -516,6 +536,15 @@ class IPrenotazioniFolder(model.Schema):
         default=False,
         required=False,
     )
+    notify_as_reminder = schema.Bool(
+        title=_("notify_as_reminder", default="Notify about the upcomming bookings."),
+        description=_(
+            "notify_as_reminder_help",
+            default="Send reminders about the upcomming bookings.",
+        ),
+        default=False,
+        required=False,
+    )
     notify_on_submit_subject = schema.TextLine(
         title=_(
             "notify_on_submit_subject",
@@ -588,7 +617,24 @@ class IPrenotazioniFolder(model.Schema):
         defaultFactory=notify_on_refuse_message_default_factory,
         required=False,
     )
-
+    notify_as_reminder_subject = schema.TextLine(
+        title=_(
+            "notify_as_reminder_subject",
+            default="Booking reminder subject.",
+        ),
+        description=_("notify_as_reminder_subject_help", default=""),
+        defaultFactory=notify_as_reminder_subject_default_factory,
+        required=False,
+    )
+    notify_as_reminder_message = schema.Text(
+        title=_(
+            "notify_as_reminder_message",
+            default="Booking reminder message.",
+        ),
+        description=_("notify_as_reminder_message", default=""),
+        defaultFactory=notify_as_reminder_message_default_factory,
+        required=False,
+    )
     max_bookings_allowed = schema.Int(
         title=_(
             "max_bookings_allowed_label",
@@ -600,6 +646,18 @@ class IPrenotazioniFolder(model.Schema):
         ),
         required=False,
         default=0,
+    )
+    reminder_notification_gap = schema.Int(
+        title=_(
+            "booking_reminder_gap_label",
+            default="Upcomming bookings notification gap",
+        ),
+        description=_(
+            "booking_reminder_gap_description",
+            default="Indicates how many days before of a booking the user will be notified about it.",
+        ),
+        required=False,
+        default=3,
     )
 
     model.fieldset(

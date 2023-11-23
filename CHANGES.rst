@@ -5,6 +5,8 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
+- Add booking reminder emails.
+  [folix-01]
 - Send ical also for manager notifications.
   [cekk]
 
@@ -42,7 +44,7 @@ Changelog
 
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
- 
+
 - Extended PrenotaizoniFolder email templates var list.
   [folix-01]
 

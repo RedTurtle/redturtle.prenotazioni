@@ -213,4 +213,10 @@
   <!-- Prenotazione moved event message adapter -->
   <adapter factory=".prenotazione_email_message.PrenotazioneMovedICalEmailMessage" />
 
+  <adapter
+      factory=".prenotazione_email_message.PrenotazioneReminderEmailMessage"
+      name="reminder_notification_message"
+      />
+
+
 </configure>

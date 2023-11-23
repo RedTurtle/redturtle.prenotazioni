@@ -71,6 +71,19 @@ def notify_on_after_transition_event(context, event):
                 send_email(adapter.message)
 
 
+def send_booking_reminder(context, event):
+    """The messages are being send only if the following flags on the PrenotazioniFolder are set"""
+    adapter = getMultiAdapter(
+        (context, event),
+        IPrenotazioneEmailMessage,
+        name="reminder_notification_message",
+    )
+
+    if adapter:
+        if adapter.message:
+            send_email(adapter.message)
+
+
 def autoconfirm(booking, event):
     if api.content.get_state(obj=booking, default=None) == "pending":
         if getattr(booking.getPrenotazioniFolder(), "auto_confirm", False):
