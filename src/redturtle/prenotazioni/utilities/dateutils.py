@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, time, timedelta
+from datetime import datetime
+from datetime import time
+from datetime import timedelta
 
 import six
 from plone.app.event.base import default_timezone

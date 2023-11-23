@@ -1,5 +1,11 @@
 # -*- encoding: utf-8 -*-
-from bravado_core.spec import Spec, is_yaml, json, log, url2pathname, urlparse, yaml
+from bravado_core.spec import Spec
+from bravado_core.spec import is_yaml
+from bravado_core.spec import json
+from bravado_core.spec import log
+from bravado_core.spec import url2pathname
+from bravado_core.spec import urlparse
+from bravado_core.spec import yaml
 
 
 def get_ref_handlers(self):

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from datetime import date, datetime
+from datetime import date
+from datetime import datetime
 
 from plone import api
 from plone.memoize.view import memoize

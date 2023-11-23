@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from plone import api
-from plone.restapi.interfaces import IFieldSerializer, ISerializeToJson
+from plone.restapi.interfaces import IFieldSerializer
+from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.serializer.converters import json_compatible
-from zope.component import adapter, getMultiAdapter
+from zope.component import adapter
+from zope.component import getMultiAdapter
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface.interfaces import ComponentLookupError

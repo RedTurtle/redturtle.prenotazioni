@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, time
+from datetime import datetime
+from datetime import time
 
 from AccessControl import Unauthorized
 from plone import api
@@ -7,7 +8,8 @@ from plone.memoize.view import memoize
 from plone.protect import CheckAuthenticator
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
-from zExceptions import Forbidden, NotFound
+from zExceptions import Forbidden
+from zExceptions import NotFound
 from zope.i18n import translate
 
 from redturtle.prenotazioni import _
