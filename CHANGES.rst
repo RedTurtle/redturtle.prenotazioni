@@ -5,6 +5,8 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
+- Set PrenotazioniFolder and PrenotazioneType as not searchable (types_not_searched).
+  [cekk]
 - Send ical also for manager notifications.
   [cekk]
 

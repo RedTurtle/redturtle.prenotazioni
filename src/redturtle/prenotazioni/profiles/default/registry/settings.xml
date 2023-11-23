@@ -9,6 +9,8 @@
       <element>PrenotazioniDay</element>
       <element>PrenotazioniWeek</element>
       <element>PrenotazioniYear</element>
+      <element>PrenotazioneType</element>
+      <element>PrenotazioniFolder</element>
     </value>
   </record>
 
