@@ -280,3 +280,118 @@ class TestSPrenotazioneEvents(unittest.TestCase):
             self.email_message,
             mail.get_payload()[0].get_payload(),
         )
+
+    def test_email_send_on_prenotazione_move_has_ical(self):
+        self.folder_prenotazioni.notify_on_move = True
+        self.folder_prenotazioni.notify_on_move_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_move_message = self.email_message
+
+        self.assertFalse(self.mailhost.messages)
+        booking = self.create_booking()
+        notify(MovedPrenotazione(booking))
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        mail_sent = self.mailhost.messages[0]
+        message = email.message_from_bytes(mail_sent)
+
+        self.assertTrue(len(message.get_payload()), 2)
+
+        attachment = message.get_payload()[1]
+        data = attachment.get_payload()
+
+        self.assertTrue(message.is_multipart())
+        self.assertEqual(attachment.get_filename(), "foo.ics")
+        self.assertIn("SUMMARY:Booking for Prenota foo", data)
+        if api.env.plone_version() < "6":
+            self.assertIn(
+                f'DTSTART;VALUE=DATE-TIME:{booking.booking_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+            self.assertIn(
+                f'DTEND;VALUE=DATE-TIME:{booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+        else:
+            self.assertIn(
+                f'DTSTART:{booking.booking_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+            self.assertIn(
+                f'DTEND:{booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+        self.assertIn(f"UID:{booking.UID()}", data)
+
+    def test_email_send_on_submit_does_not_have_ical(self):
+        self.folder_prenotazioni.notify_on_submit = True
+        self.folder_prenotazioni.notify_on_submit_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_submit_message = self.email_message
+
+        self.assertFalse(self.mailhost.messages)
+        self.create_booking()
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        mail_sent = self.mailhost.messages[0]
+        message = email.message_from_bytes(mail_sent)
+
+        self.assertTrue(len(message.get_payload()), 1)
+
+    def test_email_send_on_confirm_has_ical(self):
+        self.folder_prenotazioni.notify_on_confirm = True
+        self.folder_prenotazioni.notify_on_confirm_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_confirm_message = self.email_message
+        self.folder_prenotazioni.auto_confirm = True
+
+        self.assertFalse(self.mailhost.messages)
+        booking = self.create_booking()
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        mail_sent = self.mailhost.messages[0]
+        message = email.message_from_bytes(mail_sent)
+
+        self.assertTrue(len(message.get_payload()), 2)
+
+        attachment = message.get_payload()[1]
+        data = attachment.get_payload()
+
+        self.assertTrue(message.is_multipart())
+        self.assertEqual(attachment.get_filename(), "foo.ics")
+        self.assertIn("SUMMARY:Booking for Prenota foo", data)
+        if api.env.plone_version() < "6":
+            self.assertIn(
+                f'DTSTART;VALUE=DATE-TIME:{booking.booking_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+            self.assertIn(
+                f'DTEND;VALUE=DATE-TIME:{booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+        else:
+            self.assertIn(
+                f'DTSTART:{booking.booking_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+            self.assertIn(
+                f'DTEND:{booking.booking_expiration_date.strftime("%Y%m%dT%H%M%S")}',
+                data,
+            )
+        self.assertIn(f"UID:{booking.UID()}", data)
+
+    def test_email_send_on_refuse_does_not_have_ical(self):
+        self.folder_prenotazioni.notify_on_refuse = True
+        self.folder_prenotazioni.notify_on_refuse_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_refuse_message = self.email_message
+
+        self.assertFalse(self.mailhost.messages)
+        booking = self.create_booking()
+        api.content.transition(booking, "refuse")
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        mail_sent = self.mailhost.messages[0]
+        message = email.message_from_bytes(mail_sent)
+
+        self.assertTrue(len(message.get_payload()), 1)

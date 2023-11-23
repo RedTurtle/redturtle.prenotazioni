@@ -6,6 +6,7 @@ from plone.app.event.ical.exporter import PRODID, VERSION, ICalendarEventCompone
 from plone.event.interfaces import IICalendar, IICalendarEventComponent
 from plone.registry.interfaces import IRegistry
 from plone.stringinterp.interfaces import IContextWrapper, IStringSubstitution
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getAdapter, getUtility
 from zope.interface import implementer
 
@@ -67,11 +68,17 @@ class ICalendarBookingComponent(ICalendarEventComponent):
         # Module Shared.DC.Scripts.Bindings, line 199, in __getattr__
         # Module Shared.DC.Scripts.Bindings, line 205, in __you_lose
         # AccessControl.unauthorized.Unauthorized: <exception str() failed>
-        title = self.parent.translate(
+        annotations = IAnnotations(self.context.REQUEST)
+
+        is_manager_notification = annotations.get("ical_manager_notification", False)
+        title_label = self.parent.title
+        if is_manager_notification:
+            title_label = f"{self.context.title} [{title_label}]"
+        title = self.context.translate(
             _(
                 "ical_booking_label",
                 default="Booking for ${title}",
-                mapping={"title": self.parent.title},
+                mapping={"title": title_label},
             )
         )
         return {"value": title}

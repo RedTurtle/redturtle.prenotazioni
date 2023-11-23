@@ -5,7 +5,8 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Send ical also for manager notifications.
+  [cekk]
 
 
 2.2.1 (2023-11-22)
