@@ -262,4 +262,14 @@
         handler=".upgrades.to_2000"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2000"
+      destination="2001"
+      >
+    <genericsetup:upgradeStep
+        title="Disable searchable types"
+        handler=".upgrades.update_registry"
+        />
+  </genericsetup:upgradeSteps>
 </configure>

@@ -7,6 +7,10 @@ Changelog
 
 - Add booking reminder emails.
   [folix-01]
+
+- Set PrenotazioniFolder and PrenotazioneType as not searchable (types_not_searched).
+  [cekk]
+
 - Send ical also for manager notifications.
   [cekk]
 
