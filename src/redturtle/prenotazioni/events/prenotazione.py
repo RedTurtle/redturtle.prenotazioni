@@ -74,7 +74,6 @@ def notify_on_after_transition_event(context, event):
 
 
 def send_booking_reminder(context, event):
-    """The messages are being send only if the following flags on the PrenotazioniFolder are set"""
     adapter = getMultiAdapter(
         (context, event),
         IPrenotazioneEmailMessage,
