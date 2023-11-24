@@ -640,11 +640,11 @@ class IPrenotazioniFolder(model.Schema):
     )
     reminder_notification_gap = schema.Int(
         title=_(
-            "booking_reminder_gap_label",
+            "reminder_notification_gap_label",
             default="Upcomming bookings notification gap",
         ),
         description=_(
-            "booking_reminder_gap_description",
+            "reminder_notification_gap_description",
             default="Indicates how many days before of a booking the user will be notified about it.",
         ),
         required=False,

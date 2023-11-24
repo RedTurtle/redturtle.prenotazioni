@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2023-11-23 16:51+0000\n"
+"POT-Creation-Date: 2023-11-24 08:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,7 @@ msgstr ""
 msgid "Data inizio validità"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:665
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:656
 msgid "Date validità"
 msgstr ""
 
@@ -637,16 +637,6 @@ msgstr ""
 msgid "booking_refused"
 msgstr ""
 
-#. Default: "Indicates how many days before of a booking the user will be notified about it."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:655
-msgid "booking_reminder_gap_description"
-msgstr ""
-
-#. Default: "Upcomming bookings notification gap"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:651
-msgid "booking_reminder_gap_label"
-msgstr ""
-
 #. Default: "Duration value"
 #: redturtle/prenotazioni/content/prenotazione_type.py:15
 msgid "booking_type_duration_label"
@@ -1056,12 +1046,12 @@ msgid "legend_note"
 msgstr ""
 
 #. Default: "The number of simultaneous bookings allowed for the same user."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:643
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:634
 msgid "max_bookings_allowed_description"
 msgstr ""
 
 #. Default: "Maximum bookings number allowed"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:639
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:630
 msgid "max_bookings_allowed_label"
 msgstr ""
 
@@ -1111,7 +1101,7 @@ msgid "move_message"
 msgstr ""
 
 #. Default: "New booking for ${context}"
-#: redturtle/prenotazioni/adapters/prenotazione_email_message.py:193
+#: redturtle/prenotazioni/adapters/prenotazione_email_message.py:196
 msgid "new_booking_admin_notify_subject"
 msgstr ""
 
@@ -1126,22 +1116,12 @@ msgid "notBeforeDays"
 msgstr ""
 
 #. Default: "Notifications"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:695
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:686
 msgid "notifications_label"
 msgstr ""
 
-#. Default: "Notify about the upcomming bookings."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:540
-msgid "notify_as_reminder"
-msgstr ""
-
-#. Default: "Send reminders about the upcomming bookings."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:541
-msgid "notify_as_reminder_help"
-msgstr ""
-
 #. Default: "Booking reminder message."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:630
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:621
 msgid "notify_as_reminder_message"
 msgstr ""
 
@@ -1151,7 +1131,7 @@ msgid "notify_as_reminder_message_default_value"
 msgstr ""
 
 #. Default: "Booking reminder subject."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:621
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:612
 msgid "notify_as_reminder_subject"
 msgstr ""
 
@@ -1160,7 +1140,7 @@ msgstr ""
 msgid "notify_as_reminder_subject_default_value"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:625
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:616
 msgid "notify_as_reminder_subject_help"
 msgstr ""
 
@@ -1175,7 +1155,7 @@ msgid "notify_on_confirm_help"
 msgstr ""
 
 #. Default: "Prenotazione confirmed notification message."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:576
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:567
 msgid "notify_on_confirm_message"
 msgstr ""
 
@@ -1185,12 +1165,12 @@ msgstr ""
 msgid "notify_on_confirm_message_default_value"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:580
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:571
 msgid "notify_on_confirm_message_help"
 msgstr ""
 
 #. Default: "Prenotazione confirmed notification subject."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:567
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:558
 msgid "notify_on_confirm_subject"
 msgstr ""
 
@@ -1200,7 +1180,7 @@ msgstr ""
 msgid "notify_on_confirm_subject_default_value"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:571
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:562
 msgid "notify_on_confirm_subject_help"
 msgstr ""
 
@@ -1215,7 +1195,7 @@ msgid "notify_on_move_help"
 msgstr ""
 
 #. Default: "Prenotazione moved notification message."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:594
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:585
 msgid "notify_on_move_message"
 msgstr ""
 
@@ -1225,12 +1205,12 @@ msgstr ""
 msgid "notify_on_move_message_default_value"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:598
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:589
 msgid "notify_on_move_message_help"
 msgstr ""
 
 #. Default: "Prenotazione moved notification subject."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:585
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:576
 msgid "notify_on_move_subject"
 msgstr ""
 
@@ -1240,7 +1220,7 @@ msgstr ""
 msgid "notify_on_move_subject_default_value"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:589
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:580
 msgid "notify_on_move_subject_help"
 msgstr ""
 
@@ -1255,7 +1235,7 @@ msgid "notify_on_refuse_help"
 msgstr ""
 
 #. Default: "Prenotazione created notification message."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:612
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:603
 msgid "notify_on_refuse_message"
 msgstr ""
 
@@ -1265,12 +1245,12 @@ msgstr ""
 msgid "notify_on_refuse_message_default_value"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:616
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:607
 msgid "notify_on_refuse_message_help"
 msgstr ""
 
 #. Default: "Prenotazione refused notification subject."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:603
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:594
 msgid "notify_on_refuse_subject"
 msgstr ""
 
@@ -1280,7 +1260,7 @@ msgstr ""
 msgid "notify_on_refuse_subject_default_value"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:607
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:598
 msgid "notify_on_refuse_subject_help"
 msgstr ""
 
@@ -1295,7 +1275,7 @@ msgid "notify_on_submit_help"
 msgstr ""
 
 #. Default: "Prenotazione created notification message."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:558
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:549
 msgid "notify_on_submit_message"
 msgstr ""
 
@@ -1305,12 +1285,12 @@ msgstr ""
 msgid "notify_on_submit_message_default_value"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:562
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:553
 msgid "notify_on_submit_message_help"
 msgstr ""
 
 #. Default: "Prenotazione created notification subject."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:549
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:540
 msgid "notify_on_submit_subject"
 msgstr ""
 
@@ -1320,7 +1300,7 @@ msgstr ""
 msgid "notify_on_submit_subject_default_value"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:553
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:544
 msgid "notify_on_submit_subject_help"
 msgstr ""
 
@@ -1345,7 +1325,7 @@ msgid "prenotation_slot_message"
 msgstr ""
 
 #. Default: "Testo delle email di notifica"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:705
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:696
 msgid "prenotazioni_email_templates_label"
 msgstr ""
 
@@ -1385,8 +1365,18 @@ msgstr ""
 msgid "reject_booking"
 msgstr ""
 
+#. Default: "Indicates how many days before of a booking the user will be notified about it."
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:646
+msgid "reminder_notification_gap_description"
+msgstr ""
+
+#. Default: "Upcomming bookings notification gap"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:642
+msgid "reminder_notification_gap_label"
+msgstr ""
+
 #. Default: "Reminders"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:753
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:744
 msgid "reminders_label"
 msgstr ""
 
