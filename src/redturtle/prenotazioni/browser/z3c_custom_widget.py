@@ -5,10 +5,12 @@ from plone.memoize.view import memoize
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.Five.browser.metaconfigure import ViewMixinForTemplates
-from z3c.form import interfaces, util
+from z3c.form import interfaces
+from z3c.form import util
 from z3c.form.browser.radio import RadioWidget
 from z3c.form.interfaces import IRadioWidget
-from z3c.form.widget import FieldWidget, SequenceWidget
+from z3c.form.widget import FieldWidget
+from z3c.form.widget import SequenceWidget
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile as VPTF
 from zope.component import getUtility
 from zope.i18n import translate

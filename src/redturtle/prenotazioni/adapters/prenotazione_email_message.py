@@ -15,7 +15,8 @@ from plone.stringinterp.interfaces import (
 )
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.annotation.interfaces import IAnnotations
-from zope.component import adapter, getAdapter
+from zope.component import adapter
+from zope.component import getAdapter
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.lifecycleevent import IObjectAddedEvent

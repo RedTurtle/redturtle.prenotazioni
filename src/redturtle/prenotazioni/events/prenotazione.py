@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import hashlib
-from email.utils import formataddr, parseaddr
+from email.utils import formataddr
+from email.utils import parseaddr
 from logging import getLogger
 
 from plone import api
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from zope.component import getMultiAdapter, getUtility
+from zope.component import getMultiAdapter
+from zope.component import getUtility
 
 from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker

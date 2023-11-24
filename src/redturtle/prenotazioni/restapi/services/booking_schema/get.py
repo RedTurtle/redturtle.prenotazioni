@@ -5,7 +5,8 @@ from plone.restapi.services import Service
 from zExceptions import BadRequest
 from zope.component import getMultiAdapter
 
-from redturtle.prenotazioni import _, datetime_with_tz
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni.config import STATIC_REQUIRED_FIELDS
 from redturtle.prenotazioni.interfaces import ISerializeToRetroCompatibleJson
 

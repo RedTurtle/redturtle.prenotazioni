@@ -8,7 +8,8 @@ from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
 
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.booker import BookerException, IBooker
+from redturtle.prenotazioni.adapters.booker import BookerException
+from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
 from redturtle.prenotazioni.restapi.services.booking_schema.get import BookingSchema
 

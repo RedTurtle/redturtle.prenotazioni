@@ -3,11 +3,13 @@
 import unittest
 
 from plone import api
-from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces import ISearchSchema
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 from zope.component import getUtility
+
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 
 try:
     from Products.CMFPlone.utils import get_installer

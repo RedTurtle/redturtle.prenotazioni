@@ -3,10 +3,8 @@ from zope.component import adapter
 from zope.interface import implementer
 
 from redturtle.prenotazioni.content.prenotazione_type import IPrenotazioneType
-from redturtle.prenotazioni.interfaces import (
-    IRedturtlePrenotazioniLayer,
-    ISerializeToRetroCompatibleJson,
-)
+from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
+from redturtle.prenotazioni.interfaces import ISerializeToRetroCompatibleJson
 
 
 @implementer(ISerializeToRetroCompatibleJson)

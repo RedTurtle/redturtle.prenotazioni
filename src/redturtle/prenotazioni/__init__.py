@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timedelta
-from logging import FileHandler, Formatter, getLogger
+from datetime import datetime
+from datetime import timedelta
+from logging import FileHandler
+from logging import Formatter
+from logging import getLogger
 
 import dateutil
 import pytz

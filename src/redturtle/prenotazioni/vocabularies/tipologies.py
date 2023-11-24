@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 from redturtle.prenotazioni.utils.get_prenotazioni_folder import getPrenotazioniFolder
 
