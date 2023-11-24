@@ -5,7 +5,7 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni.utils import getPrenotazioniFolder
+from redturtle.prenotazioni.utilities import getPrenotazioniFolder
 
 
 class VocabItem(object):
