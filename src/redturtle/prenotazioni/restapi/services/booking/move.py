@@ -6,7 +6,8 @@ from plone.restapi.services import Service
 from zExceptions import BadRequest
 from zope.interface import alsoProvides
 
-from redturtle.prenotazioni.adapters.booker import BookerException, IBooker
+from redturtle.prenotazioni.adapters.booker import BookerException
+from redturtle.prenotazioni.adapters.booker import IBooker
 
 
 class MoveBooking(Service):

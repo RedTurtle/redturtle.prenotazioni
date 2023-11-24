@@ -5,13 +5,21 @@ from plone import api
 from plone.memoize.view import memoize
 from plone.protect.utils import addTokenToUrl
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from z3c.form import button, field, form
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
 from z3c.form.interfaces import ActionExecutionError
-from zope.interface import Interface, Invalid, implementer
-from zope.schema import Datetime, TextLine
+from zope.interface import Interface
+from zope.interface import Invalid
+from zope.interface import implementer
+from zope.schema import Datetime
+from zope.schema import TextLine
 
-from redturtle.prenotazioni import _, datetime_with_tz, tznow
-from redturtle.prenotazioni.adapters.booker import BookerException, IBooker
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
+from redturtle.prenotazioni import tznow
+from redturtle.prenotazioni.adapters.booker import BookerException
+from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.utilities.urls import urlify
 
 logger = logging.getLogger(__name__)

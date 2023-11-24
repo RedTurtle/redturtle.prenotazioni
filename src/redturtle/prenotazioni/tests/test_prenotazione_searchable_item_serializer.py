@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
-from datetime import date, timedelta
+from datetime import date
+from datetime import timedelta
 
 from dateutil import parser
 from plone import api
-from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 from plone.restapi.serializer.converters import json_compatible
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest

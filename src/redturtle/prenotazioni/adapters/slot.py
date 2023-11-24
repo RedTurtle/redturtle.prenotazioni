@@ -2,7 +2,8 @@
 from DateTime import DateTime
 from plone.app.event.base import default_timezone
 from pyinter.interval import Interval
-from six.moves import map, range
+from six.moves import map
+from six.moves import range
 from zope.component import Interface
 from zope.interface import implementer
 

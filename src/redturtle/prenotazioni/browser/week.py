@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
-from datetime import date, timedelta
+from datetime import date
+from datetime import timedelta
 from email.utils import formatdate
 
 from plone import api

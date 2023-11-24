@@ -2,14 +2,16 @@
 import locale
 import logging
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime
+from datetime import timedelta
 
 import click
 import transaction
 from plone import api
 from zope.annotation.interfaces import IAnnotations
 
-from redturtle.prenotazioni.config import NOTIFICATIONS_LOGS, VERIFIED_BOOKING
+from redturtle.prenotazioni.config import NOTIFICATIONS_LOGS
+from redturtle.prenotazioni.config import VERIFIED_BOOKING
 
 from .io_tools.api import Api
 from .io_tools.storage import logstorage

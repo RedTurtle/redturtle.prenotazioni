@@ -2,19 +2,23 @@
 from plone import api
 from plone.memoize.view import memoize
 from plone.z3cform.layout import wrap_form
-from z3c.form import button, field, form
-from z3c.form.interfaces import (
-    HIDDEN_MODE,
-    ActionExecutionError,
-    WidgetActionExecutionError,
-)
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
+from z3c.form.interfaces import HIDDEN_MODE
+from z3c.form.interfaces import ActionExecutionError
+from z3c.form.interfaces import WidgetActionExecutionError
 from zope.component import getUtility
-from zope.interface import Invalid, implementer
-from zope.schema import Text, TextLine
+from zope.interface import Invalid
+from zope.interface import implementer
+from zope.schema import Text
+from zope.schema import TextLine
 from zope.schema.interfaces import IVocabularyFactory
 
-from redturtle.prenotazioni import _, datetime_with_tz
-from redturtle.prenotazioni.adapters.booker import BookerException, IBooker
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
+from redturtle.prenotazioni.adapters.booker import BookerException
+from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.browser.week import TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE
 from redturtle.prenotazioni.browser.z3c_custom_widget import CustomRadioFieldWidget
 from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS

@@ -13,15 +13,20 @@ from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.component import provideAdapter
 from zope.i18n import translate
-from zope.interface import Invalid, implementer, invariant, provider
+from zope.interface import Invalid
+from zope.interface import implementer
+from zope.interface import invariant
+from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
-from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
 from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
 from redturtle.prenotazioni.content.prenotazione_type import PrenotazioneType
-from redturtle.prenotazioni.content.validators import PauseValidator, checkOverrides
+from redturtle.prenotazioni.content.validators import PauseValidator
+from redturtle.prenotazioni.content.validators import checkOverrides
 
 try:
     from plone.app.dexterity import textindexer

@@ -16,13 +16,19 @@ from Products.CMFPlone import PloneMessageFactory as __
 from Products.CMFPlone.browser.search import quote_chars
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from pyexcel_xlsx import save_data
-from z3c.form import button, field, form
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
 from zExceptions import NotFound
 from zope.component import getUtility
 from zope.i18n import translate
-from zope.interface import Interface, implementer
+from zope.interface import Interface
+from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
-from zope.schema import Choice, Date, TextLine, ValidationError
+from zope.schema import Choice
+from zope.schema import Date
+from zope.schema import TextLine
+from zope.schema import ValidationError
 from zope.schema.interfaces import IVocabularyFactory
 
 from redturtle.prenotazioni import _
