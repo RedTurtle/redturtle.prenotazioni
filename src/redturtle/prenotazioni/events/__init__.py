@@ -7,5 +7,4 @@ from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 
 @implementer(IBookingReminderEvent)
 class BookingReminderEvent(ObjectEvent):
-    def __init__(self, obj):
-        super().__init__(obj)
+    pass

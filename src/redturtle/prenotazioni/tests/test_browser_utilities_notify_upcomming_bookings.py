@@ -85,6 +85,36 @@ class TestNotifyAboutUpcommingBookings(unittest.TestCase):
     def test_notification_event_is_raised_when_in_gap(self):
         events = []
 
+        api.content.transition(
+            self.create_booking(
+                data={
+                    "booking_date": TESTING_TIME,
+                    "booking_type": "Type A",
+                    "title": "foo",
+                    "email": "jdoe@redturtle.it",
+                }
+            ),
+            transition="confirm",
+        )
+
+        @adapter(IBookingReminderEvent)
+        def _handleReminder(_event):
+            events.append(_event)
+
+        provideHandler(_handleReminder)
+
+        api.content.get_view(
+            context=api.portal.get(),
+            request=getRequest(),
+            name="send-booking-reminders",
+        )()
+
+        self.assertTrue(IBookingReminderEvent.providedBy(events[0]))
+
+    @freeze_time(TESTING_TIME - timedelta(days=NOTIFICAION_GAP))
+    def test_notification_event_is_not_raised_when_not_confirmed(self):
+        events = []
+
         self.create_booking(
             data={
                 "booking_date": TESTING_TIME,
@@ -106,19 +136,22 @@ class TestNotifyAboutUpcommingBookings(unittest.TestCase):
             name="send-booking-reminders",
         )()
 
-        self.assertTrue(IBookingReminderEvent.providedBy(events[0]))
+        self.assertFalse(events)
 
     @freeze_time(TESTING_TIME - timedelta(days=NOTIFICAION_GAP - 1))
     def test_notification_event_is_not_raised_when_out_of_gap(self):
         events = []
 
-        self.create_booking(
-            data={
-                "booking_date": TESTING_TIME,
-                "booking_type": "Type A",
-                "title": "foo",
-                "email": "jdoe@redturtle.it",
-            }
+        api.content.transition(
+            self.create_booking(
+                data={
+                    "booking_date": TESTING_TIME,
+                    "booking_type": "Type A",
+                    "title": "foo",
+                    "email": "jdoe@redturtle.it",
+                }
+            ),
+            transition="confirm",
         )
 
         @adapter(IBookingReminderEvent)
@@ -140,13 +173,16 @@ class TestNotifyAboutUpcommingBookings(unittest.TestCase):
         self.folder_prenotazioni.reminder_notification_gap = None
         events = []
 
-        self.create_booking(
-            data={
-                "booking_date": TESTING_TIME,
-                "booking_type": "Type A",
-                "title": "foo",
-                "email": "jdoe@redturtle.it",
-            }
+        api.content.transition(
+            self.create_booking(
+                data={
+                    "booking_date": TESTING_TIME,
+                    "booking_type": "Type A",
+                    "title": "foo",
+                    "email": "jdoe@redturtle.it",
+                }
+            ),
+            transition="confirm",
         )
 
         @adapter(IBookingReminderEvent)

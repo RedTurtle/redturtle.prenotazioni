@@ -46,6 +46,7 @@ class NotifyUpcommingBookings(BrowserView):
                     ),
                     "range": "min:max",
                 },
+                review_state="confirmed",
             ):
                 notify(BookingReminderEvent(brain.getObject()))
                 logger.info(f"A reminder to {brain.getPath()} has been sent")
