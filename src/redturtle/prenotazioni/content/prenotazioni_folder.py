@@ -224,7 +224,7 @@ def notify_as_reminder_message_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_as_reminder_message_default_value",
-            "This is an automatic reminder about your booking on ${date} for ${booking_type}.",
+            "This is an automatic reminder about your booking on ${date} for ${booking_type}. <br/> If you need to see more infos or delete it, please access your booking details page.",
         )
     )
 
