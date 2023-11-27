@@ -671,7 +671,7 @@ Scripts
 =======
 
 notify_upcoming_bookings
--------------------------
+------------------------
 
 The script is supposed to be used to call the **@@send-booking-reminders** view.
 It is supposed to be ran once a day otherwise, duplicate emails will be sent.
