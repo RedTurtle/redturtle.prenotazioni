@@ -224,7 +224,7 @@ def notify_as_reminder_message_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_as_reminder_message_default_value",
-            "This is an automatic reminder about your booking on ${date} for ${booking_type}. <br/> If you need to see more infos or delete it, please access your booking details page.",
+            "This is an automatic reminder about your booking on ${date} for ${booking_type}. <br/> If you need to see more infos or delete it, please access your booking details page. ${booking_pring_url}",
         )
     )
 
@@ -618,7 +618,10 @@ class IPrenotazioniFolder(model.Schema):
             "notify_as_reminder_subject",
             default="Booking reminder subject.",
         ),
-        description=_("notify_as_reminder_subject_help", default=""),
+        description=_(
+            "notify_as_reminder_subject_help",
+            default="Booking reminder email message subject",
+        ),
         defaultFactory=notify_as_reminder_subject_default_factory,
         required=False,
     )
@@ -627,7 +630,10 @@ class IPrenotazioniFolder(model.Schema):
             "notify_as_reminder_message",
             default="Booking reminder message.",
         ),
-        description=_("notify_as_reminder_message", default=""),
+        description=_(
+            "notify_as_reminder_message",
+            default="Booking reminder email message body",
+        ),
         defaultFactory=notify_as_reminder_message_default_factory,
         required=False,
     )
