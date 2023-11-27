@@ -1,0 +1,39 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="redturtle.prenotazioni"
+    >
+
+  <!-- <include package="notification_appio" /> -->
+  <include package=".notification_email" />
+  <!-- <include package="notification_sms" /> -->
+
+  <plone:behavior
+      name="redturtle.prenotazioni.behavior.contacts"
+      title="Contatti cartella prenotazioni"
+      description="Contacts fields."
+      factory=".contacts.Contacts"
+      provides=".contacts.IContacts"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      marker=".contacts.IContacts"
+      />
+  <!-- <plone:behavior
+      name="redturtle.prenotazioni.behavior.notification_sms"
+      title="Booking folder notification sms"
+      description="Notification SMS templates"
+      factory=".notification_sms.NotificationSMS"
+      provides=".notification_sms.INotificationSMS"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      marker=".notification_sms.INotificationSMS"
+      />
+  <plone:behavior
+      name="redturtle.prenotazioni.behavior.notification_appio"
+      title="Booking folder notification App IO"
+      description="Notification SMS templates"
+      factory=".notification_appio.NotificationAppIo"
+      provides=".notification_appio.INotificationAppIo"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      marker=".notification_appio.INotificationAppIo"
+      /> -->
+
+</configure>

@@ -28,3 +28,15 @@ class ISerializeToRetroCompatibleJson(Interface):
 
 class IBookingReminderEvent(IObjectEvent):
     """Booking reminder time arrived event"""
+
+
+class IBookingNotificationSender(Interface):
+    """Booking notification sender"""
+
+
+class IPrenotazioneSMSMEssage(Interface):
+    """Prenotazione SMS message adapter"""
+
+
+class IPrenotazioneAPPIoMessage(Interface):
+    """Prenotazione AppIO message adapter"""
