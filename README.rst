@@ -675,7 +675,7 @@ notify_upcomming_bookings
 
 The script is might be used to call the **@@send-booking-reminders view**
 
-Usage ::
+Usage::
     bin/instance1 -OPlone run bin/notify_upcomming_bookings
 
 
