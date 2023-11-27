@@ -91,6 +91,6 @@ setup(
     [console_scripts]
     update_locale = redturtle.prenotazioni.locales.update:update_locale
     app_io = redturtle.prenotazioni.scripts.app_io:main
-    notify_upcomming_bookings = redturtle.prenotazioni.scripts.notify_upcomming_bookings:main
+    notify_upcoming_bookings = redturtle.prenotazioni.scripts.notify_upcoming_bookings:main
     """,
 )
