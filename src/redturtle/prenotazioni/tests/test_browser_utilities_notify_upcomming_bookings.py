@@ -1,12 +1,16 @@
 # -*- coding: UTF-8 -*-
 import unittest
-from datetime import date, datetime, timedelta
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 
 import pytz
 from freezegun import freeze_time
 from plone import api
-from plone.app.testing import TEST_USER_ID, setRoles
-from zope.component import adapter, provideHandler
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
+from zope.component import adapter
+from zope.component import provideHandler
 from zope.globalrequest import getRequest
 
 from redturtle.prenotazioni.adapters.booker import IBooker

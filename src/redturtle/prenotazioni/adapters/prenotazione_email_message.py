@@ -8,11 +8,9 @@ from email.mime.text import MIMEText
 from plone import api
 from plone.app.event.base import default_timezone
 from plone.event.interfaces import IICalendar
-from plone.stringinterp.interfaces import (
-    IContextWrapper,
-    IStringInterpolator,
-    IStringSubstitution,
-)
+from plone.stringinterp.interfaces import IContextWrapper
+from plone.stringinterp.interfaces import IStringInterpolator
+from plone.stringinterp.interfaces import IStringSubstitution
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
@@ -21,12 +19,11 @@ from zope.i18n import translate
 from zope.interface import implementer
 from zope.lifecycleevent import IObjectAddedEvent
 
-from redturtle.prenotazioni import _, logger
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.interfaces import (
-    IBookingReminderEvent,
-    IPrenotazioneEmailMessage,
-)
+from redturtle.prenotazioni.interfaces import IBookingReminderEvent
+from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 
 

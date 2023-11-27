@@ -7,7 +7,8 @@ from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
 from Testing.makerequest import makerequest
 from transaction import commit
-from zope.component.hooks import setHooks, setSite
+from zope.component.hooks import setHooks
+from zope.component.hooks import setSite
 from zope.globalrequest import getRequest
 
 logger = getLogger(__name__)

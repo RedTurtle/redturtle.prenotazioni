@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timedelta
+from datetime import datetime
+from datetime import timedelta
 from logging import getLogger
 
 from plone import api
