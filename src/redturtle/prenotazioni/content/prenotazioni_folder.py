@@ -214,7 +214,7 @@ def notify_as_reminder_subject_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_as_reminder_subject_default_value",
-            "You have the upcomming booking on ${booking_date}",
+            "Reminder for upcoming booking on ${booking_date}",
         )
     )
 
