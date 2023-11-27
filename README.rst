@@ -663,9 +663,21 @@ Response::
 @@send-booking-reminders
 ------------------------
 
-This view sends a bookign reminder email to all the booings inside the PrenotazioniFolders which have the popolated Reminder Notification Gap field.
+This view sends a bookign reminder email to all the bookings inside the PrenotazioniFolders which have the popolated Reminder Notification Gap field.
+If you mind to setup a cronjob to call this view, you migth use a special script call. The script is located at src/redturtle/prenotazioni/scripts/notify_upcomming_bookings.pyp
 
-If you mind to setup the cronjob to call this view, you migth use the special script call. The script is located at src/redturtle/prenotazioni/scripts/notify_upcomming_bookings.py
+
+Scripts
+=======
+
+notify_upcomming_bookings
+-------------------------
+
+The script is might be used to call the **@@send-booking-reminders view**
+
+Usage ::
+    bin/instance1 -OPlone run bin/notify_upcomming_bookings
+
 
 How to develop
 ==============
