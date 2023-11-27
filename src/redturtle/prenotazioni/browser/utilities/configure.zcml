@@ -9,7 +9,7 @@
   <browser:page
       name="send-booking-reminders"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      class=".notify_upcomming_bookings.NotifyUpcommingBookings"
+      class=".notify_upcoming_bookings.NotifyUpcomingBookings"
       permission="cmf.ModifyPortalContent"
       />
 

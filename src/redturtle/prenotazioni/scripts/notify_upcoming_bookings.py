@@ -23,7 +23,7 @@ def main(app):
     setHooks()
     setSite(portal)
 
-    with api.env.adopt_user(username="admin"):
+    with api.env.adopt_roles(roles=["Manager"]):
         logger.info("Call the send reminders view")
         api.content.get_view(
             context=api.portal.get(),

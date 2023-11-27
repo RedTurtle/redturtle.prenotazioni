@@ -12,7 +12,7 @@ from redturtle.prenotazioni.events import BookingReminderEvent
 logger = getLogger(__name__)
 
 
-class NotifyUpcommingBookings(BrowserView):
+class NotifyUpcomingBookings(BrowserView):
     """View to notify about the upcomming bookings"""
 
     def __call__(self):
@@ -33,7 +33,7 @@ class NotifyUpcommingBookings(BrowserView):
                 )
                 continue
 
-            for brain in unrestricted_search(
+            for booking in unrestricted_search(
                 portal_type="Prenotazione",
                 path=brain.getPath(),
                 Date={
@@ -48,5 +48,5 @@ class NotifyUpcommingBookings(BrowserView):
                 },
                 review_state="confirmed",
             ):
-                notify(BookingReminderEvent(brain.getObject()))
-                logger.info(f"A reminder to {brain.getPath()} has been sent")
+                notify(BookingReminderEvent(booking.getObject()))
+                logger.info(f"A reminder to {booking.getPath()} has been sent")

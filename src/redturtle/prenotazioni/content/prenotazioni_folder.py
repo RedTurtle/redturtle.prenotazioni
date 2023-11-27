@@ -224,7 +224,7 @@ def notify_as_reminder_message_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_as_reminder_message_default_value",
-            'Booking details are available by the following <a href="${booking_pring_url}">link</a>',
+            "This is an automatic reminder about your booking on ${date} for ${booking_type}.",
         )
     )
 
@@ -646,7 +646,7 @@ class IPrenotazioniFolder(model.Schema):
     reminder_notification_gap = schema.Int(
         title=_(
             "reminder_notification_gap_label",
-            default="Upcomming bookings notification gap",
+            default="Upcoming bookings notification gap",
         ),
         description=_(
             "reminder_notification_gap_description",
