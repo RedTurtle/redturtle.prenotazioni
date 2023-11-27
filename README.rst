@@ -673,7 +673,8 @@ Scripts
 notify_upcomming_bookings
 -------------------------
 
-The script is might be used to call the **@@send-booking-reminders view**
+The script is might be used to call the **@@send-booking-reminders view**.
+It is supposed to be ran once a day otherwise the duplicate emails will be sent.
 
 Usage::
 
