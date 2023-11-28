@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.2.2 (unreleased)
+2.2.2 (2023-11-28)
 ------------------
 
 - Set PrenotazioniFolder and PrenotazioneType as not searchable (types_not_searched).
