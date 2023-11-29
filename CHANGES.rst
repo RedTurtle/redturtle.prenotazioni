@@ -5,7 +5,8 @@ Changelog
 2.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix message composition in manager notification.
+  [cekk]
 
 
 2.2.2 (2023-11-28)
