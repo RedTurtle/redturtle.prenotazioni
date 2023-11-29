@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.2.3 (unreleased)
+2.2.3 (2023-11-29)
 ------------------
 
 - Fix message composition in manager notification.
