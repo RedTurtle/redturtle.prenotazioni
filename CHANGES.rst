@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.2.4 (unreleased)
+2.2.4 (2023-11-30)
 ------------------
 
 - Do not raise Unauthorized when translate title ical adapter.
