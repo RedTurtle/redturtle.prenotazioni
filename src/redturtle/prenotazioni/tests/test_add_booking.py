@@ -300,6 +300,14 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         self.assertIsNot(new_booking.getBookingCode(), None)
         self.assertTrue(len(new_booking.getBookingCode()) > 0)
 
+        # test BBB: utils.get_prenotazioni_folder.getPrenotazioniFolder
+        # this is has previously was imported utility function
+        from redturtle.prenotazioni.utils.get_prenotazioni_folder import (
+            getPrenotazioniFolder,
+        )
+
+        self.assertEqual(getPrenotazioniFolder(new_booking), self.folder_prenotazioni)
+
     def test_booking_code_uniqueness(self):
         booker = IBooker(self.folder_prenotazioni)
 
