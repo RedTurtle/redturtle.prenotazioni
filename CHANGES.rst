@@ -5,7 +5,8 @@ Changelog
 2.2.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Do not raise Unauthorized when translate title ical adapter.
+  [cekk]
 
 
 2.2.3 (2023-11-29)
