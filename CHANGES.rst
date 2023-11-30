@@ -5,7 +5,8 @@ Changelog
 2.2.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix gate chooser algorythm to avoid overlaps. Now we randomly choose it without getting the less used one.
+  [cekk]
 
 
 2.2.4 (2023-11-30)
