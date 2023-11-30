@@ -25,7 +25,7 @@ class BookingsSearch(Service):
         query = {
             "portal_type": "Prenotazione",
             "sort_on": "Date",
-            "sort_order": "reverse",
+            "sort_order": "ascending",
         }
 
         if api.user.is_anonymous():
