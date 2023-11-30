@@ -5,7 +5,7 @@ Changelog
 2.2.5 (unreleased)
 ------------------
 
-- Fix gate chooser algorythm to avoid overlaps. Now we randomly choose it without getting the less used one.
+- Fix gate chooser algorithm to avoid overlaps. Now we randomly choose it without getting the less used one.
   [cekk]
 
 
