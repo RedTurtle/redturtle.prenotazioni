@@ -7,6 +7,8 @@ Changelog
 
 - Return bookings in ascending date order so the ones for today are shown as first
   [pnicolli]
+- Fix gate chooser algorithm to avoid overlaps. Now we randomly choose it without getting the less used one.
+  [cekk]
 
 
 2.2.4 (2023-11-30)
