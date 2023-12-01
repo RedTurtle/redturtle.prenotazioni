@@ -6,6 +6,7 @@ Changelog
 ------------------
 
 - On PrenotazioniFolder upgrade-step (2000->2001) migrate also requirements field.
+- Fix gate chooser algorithm to avoid overlaps. Now we randomly choose it without getting the less used one.
   [cekk]
 
 
