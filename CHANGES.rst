@@ -5,7 +5,8 @@ Changelog
 2.2.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- On PrenotazioniFolder upgrade-step (2000->2001) migrate also requirements field.
+  [cekk]
 
 
 2.2.4 (2023-11-30)
