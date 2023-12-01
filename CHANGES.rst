@@ -5,7 +5,8 @@ Changelog
 2.2.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Contributors can add PrenotazioniFolder.
+  [cekk]
 
 
 2.2.4 (2023-11-30)
