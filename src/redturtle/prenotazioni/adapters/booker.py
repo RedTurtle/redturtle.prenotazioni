@@ -104,7 +104,7 @@ class Booker(object):
         if len(available_gates) == 0:
             return None
         if len(available_gates) == 1:
-            return available_gates.pop()
+            return available_gates[0]
         return choice(list(available_gates))
 
         # this was code to choose a less used gate that we temporary disabled
