@@ -103,10 +103,10 @@ class Booker(object):
         )
         if len(available_gates) == 0:
             return None
-        if len(available_gates) == 1:
-            return available_gates[0]
         return choice(list(available_gates))
 
+        # if len(available_gates) == 1:
+        #    return available_gates[0]
         # this was code to choose a less used gate that we temporary disabled
         # free_slots_by_gate = self.prenotazioni.get_free_slots(booking_date)
         # # Create a dictionary where keys is the time the gate is free, and
