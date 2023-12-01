@@ -21,7 +21,7 @@ TESTING_TIME = datetime(year=2023, month=11, day=23, hour=12, minute=0)
 NOTIFICAION_GAP = 3
 
 
-class TestNotifyAboutUpcommingBookings(unittest.TestCase):
+class TestNotifyAboutUpcomingBookings(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
     timezone = "Europe/Rome"
 

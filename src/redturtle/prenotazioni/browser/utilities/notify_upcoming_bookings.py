@@ -13,7 +13,7 @@ logger = getLogger(__name__)
 
 
 class NotifyUpcomingBookings(BrowserView):
-    """View to notify about the upcomming bookings"""
+    """View to notify about the upcoming bookings"""
 
     def __call__(self):
         today = datetime.now().replace(hour=0, minute=0)
