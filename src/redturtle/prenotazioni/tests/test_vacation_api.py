@@ -153,7 +153,7 @@ class TestVacationgApi(unittest.TestCase):
         self.assertEqual(res.status_code, 400)
         self.assertEqual(
             res.json()["message"],
-            "This day is not valid.",
+            "Nessuno slot creato, verificare la corretteza dei dati inseriti",
         )
 
         # add vacation when there is already a booking
