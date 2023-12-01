@@ -2,7 +2,27 @@ Changelog
 =========
 
 
-2.2.2 (unreleased)
+2.2.5 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+2.2.4 (2023-11-30)
+------------------
+
+- Do not raise Unauthorized when translate title ical adapter.
+  [cekk]
+
+
+2.2.3 (2023-11-29)
+------------------
+
+- Fix message composition in manager notification.
+  [cekk]
+
+
+2.2.2 (2023-11-28)
 ------------------
 
 - Add booking reminder emails.

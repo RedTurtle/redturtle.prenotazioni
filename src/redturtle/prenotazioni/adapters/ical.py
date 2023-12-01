@@ -14,6 +14,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import getAdapter
 from zope.component import getUtility
 from zope.interface import implementer
+from plone import api
 
 from redturtle.prenotazioni import _
 
@@ -79,7 +80,7 @@ class ICalendarBookingComponent(ICalendarEventComponent):
         title_label = self.parent.title
         if is_manager_notification:
             title_label = f"{self.context.title} [{title_label}]"
-        title = self.context.translate(
+        title = api.portal.translate(
             _(
                 "ical_booking_label",
                 default="Booking for ${title}",
