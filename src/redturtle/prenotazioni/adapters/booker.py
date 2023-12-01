@@ -92,7 +92,8 @@ class Booker(object):
 
     def get_available_gate(self, booking_date, booking_expiration_date=None):
         """
-        Find which gate is free to serve this booking
+        Find which gate are free to serve this booking and choose randomly
+        one of the less busy
         """
         # XXX: per come è ora la funzione probabilmente questa condizione non è mai vera
         # if not self.prenotazioni.get_gates():
@@ -102,9 +103,25 @@ class Booker(object):
         )
         if len(available_gates) == 0:
             return None
-        if len(available_gates) == 1:
-            return available_gates.pop()
-        return choice(self.prenotazioni.get_less_used_gates(booking_date))
+        return choice(list(available_gates))
+
+        # if len(available_gates) == 1:
+        #    return available_gates[0]
+        # this was code to choose a less used gate that we temporary disabled
+        # free_slots_by_gate = self.prenotazioni.get_free_slots(booking_date)
+        # # Create a dictionary where keys is the time the gate is free, and
+        # # value is a list of gates
+        # free_time_map = {}
+        # for gate, free_slots in free_slots_by_gate.items():
+        #     if gate not in available_gates:
+        #         # this gate have already a booking for selected time, skip it
+        #         continue
+        #     free_time = sum(map(BaseSlot.__len__, free_slots))
+        #     free_time_map.setdefault(free_time, []).append(gate)
+        # # Get a random choice among the less busy ones
+        # max_free_time = max(free_time_map.keys())
+        # less_used_gates = free_time_map[max_free_time]
+        # return choice(less_used_gates)
 
     def _create(self, data, duration=-1, force_gate=""):
         """Create a Booking object
