@@ -18,16 +18,16 @@ class ISerializeToPrenotazioneSearchableItem(Interface):
     """Prenotazione searchable item serializer interface"""
 
 
-class IPrenotazioneEmailMessage(Interface):
-    """Prenotazione email message"""
-
-
 class ISerializeToRetroCompatibleJson(Interface):
     """Interface used to cereate the TEMPORARY retrocomattible serializers"""
 
 
 class IBookingReminderEvent(IObjectEvent):
     """Booking reminder time arrived event"""
+
+
+class IPrenotazioneEmailMessage(Interface):
+    """Prenotazione email message"""
 
 
 class IBookingNotificationSender(Interface):

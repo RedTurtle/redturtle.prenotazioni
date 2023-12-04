@@ -10,10 +10,10 @@
       name="redturtle.prenotazioni.behavior.notification_appio"
       title="Booking folder notification appio"
       description="Notification APPIo"
-      factory=".notification_sms.NotificationAPPIo"
-      provides=".notification_sms.INotificationAPPIo"
+      factory=".notification_appio.NotificationAppIo"
+      provides=".notification_appio.INotificationAppIo"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
-      marker=".notification_sms.INotificationAPPIo"
+      marker=".notification_appio.INotificationAppIo"
       />
 
   <subscriber
@@ -33,28 +33,28 @@
       />
 
   <adapter
-      factory=".notification_appio_message.PrenotazioneAfterTransitionAPPIoMessage"
+      factory=".notfication_appio_message.PrenotazioneAfterTransitionAPPIoMessage"
       name="refuse"
       />
   <adapter
-      factory=".notification_appio_message.PrenotazioneAfterTransitionAPPIoMessage"
+      factory=".notfication_appio_message.PrenotazioneAfterTransitionAPPIoMessage"
       name="submit"
       />
   <adapter
-      factory=".notification_appio_message.PrenotazioneAfterTransitionAPPIoMessage"
+      factory=".notfication_appio_message.PrenotazioneAfterTransitionAPPIoMessage"
       name="confirm"
       />
 
   <adapter
-      factory=".notification_appio_message.PrenotazioneReminderEmailMessage"
-      name="reminder_notification_message"
+      factory=".notfication_appio_message.PrenotazioneReminderAppIoMessage"
+      name="reminder_notification_appio_message"
       />
 
   <!-- Prenotazione moved event message adapter -->
-  <adapter factory=".notification_email_message.PrenotazioneMovedAPPIoMessage" />
+  <adapter factory=".notfication_appio_message.PrenotazioneMovedAPPIoMessage" />
 
   <adapter
-      factory=".adapters.BookingTransitionEmailSender"
+      factory=".adapters.BookingTransitionAPPIoSender"
       name="booking_transition_appio_sender"
       />
 

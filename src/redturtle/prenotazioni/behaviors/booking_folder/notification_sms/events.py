@@ -17,7 +17,7 @@ from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.content.prenotazione import Prenotazione
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
-from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
+from redturtle.prenotazioni.interfaces import IPrenotazioneSMSMEssage
 from redturtle.prenotazioni.utilities import send_email
 
 logger = getLogger(__name__)
@@ -42,17 +42,18 @@ def send_notification_on_transition(context, event) -> None:
             return
         message_adapter = getMultiAdapter(
             (context, event),
-            IPrenotazioneEmailMessage,
+            IPrenotazioneSMSMEssage,
             name=event.transition.__name__,
         )
+
         sender_adapter = getMultiAdapter(
-            (message_adapter, getRequest()),
+            (message_adapter, context),
             IBookingNotificationSender,
             name="booking_transition_sms_sender",
         )
 
         if message_adapter and message_adapter.message:
-            sender_adapter.send(message_adapter.message)
+            sender_adapter.send()
 
 
 # TODO: use the notify_on_after_transition_event method techique instead
@@ -62,27 +63,27 @@ def notify_on_move(booking, event):
     if not getattr(booking, "email", ""):
         # booking does not have an email set
         return
-    message_adapter = getMultiAdapter((booking, event), IPrenotazioneEmailMessage)
+    message_adapter = getMultiAdapter((booking, event), IPrenotazioneSMSMEssage)
     sender_adapter = getMultiAdapter(
-        (message_adapter, getRequest()),
+        (message_adapter, booking),
         IBookingNotificationSender,
-        name="booking_transition_email_sender",
+        name="booking_transition_sms_sender",
     )
     if message_adapter and message_adapter.message:
-        sender_adapter.send(message_adapter.message)
+        sender_adapter.send()
 
 
 def send_booking_reminder(context, event):
     message_adapter = getMultiAdapter(
         (context, event),
-        IPrenotazioneEmailMessage,
-        name="reminder_notification_message",
+        IPrenotazioneSMSMEssage,
+        name="reminder_notification_sms_message",
     )
     sender_adapter = getMultiAdapter(
-        (message_adapter, getRequest()),
+        (message_adapter, context),
         IBookingNotificationSender,
         name="booking_transition_email_sender",
     )
 
     if message_adapter and message_adapter.message:
-        sender_adapter.send(message_adapter.message)
+        sender_adapter.send()

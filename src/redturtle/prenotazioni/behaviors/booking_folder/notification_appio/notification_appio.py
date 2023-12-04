@@ -112,10 +112,10 @@ class INotificationAppIo(model.Schema):
     )
 
     model.fieldset(
-        "App Io Notification Templates",
+        "AppIo Notification Templates",
         label=_(
             "bookings_appio_templates_label",
-            default="Booking SMS notifications",
+            default="Booking AppIo notifications",
         ),
         fields=[
             "notify_on_submit_appio_message",

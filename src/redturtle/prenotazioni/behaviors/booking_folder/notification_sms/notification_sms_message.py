@@ -22,6 +22,7 @@ from zope.lifecycleevent import IObjectAddedEvent
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 from redturtle.prenotazioni.interfaces import IPrenotazioneSMSMEssage
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 
@@ -41,7 +42,7 @@ class PrenotazioneSMSMessage:
 
 @implementer(IPrenotazioneSMSMEssage)
 @adapter(IPrenotazione, IMovedPrenotazione)
-class PrenotazioneMovedAPPIoMessage(PrenotazioneSMSMessage):
+class PrenotazioneMovedSMSMessage(PrenotazioneSMSMessage):
     @property
     def message(self) -> str:
         return (
@@ -57,13 +58,27 @@ class PrenotazioneMovedAPPIoMessage(PrenotazioneSMSMessage):
 
 @implementer(IPrenotazioneSMSMEssage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
-class PrenotazioneAfterTransitionAPPIolMessage(PrenotazioneSMSMessage):
+class PrenotazioneAfterTransitionSMSMessage(PrenotazioneSMSMessage):
     @property
     def message(self) -> str:
-        IStringInterpolator(IContextWrapper(self.prenotazione)())(
+        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(
                 self.prenotazione.getPrenotazioniFolder(),
                 f"notify_on_{self.event.transition and self.event.transition.__name__}_sms_message",
                 None,
             ),
+        )
+
+
+@implementer(IPrenotazioneSMSMEssage)
+@adapter(IPrenotazione, IBookingReminderEvent)
+class PrenotazioneReminderSMSMessage(PrenotazioneSMSMessage):
+    @property
+    def message(self) -> str:
+        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(
+                self.prenotazione.getPrenotazioniFolder(),
+                "notify_as_reminder_sms_message",
+                "",
+            )
         )

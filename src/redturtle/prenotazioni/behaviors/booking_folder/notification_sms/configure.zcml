@@ -33,28 +33,28 @@
       />
 
   <adapter
-      factory=".notification_email_message.PrenotazioneAfterTransitionAPPIoMessage"
+      factory=".notification_sms_message.PrenotazioneAfterTransitionSMSMessage"
       name="refuse"
       />
   <adapter
-      factory=".notification_email_message.PrenotazioneAfterTransitionAPPIoMessage"
+      factory=".notification_sms_message.PrenotazioneAfterTransitionSMSMessage"
       name="submit"
       />
   <adapter
-      factory=".notification_email_message.PrenotazioneAfterTransitionAPPIoMessage"
+      factory=".notification_sms_message.PrenotazioneAfterTransitionSMSMessage"
       name="confirm"
       />
 
   <adapter
-      factory=".notification_email_message.PrenotazioneReminderEmailMessage"
+      factory=".notification_sms_message.PrenotazioneReminderSMSMessage"
       name="reminder_notification_message"
       />
 
   <!-- Prenotazione moved event message adapter -->
-  <adapter factory=".notification_email_message.PrenotazioneMovedAPPIoMessage" />
+  <adapter factory=".notification_sms_message.PrenotazioneMovedSMSMessage" />
 
   <adapter
-      factory=".adapters.BookingTransitionEmailSender"
+      factory=".adapters.BookingNotificationSender"
       name="booking_transition_sms_sender"
       />
 
