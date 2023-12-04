@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.2.5 (unreleased)
+2.2.5 (2023-12-04)
 ------------------
 
 - On PrenotazioniFolder upgrade-step (2000->2001) migrate also requirements field.
