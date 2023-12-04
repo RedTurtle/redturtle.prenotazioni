@@ -1,10 +1,12 @@
 from logging import getLogger
 
 from zope.component import adapter
+from zope.component import getUtility
 from zope.interface import implementer
 
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
+from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
 from redturtle.prenotazioni.interfaces import IPrenotazioneAPPIoMessage
 
 logger = getLogger(__name__)
@@ -20,6 +22,9 @@ class BookingTransitionAPPIoSender:
     def send(self):
         message = self.message_adapter.message
 
-        logger.info(
-            f"Sending the notification <{self.booking.UID()}>(`{message}`) via AppIo gateway"
-        )
+        if getUtility(IBookingNotificatorSupervisorUtility).is_appio_message_allowed(
+            self.booking
+        ):
+            logger.info(
+                f"Sending the notification <{self.booking.UID()}>(`{message}`) via AppIo gateway"
+            )

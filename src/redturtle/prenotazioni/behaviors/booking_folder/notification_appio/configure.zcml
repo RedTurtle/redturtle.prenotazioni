@@ -15,6 +15,15 @@
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
       marker=".notification_appio.INotificationAppIo"
       />
+  <plone:behavior
+      name="redturtle.prenotazioni.behavior.notification_appio_booking_type"
+      title="Booking type notification appio"
+      description="Notification APPIo for PrenotazioneType c.t."
+      factory=".notification_appio.NotificationAppIoBookingType"
+      provides=".notification_appio.INotificationAppioBookingType"
+      for="redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType"
+      marker=".notification_appio.INotificationAppioBookingType"
+      />
 
   <subscriber
       for="redturtle.prenotazioni.content.prenotazione.IPrenotazione

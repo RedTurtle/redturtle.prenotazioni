@@ -18,4 +18,9 @@
       marker=".contacts.IContacts"
       />
 
+  <utility
+      factory=".BookingNotificationSupervisorUtility"
+      provides="redturtle.prenotazioni.interfaces.IBookingNotificatorSupervisorUtility"
+      />
+
 </configure>

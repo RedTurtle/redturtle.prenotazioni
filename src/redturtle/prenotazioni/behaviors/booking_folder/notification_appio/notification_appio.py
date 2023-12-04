@@ -133,3 +133,25 @@ class NotificationAppIo(object):
 
     def __init__(self, context):
         self.context = context
+
+
+@provider(IFormFieldProvider)
+class INotificationAppioBookingType(model.Schema):
+    service_code = schema.Text(
+        title=_(
+            "service_code_label",
+            default="AppIo service code message.",
+        ),
+        description=_("notify_on_submit_appio_message_help", default=""),
+        defaultFactory=notify_on_submit_appio_message_default_factory,
+        required=False,
+    )
+
+
+@implementer(INotificationAppioBookingType)
+@adapter(IDexterityContent)
+class NotificationAppIoBookingType(object):
+    """ """
+
+    def __init__(self, context):
+        self.context = context

@@ -40,3 +40,11 @@ class IPrenotazioneSMSMEssage(Interface):
 
 class IPrenotazioneAPPIoMessage(Interface):
     """Prenotazione AppIO message adapter"""
+
+
+class IBookingAfterTransitionEvent(IObjectEvent):
+    """Booking After transition email"""
+
+
+class IBookingNotificatorSupervisorUtility(Interface):
+    """Bookign notificator supervisor"""
