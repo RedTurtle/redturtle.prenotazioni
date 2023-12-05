@@ -34,7 +34,7 @@ class IBookingNotificationSender(Interface):
     """Booking notification sender"""
 
 
-class IPrenotazioneSMSMEssage(Interface):
+class IPrenotazioneSMSMessage(Interface):
     """Prenotazione SMS message adapter"""
 
 
