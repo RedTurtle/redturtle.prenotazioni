@@ -232,6 +232,7 @@ class INotificationAppIo(model.Schema):
             "notify_on_move_appio_message",
             "notify_on_refuse_appio_subject",
             "notify_on_refuse_appio_message",
+            "notify_as_reminder_appio_message",
         ],
     )
 

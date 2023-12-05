@@ -229,6 +229,7 @@ class INotificationEmail(model.Schema):
             "notify_on_move_message",
             "notify_on_refuse_subject",
             "notify_on_refuse_message",
+            "notify_as_reminder_message",
         ],
     )
 

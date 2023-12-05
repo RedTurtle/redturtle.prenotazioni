@@ -133,6 +133,7 @@ class INotificationSMS(model.Schema):
             "notify_on_confirm_sms_message",
             "notify_on_move_sms_message",
             "notify_on_refuse_sms_message",
+            "notify_as_reminder_sms_message",
         ],
     )
 

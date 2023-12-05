@@ -32,14 +32,12 @@ class PrenotazioneSMSMessage:
 class PrenotazioneMovedSMSMessage(PrenotazioneSMSMessage):
     @property
     def message(self) -> str:
-        return (
-            IStringInterpolator(IContextWrapper(self.prenotazione)())(
-                getattr(
-                    self.prenotazione.getPrenotazioniFolder(),
-                    "notify_on_move_sms_message",
-                    None,
-                ),
-            ),
+        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(
+                self.prenotazione.getPrenotazioniFolder(),
+                "notify_on_move_sms_message",
+                None,
+            )
         )
 
 

@@ -22,12 +22,16 @@ class BookingNotificationSender:
         self.booking = booking
         self.request = request
 
+    def should_send(self):
+        # if getUtility(
+        #     IBookingNotificatorSupervisorUtility,
+        # ).is_appio_message_allowed(self.booking):
+        #     return
+        return True
+
     def send(self):
         message = self.message_adapter.message
-
-        if getUtility(
-            IBookingNotificatorSupervisorUtility,
-        ).is_appio_message_allowed(self.booking):
+        if not self.should_send():
             return
         logger.info(
             f"Sending the notification <{self.booking.UID()}>(`{message}`) via SMS gateway"
