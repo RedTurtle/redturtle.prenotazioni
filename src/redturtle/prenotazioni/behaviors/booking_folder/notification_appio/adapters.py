@@ -24,10 +24,11 @@ class BookingTransitionAPPIoSender:
 
     def send(self):
         message = self.message_adapter.message
+        subject = self.message_adapter.message
 
         if getUtility(IBookingNotificatorSupervisorUtility).is_appio_message_allowed(
             self.booking
         ):
             logger.info(
-                f"Sending the notification <{self.booking.UID()}>(`{message}`) via AppIo gateway"
+                f"Sending the notification <{self.booking.UID()}>(`{message}`, `{subject}`) via AppIo gateway"
             )

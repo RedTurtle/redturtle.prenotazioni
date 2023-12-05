@@ -13,6 +13,16 @@ from redturtle.prenotazioni import _
 
 
 @provider(IContextAwareDefaultFactory)
+def notify_on_submit_appio_subject_default_factory(context):
+    return getattr(context, "translate", translate)(
+        _(
+            "notify_on_submit_appio_subject_default_value",
+            "Booking ${booking_type} for ${booking_date} was created",
+        )
+    )
+
+
+@provider(IContextAwareDefaultFactory)
 def notify_on_submit_appio_message_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
@@ -23,11 +33,31 @@ def notify_on_submit_appio_message_default_factory(context):
 
 
 @provider(IContextAwareDefaultFactory)
+def notify_on_confirm_appio_subject_default_factory(context):
+    return getattr(context, "translate", translate)(
+        _(
+            "notify_on_confirm_appio_subject_default_value",
+            "The booking$for ${title} was confirmed!",
+        )
+    )
+
+
+@provider(IContextAwareDefaultFactory)
 def notify_on_confirm_appio_message_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_on_confirm_appio_message_default_value",
             "The booking${booking_type} for ${title} was confirmed! ${booking_print_url}",
+        )
+    )
+
+
+@provider(IContextAwareDefaultFactory)
+def notify_on_move_appio_subject_default_factory(context):
+    return getattr(context, "translate", translate)(
+        _(
+            "notify_on_move_appio_subject_default_value",
+            "The booking scheduling of ${booking_type} was modified.",
         )
     )
 
@@ -44,11 +74,31 @@ def notify_on_move_appio_message_default_factory(context):
 
 
 @provider(IContextAwareDefaultFactory)
+def notify_on_refuse_appio_subject_default_factory(context):
+    return getattr(context, "translate", translate)(
+        _(
+            "notify_on_refuse_appio_subject_default_value",
+            "The booking ${booking_type} was refused.",
+        )
+    )
+
+
+@provider(IContextAwareDefaultFactory)
 def notify_on_refuse_appio_message_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_on_refuse_appio_message_default_value",
             "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
+        )
+    )
+
+
+@provider(IContextAwareDefaultFactory)
+def notify_as_reminder_appio_subject_default_factory(context):
+    return getattr(context, "translate", translate)(
+        _(
+            "notify_as_reminder_appio_subject_default_value",
+            "Upcomming booking on ${booking_date}",
         )
     )
 
@@ -76,6 +126,15 @@ class INotificationAppIo(model.Schema):
         default=True,
         required=False,
     )
+    notify_on_submit_appio_subject = schema.TextLine(
+        title=_(
+            "notify_on_submit_appio_subject",
+            default="Prenotazione created notification subject.",
+        ),
+        description=_("notify_on_submit_appio_subject_help", default=""),
+        defaultFactory=notify_on_submit_appio_subject_default_factory,
+        required=False,
+    )
     notify_on_submit_appio_message = schema.Text(
         title=_(
             "notify_on_submit_appio_message",
@@ -83,6 +142,15 @@ class INotificationAppIo(model.Schema):
         ),
         description=_("notify_on_submit_appio_message_help", default=""),
         defaultFactory=notify_on_submit_appio_message_default_factory,
+        required=False,
+    )
+    notify_on_confirm_appio_subject = schema.Text(
+        title=_(
+            "notify_on_confirm_appio_subject",
+            default="Prenotazione confirmed notification subject.",
+        ),
+        description=_("notify_on_confirm_appio_subject_help", default=""),
+        defaultFactory=notify_on_confirm_appio_subject_default_factory,
         required=False,
     )
     notify_on_confirm_appio_message = schema.Text(
@@ -94,6 +162,15 @@ class INotificationAppIo(model.Schema):
         defaultFactory=notify_on_confirm_appio_message_default_factory,
         required=False,
     )
+    notify_on_move_appio_subject = schema.Text(
+        title=_(
+            "notify_on_move_appio_subject",
+            default="Prenotazione moved notification subject.",
+        ),
+        description=_("notify_on_move_appio_subject_help", default=""),
+        defaultFactory=notify_on_move_appio_subject_default_factory,
+        required=False,
+    )
     notify_on_move_appio_message = schema.Text(
         title=_(
             "notify_on_move_appio_message",
@@ -103,6 +180,15 @@ class INotificationAppIo(model.Schema):
         defaultFactory=notify_on_move_appio_message_default_factory,
         required=False,
     )
+    notify_on_refuse_appio_subject = schema.Text(
+        title=_(
+            "notify_on_refuse_appio_subject",
+            default="Prenotazione created notification subject.",
+        ),
+        description=_("notify_on_refuse_appio_subject_help", default=""),
+        defaultFactory=notify_on_refuse_appio_subject_default_factory,
+        required=False,
+    )
     notify_on_refuse_appio_message = schema.Text(
         title=_(
             "notify_on_refuse_appio_message",
@@ -110,6 +196,15 @@ class INotificationAppIo(model.Schema):
         ),
         description=_("notify_on_refuse_appio_message_help", default=""),
         defaultFactory=notify_on_refuse_appio_message_default_factory,
+        required=False,
+    )
+    notify_as_reminder_appio_subject = schema.Text(
+        title=_(
+            "notify_as_reminder_appio_subject",
+            default="Booking reminder subject.",
+        ),
+        description=_("notify_as_reminder_appio_subject", default=""),
+        defaultFactory=notify_as_reminder_appio_subject_default_factory,
         required=False,
     )
     notify_as_reminder_appio_message = schema.Text(
@@ -129,9 +224,13 @@ class INotificationAppIo(model.Schema):
             default="Booking AppIo notifications",
         ),
         fields=[
+            "notify_on_submit_appio_subject",
             "notify_on_submit_appio_message",
+            "notify_on_confirm_appio_subject",
             "notify_on_confirm_appio_message",
+            "notify_on_move_appio_subject",
             "notify_on_move_appio_message",
+            "notify_on_refuse_appio_subject",
             "notify_on_refuse_appio_message",
         ],
     )
