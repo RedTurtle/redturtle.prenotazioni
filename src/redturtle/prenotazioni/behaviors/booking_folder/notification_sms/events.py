@@ -1,24 +1,11 @@
 # -*- coding: utf-8 -*-
-import hashlib
-from email.utils import formataddr
-from email.utils import parseaddr
 from logging import getLogger
 
-from plone import api
-from plone.registry.interfaces import IRegistry
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.component import getMultiAdapter
-from zope.component import getUtility
-from zope.event import notify
 from zope.globalrequest import getRequest
 
-from redturtle.prenotazioni import is_migration
-from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.content.prenotazione import Prenotazione
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IPrenotazioneSMSMessage
-from redturtle.prenotazioni.utilities import send_email
 
 logger = getLogger(__name__)
 

@@ -7,13 +7,10 @@ from logging import getLogger
 from plone import api
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from zope.component import getMultiAdapter
 from zope.component import getUtility
 
 from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
-from redturtle.prenotazioni.utilities import send_email
 
 logger = getLogger(__name__)
 

@@ -5,7 +5,6 @@ from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.component import adapter
 from zope.interface import implementer
 
-from redturtle.prenotazioni import _
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 from redturtle.prenotazioni.interfaces import IPrenotazioneAPPIoMessage
@@ -34,7 +33,7 @@ class PrenotazioneMovedAPPIoMessage(PrenotazioneAPPIoMessage):
             IStringInterpolator(IContextWrapper(self.prenotazione)())(
                 getattr(
                     self.prenotazione.getPrenotazioniFolder(),
-                    f"notify_on_move_appio_message",
+                    "notify_on_move_appio_message",
                     None,
                 ),
             ),

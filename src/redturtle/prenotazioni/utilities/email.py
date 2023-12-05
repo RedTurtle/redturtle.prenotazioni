@@ -1,14 +1,9 @@
-import hashlib
-from email.utils import formataddr
-from email.utils import parseaddr
+# -*- coding: utf-8 -*-
 from logging import getLogger
 
 from plone import api
 from plone.registry.interfaces import IRegistry
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.event import notify
 
 logger = getLogger(__name__)
 
