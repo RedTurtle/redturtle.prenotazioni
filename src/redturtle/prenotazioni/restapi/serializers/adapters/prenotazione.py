@@ -81,7 +81,7 @@ class PrenotazioneSerializer:
             "booking_code": self.prenotazione.getBookingCode(),
             "notify_on_confirm": booking_folder.notify_on_confirm,
             "cosa_serve": requirements,  # BBB
-            "requeriments": requirements,
+            "requirements": requirements,
         }
 
 
