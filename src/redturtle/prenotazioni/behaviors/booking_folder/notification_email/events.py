@@ -2,6 +2,7 @@
 from logging import getLogger
 
 from zope.component import getMultiAdapter
+from zope.globalrequest import getRequest
 
 from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
@@ -33,7 +34,7 @@ def send_email_notification_on_transition(context, event) -> None:
             name=event.transition.__name__,
         )
         sender_adapter = getMultiAdapter(
-            (message_adapter, context),
+            (message_adapter, context, getRequest()),
             IBookingNotificationSender,
             name="booking_transition_email_sender",
         )
@@ -51,7 +52,7 @@ def notify_on_move(booking, event):
         return
     message_adapter = getMultiAdapter((booking, event), IPrenotazioneEmailMessage)
     sender_adapter = getMultiAdapter(
-        (message_adapter, booking),
+        (message_adapter, booking, getRequest()),
         IBookingNotificationSender,
         name="booking_transition_email_sender",
     )
@@ -66,7 +67,7 @@ def send_booking_reminder(context, event):
         name="reminder_notification_message",
     )
     sender_adapter = getMultiAdapter(
-        (message_adapter, context),
+        (message_adapter, context, getRequest()),
         IBookingNotificationSender,
         name="booking_transition_email_sender",
     )
@@ -88,7 +89,7 @@ def send_email_to_managers(booking, event):
         (booking, event), IPrenotazioneEmailMessage, name="notify_manager"
     )
     sender_adapter = getMultiAdapter(
-        (message_adapter, booking),
+        (message_adapter, booking, getRequest()),
         IBookingNotificationSender,
         name="booking_transition_email_sender",
     )

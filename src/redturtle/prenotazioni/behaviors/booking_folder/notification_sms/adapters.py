@@ -9,16 +9,18 @@ from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
 from redturtle.prenotazioni.interfaces import IPrenotazioneSMSMEssage
+from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 
 logger = getLogger(__name__)
 
 
 @implementer(IBookingNotificationSender)
-@adapter(IPrenotazioneSMSMEssage, IPrenotazione)
+@adapter(IPrenotazioneSMSMEssage, IPrenotazione, IRedturtlePrenotazioniLayer)
 class BookingNotificationSender:
-    def __init__(self, message_adapter, booking) -> None:
+    def __init__(self, message_adapter, booking, request) -> None:
         self.message_adapter = message_adapter
         self.booking = booking
+        self.request = request
 
     def send(self):
         message = self.message_adapter.message

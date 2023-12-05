@@ -45,11 +45,9 @@ def send_notification_on_transition(context, event) -> None:
             IPrenotazioneAPPIoMessage,
             name=event.transition.__name__,
         )
-        import pdb
 
-        pdb.set_trace()
         sender_adapter = getMultiAdapter(
-            (message_adapter, context),
+            (message_adapter, context, getRequest()),
             IBookingNotificationSender,
             name="booking_transition_appio_sender",
         )
@@ -67,7 +65,7 @@ def notify_on_move(booking, event):
         return
     message_adapter = getMultiAdapter((booking, event), IPrenotazioneAPPIoMessage)
     sender_adapter = getMultiAdapter(
-        (message_adapter, booking),
+        (message_adapter, booking, getRequest()),
         IBookingNotificationSender,
         name="booking_transition_appio_sender",
     )
@@ -82,7 +80,7 @@ def send_booking_reminder(context, event):
         name="reminder_notification_message",
     )
     sender_adapter = getMultiAdapter(
-        (message_adapter, context),
+        (message_adapter, context, getRequest()),
         IBookingNotificationSender,
         name="booking_transition_appio_sender",
     )

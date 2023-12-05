@@ -47,7 +47,7 @@ def send_notification_on_transition(context, event) -> None:
         )
 
         sender_adapter = getMultiAdapter(
-            (message_adapter, context),
+            (message_adapter, context, getRequest()),
             IBookingNotificationSender,
             name="booking_transition_sms_sender",
         )
@@ -65,7 +65,7 @@ def notify_on_move(booking, event):
         return
     message_adapter = getMultiAdapter((booking, event), IPrenotazioneSMSMEssage)
     sender_adapter = getMultiAdapter(
-        (message_adapter, booking),
+        (message_adapter, booking, getRequest()),
         IBookingNotificationSender,
         name="booking_transition_sms_sender",
     )
@@ -80,7 +80,7 @@ def send_booking_reminder(context, event):
         name="reminder_notification_sms_message",
     )
     sender_adapter = getMultiAdapter(
-        (message_adapter, context),
+        (message_adapter, context, getRequest()),
         IBookingNotificationSender,
         name="booking_transition_email_sender",
     )
