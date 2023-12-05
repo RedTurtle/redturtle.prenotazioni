@@ -8,7 +8,7 @@
 
   <plone:behavior
       name="redturtle.prenotazioni.behavior.notification_email"
-      title="Booking folder notification sms"
+      title="Booking folder notification email"
       description="Notification email templates"
       factory=".notification_email.NotificationEmail"
       provides=".notification_email.INotificationEmail"
