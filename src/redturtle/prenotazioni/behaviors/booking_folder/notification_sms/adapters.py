@@ -3,8 +3,8 @@ from logging import getLogger
 from zope.component import adapter
 from zope.component import getUtility
 from zope.globalrequest import getRequest
-from zope.interface import implementer
 from zope.interface import Interface
+from zope.interface import implementer
 
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender

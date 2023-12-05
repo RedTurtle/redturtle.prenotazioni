@@ -65,6 +65,17 @@ def notify_as_reminder_appio_message_default_factory(context):
 
 @provider(IFormFieldProvider)
 class INotificationAppIo(model.Schema):
+    notifications_appio_enabled = schema.Bool(
+        title=_(
+            "notifications_appio_enabled_label", default="AppIo notifications enabled."
+        ),
+        description=_(
+            "notifications_appio_enabled_help",
+            default="Enable AppIo notifications.",
+        ),
+        default=True,
+        required=False,
+    )
     notify_on_submit_appio_message = schema.Text(
         title=_(
             "notify_on_submit_appio_message",

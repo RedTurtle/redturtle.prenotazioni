@@ -112,6 +112,17 @@ def notify_as_reminder_message_default_factory(context):
 
 @provider(IFormFieldProvider)
 class INotificationEmail(model.Schema):
+    notifications_email_enabled = schema.Bool(
+        title=_(
+            "notifications_email_enabled_label", default="Email notifications enabled."
+        ),
+        description=_(
+            "notifications_email_enabled_help",
+            default="Enable Email notifications.",
+        ),
+        default=True,
+        required=False,
+    )
     notify_on_submit_subject = schema.TextLine(
         title=_(
             "notify_on_submit_subject",

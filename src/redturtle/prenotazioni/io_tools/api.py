@@ -206,3 +206,7 @@ class Api(object):
             self.storage.update_message(key, status=SENDER_NOT_ALLOWED)
             logger.warning("message for user %s not allowed", fiscal_code)
             return None
+
+    def is_service_activated(self, fiscalcode):
+        """Check if the service is activated for a user"""
+        pass
