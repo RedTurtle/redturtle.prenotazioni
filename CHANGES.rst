@@ -11,8 +11,12 @@ Changelog
 2.2.5 (2023-12-04)
 ------------------
 
+- Contributors can add PrenotazioniFolder.
+  [cekk]
+
 - On PrenotazioniFolder upgrade-step (2000->2001) migrate also requirements field.
   [cekk]
+
 - Fix gate chooser algorithm to avoid overlaps. Now we randomly choose it without getting the less used one.
   [cekk]
 

@@ -272,4 +272,14 @@
         handler=".upgrades.update_registry"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2001"
+      destination="2002"
+      >
+    <genericsetup:upgradeStep
+        title="Contributors can add PrenotazioniFolder"
+        handler=".upgrades.update_rolemap"
+        />
+  </genericsetup:upgradeSteps>
 </configure>
