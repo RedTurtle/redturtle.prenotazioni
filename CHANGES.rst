@@ -2,11 +2,19 @@ Changelog
 =========
 
 
-2.2.5 (unreleased)
+2.2.6 (unreleased)
 ------------------
 
 - Return bookings in ascending date order so the ones for today are shown as first
   [pnicolli]
+
+
+2.2.5 (2023-12-04)
+------------------
+
+- On PrenotazioniFolder upgrade-step (2000->2001) migrate also requirements field.
+  [cekk]
+
 - Fix gate chooser algorithm to avoid overlaps. Now we randomly choose it without getting the less used one.
   [cekk]
 
