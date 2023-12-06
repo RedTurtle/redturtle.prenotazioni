@@ -680,6 +680,19 @@ Usage::
 
     bin/instance1 -OPlone run bin/notify_upcoming_bookings
 
+Behaviors
+=========
+
+redturtle.prenotazioni.behavior.notification_appio
+--------------------------------------------------
+
+If you mind to use this behavior note that first of all you also need to assign
+this **redturtle.prenotazioni.behavior.notification_appio_booking_type** to PrenotazioneType c.t.
+
+To send the messages via AppIO gateway the **service_code** field defined by **redturtle.prenotazioni.behavior.notification_appio_booking_type**
+must be compiled in the PrenotazioniType object. All the possible values of this field are being
+taken from the environmennt variables which have the following syntax **REDTURTLE_PRENOTAZIONI_APPIO_KEY_<AppIO Sevice code here>=<AppIO Sevice key here>**
+
 
 How to develop
 ==============

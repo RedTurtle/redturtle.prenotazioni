@@ -67,4 +67,10 @@
       name="booking_transition_appio_sender"
       />
 
+  <!-- Utilities -->
+  <utility
+      name="redturtle.prenotazioni.appio_services"
+      component=".voc_service_keys.VocPrenotazioneTypeGatesFactory"
+      />
+
 </configure>

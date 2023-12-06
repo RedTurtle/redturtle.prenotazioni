@@ -252,14 +252,17 @@ class NotificationAppIo(object):
 
 @provider(IFormFieldProvider)
 class INotificationAppioBookingType(model.Schema):
-    service_code = schema.Text(
+    service_code = schema.Choice(
         title=_(
             "service_code_label",
-            default="AppIo service code message.",
+            default="AppIo service code.",
         ),
-        description=_("notify_on_submit_appio_message_help", default=""),
-        defaultFactory=notify_on_submit_appio_message_default_factory,
-        required=False,
+        description=_(
+            "service_code_help",
+            default="AppIO service code related to the current booking type",
+        ),
+        required=True,
+        vocabulary="redturtle.prenotazioni.appio_services",
     )
 
 
