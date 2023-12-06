@@ -17,7 +17,8 @@ def notify_on_submit_sms_message_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_on_submit_sms_message_default_value",
-            "Booking ${booking_type} for ${booking_date} at ${booking_time} was created. ${booking_print_url}",
+            "Booking ${booking_type} for ${booking_date} \n "
+            "at ${booking_time} was created. ${booking_print_url}",
         )
     )
 
@@ -48,7 +49,8 @@ def notify_on_refuse_sms_message_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_on_refuse_sms_message_default_value",
-            "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
+            "The booking ${booking_type} of ${booking_date}\n "
+            "at ${booking_time} was refused.",
         )
     )
 
@@ -58,8 +60,8 @@ def notify_as_reminder_sms_message_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_as_reminder_sms_message_default_value",
-            "This is an automatic reminder about your booking "
-            "on ${date} for ${booking_type}. If you need to see more infos "
+            "This is an automatic reminder about your booking\n "
+            "on ${date} for ${booking_type}. If you need to see more infos\n "
             "or delete it, please access your booking details page. ${booking_pring_url}",
         )
     )
@@ -112,15 +114,6 @@ class INotificationSMS(model.Schema):
         ),
         description=_("notify_on_refuse_sms_message_help", default=""),
         defaultFactory=notify_on_refuse_sms_message_default_factory,
-        required=False,
-    )
-    notify_as_reminder_sms_message = schema.Text(
-        title=_(
-            "notify_as_reminder_sms_message",
-            default="Booking reminder message.",
-        ),
-        description=_("notify_as_reminder_sms_message_help", default=""),
-        defaultFactory=notify_as_reminder_sms_message_default_factory,
         required=False,
     )
 

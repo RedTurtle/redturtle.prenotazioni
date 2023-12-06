@@ -708,7 +708,7 @@ msgstr "Le seguenti tipologie non sono selezionabili nell'orario selezionato:"
 #. Default: "Booking AppIO notifications"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:224
 msgid "bookings_appio_templates_label"
-msgstr ""
+msgstr "Testo delle notifiche App IO"
 
 #. Default: "Booking limit({limit}) for the {booking_type} type is exceed for the current user"
 #: redturtle/prenotazioni/exceptions/booker.py:15
@@ -723,7 +723,7 @@ msgstr "Prenotazioni non in agenda"
 #. Default: "Booking SMS notifications"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:129
 msgid "bookings_sms_templates_label"
-msgstr ""
+msgstr "Testo delle notifiche SMS"
 
 #. Default: "Busy"
 #: redturtle/prenotazioni/browser/prenotazioni_context_state.py:47
@@ -1163,37 +1163,37 @@ msgstr "La prenotazione non e' permessa prima del numero di giorni specificata. 
 #. Default: "Enable AppIO notifications."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:124
 msgid "notifications_appio_enabled_help"
-msgstr ""
+msgstr "Abilita le notifiche via App IO. I campi del messaggio accettano il formato Markdown"
 
 #. Default: "AppIO notifications enabled."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:121
 msgid "notifications_appio_enabled_label"
-msgstr ""
+msgstr "Notifiche App IO"
 
 #. Default: "Enable Email notifications."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:121
 msgid "notifications_email_enabled_help"
-msgstr ""
+msgstr "Abilita le notifiche via email"
 
 #. Default: "Email notifications enabled."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:118
 msgid "notifications_email_enabled_label"
-msgstr ""
+msgstr "Notifiche Email"
 
 #. Default: "Notifications"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:500
 msgid "notifications_label"
-msgstr "Notifiche email"
+msgstr "Notifiche"
 
 #. Default: "Enable SMS notifications."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:74
 msgid "notifications_sms_enabled_help"
-msgstr ""
+msgstr "Abilita le notifiche via SMS. Nota che le notifche SMS partono solo in caso se le notifiche via App IO non sono impostate oppure non sono tecnicamente possibili."
 
 #. Default: "SMS notifications enabled."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:71
 msgid "notifications_sms_enabled_label"
-msgstr ""
+msgstr "Notifiche SMS"
 
 #. Default: "Booking reminder message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:213
@@ -1203,7 +1203,7 @@ msgstr ""
 #. Default: "This is an automatic reminder about your booking on ${date} for ${booking_type}. If you need to see more infos or delete it, please access your booking details <a href=\"${booking_pring_url}\">page</a>"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:109
 msgid "notify_as_reminder_appio_message_default_value"
-msgstr ""
+msgstr "Ricorda la tua prenotazione per ${booking_type} il ${booking_date} al ${booking_time}. Se desideri cancellare la prenotazione, accedi a questo link: ${booking_print_url}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:217
 msgid "notify_as_reminder_appio_message_help"
@@ -1217,7 +1217,7 @@ msgstr ""
 #. Default: "You have an upcomming booking on ${booking_date}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:99
 msgid "notify_as_reminder_appio_subject_default_value"
-msgstr ""
+msgstr "Una prenotazione in arrivo ${booking_date}"
 
 #. Default: "Booking reminder message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:210
@@ -1226,9 +1226,8 @@ msgstr "Testo promemoria automatico"
 
 #. Default: "This is an automatic reminder about your booking on ${date} for ${booking_type}. If you need to see more infos or delete it, please access your booking details <a href=\"${booking_pring_url}\">page</a>"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:106
-#, fuzzy
 msgid "notify_as_reminder_message_default_value"
-msgstr "Ricorda la tua prenotazione per ${booking_type} il ${booking_date} all ${booking_time}. Se desideri cancellare la prenotazione, accedi a <a href=${booking_print_url}>questo link</a>"
+msgstr "Ricorda la tua prenotazione per ${booking_type} il ${booking_date} al ${booking_time}. Se desideri cancellare la prenotazione, accedi a <a href=${booking_print_url}>questo link</a>"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:214
 msgid "notify_as_reminder_message_help"
@@ -1242,7 +1241,7 @@ msgstr ""
 #. Default: "This is an automatic reminder about your booking on ${date} for ${booking_type}. If you need to see more infos or delete it, please access your booking details page. ${booking_pring_url}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:59
 msgid "notify_as_reminder_sms_message_default_value"
-msgstr ""
+msgstr "Promemoria prenotazione al ${booking_date} per ${booking_type}.\nPer le altre informazioni visita questo link:\n\n\n ${booking_pring_url}""
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:122
 msgid "notify_as_reminder_sms_message_help"
@@ -1256,7 +1255,7 @@ msgstr "Oggetto promemoria automatico"
 #. Default: "You have an upcomming booking on ${booking_date}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:96
 msgid "notify_as_reminder_subject_default_value"
-msgstr ""
+msgstr "Una prenotazione in arrivo ${booking_date}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:205
 msgid "notify_as_reminder_subject_help"
@@ -1270,12 +1269,12 @@ msgstr "Notifica alla conferma"
 #. Default: "Prenotazione confirmed notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:159
 msgid "notify_on_confirm_appio_message"
-msgstr ""
+msgstr "Testo notifica prenotazione confermata"
 
 #. Default: "The booking${booking_type} for ${title} was confirmed! ${booking_print_url}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:48
 msgid "notify_on_confirm_appio_message_default_value"
-msgstr ""
+msgstr "La prenotazione ${booking_type} per ${title} è stata confermata! Se non hai salvato o stampato il promemoria, puoi visualizzarlo su <a href=${booking_print_url}>questo link</a> Se desideri cancellare la prenotazione, accedi a questo link: ${booking_print_url}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:163
 msgid "notify_on_confirm_appio_message_help"
@@ -1284,12 +1283,12 @@ msgstr ""
 #. Default: "Prenotazione confirmed notification subject."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:150
 msgid "notify_on_confirm_appio_subject"
-msgstr ""
+msgstr "Oggetto notifica prenotazione confermata"
 
 #. Default: "The booking$for ${title} was confirmed!"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:38
 msgid "notify_on_confirm_appio_subject_default_value"
-msgstr ""
+msgstr "Prenotazione del ${booking_date} alle ${booking_time} accettata"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:154
 msgid "notify_on_confirm_appio_subject_help"
@@ -1298,7 +1297,7 @@ msgstr ""
 #. Default: "Notify via mail the user when his booking has been confirmed."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:418
 msgid "notify_on_confirm_help"
-msgstr "Notifica l'utente via email quando la prenotazione viene confermata."
+msgstr "Notifica l'utente quando la prenotazione viene confermata."
 
 #. Default: "Prenotazione confirmed notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:156
@@ -1318,12 +1317,12 @@ msgstr ""
 #. Default: "Prenotazione confirmed notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:91
 msgid "notify_on_confirm_sms_message"
-msgstr ""
+msgstr "Testo notifica prenotazione confermata"
 
 #. Default: "The booking${booking_type} for ${title} was confirmed! ${booking_print_url}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:28
 msgid "notify_on_confirm_sms_message_default_value"
-msgstr ""
+msgstr "La prenotazione ${booking_type} per ${title} è stata confermata!\nSe non hai salvato o stampato il promemoria,\npuoi visualizzarlo su questo link:\n\n\n${booking_print_url}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:95
 msgid "notify_on_confirm_sms_message_help"
@@ -1352,12 +1351,12 @@ msgstr "Notifica se la prenotazione è stata spostata"
 #. Default: "Prenotazione moved notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:177
 msgid "notify_on_move_appio_message"
-msgstr ""
+msgstr "Testo notifica prenotazione spostata"
 
 #. Default: "The booking scheduling of ${booking_type} was modified.The new one is on ${booking_date} at ${booking_time} {booking_print_url}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:68
 msgid "notify_on_move_appio_message_default_value"
-msgstr ""
+msgstr "L'orario della sua prenotazione ${booking_type} è stata modificata. La nuova data è ${booking_date} alle ore ${booking_time}. Controlla o stampa il nuovo promemoria su questo link: ${booking_print_url}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:181
 msgid "notify_on_move_appio_message_help"
@@ -1366,12 +1365,12 @@ msgstr ""
 #. Default: "Prenotazione moved notification subject."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:168
 msgid "notify_on_move_appio_subject"
-msgstr ""
+msgstr "Oggetto notifica prenotazione spostata"
 
 #. Default: "The booking scheduling of ${booking_type} was modified."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:58
 msgid "notify_on_move_appio_subject_default_value"
-msgstr ""
+msgstr "Modifica data di prenotazione per ${title}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:172
 msgid "notify_on_move_appio_subject_help"
@@ -1380,7 +1379,7 @@ msgstr ""
 #. Default: "Notify via mail the user when his booking has been moved."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:427
 msgid "notify_on_move_help"
-msgstr "Notifica l'utente via mail quando la prenotazione viene spostata."
+msgstr "Notifica l'utente quando la prenotazione viene spostata."
 
 #. Default: "Prenotazione moved notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:174
@@ -1400,12 +1399,12 @@ msgstr ""
 #. Default: "Prenotazione moved notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:100
 msgid "notify_on_move_sms_message"
-msgstr ""
+msgstr "Testo notifica prenotazione spostata"
 
 #. Default: "The booking scheduling of ${booking_type} was modified.The new one is on ${booking_date} at ${booking_time} {booking_print_url}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:38
 msgid "notify_on_move_sms_message_default_value"
-msgstr ""
+msgstr "L'orario della sua prenotazione ${booking_type} è stata modificata.\nLa nuova data è ${booking_date} alle ore ${booking_time}.\nControlla o stampa il nuovo promemoria su questo link:\n\n\n${booking_print_url}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:104
 msgid "notify_on_move_sms_message_help"
@@ -1434,12 +1433,12 @@ msgstr "Notifica se viene cancellata"
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:195
 msgid "notify_on_refuse_appio_message"
-msgstr ""
+msgstr "Testo notifica promemoria prenotazione"
 
 #. Default: "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:89
 msgid "notify_on_refuse_appio_message_default_value"
-msgstr ""
+msgstr "La prenotazione ${booking_type} del ${booking_date} delle ore ${booking_time} è stata rifiutata. Motivo del rifiuto: ${booking_refuse_message}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:199
 msgid "notify_on_refuse_appio_message_help"
@@ -1448,12 +1447,12 @@ msgstr ""
 #. Default: "Prenotazione created notification subject."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:186
 msgid "notify_on_refuse_appio_subject"
-msgstr ""
+msgstr "Oggetto notifica promemoria prenotazione"
 
 #. Default: "The booking ${booking_type} was refused."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:79
 msgid "notify_on_refuse_appio_subject_default_value"
-msgstr ""
+msgstr "Prenotazione rifiutata per ${title}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:190
 msgid "notify_on_refuse_appio_subject_help"
@@ -1462,7 +1461,7 @@ msgstr ""
 #. Default: "Notify via mail the user when his booking has been rejected."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:436
 msgid "notify_on_refuse_help"
-msgstr "Notifica l'utente via mail se la prenotazione viene cancellata"
+msgstr "Notifica l'utente se la prenotazione viene cancellata"
 
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:192
@@ -1482,12 +1481,12 @@ msgstr ""
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:109
 msgid "notify_on_refuse_sms_message"
-msgstr ""
+msgstr "Testo notifica promemoria prenotazione"
 
 #. Default: "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:49
 msgid "notify_on_refuse_sms_message_default_value"
-msgstr ""
+msgstr "La prenotazione ${booking_type} del ${booking_date} delle ore ${booking_time}\nè stata rifiutata.\nMotivo del rifiuto: ${booking_refuse_message}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:113
 msgid "notify_on_refuse_sms_message_help"
@@ -1516,12 +1515,12 @@ msgstr "Notifica alla prenotazione creata"
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:141
 msgid "notify_on_submit_appio_message"
-msgstr ""
+msgstr "Testo notifica prenotazione creata"
 
 #. Default: "Booking ${booking_type} for ${booking_date} at ${booking_time} was created. ${booking_print_url}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:28
 msgid "notify_on_submit_appio_message_default_value"
-msgstr ""
+msgstr "La prenotazione ${booking_type} per il ${booking_date} alle ${booking_time} è stata creata. Riceverete una mail di conferma quando la prenotazione verrà confermata definitivamente. Se non hai salvato o stampato il promemoria, puoi visualizzarlo questo link: ${booking_print_url}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:145
 msgid "notify_on_submit_appio_message_help"
@@ -1530,12 +1529,12 @@ msgstr ""
 #. Default: "Prenotazione created notification subject."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:132
 msgid "notify_on_submit_appio_subject"
-msgstr ""
+msgstr "Oggetto notifica prenotazione creata"
 
 #. Default: "Booking ${booking_type} for ${booking_date} was created"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:18
 msgid "notify_on_submit_appio_subject_default_value"
-msgstr ""
+msgstr "Prenotazione creata correttamente per ${title}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:136
 msgid "notify_on_submit_appio_subject_help"
@@ -1544,7 +1543,7 @@ msgstr ""
 #. Default: "Notify via mail the user when his booking has been created. If auto-confirm flag is selected and confirm notify is selected, this one will be ignored."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:409
 msgid "notify_on_submit_help"
-msgstr "Notifica l'utente via email quando la prenotazione viene creata. Se il flag di conferma automatica o di notifica alla conferma è stato selezionato, l'opzione corrente sarà ignorata"
+msgstr "Notifica l'utente quando la prenotazione viene creata. Se il flag di conferma automatica o di notifica alla conferma è stato selezionato, l'opzione corrente sarà ignorata"
 
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:138
@@ -1564,12 +1563,12 @@ msgstr ""
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:82
 msgid "notify_on_submit_sms_message"
-msgstr ""
+msgstr "Testo notifica prenotazione creata"
 
 #. Default: "Booking ${booking_type} for ${booking_date} at ${booking_time} was created. ${booking_print_url}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:18
 msgid "notify_on_submit_sms_message_default_value"
-msgstr ""
+msgstr "La prenotazione ${booking_type} per il ${booking_date}\n alle ${booking_time} è stata creata.\nRiceverete una mail di conferma quando la prenotazione verrà confermata definitivamente.\nSe non hai salvato o stampato il promemoria,\npuoi visualizzarlo questo link:\n\n\n${booking_print_url}"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:86
 msgid "notify_on_submit_sms_message_help"
@@ -1612,9 +1611,8 @@ msgstr "${day}, ore ${booking_time}"
 
 #. Default: "Testo delle email di notifica"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:221
-#, fuzzy
 msgid "prenotazioni_email_templates_label"
-msgstr "Testo delle email di notifica"
+msgstr "Testo delle notifiche Email"
 
 #. Default: "prenotazioni_search"
 #: redturtle/prenotazioni/profiles/default/actions.xml
