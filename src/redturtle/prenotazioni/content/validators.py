@@ -10,10 +10,8 @@ from zope.interface import Invalid
 from zope.schema import ValidationError
 
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.slot import (
-    interval_is_contained,
-    is_intervals_overlapping,
-)
+from redturtle.prenotazioni.adapters.slot import interval_is_contained
+from redturtle.prenotazioni.adapters.slot import is_intervals_overlapping
 
 
 def get_dgf_values_from_request(request, fieldname, columns=[]):

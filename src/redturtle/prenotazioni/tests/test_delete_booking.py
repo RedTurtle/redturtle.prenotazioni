@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 import unittest
-from datetime import date, datetime, timedelta
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 
 import transaction
 from AccessControl import Unauthorized
 from plone import api
-from plone.app.testing import TEST_USER_ID, login, logout, setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import login
+from plone.app.testing import logout
+from plone.app.testing import setRoles
 from zExceptions import NotFound
 
 from redturtle.prenotazioni.adapters.booker import IBooker

@@ -6,18 +6,22 @@ from random import choice
 from DateTime import DateTime
 from plone import api
 from plone.memoize.instance import memoize
-from six.moves.urllib.parse import parse_qs, urlparse
+from six.moves.urllib.parse import parse_qs
+from six.moves.urllib.parse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import Interface
 from zope.event import notify
 from zope.interface import implementer
 from ZTUtils.Lazy import LazyMap
 
-from redturtle.prenotazioni import _, datetime_with_tz, logger
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
+from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
 from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
-from redturtle.prenotazioni.exceptions import BookerException, BookingsLimitExceded
+from redturtle.prenotazioni.exceptions import BookerException
+from redturtle.prenotazioni.exceptions import BookingsLimitExceded
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
 
@@ -88,7 +92,8 @@ class Booker(object):
 
     def get_available_gate(self, booking_date, booking_expiration_date=None):
         """
-        Find which gate is free to serve this booking
+        Find which gate are free to serve this booking and choose randomly
+        one of the less busy
         """
         # XXX: per come è ora la funzione probabilmente questa condizione non è mai vera
         # if not self.prenotazioni.get_gates():
@@ -98,13 +103,25 @@ class Booker(object):
         )
         if len(available_gates) == 0:
             return None
-        if len(available_gates) == 1:
-            return available_gates.pop()
-        return choice(
-            self.prenotazioni.get_less_used_gates(
-                booking_date=booking_date, available_gates=available_gates
-            )
-        )
+        return choice(list(available_gates))
+
+        # if len(available_gates) == 1:
+        #    return available_gates[0]
+        # this was code to choose a less used gate that we temporary disabled
+        # free_slots_by_gate = self.prenotazioni.get_free_slots(booking_date)
+        # # Create a dictionary where keys is the time the gate is free, and
+        # # value is a list of gates
+        # free_time_map = {}
+        # for gate, free_slots in free_slots_by_gate.items():
+        #     if gate not in available_gates:
+        #         # this gate have already a booking for selected time, skip it
+        #         continue
+        #     free_time = sum(map(BaseSlot.__len__, free_slots))
+        #     free_time_map.setdefault(free_time, []).append(gate)
+        # # Get a random choice among the less busy ones
+        # max_free_time = max(free_time_map.keys())
+        # less_used_gates = free_time_map[max_free_time]
+        # return choice(less_used_gates)
 
     def _create(self, data, duration=-1, force_gate=""):
         """Create a Booking object

@@ -3,7 +3,11 @@
 import unittest
 
 from plone import api
-from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
+from plone.registry.interfaces import IRegistry
+from Products.CMFPlone.interfaces import ISearchSchema
+from zope.component import getUtility
 
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 
@@ -52,6 +56,23 @@ class TestSetup(unittest.TestCase):
             self.assertIn("collective.dexteritytextindexer", behaviors)
         else:
             self.assertNotIn("collective.dexteritytextindexer", behaviors)
+
+    def test_searchable_types(self):
+        registry = getUtility(IRegistry)
+        types_not_searched = registry.forInterface(
+            ISearchSchema, prefix="plone"
+        ).types_not_searched
+
+        types = [
+            "Prenotazione",
+            "PrenotazioniDay",
+            "PrenotazioniWeek",
+            "PrenotazioniYear",
+            "PrenotazioneType",
+            "PrenotazioniFolder",
+        ]
+        for ptype in types:
+            self.assertIn(ptype, types_not_searched)
 
 
 class TestUninstall(unittest.TestCase):

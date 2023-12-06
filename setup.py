@@ -4,7 +4,6 @@
 from setuptools import find_packages
 from setuptools import setup
 
-
 long_description = "\n\n".join(
     [
         open("README.rst").read(),
@@ -16,7 +15,7 @@ long_description = "\n\n".join(
 
 setup(
     name="redturtle.prenotazioni",
-    version="2.2.2.dev0",
+    version="2.2.6.dev0",
     description="An add-on for Plone",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers

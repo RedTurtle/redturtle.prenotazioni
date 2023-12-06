@@ -7,7 +7,8 @@ from zope.component import adapter
 from zope.globalrequest import getRequest
 from zope.interface import Interface
 
-from redturtle.prenotazioni import _, logger
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni import logger
 
 try:
     from plone.app.event.base import spell_date

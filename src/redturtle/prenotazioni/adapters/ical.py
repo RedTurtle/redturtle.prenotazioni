@@ -2,12 +2,19 @@
 import icalendar
 from Acquisition import aq_inner
 from plone.app.event.base import default_timezone
-from plone.app.event.ical.exporter import PRODID, VERSION, ICalendarEventComponent
-from plone.event.interfaces import IICalendar, IICalendarEventComponent
+from plone.app.event.ical.exporter import PRODID
+from plone.app.event.ical.exporter import VERSION
+from plone.app.event.ical.exporter import ICalendarEventComponent
+from plone.event.interfaces import IICalendar
+from plone.event.interfaces import IICalendarEventComponent
 from plone.registry.interfaces import IRegistry
-from plone.stringinterp.interfaces import IContextWrapper, IStringSubstitution
-from zope.component import getAdapter, getUtility
+from plone.stringinterp.interfaces import IContextWrapper
+from plone.stringinterp.interfaces import IStringSubstitution
+from zope.annotation.interfaces import IAnnotations
+from zope.component import getAdapter
+from zope.component import getUtility
 from zope.interface import implementer
+from plone import api
 
 from redturtle.prenotazioni import _
 
@@ -67,11 +74,17 @@ class ICalendarBookingComponent(ICalendarEventComponent):
         # Module Shared.DC.Scripts.Bindings, line 199, in __getattr__
         # Module Shared.DC.Scripts.Bindings, line 205, in __you_lose
         # AccessControl.unauthorized.Unauthorized: <exception str() failed>
-        title = self.parent.translate(
+        annotations = IAnnotations(self.context.REQUEST)
+
+        is_manager_notification = annotations.get("ical_manager_notification", False)
+        title_label = self.parent.title
+        if is_manager_notification:
+            title_label = f"{self.context.title} [{title_label}]"
+        title = api.portal.translate(
             _(
                 "ical_booking_label",
                 default="Booking for ${title}",
-                mapping={"title": self.parent.title},
+                mapping={"title": title_label},
             )
         )
         return {"value": title}

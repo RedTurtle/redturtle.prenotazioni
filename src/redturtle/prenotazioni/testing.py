@@ -4,13 +4,11 @@ import collective.z3cform.datagridfield
 import plone.app.caching
 import plone.restapi
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
-from plone.app.testing import (
-    MOCK_MAILHOST_FIXTURE,
-    FunctionalTesting,
-    IntegrationTesting,
-    PloneSandboxLayer,
-    applyProfile,
-)
+from plone.app.testing import MOCK_MAILHOST_FIXTURE
+from plone.app.testing import FunctionalTesting
+from plone.app.testing import IntegrationTesting
+from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import applyProfile
 from plone.restapi.testing import PloneRestApiDXLayer
 from plone.testing import z2
 

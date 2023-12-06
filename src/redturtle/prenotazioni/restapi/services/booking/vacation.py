@@ -9,7 +9,8 @@ from zExceptions import BadRequest
 from zope.interface import alsoProvides
 
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.booker import BookerException, IBooker
+from redturtle.prenotazioni.adapters.booker import BookerException
+from redturtle.prenotazioni.adapters.booker import IBooker
 
 
 class AddVacation(Service):

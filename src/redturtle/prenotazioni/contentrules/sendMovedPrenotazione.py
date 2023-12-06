@@ -2,13 +2,17 @@
 import six
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
-from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
-from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper, EditForm
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
+from plone.app.contentrules.actions import ActionAddForm
+from plone.app.contentrules.actions import ActionEditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.app.contentrules.browser.formhelper import EditForm
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFCore.utils import getToolByName
 from zope import schema
 from zope.component import adapter
-from zope.interface import Interface, implementer
+from zope.interface import Interface
+from zope.interface import implementer
 from zope.interface.interfaces import ComponentLookupError
 
 from redturtle.prenotazioni import _
