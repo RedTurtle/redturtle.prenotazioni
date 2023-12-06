@@ -1201,7 +1201,7 @@ msgstr ""
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:192
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:621
 msgid "notify_as_reminder_subject_help"
-msgstr "Promemoria appuntamento per ${booking_type}"
+msgstr ""
 
 #. Default: "Notify when confirmed."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:518
