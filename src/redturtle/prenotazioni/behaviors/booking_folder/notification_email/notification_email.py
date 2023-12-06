@@ -211,7 +211,7 @@ class INotificationEmail(model.Schema):
             "notify_as_reminder_message",
             default="Booking reminder message.",
         ),
-        description=_("notify_as_reminder_message", default=""),
+        description=_("notify_as_reminder_message_help", default=""),
         defaultFactory=notify_as_reminder_message_default_factory,
         required=False,
     )
