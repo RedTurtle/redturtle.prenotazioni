@@ -25,10 +25,11 @@ class BookingNotificationSender:
     def send(self):
         message = self.message_adapter.message
 
-        if getUtility(
+        if not getUtility(
             IBookingNotificatorSupervisorUtility,
-        ).is_appio_message_allowed(self.booking):
+        ).is_sms_message_allowed(self.booking):
             return
+
         logger.info(
             f"Sending the notification <{self.booking.UID()}>(`{message}`) via SMS gateway"
         )
