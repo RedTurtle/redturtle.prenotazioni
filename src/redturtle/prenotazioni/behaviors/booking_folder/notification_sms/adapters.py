@@ -23,13 +23,7 @@ class BookingNotificationSender:
         self.request = request
 
     def send(self):
-        message = self.message_adapter.message
-
         if not getUtility(
             IBookingNotificatorSupervisorUtility,
         ).is_sms_message_allowed(self.booking):
-            return
-
-        logger.info(
-            f"Sending the notification <{self.booking.UID()}>(`{message}`) via SMS gateway"
-        )
+            raise NotImplementedError("The method was not implemented")

@@ -39,6 +39,7 @@ class BookingTransitionAPPIoSender:
 
             if not id:
                 logger.error("Could not send notification via AppIO gateway")
+                return
 
             logger.info(
                 f"Sent the notification <{self.booking.UID()}>(`{message}`, `{subject}`) via AppIO gateway, id returned: {id}"
