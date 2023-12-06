@@ -438,6 +438,9 @@ def to_1806(self):
             if "hidden" not in type.keys():
                 type["hidden"] = False
 
+def update_workflow(context):
+    update_profile(context, "workflow")
+
 def to_1807(context):
     for brain in api.portal.get_tool("portal_catalog")(
         portal_type="PrenotazioniFolder"
