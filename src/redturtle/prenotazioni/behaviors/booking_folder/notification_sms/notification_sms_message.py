@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-"""In this module we implemented the booking email templates which were used
-    by plone contenttrules in previous verisions of the package"""
+"""SMS Notification Templates"""
 
 from plone.stringinterp.interfaces import IContextWrapper
 from plone.stringinterp.interfaces import IStringInterpolator

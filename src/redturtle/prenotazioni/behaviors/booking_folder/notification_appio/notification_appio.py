@@ -116,14 +116,14 @@ def notify_as_reminder_appio_message_default_factory(context):
 
 
 @provider(IFormFieldProvider)
-class INotificationAppIo(model.Schema):
+class INotificationAppIO(model.Schema):
     notifications_appio_enabled = schema.Bool(
         title=_(
-            "notifications_appio_enabled_label", default="AppIo notifications enabled."
+            "notifications_appio_enabled_label", default="AppIO notifications enabled."
         ),
         description=_(
             "notifications_appio_enabled_help",
-            default="Enable AppIo notifications.",
+            default="Enable AppIO notifications.",
         ),
         default=True,
         required=False,
@@ -214,16 +214,16 @@ class INotificationAppIo(model.Schema):
             "notify_as_reminder_appio_message",
             default="Booking reminder message.",
         ),
-        description=_("notify_as_reminder_appio_message", default=""),
+        description=_("notify_as_reminder_appio_message_help", default=""),
         defaultFactory=notify_as_reminder_appio_message_default_factory,
         required=False,
     )
 
     model.fieldset(
-        "AppIo Notification Templates",
+        "AppIO Notification Templates",
         label=_(
             "bookings_appio_templates_label",
-            default="Booking AppIo notifications",
+            default="Booking AppIO notifications",
         ),
         fields=[
             "notifications_appio_enabled",
@@ -241,9 +241,9 @@ class INotificationAppIo(model.Schema):
     )
 
 
-@implementer(INotificationAppIo)
+@implementer(INotificationAppIO)
 @adapter(IDexterityContent)
-class NotificationAppIo(object):
+class NotificationAppIO(object):
     """ """
 
     def __init__(self, context):
@@ -255,7 +255,7 @@ class INotificationAppioBookingType(model.Schema):
     service_code = schema.Choice(
         title=_(
             "service_code_label",
-            default="AppIo service code.",
+            default="AppIO service code.",
         ),
         description=_(
             "service_code_help",
@@ -268,7 +268,7 @@ class INotificationAppioBookingType(model.Schema):
 
 @implementer(INotificationAppioBookingType)
 @adapter(IDexterityContent)
-class NotificationAppIoBookingType(object):
+class NotificationAppIOBookingType(object):
     """ """
 
     def __init__(self, context):

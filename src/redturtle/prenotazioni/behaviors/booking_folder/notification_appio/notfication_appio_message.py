@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""AppIO notification templates"""
+
 from plone.stringinterp.interfaces import IContextWrapper
 from plone.stringinterp.interfaces import IStringInterpolator
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
@@ -76,7 +78,7 @@ class PrenotazioneAfterTransitionAPPIoMessage(PrenotazioneAPPIoMessage):
 
 @implementer(IPrenotazioneAPPIoMessage)
 @adapter(IPrenotazione, IBookingReminderEvent)
-class PrenotazioneReminderAppIoMessage(PrenotazioneAPPIoMessage):
+class PrenotazioneReminderAppIOMessage(PrenotazioneAPPIoMessage):
     @property
     def message(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
