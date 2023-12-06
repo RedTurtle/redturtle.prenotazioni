@@ -223,6 +223,7 @@ class INotificationEmail(model.Schema):
             default="Testo delle email di notifica",
         ),
         fields=[
+            "notifications_email_enabled",
             "notify_on_submit_subject",
             "notify_on_submit_message",
             "notify_on_confirm_subject",

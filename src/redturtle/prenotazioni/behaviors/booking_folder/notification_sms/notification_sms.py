@@ -131,6 +131,7 @@ class INotificationSMS(model.Schema):
             default="Booking SMS notifications",
         ),
         fields=[
+            "notifications_sms_enabled",
             "notify_on_submit_sms_message",
             "notify_on_confirm_sms_message",
             "notify_on_move_sms_message",

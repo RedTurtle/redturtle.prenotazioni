@@ -226,6 +226,7 @@ class INotificationAppIo(model.Schema):
             default="Booking AppIo notifications",
         ),
         fields=[
+            "notifications_appio_enabled",
             "notify_on_submit_appio_subject",
             "notify_on_submit_appio_message",
             "notify_on_confirm_appio_subject",
