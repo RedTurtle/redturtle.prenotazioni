@@ -164,7 +164,7 @@ There are automated notifications implementend by the foollowing behaviors:
 * `redturtle.prenotazioni.behavior.notification_email` (Notify via Email gateway)
 * `redturtle.prenotazioni.behavior.notification_sms` (Notify via SMS gateway)
 
-Each behavior is implemententing the following notification type:
+Each behavior is implementing the following notification types:
 * `booking-accepted` (Invia un messaggio all'utente quando la prenotazione è stata accettata)
 * `booking-moved` (Invia un messaggio all'utente quando la data della prenotazione viene cambiata)
 * `booking-created-user` (Invia un email all'utente quando la prenotazione è stata creata)
