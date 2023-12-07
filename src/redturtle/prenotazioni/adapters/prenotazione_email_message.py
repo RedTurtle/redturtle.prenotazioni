@@ -191,7 +191,6 @@ class PrenotazioneManagerEmailMessage(PrenotazioneEventEmailMessage):
         msg = MIMEMultipart()
 
         msg.attach(self.message_text)
-
         msg["Subject"] = self.message_subject
         msg["From"] = mfrom
         msg["Bcc"] = bcc
@@ -215,8 +214,12 @@ class PrenotazioneManagerEmailMessage(PrenotazioneEventEmailMessage):
         return translate(
             _(
                 "new_booking_admin_notify_subject",
-                default="New booking for ${context}",
-                mapping={"context": booking_folder.title},
+                default="[${context}] New booking on ${date} by ${name}",
+                mapping={
+                    "context": booking_folder.title,
+                    "date": self.prenotazione.booking_date.strftime("%d-%m-%Y %H:%M"),
+                    "name": self.prenotazione.Title(),
+                },
             ),
             context=self.prenotazione.REQUEST,
         )
