@@ -136,11 +136,14 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
                 ]
             },
         )
-
         # if in range and next year +1, return table overrides
         self.assertEqual(
             self.view.get_week_table(date(now.year + 1, 12, 25)),
-            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
+            {
+                "Gate A": json.loads(self.folder_prenotazioni.week_table_overrides)[0][
+                    "week_table"
+                ]
+            },
         )
 
         # if out of range, return base table
