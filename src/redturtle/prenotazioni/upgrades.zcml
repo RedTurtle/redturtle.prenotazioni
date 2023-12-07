@@ -282,7 +282,7 @@
         handler=".upgrades.update_rolemap"
         />
   </genericsetup:upgradeSteps>
-    <genericsetup:upgradeSteps
+  <genericsetup:upgradeSteps
       profile="redturtle.prenotazioni:default"
       source="2002"
       destination="2003"
