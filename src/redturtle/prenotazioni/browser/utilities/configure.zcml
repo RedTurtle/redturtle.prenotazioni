@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="redturtle.prenotazioni"
+    >
+
+  <browser:page
+      name="send-booking-reminders"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".notify_upcoming_bookings.NotifyUpcomingBookings"
+      permission="cmf.ModifyPortalContent"
+      />
+
+</configure>

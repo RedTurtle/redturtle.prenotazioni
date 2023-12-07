@@ -24,6 +24,7 @@
       />
 
   <include package=".stats" />
+  <include package=".utilities" />
 
   <include package="plone.app.contentmenu" />
 
