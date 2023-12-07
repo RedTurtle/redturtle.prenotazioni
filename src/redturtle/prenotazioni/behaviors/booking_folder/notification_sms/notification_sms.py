@@ -117,6 +117,16 @@ class INotificationSMS(model.Schema):
         required=False,
     )
 
+    notify_as_reminder_sms_message = schema.Text(
+        title=_(
+            "notify_as_reminder_sms_message",
+            default="Booking reminder message.",
+        ),
+        description=_("notify_as_reminder_sms_message_help", default=""),
+        defaultFactory=notify_as_reminder_sms_message_default_factory,
+        required=False,
+    )
+
     model.fieldset(
         "SMS Notification Templates",
         label=_(
