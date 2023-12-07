@@ -10,6 +10,7 @@ from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
 from redturtle.prenotazioni.interfaces import IPrenotazioneAPPIoMessage
 from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
+from redturtle.prenotazioni.io_tools.api import Api
 
 logger = getLogger(__name__)
 
@@ -29,6 +30,17 @@ class BookingTransitionAPPIoSender:
         if getUtility(IBookingNotificatorSupervisorUtility).is_appio_message_allowed(
             self.booking
         ):
+            api = Api(secret=self.booking.get_booking_type().service_code)
+            id = api.send_message(
+                fiscal_code=self.booking.fiscalcode,
+                subject=self.message_adapter.subject,
+                body=self.message_adapter.message,
+            )
+
+            if not id:
+                logger.error("Could not send notification via AppIO gateway")
+                return
+
             logger.info(
-                f"Sending the notification <{self.booking.UID()}>(`{message}`, `{subject}`) via AppIo gateway"
+                f"Sent the notification <{self.booking.UID()}>(`{message}`, `{subject}`) via AppIO gateway, id returned: {id}"
             )

@@ -95,7 +95,7 @@ def notify_as_reminder_subject_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_as_reminder_subject_default_value",
-            "You have the upcomming booking on ${booking_date}",
+            "You have an upcomming booking on ${booking_date}",
         )
     )
 
@@ -105,7 +105,9 @@ def notify_as_reminder_message_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_as_reminder_message_default_value",
-            'Booking details are available by the following <a href="${booking_pring_url}">link</a>',
+            "This is an automatic reminder about your booking "
+            "on ${date} for ${booking_type}. If you need to see more infos "
+            'or delete it, please access your booking details <a href="${booking_pring_url}">page</a>',
         )
     )
 
@@ -209,7 +211,7 @@ class INotificationEmail(model.Schema):
             "notify_as_reminder_message",
             default="Booking reminder message.",
         ),
-        description=_("notify_as_reminder_message", default=""),
+        description=_("notify_as_reminder_message_help", default=""),
         defaultFactory=notify_as_reminder_message_default_factory,
         required=False,
     )
@@ -221,6 +223,7 @@ class INotificationEmail(model.Schema):
             default="Testo delle email di notifica",
         ),
         fields=[
+            "notifications_email_enabled",
             "notify_on_submit_subject",
             "notify_on_submit_message",
             "notify_on_confirm_subject",
@@ -229,6 +232,7 @@ class INotificationEmail(model.Schema):
             "notify_on_move_message",
             "notify_on_refuse_subject",
             "notify_on_refuse_message",
+            "notify_as_reminder_subject",
             "notify_as_reminder_message",
         ],
     )

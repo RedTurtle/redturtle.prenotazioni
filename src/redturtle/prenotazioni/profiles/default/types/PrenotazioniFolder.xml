@@ -46,6 +46,7 @@
     <element value="plone.app.dexterity.behaviors.id.IShortName" />
     <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
     <element value="plone.app.lockingbehavior.behaviors.ILocking" />
+    <element value="redturtle.prenotazioni.behavior.notification_email" />
   </property>
 
   <!-- View information -->

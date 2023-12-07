@@ -28,7 +28,7 @@ class BookingTransitionEmailSender:
 
         if getUtility(
             IBookingNotificatorSupervisorUtility,
-        ).is_appio_message_allowed(self.booking):
+        ).is_email_message_allowed(self.booking):
             logger.info(
                 f"Sending the notification <{self.booking.UID()}>(`{message}`) via Email gateway"
             )

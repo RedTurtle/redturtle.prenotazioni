@@ -155,27 +155,26 @@ Managers can confirm a Booking using workflow transitions.
 The workflow transition triggers an email to be sent to the booker (see below).
 
 
-Content Rules (mail notifications)
-----------------------------------
+Booking Notifications
+---------------------
 
-There are additional content rules that can be used to notify booking owner when his booking has been created, accepted
-or re-scheduled.
+There are automated notifications implementend by the foollowing behaviors:
 
-Rules are **NOT automatically** enabled in every Booking Folder.
-If you want to send some notification, you only need to enable them from rules link in Booking folder.
+* `redturtle.prenotazioni.behavior.notification_appio` (Nofify via AppIO gateway)
+* `redturtle.prenotazioni.behavior.notification_email` (Notify via Email gateway)
+* `redturtle.prenotazioni.behavior.notification_sms` (Notify via SMS gateway)
 
-If you set "Responsible email" field, an email will be sent each time a new Booking has been submitted.
+Each behavior is implementing the following notification types:
+* `booking-accepted` (Invia un messaggio all'utente quando la prenotazione è stata accettata)
+* `booking-moved` (Invia un messaggio all'utente quando la data della prenotazione viene cambiata)
+* `booking-created-user` (Invia un email all'utente quando la prenotazione è stata creata)
+* `booking-refuse` (Invia un email all'utente quando la prenotazione è stata rifiutata)
+* `booking-reminder` (Booking reminder message)
 
-The rules which are available by default:
+Notifications are **NOT automatically** enabled in every Booking Folder.
+If you want to send some notification, you only need to enable the by assigning the behavior to PrenotazioniFolder c.t.
 
-* `booking-accepted` (Invia un'email all'utente quando la prenotazione è stata accettata)
-* `booking-moved` (Invia un'email all'utente quando la data della prenotazione viene cambiata)
-* `booking-created-user` (Invia un'email all'utente quando la prenotazione è stata creata)
-* `booking-refuse` (Invia un'email all'utente quando la prenotazione è stata rifiutata)
-* `booking-confirm` (Conferma automatica prenotazioni)
-
-
-You can create your own email templates for the booking events(confirm, refuse, create, delete).
+You can create your own email templates for the booking events(confirm, refuse, create, delete, reminder).
 The temlates are being saved in the PrenotazioniFolder object.
 
 The template variables list:
@@ -679,6 +678,19 @@ It is supposed to be ran once a day otherwise, duplicate emails will be sent.
 Usage::
 
     bin/instance1 -OPlone run bin/notify_upcoming_bookings
+
+Behaviors
+=========
+
+redturtle.prenotazioni.behavior.notification_appio
+--------------------------------------------------
+
+If you mind to use this behavior note that first of all you also need to assign
+this **redturtle.prenotazioni.behavior.notification_appio_booking_type** to PrenotazioneType c.t.
+
+To send the messages via AppIO gateway the **service_code** field defined by **redturtle.prenotazioni.behavior.notification_appio_booking_type**
+must be compiled in the PrenotazioniType object. All the possible values of this field are being
+taken from the environmennt variables which have the following syntax **REDTURTLE_PRENOTAZIONI_APPIO_KEY_<AppIO Sevice code here>=<AppIO Sevice key here>**
 
 
 How to develop

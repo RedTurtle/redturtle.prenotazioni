@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+
+from redturtle.prenotazioni.io_tools.api import Api
+
+
 class BookingNotificationSupervisorUtility:
     """Supervisor to allow/deny the specific
     notification type according to business logic"""
@@ -23,7 +28,10 @@ class BookingNotificationSupervisorUtility:
         if not fiscalcode:
             return False
 
-        return True
+        if self._check_user_appio_subscription_to_booking_type(booking):
+            return True
+
+        return False
 
     def is_sms_message_allowed(self, booking):
         if not getattr(
@@ -32,13 +40,12 @@ class BookingNotificationSupervisorUtility:
             return False
 
         if not self.is_appio_message_allowed(booking):
-            if booking.email:
+            if booking.phone:
                 return True
 
         return False
 
-    # def check_user_appio_subscription_to_booking_type(self, booking):
-
-    #     booking_type = booking.get_booking_type()
-
-    #     api = Api(secret=booking_type.appio_secret)
+    def _check_user_appio_subscription_to_booking_type(self, booking):
+        return Api(
+            secret=os.environ.get(booking.get_booking_type().service_code)
+        ).is_service_activated(booking.fiscalcode)

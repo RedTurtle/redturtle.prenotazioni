@@ -98,7 +98,7 @@ def notify_as_reminder_appio_subject_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_as_reminder_appio_subject_default_value",
-            "Upcomming booking on ${booking_date}",
+            "You have an upcomming booking on ${booking_date}",
         )
     )
 
@@ -108,20 +108,22 @@ def notify_as_reminder_appio_message_default_factory(context):
     return getattr(context, "translate", translate)(
         _(
             "notify_as_reminder_appio_message_default_value",
-            "Booking details are available by the following link: ${booking_pring_url}",
+            "This is an automatic reminder about your booking "
+            "on ${date} for ${booking_type}. If you need to see more infos "
+            'or delete it, please access your booking details <a href="${booking_pring_url}">page</a>',
         )
     )
 
 
 @provider(IFormFieldProvider)
-class INotificationAppIo(model.Schema):
+class INotificationAppIO(model.Schema):
     notifications_appio_enabled = schema.Bool(
         title=_(
-            "notifications_appio_enabled_label", default="AppIo notifications enabled."
+            "notifications_appio_enabled_label", default="AppIO notifications enabled."
         ),
         description=_(
             "notifications_appio_enabled_help",
-            default="Enable AppIo notifications.",
+            default="Enable AppIO notifications.",
         ),
         default=True,
         required=False,
@@ -203,7 +205,7 @@ class INotificationAppIo(model.Schema):
             "notify_as_reminder_appio_subject",
             default="Booking reminder subject.",
         ),
-        description=_("notify_as_reminder_appio_subject", default=""),
+        description=_("notify_as_reminder_appio_subject_help", default=""),
         defaultFactory=notify_as_reminder_appio_subject_default_factory,
         required=False,
     )
@@ -212,18 +214,19 @@ class INotificationAppIo(model.Schema):
             "notify_as_reminder_appio_message",
             default="Booking reminder message.",
         ),
-        description=_("notify_as_reminder_appio_message", default=""),
+        description=_("notify_as_reminder_appio_message_help", default=""),
         defaultFactory=notify_as_reminder_appio_message_default_factory,
         required=False,
     )
 
     model.fieldset(
-        "AppIo Notification Templates",
+        "App IO Notification Templates",
         label=_(
             "bookings_appio_templates_label",
-            default="Booking AppIo notifications",
+            default="Booking App IO notifications",
         ),
         fields=[
+            "notifications_appio_enabled",
             "notify_on_submit_appio_subject",
             "notify_on_submit_appio_message",
             "notify_on_confirm_appio_subject",
@@ -232,14 +235,15 @@ class INotificationAppIo(model.Schema):
             "notify_on_move_appio_message",
             "notify_on_refuse_appio_subject",
             "notify_on_refuse_appio_message",
+            "notify_as_reminder_appio_subject",
             "notify_as_reminder_appio_message",
         ],
     )
 
 
-@implementer(INotificationAppIo)
+@implementer(INotificationAppIO)
 @adapter(IDexterityContent)
-class NotificationAppIo(object):
+class NotificationAppIO(object):
     """ """
 
     def __init__(self, context):
@@ -248,20 +252,23 @@ class NotificationAppIo(object):
 
 @provider(IFormFieldProvider)
 class INotificationAppioBookingType(model.Schema):
-    service_code = schema.Text(
+    service_code = schema.Choice(
         title=_(
             "service_code_label",
-            default="AppIo service code message.",
+            default="AppIO service code.",
         ),
-        description=_("notify_on_submit_appio_message_help", default=""),
-        defaultFactory=notify_on_submit_appio_message_default_factory,
-        required=False,
+        description=_(
+            "service_code_help",
+            default="AppIO service code related to the current booking type",
+        ),
+        required=True,
+        vocabulary="redturtle.prenotazioni.appio_services",
     )
 
 
 @implementer(INotificationAppioBookingType)
 @adapter(IDexterityContent)
-class NotificationAppIoBookingType(object):
+class NotificationAppIOBookingType(object):
     """ """
 
     def __init__(self, context):

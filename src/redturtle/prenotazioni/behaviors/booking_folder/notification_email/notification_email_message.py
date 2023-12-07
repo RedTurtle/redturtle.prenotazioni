@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-"""In this module we implemented the booking email templates which were used
-    by plone contenttrules in previous verisions of the package"""
+"""Email notification templates"""
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
