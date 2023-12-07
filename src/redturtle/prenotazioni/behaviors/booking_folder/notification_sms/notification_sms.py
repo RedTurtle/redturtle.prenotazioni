@@ -88,6 +88,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_submit_sms_message_help", default=""),
         defaultFactory=notify_on_submit_sms_message_default_factory,
         required=False,
+        max_length=70,
     )
     notify_on_confirm_sms_message = schema.Text(
         title=_(
@@ -97,6 +98,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_confirm_sms_message_help", default=""),
         defaultFactory=notify_on_confirm_sms_message_default_factory,
         required=False,
+        max_length=70,
     )
     notify_on_move_sms_message = schema.Text(
         title=_(
@@ -106,6 +108,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_move_sms_message_help", default=""),
         defaultFactory=notify_on_move_sms_message_default_factory,
         required=False,
+        max_length=70,
     )
     notify_on_refuse_sms_message = schema.Text(
         title=_(
@@ -115,6 +118,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_refuse_sms_message_help", default=""),
         defaultFactory=notify_on_refuse_sms_message_default_factory,
         required=False,
+        max_length=70,
     )
     notify_as_reminder_sms_message = schema.Text(
         title=_(
@@ -124,10 +128,11 @@ class INotificationSMS(model.Schema):
         description=_("notify_as_reminder_sms_message_help", default=""),
         defaultFactory=notify_as_reminder_sms_message_default_factory,
         required=False,
+        max_length=70,
     )
 
     model.fieldset(
-        "SMS Notification Templates",
+        "SMS Notifications Gateway",
         label=_(
             "bookings_sms_templates_label",
             default="Booking SMS notifications",

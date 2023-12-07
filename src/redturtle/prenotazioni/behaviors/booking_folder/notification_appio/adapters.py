@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-
 from logging import getLogger
 
 from zope.component import adapter

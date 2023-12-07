@@ -160,7 +160,7 @@ Booking Notifications
 
 There are automated notifications implementend by the foollowing behaviors:
 
-* `redturtle.prenotazioni.behavior.notification_appio` (Nofify via AppIO gateway)
+* `redturtle.prenotazioni.behavior.notification_appio` (Notify via AppIO gateway)
 * `redturtle.prenotazioni.behavior.notification_email` (Notify via Email gateway)
 * `redturtle.prenotazioni.behavior.notification_sms` (Notify via SMS gateway)
 

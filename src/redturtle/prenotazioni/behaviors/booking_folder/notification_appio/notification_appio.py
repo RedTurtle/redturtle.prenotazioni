@@ -220,7 +220,7 @@ class INotificationAppIO(model.Schema):
     )
 
     model.fieldset(
-        "App IO Notification Templates",
+        "App IO Notifications Gateway",
         label=_(
             "bookings_appio_templates_label",
             default="Booking App IO notifications",
