@@ -180,10 +180,35 @@ class PrenotazioneManagerEmailMessage(
         """
         customized to send Bcc instead To
         """
-        msg = super().message
+        error_msg = "Could not send notification email due to: {message}"
+        mfrom = api.portal.get_registry_record("plone.email_from_address")
         bcc = ", ".join(getattr(self.prenotazione, "email_responsabile", []))
-        del msg["To"]
+
+        if not mfrom:
+            logger.error(
+                error_msg.format(message="Email from address is not configured")
+            )
+            return None
+
+        msg = MIMEMultipart()
+
+        msg.attach(self.message_text)
+
+        msg["Subject"] = self.message_subject
+        msg["From"] = mfrom
         msg["Bcc"] = bcc
+
+        # ical part
+        msg.add_header("Content-class", "urn:content-classes:calendarmessage")
+        name = f"{self.prenotazione.getId()}.ics"
+
+        ical = getAdapter(object=self.prenotazione, interface=IICalendar)
+        icspart = MIMEText(ical.to_ical().decode("utf-8"), "calendar")
+
+        icspart.add_header("Filename", name)
+        icspart.add_header("Content-Disposition", f"attachment; filename={name}")
+
+        msg.attach(icspart)
         return msg
 
     @property

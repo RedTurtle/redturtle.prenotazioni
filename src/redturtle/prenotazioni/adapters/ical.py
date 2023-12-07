@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import icalendar
 from Acquisition import aq_inner
+from plone import api
 from plone.app.event.base import default_timezone
 from plone.app.event.ical.exporter import PRODID
 from plone.app.event.ical.exporter import VERSION
@@ -79,7 +80,7 @@ class ICalendarBookingComponent(ICalendarEventComponent):
         title_label = self.parent.title
         if is_manager_notification:
             title_label = f"{self.context.title} [{title_label}]"
-        title = self.context.translate(
+        title = api.portal.translate(
             _(
                 "ical_booking_label",
                 default="Booking for ${title}",

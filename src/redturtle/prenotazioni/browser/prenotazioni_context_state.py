@@ -163,30 +163,32 @@ class PrenotazioniContextState(BrowserView):
         """Returns True if the day has been configured"""
         weekday = day.weekday()
         week_table = self.get_week_table(day=day)
-        day_table = week_table[weekday]
-        return any(
-            (
-                day_table["morning_start"],
-                day_table["morning_end"],
-                day_table["afternoon_start"],
-                day_table["afternoon_end"],
-            )
-        )
+        for gate_schedule in week_table.values():
+            day_table = gate_schedule[weekday]
+            if any(
+                (
+                    day_table["morning_start"],
+                    day_table["morning_end"],
+                    day_table["afternoon_start"],
+                    day_table["afternoon_end"],
+                )
+            ):
+                return True
+        return False
 
     def get_week_overrides(self, day):
         week_table_overrides = json.loads(
             getattr(self.context, "week_table_overrides", "[]") or "[]"
         )
-
         if not week_table_overrides:
-            return {}
+            return []
+        overrides = []
         for override in week_table_overrides:
             from_month = int(override.get("from_month", ""))
             from_day = int(override.get("from_day", ""))
             to_month = int(override.get("to_month", ""))
             to_day = int(override.get("to_day", ""))
             to_year = day.year
-
             if from_month <= to_month:
                 # same year (i.e from "10 aug" to "4 sep")
                 from_date = date(to_year, from_month, from_day)
@@ -209,20 +211,31 @@ class PrenotazioniContextState(BrowserView):
                 #     from_date = date(to_year, from_month, from_day)
                 #     to_date = date(to_year + 1, to_month, to_day)
 
+            booking_date = day
             if isinstance(day, datetime):
-                if from_date <= day.date() <= to_date:
-                    return override
-            else:
-                if from_date <= day <= to_date:
-                    return override
-            return {}
+                booking_date = day.date()
+
+            if from_date <= booking_date <= to_date:
+                overrides.append(override)
+        return overrides
 
     def get_week_table(self, day):
-        week_table = getattr(self.context, "week_table", [])
+        """
+        return week table divided by gates because overrides can have
+        different gate timetables
+        """
         overrides = self.get_week_overrides(day)
-        if overrides:
-            week_table = overrides.get("week_table", []) or week_table
-        return week_table
+        week_table = getattr(self.context, "week_table", [])
+        gates = getattr(self.context, "gates", [])
+        if not overrides:
+            return {k: week_table for k in gates}
+        res = {}
+        for override in overrides:
+            override_gates = override.get("gates", []) or gates
+            override_week_table = override.get("week_table", []) or week_table
+            for gate in override_gates:
+                res[gate] = override_week_table
+        return res
 
     def is_before_allowed_period(self, day):
         """Returns True if the day is before the first bookable day"""
@@ -430,7 +443,9 @@ class PrenotazioniContextState(BrowserView):
         if not overrides:
             return gates
 
-        overrided_gates = overrides.get("gates", [])
+        overrided_gates = []
+        for override in overrides:
+            overrided_gates.extend(override.get("gates", []))
         if not overrided_gates:
             return gates
 
@@ -507,42 +522,119 @@ class PrenotazioniContextState(BrowserView):
 
         :param booking_date: a DateTime object
         """
-        gates = [x.get("name", "") for x in self.get_gates(booking_date)]
-        available = set(gates)
+        date_slot = BaseSlot(start=booking_date, stop=booking_end_date)
+        available = set()
+        for gate, slots in self.get_free_slots(booking_date).items():
+            for slot in slots:
+                if date_slot in slot:
+                    available.add(gate)
+                    break
         busy = set(self.get_busy_gates_in_slot(booking_date, booking_end_date))
         return available - busy
 
     @memoize
     def get_day_intervals(self, day):
-        """Return the time ranges of this day"""
+        """
+        Return the time ranges of this day
+
+        Example of returned data:
+
+        {
+            'afternoon': {
+                'gates': {
+                    'uno': [:],
+                    'due': [:],
+                    'tre': [:],
+                },
+                'start': '',
+                'stop': ''
+            },
+            'break': {
+                'gates': {
+                    'uno': [13:00:13:00],
+                    'due': [13:00:13:00],
+                    'tre': [:]},
+                'start': '13:00',
+                'stop': '13:00'
+            },
+            'day': {
+                'gates': {
+                    'uno': [07:00:13:00],
+                    'due': [07:00:13:00],
+                    'tre': [:],
+                },
+                'start': '07:00',
+                'stop': '13:00'
+            },
+            'morning': {
+                'gates': {
+                    'uno': [07:00:13:00],
+                    'due': [07:00:13:00],
+                    'tre': [:],
+                },
+                'start': '07:00',
+                'stop': '13:00'
+            },
+            'stormynight': {
+                'gates': {
+                    'uno': [:24:00],
+                    'due': [:24:00],
+                    'tre': [:24:00],
+                },
+                'start': '',
+                'stop': '24:00',
+            }}
+        """
+
         weekday = day.weekday()
-        week_table = self.get_week_table(day=day)
-        try:
-            day_table = week_table[weekday]
-        except IndexError as e:
-            logger.warning(e)
-            return {}
-        # Convert date + time (localtime) to datetime (utc)
-        morning_start = hm2DT(day, day_table["morning_start"])
-        morning_end = hm2DT(day, day_table["morning_end"])
-        afternoon_start = hm2DT(day, day_table["afternoon_start"])
-        afternoon_end = hm2DT(day, day_table["afternoon_end"])
-        # Get's the daily schedule
-        day_start = morning_start or afternoon_start
-        day_end = afternoon_end or morning_end
-        break_start = morning_end or afternoon_end
-        break_stop = afternoon_start or morning_end
-        return {
-            "morning": BaseSlot(
-                start=morning_start, stop=morning_end, gate="", date=day
-            ),
-            "break": BaseSlot(start=break_start, stop=break_stop, gate="", date=day),
-            "afternoon": BaseSlot(
-                start=afternoon_start, stop=afternoon_end, gate="", date=day
-            ),
-            "day": BaseSlot(start=day_start, stop=day_end, gate="", date=day),
-            "stormynight": BaseSlot(start=0, stop=86400, gate="", date=day),
+        res = {
+            "morning": {"gates": {}},
+            "break": {"gates": {}},
+            "afternoon": {"gates": {}},
+            "day": {"gates": {}},
+            "stormynight": {"gates": {}},
         }
+        for gate, week_table in self.get_week_table(day=day).items():
+            try:
+                day_table = week_table[weekday]
+            except IndexError as e:
+                logger.warning(e)
+                continue
+            morning_start = hm2DT(day, day_table["morning_start"])
+            morning_end = hm2DT(day, day_table["morning_end"])
+            afternoon_start = hm2DT(day, day_table["afternoon_start"])
+            afternoon_end = hm2DT(day, day_table["afternoon_end"])
+
+            for slot in ["morning", "afternoon", "day", "break"]:
+                if slot == "day":
+                    start = morning_start or afternoon_start
+                    end = afternoon_end or morning_end
+                elif slot == "break":
+                    start = morning_end or afternoon_end
+                    end = afternoon_start or morning_end
+                else:
+                    start = hm2DT(day, day_table[f"{slot}_start"])
+                    end = hm2DT(day, day_table[f"{slot}_end"])
+                res[slot]["gates"][gate] = BaseSlot(
+                    start=start, stop=end, gate="", date=day
+                )
+
+            res["stormynight"]["gates"][gate] = BaseSlot(
+                start=0, stop=86400, gate="", date=day
+            )
+        # calculate start and end for each slot
+        for slot in ["morning", "afternoon", "day", "break"]:
+            start = [x.start() for x in res[slot]["gates"].values() if x.start()]
+            stop = [x.stop() for x in res[slot]["gates"].values() if x.stop()]
+            start = start and min(start) or ""
+            stop = stop and max(stop) or ""
+            res[slot]["interval"] = BaseSlot(
+                start=hm2DT(day, start), stop=hm2DT(day, stop), gate="", date=day
+            )
+        res["stormynight"]["interval"] = BaseSlot(
+            start=0, stop=86400, gate="", date=day
+        )
+        return res
 
     @property
     @memoize
@@ -646,8 +738,12 @@ class PrenotazioniContextState(BrowserView):
         pause_table = self.context.pause_table or []
         overrides = self.get_week_overrides(day=booking_date)
         if overrides:
-            pause_table = overrides.get("pause_table", []) or pause_table
-
+            override_value = []
+            for override in overrides:
+                override_pause_table = override.get("pause_table", [])
+                override_value.extend(override_pause_table)
+            if override_value:
+                pause_table = override_value
         if not pause_table:
             return []
 
@@ -706,7 +802,7 @@ class PrenotazioniContextState(BrowserView):
         intervals = self.get_day_intervals(booking_date)
         if not intervals:
             return []
-        interval = intervals[period]
+        interval = intervals[period]["interval"]
         if interval.start() == "" and interval.stop() == "":
             return []
         allowed_review_states = ["pending", "confirmed", PAUSE_SLOT]
@@ -734,11 +830,15 @@ class PrenotazioniContextState(BrowserView):
         }
         """
         slots_by_gate = {}
-        slots = self.get_busy_slots_in_period(booking_date, period)
-        for slot in slots:
+        busy_slots = self.get_busy_slots_in_period(booking_date, period)
+        day_intervals = self.get_day_intervals(booking_date)
+        for slot in busy_slots:
             if slot.context.portal_type == PAUSE_PORTAL_TYPE:
-                for gate in self.get_gates(booking_date):
-                    slots_by_gate.setdefault(gate.get("name", ""), []).append(slot)
+                for gate, period_slot in (
+                    day_intervals.get(period, {}).get("gates", {}).items()
+                ):
+                    if period_slot and slot in period_slot:
+                        slots_by_gate.setdefault(gate, []).append(slot)
             else:
                 slots_by_gate.setdefault(slot.gate, []).append(slot)
         return slots_by_gate
@@ -754,17 +854,20 @@ class PrenotazioniContextState(BrowserView):
          'gate2': [slot2, slot3],
         }
         """
-        day_intervals = self.get_day_intervals(booking_date)
-        if not day_intervals:
+        day_intervals_by_gate = self.get_day_intervals(booking_date)
+        if not day_intervals_by_gate:
             return {}
-        if period == "day":
-            intervals = [day_intervals["morning"], day_intervals["afternoon"]]
-        else:
-            intervals = [day_intervals[period]]
-        slots_by_gate = self.get_busy_slots(booking_date, period)
-        gates = [x.get("name", "") for x in self.get_gates(booking_date)]
+        gates_by_period = day_intervals_by_gate.get(period, {}).get("gates", {})
         availability = {}
-        for gate in gates:
+        for gate, interval in gates_by_period.items():
+            if period == "day":
+                intervals = [
+                    day_intervals_by_gate.get("morning", {}).get("gates", {})[gate],
+                    day_intervals_by_gate.get("afternoon", {}).get("gates", {})[gate],
+                ]
+            else:
+                intervals = [interval]
+            slots_by_gate = self.get_busy_slots(booking_date, period)
             availability.setdefault(gate, [])
             all_gate_slots = slots_by_gate.get(gate, [])
             pauses_slots = [
@@ -790,7 +893,8 @@ class PrenotazioniContextState(BrowserView):
                     gate_slots.append(slot)
             for interval in intervals:
                 if interval:
-                    availability[gate].extend(interval - sorted(gate_slots))
+                    if interval.upper_value and interval.lower_value:
+                        availability[gate].extend(interval - sorted(gate_slots))
         return availability
 
     def get_freebusy_slots(self, booking_date, period="day"):
@@ -806,9 +910,8 @@ class PrenotazioniContextState(BrowserView):
         free = self.get_free_slots(booking_date, period)
         busy = self.get_busy_slots(booking_date, period)
         keys = set(list(free.keys()) + list(busy.keys()))
-        return dict(
-            (key, sorted(free.get(key, []) + busy.get(key, []))) for key in keys
-        )
+        res = dict((key, sorted(free.get(key, []) + busy.get(key, []))) for key in keys)
+        return res
 
     def get_anonymous_slots(self, booking_date, period="day"):
         """This will return all the slots under the fake name
@@ -820,11 +923,14 @@ class PrenotazioniContextState(BrowserView):
         {'anonymous_gate': [slot2, slot3],
         }
         """
-        slots_by_gate = {"anonymous_gate": []}
-        intervals = self.get_day_intervals(booking_date)
-        if not intervals:
+        slots_by_gate = {"anonymous_gate": {}}
+        intervals_by_gate = self.get_day_intervals(booking_date)
+        if not intervals_by_gate:
             return slots_by_gate
-        interval = intervals[period]
+        intervals_data = intervals_by_gate.get(period, {})
+        if not intervals_data:
+            return slots_by_gate
+        interval = intervals_data.get("interval", [])
         if not interval or len(interval) == 0:
             return slots_by_gate
         start = interval.lower_value
@@ -922,21 +1028,6 @@ class PrenotazioniContextState(BrowserView):
             return
         good_slots.sort(key=lambda x: x.lower_value)
         return good_slots[0]
-
-    def get_less_used_gates(self, booking_date):
-        """
-        Find which gate is les busy the day of the booking
-        """
-        availability = self.get_free_slots(booking_date)
-        # Create a dictionary where keys is the time the gate is free, and
-        # value is a list of gates
-        free_time_map = {}
-        for gate, free_slots in six.iteritems(availability):
-            free_time = sum(map(BaseSlot.__len__, free_slots))
-            free_time_map.setdefault(free_time, []).append(gate)
-        # Get a random choice among the less busy one
-        max_free_time = max(free_time_map.keys())
-        return free_time_map[max_free_time]
 
     def __call__(self):
         """Return itself"""

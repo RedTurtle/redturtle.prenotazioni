@@ -25,12 +25,13 @@ class PrenotazioneTypesVocabulary(object):
         """The vocabulary terms"""
         prenotazioni_folder = getPrenotazioniFolder(context)
 
-        return [
+        res = [
             self.booking_type2term(booking_type)
             for booking_type in prenotazioni_folder
             and prenotazioni_folder.get_booking_types()
             or []
         ]
+        return res
 
     def __call__(self, context):
         """

@@ -61,8 +61,7 @@ def notify_as_reminder_sms_message_default_factory(context):
         _(
             "notify_as_reminder_sms_message_default_value",
             "This is an automatic reminder about your booking\n "
-            "on ${date} for ${booking_type}. If you need to see more infos\n "
-            "or delete it, please access your booking details page. ${booking_pring_url}",
+            "please access your booking details page. ${booking_pring_url}",
         )
     )
 
@@ -88,6 +87,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_submit_sms_message_help", default=""),
         defaultFactory=notify_on_submit_sms_message_default_factory,
         required=False,
+        max_length=70,
     )
     notify_on_confirm_sms_message = schema.Text(
         title=_(
@@ -97,6 +97,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_confirm_sms_message_help", default=""),
         defaultFactory=notify_on_confirm_sms_message_default_factory,
         required=False,
+        max_length=70,
     )
     notify_on_move_sms_message = schema.Text(
         title=_(
@@ -106,6 +107,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_move_sms_message_help", default=""),
         defaultFactory=notify_on_move_sms_message_default_factory,
         required=False,
+        max_length=70,
     )
     notify_on_refuse_sms_message = schema.Text(
         title=_(
@@ -115,6 +117,17 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_refuse_sms_message_help", default=""),
         defaultFactory=notify_on_refuse_sms_message_default_factory,
         required=False,
+        max_length=70,
+    )
+    notify_as_reminder_sms_message = schema.Text(
+        title=_(
+            "notify_as_reminder_sms_message",
+            default="Prenotazione created notification message.",
+        ),
+        description=_("notify_as_reminder_sms_message_help", default=""),
+        defaultFactory=notify_as_reminder_sms_message_default_factory,
+        required=False,
+        max_length=70,
     )
 
     notify_as_reminder_sms_message = schema.Text(
@@ -128,7 +141,7 @@ class INotificationSMS(model.Schema):
     )
 
     model.fieldset(
-        "SMS Notification Templates",
+        "SMS Notifications Gateway",
         label=_(
             "bookings_sms_templates_label",
             default="Booking SMS notifications",

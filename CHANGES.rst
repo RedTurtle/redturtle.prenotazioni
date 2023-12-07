@@ -2,8 +2,44 @@ Changelog
 =========
 
 
-2.2.2 (unreleased)
+2.2.6 (unreleased)
 ------------------
+
+- Nothing changed yet.
+
+
+2.2.5 (2023-12-04)
+------------------
+
+- Contributors can add PrenotazioniFolder.
+  [cekk]
+
+- On PrenotazioniFolder upgrade-step (2000->2001) migrate also requirements field.
+  [cekk]
+
+- Fix gate chooser algorithm to avoid overlaps. Now we randomly choose it without getting the less used one.
+  [cekk]
+
+
+2.2.4 (2023-11-30)
+------------------
+
+- Do not raise Unauthorized when translate title ical adapter.
+  [cekk]
+
+
+2.2.3 (2023-11-29)
+------------------
+
+- Fix message composition in manager notification.
+  [cekk]
+
+
+2.2.2 (2023-11-28)
+------------------
+
+- Split booking notification types to 'App IO', 'Email' and 'SMS'
+  [folix-01]
 
 - Add booking reminder emails.
   [folix-01]
@@ -55,6 +91,8 @@ Changelog
 - Better handle overrides between years.
   [cekk]
 
+- Handle possibility to create more overrides with different gates schedule.
+  [cekk]
 
 2.1.5 (2023-11-10)
 ------------------

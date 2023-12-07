@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from logging import getLogger
 
 from zope.component import adapter
@@ -26,11 +27,13 @@ class BookingTransitionAPPIoSender:
     def send(self):
         message = self.message_adapter.message
         subject = self.message_adapter.message
+        booking_type = self.booking.get_booking_type()
+        api_key = os.environ.get(getattr(booking_type, "service_code", None))
 
         if getUtility(IBookingNotificatorSupervisorUtility).is_appio_message_allowed(
             self.booking
         ):
-            api = Api(secret=self.booking.get_booking_type().service_code)
+            api = Api(secret=api_key)
             id = api.send_message(
                 fiscal_code=self.booking.fiscalcode,
                 subject=self.message_adapter.subject,
