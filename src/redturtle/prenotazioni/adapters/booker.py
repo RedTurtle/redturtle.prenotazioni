@@ -149,7 +149,6 @@ class Booker(object):
             booking_expiration_date = params["booking_date"] + timedelta(
                 minutes=duration
             )
-
         gate = ""
         if not force_gate:
             available_gate = self.get_available_gate(
@@ -164,8 +163,9 @@ class Booker(object):
         else:
             gate = force_gate
 
-        fiscalcode = data.get("fiscalcode", "") or ""
-        fiscalcode.upper()
+        fiscalcode = data.get("fiscalcode", "")
+        if fiscalcode:
+            fiscalcode = fiscalcode.upper()
         user = api.user.get_current()
 
         if not fiscalcode:
