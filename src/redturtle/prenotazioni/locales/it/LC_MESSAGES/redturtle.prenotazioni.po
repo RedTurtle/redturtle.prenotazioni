@@ -1182,7 +1182,7 @@ msgstr "Notifiche Email"
 #. Default: "Notifications managing controlpanel"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:515
 msgid "notifications_help"
-msgstr "Puoi gestire diverse tipologie delle notifiche automatiche, che possono essere inviati tramitre canali aviabilli nelle behavior apositi"
+msgstr "Puoi gestire diverse tipologie delle notifiche automatiche che possono essere inviati tramitre canali, aviabili nelle behavior apositi"
 
 #. Default: "Notifications"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:508
