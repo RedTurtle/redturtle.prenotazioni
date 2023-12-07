@@ -205,7 +205,7 @@ class INotificationAppIO(model.Schema):
             "notify_as_reminder_appio_subject",
             default="Booking reminder subject.",
         ),
-        description=_("notify_as_reminder_appio_subject", default=""),
+        description=_("notify_as_reminder_appio_subject_help", default=""),
         defaultFactory=notify_as_reminder_appio_subject_default_factory,
         required=False,
     )
