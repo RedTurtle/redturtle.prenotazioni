@@ -1719,12 +1719,12 @@ msgstr "seleziona l'opzione desiderata dal gruppo di campi seguente"
 #. Default: "AppIO service code related to the current booking type"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:260
 msgid "service_code_help"
-msgstr ""
+msgstr "Matricola del servizio legato alla tipologia (serve per l'invio coretto delle notifiche)"
 
 #. Default: "AppIO service code."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:256
 msgid "service_code_label"
-msgstr ""
+msgstr "Matricola servizio App IO"
 
 #. Default: "This gate has some booking schedule in this time period."
 #: redturtle/prenotazioni/browser/vacations.py:217
