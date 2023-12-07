@@ -42,12 +42,6 @@ Changelog
 2.2.2 (2023-11-28)
 ------------------
 
-- Split booking notification types to 'App IO', 'Email' and 'SMS'
-  [folix-01]
-
-- Add booking reminder emails.
-  [folix-01]
-
 - Set PrenotazioniFolder and PrenotazioneType as not searchable (types_not_searched).
   [cekk]
 
