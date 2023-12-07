@@ -481,7 +481,9 @@ def to_2000(context):
                 title=booking_type.get("name"),
                 duration=booking_type.get("duration"),
                 container=obj,
+                requirements=getattr(obj, "cosa_serve", None),
             )
             if not booking_type.get("hidden", False):
                 api.content.transition(obj=booking_type_obj, transition="publish")
             booking_type_obj.reindexObject(idxs=["review_state"])
+        delattr(obj, "cosa_serve")

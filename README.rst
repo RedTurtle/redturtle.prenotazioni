@@ -155,6 +155,7 @@ Managers can confirm a Booking using workflow transitions.
 The workflow transition triggers an email to be sent to the booker (see below).
 
 
+<<<<<<< HEAD
 Booking Notifications
 ---------------------
 
@@ -170,40 +171,58 @@ Each behavior is implementing the following notification types:
 * `booking-created-user` (Invia un email all'utente quando la prenotazione è stata creata)
 * `booking-refuse` (Invia un email all'utente quando la prenotazione è stata rifiutata)
 * `booking-reminder` (Booking reminder message)
+=======
+Booking event notifications
+---------------------------
+
+There are addional automated email be used to notify booking owner when his booking has been created, accepted
+or re-scheduled.
+
+Rules are **NOT automatically** enabled in every Booking Folder.
+If you want to send some notification, you only need to enable them from the Booking folder.
+>>>>>>> master
 
 Notifications are **NOT automatically** enabled in every Booking Folder.
 If you want to send some notification, you only need to enable the by assigning the behavior to PrenotazioniFolder c.t.
 
+<<<<<<< HEAD
 You can create your own email templates for the booking events(confirm, refuse, create, delete, reminder).
 The temlates are being saved in the PrenotazioniFolder object.
+=======
+* `booking-accepted` (Invia un'email all'utente quando la prenotazione è stata accettata)
+* `booking-moved` (Invia un'email all'utente quando la data della prenotazione viene cambiata)
+* `booking-created-user` (Invia un'email all'utente quando la prenotazione è stata creata)
+* `booking-refuse` (Invia un'email all'utente quando la prenotazione è stata rifiutata)
+* `booking-confirm` (Conferma automatica prenotazioni)
+
+You can also use some placeholders that will be replaced with some booking infos. Here is a list:
+>>>>>>> master
 
 The template variables list:
 
-* ``${title}`` - booking title.
-* ``${booking_gate}`` - booking gate.
-* ``${booking_human_readable_start}`` - booking human readable start.
-* ``${booking_date}`` - booking date.
-* ``${booking_end_date}`` - booking end date.
-* ``${booking_time}`` - booking time.
-* ``${booking_time_end}`` - booking time end.
-* ``${booking_code}`` - booking code.
-* ``${booking_type}`` - booking type.
-* ``${booking_print_url}`` - booking print url.
-* ``${booking_url_with_delete_token}`` - booking url with delete token.
-* ``${booking_user_phone}`` - booking user phone.
-* ``${booking_user_email}`` - booking user email.
-* ``${booking_user_details}`` - booking user details.
-* ``${booking_office_contact_phone}`` - booking office contact phone.
-* ``${booking_office_contact_pec}`` - booking office contact pec.
-* ``${booking_office_contact_fax}`` - booking office contact fax.
-* ``${booking_how_to_get_to_office}`` - booking how to get to office.
-* ``${booking_office_complete_address}`` - booking office complete address.
-* ``${booking_user_details}`` - booking user details
-* ``${booking_requirements}`` - booking requeirements.
-* ``${prenotazioni_folder_title}`` - prenotazioni folder title.
-* ``${booking_user_details}`` - booking details.
-* ``${booking_requirements}`` - booking_requirements
-* ``${prenotazioni_folder_title}`` - PrenotazioniFolder title
+* ``${title}`` - Booking title.
+* ``${booking_gate}`` - Booking gate.
+* ``${booking_human_readable_start}`` - Booking human readable start datetime.
+* ``${booking_date}`` - Booking date.
+* ``${booking_end_date}`` - Booking end date.
+* ``${booking_time}`` - Booking time.
+* ``${booking_time_end}`` - Booking time end.
+* ``${booking_code}`` - Booking code.
+* ``${booking_type}`` - Booking type.
+* ``${booking_print_url}`` - Booking summary url.
+* ``${booking_url_with_delete_token}`` - Booking url to delete page.
+* ``${booking_user_phone}`` - Booking user phone.
+* ``${booking_user_email}`` - Booking user email.
+* ``${booking_user_details}`` - Booking user details.
+* ``${booking_office_contact_phone}`` - Booking office contact phone.
+* ``${booking_office_contact_pec}`` - Booking office contact pec.
+* ``${booking_office_contact_fax}`` - Booking office contact fax.
+* ``${booking_how_to_get_to_office}`` - Booking how to get to office.
+* ``${booking_office_complete_address}`` - Booking office complete address.
+* ``${booking_user_details}`` - Booking details inserted by user.
+* ``${booking_requirements}`` - Booking requeirements.
+* ``${prenotazioni_folder_title}`` - Booking folder title.
+* ``${booking_requirements}`` - Related PrenotazioneType.booking_requirements field
 
 
 Vacations
