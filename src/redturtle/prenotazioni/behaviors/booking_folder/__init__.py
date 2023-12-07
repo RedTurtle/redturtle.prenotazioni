@@ -49,6 +49,6 @@ class BookingNotificationSupervisorUtility:
         service_code = getattr(booking.get_booking_type(), "service_code", "")
         if not service_code:
             return False
-        return Api(
-            secret=os.environ.get(booking.get_booking_type().service_code)
-        ).is_service_activated(booking.fiscalcode)
+        return Api(secret=os.environ.get(service_code)).is_service_activated(
+            booking.fiscalcode
+        )

@@ -5,7 +5,11 @@ Changelog
 2.2.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Split booking notification gateways to 'App IO', 'Email' and 'SMS'
+  [folix-01]
+
+- Add booking reminder emails.
+  [folix-01]
 
 
 2.2.5 (2023-12-04)

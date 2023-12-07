@@ -8,10 +8,19 @@ from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 
+from .notification_email import INotificationEmail
+
 logger = getLogger(__name__)
 
 
+def booking_folder_provides_current_behavior(booking):
+    return INotificationEmail.providedBy(booking.getPrenotazioniFolder())
+
+
 def send_email_notification_on_transition(context, event) -> None:
+    if not booking_folder_provides_current_behavior(context):
+        return
+
     booking_folder = context.getPrenotazioniFolder()
     flags = {
         i: getattr(booking_folder, f"notify_on_{i}", False)
@@ -45,6 +54,9 @@ def send_email_notification_on_transition(context, event) -> None:
 
 # TODO: use the notify_on_after_transition_event method techique instead
 def notify_on_move(booking, event):
+    if not booking_folder_provides_current_behavior(booking):
+        return
+
     if not getattr(booking.getPrenotazioniFolder(), "notify_on_move", False):
         return
     if not getattr(booking, "email", ""):
@@ -61,6 +73,9 @@ def notify_on_move(booking, event):
 
 
 def send_booking_reminder(context, event):
+    if not booking_folder_provides_current_behavior(context):
+        return
+
     message_adapter = getMultiAdapter(
         (context, event),
         IPrenotazioneEmailMessage,
@@ -76,6 +91,9 @@ def send_booking_reminder(context, event):
 
 
 def send_email_to_managers(booking, event):
+    if not booking_folder_provides_current_behavior(booking):
+        return
+
     # skip email for vacation/out-of-office
     if is_migration():
         return

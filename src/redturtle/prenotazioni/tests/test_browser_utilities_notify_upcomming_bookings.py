@@ -17,7 +17,9 @@ from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 
-TESTING_TIME = datetime(year=2023, month=11, day=23, hour=12, minute=0)
+from .helpers import WEEK_TABLE_SCHEMA
+
+TESTING_TIME = datetime(year=2023, month=11, day=23, hour=10, minute=0)
 NOTIFICAION_GAP = 3
 
 
@@ -44,6 +46,7 @@ class TestNotifyAboutUpcommingBookings(unittest.TestCase):
             daData=date.today(),
             gates=["Gate A"],
             reminder_notification_gap=NOTIFICAION_GAP,
+            week_table=WEEK_TABLE_SCHEMA,
         )
 
         api.content.create(
@@ -60,12 +63,6 @@ class TestNotifyAboutUpcommingBookings(unittest.TestCase):
             container=self.folder_prenotazioni,
             gates=["all"],
         )
-
-        week_table = self.folder_prenotazioni.week_table
-        for data in week_table:
-            data["morning_start"] = "0700"
-            data["morning_end"] = "1000"
-        self.folder_prenotazioni.week_table = week_table
 
         self.today_8_0 = self.dt_local_to_utc(
             datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)

@@ -155,7 +155,6 @@ Managers can confirm a Booking using workflow transitions.
 The workflow transition triggers an email to be sent to the booker (see below).
 
 
-<<<<<<< HEAD
 Booking Notifications
 ---------------------
 
@@ -171,32 +170,12 @@ Each behavior is implementing the following notification types:
 * `booking-created-user` (Invia un email all'utente quando la prenotazione è stata creata)
 * `booking-refuse` (Invia un email all'utente quando la prenotazione è stata rifiutata)
 * `booking-reminder` (Booking reminder message)
-=======
-Booking event notifications
----------------------------
-
-There are addional automated email be used to notify booking owner when his booking has been created, accepted
-or re-scheduled.
-
-Rules are **NOT automatically** enabled in every Booking Folder.
-If you want to send some notification, you only need to enable them from the Booking folder.
->>>>>>> master
 
 Notifications are **NOT automatically** enabled in every Booking Folder.
 If you want to send some notification, you only need to enable the by assigning the behavior to PrenotazioniFolder c.t.
 
-<<<<<<< HEAD
 You can create your own email templates for the booking events(confirm, refuse, create, delete, reminder).
 The temlates are being saved in the PrenotazioniFolder object.
-=======
-* `booking-accepted` (Invia un'email all'utente quando la prenotazione è stata accettata)
-* `booking-moved` (Invia un'email all'utente quando la data della prenotazione viene cambiata)
-* `booking-created-user` (Invia un'email all'utente quando la prenotazione è stata creata)
-* `booking-refuse` (Invia un'email all'utente quando la prenotazione è stata rifiutata)
-* `booking-confirm` (Conferma automatica prenotazioni)
-
-You can also use some placeholders that will be replaced with some booking infos. Here is a list:
->>>>>>> master
 
 The template variables list:
 
