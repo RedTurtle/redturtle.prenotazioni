@@ -488,14 +488,6 @@ class IPrenotazioniFolder(model.Schema):
     )
 
     model.fieldset(
-        "Reminders",
-        label=_("reminders_label", default="Reminders"),
-        fields=[
-            "app_io_enabled",
-        ],
-    )
-
-    model.fieldset(
         "Notifications",
         label=_("notifications_label", default="Notifications"),
         fields=[
