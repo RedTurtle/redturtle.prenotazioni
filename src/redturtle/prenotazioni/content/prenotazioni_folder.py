@@ -396,14 +396,6 @@ class IPrenotazioniFolder(model.Schema):
                 if interval["afternoon_start"] > interval["afternoon_end"]:
                     raise Invalid(_("Afternoon start should not be greater than end."))
 
-    # TODO: definire o descrivere quando avviee la notifica
-    # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?
-    app_io_enabled = schema.Bool(
-        title=_("App IO notification"),
-        default=False,
-        required=False,
-    )
-
     notify_on_submit = schema.Bool(
         title=_("notify_on_submit", default="Notify when created."),
         description=_(
@@ -503,14 +495,6 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_confirm",
             "notify_on_move",
             "notify_on_refuse",
-        ],
-    )
-
-    model.fieldset(
-        "Reminders",
-        label=_("reminders_label", default="Reminders"),
-        fields=[
-            "app_io_enabled",
         ],
     )
 
