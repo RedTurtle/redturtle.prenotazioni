@@ -5,6 +5,9 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
+- Split booking notification types to 'App IO', 'Email' and 'SMS'
+  [folix-01]
+
 - Add booking reminder emails.
   [folix-01]
 
