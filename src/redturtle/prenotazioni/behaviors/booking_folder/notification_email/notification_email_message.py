@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-"""In this module we implemented the booking email templates which were used
-    by plone contenttrules in previous verisions of the package"""
+"""Email notification templates"""
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -22,11 +21,12 @@ from zope.lifecycleevent import IObjectAddedEvent
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 
 
-class PrenotazioneEventEmailMessage:
+class PrenotazioneEmailMessage:
     prenotazione = None
     event = None
 
@@ -101,7 +101,7 @@ class PrenotazioneEventMessageICalMixIn:
 @implementer(IPrenotazioneEmailMessage)
 @adapter(IPrenotazione, IMovedPrenotazione)
 class PrenotazioneMovedICalEmailMessage(
-    PrenotazioneEventMessageICalMixIn, PrenotazioneEventEmailMessage
+    PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
 ):
     @property
     def message_subject(self) -> str:
@@ -129,7 +129,7 @@ class PrenotazioneMovedICalEmailMessage(
 
 @implementer(IPrenotazioneEmailMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
-class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEventEmailMessage):
+class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
     @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
@@ -164,7 +164,9 @@ class PrenotazioneAfterTransitionEmailICalMessage(
 
 @implementer(IPrenotazioneEmailMessage)
 @adapter(IPrenotazione, IObjectAddedEvent)
-class PrenotazioneManagerEmailMessage(PrenotazioneEventEmailMessage):
+class PrenotazioneManagerEmailMessage(
+    PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
+):
     def __init__(self, prenotazione, event):
         super().__init__(prenotazione=prenotazione, event=event)
 
@@ -256,3 +258,30 @@ class PrenotazioneManagerEmailMessage(PrenotazioneEventEmailMessage):
             "title": getattr(booking, "title", ""),
         }
         return MIMEText(mail_template(**parameters), "html")
+
+
+@implementer(IPrenotazioneEmailMessage)
+@adapter(IPrenotazione, IBookingReminderEvent)
+class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
+    @property
+    def message_subject(self) -> str:
+        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(
+                self.prenotazione.getPrenotazioniFolder(),
+                "notify_as_reminder_subject",
+                "",
+            )
+        )
+
+    @property
+    def message_text(self) -> MIMEText:
+        return MIMEText(
+            IStringInterpolator(IContextWrapper(self.prenotazione)())(
+                getattr(
+                    self.prenotazione.getPrenotazioniFolder(),
+                    "notify_as_reminder_message",
+                    None,
+                ),
+            ),
+            "html",
+        )

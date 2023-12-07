@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 import unittest
-from datetime import date, datetime, timedelta
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 
 import transaction
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from freezegun import freeze_time
-from redturtle.prenotazioni.adapters.booker import IBooker
 
+from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 

@@ -3,10 +3,9 @@ from plone import api
 from plone.restapi.services import Service
 from Products.DCWorkflow.events import AfterTransitionEvent
 from zExceptions import BadRequest
+from zope.event import notify
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
-
-from redturtle.prenotazioni.events.prenotazione import notify_on_after_transition_event
 
 
 @implementer(IPublishTraverse)
@@ -28,10 +27,8 @@ class NotifyUserAboutBookingConfirm(Service):
             "TranstionBillet", (object,), {"__name__": "confirm"}
         )()
 
-        # Simulate the confirm transition
-        notify_on_after_transition_event(
-            context=booking,
-            event=AfterTransitionEvent(
+        notify(
+            AfterTransitionEvent(
                 workflow=None,
                 obj=booking,
                 old_state=None,
@@ -39,7 +36,7 @@ class NotifyUserAboutBookingConfirm(Service):
                 status=None,
                 kwargs=None,
                 transition=transition_billet,
-            ),
+            )
         )
 
         return ""
