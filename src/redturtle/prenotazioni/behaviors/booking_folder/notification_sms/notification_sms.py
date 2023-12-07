@@ -61,8 +61,7 @@ def notify_as_reminder_sms_message_default_factory(context):
         _(
             "notify_as_reminder_sms_message_default_value",
             "This is an automatic reminder about your booking\n "
-            "on ${date} for ${booking_type}. If you need to see more infos\n "
-            "or delete it, please access your booking details page. ${booking_pring_url}",
+            "please access your booking details page. ${booking_pring_url}",
         )
     )
 
