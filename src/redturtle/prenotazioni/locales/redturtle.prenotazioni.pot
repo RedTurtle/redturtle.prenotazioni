@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2023-12-07 08:15+0000\n"
+"POT-Creation-Date: 2023-12-07 08:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -720,7 +720,7 @@ msgid "bookings_not_in_agenda"
 msgstr ""
 
 #. Default: "Booking SMS notifications"
-#: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:122
+#: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:131
 msgid "bookings_sms_templates_label"
 msgstr ""
 
@@ -1234,9 +1234,18 @@ msgstr ""
 msgid "notify_as_reminder_message_help"
 msgstr ""
 
+#. Default: "Prenotazione created notification message."
+#: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:120
+msgid "notify_as_reminder_sms_message"
+msgstr ""
+
 #. Default: "This is an automatic reminder about your booking\n on ${date} for ${booking_type}. If you need to see more infos\n or delete it, please access your booking details page. ${booking_pring_url}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:61
 msgid "notify_as_reminder_sms_message_default_value"
+msgstr ""
+
+#: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:124
+msgid "notify_as_reminder_sms_message_help"
 msgstr ""
 
 #. Default: "Booking reminder subject."

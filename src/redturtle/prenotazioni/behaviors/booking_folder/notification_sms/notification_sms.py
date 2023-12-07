@@ -116,6 +116,15 @@ class INotificationSMS(model.Schema):
         defaultFactory=notify_on_refuse_sms_message_default_factory,
         required=False,
     )
+    notify_as_reminder_sms_message = schema.Text(
+        title=_(
+            "notify_as_reminder_sms_message",
+            default="Prenotazione created notification message.",
+        ),
+        description=_("notify_as_reminder_sms_message_help", default=""),
+        defaultFactory=notify_as_reminder_sms_message_default_factory,
+        required=False,
+    )
 
     model.fieldset(
         "SMS Notification Templates",

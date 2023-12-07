@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-12-07 08:15+0000\n"
+"POT-Creation-Date: 2023-12-07 08:40+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -707,7 +707,6 @@ msgstr "Le seguenti tipologie non sono selezionabili nell'orario selezionato:"
 
 #. Default: "Booking App IO notifications"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:224
-#, fuzzy
 msgid "bookings_appio_templates_label"
 msgstr "Testo delle notifiche App IO"
 
@@ -722,7 +721,7 @@ msgid "bookings_not_in_agenda"
 msgstr "Prenotazioni non in agenda"
 
 #. Default: "Booking SMS notifications"
-#: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:122
+#: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:131
 msgid "bookings_sms_templates_label"
 msgstr "Testo delle notifiche SMS"
 
@@ -1238,9 +1237,13 @@ msgstr "Ricorda la tua prenotazione per ${booking_type} il ${booking_date} al ${
 msgid "notify_as_reminder_message_help"
 msgstr ""
 
+#. Default: "Prenotazione created notification message."
+#: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:120
+msgid "notify_as_reminder_sms_message"
+msgstr "Testo notifica promemoria"
+
 #. Default: "This is an automatic reminder about your booking\n on ${date} for ${booking_type}. If you need to see more infos\n or delete it, please access your booking details page. ${booking_pring_url}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:61
-#, fuzzy
 msgid "notify_as_reminder_sms_message_default_value"
 msgstr ""
 "Promemoria prenotazione al ${booking_date} per ${booking_type}.\n"
@@ -1248,6 +1251,10 @@ msgstr ""
 "\n"
 "\n"
 " ${booking_pring_url}""
+
+#: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:124
+msgid "notify_as_reminder_sms_message_help"
+msgstr ""
 
 #. Default: "Booking reminder subject."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:201
@@ -1499,7 +1506,6 @@ msgstr "Testo notifica promemoria prenotazione"
 
 #. Default: "The booking ${booking_type} of ${booking_date}\n at ${booking_time} was refused."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:50
-#, fuzzy
 msgid "notify_on_refuse_sms_message_default_value"
 msgstr ""
 "La prenotazione ${booking_type} del ${booking_date} delle ore ${booking_time}\n"
@@ -1585,7 +1591,6 @@ msgstr "Testo notifica prenotazione creata"
 
 #. Default: "Booking ${booking_type} for ${booking_date} \n at ${booking_time} was created. ${booking_print_url}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_sms/notification_sms.py:18
-#, fuzzy
 msgid "notify_on_submit_sms_message_default_value"
 msgstr ""
 "La prenotazione ${booking_type} per il ${booking_date}\n"
@@ -1684,7 +1689,6 @@ msgstr "Indicare il numero di giorni prima della data appuntamento per l'invio a
 
 #. Default: "Upcoming bookings notification gap"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:456
-#, fuzzy
 msgid "reminder_notification_gap_label"
 msgstr "Invio promemoria appuntamento"
 
