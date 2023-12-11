@@ -5,7 +5,8 @@ Changelog
 2.2.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Improve manager mail notification subject to include also name and date.
+  [cekk]
 
 
 2.2.5 (2023-12-04)
