@@ -1305,7 +1305,6 @@ msgstr "${day}, ore ${booking_time}"
 
 #. Default: "Testo delle email di notifica"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:652
-#, fuzzy
 msgid "prenotazioni_email_templates_label"
 msgstr "Testo delle email di notifica"
 
