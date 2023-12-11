@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
-from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
@@ -14,7 +14,7 @@ from redturtle.prenotazioni import _
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_submit_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_submit_subject_default_value",
             "[${prenotazioni_folder_title}] Booking created",
@@ -24,7 +24,7 @@ def notify_on_submit_subject_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_submit_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_submit_message_default_value",
             "Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.<br/><br/>You can see details and print a reminder following this <a href=${booking_print_url}>link</a>.",
@@ -34,7 +34,7 @@ def notify_on_submit_message_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_confirm_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_confirm_subject_default_value",
             "[${prenotazioni_folder_title}] Booking of ${booking_date} at ${booking_time} was accepted",
@@ -44,7 +44,7 @@ def notify_on_confirm_subject_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_confirm_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_confirm_message_default_value",
             "The booking ${booking_type} for ${title} has been confirmed."
@@ -55,7 +55,7 @@ def notify_on_confirm_message_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_move_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_move_subject_default_value",
             "[${prenotazioni_folder_title}] Booking date modified for ${title}",
@@ -65,7 +65,7 @@ def notify_on_move_subject_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_move_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_move_message_default_value",
             "The booking scheduling for ${booking_type} was modified."
@@ -77,7 +77,7 @@ def notify_on_move_message_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_refuse_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_refuse_subject_default_value",
             "[${prenotazioni_folder_title}] Booking refused for ${title}",
@@ -87,7 +87,7 @@ def notify_on_refuse_subject_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_refuse_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_refuse_message_default_value",
             "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
@@ -97,7 +97,7 @@ def notify_on_refuse_message_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_as_reminder_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_as_reminder_subject_default_value",
             "[${prenotazioni_folder_title}] Booking reminder on ${booking_date}",
@@ -107,7 +107,7 @@ def notify_as_reminder_subject_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_as_reminder_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_as_reminder_message_default_value",
             "This is an automatic reminder about your booking on ${date} for ${booking_type}."
@@ -134,7 +134,7 @@ class INotificationEmail(model.Schema):
         ),
         description=_(
             "notify_on_submit_subject_help",
-            default="The email subject when a booking has been created.",
+            default="The message subject when a booking has been created.",
         ),
         defaultFactory=notify_on_submit_subject_default_factory,
         required=False,
@@ -146,7 +146,7 @@ class INotificationEmail(model.Schema):
         ),
         description=_(
             "notify_on_submit_message_help",
-            default="The email text when a booking has been created.",
+            default="The message text when a booking has been created.",
         ),
         defaultFactory=notify_on_submit_message_default_factory,
         required=False,
@@ -158,7 +158,7 @@ class INotificationEmail(model.Schema):
         ),
         description=_(
             "notify_on_confirm_subject_help",
-            default="The email subject when a booking has been confirmed.",
+            default="The message subject when a booking has been confirmed.",
         ),
         defaultFactory=notify_on_confirm_subject_default_factory,
         required=False,
@@ -170,7 +170,7 @@ class INotificationEmail(model.Schema):
         ),
         description=_(
             "notify_on_confirm_message_help",
-            default="The email text when a booking has been confirmed.",
+            default="The message text when a booking has been confirmed.",
         ),
         defaultFactory=notify_on_confirm_message_default_factory,
         required=False,
@@ -182,7 +182,7 @@ class INotificationEmail(model.Schema):
         ),
         description=_(
             "notify_on_move_subject_help",
-            default="The email subject when a booking has been moved.",
+            default="The message subject when a booking has been moved.",
         ),
         defaultFactory=notify_on_move_subject_default_factory,
         required=False,
@@ -194,7 +194,7 @@ class INotificationEmail(model.Schema):
         ),
         description=_(
             "notify_on_move_message_help",
-            default="The email text when a booking has been moved.",
+            default="The message text when a booking has been moved.",
         ),
         defaultFactory=notify_on_move_message_default_factory,
         required=False,
@@ -206,7 +206,7 @@ class INotificationEmail(model.Schema):
         ),
         description=_(
             "notify_on_refuse_subject_help",
-            default="The email subject when a booking has been refused.",
+            default="The message subject when a booking has been refused.",
         ),
         defaultFactory=notify_on_refuse_subject_default_factory,
         required=False,
@@ -218,7 +218,7 @@ class INotificationEmail(model.Schema):
         ),
         description=_(
             "notify_on_refuse_message_help",
-            default="The email text when a booking has been refused.",
+            default="The message text when a booking has been refused.",
         ),
         defaultFactory=notify_on_refuse_message_default_factory,
         required=False,
@@ -230,7 +230,7 @@ class INotificationEmail(model.Schema):
         ),
         description=_(
             "notify_as_reminder_subject_help",
-            default="The email subject when a reminder will be sent.",
+            default="The message subject when a reminder will be sent.",
         ),
         defaultFactory=notify_as_reminder_subject_default_factory,
         required=False,
@@ -242,7 +242,7 @@ class INotificationEmail(model.Schema):
         ),
         description=_(
             "notify_as_reminder_message_help",
-            default="The email text when a reminder will be sent.",
+            default="The message text when a reminder will be sent.",
         ),
         defaultFactory=notify_as_reminder_message_default_factory,
         required=False,

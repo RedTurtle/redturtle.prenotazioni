@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
-from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
@@ -17,54 +17,51 @@ SMS_MAX_LENGTH = 160
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_submit_sms_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_submit_sms_message_default_value",
-            "Booking ${booking_type} for ${booking_date} \n "
-            "at ${booking_time} was created. ${booking_print_url}",
+            "[${prenotazioni_folder_title}]: Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.\nSee details or delete it: ${booking_print_url}.",
         )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_confirm_sms_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_confirm_sms_message_default_value",
-            "The booking${booking_type} for ${title} was confirmed! ${booking_print_url}",
+            "[${prenotazioni_folder_title}]: Booking of ${booking_date} at ${booking_time} has been accepted.\nSee details or delete it: ${booking_print_url}.",
         )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_move_sms_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_move_sms_message_default_value",
-            "The booking scheduling of ${booking_type} was modified."
-            "The new one is on ${booking_date} at ${booking_time} {booking_print_url}",
+            "[${prenotazioni_folder_title}]: The booking scheduling for ${booking_type} was modified.\nThe new one is on ${booking_date} at ${booking_time}.\nSee details or delete it: ${booking_print_url}.",
         )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_refuse_sms_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_refuse_sms_message_default_value",
-            "The booking ${booking_type} of ${booking_date}\n "
-            "at ${booking_time} was refused.",
+            "[${prenotazioni_folder_title}]: The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
         )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_as_reminder_sms_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_as_reminder_sms_message_default_value",
-            "This is an automatic reminder about your booking\n "
-            "please access your booking details page. ${booking_pring_url}",
+            "[${prenotazioni_folder_title}]: This is an automatic reminder about your booking on ${date} for ${booking_type}."
+            "\nSee details or delete it: ${booking_print_url}.",
         )
     )
 
@@ -72,9 +69,7 @@ def notify_as_reminder_sms_message_default_factory(context):
 @provider(IFormFieldProvider)
 class INotificationSMS(model.Schema):
     notifications_sms_enabled = schema.Bool(
-        title=_(
-            "notifications_sms_enabled_label", default="SMS notifications enabled."
-        ),
+        title=_("notifications_sms_enabled_label", default="SMS notifications"),
         description=_(
             "notifications_sms_enabled_help",
             default="Enable SMS notifications.",
@@ -84,50 +79,65 @@ class INotificationSMS(model.Schema):
     )
     notify_on_submit_sms_message = schema.Text(
         title=_(
-            "notify_on_submit_sms_message",
-            default="Prenotazione created notification message.",
+            "notify_on_submit_message",
+            default="[Created] message",
         ),
-        description=_("notify_on_submit_sms_message_help", default=""),
+        description=_(
+            "notify_on_submit_message_help",
+            default="The message text when a booking has been created.",
+        ),
         defaultFactory=notify_on_submit_sms_message_default_factory,
         required=False,
         max_length=SMS_MAX_LENGTH,
     )
     notify_on_confirm_sms_message = schema.Text(
         title=_(
-            "notify_on_confirm_sms_message",
-            default="Prenotazione confirmed notification message.",
+            "notify_on_confirm_message",
+            default="[Confirmed] message",
         ),
-        description=_("notify_on_confirm_sms_message_help", default=""),
+        description=_(
+            "notify_on_confirm_message_help",
+            default="The message text when a booking has been confirmed.",
+        ),
         defaultFactory=notify_on_confirm_sms_message_default_factory,
         required=False,
         max_length=SMS_MAX_LENGTH,
     )
     notify_on_move_sms_message = schema.Text(
         title=_(
-            "notify_on_move_sms_message",
-            default="Prenotazione moved notification message.",
+            "notify_on_move_message",
+            default="[Move] message",
         ),
-        description=_("notify_on_move_sms_message_help", default=""),
+        description=_(
+            "notify_on_move_message_help",
+            default="The message text when a booking has been moved.",
+        ),
         defaultFactory=notify_on_move_sms_message_default_factory,
         required=False,
         max_length=SMS_MAX_LENGTH,
     )
     notify_on_refuse_sms_message = schema.Text(
         title=_(
-            "notify_on_refuse_sms_message",
-            default="Prenotazione created notification message.",
+            "notify_on_refuse_message",
+            default="[Refuse] message",
         ),
-        description=_("notify_on_refuse_sms_message_help", default=""),
+        description=_(
+            "notify_on_refuse_message_help",
+            default="The message text when a booking has been refused.",
+        ),
         defaultFactory=notify_on_refuse_sms_message_default_factory,
         required=False,
         max_length=SMS_MAX_LENGTH,
     )
     notify_as_reminder_sms_message = schema.Text(
         title=_(
-            "notify_as_reminder_sms_message",
-            default="Prenotazione created notification message.",
+            "notify_as_reminder_message",
+            default="[Reminder] message",
         ),
-        description=_("notify_as_reminder_sms_message_help", default=""),
+        description=_(
+            "notify_as_reminder_message_help",
+            default="The message text when a reminder will be sent.",
+        ),
         defaultFactory=notify_as_reminder_sms_message_default_factory,
         required=False,
         max_length=SMS_MAX_LENGTH,
