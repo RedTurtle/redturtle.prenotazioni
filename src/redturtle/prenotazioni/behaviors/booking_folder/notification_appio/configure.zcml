@@ -41,9 +41,7 @@
       handler=".events.send_booking_reminder"
       />
 
-  <adapter
-      factory=".notfication_appio_message.PrenotazioneAfterTransitionAPPIoMessage"
-      />
+  <adapter factory=".notfication_appio_message.PrenotazioneAfterTransitionAPPIoMessage" />
 
   <adapter
       factory=".notfication_appio_message.PrenotazioneReminderAppIOMessage"
