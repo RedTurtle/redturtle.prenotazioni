@@ -214,9 +214,10 @@ class PrenotazioneManagerEmailMessage(PrenotazioneEventEmailMessage):
         return translate(
             _(
                 "new_booking_admin_notify_subject",
-                default="[${context}] New booking on ${date} by ${name}",
+                default="[${context} - gate ${gate}] New booking on ${date} by ${name}",
                 mapping={
                     "context": booking_folder.title,
+                    "gate": getattr(self.prenotazione, "gate", ""),
                     "date": self.prenotazione.booking_date.strftime("%d-%m-%Y %H:%M"),
                     "name": self.prenotazione.Title(),
                 },

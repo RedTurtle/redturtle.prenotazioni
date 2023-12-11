@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2023-12-07 14:43+0000\n"
+"POT-Creation-Date: 2023-12-11 12:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1097,8 +1097,8 @@ msgstr ""
 msgid "move_message"
 msgstr ""
 
-#. Default: "[${context}] New booking on {date} by {name}"
-#: redturtle/prenotazioni/adapters/prenotazione_email_message.py:216
+#. Default: "[${context} - gate ${gate}] New booking on ${date} by ${name}"
+#: redturtle/prenotazioni/adapters/prenotazione_email_message.py:215
 msgid "new_booking_admin_notify_subject"
 msgstr ""
 
