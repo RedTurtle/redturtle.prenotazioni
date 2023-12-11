@@ -7,6 +7,8 @@ Changelog
 
 - Improve manager mail notification subject to include also name and date.
   [cekk]
+- Fix upgrade step error #139 
+  [mamico]
 
 
 2.2.5 (2023-12-04)
