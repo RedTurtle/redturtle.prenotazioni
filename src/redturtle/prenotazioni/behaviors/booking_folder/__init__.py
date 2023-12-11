@@ -46,6 +46,9 @@ class BookingNotificationSupervisorUtility:
         return False
 
     def _check_user_appio_subscription_to_booking_type(self, booking):
-        return Api(
-            secret=os.environ.get(booking.get_booking_type().service_code)
-        ).is_service_activated(booking.fiscalcode)
+        service_code = getattr(booking.get_booking_type(), "service_code", "")
+        if not service_code:
+            return False
+        return Api(secret=os.environ.get(service_code)).is_service_activated(
+            booking.fiscalcode
+        )
