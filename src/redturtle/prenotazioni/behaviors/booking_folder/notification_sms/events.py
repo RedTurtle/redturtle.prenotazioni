@@ -33,13 +33,13 @@ def send_notification_on_transition(context, event) -> None:
         event.transition and event.transition.__name__ or "",
         False,
     ):
-        if not getattr(context, "email", ""):
-            # booking does not have an email set
+        if not getattr(context, "phone", ""):
+            # booking does not have an phone set
             return
+
         message_adapter = getMultiAdapter(
             (context, event),
             IPrenotazioneSMSMessage,
-            name=event.transition.__name__,
         )
 
         sender_adapter = getMultiAdapter(

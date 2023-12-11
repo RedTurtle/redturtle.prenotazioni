@@ -37,18 +37,7 @@
       handler=".events.send_email_to_managers"
       />
 
-  <adapter
-      factory=".notification_email_message.PrenotazioneAfterTransitionEmailMessage"
-      name="refuse"
-      />
-  <adapter
-      factory=".notification_email_message.PrenotazioneAfterTransitionEmailMessage"
-      name="submit"
-      />
-  <adapter
-      factory=".notification_email_message.PrenotazioneAfterTransitionEmailICalMessage"
-      name="confirm"
-      />
+  <adapter factory=".notification_email_message.PrenotazioneAfterTransitionEmailICalMessage" />
 
   <adapter
       factory=".notification_email_message.PrenotazioneManagerEmailMessage"
