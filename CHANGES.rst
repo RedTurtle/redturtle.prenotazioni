@@ -5,7 +5,7 @@ Changelog
 2.2.6 (unreleased)
 ------------------
 
-- Refactoring(deprecated utils module)
+- Refactoring(deprecated utils package, use utilities instead)
   [folix-01]
  
 - Fix upgrade step error #139 
