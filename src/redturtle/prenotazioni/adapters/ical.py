@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import icalendar
 from Acquisition import aq_inner
+from plone import api
 from plone.app.event.base import default_timezone
 from plone.app.event.ical.exporter import PRODID
 from plone.app.event.ical.exporter import VERSION
@@ -14,7 +15,6 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import getAdapter
 from zope.component import getUtility
 from zope.interface import implementer
-from plone import api
 
 from redturtle.prenotazioni import _
 
