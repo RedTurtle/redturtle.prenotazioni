@@ -11,6 +11,9 @@ Changelog
 - Add booking reminder emails.
   [folix-01]
 
+- Fix upgrade step error #139 
+  [mamico]
+
 
 2.2.5 (2023-12-04)
 ------------------

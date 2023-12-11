@@ -486,4 +486,5 @@ def to_2000(context):
             if not booking_type.get("hidden", False):
                 api.content.transition(obj=booking_type_obj, transition="publish")
             booking_type_obj.reindexObject(idxs=["review_state"])
-        delattr(obj, "cosa_serve")
+        if hasattr(obj, "cosa_serve"):
+            delattr(obj, "cosa_serve")
