@@ -40,7 +40,6 @@ def send_email_notification_on_transition(context, event) -> None:
         message_adapter = getMultiAdapter(
             (context, event),
             IPrenotazioneEmailMessage,
-            name=event.transition.__name__,
         )
         sender_adapter = getMultiAdapter(
             (message_adapter, context, getRequest()),

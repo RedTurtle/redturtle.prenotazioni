@@ -34,15 +34,6 @@
 
   <adapter
       factory=".notification_sms_message.PrenotazioneAfterTransitionSMSMessage"
-      name="refuse"
-      />
-  <adapter
-      factory=".notification_sms_message.PrenotazioneAfterTransitionSMSMessage"
-      name="submit"
-      />
-  <adapter
-      factory=".notification_sms_message.PrenotazioneAfterTransitionSMSMessage"
-      name="confirm"
       />
 
   <adapter

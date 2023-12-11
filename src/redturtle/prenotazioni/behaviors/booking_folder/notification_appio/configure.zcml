@@ -43,15 +43,6 @@
 
   <adapter
       factory=".notfication_appio_message.PrenotazioneAfterTransitionAPPIoMessage"
-      name="refuse"
-      />
-  <adapter
-      factory=".notfication_appio_message.PrenotazioneAfterTransitionAPPIoMessage"
-      name="submit"
-      />
-  <adapter
-      factory=".notfication_appio_message.PrenotazioneAfterTransitionAPPIoMessage"
-      name="confirm"
       />
 
   <adapter

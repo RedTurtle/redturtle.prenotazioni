@@ -39,7 +39,6 @@ def send_notification_on_transition(context, event) -> None:
         message_adapter = getMultiAdapter(
             (context, event),
             IPrenotazioneSMSMessage,
-            name=event.transition.__name__,
         )
 
         sender_adapter = getMultiAdapter(
