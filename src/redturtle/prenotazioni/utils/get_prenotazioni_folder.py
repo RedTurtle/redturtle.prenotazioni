@@ -2,6 +2,6 @@
 from zope.deprecation import moved
 
 moved(
-    "redturtle.prenotazioni.utilities.get_prenotazioni_folder.getPrenotazioniFolder",
+    "redturtle.prenotazioni.utilities",
     "Version 2.3",
 )
