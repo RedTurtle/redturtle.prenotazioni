@@ -11,6 +11,9 @@ from zope.schema.interfaces import IContextAwareDefaultFactory
 
 from redturtle.prenotazioni import _
 
+# Note that 160 is acceptble only for ASCII
+SMS_MAX_LENGTH = 160
+
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_submit_sms_message_default_factory(context):
@@ -87,7 +90,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_submit_sms_message_help", default=""),
         defaultFactory=notify_on_submit_sms_message_default_factory,
         required=False,
-        max_length=70,
+        max_length=SMS_MAX_LENGTH,
     )
     notify_on_confirm_sms_message = schema.Text(
         title=_(
@@ -97,7 +100,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_confirm_sms_message_help", default=""),
         defaultFactory=notify_on_confirm_sms_message_default_factory,
         required=False,
-        max_length=70,
+        max_length=SMS_MAX_LENGTH,
     )
     notify_on_move_sms_message = schema.Text(
         title=_(
@@ -107,7 +110,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_move_sms_message_help", default=""),
         defaultFactory=notify_on_move_sms_message_default_factory,
         required=False,
-        max_length=70,
+        max_length=SMS_MAX_LENGTH,
     )
     notify_on_refuse_sms_message = schema.Text(
         title=_(
@@ -117,7 +120,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_on_refuse_sms_message_help", default=""),
         defaultFactory=notify_on_refuse_sms_message_default_factory,
         required=False,
-        max_length=70,
+        max_length=SMS_MAX_LENGTH,
     )
     notify_as_reminder_sms_message = schema.Text(
         title=_(
@@ -127,7 +130,7 @@ class INotificationSMS(model.Schema):
         description=_("notify_as_reminder_sms_message_help", default=""),
         defaultFactory=notify_as_reminder_sms_message_default_factory,
         required=False,
-        max_length=70,
+        max_length=SMS_MAX_LENGTH,
     )
 
     model.fieldset(
