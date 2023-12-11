@@ -23,7 +23,7 @@ class BookingNotificationSender:
         self.request = request
 
     def send(self):
-        if not getUtility(
+        if getUtility(
             IBookingNotificatorSupervisorUtility,
         ).is_sms_message_allowed(self.booking):
             raise NotImplementedError("The method was not implemented")
