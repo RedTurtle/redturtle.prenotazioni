@@ -4,10 +4,10 @@ import unittest
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-from dateutil import relativedelta
 
 import pytz
 import transaction
+from dateutil import relativedelta
 from freezegun import freeze_time
 from plone import api
 from plone.app.testing import SITE_OWNER_NAME

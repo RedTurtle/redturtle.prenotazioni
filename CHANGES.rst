@@ -8,6 +8,9 @@ Changelog
 - Refactoring(deprecated utils package, use utilities instead)
   [folix-01]
  
+- Update the min booking type length value to 5min.
+  [folix-01]
+
 - Fix upgrade step error #139 
   [mamico]
 
