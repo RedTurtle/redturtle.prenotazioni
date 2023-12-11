@@ -5,7 +5,8 @@ Changelog
 2.2.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix upgrade step error #139 
+  [mamico]
 
 
 2.2.5 (2023-12-04)
