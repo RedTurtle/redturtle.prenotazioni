@@ -115,9 +115,7 @@ def notify_as_reminder_message_default_factory(context):
 @provider(IFormFieldProvider)
 class INotificationEmail(model.Schema):
     notifications_email_enabled = schema.Bool(
-        title=_(
-            "notifications_email_enabled_label", default="Email notifications enabled."
-        ),
+        title=_("notifications_email_enabled_label", default="Email notifications"),
         description=_(
             "notifications_email_enabled_help",
             default="Enable Email notifications.",
@@ -128,90 +126,120 @@ class INotificationEmail(model.Schema):
     notify_on_submit_subject = schema.TextLine(
         title=_(
             "notify_on_submit_subject",
-            default="Prenotazione created notification subject.",
+            default="[Created] subject",
         ),
-        description=_("notify_on_submit_subject_help", default=""),
+        description=_(
+            "notify_mail_subject_help",
+            default="The mail subject for these notifications.",
+        ),
         defaultFactory=notify_on_submit_subject_default_factory,
         required=False,
     )
     notify_on_submit_message = schema.Text(
         title=_(
             "notify_on_submit_message",
-            default="Prenotazione created notification message.",
+            default="[Created] message",
         ),
-        description=_("notify_on_submit_message_help", default=""),
+        description=_(
+            "notify_mail_message_help",
+            default="The mail text for these notifications.",
+        ),
         defaultFactory=notify_on_submit_message_default_factory,
         required=False,
     )
     notify_on_confirm_subject = schema.TextLine(
         title=_(
             "notify_on_confirm_subject",
-            default="Prenotazione confirmed notification subject.",
+            default="[Confirm] subject",
         ),
-        description=_("notify_on_confirm_subject_help", default=""),
+        description=_(
+            "notify_mail_subject_help",
+            default="The mail subject for these notifications.",
+        ),
         defaultFactory=notify_on_confirm_subject_default_factory,
         required=False,
     )
     notify_on_confirm_message = schema.Text(
         title=_(
             "notify_on_confirm_message",
-            default="Prenotazione confirmed notification message.",
+            default="[Confirmed] message",
         ),
-        description=_("notify_on_confirm_message_help", default=""),
+        description=_(
+            "notify_mail_message_help",
+            default="The mail text for these notifications.",
+        ),
         defaultFactory=notify_on_confirm_message_default_factory,
         required=False,
     )
     notify_on_move_subject = schema.TextLine(
         title=_(
             "notify_on_move_subject",
-            default="Prenotazione moved notification subject.",
+            default="[Move] subject",
         ),
-        description=_("notify_on_move_subject_help", default=""),
+        description=_(
+            "notify_mail_subject_help",
+            default="The mail subject for these notifications.",
+        ),
         defaultFactory=notify_on_move_subject_default_factory,
         required=False,
     )
     notify_on_move_message = schema.Text(
         title=_(
             "notify_on_move_message",
-            default="Prenotazione moved notification message.",
+            default="[Move] message",
         ),
-        description=_("notify_on_move_message_help", default=""),
+        description=_(
+            "notify_mail_message_help",
+            default="The mail text for these notifications.",
+        ),
         defaultFactory=notify_on_move_message_default_factory,
         required=False,
     )
     notify_on_refuse_subject = schema.TextLine(
         title=_(
             "notify_on_refuse_subject",
-            default="Prenotazione refused notification subject.",
+            default="[Refuse] subject",
         ),
-        description=_("notify_on_refuse_subject_help", default=""),
+        description=_(
+            "notify_mail_subject_help",
+            default="The mail subject for these notifications.",
+        ),
         defaultFactory=notify_on_refuse_subject_default_factory,
         required=False,
     )
     notify_on_refuse_message = schema.Text(
         title=_(
             "notify_on_refuse_message",
-            default="Prenotazione created notification message.",
+            default="[Refuse] message",
         ),
-        description=_("notify_on_refuse_message_help", default=""),
+        description=_(
+            "notify_mail_message_help",
+            default="The mail text for these notifications.",
+        ),
         defaultFactory=notify_on_refuse_message_default_factory,
         required=False,
     )
     notify_as_reminder_subject = schema.TextLine(
         title=_(
             "notify_as_reminder_subject",
-            default="Booking reminder subject.",
+            default="[Reminder] subject",
         ),
-        description=_("notify_as_reminder_subject_help", default=""),
+        description=_(
+            "notify_mail_subject_help",
+            default="The mail subject for these notifications.",
+        ),
         defaultFactory=notify_as_reminder_subject_default_factory,
         required=False,
     )
     notify_as_reminder_message = schema.Text(
         title=_(
             "notify_as_reminder_message",
-            default="Booking reminder message.",
+            default="[Reminder] message",
         ),
-        description=_("notify_as_reminder_message_help", default=""),
+        description=_(
+            "notify_mail_message_help",
+            default="The mail text for these notifications.",
+        ),
         defaultFactory=notify_as_reminder_message_default_factory,
         required=False,
     )

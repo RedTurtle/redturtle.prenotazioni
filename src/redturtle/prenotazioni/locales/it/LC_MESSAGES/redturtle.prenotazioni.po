@@ -1355,7 +1355,7 @@ msgstr ""
 #. Default: "Notify when moved."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:426
 msgid "notify_on_move"
-msgstr "Notifica se la prenotazione è stata spostata"
+msgstr "Notifica allo spostamento"
 
 #. Default: "Prenotazione moved notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:177
@@ -1388,7 +1388,7 @@ msgstr ""
 #. Default: "Notify via mail the user when his booking has been moved."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:427
 msgid "notify_on_move_help"
-msgstr "Notifica l'utente quando la prenotazione viene spostata."
+msgstr "Notifica l'utente quando la prenotazione viene spostata di giorno/orario."
 
 #. Default: "Prenotazione moved notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:174
@@ -1437,7 +1437,7 @@ msgstr ""
 #. Default: "Notify when rejected."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:435
 msgid "notify_on_refuse"
-msgstr "Notifica se viene cancellata"
+msgstr "Notifica alla cancellazione"
 
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:195
@@ -1470,7 +1470,7 @@ msgstr ""
 #. Default: "Notify via mail the user when his booking has been rejected."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:436
 msgid "notify_on_refuse_help"
-msgstr "Notifica l'utente se la prenotazione viene cancellata"
+msgstr "Notifica l'utente quando la prenotazione viene cancellata."
 
 #. Default: "Prenotazione created notification message."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:192
