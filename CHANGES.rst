@@ -16,6 +16,8 @@ Changelog
 - Fix upgrade step error #139 
   [mamico]
 
+- Booking Managers bypass futureDays checks when create new bookings.
+  [cekk]
 
 2.2.5 (2023-12-04)
 ------------------

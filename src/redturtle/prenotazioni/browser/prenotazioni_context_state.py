@@ -89,6 +89,14 @@ class PrenotazioniContextState(BrowserView):
 
     @property
     @memoize
+    def user_can_manage_prenotazioni(self):
+        """States if the authenticated user can manage prenotazioni in this context"""
+        return api.user.has_permission(
+            "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
+        )
+
+    @property
+    @memoize
     def booker(self):
         """
         Return the conflict manager for this context
@@ -670,6 +678,9 @@ class PrenotazioniContextState(BrowserView):
 
         return a datetime or None
         """
+        if self.user_can_manage_prenotazioni:
+            # Gestori prenotazioni can book always
+            return
         future_days = self.context.getFutureDays()
         if not future_days:
             return
