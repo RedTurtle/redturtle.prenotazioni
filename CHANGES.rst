@@ -7,6 +7,13 @@ Changelog
 
 - Improve manager mail notification subject to include also name and date.
   [cekk]
+
+- Update the min booking type length value to 5min.
+  [folix-01]
+
+- Fix: hidden attribute in tipologia
+  [mamico]
+
 - Fix upgrade step error #139 
   [mamico]
 
