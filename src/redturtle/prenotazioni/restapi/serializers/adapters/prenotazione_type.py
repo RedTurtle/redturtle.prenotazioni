@@ -18,7 +18,7 @@ class PrenotazioneTypeRetroCompatibleSerializer:
         self.request = request
 
     def __call__(self, *args, **kwargs):
-        hidden = api.content.get_state(self.context) not in ("published", )
+        hidden = api.content.get_state(self.context) not in ("published",)
         return {
             "name": self.context.title,
             "duration": str(self.context.duration),
