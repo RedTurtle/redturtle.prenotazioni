@@ -5,6 +5,9 @@ Changelog
 2.2.6 (unreleased)
 ------------------
 
+- Update the min booking type length value to 5min.
+  [folix-01]
+
 - Fix: hidden attribute in tipologia
   [mamico]
 
