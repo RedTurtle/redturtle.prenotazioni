@@ -5,6 +5,9 @@ Changelog
 2.2.6 (unreleased)
 ------------------
 
+- Fix: hidden attribute in tipologia
+  [mamico]
+
 - Fix upgrade step error #139 
   [mamico]
 
