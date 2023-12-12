@@ -10,6 +10,9 @@ Changelog
 
 - Improve manager mail notification subject to include also name and date.
   [cekk]
+- Fix: hidden attribute in tipologia
+  [mamico]
+
 - Fix upgrade step error #139 
   [mamico]
 

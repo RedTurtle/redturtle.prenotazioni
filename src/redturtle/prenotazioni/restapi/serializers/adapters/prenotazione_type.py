@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from zope.component import adapter
 from zope.interface import implementer
 
@@ -17,7 +18,9 @@ class PrenotazioneTypeRetroCompatibleSerializer:
         self.request = request
 
     def __call__(self, *args, **kwargs):
+        hidden = api.content.get_state(self.context) not in ("published",)
         return {
             "name": self.context.title,
             "duration": str(self.context.duration),
+            "hidden": hidden,
         }
