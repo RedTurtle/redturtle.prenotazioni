@@ -5,6 +5,9 @@ Changelog
 2.2.6 (unreleased)
 ------------------
 
+- Feat 5min duration
+  [mamico]
+
 - Fix upgrade step error #139 
   [mamico]
 
