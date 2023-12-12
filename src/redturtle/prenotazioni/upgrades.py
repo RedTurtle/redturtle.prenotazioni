@@ -14,7 +14,16 @@ from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import getUtility
 from zope.component import queryUtility
 
-from redturtle.prenotazioni import _
+from redturtle.prenotazioni.behaviors.booking_folder.notification_email.notification_email import (
+    notify_on_submit_subject_default_factory,
+    notify_on_submit_message_default_factory,
+    notify_on_confirm_subject_default_factory,
+    notify_on_confirm_message_default_factory,
+    notify_on_move_subject_default_factory,
+    notify_on_move_message_default_factory,
+    notify_on_refuse_subject_default_factory,
+    notify_on_refuse_message_default_factory,
+)
 from redturtle.prenotazioni.events.prenotazione import set_booking_code
 
 logger = logging.getLogger(__name__)
@@ -235,72 +244,18 @@ def to_1502(context):
 
 
 def to_1600_popolate_templates(context):
-    notify_on_submit_subject = context.translate(
-        _("notify_on_submit_subject_default_value", "Booking created ${title}")
-    )
-
-    notify_on_submit_message = context.translate(
-        _(
-            "notify_on_submit_message_default_value",
-            "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
-        )
-    )
-
-    notify_on_confirm_subject = context.translate(
-        _(
-            "notify_on_confirm_subject_default_value",
-            "Booking of ${booking_date} at ${booking_time} was accepted",
-        )
-    )
-
-    notify_on_confirm_message = context.translate(
-        _(
-            "notify_on_confirm_message_default_value",
-            "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
-        )
-    )
-
-    notify_on_move_subject = context.translate(
-        _(
-            "notify_on_move_subject_default_value",
-            "Modified the boolking date for ${title}",
-        )
-    )
-
-    notify_on_move_message = context.translate(
-        _(
-            "notify_on_move_message_default_value",
-            "The booking scheduling of ${booking_type} was modified."
-            "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
-        )
-    )
-
-    notify_on_refuse_subject = context.translate(
-        _(
-            "notify_on_refuse_subject_default_value",
-            "Booking refused for ${title}",
-        )
-    )
-
-    notify_on_refuse_message = context.translate(
-        _(
-            "notify_on_refuse_message_default_value",
-            "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
-        )
-    )
-
     for brain in api.portal.get_tool("portal_catalog")(
         portal_type="PrenotazioniFolder"
     ):
         obj = brain.getObject()
-        obj.notify_on_submit_subject = notify_on_submit_subject
-        obj.notify_on_submit_message = notify_on_submit_message
-        obj.notify_on_confirm_subject = notify_on_confirm_subject
-        obj.notify_on_confirm_message = notify_on_confirm_message
-        obj.notify_on_move_subject = notify_on_move_subject
-        obj.notify_on_move_message = notify_on_move_message
-        obj.notify_on_refuse_subject = notify_on_refuse_subject
-        obj.notify_on_refuse_message = notify_on_refuse_message
+        obj.notify_on_submit_subject = notify_on_submit_subject_default_factory(obj)
+        obj.notify_on_submit_message = notify_on_submit_message_default_factory(obj)
+        obj.notify_on_confirm_subject = notify_on_confirm_subject_default_factory(obj)
+        obj.notify_on_confirm_message = notify_on_confirm_message_default_factory(obj)
+        obj.notify_on_move_subject = notify_on_move_subject_default_factory(obj)
+        obj.notify_on_move_message = notify_on_move_message_default_factory(obj)
+        obj.notify_on_refuse_subject = notify_on_refuse_subject_default_factory(obj)
+        obj.notify_on_refuse_message = notify_on_refuse_message_default_factory(obj)
 
 
 def to_1600_upgrade_contentrules(context):

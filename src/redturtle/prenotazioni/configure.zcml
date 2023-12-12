@@ -13,7 +13,6 @@
   <include package=".adapters" />
   <include package=".behaviors" />
   <include package=".browser" />
-  <include package=".contentrules" />
   <include package=".vocabularies" />
   <include package=".indexers" />
   <include package=".events" />
@@ -45,14 +44,6 @@
       description="redturtle.prenotazioni to 1500."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/to_1500"
-      />
-
-  <genericsetup:registerProfile
-      name="content_rules_evolution"
-      title="Profile create to add the new default content rule: booking-confirm"
-      description="Used to add new contentrules"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/to_1402"
       />
 
   <utility

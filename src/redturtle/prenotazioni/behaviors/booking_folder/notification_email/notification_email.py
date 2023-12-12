@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
-from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
@@ -14,75 +14,80 @@ from redturtle.prenotazioni import _
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_submit_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
-        _("notify_on_submit_subject_default_value", "Booking created ${title}")
+    return api.portal.translate(
+        _(
+            "notify_on_submit_subject_default_value",
+            "[${prenotazioni_folder_title}] Booking created",
+        )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_submit_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_submit_message_default_value",
-            "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
+            "Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.<br/><br/>You can see details and print a reminder following this <a href=${booking_print_url}>link</a>.",
         )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_confirm_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_confirm_subject_default_value",
-            "Booking of ${booking_date} at ${booking_time} was accepted",
+            "[${prenotazioni_folder_title}] Booking of ${booking_date} at ${booking_time} was accepted",
         )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_confirm_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_confirm_message_default_value",
-            "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
+            "The booking ${booking_type} for ${title} has been confirmed."
+            "<br/><br/>You can see details and print a reminder following this <a href=${booking_print_url}>link</a>.",
         )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_move_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_move_subject_default_value",
-            "Modified the boolking date for ${title}",
+            "[${prenotazioni_folder_title}] Booking date modified for ${title}",
         )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_move_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_move_message_default_value",
-            "The booking scheduling of ${booking_type} was modified."
-            "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
+            "The booking scheduling for ${booking_type} was modified."
+            "<br/><br/>The new one is on ${booking_date} at ${booking_time}."
+            "<br/><br/>You can see details and print a reminder following this <a href=${booking_print_url}>link</a>.",
         )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_refuse_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_refuse_subject_default_value",
-            "Booking refused for ${title}",
+            "[${prenotazioni_folder_title}] Booking refused for ${title}",
         )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_on_refuse_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_on_refuse_message_default_value",
             "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
@@ -92,22 +97,21 @@ def notify_on_refuse_message_default_factory(context):
 
 @provider(IContextAwareDefaultFactory)
 def notify_as_reminder_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_as_reminder_subject_default_value",
-            "You have an upcomming booking on ${booking_date}",
+            "[${prenotazioni_folder_title}] Booking reminder on ${booking_date}",
         )
     )
 
 
 @provider(IContextAwareDefaultFactory)
 def notify_as_reminder_message_default_factory(context):
-    return getattr(context, "translate", translate)(
+    return api.portal.translate(
         _(
             "notify_as_reminder_message_default_value",
-            "This is an automatic reminder about your booking "
-            "on ${date} for ${booking_type}. If you need to see more infos "
-            'or delete it, please access your booking details <a href="${booking_pring_url}">page</a>',
+            "This is an automatic reminder about your booking on ${date} for ${booking_type}."
+            "<br/><br/>You can see details and print a reminder following this <a href=${booking_print_url}>link</a>.",
         )
     )
 
@@ -115,9 +119,7 @@ def notify_as_reminder_message_default_factory(context):
 @provider(IFormFieldProvider)
 class INotificationEmail(model.Schema):
     notifications_email_enabled = schema.Bool(
-        title=_(
-            "notifications_email_enabled_label", default="Email notifications enabled."
-        ),
+        title=_("notifications_email_enabled_label", default="Email notifications"),
         description=_(
             "notifications_email_enabled_help",
             default="Enable Email notifications.",
@@ -128,99 +130,133 @@ class INotificationEmail(model.Schema):
     notify_on_submit_subject = schema.TextLine(
         title=_(
             "notify_on_submit_subject",
-            default="Prenotazione created notification subject.",
+            default="[Created] subject",
         ),
-        description=_("notify_on_submit_subject_help", default=""),
+        description=_(
+            "notify_on_submit_subject_help",
+            default="The message subject when a booking has been created.",
+        ),
         defaultFactory=notify_on_submit_subject_default_factory,
         required=False,
     )
     notify_on_submit_message = schema.Text(
         title=_(
             "notify_on_submit_message",
-            default="Prenotazione created notification message.",
+            default="[Created] message",
         ),
-        description=_("notify_on_submit_message_help", default=""),
+        description=_(
+            "notify_on_submit_message_help",
+            default="The message text when a booking has been created.",
+        ),
         defaultFactory=notify_on_submit_message_default_factory,
         required=False,
     )
     notify_on_confirm_subject = schema.TextLine(
         title=_(
             "notify_on_confirm_subject",
-            default="Prenotazione confirmed notification subject.",
+            default="[Confirm] subject",
         ),
-        description=_("notify_on_confirm_subject_help", default=""),
+        description=_(
+            "notify_on_confirm_subject_help",
+            default="The message subject when a booking has been confirmed.",
+        ),
         defaultFactory=notify_on_confirm_subject_default_factory,
         required=False,
     )
     notify_on_confirm_message = schema.Text(
         title=_(
             "notify_on_confirm_message",
-            default="Prenotazione confirmed notification message.",
+            default="[Confirmed] message",
         ),
-        description=_("notify_on_confirm_message_help", default=""),
+        description=_(
+            "notify_on_confirm_message_help",
+            default="The message text when a booking has been confirmed.",
+        ),
         defaultFactory=notify_on_confirm_message_default_factory,
         required=False,
     )
     notify_on_move_subject = schema.TextLine(
         title=_(
             "notify_on_move_subject",
-            default="Prenotazione moved notification subject.",
+            default="[Move] subject",
         ),
-        description=_("notify_on_move_subject_help", default=""),
+        description=_(
+            "notify_on_move_subject_help",
+            default="The message subject when a booking has been moved.",
+        ),
         defaultFactory=notify_on_move_subject_default_factory,
         required=False,
     )
     notify_on_move_message = schema.Text(
         title=_(
             "notify_on_move_message",
-            default="Prenotazione moved notification message.",
+            default="[Move] message",
         ),
-        description=_("notify_on_move_message_help", default=""),
+        description=_(
+            "notify_on_move_message_help",
+            default="The message text when a booking has been moved.",
+        ),
         defaultFactory=notify_on_move_message_default_factory,
         required=False,
     )
     notify_on_refuse_subject = schema.TextLine(
         title=_(
             "notify_on_refuse_subject",
-            default="Prenotazione refused notification subject.",
+            default="[Refuse] subject",
         ),
-        description=_("notify_on_refuse_subject_help", default=""),
+        description=_(
+            "notify_on_refuse_subject_help",
+            default="The message subject when a booking has been refused.",
+        ),
         defaultFactory=notify_on_refuse_subject_default_factory,
         required=False,
     )
     notify_on_refuse_message = schema.Text(
         title=_(
             "notify_on_refuse_message",
-            default="Prenotazione created notification message.",
+            default="[Refuse] message",
         ),
-        description=_("notify_on_refuse_message_help", default=""),
+        description=_(
+            "notify_on_refuse_message_help",
+            default="The message text when a booking has been refused.",
+        ),
         defaultFactory=notify_on_refuse_message_default_factory,
         required=False,
     )
     notify_as_reminder_subject = schema.TextLine(
         title=_(
             "notify_as_reminder_subject",
-            default="Booking reminder subject.",
+            default="[Reminder] subject",
         ),
-        description=_("notify_as_reminder_subject_help", default=""),
+        description=_(
+            "notify_as_reminder_subject_help",
+            default="The message subject when a reminder will be sent.",
+        ),
         defaultFactory=notify_as_reminder_subject_default_factory,
         required=False,
     )
     notify_as_reminder_message = schema.Text(
         title=_(
             "notify_as_reminder_message",
-            default="Booking reminder message.",
+            default="[Reminder] message",
         ),
-        description=_("notify_as_reminder_message_help", default=""),
+        description=_(
+            "notify_as_reminder_message_help",
+            default="The message text when a reminder will be sent.",
+        ),
         defaultFactory=notify_as_reminder_message_default_factory,
         required=False,
     )
 
     model.fieldset(
-        "Prenotazioni Email Templates",
+        "email_notifications",
         label=_(
-            "prenotazioni_email_templates_label",
-            default="Testo delle email di notifica",
+            "bookings_email_templates_label",
+            default="Email Notifications",
+        ),
+        description=_(
+            "bookings_email_templates_help",
+            default="Set message text for all available notification events.",
         ),
         fields=[
             "notifications_email_enabled",
