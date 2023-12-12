@@ -144,10 +144,14 @@ class INotificationSMS(model.Schema):
     )
 
     model.fieldset(
-        "SMS Notifications Gateway",
+        "sms_notifications",
         label=_(
             "bookings_sms_templates_label",
-            default="Booking SMS notifications",
+            default="SMS Notifications",
+        ),
+        description=_(
+            "bookings_sms_templates_help",
+            default="Set message text for all available notification events. Remember that SMS has a 160 characters limit. Depending on your gateway service, it can split messages, if you exceed that limit.",
         ),
         fields=[
             "notifications_sms_enabled",

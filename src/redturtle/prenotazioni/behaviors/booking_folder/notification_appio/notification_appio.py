@@ -249,10 +249,14 @@ class INotificationAppIO(model.Schema):
     )
 
     model.fieldset(
-        "App IO Notifications Gateway",
+        "appio_notifications",
         label=_(
             "bookings_appio_templates_label",
-            default="Booking App IO notifications",
+            default="AppIO Notifications",
+        ),
+        description=_(
+            "bookings_appio_templates_help",
+            default="Set message text for all available notification events.",
         ),
         fields=[
             "notifications_appio_enabled",

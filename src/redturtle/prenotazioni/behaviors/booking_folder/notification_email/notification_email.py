@@ -249,10 +249,14 @@ class INotificationEmail(model.Schema):
     )
 
     model.fieldset(
-        "Prenotazioni Email Templates",
+        "email_notifications",
         label=_(
-            "prenotazioni_email_templates_label",
-            default="Testo delle email di notifica",
+            "bookings_email_templates_label",
+            default="Email Notifications",
+        ),
+        description=_(
+            "bookings_email_templates_help",
+            default="Set message text for all available notification events.",
         ),
         fields=[
             "notifications_email_enabled",
