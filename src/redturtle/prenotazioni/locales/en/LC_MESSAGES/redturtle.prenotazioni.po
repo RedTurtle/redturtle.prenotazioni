@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2023-12-12 08:06+0000\n"
+"POT-Creation-Date: 2023-12-12 10:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -333,10 +333,6 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-#: redturtle/prenotazioni/configure.zcml:55
-msgid "Profile create to add the new default content rule: booking-confirm"
-msgstr ""
-
 #: redturtle/prenotazioni/restapi/services/booking/add.py:72
 msgid "Required input '${field}' is missing."
 msgstr ""
@@ -506,10 +502,6 @@ msgstr ""
 msgid "Unknown booking type '${booking_type}'."
 msgstr ""
 
-#: redturtle/prenotazioni/configure.zcml:55
-msgid "Used to add new contentrules"
-msgstr ""
-
 #: redturtle/prenotazioni/profiles/default/types/Prenotazione.xml
 #: redturtle/prenotazioni/profiles/default/types/PrenotazioneType.xml
 #: redturtle/prenotazioni/profiles/default/types/PrenotazioniDay.xml
@@ -646,6 +638,11 @@ msgstr ""
 #. Default: "Your booking has been deleted."
 #: redturtle/prenotazioni/browser/delete_reservation.py:114
 msgid "booking_deleted_success"
+msgstr ""
+
+#. Default: "Booking fields"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:491
+msgid "booking_fields_label"
 msgstr ""
 
 #: redturtle/prenotazioni/browser/prenotazione_move.py:140
@@ -1190,13 +1187,8 @@ msgstr ""
 msgid "notifications_email_enabled_label"
 msgstr ""
 
-#. Default: "Notifications management controlpanel"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:499
-msgid "notifications_help"
-msgstr ""
-
 #. Default: "Notifications"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:492
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:499
 msgid "notifications_label"
 msgstr ""
 
@@ -1565,12 +1557,12 @@ msgstr ""
 msgid "reject_booking"
 msgstr ""
 
-#. Default: "Indicates how many days before of a booking the user will be notified about it."
+#. Default: "Set how many days before of a booking date the user will be notified about it."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:452
 msgid "reminder_notification_gap_description"
 msgstr ""
 
-#. Default: "Upcoming bookings notification gap"
+#. Default: "Booking reminder days"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:448
 msgid "reminder_notification_gap_label"
 msgstr ""

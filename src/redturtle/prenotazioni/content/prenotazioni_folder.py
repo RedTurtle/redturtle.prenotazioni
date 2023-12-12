@@ -447,11 +447,11 @@ class IPrenotazioniFolder(model.Schema):
     reminder_notification_gap = schema.Int(
         title=_(
             "reminder_notification_gap_label",
-            default="Upcoming bookings notification gap",
+            default="Booking reminder days",
         ),
         description=_(
             "reminder_notification_gap_description",
-            default="Indicates how many days before of a booking the user will be notified about it.",
+            default="Set how many days before of a booking date the user will be notified about it.",
         ),
         required=False,
         default=3,
@@ -486,19 +486,25 @@ class IPrenotazioniFolder(model.Schema):
             "week_table_overrides",
         ],
     )
-
     model.fieldset(
-        "Notifications",
+        "fields",
+        label=_("booking_fields_label", default="Booking fields"),
+        fields=[
+            "visible_booking_fields",
+            "required_booking_fields",
+        ],
+    )
+    model.fieldset(
+        "notifications",
         label=_("notifications_label", default="Notifications"),
         fields=[
+            "email_responsabile",
+            "reminder_notification_gap",
             "notify_on_submit",
             "notify_on_confirm",
             "notify_on_move",
             "notify_on_refuse",
         ],
-        description=_(
-            "notifications_help", default="Notifications management controlpanel"
-        ),
     )
 
 

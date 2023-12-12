@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-12-12 08:06+0000\n"
+"POT-Creation-Date: 2023-12-12 10:10+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -142,7 +142,7 @@ msgstr "Data inizio validità"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:462
 msgid "Date validità"
-msgstr "Date validità"
+msgstr "Date Validità"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:340
 msgid "Days booking is not allowed before"
@@ -335,10 +335,6 @@ msgstr "PrenotazioniYear"
 msgid "Print"
 msgstr "Stampa"
 
-#: redturtle/prenotazioni/configure.zcml:55
-msgid "Profile create to add the new default content rule: booking-confirm"
-msgstr "Profilo per creare una content-rule di default: booking-confirm"
-
 #: redturtle/prenotazioni/restapi/services/booking/add.py:72
 msgid "Required input '${field}' is missing."
 msgstr "Campo obbligatorio '${field}' mancante."
@@ -508,10 +504,6 @@ msgstr "Disinstall redturtle.prenotazioni"
 msgid "Unknown booking type '${booking_type}'."
 msgstr "Tipologia di prenotazione sconosciuta '${booking_type}'."
 
-#: redturtle/prenotazioni/configure.zcml:55
-msgid "Used to add new contentrules"
-msgstr "Aggiunge una nuova contentrule"
-
 #: redturtle/prenotazioni/profiles/default/types/Prenotazione.xml
 #: redturtle/prenotazioni/profiles/default/types/PrenotazioneType.xml
 #: redturtle/prenotazioni/profiles/default/types/PrenotazioniDay.xml
@@ -524,7 +516,7 @@ msgstr "Mercoledì"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:213
 msgid "Week table"
-msgstr "Schedulazione settimanale"
+msgstr "Schedulazione Settimanale"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:192
 msgid "Yes"
@@ -650,6 +642,11 @@ msgstr "Prenotazione creata"
 #: redturtle/prenotazioni/browser/delete_reservation.py:114
 msgid "booking_deleted_success"
 msgstr "La tua prenotazione è stata cancellata."
+
+#. Default: "Booking fields"
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:491
+msgid "booking_fields_label"
+msgstr "Campi Prenotazioni"
 
 #: redturtle/prenotazioni/browser/prenotazione_move.py:140
 msgid "booking_moved"
@@ -1195,13 +1192,8 @@ msgstr "Abilita le notifiche via email"
 msgid "notifications_email_enabled_label"
 msgstr "Notifiche Email"
 
-#. Default: "Notifications management controlpanel"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:499
-msgid "notifications_help"
-msgstr "Seleziona per quali eventi della prenotazione inviare un messaggio di notifica agli utenti."
-
 #. Default: "Notifications"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:492
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:499
 msgid "notifications_label"
 msgstr "Gestione delle Notifiche"
 
@@ -1578,15 +1570,15 @@ msgstr "Lo stato della prenotazione è \"rifiutato\". Se lo cambi, questa prenot
 msgid "reject_booking"
 msgstr "Rifiuta la prenotazione"
 
-#. Default: "Indicates how many days before of a booking the user will be notified about it."
+#. Default: "Set how many days before of a booking date the user will be notified about it."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:452
 msgid "reminder_notification_gap_description"
-msgstr "Indicare il numero di giorni prima della data appuntamento per l'invio automatico del promemoria"
+msgstr "Indicare quanti giorni prima della data di prenotazione, inviare un promemoria agli utenti."
 
-#. Default: "Upcoming bookings notification gap"
+#. Default: "Booking reminder days"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:448
 msgid "reminder_notification_gap_label"
-msgstr "Invio promemoria appuntamento"
+msgstr "Promemoria prenotazione"
 
 #. Default: "Code"
 #: redturtle/prenotazioni/browser/templates/prenotazioni_search.pt:58
@@ -1700,7 +1692,7 @@ msgstr "Inserisci qui eventuali personalizzazioni nella schedulazione settimanal
 #. Default: "Week table overrides"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:280
 msgid "week_table_overrides_label"
-msgstr "Personalizzazioni schedulazione settimanale"
+msgstr "Personalizzazioni Schedulazione Settimanale"
 
 #. Default: "You tried to delete booking with a wrong action."
 #: redturtle/prenotazioni/browser/delete_reservation.py:97
