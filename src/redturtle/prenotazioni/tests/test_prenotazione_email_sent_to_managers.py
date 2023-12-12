@@ -91,7 +91,7 @@ class TestEmailToManagers(unittest.TestCase):
         self.assertTrue(mail.is_multipart())
 
         self.assertIn(
-            "New booking for Prenota foo",
+            "[Prenota foo - gate Gate A] New booking",
             "".join([i for i in mail.values()]),
         )
         self.assertIn(
