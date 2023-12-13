@@ -14,6 +14,9 @@ Changelog
 - Fix upgrade step error #139 
   [mamico]
 
+- Add flag `auto_confirm_manager` that allows to automatically confirm bookings created by Booking Managers.
+  [cekk]
+
 
 2.2.5 (2023-12-04)
 ------------------

@@ -7,6 +7,8 @@ from datetime import timedelta
 import transaction
 from Acquisition import aq_parent
 from plone import api
+from plone.app.testing import login
+from plone.app.testing import logout
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
@@ -72,6 +74,15 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.app = self.layer["app"]
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+        api.user.create(
+            email="user@example.com",
+            username="jdoe",
+            password="secret!!!",
+        )
+
+        api.user.grant_roles(username="jdoe", roles=["Bookings Manager"])
+
         self.portal_url = self.portal.absolute_url()
         self.folder_prenotazioni = api.content.create(
             container=self.portal,
@@ -99,6 +110,10 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.api_session = RelativeSession(self.portal_url)
         self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
         self.api_session.headers.update({"Accept": "application/json"})
+
+    def tearDown(self):
+        self.api_session.close()
+        self.folder_prenotazioni.auto_confirm_manager = False
 
     def test_add_booking_anonymous(self):
         self.api_session.auth = None
@@ -235,6 +250,90 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.status_code, 400)
         self.assertEqual(res.json()["message"], "Required input 'email' is missing.")
 
+    def test_auto_confirm_manager_false_does_nothing(self):
+        self.folder_prenotazioni.auto_confirm_manager = False
+        transaction.commit()
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+            },
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["booking_status"], "pending")
+
+    def test_auto_confirm_manager_admin(self):
+        self.folder_prenotazioni.auto_confirm_manager = True
+        transaction.commit()
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+            },
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["booking_status"], "confirmed")
+
+    def test_auto_confirm_manager_gestore(self):
+        self.folder_prenotazioni.auto_confirm_manager = True
+        transaction.commit()
+
+        api_session = RelativeSession(self.portal_url)
+        api_session.auth = ("jdoe", "secret!!!")
+        api_session.headers.update({"Accept": "application/json"})
+
+        res = api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+            },
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["booking_status"], "confirmed")
+
+    def test_auto_confirm_manager_anon_does_nothing(self):
+        self.folder_prenotazioni.auto_confirm_manager = True
+        transaction.commit()
+
+        self.api_session.auth = None
+
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+            },
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["booking_status"], "pending")
+
 
 class TestPrenotazioniIntegrationTesting(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
@@ -243,6 +342,15 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         self.app = self.layer["app"]
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+        api.user.create(
+            email="user@example.com",
+            username="jdoe",
+            password="secret!!!",
+        )
+
+        api.user.grant_roles(username="jdoe", roles=["Bookings Manager"])
+
         self.portal_url = self.portal.absolute_url()
         self.folder_prenotazioni = api.content.create(
             container=self.portal,
@@ -253,13 +361,15 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
             gates=["Gate A", "Gate B"],
         )
 
-        api.content.create(
+        type_a = api.content.create(
             type="PrenotazioneType",
             title="Type A",
             duration=30,
             container=self.folder_prenotazioni,
             gates=["all"],
         )
+        api.content.transition(obj=self.folder_prenotazioni, transition="publish")
+        api.content.transition(obj=type_a, transition="publish")
 
         week_table = self.folder_prenotazioni.week_table
         for row in week_table:
@@ -342,3 +452,191 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         self.assertNotEqual(
             booking_gate_A.getBookingCode(), booking_gate_B.getBookingCode()
         )
+
+    def test_booker_auto_confirm_manager_true_by_default(self):
+        folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            gates=["Gate A", "Gate B"],
+            week_table=WEEK_TABLE_SCHEMA,
+        )
+
+        type_a = api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.transition(obj=folder_prenotazioni, transition="publish")
+        api.content.transition(obj=type_a, transition="publish")
+
+        booker = IBooker(folder_prenotazioni)
+
+        booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
+            days=1, hours=8
+        )
+        booking = booker.book(
+            data={
+                "booking_date": booking_date + timedelta(hours=1),
+                "booking_type": "Type A",
+                "title": "foo",
+            }
+        )
+
+        self.assertEqual(api.content.get_state(obj=booking), "confirmed")
+
+    def test_booker_auto_confirm_manager_does_nothing_if_false(self):
+        folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            gates=["Gate A", "Gate B"],
+            week_table=WEEK_TABLE_SCHEMA,
+            auto_confirm_manager=False,
+        )
+
+        type_a = api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.transition(obj=folder_prenotazioni, transition="publish")
+        api.content.transition(obj=type_a, transition="publish")
+
+        booker = IBooker(folder_prenotazioni)
+
+        booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
+            days=1, hours=8
+        )
+        booking = booker.book(
+            data={
+                "booking_date": booking_date + timedelta(hours=1),
+                "booking_type": "Type A",
+                "title": "foo",
+            },
+        )
+
+        self.assertEqual(api.content.get_state(obj=booking), "pending")
+
+    def test_booker_auto_confirm_manager_called_by_admin(self):
+        folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            gates=["Gate A", "Gate B"],
+            week_table=WEEK_TABLE_SCHEMA,
+            auto_confirm_manager=True,
+        )
+
+        type_a = api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.transition(obj=folder_prenotazioni, transition="publish")
+        api.content.transition(obj=type_a, transition="publish")
+
+        booker = IBooker(folder_prenotazioni)
+
+        booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
+            days=1, hours=8
+        )
+        booking = booker.book(
+            data={
+                "booking_date": booking_date + timedelta(hours=1),
+                "booking_type": "Type A",
+                "title": "foo",
+            },
+        )
+
+        self.assertEqual(api.content.get_state(obj=booking), "confirmed")
+
+    def test_booker_auto_confirm_manager_called_by_gestore(self):
+        folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            gates=["Gate A", "Gate B"],
+            week_table=WEEK_TABLE_SCHEMA,
+            auto_confirm_manager=True,
+        )
+
+        type_a = api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.transition(obj=folder_prenotazioni, transition="publish")
+        api.content.transition(obj=type_a, transition="publish")
+
+        booker = IBooker(folder_prenotazioni)
+
+        login(self.portal, "jdoe")
+
+        booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
+            days=1, hours=8
+        )
+        booking = booker.book(
+            data={
+                "booking_date": booking_date + timedelta(hours=1),
+                "booking_type": "Type A",
+                "title": "foo",
+            },
+        )
+
+        self.assertEqual(api.content.get_state(obj=booking), "confirmed")
+
+    def test_booker_auto_confirm_manager_called_by_anon_does_nothing(self):
+        folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            gates=["Gate A", "Gate B"],
+            week_table=WEEK_TABLE_SCHEMA,
+            auto_confirm_manager=True,
+        )
+
+        type_a = api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.transition(obj=folder_prenotazioni, transition="publish")
+        api.content.transition(obj=type_a, transition="publish")
+
+        booker = IBooker(folder_prenotazioni)
+
+        logout()
+
+        booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
+            days=1, hours=8
+        )
+        booking = booker.book(
+            data={
+                "booking_date": booking_date + timedelta(hours=1),
+                "booking_type": "Type A",
+                "title": "foo",
+            },
+        )
+
+        self.assertEqual(api.content.get_state(obj=booking), "pending")
