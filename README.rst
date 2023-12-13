@@ -213,6 +213,7 @@ You just need to register a new adapter::
     />
 
 And here the `send` method must bu implementend::
+
     from logging import getLogger
 
     from zope.component import adapter
@@ -720,6 +721,7 @@ Usage::
     bin/instance1 -OPlone run bin/notify_upcoming_bookings
 
 Buildout config example::
+
     [builout]
 
     parts +=
