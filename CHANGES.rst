@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.6 (unreleased)
+1.7.6 (2023-12-13)
 ------------------
 
 - Another Fix to sub BaseSlots (copied method from master branch).
