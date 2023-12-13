@@ -6,7 +6,10 @@ from datetime import timedelta
 
 import transaction
 from Acquisition import aq_parent
+from freezegun import freeze_time
 from plone import api
+from plone.app.testing import login
+from plone.app.testing import logout
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
@@ -16,10 +19,55 @@ from plone.restapi.testing import RelativeSession
 from zope.interface import Interface
 
 from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.exceptions.booker import BookerException
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
+
+DATE_STR = "2023-05-14"
+
+
+class Mixin(unittest.TestCase):
+    def setUp(self):
+        self.app = self.layer["app"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.portal_url = self.portal.absolute_url()
+
+        api.user.create(
+            email="user@example.com",
+            username="jdoe",
+            password="secret!!!",
+        )
+
+        api.user.grant_roles(username="jdoe", roles=["Bookings Manager"])
+
+        self.folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            gates=["Gate A", "Gate B"],
+        )
+
+        type_a = api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
+        week_table = self.folder_prenotazioni.week_table
+        for row in week_table:
+            row["morning_start"] = "0700"
+            row["morning_end"] = "1000"
+        self.folder_prenotazioni.week_table = week_table
+
+        api.content.transition(obj=self.folder_prenotazioni, transition="publish")
+        api.content.transition(obj=type_a, transition="publish")
 
 
 class TestSchemaDirectives(unittest.TestCase):
@@ -244,6 +292,15 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.portal_url = self.portal.absolute_url()
+
+        api.user.create(
+            email="user@example.com",
+            username="jdoe",
+            password="secret!!!",
+        )
+
+        api.user.grant_roles(username="jdoe", roles=["Bookings Manager"])
+
         self.folder_prenotazioni = api.content.create(
             container=self.portal,
             type="PrenotazioniFolder",
@@ -253,7 +310,7 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
             gates=["Gate A", "Gate B"],
         )
 
-        api.content.create(
+        type_a = api.content.create(
             type="PrenotazioneType",
             title="Type A",
             duration=30,
@@ -267,9 +324,14 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
             row["morning_end"] = "1000"
         self.folder_prenotazioni.week_table = week_table
 
-    def test_booking_code_generation(self):
-        booker = IBooker(self.folder_prenotazioni)
+        api.content.transition(obj=self.folder_prenotazioni, transition="publish")
+        api.content.transition(obj=type_a, transition="publish")
 
+    def create_booking(self, data: dict):
+        booker = IBooker(self.folder_prenotazioni)
+        return booker.book(data)
+
+    def test_booking_code_generation(self):
         booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
             days=1, hours=8
         )
@@ -279,7 +341,7 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
 
         # need this just to have the day container
         container = aq_parent(
-            booker.create(
+            self.create_booking(
                 {
                     "booking_date": booking_date + timedelta(hours=1),
                     "booking_type": "Type A",
@@ -301,8 +363,6 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         self.assertTrue(len(new_booking.getBookingCode()) > 0)
 
     def test_booking_code_uniqueness(self):
-        booker = IBooker(self.folder_prenotazioni)
-
         booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
             days=1, hours=8
         )
@@ -311,7 +371,7 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         ) + timedelta(days=1, hours=8, minutes=30)
         # need this just to have the day container
         container = aq_parent(
-            booker.create(
+            self.create_booking(
                 {
                     "booking_date": booking_date + timedelta(hours=1),
                     "booking_type": "Type A",
@@ -342,3 +402,61 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         self.assertNotEqual(
             booking_gate_A.getBookingCode(), booking_gate_B.getBookingCode()
         )
+
+    @freeze_time(DATE_STR)  # far from holidays
+    def test_booker_disallow_anon_creation_if_futureDays_is_set_and_passed(self):
+        today = date.today()
+        self.folder_prenotazioni.daData = today
+        self.folder_prenotazioni.futureDays = 6
+
+        logout()
+
+        with self.assertRaises(BookerException) as cm:
+            self.create_booking(
+                data={
+                    "booking_date": datetime.fromisoformat(today.isoformat())
+                    + timedelta(hours=8, days=8),
+                    "booking_type": "Type A",
+                    "title": "foo",
+                    "email": "jdoe@redturtle.it",
+                }
+            )
+        self.assertEqual(
+            "Sorry, you can not book this slot for now.", str(cm.exception)
+        )
+
+        # but can create a book inside range
+        future_date = datetime.fromisoformat(today.isoformat()) + timedelta(
+            hours=8, days=5
+        )
+        book = self.create_booking(
+            data={
+                "booking_date": future_date,
+                "booking_type": "Type A",
+                "title": "foo",
+                "email": "jdoe@redturtle.it",
+            }
+        )
+        self.assertEqual(book.booking_date.date(), future_date.date())
+
+    @freeze_time(DATE_STR)  # far from holidays
+    def test_booker_bypass_futureDays_check_if_manager(self):
+        today = date.today()
+        self.folder_prenotazioni.daData = today
+        self.folder_prenotazioni.futureDays = 6
+
+        logout()
+        login(self.portal, "jdoe")
+
+        future_date = datetime.fromisoformat(today.isoformat()) + timedelta(
+            hours=8, days=8
+        )
+        book = self.create_booking(
+            data={
+                "booking_date": future_date,
+                "booking_type": "Type A",
+                "title": "foo",
+                "email": "jdoe@redturtle.it",
+            }
+        )
+        self.assertEqual(book.booking_date.date(), future_date.date())

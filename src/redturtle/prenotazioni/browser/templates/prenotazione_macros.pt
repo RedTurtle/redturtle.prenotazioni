@@ -208,7 +208,6 @@
         </tal:is_real_booking>
         <tal:not_real_booking tal:condition="python:not real_booking and not getattr(booking, 'is_pause', False)">
           <div class="links">
-          cicci
             <tal:urls repeat="link python:week_view.prenotazioni.get_booking_urls(day, slot, gate=gate)">
               <tal:future condition="link/future">
                 <a tal:attributes="
