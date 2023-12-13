@@ -719,6 +719,18 @@ Usage::
 
     bin/instance1 -OPlone run bin/notify_upcoming_bookings
 
+Buildout config example::
+    [builout]
+
+    parts +=
+        notify-upcoming-bookings
+
+    [notify-upcoming-bookings]
+    recipe = z3c.recipe.usercrontab
+    times = 0 3 * * *
+    command = ${builout:directory}/bin/notify_upcoming_bookings
+
+
 Behaviors
 =========
 
