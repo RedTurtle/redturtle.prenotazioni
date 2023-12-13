@@ -65,7 +65,7 @@ class TestPrenotazioniContextState(unittest.TestCase):
         today = date.today()
         # need this just to have the day container
         aq_parent(
-            booker.create(
+            booker.book(
                 {
                     "booking_date": datetime(
                         today.year, today.month, today.day, 10, 00
@@ -113,7 +113,7 @@ class TestPrenotazioniContextState(unittest.TestCase):
         today = date.today()
         # need this just to have the day container
         aq_parent(
-            booker.create(
+            booker.book(
                 {
                     "booking_date": datetime(
                         today.year, today.month, today.day, 10, 30
@@ -125,7 +125,7 @@ class TestPrenotazioniContextState(unittest.TestCase):
         )
         for hour in [7, 8, 9, 11, 12]:
             aq_parent(
-                booker.create(
+                booker.book(
                     {
                         "booking_date": datetime(
                             today.year, today.month, today.day, hour, 00
@@ -137,7 +137,7 @@ class TestPrenotazioniContextState(unittest.TestCase):
             )
 
             aq_parent(
-                booker.create(
+                booker.book(
                     {
                         "booking_date": datetime(
                             today.year, today.month, today.day, hour, 30

@@ -70,7 +70,7 @@ class TestEmailToManagers(unittest.TestCase):
 
     def create_booking(self):
         booker = IBooker(self.folder_prenotazioni)
-        return booker.create(
+        return booker.book(
             {
                 "booking_date": self.tomorrow_8_0,  # tomorrow
                 "booking_type": "Type A",
