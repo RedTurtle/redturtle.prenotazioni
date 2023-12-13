@@ -294,7 +294,7 @@ class INotificationAppioBookingType(model.Schema):
             "service_code_help",
             default="AppIO service code related to the current booking type",
         ),
-        required=True,
+        required=False,
         vocabulary="redturtle.prenotazioni.appio_services",
     )
 
