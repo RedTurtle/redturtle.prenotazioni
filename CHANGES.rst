@@ -4,7 +4,8 @@ Changelog
 1.7.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Import fixes for #118: Fix sub BaseSlots whene some slots overlap.
+  [cekk, mamico]
 
 
 1.7.4 (2023-08-21)
