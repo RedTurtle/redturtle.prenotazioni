@@ -158,7 +158,6 @@ class BaseSlot(Interval):
         """Subtract something from this"""
         if isinstance(value, Interval):
             value = [value]
-
         # We filter not overlapping with self, and merge the overlapping ones
         good_intervals = merge_intervals([x for x in value if x.overlaps(self)])
         points = slots_to_points(good_intervals)
@@ -172,7 +171,9 @@ class BaseSlot(Interval):
                 start = self.upper_value
             elif isinstance(x, UpperEndpoint):
                 start = x
-        intervals.append(BaseSlot(start, self.upper_value))
+        # append only valid intervals
+        if start < self.upper_value:
+            intervals.append(BaseSlot(start, self.upper_value))
         return intervals
 
     def value_hr(self, value):

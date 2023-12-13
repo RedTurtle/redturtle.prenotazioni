@@ -4,13 +4,14 @@ Changelog
 1.7.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Another Fix to sub BaseSlots (copied method from master branch).
+  [cekk]
 
 
 1.7.5 (2023-12-13)
 ------------------
 
-- Import fixes for #118: Fix sub BaseSlots whene some slots overlap.
+- Import fixes for #118: Fix sub BaseSlots when some slots overlap.
   [cekk, mamico]
 
 
