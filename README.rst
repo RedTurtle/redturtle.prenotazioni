@@ -158,23 +158,23 @@ The workflow transition triggers an email to be sent to the booker (see below).
 Booking Notifications
 ---------------------
 
-There are automated notifications implementend by the foollowing behaviors:
+There are automated notifications implementend by the following behaviors:
 
 * `redturtle.prenotazioni.behavior.notification_appio` (Notify via AppIO gateway)
 * `redturtle.prenotazioni.behavior.notification_email` (Notify via Email gateway)
 * `redturtle.prenotazioni.behavior.notification_sms` (Notify via SMS gateway)
 
 Each behavior is implementing the following notification types:
-* `booking-accepted` (Invia un messaggio all'utente quando la prenotazione è stata accettata)
-* `booking-moved` (Invia un messaggio all'utente quando la data della prenotazione viene cambiata)
-* `booking-created-user` (Invia un email all'utente quando la prenotazione è stata creata)
-* `booking-refuse` (Invia un email all'utente quando la prenotazione è stata rifiutata)
-* `booking-reminder` (Booking reminder message)
+* `booking-accepted` (An notification if the booking had been accepted)
+* `booking-moved` (An notification if the booking had been moved)
+* `booking-created` (An notification if the booking had been created)
+* `booking-refuse` (An notification if the booking had been refused)
+* `booking-reminder` (An notification reminder)
 
 Notifications are **NOT automatically** enabled in every Booking Folder.
-If you want to send some notification, you only need to enable the by assigning the behavior to PrenotazioniFolder c.t.
+If you want to send some notification, you only need to enable them by assigning the behavior to PrenotazioniFolder c.t.
 
-You can create your own email templates for the booking events(confirm, refuse, create, delete, reminder).
+You can create your own notification templates for the booking events(confirm, refuse, create, delete, reminder).
 The temlates are being saved in the PrenotazioniFolder object.
 
 The template variables list:
@@ -202,6 +202,46 @@ The template variables list:
 * ``${booking_requirements}`` - Booking requeirements.
 * ``${prenotazioni_folder_title}`` - Booking folder title.
 * ``${booking_requirements}`` - Related PrenotazioneType.booking_requirements field
+
+Note that the sms can be used only if you implement an own sender adapter
+Example:
+
+You just need to register a new adapter::
+
+    <adapter
+      factory = ".my_adapter.SMSSenderAdapter"
+    />
+
+And here the `send` method must bu implementend::
+    from logging import getLogger
+
+    from zope.component import adapter
+    from zope.component import getUtility
+    from zope.interface import Interface
+    from zope.interface import implementer
+
+    from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+    from redturtle.prenotazioni.interfaces import IBookingNotificationSender
+    from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
+    from redturtle.prenotazioni.interfaces import IPrenotazioneSMSMessage
+    from redturtle.prenotazioni.behaviors.notification_sms.adapter import BookingNotificationSender
+    logger = getLogger(__name__)
+
+
+    @implementer(IBookingNotificationSender)
+    @adapter(IPrenotazioneSMSMessage, IPrenotazione, YourAddonLayerInterface)
+    class CustomSMSSenderAdapter(BookingNotificationSender):
+        def __init__(self, message_adapter, booking, request) -> None:
+            self.message_adapter = message_adapter
+            self.booking = booking
+            self.request = request
+
+        def send(self):
+            if getUtility(
+                IBookingNotificatorSupervisorUtility,
+            ).is_sms_message_allowed(self.booking):
+                # Your custom send code here
+                pass
 
 
 Vacations
@@ -660,8 +700,10 @@ Response::
 @@send-booking-reminders
 ------------------------
 
-This view sends a booking reminder email to all the bookings inside of PrenotazioniFolders which have the Reminder Notification Gap field popolated.
-If you mind to setup a cronjob to call this view, you migth use a special script call. The script is located at src/redturtle/prenotazioni/scripts/notify_upcoming_bookings.py
+This view sends a booking reminder email to all the bookings inside PrenotazioniFolders that
+have the Reminder Notification Gap field populated. If you intend to set up a cronjob to call this view, you might use a special script call.
+The script is located at src/redturtle/prenotazioni/scripts/notify_upcoming_bookings.py.
+
 
 
 Scripts

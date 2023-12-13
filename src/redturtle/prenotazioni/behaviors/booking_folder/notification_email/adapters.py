@@ -6,9 +6,9 @@ from zope.component import getUtility
 from zope.interface import implementer
 
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
-from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.utilities import send_email
 
@@ -16,7 +16,7 @@ logger = getLogger(__name__)
 
 
 @implementer(IBookingNotificationSender)
-@adapter(IPrenotazioneEmailMessage, IPrenotazione, IRedturtlePrenotazioniLayer)
+@adapter(IBookingEmailMessage, IPrenotazione, IRedturtlePrenotazioniLayer)
 class BookingTransitionEmailSender:
     def __init__(self, message_adapter, booking, request) -> None:
         self.message_adapter = message_adapter

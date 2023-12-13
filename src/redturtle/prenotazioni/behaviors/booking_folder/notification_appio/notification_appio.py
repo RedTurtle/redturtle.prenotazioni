@@ -124,7 +124,7 @@ class INotificationAppIO(model.Schema):
             "notifications_appio_enabled_help",
             default="Enable AppIO notifications.",
         ),
-        default=True,
+        default=False,
         required=False,
     )
     notify_on_submit_appio_subject = schema.TextLine(

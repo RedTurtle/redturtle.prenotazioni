@@ -4,6 +4,13 @@ import os
 from redturtle.prenotazioni.io_tools.api import Api
 
 
+def get_booking_folder_notification_flags(booking_folder):
+    return {
+        i: getattr(booking_folder, f"notify_on_{i}", False)
+        for i in ("confirm", "submit", "refuse")
+    }
+
+
 class BookingNotificationSupervisorUtility:
     """Supervisor to allow/deny the specific
     notification type according to business logic"""
@@ -11,7 +18,7 @@ class BookingNotificationSupervisorUtility:
     def is_email_message_allowed(self, booking):
         if getattr(
             booking.getPrenotazioniFolder(), "notifications_email_enabled", False
-        ):
+        ) and getattr(booking, "email", None):
             return True
 
         return False
@@ -36,7 +43,10 @@ class BookingNotificationSupervisorUtility:
     def is_sms_message_allowed(self, booking):
         if not getattr(
             booking.getPrenotazioniFolder(), "notifications_sms_enabled", False
-        ):
+        ) and getattr(booking, "email", None):
+            return False
+
+        if self.is_email_message_allowed(booking):
             return False
 
         if not self.is_appio_message_allowed(booking):

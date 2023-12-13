@@ -5,8 +5,12 @@ from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
 
 from redturtle.prenotazioni import is_migration
+from redturtle.prenotazioni.behaviors.booking_folder import (
+    get_booking_folder_notification_flags,
+)
+from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
-from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
+from redturtle.prenotazioni.utilities import handle_exception_by_log
 
 from .notification_email import INotificationEmail
 
@@ -17,15 +21,13 @@ def booking_folder_provides_current_behavior(booking):
     return INotificationEmail.providedBy(booking.getPrenotazioniFolder())
 
 
+@handle_exception_by_log
 def send_email_notification_on_transition(context, event) -> None:
     if not booking_folder_provides_current_behavior(context):
         return
 
     booking_folder = context.getPrenotazioniFolder()
-    flags = {
-        i: getattr(booking_folder, f"notify_on_{i}", False)
-        for i in ("confirm", "submit", "refuse")
-    }
+    flags = get_booking_folder_notification_flags(booking_folder)
 
     if flags["confirm"] and getattr(booking_folder, "auto_confirm", False):
         flags["submit"] = False
@@ -39,7 +41,7 @@ def send_email_notification_on_transition(context, event) -> None:
             return
         message_adapter = getMultiAdapter(
             (context, event),
-            IPrenotazioneEmailMessage,
+            IBookingEmailMessage,
         )
         sender_adapter = getMultiAdapter(
             (message_adapter, context, getRequest()),
@@ -52,6 +54,7 @@ def send_email_notification_on_transition(context, event) -> None:
 
 
 # TODO: use the notify_on_after_transition_event method techique instead
+@handle_exception_by_log
 def notify_on_move(booking, event):
     if not booking_folder_provides_current_behavior(booking):
         return
@@ -61,7 +64,7 @@ def notify_on_move(booking, event):
     if not getattr(booking, "email", ""):
         # booking does not have an email set
         return
-    message_adapter = getMultiAdapter((booking, event), IPrenotazioneEmailMessage)
+    message_adapter = getMultiAdapter((booking, event), IBookingEmailMessage)
     sender_adapter = getMultiAdapter(
         (message_adapter, booking, getRequest()),
         IBookingNotificationSender,
@@ -71,13 +74,14 @@ def notify_on_move(booking, event):
     sender_adapter.send()
 
 
+@handle_exception_by_log
 def send_booking_reminder(context, event):
     if not booking_folder_provides_current_behavior(context):
         return
 
     message_adapter = getMultiAdapter(
         (context, event),
-        IPrenotazioneEmailMessage,
+        IBookingEmailMessage,
         name="reminder_notification_message",
     )
     sender_adapter = getMultiAdapter(
@@ -89,6 +93,7 @@ def send_booking_reminder(context, event):
     sender_adapter.send()
 
 
+@handle_exception_by_log
 def send_email_to_managers(booking, event):
     if not booking_folder_provides_current_behavior(booking):
         return
@@ -103,7 +108,7 @@ def send_email_to_managers(booking, event):
         return
 
     message_adapter = getMultiAdapter(
-        (booking, event), IPrenotazioneEmailMessage, name="notify_manager"
+        (booking, event), IBookingEmailMessage, name="notify_manager"
     )
     sender_adapter = getMultiAdapter(
         (message_adapter, booking, getRequest()),

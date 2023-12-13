@@ -26,25 +26,24 @@ class IBookingReminderEvent(IObjectEvent):
     """Booking reminder time arrived event"""
 
 
-class IPrenotazioneEmailMessage(Interface):
-    """Prenotazione email message"""
-
-
 class IBookingNotificationSender(Interface):
     """Booking notification sender"""
 
 
-class IPrenotazioneSMSMessage(Interface):
-    """Prenotazione SMS message adapter"""
+class IBookingEmailMessage(Interface):
+    """Prenotazione email message which is being used by the email gateway"""
 
 
-class IPrenotazioneAPPIoMessage(Interface):
-    """Prenotazione AppIO message adapter"""
+class IBookingSMSMessage(Interface):
+    """Prenotazione SMS message adapter which is being used by the SMS gateway"""
 
 
-class IBookingAfterTransitionEvent(IObjectEvent):
-    """Booking After transition email"""
+class IBookingAPPIoMessage(Interface):
+    """Prenotazione AppIO message adapter which being used by the App IO gateway"""
 
 
 class IBookingNotificatorSupervisorUtility(Interface):
-    """Bookign notificator supervisor"""
+    """Bookign notificator supervisor
+    basically contains the business logic to allow/disallow the
+    notification sending to gateways
+    """

@@ -7,9 +7,9 @@ from zope.component import getUtility
 from zope.interface import implementer
 
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.interfaces import IBookingAPPIoMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
-from redturtle.prenotazioni.interfaces import IPrenotazioneAPPIoMessage
 from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.io_tools.api import Api
 
@@ -17,7 +17,7 @@ logger = getLogger(__name__)
 
 
 @implementer(IBookingNotificationSender)
-@adapter(IPrenotazioneAPPIoMessage, IPrenotazione, IRedturtlePrenotazioniLayer)
+@adapter(IBookingAPPIoMessage, IPrenotazione, IRedturtlePrenotazioniLayer)
 class BookingTransitionAPPIoSender:
     def __init__(self, message_adapter, booking, request) -> None:
         self.message_adapter = message_adapter
@@ -26,14 +26,18 @@ class BookingTransitionAPPIoSender:
 
     def send(self):
         message = self.message_adapter.message
-        subject = self.message_adapter.message
+        subject = self.message_adapter.subject
         booking_type = self.booking.get_booking_type()
         service_code = getattr(booking_type, "service_code", None)
+
         if not service_code:
             return
+
         api_key = os.environ.get(service_code)
+
         if not api_key:
             return
+
         if getUtility(IBookingNotificatorSupervisorUtility).is_appio_message_allowed(
             self.booking
         ):

@@ -17,11 +17,9 @@ class NotifyUpcomingBookings(BrowserView):
 
     def __call__(self):
         today = datetime.now().replace(hour=0, minute=0)
-        unrestricted_search = api.portal.get_tool(
-            "portal_catalog"
-        ).unrestrictedSearchResults
+        catalog = api.portal.get_tool("portal_catalog")
 
-        for brain in unrestricted_search(portal_type="PrenotazioniFolder"):
+        for brain in catalog(portal_type="PrenotazioniFolder"):
             booking_folder = brain.getObject()
             reminder_notification_gap = getattr(
                 booking_folder, "reminder_notification_gap", None
@@ -33,7 +31,7 @@ class NotifyUpcomingBookings(BrowserView):
                 )
                 continue
 
-            for booking in unrestricted_search(
+            for booking in catalog(
                 portal_type="Prenotazione",
                 path=brain.getPath(),
                 Date={

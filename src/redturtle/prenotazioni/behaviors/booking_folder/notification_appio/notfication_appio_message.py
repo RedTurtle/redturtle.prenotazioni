@@ -8,8 +8,8 @@ from zope.component import adapter
 from zope.interface import implementer
 
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.interfaces import IBookingAPPIoMessage
 from redturtle.prenotazioni.interfaces import IBookingReminderEvent
-from redturtle.prenotazioni.interfaces import IPrenotazioneAPPIoMessage
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 
 
@@ -26,7 +26,7 @@ class PrenotazioneAPPIoMessage:
         NotImplementedError
 
 
-@implementer(IPrenotazioneAPPIoMessage)
+@implementer(IBookingAPPIoMessage)
 @adapter(IPrenotazione, IMovedPrenotazione)
 class PrenotazioneMovedAPPIoMessage(PrenotazioneAPPIoMessage):
     @property
@@ -52,7 +52,7 @@ class PrenotazioneMovedAPPIoMessage(PrenotazioneAPPIoMessage):
         )
 
 
-@implementer(IPrenotazioneAPPIoMessage)
+@implementer(IBookingAPPIoMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
 class PrenotazioneAfterTransitionAPPIoMessage(PrenotazioneAPPIoMessage):
     @property
@@ -76,7 +76,7 @@ class PrenotazioneAfterTransitionAPPIoMessage(PrenotazioneAPPIoMessage):
         )
 
 
-@implementer(IPrenotazioneAPPIoMessage)
+@implementer(IBookingAPPIoMessage)
 @adapter(IPrenotazione, IBookingReminderEvent)
 class PrenotazioneReminderAppIOMessage(PrenotazioneAPPIoMessage):
     @property

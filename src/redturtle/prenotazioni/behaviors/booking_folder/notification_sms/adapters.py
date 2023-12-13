@@ -9,13 +9,13 @@ from zope.interface import implementer
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
-from redturtle.prenotazioni.interfaces import IPrenotazioneSMSMessage
+from redturtle.prenotazioni.interfaces import IBookingSMSMessage
 
 logger = getLogger(__name__)
 
 
 @implementer(IBookingNotificationSender)
-@adapter(IPrenotazioneSMSMessage, IPrenotazione, Interface)
+@adapter(IBookingSMSMessage, IPrenotazione, Interface)
 class BookingNotificationSender:
     def __init__(self, message_adapter, booking, request) -> None:
         self.message_adapter = message_adapter

@@ -21,8 +21,8 @@ from zope.lifecycleevent import IObjectAddedEvent
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingReminderEvent
-from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 
 
@@ -98,7 +98,7 @@ class PrenotazioneEventMessageICalMixIn:
         return message
 
 
-@implementer(IPrenotazioneEmailMessage)
+@implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, IMovedPrenotazione)
 class PrenotazioneMovedICalEmailMessage(
     PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
@@ -127,7 +127,7 @@ class PrenotazioneMovedICalEmailMessage(
         )
 
 
-@implementer(IPrenotazioneEmailMessage)
+@implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
 class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
     @property
@@ -154,7 +154,7 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
         )
 
 
-@implementer(IPrenotazioneEmailMessage)
+@implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
 class PrenotazioneAfterTransitionEmailICalMessage(
     PrenotazioneEventMessageICalMixIn, PrenotazioneAfterTransitionEmailMessage
@@ -162,7 +162,7 @@ class PrenotazioneAfterTransitionEmailICalMessage(
     pass
 
 
-@implementer(IPrenotazioneEmailMessage)
+@implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, IObjectAddedEvent)
 class PrenotazioneManagerEmailMessage(
     PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
@@ -260,7 +260,7 @@ class PrenotazioneManagerEmailMessage(
         return MIMEText(mail_template(**parameters), "html")
 
 
-@implementer(IPrenotazioneEmailMessage)
+@implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, IBookingReminderEvent)
 class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
     @property
