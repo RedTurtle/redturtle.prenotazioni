@@ -21,6 +21,9 @@ Changelog
 
 - Remove duplicated method in booker: create. Now there is only `book`.
   [cekk]
+- Add flag `auto_confirm_manager` that allows to automatically confirm bookings created by Booking Managers.
+  [cekk]
+
 
 2.2.5 (2023-12-04)
 ------------------

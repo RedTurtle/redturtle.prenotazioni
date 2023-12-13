@@ -71,6 +71,15 @@ class Booker(object):
         ) >= (self.context.max_bookings_allowed):
             raise BookingsLimitExceded(self.context, booking_type=data["booking_type"])
 
+    @property
+    def is_gestore(self):
+        """
+        Check if current user is Gestore
+        """
+        return api.user.has_permission(
+            "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
+        )
+
     def search_future_bookings_by_fiscalcode(
         self, fiscalcode: str, booking_type: str = None
     ) -> LazyMap:
@@ -254,6 +263,13 @@ class Booker(object):
         if not obj:
             msg = _("Sorry, this slot is not available anymore.")
             raise BookerException(api.portal.translate(msg))
+
+        if self.is_gestore:
+            if not getattr(self.context, "auto_confirm", False) and getattr(
+                self.context, "auto_confirm_manager", False
+            ):
+                # if self.context.auto_confirm  is True, auto confirm is made in event handler for all
+                api.content.transition(obj=obj, transition="confirm")
         return obj
 
     def move(self, booking, data):

@@ -21,6 +21,12 @@ class AddBooking(BookingSchema):
     Add a new booking
     """
 
+    @property
+    def is_gestore(self):
+        return api.user.has_permission(
+            "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
+        )
+
     def reply(self):
         data, data_fields = self.validate()
         force = data.get("force", False)
@@ -36,22 +42,17 @@ class AddBooking(BookingSchema):
             if force:
                 # TODO: in futuro potrebbe forzare anche la data di fine oltre al gate
                 # create ha un parametro "duration" che può essere usato a questo scopo
-
-                if not api.user.has_permission(
-                    "redturtle.prenotazioni: Manage Prenotazioni",
-                    obj=self.context,
-                ):
-                    msg = self.context.translate(
-                        _("You are not allowed to force the gate.")
-                    )
-                    raise BadRequest(msg)
                 gate = data.get("gate", None)
                 duration = int(data.get("duration", -1))
-                obj = booker.book(data=book_data, force_gate=gate, duration=duration)
+                obj = booker.book(
+                    data=book_data,
+                    force_gate=gate,
+                    duration=duration,
+                )
             else:
                 obj = booker.book(data=book_data)
         except BookerException as e:
-            raise BadRequest(str(e))
+            raise BadRequest(e) from e
         if not obj:
             msg = self.context.translate(
                 _("Sorry, this slot is not available anymore.")
@@ -64,6 +65,10 @@ class AddBooking(BookingSchema):
     def validate(self):
         data = json_body(self.request)
         data_fields = {field["name"]: field["value"] for field in data["fields"]}
+
+        if data.get("force", False) and not self.is_gestore:
+            msg = self.context.translate(_("You are not allowed to force the gate."))
+            raise BadRequest(msg)
 
         # campi che non sono nei data_fields
         for field in ("booking_date", "booking_type"):
