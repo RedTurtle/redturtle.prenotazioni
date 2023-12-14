@@ -208,6 +208,9 @@ class PrenotazioneManagerEmailMessage(PrenotazioneEventEmailMessage):
 
     @property
     def message_subject(self) -> str:
+        """
+        return subject
+        """
         booking_type = getattr(self.prenotazione, "booking_type", "")
         booking_code = getattr(self.prenotazione, "booking_code", "")
         date = self.prenotazione.booking_date.strftime("%d-%m-%Y %H:%M")
