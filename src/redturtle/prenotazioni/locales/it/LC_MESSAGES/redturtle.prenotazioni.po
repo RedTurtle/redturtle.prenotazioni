@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-12-11 12:51+0000\n"
+"POT-Creation-Date: 2023-12-14 13:19+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -1102,11 +1102,6 @@ msgstr "Sposta la prenotazione"
 #: redturtle/prenotazioni/browser/templates/prenotazione_move.pt:39
 msgid "move_message"
 msgstr "Spostare l'appuntamento selezionato in un area libera oppure"
-
-#. Default: "[${context} - gate ${gate}] New booking on ${date} by ${name}"
-#: redturtle/prenotazioni/adapters/prenotazione_email_message.py:215
-msgid "new_booking_admin_notify_subject"
-msgstr "[${context} - sportello ${gate}] Nuova prenotazione da parte di ${name} per il ${date}"
 
 #. Default: "next week"
 #: redturtle/prenotazioni/browser/templates/prenotazione_macros.pt:39
