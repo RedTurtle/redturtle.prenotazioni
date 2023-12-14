@@ -15,11 +15,9 @@ from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
 from zope.component import getAdapter
-from zope.i18n import translate
 from zope.interface import implementer
 from zope.lifecycleevent import IObjectAddedEvent
 
-from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IPrenotazioneEmailMessage
@@ -210,20 +208,13 @@ class PrenotazioneManagerEmailMessage(PrenotazioneEventEmailMessage):
 
     @property
     def message_subject(self) -> str:
-        booking_folder = self.prenotazione.getPrenotazioniFolder()
-        return translate(
-            _(
-                "new_booking_admin_notify_subject",
-                default="[${context} - gate ${gate}] New booking on ${date} by ${name}",
-                mapping={
-                    "context": booking_folder.title,
-                    "gate": getattr(self.prenotazione, "gate", ""),
-                    "date": self.prenotazione.booking_date.strftime("%d-%m-%Y %H:%M"),
-                    "name": self.prenotazione.Title(),
-                },
-            ),
-            context=self.prenotazione.REQUEST,
-        )
+        """
+        return subject
+        """
+        booking_type = getattr(self.prenotazione, "booking_type", "")
+        booking_code = getattr(self.prenotazione, "booking_code", "")
+        date = self.prenotazione.booking_date.strftime("%d-%m-%Y %H:%M")
+        return f"[{booking_type}] {date} {booking_code}"
 
     @property
     def message_text(self) -> MIMEText:
