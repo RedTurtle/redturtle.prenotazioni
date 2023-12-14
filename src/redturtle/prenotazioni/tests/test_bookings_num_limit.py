@@ -46,14 +46,14 @@ class TestEmailToManagers(unittest.TestCase):
             gates=["Gate A"],
         )
 
-        api.content.create(
+        type_a = api.content.create(
             type="PrenotazioneType",
             title="Type A",
             duration=30,
             container=self.folder_prenotazioni,
             gates=["all"],
         )
-        api.content.create(
+        type_b = api.content.create(
             type="PrenotazioneType",
             title="Type B",
             duration=90,
@@ -67,6 +67,10 @@ class TestEmailToManagers(unittest.TestCase):
             data["morning_end"] = "1000"
         self.folder_prenotazioni.week_table = week_table
 
+        api.content.transition(obj=self.folder_prenotazioni, transition="publish")
+        api.content.transition(obj=type_a, transition="publish")
+        api.content.transition(obj=type_b, transition="publish")
+
         self.today_8_0 = self.dt_local_to_utc(
             datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
         )
@@ -79,7 +83,7 @@ class TestEmailToManagers(unittest.TestCase):
 
     def create_booking(self, data: dict):
         booker = IBooker(self.folder_prenotazioni)
-        return booker.create(data)
+        return booker.book(data)
 
     def test_limit_exceeded_raises_exception(self):
         self.folder_prenotazioni.max_bookings_allowed = 1
