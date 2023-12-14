@@ -12,6 +12,7 @@ from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
 from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.io_tools.api import Api
+from redturtle.prenotazioni.io_tools.storage import logstorage
 
 logger = getLogger(__name__)
 
@@ -41,7 +42,7 @@ class BookingTransitionAPPIoSender:
         if getUtility(IBookingNotificatorSupervisorUtility).is_appio_message_allowed(
             self.booking
         ):
-            api = Api(secret=api_key)
+            api = Api(secret=api_key, storage=logstorage)
             id = api.send_message(
                 fiscal_code=self.booking.fiscalcode,
                 subject=self.message_adapter.subject,
