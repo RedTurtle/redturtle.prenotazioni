@@ -221,9 +221,11 @@ class Api(object):
         if not self.get_profile(fiscal_code):
             return None
 
+        fiscal_code = self.api.get_model("FiscalCodePayload")(fiscal_code=fiscal_code)
+
         try:
             return self.api.activations.getServiceActivationByPOST(
-                fiscalcode=fiscal_code
+                body=fiscal_code
             ).result
 
         except HTTPForbidden:
