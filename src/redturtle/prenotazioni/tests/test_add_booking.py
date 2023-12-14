@@ -389,14 +389,6 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
-        api.user.create(
-            email="user@example.com",
-            username="jdoe",
-            password="secret!!!",
-        )
-
-        api.user.grant_roles(username="jdoe", roles=["Bookings Manager"])
-
         self.portal_url = self.portal.absolute_url()
 
         api.user.create(
@@ -431,9 +423,6 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
             row["morning_start"] = "0700"
             row["morning_end"] = "1000"
         self.folder_prenotazioni.week_table = week_table
-
-        api.content.transition(obj=self.folder_prenotazioni, transition="publish")
-        api.content.transition(obj=type_a, transition="publish")
 
     def create_booking(self, data: dict):
         booker = IBooker(self.folder_prenotazioni)
