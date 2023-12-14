@@ -226,9 +226,11 @@ class Api(object):
         )
 
         try:
-            return self.api.activations.getServiceActivationByPOST(
-                body=fiscal_code
-            ).result
+            return getattr(
+                self.api.profiles.getProfileByPOST(payload=fiscal_code).result(),
+                "sender_allowed",
+                False,
+            )
 
         except HTTPForbidden:
             logger.error(
