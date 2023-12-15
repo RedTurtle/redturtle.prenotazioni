@@ -144,7 +144,7 @@ class TestAvailableSlots(unittest.TestCase):
 
         # create a placeholder for first available monday
         booker = IBooker(self.folder_prenotazioni)
-        booker.create(
+        booker.book(
             {
                 "booking_date": self.dt_local_to_utc(
                     datetime(now.year, now.month, monday, 7, 0)
@@ -185,7 +185,7 @@ class TestAvailableSlots(unittest.TestCase):
 
         # create a placeholder for first available monday
         booker = IBooker(self.folder_prenotazioni)
-        booker.create(
+        booker.book(
             {
                 "booking_date": self.dt_local_to_utc(
                     datetime(now.year, now.month, monday, 7, 0)

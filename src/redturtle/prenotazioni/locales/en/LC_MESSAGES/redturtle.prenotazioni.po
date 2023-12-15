@@ -585,6 +585,16 @@ msgstr ""
 msgid "auto_confirm_help"
 msgstr ""
 
+#. Default: "Automatically confirmfor managers."
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:448
+msgid "auto_confirm_manager"
+msgstr ""
+
+#. Default: "All bookings created by Managers will be automatically accepted."
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:449
+msgid "auto_confirm_manager_help"
+msgstr ""
+
 #. Default: "End date should be greater than start."
 #: redturtle/prenotazioni/restapi/services/available_slots/get.py:44
 msgid "available_slots_wrong_dates"

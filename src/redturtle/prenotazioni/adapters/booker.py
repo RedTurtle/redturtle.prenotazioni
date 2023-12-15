@@ -71,6 +71,15 @@ class Booker(object):
         ) >= (self.context.max_bookings_allowed):
             raise BookingsLimitExceded(self.context, booking_type=data["booking_type"])
 
+    @property
+    def is_manager(self):
+        """
+        Check if current user is Gestore
+        """
+        return api.user.has_permission(
+            "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
+        )
+
     def search_future_bookings_by_fiscalcode(
         self, fiscalcode: str, booking_type: str = None
     ) -> LazyMap:
@@ -122,6 +131,17 @@ class Booker(object):
         # max_free_time = max(free_time_map.keys())
         # less_used_gates = free_time_map[max_free_time]
         # return choice(less_used_gates)
+
+    def check_future_days(self, booking, data):
+        """
+        Check if date is in the right range.
+        Managers bypass this check
+        """
+        future_days = booking.getFutureDays()
+        if future_days and not self.prenotazioni.user_can_manage_prenotazioni:
+            if exceedes_date_limit(data, future_days):
+                msg = _("Sorry, you can not book this slot for now.")
+                raise BookerException(api.portal.translate(msg))
 
     def _create(self, data, duration=-1, force_gate=""):
         """Create a Booking object
@@ -201,16 +221,6 @@ class Booker(object):
         api.content.transition(obj, "submit")
         return obj
 
-    def create(self, data, duration=-1, force_gate=""):
-        """
-        Create a Booking object
-
-        Like create but we disable security checks to allow creation
-        for anonymous users
-        """
-        with api.env.adopt_roles(["Manager", "Member"]):
-            return self._create(data, duration=duration, force_gate=force_gate)
-
     def fix_container(self, booking):
         """Take a booking and move it to the right date"""
         booking_date = booking.getBooking_date()
@@ -225,18 +235,18 @@ class Booker(object):
 
     def book(self, data, force_gate=None, duration=-1):
         """
-        Book a resource
+        Create a Booking object
+
+        Like create but we disable security checks to allow creation
+        for anonymous users
         """
         data["booking_date"] = datetime_with_tz(data["booking_date"])
+
+        self.check_future_days(booking=self.context, data=data)
 
         conflict_manager = self.prenotazioni.conflict_manager
         if conflict_manager.conflicts(data):
             msg = _("Sorry, this slot is not available anymore.")
-            raise BookerException(api.portal.translate(msg))
-
-        future_days = self.context.getFutureDays()
-        if future_days and exceedes_date_limit(data, future_days):
-            msg = _("Sorry, you can not book this slot for now.")
             raise BookerException(api.portal.translate(msg))
 
         # XXX: deprecated
@@ -247,10 +257,19 @@ class Booker(object):
             if "gate" in params:
                 force_gate = params["gate"][0]
 
-        obj = self.create(data=data, force_gate=force_gate, duration=duration)
+        with api.env.adopt_roles(["Manager", "Member"]):
+            obj = self._create(data, duration=duration, force_gate=force_gate)
+
         if not obj:
             msg = _("Sorry, this slot is not available anymore.")
             raise BookerException(api.portal.translate(msg))
+
+        if self.is_manager:
+            if not getattr(self.context, "auto_confirm", False) and getattr(
+                self.context, "auto_confirm_manager", False
+            ):
+                # if self.context.auto_confirm  is True, auto confirm is made in event handler for all
+                api.content.transition(obj=obj, transition="confirm")
         return obj
 
     def move(self, booking, data):
@@ -275,10 +294,7 @@ class Booker(object):
             )
             raise BookerException(api.portal.translate(msg))
 
-        future_days = booking.getFutureDays()
-        if future_days and exceedes_date_limit(data, future_days):
-            msg = _("Sorry, you can not book this slot for now.")
-            raise BookerException(api.portal.translate(msg))
+        self.check_future_days(booking=booking, data=data)
 
         # move the booking
         duration = booking.getDuration()
@@ -336,5 +352,5 @@ class Booker(object):
                     slot_data = {k: v for k, v in data.items() if k != "gate"}
                     slot_data["booking_date"] = start
                     slot_data["booking_type"] = VACATION_TYPE
-                    if self.create(slot_data, duration=duration, force_gate=gate):
+                    if self.book(slot_data, duration=duration, force_gate=gate):
                         return 1

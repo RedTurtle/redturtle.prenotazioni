@@ -111,7 +111,7 @@ class TestSendIcal(unittest.TestCase):
 
     def create_booking(self):
         booker = IBooker(self.folder_prenotazioni)
-        return booker.create(
+        return booker.book(
             {
                 "booking_date": self.tomorrow,  # tomorrow
                 "booking_type": "Type A",
