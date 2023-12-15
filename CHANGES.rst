@@ -5,6 +5,9 @@ Changelog
 2.2.6 (unreleased)
 ------------------
 
+- Add booking_type vocabularies for portal_root
+  [mamico]
+
 - Update the min booking type length value to 5min.
   [folix-01]
 
