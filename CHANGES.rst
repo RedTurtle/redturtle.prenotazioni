@@ -8,6 +8,9 @@ Changelog
 - Add booking_type vocabularies for portal_root
   [mamico]
 
+- Improve manager mail notification subject to include also name and date.
+  [cekk]
+
 - Update the min booking type length value to 5min.
   [folix-01]
 
@@ -17,11 +20,15 @@ Changelog
 - Fix upgrade step error #139 
   [mamico]
 
+- Add flag `auto_confirm_manager` that allows to automatically confirm bookings created by Booking Managers.
+  [cekk]
+
 - Booking Managers bypass futureDays checks when create new bookings.
   [cekk]
 
 - Remove duplicated method in booker: create. Now there is only `book`.
   [cekk]
+
 
 2.2.5 (2023-12-04)
 ------------------
