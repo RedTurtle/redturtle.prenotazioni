@@ -74,7 +74,7 @@ class INotificationSMS(model.Schema):
             "notifications_sms_enabled_help",
             default="Enable SMS notifications.",
         ),
-        default=True,
+        default=False,
         required=False,
     )
     notify_on_submit_sms_message = schema.Text(
