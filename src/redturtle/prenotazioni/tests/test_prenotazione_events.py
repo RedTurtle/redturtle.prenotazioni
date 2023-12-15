@@ -48,6 +48,7 @@ class TestSPrenotazioneEvents(unittest.TestCase):
             description="",
             daData=date.today(),
             gates=["Gate A"],
+            auto_confirm_manager=False,  # is True by default, but we are testing everything as manager
         )
 
         api.content.create(
