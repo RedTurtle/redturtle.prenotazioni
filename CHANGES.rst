@@ -5,6 +5,9 @@ Changelog
 2.2.6 (unreleased)
 ------------------
 
+- Improve manager mail notification subject to include also name and date.
+  [cekk]
+
 - Update the min booking type length value to 5min.
   [folix-01]
 

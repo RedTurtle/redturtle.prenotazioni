@@ -82,7 +82,7 @@ class TestEmailToManagers(unittest.TestCase):
     def test_email_sent_to_managers_on_creation(self):
         self.assertFalse(self.mailhost.messages)
 
-        self.create_booking()
+        booking = self.create_booking()
 
         self.assertEqual(len(self.mailhost.messages), 1)
 
@@ -90,10 +90,8 @@ class TestEmailToManagers(unittest.TestCase):
 
         self.assertTrue(mail.is_multipart())
 
-        self.assertIn(
-            "New booking for Prenota foo",
-            "".join([i for i in mail.values()]),
-        )
+        expected = f'[{booking.booking_type}] {booking.booking_date.strftime("%d-%m-%Y %H:%M")} {booking.booking_code}'
+        self.assertIn(expected, "".join([i for i in mail.values()]))
         self.assertIn(
             "Go to the booking to see more details and manage it",
             mail.get_payload()[0].get_payload(),
