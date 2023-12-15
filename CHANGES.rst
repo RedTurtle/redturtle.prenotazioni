@@ -5,6 +5,9 @@ Changelog
 2.2.6 (unreleased)
 ------------------
 
+- Add booking_type vocabularies for portal_root
+  [mamico]
+
 - Improve manager mail notification subject to include also name and date.
   [cekk]
 
