@@ -12,7 +12,7 @@ from plone.app.testing import setRoles
 class TestVocabularies(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
-    def setUp(self): 
+    def setUp(self):
         self.app = self.layer["app"]
         self.portal = self.layer["portal"]
         self.portal_url = self.portal.absolute_url()
@@ -62,8 +62,13 @@ class TestVocabularies(unittest.TestCase):
     def tearDown(self):
         pass
 
-
     def test_booking_types(self):
-        factory = getUtility(IVocabularyFactory, name="redturtle.prenotazioni.booking_types")
-        self.assertEqual(set(factory(self.portal).by_token.keys()), {'Type A', 'Type B', 'Type C'})
-        self.assertEqual(set(factory(self.folder_prenotazioni).by_token.keys()), {'Type A', 'Type B'})        
+        factory = getUtility(
+            IVocabularyFactory, name="redturtle.prenotazioni.booking_types"
+        )
+        self.assertEqual(
+            set(factory(self.portal).by_token.keys()), {"Type A", "Type B", "Type C"}
+        )
+        self.assertEqual(
+            set(factory(self.folder_prenotazioni).by_token.keys()), {"Type A", "Type B"}
+        )
