@@ -31,14 +31,12 @@ class PrenotazioneAPPIoMessage:
 class PrenotazioneMovedAPPIoMessage(PrenotazioneAPPIoMessage):
     @property
     def message(self) -> str:
-        return (
-            IStringInterpolator(IContextWrapper(self.prenotazione)())(
-                getattr(
-                    self.prenotazione.getPrenotazioniFolder(),
-                    "notify_on_move_appio_message",
-                    None,
-                ),
-            ),
+        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(
+                self.prenotazione.getPrenotazioniFolder(),
+                "notify_on_move_appio_message",
+                None,
+            )
         )
 
     @property
@@ -62,7 +60,7 @@ class PrenotazioneAfterTransitionAPPIoMessage(PrenotazioneAPPIoMessage):
                 self.prenotazione.getPrenotazioniFolder(),
                 f"notify_on_{self.event.transition and self.event.transition.__name__}_appio_message",
                 None,
-            ),
+            )
         )
 
     @property
@@ -72,7 +70,7 @@ class PrenotazioneAfterTransitionAPPIoMessage(PrenotazioneAPPIoMessage):
                 self.prenotazione.getPrenotazioniFolder(),
                 f"notify_on_{self.event.transition and self.event.transition.__name__}_appio_subject",
                 None,
-            ),
+            )
         )
 
 
