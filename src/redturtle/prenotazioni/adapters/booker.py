@@ -72,7 +72,7 @@ class Booker(object):
             raise BookingsLimitExceded(self.context, booking_type=data["booking_type"])
 
     @property
-    def is_gestore(self):
+    def is_manager(self):
         """
         Check if current user is Gestore
         """
@@ -264,7 +264,7 @@ class Booker(object):
             msg = _("Sorry, this slot is not available anymore.")
             raise BookerException(api.portal.translate(msg))
 
-        if self.is_gestore:
+        if self.is_manager:
             if not getattr(self.context, "auto_confirm", False) and getattr(
                 self.context, "auto_confirm_manager", False
             ):

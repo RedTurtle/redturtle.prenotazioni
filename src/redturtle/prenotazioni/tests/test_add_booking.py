@@ -389,14 +389,6 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
-        api.user.create(
-            email="user@example.com",
-            username="jdoe",
-            password="secret!!!",
-        )
-
-        api.user.grant_roles(username="jdoe", roles=["Bookings Manager"])
-
         self.portal_url = self.portal.absolute_url()
 
         api.user.create(

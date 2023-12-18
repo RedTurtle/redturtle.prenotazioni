@@ -22,7 +22,7 @@ class AddBooking(BookingSchema):
     """
 
     @property
-    def is_gestore(self):
+    def is_manager(self):
         return api.user.has_permission(
             "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
         )
@@ -66,7 +66,7 @@ class AddBooking(BookingSchema):
         data = json_body(self.request)
         data_fields = {field["name"]: field["value"] for field in data["fields"]}
 
-        if data.get("force", False) and not self.is_gestore:
+        if data.get("force", False) and not self.is_manager:
             msg = self.context.translate(_("You are not allowed to force the gate."))
             raise BadRequest(msg)
 

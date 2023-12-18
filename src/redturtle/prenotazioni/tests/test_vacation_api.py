@@ -6,6 +6,7 @@ from datetime import timedelta
 
 import pytz
 import transaction
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
@@ -14,6 +15,8 @@ from plone.app.testing import setRoles
 from plone.restapi.testing import RelativeSession
 
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+
+DATE_STR = "2023-05-14"  # far from holidays
 
 
 class TestVacationgApi(unittest.TestCase):
@@ -81,14 +84,16 @@ class TestVacationgApi(unittest.TestCase):
         self.api_session_admin.close()
         self.api_session_anon.close()
 
-    @unittest.skipIf(
-        date.today().day >= 20 or date.today().day <= 8,
-        "issue testing in the last days of a month",
-    )
+    @freeze_time(DATE_STR)
     def test_add_vacation(self):
+        self.folder_prenotazioni.daData = date.today()
+        transaction.commit()
         # UTC time
-        start = self.next_monday.replace(hour=8, minute=0)
-        end = self.next_monday.replace(hour=9, minute=30)
+        next_monday = datetime.now().replace(second=0, microsecond=0).astimezone(
+            pytz.utc
+        ) + timedelta(days=(datetime.today().weekday()) % 7 + 7)
+        start = next_monday.replace(hour=8, minute=0)
+        end = next_monday.replace(hour=9, minute=30)
         gate = self.folder_prenotazioni.gates[0]
         res = self.api_session_admin.post(
             f"{self.folder_prenotazioni.absolute_url()}/@vacation",
@@ -135,11 +140,17 @@ class TestVacationgApi(unittest.TestCase):
             "Sorry, this slot is not available anymore.",
         )
 
+    @freeze_time(DATE_STR)
     def test_add_vacation_wrong_hours(self):
-        # add vacation outside of working hours
+        """add vacation outside of working hours"""
+        self.folder_prenotazioni.daData = date.today()
+        transaction.commit()
         # UTC time
-        start = self.next_monday.replace(hour=20, minute=0)
-        end = self.next_monday.replace(hour=21, minute=30)
+        next_monday = datetime.now().replace(second=0, microsecond=0).astimezone(
+            pytz.utc
+        ) + timedelta(days=(datetime.today().weekday()) % 7 + 7)
+        start = next_monday.replace(hour=20, minute=0)
+        end = next_monday.replace(hour=21, minute=30)
         gate = self.folder_prenotazioni.gates[0]
         res = self.api_session_admin.post(
             f"{self.folder_prenotazioni.absolute_url()}/@vacation",
@@ -160,7 +171,7 @@ class TestVacationgApi(unittest.TestCase):
         res = self.api_session_anon.post(
             self.folder_prenotazioni.absolute_url() + "/@booking",
             json={
-                "booking_date": self.next_monday.replace(hour=10, minute=0).isoformat(),
+                "booking_date": next_monday.replace(hour=10, minute=0).isoformat(),
                 "booking_type": "Type A",
                 "fields": [
                     {"name": "title", "value": "Mario Rossi"},

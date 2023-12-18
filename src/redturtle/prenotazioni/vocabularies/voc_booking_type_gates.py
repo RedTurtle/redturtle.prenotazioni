@@ -1,17 +1,10 @@
 # -*- coding: utf-8 -*-
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.utils import getPrenotazioniFolder
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
-
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni.utils import getPrenotazioniFolder
-
-
-class VocabItem(object):
-    def __init__(self, token, value):
-        self.token = token
-        self.value = value
 
 
 @implementer(IVocabularyFactory)
