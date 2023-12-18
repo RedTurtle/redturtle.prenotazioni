@@ -1272,7 +1272,7 @@ msgstr "Notifica alla conferma"
 #. Default: "The booking ${booking_type} for ${title} has been confirmed.<br/><br/>You can see details and print a reminder following this [link](${booking_print_url})."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:48
 msgid "notify_on_confirm_appio_message_default_value"
-msgstr "La prenotazione ${booking_type} per ${title} è stata confermata.<br/><br/>Dal tuo [promemoria](${booking_print_url}) puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
+msgstr "La prenotazione ${booking_type} per ${title} è stata confermata.\\nDal tuo [promemoria](${booking_print_url}) puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
 
 #. Default: "[${prenotazioni_folder_title}] Booking of ${booking_date} at ${booking_time} was accepted"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:38
@@ -1335,7 +1335,7 @@ msgstr "Notifica allo spostamento"
 #. Default: "The booking scheduling for ${booking_type} was modified.<br/><br/>The new one is on ${booking_date} at ${booking_time}.<br/><br/>You can see details and print a reminder following this [link](${booking_print_url})."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:69
 msgid "notify_on_move_appio_message_default_value"
-msgstr "L'orario della sua prenotazione ${booking_type} è stato modificato.<br/><br/>La nuova data è ${booking_date} alle ore ${booking_time}.<br/><br/>Dal tuo [promemoria](${booking_print_url}) puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
+msgstr "L'orario della sua prenotazione ${booking_type} è stato modificato.\\nLa nuova data è ${booking_date} alle ore ${booking_time}.<br/><br/>Dal tuo [promemoria](${booking_print_url}) puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
 
 #. Default: "[${prenotazioni_folder_title}] Booking date modified for ${title}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:59
@@ -1382,7 +1382,7 @@ msgstr "[Spostamento] oggetto"
 #. Default: "[${prenotazioni_folder_title}] Booking date modified for ${title}"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_email/notification_email.py:59
 msgid "notify_on_move_subject_default_value"
-msgstr "[${prenotazioni_folder_title}] Data di prenotazione modificata per ${title}"
+msgstr "[${prenotazioni_folder_title}] Data di prenotazione modificata per ${title} - ${booking_date}"
 
 #. Default: "The message subject when a booking has been moved."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:183
@@ -1461,7 +1461,7 @@ msgstr "Notifica alla creazione"
 #. Default: "Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.<br/><br/>You can see details and print a reminder following this [${booking_print_url}](link)."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:28
 msgid "notify_on_submit_appio_message_default_value"
-msgstr "La prenotazione ${booking_type} per il ${booking_date} alle ${booking_time} è stata creata.<br/><br/>Dal tuo [${booking_print_url}](promemoria) puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
+msgstr "La prenotazione ${booking_type} per il ${booking_date} alle ${booking_time} è stata creata.\\nDal tuo [${booking_print_url}](promemoria) puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
 
 #. Default: "[${prenotazioni_folder_title}] Booking created"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:18

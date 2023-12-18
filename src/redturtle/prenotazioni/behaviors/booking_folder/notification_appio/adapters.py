@@ -45,8 +45,8 @@ class BookingTransitionAPPIoSender:
             api = Api(secret=api_key, storage=logstorage)
             id = api.send_message(
                 fiscal_code=self.booking.fiscalcode,
-                subject=self.message_adapter.subject,
-                body=self.message_adapter.message,
+                subject=subject,
+                body=message,
             )
 
             if not id:

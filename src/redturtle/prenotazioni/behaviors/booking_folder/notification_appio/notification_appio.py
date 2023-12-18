@@ -137,6 +137,7 @@ class INotificationAppIO(model.Schema):
             default="The message subject when a booking has been created.",
         ),
         defaultFactory=notify_on_submit_appio_subject_default_factory,
+        max_length=80,
         required=False,
     )
     notify_on_submit_appio_message = schema.Text(
@@ -161,6 +162,7 @@ class INotificationAppIO(model.Schema):
             default="The message subject when a booking has been confirmed.",
         ),
         defaultFactory=notify_on_confirm_appio_subject_default_factory,
+        max_length=80,
         required=False,
     )
     notify_on_confirm_appio_message = schema.Text(
@@ -185,6 +187,7 @@ class INotificationAppIO(model.Schema):
             default="The message subject when a booking has been moved.",
         ),
         defaultFactory=notify_on_move_appio_subject_default_factory,
+        max_length=80,
         required=False,
     )
     notify_on_move_appio_message = schema.Text(
@@ -209,6 +212,7 @@ class INotificationAppIO(model.Schema):
             default="The message subject when a booking has been refused.",
         ),
         defaultFactory=notify_on_refuse_appio_subject_default_factory,
+        max_length=80,
         required=False,
     )
     notify_on_refuse_appio_message = schema.Text(
@@ -233,6 +237,7 @@ class INotificationAppIO(model.Schema):
             default="The message subject when a reminder will be sent.",
         ),
         defaultFactory=notify_as_reminder_appio_subject_default_factory,
+        max_length=80,
         required=False,
     )
     notify_as_reminder_appio_message = schema.Text(
