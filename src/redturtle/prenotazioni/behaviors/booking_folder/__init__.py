@@ -51,7 +51,7 @@ class BookingNotificationSupervisorUtility:
             return False
 
         if booking.phone:
-            True
+            return True
 
         return False
 
