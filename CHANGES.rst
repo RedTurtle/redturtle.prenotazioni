@@ -4,7 +4,7 @@ Changelog
 1.7.7 (unreleased)
 ------------------
 
-- Add the booking code to SearchableText index.
+- Add the booking code to SearchableText index(cherry-picked from 79894d814089ce5827f6ac2454303e248f7b881e).
   [folix-01]
 
 
