@@ -56,7 +56,7 @@ setup(
         # -*- Extra requirements: -*-
         "z3c.jbot",
         "plone.api>=1.8.4",
-        "plone.restapi",
+        "plone.restapi>=8.38.0",
         "collective.contentrules.mailfromfield>=1.2.0",
         "pyinter",
         "collective.honeypot",
