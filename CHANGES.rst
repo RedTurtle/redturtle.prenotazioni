@@ -29,7 +29,9 @@ Changelog
 - Remove duplicated method in booker: create. Now there is only `book`.
   [cekk]
 
-
+- Hide PrenotazioniYear in add menu for restapi.
+  [cekk]
+ 
 2.2.5 (2023-12-04)
 ------------------
 
