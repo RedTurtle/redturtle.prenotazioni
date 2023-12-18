@@ -1220,7 +1220,7 @@ msgstr "[${prenotazioni_folder_title}] Promemoria prenotazione del ${booking_dat
 #. Default: "The message subject when a reminder will be sent."
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:231
 msgid "notify_as_reminder_appio_subject_help"
-msgstr ""
+msgstr "L'oggetto del messaggio inviato come promemoria."
 
 #. Default: "[Reminder] message"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:239
