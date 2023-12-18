@@ -33,7 +33,9 @@ Changelog
 - Add flag `auto_confirm_manager` that allows to automatically confirm bookings created by Booking Managers.
   [cekk]
 
-
+- Hide PrenotazioniYear in add menu for restapi.
+  [cekk]
+ 
 2.2.5 (2023-12-04)
 ------------------
 
