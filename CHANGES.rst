@@ -4,7 +4,8 @@ Changelog
 1.7.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add the booking code to SearchableText index.
+  [folix-01]
 
 
 1.7.6 (2023-12-13)

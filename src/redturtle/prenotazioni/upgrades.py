@@ -184,3 +184,8 @@ def to_1401(context):
             for workflow_action in workflow_action_conditions:
                 if workflow_action.transition == "publish":
                     workflow_action.transition = "confirm"
+
+
+def to_1402(context):
+    for brain in api.portal.get_tool("portal_catalog")(portal_type="Prenotazione"):
+        brain.getObject().reindexObject(idxs=["SearchableText"])
