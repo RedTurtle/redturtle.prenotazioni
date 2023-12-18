@@ -1308,7 +1308,7 @@ msgstr "Il testo del messaggio quando una prenotazione è stata confermata."
 msgid "notify_on_confirm_sms_message_default_value"
 msgstr ""
 "[${prenotazioni_folder_title}]: La prenotazione ${booking_type} per ${title} è stata confermata.\n"
-"Per dettagli:${booking_print_url}."
+"Per dettagli: ${booking_print_url}."
 
 #. Default: "[Confirm] subject"
 #: redturtle/prenotazioni/behaviors/booking_folder/notification_appio/notification_appio.py:155
