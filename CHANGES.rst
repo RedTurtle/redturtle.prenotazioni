@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.2.6 (unreleased)
+2.3.0 (2023-12-19)
 ------------------
 
 - Add booking_type vocabularies for portal_root
