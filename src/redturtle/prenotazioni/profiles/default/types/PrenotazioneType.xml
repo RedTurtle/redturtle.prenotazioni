@@ -39,7 +39,6 @@
     <element value="plone.app.dexterity.behaviors.metadata.ICategorization" />
     <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
     <element value="plone.app.lockingbehavior.behaviors.ILocking" />
-    <element value="redturtle.prenotazioni.behavior.notification_appio_booking_type" />
   </property>
 
   <!-- View information -->
