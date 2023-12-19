@@ -22,6 +22,7 @@ def SearchableText_prenotazione(obj):
             safe_unicode(obj.company or ""),
             safe_unicode(obj.gate or ""),
             safe_unicode(obj.staff_notes or ""),
+            safe_unicode(obj.getBookingCode() or ""),
             subject,
         )
     )
