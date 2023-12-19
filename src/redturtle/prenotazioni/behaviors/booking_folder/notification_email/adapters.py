@@ -23,12 +23,15 @@ class BookingTransitionEmailSender:
         self.booking = booking
         self.request = request
 
-    def send(self):
+    def send(self, force=False):
         message = self.message_adapter.message
 
-        if getUtility(
-            IBookingNotificatorSupervisorUtility,
-        ).is_email_message_allowed(self.booking):
+        if (
+            getUtility(
+                IBookingNotificatorSupervisorUtility,
+            ).is_email_message_allowed(self.booking)
+            or force
+        ):
             logger.info(
                 f"Sending the notification <{self.booking.UID()}>(`{message}`) via Email gateway"
             )

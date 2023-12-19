@@ -116,4 +116,4 @@ def send_email_to_managers(booking, event):
         name="booking_transition_email_sender",
     )
 
-    sender_adapter.send()
+    sender_adapter.send(force=True)
