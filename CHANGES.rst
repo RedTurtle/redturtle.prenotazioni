@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.7 (unreleased)
+1.7.7 (2023-12-19)
 ------------------
 
 - Add the booking code to SearchableText index(cherry-picked from 79894d814089ce5827f6ac2454303e248f7b881e).
