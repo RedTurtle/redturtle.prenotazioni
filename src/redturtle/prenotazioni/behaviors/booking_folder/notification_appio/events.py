@@ -77,7 +77,7 @@ def send_booking_reminder(context, event):
     message_adapter = getMultiAdapter(
         (context, event),
         IBookingAPPIoMessage,
-        name="reminder_notification_message",
+        name="reminder_notification_appio_message",
     )
     sender_adapter = getMultiAdapter(
         (message_adapter, context, getRequest()),

@@ -82,7 +82,7 @@ def send_booking_reminder(context, event):
     message_adapter = getMultiAdapter(
         (context, event),
         IBookingEmailMessage,
-        name="reminder_notification_message",
+        name="reminder_notification_email_message",
     )
     sender_adapter = getMultiAdapter(
         (message_adapter, context, getRequest()),
