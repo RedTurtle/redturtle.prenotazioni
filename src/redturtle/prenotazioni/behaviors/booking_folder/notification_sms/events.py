@@ -88,7 +88,7 @@ def send_booking_reminder(context, event):
     sender_adapter = getMultiAdapter(
         (message_adapter, context, getRequest()),
         IBookingNotificationSender,
-        name="booking_transition_email_sender",
+        name="booking_transition_sms_sender",
     )
 
     if message_adapter and message_adapter.message:
