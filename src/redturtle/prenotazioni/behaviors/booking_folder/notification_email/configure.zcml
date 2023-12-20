@@ -46,7 +46,7 @@
 
   <adapter
       factory=".notification_email_message.PrenotazioneReminderEmailMessage"
-      name="reminder_notification_message"
+      name="reminder_notification_email_message"
       />
 
   <!-- Prenotazione moved event message adapter -->
