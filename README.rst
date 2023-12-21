@@ -654,6 +654,22 @@ Example::
 Response::
     Binary file
 
+Content-transfer-encoding
+=========================
+
+It is possible to set the content-transfer-encoding for the email body, settings the environment
+variable `MAIL_CONTENT_TRANSFER_ENCODING`::
+
+    [instance]
+    environment-vars =
+        MAIL_CONTENT_TRANSFER_ENCODING base64
+
+This is useful for some SMTP servers that have problems with `quoted-printable` encoding.
+
+By default the content-transfer-encoding is `quoted-printable` as overrided in
+https://github.com/zopefoundation/Products.MailHost/blob/master/src/Products/MailHost/MailHost.py#L65
+
+
 How to develop
 ==============
 
