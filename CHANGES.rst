@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.3.1 (unreleased)
+2.3.1 (2023-12-21)
 ------------------
 
 - add content-transfer-encoding customization 
