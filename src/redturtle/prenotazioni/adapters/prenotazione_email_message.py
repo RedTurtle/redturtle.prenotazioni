@@ -260,7 +260,7 @@ class PrenotazioneManagerEmailMessage(PrenotazioneEventEmailMessage):
             "booking_type": getattr(booking, "booking_type", ""),
             "title": getattr(booking, "title", ""),
         }
-        text = MIMEText(mail_template(**parameters), "html")
+        text = mail_template(**parameters)
         if CTE:
             cs = Charset("utf-8")
             cs.body_encoding = CTE  # e.g. 'base64'
