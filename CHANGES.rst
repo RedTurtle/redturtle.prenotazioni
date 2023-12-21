@@ -5,8 +5,8 @@ Changelog
 2.3.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Add fullobjects in @bookings
+  [mamico]
 
 2.3.0 (2023-12-19)
 ------------------

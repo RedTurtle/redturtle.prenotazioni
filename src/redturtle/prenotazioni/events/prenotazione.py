@@ -93,6 +93,7 @@ def notify_on_move(booking, event):
             send_email(adapter.message)
 
 
+# TODO: sosituire con plone.api.portal.send_email
 def send_email(msg):
     if not msg:
         logger.error("Could not send email due to no message was provided")
@@ -101,7 +102,6 @@ def send_email(msg):
     host = api.portal.get_tool(name="MailHost")
     registry = getUtility(IRegistry)
     encoding = registry.get("plone.email_charset", "utf-8")
-
     host.send(msg, charset=encoding)
 
 

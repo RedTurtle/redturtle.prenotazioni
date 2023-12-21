@@ -95,7 +95,7 @@ class PrenotazioneSearchableItemSerializer:
     def __call__(self, *args, **kwargs):
         wf_tool = api.portal.get_tool("portal_workflow")
         status = wf_tool.getStatusOf("prenotazioni_workflow", self.prenotazione)
-        return {
+        data = {
             "title": self.prenotazione.Title(),
             "description": self.prenotazione.description,
             "booking_id": self.prenotazione.UID(),
@@ -121,3 +121,18 @@ class PrenotazioneSearchableItemSerializer:
             "company": self.prenotazione.company,
             "vacation": self.prenotazione.isVacation(),
         }
+        if kwargs.get("fullobjects", False):
+            try:
+                requirements = getMultiAdapter(
+                    (
+                        getFields(IPrenotazioneType)["requirements"],
+                        self.prenotazione.get_booking_type(),
+                        self.request,
+                    ),
+                    IFieldSerializer,
+                )()
+            except ComponentLookupError:
+                requirements = ""
+            data["requirements"] = requirements
+            data["cosa_serve"] = requirements  # BBB
+        return data
