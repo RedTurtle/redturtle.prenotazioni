@@ -110,5 +110,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
                 "staff_notes": self.prenotazione_fscode.staff_notes,
                 "company": self.prenotazione_fscode.company,
                 "vacation": None,
+                "modification_date": self.prenotazione_fscode.ModificationDate(),
+                "creation_date": self.prenotazione_fscode.CreationDate(),
             },
         )
