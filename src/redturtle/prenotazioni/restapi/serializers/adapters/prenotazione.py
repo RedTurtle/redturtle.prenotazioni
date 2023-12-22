@@ -6,6 +6,7 @@ from plone.restapi.serializer.converters import json_compatible
 from zope.component import adapter
 from zope.component import getMultiAdapter
 from zope.i18n import translate
+from zope.interface import Interface
 from zope.interface import implementer
 from zope.interface.interfaces import ComponentLookupError
 from zope.publisher.interfaces import IRequest
@@ -82,7 +83,15 @@ class PrenotazioneSerializer:
             "notify_on_confirm": booking_folder.notify_on_confirm,
             "cosa_serve": requirements,  # BBB
             "requirements": requirements,
+            "history": self._get_history(),
         }
+
+    def _get_history(self):
+        return getMultiAdapter(
+            (self.prenotazione, self.request),
+            Interface,
+            name="GET_application_json_@history",
+        ).reply()
 
 
 @implementer(ISerializeToPrenotazioneSearchableItem)

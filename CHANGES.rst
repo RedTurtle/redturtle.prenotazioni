@@ -5,6 +5,9 @@ Changelog
 2.3.2 (unreleased)
 ------------------
 
+- Add booking history field to serializer
+  [folix-01]
+
 - Add fullobjects in @bookings
   [mamico]
 
