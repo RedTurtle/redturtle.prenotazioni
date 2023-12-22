@@ -57,6 +57,7 @@ class PrenotazioneSerializer:
             booking_expiration_date = booking_expiration_date.replace(
                 booking_date.year, booking_date.month, booking_date.day
             )
+
         return {
             "UID": self.prenotazione.UID(),
             "@type": self.prenotazione.portal_type,
@@ -82,6 +83,8 @@ class PrenotazioneSerializer:
             "notify_on_confirm": booking_folder.notify_on_confirm,
             "cosa_serve": requirements,  # BBB
             "requirements": requirements,
+            "modification_date": self.prenotazione.ModificationDate(),
+            "creation_date": self.prenotazione.CreationDate(),
         }
 
 
@@ -120,6 +123,8 @@ class PrenotazioneSearchableItemSerializer:
             "staff_notes": self.prenotazione.staff_notes,
             "company": self.prenotazione.company,
             "vacation": self.prenotazione.isVacation(),
+            "modification_date": self.prenotazione.ModificationDate(),
+            "creation_date": self.prenotazione.CreationDate(),
         }
         if kwargs.get("fullobjects", False):
             try:
