@@ -512,6 +512,8 @@ Parameters:
 - **userid**: The userid(basically it is the fiscalcode). Allowed to be used by users having the 'redturtle.prenotazioni: search prenotazioni' permission.
 - **booking_type**: The booking_type, available values are stored in 'redturtle.prenotazioni.booking_types' vocabulary.
 - **review_state**: The booking status, one of: 'confirmed', 'refused', 'private', 'pending'
+- **fullobjects**: If `fullobjects=1` is passed, the endpoint will return the full objects instead of a list of brains (actually the only information
+                   added is the `requirements` field. (aka `cosa_serve`).
 
 Example::
 
@@ -653,6 +655,22 @@ Example::
 
 Response::
     Binary file
+
+Content-transfer-encoding
+=========================
+
+It is possible to set the content-transfer-encoding for the email body, settings the environment
+variable `MAIL_CONTENT_TRANSFER_ENCODING`::
+
+    [instance]
+    environment-vars =
+        MAIL_CONTENT_TRANSFER_ENCODING base64
+
+This is useful for some SMTP servers that have problems with `quoted-printable` encoding.
+
+By default the content-transfer-encoding is `quoted-printable` as overrided in
+https://github.com/zopefoundation/Products.MailHost/blob/master/src/Products/MailHost/MailHost.py#L65
+
 
 How to develop
 ==============

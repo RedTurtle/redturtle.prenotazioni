@@ -6,8 +6,9 @@ from datetime import timedelta
 
 from Acquisition import aq_parent
 from plone import api
-from plone.app.testing import logout, login
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import login
+from plone.app.testing import logout
 from plone.app.testing import setRoles
 
 from redturtle.prenotazioni.adapters.booker import IBooker

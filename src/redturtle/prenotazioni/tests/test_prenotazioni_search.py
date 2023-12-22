@@ -14,6 +14,7 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
+from plone.app.textfield import RichTextValue
 from plone.restapi.testing import RelativeSession
 from plone.testing.zope import Browser
 
@@ -58,6 +59,9 @@ class TestPrenotazioniSearch(unittest.TestCase):
             duration=30,
             container=self.folder_prenotazioni,
             gates=["all"],
+            requirements=RichTextValue(
+                "You need to bring your own food", "text/plain", "text/html"
+            ),
         )
 
         week_table = deepcopy(self.folder_prenotazioni.week_table)
@@ -172,7 +176,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
             booking_date=self.testing_booking_date + timedelta(days=8),
             booking_expiration_date=self.booking_expiration_date + timedelta(days=9),
             fiscalcode=self.testing_fiscal_code,
-            booking_type="typeA",
+            booking_type="Type A",
         )
         self.prenotazione_confirmed = api.content.create(
             container=self.day_folder1,
@@ -215,6 +219,19 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
         self.assertIn(self.prenotazione_fscode.UID(), result_uids)
         self.assertNotIn(self.prenotazione_no_fscode.UID(), result_uids)
+
+    def test_fullobjects(self):
+        items = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?fullobjects=1"
+        ).json()["items"]
+        self.assertIn(
+            {
+                "content-type": "text/plain",
+                "data": "<p>You need to bring your own food</p>",
+                "encoding": "utf-8",
+            },  # noqa: E501
+            [i["requirements"] for i in items],
+        )
 
     def test_search_by_fiscalcode_case_insensitive(self):
         # ABCDEF12G34H567I -> AbCdEf12G34H567i
@@ -301,7 +318,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         result_uids = [
             i["booking_id"]
             for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@bookings?booking_type=typeA"
+                f"{self.portal.absolute_url()}/@bookings?booking_type=Type+A"
             ).json()["items"]
         ]
 
