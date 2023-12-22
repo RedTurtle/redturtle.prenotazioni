@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from typing import Generator
 
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
@@ -319,6 +320,7 @@ class IPrenotazioniFolder(model.Schema):
             "25/12/*",
             "26/12/*",
         ],
+        constraint=holidays_constraint,
     )
 
     futureDays = schema.Int(

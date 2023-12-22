@@ -28,6 +28,9 @@ Changelog
 
 - Add fullobjects in @bookings
   [mamico]
+- Use the <PrenotazioniFolder>.holidays constraint.
+  [folix-01]
+
 
 2.3.1 (2023-12-21)
 ------------------
