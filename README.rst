@@ -517,7 +517,7 @@ Parameters:
 
 Example::
 
-   curl -i http://localhost:8080/Plone/@bookings?from=10-10-2023&to=20-10-2023&gate=Gate1&userid=user1&booking_type=type1&SearchableText=text1 \
+   curl -i http://localhost:8080/Plone/@bookings?from=2023-10-22&to=2023-10-22&gate=Gate1&userid=user1&booking_type=type1&SearchableText=text1 \
      -H 'Accept: application/json'
 
 Response::

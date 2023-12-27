@@ -5,6 +5,9 @@ Changelog
 2.3.2 (unreleased)
 ------------------
 
+- Add creation and modification dates to serialized booking
+  [folix-01]
+ 
 - Add fullobjects in @bookings
   [mamico]
 - Use the <PrenotazioniFolder>.holidays constraint.
