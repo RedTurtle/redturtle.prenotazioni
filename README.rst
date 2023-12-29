@@ -239,6 +239,7 @@ And here the `send` method must bu implementend::
 
         def send(self):
             self.is_notification_allowed():
+                # the message is automatically generated basing on the event type
                 message = self.message_adapter.message
                 phone = self.booking.phone
 
