@@ -238,11 +238,12 @@ And here the `send` method must bu implementend::
             self.request = request
 
         def send(self):
-            if getUtility(
-                IBookingNotificatorSupervisorUtility,
-            ).is_sms_message_allowed(self.booking):
-                # Your custom send code here
-                pass
+            self.is_notification_allowed():
+                message = self.message_adapter.message
+                phone = self.booking.phone
+
+                # Your custom send logics integration below
+                custom_send_function(message, phone)
 
 
 Vacations
