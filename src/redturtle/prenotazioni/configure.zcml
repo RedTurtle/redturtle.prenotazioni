@@ -9,6 +9,7 @@
   <i18n:registerTranslations directory="locales" />
 
   <include file="permissions.zcml" />
+  <!-- actions is deprecated ? -->
   <include package=".actions" />
   <include package=".adapters" />
   <include package=".behaviors" />

@@ -348,8 +348,9 @@ Changelog
 
 - Handle contentrules by the plone events and do not use contentrules anymore.
   [folix-01]
+
 - Change "day" type in week_table (TODO: need an upgrade step?).
-  [mauro]
+  [mamico]
 
 2.0.0.dev2 (2023-06-30)
 -----------------------

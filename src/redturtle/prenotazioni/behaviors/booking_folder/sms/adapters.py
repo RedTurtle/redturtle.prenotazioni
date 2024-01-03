@@ -28,3 +28,4 @@ class BookingNotificationSender:
             IBookingNotificatorSupervisorUtility,
         ).is_sms_message_allowed(self.booking):
             return True
+        return False

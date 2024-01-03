@@ -6,7 +6,7 @@
 
   <include package=".notification_appio" />
   <include package=".notification_email" />
-  <include package=".notification_sms" />
+  <include package=".sms" />
 
   <plone:behavior
       name="redturtle.prenotazioni.behavior.contacts"

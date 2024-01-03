@@ -10,10 +10,10 @@
       name="redturtle.prenotazioni.behavior.notification_sms"
       title="Booking folder notification sms"
       description="Notification SMS"
-      factory=".notification_sms.NotificationSMS"
-      provides=".notification_sms.INotificationSMS"
+      factory=".NotificationSMS"
+      provides=".INotificationSMS"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
-      marker=".notification_sms.INotificationSMS"
+      marker=".INotificationSMS"
       />
 
   <subscriber
@@ -32,15 +32,15 @@
       handler=".events.send_booking_reminder"
       />
 
-  <adapter factory=".notification_sms_message.PrenotazioneAfterTransitionSMSMessage" />
+  <adapter factory=".message.PrenotazioneAfterTransitionSMSMessage" />
 
   <adapter
-      factory=".notification_sms_message.PrenotazioneReminderSMSMessage"
+      factory=".message.PrenotazioneReminderSMSMessage"
       name="reminder_notification_sms_message"
       />
 
   <!-- Prenotazione moved event message adapter -->
-  <adapter factory=".notification_sms_message.PrenotazioneMovedSMSMessage" />
+  <adapter factory=".message.PrenotazioneMovedSMSMessage" />
 
   <adapter
       factory=".adapters.BookingNotificationSender"

@@ -95,7 +95,7 @@ class TestSPrenotazioneEvents(unittest.TestCase):
             }
         )
 
-    def test_email_send_on_enpoint_call(self):
+    def test_email_send_on_endpoint_call(self):
         self.folder_prenotazioni.notify_on_confirm = True
         self.folder_prenotazioni.notify_on_confirm_subject = self.email_subject
         self.folder_prenotazioni.notify_on_confirm_message = self.email_message

@@ -10,7 +10,7 @@ from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingSMSMessage
 from redturtle.prenotazioni.utilities import handle_exception_by_log
 
-from .notification_sms import INotificationSMS
+from . import INotificationSMS
 
 
 def booking_folder_provides_current_behavior(booking):
