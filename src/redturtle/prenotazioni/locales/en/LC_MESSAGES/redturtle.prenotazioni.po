@@ -51,7 +51,7 @@ msgstr ""
 
 #: ../profiles/default/types/PrenotazioniFolder.xml
 msgid "Booking Folder"
-msgstr ""
+msgstr "Prenotazioni Folder"
 
 #: ../profiles/default/types/PrenotazioneType.xml
 msgid "Booking Type"
