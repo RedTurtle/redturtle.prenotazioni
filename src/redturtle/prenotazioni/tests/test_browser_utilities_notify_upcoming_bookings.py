@@ -76,42 +76,13 @@ class TestNotifyAboutUpcommingBookings(unittest.TestCase):
 
     def create_booking(self, data: dict):
         booker = IBooker(self.folder_prenotazioni)
-        return booker.create(data)
+        return booker.book(data)
 
     @freeze_time(TESTING_TIME - timedelta(days=NOTIFICAION_GAP))
     def test_notification_event_is_raised_when_in_gap(self):
         events = []
 
-        api.content.transition(
-            self.create_booking(
-                data={
-                    "booking_date": TESTING_TIME,
-                    "booking_type": "Type A",
-                    "title": "foo",
-                    "email": "jdoe@redturtle.it",
-                }
-            ),
-            transition="confirm",
-        )
-
-        @adapter(IBookingReminderEvent)
-        def _handleReminder(_event):
-            events.append(_event)
-
-        provideHandler(_handleReminder)
-
-        api.content.get_view(
-            context=api.portal.get(),
-            request=getRequest(),
-            name="send-booking-reminders",
-        )()
-
-        self.assertTrue(IBookingReminderEvent.providedBy(events[0]))
-
-    @freeze_time(TESTING_TIME - timedelta(days=NOTIFICAION_GAP))
-    def test_notification_event_is_not_raised_when_not_confirmed(self):
-        events = []
-
+        # XXX: booking created by a manager is automatically confirmed
         self.create_booking(
             data={
                 "booking_date": TESTING_TIME,
@@ -133,22 +104,49 @@ class TestNotifyAboutUpcommingBookings(unittest.TestCase):
             name="send-booking-reminders",
         )()
 
+        self.assertTrue(IBookingReminderEvent.providedBy(events[0]))
+
+    @freeze_time(TESTING_TIME - timedelta(days=NOTIFICAION_GAP))
+    def test_notification_event_is_not_raised_when_not_confirmed(self):
+        events = []
+
+        booking = self.create_booking(
+            data={
+                "booking_date": TESTING_TIME,
+                "booking_type": "Type A",
+                "title": "foo",
+                "email": "jdoe@redturtle.it",
+            }
+        )
+        # XXX: booking created by a manager is automatically confirmed
+        api.content.transition(obj=booking, transition="refuse")
+
+        @adapter(IBookingReminderEvent)
+        def _handleReminder(_event):
+            events.append(_event)
+
+        provideHandler(_handleReminder)
+
+        api.content.get_view(
+            context=api.portal.get(),
+            request=getRequest(),
+            name="send-booking-reminders",
+        )()
+
         self.assertFalse(events)
 
     @freeze_time(TESTING_TIME - timedelta(days=NOTIFICAION_GAP - 1))
     def test_notification_event_is_not_raised_when_out_of_gap(self):
         events = []
 
-        api.content.transition(
-            self.create_booking(
-                data={
-                    "booking_date": TESTING_TIME,
-                    "booking_type": "Type A",
-                    "title": "foo",
-                    "email": "jdoe@redturtle.it",
-                }
-            ),
-            transition="confirm",
+        # XXX: booking created by a manager is automatically confirmed
+        self.create_booking(
+            data={
+                "booking_date": TESTING_TIME,
+                "booking_type": "Type A",
+                "title": "foo",
+                "email": "jdoe@redturtle.it",
+            }
         )
 
         @adapter(IBookingReminderEvent)
@@ -170,16 +168,14 @@ class TestNotifyAboutUpcommingBookings(unittest.TestCase):
         self.folder_prenotazioni.reminder_notification_gap = None
         events = []
 
-        api.content.transition(
-            self.create_booking(
-                data={
-                    "booking_date": TESTING_TIME,
-                    "booking_type": "Type A",
-                    "title": "foo",
-                    "email": "jdoe@redturtle.it",
-                }
-            ),
-            transition="confirm",
+        # XXX: booking created by a manager is automatically confirmed
+        self.create_booking(
+            data={
+                "booking_date": TESTING_TIME,
+                "booking_type": "Type A",
+                "title": "foo",
+                "email": "jdoe@redturtle.it",
+            }
         )
 
         @adapter(IBookingReminderEvent)

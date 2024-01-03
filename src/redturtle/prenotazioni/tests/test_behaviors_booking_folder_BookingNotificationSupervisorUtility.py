@@ -73,7 +73,7 @@ class TestBookingNotificationSupervisorUtility(unittest.TestCase):
         booker = IBooker(self.folder_prenotazioni)
         if booking_date is None:
             booking_date = self.tomorrow_8_0
-        return booker.create(
+        return booker.book(
             {
                 "booking_date": booking_date,
                 "booking_type": "Type A",
