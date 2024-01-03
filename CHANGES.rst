@@ -2,10 +2,14 @@ Changelog
 =========
 
 
-2.3.3 (unreleased)
+2.4.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Split booking notification gateways to 'App IO', 'Email' and 'SMS'
+  [folix-01]
+
+- Add booking reminder emails.
+  [folix-01]
 
 
 2.3.2 (2024-01-03)
@@ -38,11 +42,6 @@ Changelog
 
 - Fix upgrade step error #139 
   [mamico]
-- Split booking notification gateways to 'App IO', 'Email' and 'SMS'
-  [folix-01]
-
-- Add booking reminder emails.
-  [folix-01]
 
 - Add flag `auto_confirm_manager` that allows to automatically confirm bookings created by Booking Managers.
   [cekk]
