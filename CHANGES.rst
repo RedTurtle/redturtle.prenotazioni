@@ -5,6 +5,9 @@ Changelog
 2.4.0 (unreleased)
 ------------------
 
+- remove unused contentrules
+  [mamico]
+
 - Split booking notification gateways to 'App IO', 'Email' and 'SMS'
   [folix-01]
 
