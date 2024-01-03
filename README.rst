@@ -209,7 +209,7 @@ Example:
 You just need to register a new adapter::
 
     <adapter
-      factory = ".my_adapter.SMSSenderAdapter"
+      factory = ".my_adapter.CustomSMSSenderAdapter"
     />
 
 And here the `send` method must be implementend::
@@ -219,16 +219,16 @@ And here the `send` method must be implementend::
 
     from redturtle.prenotazioni.content.prenotazione import IPrenotazione
     from redturtle.prenotazioni.interfaces import IBookingNotificationSender
-    from redturtle.prenotazioni.interfaces import IPrenotazioneSMSMessage
-    from redturtle.prenotazioni.behaviors.notification_sms.adapter import BookingNotificationSender
+    from redturtle.prenotazioni.interfaces import IBookingSMSMessage
+    from redturtle.prenotazioni.behaviors.booking_folder.notification_sms.adapters import BookingNotificationSender
 
 
     @implementer(IBookingNotificationSender)
-    @adapter(IPrenotazioneSMSMessage, IPrenotazione, YourAddonLayerInterface)
+    @adapter(IBookingSMSMessage5, IPrenotazione, YourAddonLayerInterface)
     class CustomSMSSenderAdapter(BookingNotificationSender):
 
         def send(self):
-            self.is_notification_allowed():
+            if self.is_notification_allowed():
                 # the message is automatically generated basing on the event type
                 message = self.message_adapter.message
                 phone = self.booking.phone
