@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
-
 from plone import api
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 
-logger = getLogger(__name__)
+from redturtle.prenotazioni import logger
 
 
 def send_email(msg):

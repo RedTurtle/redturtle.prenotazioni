@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
@@ -13,8 +12,6 @@ from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.utilities import handle_exception_by_log
 
 from .notification_email import INotificationEmail
-
-logger = getLogger(__name__)
 
 
 def booking_folder_provides_current_behavior(booking):

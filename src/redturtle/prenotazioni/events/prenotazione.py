@@ -2,7 +2,6 @@
 import hashlib
 from email.utils import formataddr
 from email.utils import parseaddr
-from logging import getLogger
 
 from plone import api
 from plone.registry.interfaces import IRegistry
@@ -11,8 +10,6 @@ from zope.component import getUtility
 
 from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker
-
-logger = getLogger(__name__)
 
 
 def reallocate_gate(obj):

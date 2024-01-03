@@ -2,14 +2,17 @@
 import logging
 
 import pytz
+from dateutil.tz.tz import tzutc
 from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
 from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
 from plone.app.event.base import default_timezone
+from plone.app.textfield.value import RichTextValue
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import getUtility
 from zope.component import queryUtility
@@ -273,9 +276,6 @@ def to_1600_popolate_templates(context):
 
 
 def to_1600_upgrade_contentrules(context):
-    from plone.contentrules.engine.interfaces import IRuleAssignmentManager
-    from plone.contentrules.engine.interfaces import IRuleStorage
-
     rules_to_delete = [
         "booking-accepted",
         "booking-moved",
@@ -328,8 +328,6 @@ def to_1700(context):
     """
     Fix timezones in bookings
     """
-    from dateutil.tz.tz import tzutc
-
     brains = api.content.find(portal_type="Prenotazione")
     tot = len(brains)
     i = 0
@@ -381,8 +379,6 @@ def to_1804(context):
 
 
 def to_1805(context):
-    from plone.app.textfield.value import RichTextValue
-
     for brain in api.portal.get_tool("portal_catalog")(
         portal_type="PrenotazioniFolder"
     ):

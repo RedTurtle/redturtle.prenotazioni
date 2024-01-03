@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """Send reminders script"""
 
-from logging import getLogger
-
 from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
 from Testing.makerequest import makerequest
@@ -11,7 +9,7 @@ from zope.component.hooks import setHooks
 from zope.component.hooks import setSite
 from zope.globalrequest import getRequest
 
-logger = getLogger(__name__)
+from redturtle.prenotazioni import logger
 
 
 def main(app):

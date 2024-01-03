@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
-
 from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import implementer
 
+from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
 from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.utilities import send_email
-
-logger = getLogger(__name__)
 
 
 @implementer(IBookingNotificationSender)
