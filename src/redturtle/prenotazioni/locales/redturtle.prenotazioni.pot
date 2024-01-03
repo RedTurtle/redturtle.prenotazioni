@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-01-03 16:03+0000\n"
+"POT-Creation-Date: 2024-01-03 18:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -234,6 +234,10 @@ msgstr ""
 
 #: ../configure.zcml:30
 msgid "Installs the redturtle.prenotazioni add-on."
+msgstr ""
+
+#: ../staging/configure.zcml:16
+msgid "Installs the redturtle.prenotazioni.staging add-on (demo site purpose only)."
 msgstr ""
 
 #: ../content/prenotazioni_folder.py:328
@@ -486,6 +490,10 @@ msgstr ""
 msgid "Uninstalls the redturtle.prenotazioni add-on."
 msgstr ""
 
+#: ../staging/configure.zcml:25
+msgid "Uninstalls the redturtle.prenotazioni.staging add-on (demo site purpose only)."
+msgstr ""
+
 #: ../restapi/services/booking/add.py:113
 msgid "Unknown booking type '${booking_type}'."
 msgstr ""
@@ -553,13 +561,13 @@ msgstr ""
 
 #. Default: "Cancel"
 #: ../browser/prenotazione_add.py:252
-#: ../browser/prenotazione_move.py:150
+#: ../browser/prenotazione_move.py:147
 #: ../browser/vacations.py:232
 msgid "action_cancel"
 msgstr ""
 
 #. Default: "Move"
-#: ../browser/prenotazione_move.py:125
+#: ../browser/prenotazione_move.py:122
 msgid "action_move"
 msgstr ""
 
@@ -643,7 +651,7 @@ msgstr ""
 msgid "booking_fields_label"
 msgstr ""
 
-#: ../browser/prenotazione_move.py:140
+#: ../browser/prenotazione_move.py:137
 msgid "booking_moved"
 msgstr ""
 
@@ -733,7 +741,7 @@ msgid "bookings_sms_templates_label"
 msgstr ""
 
 #. Default: "Busy"
-#: ../browser/prenotazioni_context_state.py:47
+#: ../browser/prenotazioni_context_state.py:45
 msgid "busy"
 msgstr ""
 
@@ -978,7 +986,7 @@ msgid "label_booking_staff_notes"
 msgstr ""
 
 #. Default: "Booking time"
-#: ../browser/prenotazione_move.py:34
+#: ../browser/prenotazione_move.py:31
 #: ../content/prenotazione.py:126
 msgid "label_booking_time"
 msgstr ""
@@ -1014,7 +1022,7 @@ msgid "label_end_time"
 msgstr ""
 
 #. Default: "Gate"
-#: ../browser/prenotazione_move.py:35
+#: ../browser/prenotazione_move.py:32
 #: ../browser/prenotazioni_search.py:56
 #: ../browser/templates/delete_reservation.pt:100
 msgid "label_gate"
@@ -1527,11 +1535,16 @@ msgid "redturtle.prenotazioni (to_1500)"
 msgstr ""
 
 #: ../configure.zcml:39
+#: ../staging/configure.zcml:25
 msgid "redturtle.prenotazioni (uninstall)"
 msgstr ""
 
 #: ../configure.zcml:47
 msgid "redturtle.prenotazioni to 1500."
+msgstr ""
+
+#: ../staging/configure.zcml:16
+msgid "redturtle.prenotazioni.staging"
 msgstr ""
 
 #. Default: "The booking state is \"refused\". If you change it, the booking time may conflict with another one."
