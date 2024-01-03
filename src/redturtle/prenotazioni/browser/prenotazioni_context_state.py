@@ -314,8 +314,10 @@ class PrenotazioniContextState(BrowserView):
         slot_min_size: seconds
         """
         # we have some conditions to check
+        # XXX: ma questo non si poteva fare prima... molto prima... di arrivare fin qui ?
         if not self.is_valid_day(day):
             return []
+        # XXX: ma questo non si poteva fare prima... molto prima... di arrivare fin qui ?
         if self.maximum_bookable_date:
             if day > self.maximum_bookable_date.date():
                 return []
