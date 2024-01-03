@@ -73,13 +73,15 @@ class BookingsSearch(Service):
         return query
 
     def reply(self):
+        fullobjects = self.request.form.get("fullobjects", False) == "1"
         response = {"id": self.context.absolute_url() + "/@bookings"}
         query = self.query()
+        # XXX: `fullobjects` the correct behavior should be to use different serializers
         response["items"] = [
             getMultiAdapter(
                 (i.getObject(), self.request),
                 ISerializeToPrenotazioneSearchableItem,
-            )()
+            )(fullobjects=fullobjects)
             for i in api.portal.get_tool("portal_catalog")(**query)
         ]
 

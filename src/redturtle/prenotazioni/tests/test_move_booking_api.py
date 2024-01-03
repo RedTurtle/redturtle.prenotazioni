@@ -66,7 +66,7 @@ class TestMoveBookingApi(unittest.TestCase):
         self.api_session_admin.close()
 
     def test_move_booking(self):
-        booking = self.booker.create(
+        booking = self.booker.book(
             {
                 "booking_date": self.today,
                 "booking_type": "Type A",

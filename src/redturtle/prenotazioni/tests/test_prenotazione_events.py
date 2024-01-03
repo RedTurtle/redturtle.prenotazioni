@@ -41,6 +41,7 @@ class TestSPrenotazioneEvents(unittest.TestCase):
             description="",
             daData=date.today(),
             gates=["Gate A"],
+            auto_confirm_manager=False,  # is True by default, but we are testing everything as manager
         )
 
         api.content.create(
@@ -70,7 +71,7 @@ class TestSPrenotazioneEvents(unittest.TestCase):
         booker = IBooker(self.folder_prenotazioni)
         if booking_date is None:
             booking_date = self.tomorrow_8_0
-        return booker.create(
+        return booker.book(
             {
                 "booking_date": booking_date,
                 "booking_type": "Type A",

@@ -2,8 +2,33 @@ Changelog
 =========
 
 
-2.2.6 (unreleased)
+2.3.3 (unreleased)
 ------------------
+
+- Nothing changed yet.
+
+
+2.3.2 (2024-01-03)
+------------------
+
+- Add fullobjects in @bookings
+  [mamico]
+
+2.3.1 (2023-12-21)
+------------------
+
+- add content-transfer-encoding customization 
+  [mamico]
+
+
+2.3.0 (2023-12-19)
+------------------
+
+- Add booking_type vocabularies for portal_root
+  [mamico]
+
+- Improve manager mail notification subject to include also name and date.
+  [cekk]
 
 - Update the min booking type length value to 5min.
   [folix-01]
@@ -19,7 +44,18 @@ Changelog
 - Add booking reminder emails.
   [folix-01]
 
+- Add flag `auto_confirm_manager` that allows to automatically confirm bookings created by Booking Managers.
+  [cekk]
 
+- Booking Managers bypass futureDays checks when create new bookings.
+  [cekk]
+
+- Remove duplicated method in booker: create. Now there is only `book`.
+  [cekk]
+
+- Hide PrenotazioniYear in add menu for restapi.
+  [cekk]
+ 
 2.2.5 (2023-12-04)
 ------------------
 

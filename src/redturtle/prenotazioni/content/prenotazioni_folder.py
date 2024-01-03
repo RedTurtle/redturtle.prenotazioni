@@ -363,6 +363,15 @@ class IPrenotazioniFolder(model.Schema):
         default=False,
         required=False,
     )
+    auto_confirm_manager = schema.Bool(
+        title=_("auto_confirm_manager", default="Automatically confirmfor managers."),
+        description=_(
+            "auto_confirm_manager_help",
+            default="All bookings created by Managers will be automatically accepted.",
+        ),
+        default=True,
+        required=False,
+    )
     # XXX validate email
     email_responsabile = schema.List(
         title=_("Responsible email"),

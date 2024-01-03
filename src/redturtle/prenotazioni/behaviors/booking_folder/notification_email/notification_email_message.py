@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Email notification templates"""
 
+import os
+from email.charset import Charset
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -14,16 +16,16 @@ from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
 from zope.component import getAdapter
-from zope.i18n import translate
 from zope.interface import implementer
 from zope.lifecycleevent import IObjectAddedEvent
 
-from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
+
+CTE = os.environ.get("MAIL_CONTENT_TRANSFER_ENCODING", None)
 
 
 class PrenotazioneEmailMessage:
@@ -115,16 +117,19 @@ class PrenotazioneMovedICalEmailMessage(
 
     @property
     def message_text(self) -> MIMEText:
-        return MIMEText(
-            IStringInterpolator(IContextWrapper(self.prenotazione)())(
-                getattr(
-                    self.prenotazione.getPrenotazioniFolder(),
-                    "notify_on_move_message",
-                    None,
-                ),
+        text = IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(
+                self.prenotazione.getPrenotazioniFolder(),
+                "notify_on_move_message",
+                None,
             ),
-            "html",
         )
+        if CTE:
+            cs = Charset("utf-8")
+            cs.body_encoding = CTE  # e.g. 'base64'
+            return MIMEText(text, "html", cs)
+        else:
+            return MIMEText(text, "html")
 
 
 @implementer(IBookingEmailMessage)
@@ -142,16 +147,19 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
 
     @property
     def message_text(self) -> MIMEText:
-        return MIMEText(
-            IStringInterpolator(IContextWrapper(self.prenotazione)())(
-                getattr(
-                    self.prenotazione.getPrenotazioniFolder(),
-                    f"notify_on_{self.event.transition and self.event.transition.__name__}_message",
-                    None,
-                ),
+        text = IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(
+                self.prenotazione.getPrenotazioniFolder(),
+                f"notify_on_{self.event.transition and self.event.transition.__name__}_message",
+                None,
             ),
-            "html",
         )
+        if CTE:
+            cs = Charset("utf-8")
+            cs.body_encoding = CTE  # e.g. 'base64'
+            return MIMEText(text, "html", cs)
+        else:
+            return MIMEText(text, "html")
 
 
 @implementer(IBookingEmailMessage)
@@ -193,7 +201,6 @@ class PrenotazioneManagerEmailMessage(
         msg = MIMEMultipart()
 
         msg.attach(self.message_text)
-
         msg["Subject"] = self.message_subject
         msg["From"] = mfrom
         msg["Bcc"] = bcc
@@ -213,15 +220,13 @@ class PrenotazioneManagerEmailMessage(
 
     @property
     def message_subject(self) -> str:
-        booking_folder = self.prenotazione.getPrenotazioniFolder()
-        return translate(
-            _(
-                "new_booking_admin_notify_subject",
-                default="New booking for ${context}",
-                mapping={"context": booking_folder.title},
-            ),
-            context=self.prenotazione.REQUEST,
-        )
+        """
+        return subject
+        """
+        booking_type = getattr(self.prenotazione, "booking_type", "")
+        booking_code = getattr(self.prenotazione, "booking_code", "")
+        date = self.prenotazione.booking_date.strftime("%d-%m-%Y %H:%M")
+        return f"[{booking_type}] {date} {booking_code}"
 
     @property
     def message_text(self) -> MIMEText:
@@ -257,7 +262,13 @@ class PrenotazioneManagerEmailMessage(
             "booking_type": getattr(booking, "booking_type", ""),
             "title": getattr(booking, "title", ""),
         }
-        return MIMEText(mail_template(**parameters), "html")
+        text = mail_template(**parameters)
+        if CTE:
+            cs = Charset("utf-8")
+            cs.body_encoding = CTE  # e.g. 'base64'
+            return MIMEText(text, "html", cs)
+        else:
+            return MIMEText(text, "html")
 
 
 @implementer(IBookingEmailMessage)
@@ -275,13 +286,16 @@ class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
 
     @property
     def message_text(self) -> MIMEText:
-        return MIMEText(
-            IStringInterpolator(IContextWrapper(self.prenotazione)())(
-                getattr(
-                    self.prenotazione.getPrenotazioniFolder(),
-                    "notify_as_reminder_message",
-                    None,
-                ),
+        text = IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(
+                self.prenotazione.getPrenotazioniFolder(),
+                "notify_as_reminder_message",
+                None,
             ),
-            "html",
         )
+        if CTE:
+            cs = Charset("utf-8")
+            cs.body_encoding = CTE  # e.g. 'base64'
+            return MIMEText(text, "html", cs)
+        else:
+            return MIMEText(text, "html")

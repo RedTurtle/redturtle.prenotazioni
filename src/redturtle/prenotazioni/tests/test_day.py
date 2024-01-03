@@ -78,7 +78,7 @@ class TestDaySlots(unittest.TestCase):
 
     def create_booking(self, date):
         booker = IBooker(self.folder_prenotazioni)
-        return booker.create(
+        return booker.book(
             {
                 "booking_date": date,  # tomorrow
                 "booking_type": "Type A",
