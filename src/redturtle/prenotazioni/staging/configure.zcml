@@ -24,6 +24,9 @@
       post_handler=".setuphandlers.uninstall"
       />
 
-  <adapter factory=".smsdemo.DemoSMSSenderAdapter" />
+  <adapter
+      factory=".smsdemo.DemoSMSSenderAdapter"
+      name="booking_transition_sms_sender"
+      />
 
 </configure>

@@ -210,6 +210,7 @@ You just need to register a new adapter::
 
     <adapter
       factory = ".my_adapter.CustomSMSSenderAdapter"
+      name="booking_transition_sms_sender"
     />
 
 And here the `send` method must be implementend::
