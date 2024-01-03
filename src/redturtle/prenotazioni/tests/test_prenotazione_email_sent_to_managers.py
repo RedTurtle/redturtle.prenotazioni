@@ -90,8 +90,7 @@ class TestEmailToManagers(unittest.TestCase):
 
         self.assertTrue(mail.is_multipart())
 
-        # expected = f'[{booking.booking_type}] {booking.booking_date.strftime("%d-%m-%Y %H:%M")} {booking.booking_code}'
-        expected = f'[{booking.booking_type}] {booking.booking_date.strftime("%d-%m-%Y %H:%M")}'
+        expected = f'[{booking.booking_type}] {booking.booking_date.strftime("%d-%m-%Y %H:%M")} {booking.booking_code}'
         self.assertIn(expected, "".join([i for i in mail.values()]))
         self.assertIn(
             "Go to the booking to see more details and manage it",

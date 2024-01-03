@@ -25,7 +25,7 @@
 
   <subscriber
       for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
-           zope.lifecycleevent.IObjectAddedEvent"
+           zope.lifecycleevent.IObjectCreatedEvent"
       handler=".prenotazione.set_booking_code"
       />
 
