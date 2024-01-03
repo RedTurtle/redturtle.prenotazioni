@@ -9,6 +9,7 @@ from redturtle.prenotazioni.behaviors.booking_folder.notification_sms.adapters i
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingSMSMessage
+from redturtle.prenotazioni.staging import logger
 from redturtle.prenotazioni.staging.interfaces import IRedturtlePrenotazioniStagingLayer
 
 
@@ -16,6 +17,13 @@ from redturtle.prenotazioni.staging.interfaces import IRedturtlePrenotazioniStag
 @adapter(IBookingSMSMessage, IPrenotazione, IRedturtlePrenotazioniStagingLayer)
 class DemoSMSSenderAdapter(BookingNotificationSender):
     def send(self):
+        logger.info(
+            "Sending (%s) the notification <%s>(`%s`) via SMS gateway to %s",
+            self.is_notification_allowed(),
+            self.booking.UID(),
+            self.message_adapter.message,
+            self.booking.phone,
+        )
         if self.is_notification_allowed():
             message = self.message_adapter.message
             phone = self.booking.phone

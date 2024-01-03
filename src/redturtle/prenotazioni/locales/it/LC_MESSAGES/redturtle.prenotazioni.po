@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-01-03 16:03+0000\n"
+"POT-Creation-Date: 2024-01-03 18:19+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -234,6 +234,10 @@ msgstr "Compila la tabella degli orari della settimana."
 #: ../configure.zcml:30
 msgid "Installs the redturtle.prenotazioni add-on."
 msgstr "Install redturtle.prenotazioni"
+
+#: ../staging/configure.zcml:16
+msgid "Installs the redturtle.prenotazioni.staging add-on (demo site purpose only)."
+msgstr ""
 
 #: ../content/prenotazioni_folder.py:328
 msgid "Max days in the future"
@@ -485,6 +489,10 @@ msgstr "Martedì"
 msgid "Uninstalls the redturtle.prenotazioni add-on."
 msgstr "Disinstall redturtle.prenotazioni"
 
+#: ../staging/configure.zcml:25
+msgid "Uninstalls the redturtle.prenotazioni.staging add-on (demo site purpose only)."
+msgstr ""
+
 #: ../restapi/services/booking/add.py:113
 msgid "Unknown booking type '${booking_type}'."
 msgstr "Tipologia di prenotazione sconosciuta '${booking_type}'."
@@ -552,13 +560,13 @@ msgstr "Prenota"
 
 #. Default: "Cancel"
 #: ../browser/prenotazione_add.py:252
-#: ../browser/prenotazione_move.py:150
+#: ../browser/prenotazione_move.py:147
 #: ../browser/vacations.py:232
 msgid "action_cancel"
 msgstr "Cancella"
 
 #. Default: "Move"
-#: ../browser/prenotazione_move.py:125
+#: ../browser/prenotazione_move.py:122
 msgid "action_move"
 msgstr "Sposta"
 
@@ -643,7 +651,7 @@ msgstr "La tua prenotazione è stata cancellata."
 msgid "booking_fields_label"
 msgstr "Campi Prenotazioni"
 
-#: ../browser/prenotazione_move.py:140
+#: ../browser/prenotazione_move.py:137
 msgid "booking_moved"
 msgstr "Prenotazione spostata correttamente"
 
@@ -733,7 +741,7 @@ msgid "bookings_sms_templates_label"
 msgstr "Notifiche SMS"
 
 #. Default: "Busy"
-#: ../browser/prenotazioni_context_state.py:47
+#: ../browser/prenotazioni_context_state.py:45
 msgid "busy"
 msgstr "Occupato"
 
@@ -980,7 +988,7 @@ msgid "label_booking_staff_notes"
 msgstr "Note del personale"
 
 #. Default: "Booking time"
-#: ../browser/prenotazione_move.py:34
+#: ../browser/prenotazione_move.py:31
 #: ../content/prenotazione.py:126
 msgid "label_booking_time"
 msgstr "Data e ora"
@@ -1016,7 +1024,7 @@ msgid "label_end_time"
 msgstr "Ora fine"
 
 #. Default: "Gate"
-#: ../browser/prenotazione_move.py:35
+#: ../browser/prenotazione_move.py:32
 #: ../browser/prenotazioni_search.py:56
 #: ../browser/templates/delete_reservation.pt:100
 msgid "label_gate"
@@ -1270,17 +1278,15 @@ msgstr "[${prenotazioni_folder_title}] Prenotazione del ${booking_date} alle ${b
 msgid "notify_on_confirm_help"
 msgstr "Notifica l'utente quando la prenotazione viene confermata."
 
-#. Default: "Prenotazione confirmed notification message."
+#. Default: "[Confirmed] message"
 #: ../behaviors/booking_folder/notification_appio/notification_appio.py:167
 #: ../behaviors/booking_folder/notification_email/notification_email.py:167
 #: ../behaviors/booking_folder/notification_sms/notification_sms.py:90
-#, fuzzy
 msgid "notify_on_confirm_message"
 msgstr "[Conferma] messaggio"
 
-#. Default: "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>"
+#. Default: "The booking ${booking_type} for ${title} has been confirmed.<br/><br/>You can see details and print a reminder following this <a href=${booking_print_url}>link</a>."
 #: ../behaviors/booking_folder/notification_email/notification_email.py:48
-#, fuzzy
 msgid "notify_on_confirm_message_default_value"
 msgstr "La prenotazione ${booking_type} per ${title} è stata confermata.<br/><br/>Dal tuo <a href=${booking_print_url}>promemoria</a> puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
 
@@ -1298,16 +1304,14 @@ msgstr ""
 "[${prenotazioni_folder_title}]: La prenotazione ${booking_type} per ${title} è stata confermata.\n"
 "Per dettagli: ${booking_print_url}."
 
-#. Default: "Prenotazione confirmed notification subject."
+#. Default: "[Confirm] subject"
 #: ../behaviors/booking_folder/notification_appio/notification_appio.py:155
 #: ../behaviors/booking_folder/notification_email/notification_email.py:155
-#, fuzzy
 msgid "notify_on_confirm_subject"
 msgstr "[Conferma] oggetto"
 
-#. Default: "Booking of ${booking_date} at ${booking_time} was accepted"
+#. Default: "[${prenotazioni_folder_title}] Booking of ${booking_date} at ${booking_time} was accepted"
 #: ../behaviors/booking_folder/notification_email/notification_email.py:38
-#, fuzzy
 msgid "notify_on_confirm_subject_default_value"
 msgstr "[${prenotazioni_folder_title}] Prenotazione del ${booking_date} alle ${booking_time} accettata"
 
@@ -1340,17 +1344,15 @@ msgstr "[${prenotazioni_folder_title}] Data di prenotazione modificata per ${tit
 msgid "notify_on_move_help"
 msgstr "Notifica l'utente quando la prenotazione viene spostata di giorno/orario."
 
-#. Default: "Prenotazione moved notification message."
+#. Default: "[Move] message"
 #: ../behaviors/booking_folder/notification_appio/notification_appio.py:191
 #: ../behaviors/booking_folder/notification_email/notification_email.py:191
 #: ../behaviors/booking_folder/notification_sms/notification_sms.py:102
-#, fuzzy
 msgid "notify_on_move_message"
 msgstr "[Spostamento] messaggio"
 
-#. Default: "The booking scheduling of ${booking_type} was modified.The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>."
+#. Default: "The booking scheduling for ${booking_type} was modified.<br/><br/>The new one is on ${booking_date} at ${booking_time}.<br/><br/>You can see details and print a reminder following this <a href=${booking_print_url}>link</a>."
 #: ../behaviors/booking_folder/notification_email/notification_email.py:69
-#, fuzzy
 msgid "notify_on_move_message_default_value"
 msgstr "L'orario della sua prenotazione ${booking_type} è stato modificato.<br/><br/>La nuova data è ${booking_date} alle ore ${booking_time}.<br/><br/>Dal tuo <a href=${booking_print_url}>promemoria</a> puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
 
@@ -1368,16 +1370,14 @@ msgstr ""
 "[${prenotazioni_folder_title}]: orario della prenotazione ${booking_type} modificato: ${booking_date} alle ${booking_time}.\n"
 "Per dettagli: ${booking_print_url}."
 
-#. Default: "Prenotazione moved notification subject."
+#. Default: "[Move] subject"
 #: ../behaviors/booking_folder/notification_appio/notification_appio.py:179
 #: ../behaviors/booking_folder/notification_email/notification_email.py:179
-#, fuzzy
 msgid "notify_on_move_subject"
 msgstr "[Spostamento] oggetto"
 
-#. Default: "Modified the boolking date for ${title}"
+#. Default: "[${prenotazioni_folder_title}] Booking date modified for ${title}"
 #: ../behaviors/booking_folder/notification_email/notification_email.py:59
-#, fuzzy
 msgid "notify_on_move_subject_default_value"
 msgstr "[${prenotazioni_folder_title}] Data di prenotazione modificata per ${title} - ${booking_date}"
 
@@ -1389,7 +1389,6 @@ msgstr "L'oggetto del messaggio quando una prenotazione è stata spostata."
 
 #. Default: "Notify when rejected."
 #: ../content/prenotazioni_folder.py:436
-#, fuzzy
 msgid "notify_on_refuse"
 msgstr "Notifica se viene cancellata"
 
@@ -1412,7 +1411,6 @@ msgstr "Notifica l'utente via mail se la prenotazione viene cancellata"
 #: ../behaviors/booking_folder/notification_appio/notification_appio.py:215
 #: ../behaviors/booking_folder/notification_email/notification_email.py:215
 #: ../behaviors/booking_folder/notification_sms/notification_sms.py:114
-#, fuzzy
 msgid "notify_on_refuse_message"
 msgstr "Testo notifica prenotazione rifiutata"
 
@@ -1435,16 +1433,14 @@ msgstr ""
 "[${prenotazioni_folder_title}]: La prenotazione ${booking_type} del ${booking_date} alle ${booking_time} è stata rifiutata.\n"
 "Motivo: ${booking_refuse_message}"
 
-#. Default: "Prenotazione refused notification subject."
+#. Default: "[Refuse] subject"
 #: ../behaviors/booking_folder/notification_appio/notification_appio.py:203
 #: ../behaviors/booking_folder/notification_email/notification_email.py:203
-#, fuzzy
 msgid "notify_on_refuse_subject"
 msgstr "[Rifiuto] oggetto"
 
-#. Default: "Booking refused for ${title}"
+#. Default: "[${prenotazioni_folder_title}] Booking refused for ${title}"
 #: ../behaviors/booking_folder/notification_email/notification_email.py:81
-#, fuzzy
 msgid "notify_on_refuse_subject_default_value"
 msgstr "[${prenotazioni_folder_title}] Prenotazione rifiutata per ${title}"
 
@@ -1476,17 +1472,15 @@ msgstr "[${prenotazioni_folder_title}] Prenotazione creata"
 msgid "notify_on_submit_help"
 msgstr "Notifica l'utente quando la prenotazione viene creata. Se il flag di conferma automatica e di notifica alla conferma sono selezionati, questa opzione verrà ignorata."
 
-#. Default: "Prenotazione created notification message."
+#. Default: "[Created] message"
 #: ../behaviors/booking_folder/notification_appio/notification_appio.py:143
 #: ../behaviors/booking_folder/notification_email/notification_email.py:143
 #: ../behaviors/booking_folder/notification_sms/notification_sms.py:78
-#, fuzzy
 msgid "notify_on_submit_message"
 msgstr "[Creazione] messaggio"
 
-#. Default: "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>"
+#. Default: "Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.<br/><br/>You can see details and print a reminder following this <a href=${booking_print_url}>link</a>."
 #: ../behaviors/booking_folder/notification_email/notification_email.py:28
-#, fuzzy
 msgid "notify_on_submit_message_default_value"
 msgstr "La prenotazione ${booking_type} per il ${booking_date} alle ${booking_time} è stata creata.<br/><br/>Dal tuo <a href=${booking_print_url}>promemoria</a> puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
 
@@ -1502,16 +1496,14 @@ msgstr "Il testo del messaggio quando una prenotazione è stata creata."
 msgid "notify_on_submit_sms_message_default_value"
 msgstr "[${prenotazioni_folder_title}]: La prenotazione ${booking_type} per il ${booking_date} alle ${booking_time} è stata creata. Per dettagli: ${booking_print_url}."
 
-#. Default: "Prenotazione created notification subject."
+#. Default: "[Created] subject"
 #: ../behaviors/booking_folder/notification_appio/notification_appio.py:131
 #: ../behaviors/booking_folder/notification_email/notification_email.py:131
-#, fuzzy
 msgid "notify_on_submit_subject"
 msgstr "[Creazione] oggetto"
 
-#. Default: "Booking created ${title}"
+#. Default: "[${prenotazioni_folder_title}] Booking created"
 #: ../behaviors/booking_folder/notification_email/notification_email.py:18
-#, fuzzy
 msgid "notify_on_submit_subject_default_value"
 msgstr "[${prenotazioni_folder_title}] Prenotazione creata"
 
@@ -1560,12 +1552,17 @@ msgid "redturtle.prenotazioni (to_1500)"
 msgstr "redturtle.prenotazioni (to_1500)"
 
 #: ../configure.zcml:39
+#: ../staging/configure.zcml:25
 msgid "redturtle.prenotazioni (uninstall)"
 msgstr "redturtle.prenotazioni (disinstalla)"
 
 #: ../configure.zcml:47
 msgid "redturtle.prenotazioni to 1500."
 msgstr "redturtle.prenotazioni to 1500."
+
+#: ../staging/configure.zcml:16
+msgid "redturtle.prenotazioni.staging"
+msgstr ""
 
 #. Default: "The booking state is \"refused\". If you change it, the booking time may conflict with another one."
 #: ../browser/templates/prenotazione.pt:30
