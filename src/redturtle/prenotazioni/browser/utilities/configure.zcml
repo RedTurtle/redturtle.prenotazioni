@@ -6,12 +6,10 @@
     i18n_domain="redturtle.prenotazioni"
     >
 
-  <browser:viewlet
-      name="redturtle.prenotazioni.app_io"
-      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
-      manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
-      class=".app_io.Viewlet"
-      template="templates/app_io.pt"
+  <browser:page
+      name="send-booking-reminders"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".notify_upcoming_bookings.NotifyUpcomingBookings"
       permission="cmf.ModifyPortalContent"
       />
 

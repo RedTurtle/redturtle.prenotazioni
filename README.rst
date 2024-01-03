@@ -155,24 +155,27 @@ Managers can confirm a Booking using workflow transitions.
 The workflow transition triggers an email to be sent to the booker (see below).
 
 
-Booking event notifications
----------------------------
+Booking Notifications
+---------------------
 
-There are addional automated email be used to notify booking owner when his booking has been created, accepted
-or re-scheduled.
+There are automated notifications implementend by the following behaviors:
 
-Rules are **NOT automatically** enabled in every Booking Folder.
-If you want to send some notification, you only need to enable them from the Booking folder.
+* `redturtle.prenotazioni.behavior.notification_appio` (Notify via AppIO gateway)
+* `redturtle.prenotazioni.behavior.notification_email` (Notify via Email gateway)
+* `redturtle.prenotazioni.behavior.notification_sms` (Notify via SMS gateway)
 
-The rules which are available by default:
+Each behavior is implementing the following notification types:
+* `booking-accepted` (An notification if the booking had been accepted)
+* `booking-moved` (An notification if the booking had been moved)
+* `booking-created` (An notification if the booking had been created)
+* `booking-refuse` (An notification if the booking had been refused)
+* `booking-reminder` (An notification reminder)
 
-* `booking-accepted` (Invia un'email all'utente quando la prenotazione è stata accettata)
-* `booking-moved` (Invia un'email all'utente quando la data della prenotazione viene cambiata)
-* `booking-created-user` (Invia un'email all'utente quando la prenotazione è stata creata)
-* `booking-refuse` (Invia un'email all'utente quando la prenotazione è stata rifiutata)
-* `booking-confirm` (Conferma automatica prenotazioni)
+Notifications are **NOT automatically** enabled in every Booking Folder.
+If you want to send some notification, you only need to enable them by assigning the behavior to PrenotazioniFolder c.t.
 
-You can also use some placeholders that will be replaced with some booking infos. Here is a list:
+You can create your own notification templates for the booking events(confirm, refuse, create, delete, reminder).
+The temlates are being saved in the PrenotazioniFolder object.
 
 The template variables list:
 
@@ -199,6 +202,39 @@ The template variables list:
 * ``${booking_requirements}`` - Booking requeirements.
 * ``${prenotazioni_folder_title}`` - Booking folder title.
 * ``${booking_requirements}`` - Related PrenotazioneType.booking_requirements field
+
+Note that the sms can be used only if you implement an own sender adapter
+Example:
+
+You just need to register a new adapter::
+
+    <adapter
+      factory = ".my_adapter.CustomSMSSenderAdapter"
+    />
+
+And here the `send` method must be implementend::
+
+    from zope.component import adapter
+    from zope.interface import implementer
+
+    from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+    from redturtle.prenotazioni.interfaces import IBookingNotificationSender
+    from redturtle.prenotazioni.interfaces import IBookingSMSMessage
+    from redturtle.prenotazioni.behaviors.booking_folder.notification_sms.adapters import BookingNotificationSender
+
+
+    @implementer(IBookingNotificationSender)
+    @adapter(IBookingSMSMessage5, IPrenotazione, YourAddonLayerInterface)
+    class CustomSMSSenderAdapter(BookingNotificationSender):
+
+        def send(self):
+            if self.is_notification_allowed():
+                # the message is automatically generated basing on the event type
+                message = self.message_adapter.message
+                phone = self.booking.phone
+
+                # Your custom send logics integration below
+                custom_send_function(message, phone)
 
 
 Vacations
@@ -656,6 +692,54 @@ Example::
 Response::
     Binary file
 
+@@send-booking-reminders
+------------------------
+
+This view sends a booking reminder email to all the bookings inside PrenotazioniFolders that
+have the Reminder Notification Gap field populated. If you intend to set up a cronjob to call this view, you might use a special script call.
+The script is located at src/redturtle/prenotazioni/scripts/notify_upcoming_bookings.py.
+
+
+
+Scripts
+=======
+
+notify_upcoming_bookings
+------------------------
+
+The script is supposed to be used to call the **@@send-booking-reminders** view.
+It is supposed to be ran once a day otherwise, duplicate emails will be sent.
+
+Usage::
+
+    bin/instance1 -OPlone run bin/notify_upcoming_bookings
+
+Buildout config example::
+
+    [buildout]
+
+    parts +=
+        notify-upcoming-bookings
+
+    [notify-upcoming-bookings]
+    recipe = z3c.recipe.usercrontab
+    times = 0 3 * * *
+    command = ${buildout:directory}/bin/notify_upcoming_bookings
+
+
+Behaviors
+=========
+
+redturtle.prenotazioni.behavior.notification_appio
+--------------------------------------------------
+
+If you mind to use this behavior note that first of all you also need to assign
+this **redturtle.prenotazioni.behavior.notification_appio_booking_type** to PrenotazioneType c.t.
+
+To send the messages via AppIO gateway the **service_code** field defined by **redturtle.prenotazioni.behavior.notification_appio_booking_type**
+must be compiled in the PrenotazioniType object. All the possible values of this field are being
+taken from the environmennt variables which have the following syntax **REDTURTLE_PRENOTAZIONI_APPIO_KEY_<AppIO Sevice code here>=<AppIO Sevice key here>**
+
 Content-transfer-encoding
 =========================
 
@@ -670,6 +754,7 @@ This is useful for some SMTP servers that have problems with `quoted-printable` 
 
 By default the content-transfer-encoding is `quoted-printable` as overrided in
 https://github.com/zopefoundation/Products.MailHost/blob/master/src/Products/MailHost/MailHost.py#L65
+>>>>>>> master
 
 
 How to develop

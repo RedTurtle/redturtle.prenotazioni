@@ -2,7 +2,17 @@ Changelog
 =========
 
 
-2.3.2 (unreleased)
+2.4.0 (unreleased)
+------------------
+
+- Split booking notification gateways to 'App IO', 'Email' and 'SMS'
+  [folix-01]
+
+- Add booking reminder emails.
+  [folix-01]
+
+
+2.3.2 (2024-01-03)
 ------------------
 
 - Add creation and modification dates to serialized booking
@@ -87,6 +97,7 @@ Changelog
 
 - Set PrenotazioniFolder and PrenotazioneType as not searchable (types_not_searched).
   [cekk]
+
 - Send ical also for manager notifications.
   [cekk]
 
@@ -124,7 +135,7 @@ Changelog
 
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
- 
+
 - Extended PrenotaizoniFolder email templates var list.
   [folix-01]
 

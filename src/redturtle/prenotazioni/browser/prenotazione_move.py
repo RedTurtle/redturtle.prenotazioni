@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import logging
 
 from plone import api
 from plone.memoize.view import memoize
@@ -21,8 +20,6 @@ from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import BookerException
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.utilities.urls import urlify
-
-logger = logging.getLogger(__name__)
 
 
 class IMoveForm(Interface):
