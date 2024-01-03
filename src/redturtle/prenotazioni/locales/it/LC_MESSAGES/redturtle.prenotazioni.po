@@ -1236,9 +1236,7 @@ msgstr "Il testo del messaggio inviato come promemoria."
 #. Default: "[${prenotazioni_folder_title}]: This is an automatic reminder about your booking on ${date} for ${booking_type}.\nSee details or delete it: ${booking_print_url}."
 #: ../behaviors/booking_folder/notification_sms/notification_sms.py:58
 msgid "notify_as_reminder_sms_message_default_value"
-msgstr ""
-"[${prenotazioni_folder_title}]: Promemoria prenotazione per ${booking_type} il ${booking_date} alle ${booking_time}.\n"
-"Per dettagli: ${booking_print_url}."
+msgstr "[${prenotazioni_folder_title}]: Promemoria prenotazione per ${booking_type} il ${booking_date} alle ${booking_time}.\nPer dettagli: ${booking_print_url}."
 
 #. Default: "[Reminder] subject"
 #: ../behaviors/booking_folder/notification_appio/notification_appio.py:227
@@ -1300,9 +1298,7 @@ msgstr "Il testo del messaggio quando una prenotazione è stata confermata."
 #. Default: "[${prenotazioni_folder_title}]: Booking of ${booking_date} at ${booking_time} has been accepted.\nSee details or delete it: ${booking_print_url}."
 #: ../behaviors/booking_folder/notification_sms/notification_sms.py:28
 msgid "notify_on_confirm_sms_message_default_value"
-msgstr ""
-"[${prenotazioni_folder_title}]: La prenotazione ${booking_type} per ${title} è stata confermata.\n"
-"Per dettagli: ${booking_print_url}."
+msgstr "[${prenotazioni_folder_title}]: La prenotazione ${booking_type} per ${title} è stata confermata.\nPer dettagli: ${booking_print_url}."
 
 #. Default: "[Confirm] subject"
 #: ../behaviors/booking_folder/notification_appio/notification_appio.py:155
@@ -1366,9 +1362,7 @@ msgstr "Il testo del messaggio quando una prenotazione è stata spostata."
 #. Default: "[${prenotazioni_folder_title}]: The booking scheduling for ${booking_type} was modified.\nThe new one is on ${booking_date} at ${booking_time}.\nSee details or delete it: ${booking_print_url}."
 #: ../behaviors/booking_folder/notification_sms/notification_sms.py:38
 msgid "notify_on_move_sms_message_default_value"
-msgstr ""
-"[${prenotazioni_folder_title}]: orario della prenotazione ${booking_type} modificato: ${booking_date} alle ${booking_time}.\n"
-"Per dettagli: ${booking_print_url}."
+msgstr "[${prenotazioni_folder_title}]: orario della prenotazione ${booking_type} modificato: ${booking_date} alle ${booking_time}.\nPer dettagli: ${booking_print_url}."
 
 #. Default: "[Move] subject"
 #: ../behaviors/booking_folder/notification_appio/notification_appio.py:179
