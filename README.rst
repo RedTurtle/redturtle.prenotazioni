@@ -212,30 +212,20 @@ You just need to register a new adapter::
       factory = ".my_adapter.SMSSenderAdapter"
     />
 
-And here the `send` method must bu implementend::
-
-    from logging import getLogger
+And here the `send` method must be implementend::
 
     from zope.component import adapter
-    from zope.component import getUtility
-    from zope.interface import Interface
     from zope.interface import implementer
 
     from redturtle.prenotazioni.content.prenotazione import IPrenotazione
     from redturtle.prenotazioni.interfaces import IBookingNotificationSender
-    from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
     from redturtle.prenotazioni.interfaces import IPrenotazioneSMSMessage
     from redturtle.prenotazioni.behaviors.notification_sms.adapter import BookingNotificationSender
-    logger = getLogger(__name__)
 
 
     @implementer(IBookingNotificationSender)
     @adapter(IPrenotazioneSMSMessage, IPrenotazione, YourAddonLayerInterface)
     class CustomSMSSenderAdapter(BookingNotificationSender):
-        def __init__(self, message_adapter, booking, request) -> None:
-            self.message_adapter = message_adapter
-            self.booking = booking
-            self.request = request
 
         def send(self):
             self.is_notification_allowed():
@@ -724,7 +714,7 @@ Usage::
 
 Buildout config example::
 
-    [builout]
+    [buildout]
 
     parts +=
         notify-upcoming-bookings
@@ -732,7 +722,7 @@ Buildout config example::
     [notify-upcoming-bookings]
     recipe = z3c.recipe.usercrontab
     times = 0 3 * * *
-    command = ${builout:directory}/bin/notify_upcoming_bookings
+    command = ${buildout:directory}/bin/notify_upcoming_bookings
 
 
 Behaviors
