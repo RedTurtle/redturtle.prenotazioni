@@ -55,7 +55,11 @@ class BookingNotificationSupervisorUtility:
             booking_type = booking.get_booking_type()
             service_code = getattr(booking_type, "service_code", None)
             fiscalcode = getattr(booking, "fiscalcode", None)
-            if fiscalcode and service_code and self.app_io_allowed_for(fiscalcode, service_code):
+            if (
+                fiscalcode
+                and service_code
+                and self.app_io_allowed_for(fiscalcode, service_code)
+            ):
                 return False
 
         return True
