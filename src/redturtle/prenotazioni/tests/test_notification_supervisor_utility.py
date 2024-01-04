@@ -148,6 +148,8 @@ class TestBookingNotificationSupervisorUtility(unittest.TestCase):
         self.supervisor.is_appio_message_allowed = lambda booking: True
         self.supervisor.app_io_allowed_for = lambda *_: True
         self.folder_prenotazioni.notifications_sms_enabled = True
+        # XXX: booking_type needs to have a service_code
+        self.booking.get_booking_type().service_code = "SERVICE_CODE"
         self.assertFalse(self.supervisor.is_sms_message_allowed(self.booking))
 
         # No phone number was provided
