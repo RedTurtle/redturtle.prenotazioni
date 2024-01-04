@@ -1153,7 +1153,7 @@ msgstr "Notifiche SMS"
 #. Default: "This is an automatic reminder about your booking on ${date} for ${booking_type}.<br/><br/>You can see details and print a reminder following this [link](${booking_print_url})."
 #: ../behaviors/booking_folder/appio/__init__.py:111
 msgid "notify_as_reminder_appio_message_default_value"
-msgstr "Promemoria automatico per la prenotazione per ${booking_type} il ${booking_date} alle ${booking_time}.<br/><br/>Dal tuo [promemoria](${booking_print_url}) puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
+msgstr "Promemoria automatico per la prenotazione per ${booking_type} il ${booking_date} alle ${booking_time}. <br/><br/>Dal tuo [promemoria](${booking_print_url}) puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
 
 #. Default: "[${prenotazioni_folder_title}] Booking reminder on ${booking_date}"
 #: ../behaviors/booking_folder/appio/__init__.py:101
@@ -1175,7 +1175,7 @@ msgstr "[Promemoria] messaggio"
 #. Default: "This is an automatic reminder about your booking on ${date} for ${booking_type}.<br/><br/>You can see details and print a reminder following this <a href=${booking_print_url}>link</a>."
 #: ../behaviors/booking_folder/email/__init__.py:111
 msgid "notify_as_reminder_message_default_value"
-msgstr "Promemoria automatico per la prenotazione per ${booking_type} il ${booking_date} alle ${booking_time}.<br/><br/>Dal tuo <a href=${booking_print_url}>promemoria</a> puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
+msgstr "Promemoria automatico per la prenotazione per ${booking_type} il ${booking_date} alle ${booking_time}. <br/><br/>Dal tuo <a href=${booking_print_url}>promemoria</a> puoi controllare i dati, stampare ed eventualmente cancellare la prenotazione."
 
 #. Default: "The message text when a reminder will be sent."
 #: ../behaviors/booking_folder/appio/__init__.py:243
