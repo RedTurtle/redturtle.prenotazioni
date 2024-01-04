@@ -9,13 +9,12 @@
   <i18n:registerTranslations directory="locales" />
 
   <include file="permissions.zcml" />
+  <!-- actions is deprecated ? -->
   <include package=".actions" />
   <include package=".adapters" />
   <include package=".behaviors" />
   <include package=".browser" />
-  <include package=".contentrules" />
   <include package=".vocabularies" />
-  <include package=".viewlets" />
   <include package=".indexers" />
   <include package=".events" />
   <include package=".restapi" />
@@ -48,17 +47,11 @@
       directory="profiles/to_1500"
       />
 
-  <genericsetup:registerProfile
-      name="content_rules_evolution"
-      title="Profile create to add the new default content rule: booking-confirm"
-      description="Used to add new contentrules"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/to_1402"
-      />
-
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="redturtle.prenotazioni-hiddenprofiles"
       />
+
+  <include package=".staging" />
 
 </configure>

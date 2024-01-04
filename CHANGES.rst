@@ -2,10 +2,17 @@ Changelog
 =========
 
 
-2.3.3 (unreleased)
+2.4.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Split booking notification gateways to 'App IO', 'Email' and 'SMS'
+  [folix-01]
+
+- remove unused contentrules
+  [mamico]
+
+- Add booking reminder emails.
+  [folix-01]
 
 
 2.3.2 (2024-01-03)
@@ -83,6 +90,7 @@ Changelog
 
 - Set PrenotazioniFolder and PrenotazioneType as not searchable (types_not_searched).
   [cekk]
+
 - Send ical also for manager notifications.
   [cekk]
 
@@ -120,7 +128,7 @@ Changelog
 
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
- 
+
 - Extended PrenotaizoniFolder email templates var list.
   [folix-01]
 
@@ -340,8 +348,9 @@ Changelog
 
 - Handle contentrules by the plone events and do not use contentrules anymore.
   [folix-01]
+
 - Change "day" type in week_table (TODO: need an upgrade step?).
-  [mauro]
+  [mamico]
 
 2.0.0.dev2 (2023-06-30)
 -----------------------

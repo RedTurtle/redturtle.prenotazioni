@@ -2,19 +2,45 @@
 import logging
 
 import pytz
+from dateutil.tz.tz import tzutc
 from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
 from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
 from plone.app.event.base import default_timezone
+from plone.app.textfield.value import RichTextValue
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import getUtility
 from zope.component import queryUtility
 
-from redturtle.prenotazioni import _
+from redturtle.prenotazioni.behaviors.booking_folder.email import (
+    notify_on_confirm_message_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.email import (
+    notify_on_confirm_subject_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.email import (
+    notify_on_move_message_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.email import (
+    notify_on_move_subject_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.email import (
+    notify_on_refuse_message_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.email import (
+    notify_on_refuse_subject_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.email import (
+    notify_on_submit_message_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.email import (
+    notify_on_submit_subject_default_factory,
+)
 from redturtle.prenotazioni.events.prenotazione import set_booking_code
 
 logger = logging.getLogger(__name__)
@@ -235,78 +261,21 @@ def to_1502(context):
 
 
 def to_1600_popolate_templates(context):
-    notify_on_submit_subject = context.translate(
-        _("notify_on_submit_subject_default_value", "Booking created ${title}")
-    )
-
-    notify_on_submit_message = context.translate(
-        _(
-            "notify_on_submit_message_default_value",
-            "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
-        )
-    )
-
-    notify_on_confirm_subject = context.translate(
-        _(
-            "notify_on_confirm_subject_default_value",
-            "Booking of ${booking_date} at ${booking_time} was accepted",
-        )
-    )
-
-    notify_on_confirm_message = context.translate(
-        _(
-            "notify_on_confirm_message_default_value",
-            "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
-        )
-    )
-
-    notify_on_move_subject = context.translate(
-        _(
-            "notify_on_move_subject_default_value",
-            "Modified the boolking date for ${title}",
-        )
-    )
-
-    notify_on_move_message = context.translate(
-        _(
-            "notify_on_move_message_default_value",
-            "The booking scheduling of ${booking_type} was modified."
-            "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
-        )
-    )
-
-    notify_on_refuse_subject = context.translate(
-        _(
-            "notify_on_refuse_subject_default_value",
-            "Booking refused for ${title}",
-        )
-    )
-
-    notify_on_refuse_message = context.translate(
-        _(
-            "notify_on_refuse_message_default_value",
-            "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
-        )
-    )
-
     for brain in api.portal.get_tool("portal_catalog")(
         portal_type="PrenotazioniFolder"
     ):
         obj = brain.getObject()
-        obj.notify_on_submit_subject = notify_on_submit_subject
-        obj.notify_on_submit_message = notify_on_submit_message
-        obj.notify_on_confirm_subject = notify_on_confirm_subject
-        obj.notify_on_confirm_message = notify_on_confirm_message
-        obj.notify_on_move_subject = notify_on_move_subject
-        obj.notify_on_move_message = notify_on_move_message
-        obj.notify_on_refuse_subject = notify_on_refuse_subject
-        obj.notify_on_refuse_message = notify_on_refuse_message
+        obj.notify_on_submit_subject = notify_on_submit_subject_default_factory(obj)
+        obj.notify_on_submit_message = notify_on_submit_message_default_factory(obj)
+        obj.notify_on_confirm_subject = notify_on_confirm_subject_default_factory(obj)
+        obj.notify_on_confirm_message = notify_on_confirm_message_default_factory(obj)
+        obj.notify_on_move_subject = notify_on_move_subject_default_factory(obj)
+        obj.notify_on_move_message = notify_on_move_message_default_factory(obj)
+        obj.notify_on_refuse_subject = notify_on_refuse_subject_default_factory(obj)
+        obj.notify_on_refuse_message = notify_on_refuse_message_default_factory(obj)
 
 
 def to_1600_upgrade_contentrules(context):
-    from plone.contentrules.engine.interfaces import IRuleAssignmentManager
-    from plone.contentrules.engine.interfaces import IRuleStorage
-
     rules_to_delete = [
         "booking-accepted",
         "booking-moved",
@@ -359,8 +328,6 @@ def to_1700(context):
     """
     Fix timezones in bookings
     """
-    from dateutil.tz.tz import tzutc
-
     brains = api.content.find(portal_type="Prenotazione")
     tot = len(brains)
     i = 0
@@ -412,8 +379,6 @@ def to_1804(context):
 
 
 def to_1805(context):
-    from plone.app.textfield.value import RichTextValue
-
     for brain in api.portal.get_tool("portal_catalog")(
         portal_type="PrenotazioniFolder"
     ):

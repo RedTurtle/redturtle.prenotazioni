@@ -46,11 +46,12 @@ PERMANENT_STATUS = (PROCESSED, REJECTED, FAILED)
 class Api(object):
     def __init__(self, secret, storage=None):
         self.storage = storage
-        header = "Ocp-Apim-Subscription-Key"
         http_client = RequestsClient()
-        http_client.set_api_key(
-            "api.io.italia.it", secret, param_name=header, param_in="header"
-        )
+        http_client.session.headers = {
+            "Ocp-Apim-Subscription-Key": f"{secret}",
+            "Content-Type": "application/json",
+        }
+
         # TODO: cache delle specifiche openapi
         self.api = SwaggerClient.from_url(
             "https://raw.githubusercontent.com/teamdigitale/io-functions-services/master/openapi/index.yaml",
@@ -139,22 +140,12 @@ class Api(object):
                 key, fiscal_code, subject, body, payment_data, due_date
             )
         # 2. verifica se il destinatario è abilitato o meno a ricevere il messaggio
-        try:
-            profile = (
-                self.api.profiles.getProfile(fiscal_code=fiscal_code).response().result
-            )
-        except HTTPForbidden:
+
+        profile = self.get_profile(fiscal_code=fiscal_code)
+
+        if not profile:
             self.storage.update_message(key, status=PROFILE_NOT_FOUND)
-            logger.error(
-                "profile for user %s not found (access forbidden to api)", fiscal_code
-            )
-            return None
-        except Exception:
-            self.storage.update_message(key, status=PROFILE_NOT_FOUND)
-            logger.exception(
-                "profile for user %s not found (generic error)", fiscal_code
-            )
-            return None
+
         if profile and profile.sender_allowed:
             # PaymentData non definito nello swagger, payment_data come dizionario
             # è comunque sufficiente
@@ -206,3 +197,47 @@ class Api(object):
             self.storage.update_message(key, status=SENDER_NOT_ALLOWED)
             logger.warning("message for user %s not allowed", fiscal_code)
             return None
+
+    def get_profile(self, fiscal_code):
+        try:
+            return (
+                self.api.profiles.getProfile(fiscal_code=fiscal_code).response().result
+            )
+        except HTTPForbidden:
+            logger.error(
+                "profile for user %s not found (access forbidden to api)", fiscal_code
+            )
+
+        except Exception:
+            logger.exception(
+                "profile for user %s not found (generic error)", fiscal_code
+            )
+
+        return None
+
+    def is_service_activated(self, fiscal_code):
+        """Check if the service is activated for a user"""
+
+        if not self.get_profile(fiscal_code):
+            return None
+
+        fiscal_code = self.api.get_model("FiscalCodePayload")(fiscal_code=fiscal_code)
+
+        try:
+            return getattr(
+                self.api.profiles.getProfileByPOST(payload=fiscal_code).result(),
+                "sender_allowed",
+                False,
+            )
+
+        except HTTPForbidden:
+            logger.error(
+                "subsctiprion not found for user %s (access forbidden to api)",
+                fiscal_code,
+            )
+
+        except Exception:
+            logger.exception(
+                "subsctiprion not found for user %s (generic error)",
+                fiscal_code,
+            )

@@ -10,18 +10,11 @@ from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from zope.event import notify
-from zope.interface import implementer
-from zope.interface.interfaces import IObjectEvent
 
 from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.events import BookingReminderEvent
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
-
-
-@implementer(IObjectEvent)
-class DummyEvent(object):
-    def __init__(self, object):
-        self.object = object
 
 
 class TestSPrenotazioneEvents(unittest.TestCase):
@@ -392,6 +385,18 @@ class TestSPrenotazioneEvents(unittest.TestCase):
         self.assertFalse(self.mailhost.messages)
         booking = self.create_booking()
         api.content.transition(booking, "refuse")
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        mail_sent = self.mailhost.messages[0]
+        message = email.message_from_bytes(mail_sent)
+
+        self.assertTrue(len(message.get_payload()), 1)
+
+    def test_email_is_sent_on_booking_reminder_event(self):
+        self.assertFalse(self.mailhost.messages)
+
+        notify(BookingReminderEvent(self.create_booking()))
 
         self.assertEqual(len(self.mailhost.messages), 1)
 
