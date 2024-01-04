@@ -50,11 +50,14 @@ def notify_on_move(context, event):
         return
 
     booking_folder = context.getPrenotazioniFolder()
-    if not getattr(booking_folder(), "notify_on_move", False):
+    if not getattr(booking_folder, "notify_on_move", False):
         return
-    if not getattr(context, "email", ""):
-        # booking does not have an email set
-        return
+    # XXX: il controllo immagino sia altrove e deve controllare
+    #      non solo se l'email è presente ma anche se le notifiche email
+    #      sono attive
+    # if not getattr(context, "email", ""):
+    #     # booking does not have an email set
+    #     return
     message_adapter = getMultiAdapter((context, event), IBookingSMSMessage)
     if message_adapter and message_adapter.message:
         sender_adapter = getMultiAdapter(

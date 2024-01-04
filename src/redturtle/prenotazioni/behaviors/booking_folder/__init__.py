@@ -54,7 +54,8 @@ class BookingNotificationSupervisorUtility:
             #      richiede a suo volta un message_adapter ...
             booking_type = booking.get_booking_type()
             service_code = getattr(booking_type, "service_code", None)
-            if self.app_io_allowed_for(booking.fiscalcode, service_code):
+            fiscalcode = getattr(booking, "fiscalcode", None)
+            if fiscalcode and service_code and self.app_io_allowed_for(fiscalcode, service_code):
                 return False
 
         return True
