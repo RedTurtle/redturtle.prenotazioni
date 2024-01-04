@@ -28,10 +28,7 @@ def send_notification_on_transition(context, event) -> None:
     if flags["confirm"] and getattr(booking_folder, "auto_confirm", False):
         flags["submit"] = False
 
-    if flags.get(
-        event.transition and event.transition.__name__ or "",
-        False,
-    ):
+    if event.transition and flags.get(event.transition.__name__):
         message_adapter = getMultiAdapter(
             (context, event),
             IBookingAPPIoMessage,

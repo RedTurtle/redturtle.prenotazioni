@@ -4,9 +4,6 @@ from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
 
 from redturtle.prenotazioni import is_migration
-from redturtle.prenotazioni.behaviors.booking_folder import (
-    get_booking_folder_notification_flags,
-)
 from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.utilities import handle_exception_by_log
@@ -24,7 +21,7 @@ def send_email_notification_on_transition(context, event) -> None:
         return
 
     booking_folder = context.getPrenotazioniFolder()
-    flags = get_booking_folder_notification_flags(booking_folder)
+    flags = booking_folder.get_notification_flags()
 
     if flags["confirm"] and getattr(booking_folder, "auto_confirm", False):
         flags["submit"] = False
