@@ -565,6 +565,12 @@ class PrenotazioniFolder(Container):
             contentFilter={"portal_type": "PrenotazioneType"}
         )
 
+    def get_notification_flags(self):
+        return {
+            action: getattr(self, f"notify_on_{action}", False)
+            for action in ("confirm", "submit", "refuse")
+        }
+
     # BBB: compatibility with old code (booking_types was a List of IBookingTypeRow)
     @property
     def booking_types(self):

@@ -100,7 +100,7 @@ class TestAvailableSlots(unittest.TestCase):
     def tearDown(self):
         self.api_session.close()
 
-    @unittest.skip("issue testing in the last days of a month")
+    @freeze_time(date(date.today().year, date.today().month, 2))
     def test_month_slots_called_without_params_return_all_available_slots_of_current_month(
         self,
     ):
@@ -116,10 +116,17 @@ class TestAvailableSlots(unittest.TestCase):
         for week in calendar.monthcalendar(current_year, current_month):
             # week[0] is monday and should be greater than today
             if week[0] > current_day:
-                for hour in [7, 8, 9]:
+                for hour in [6, 7, 8]:
                     expected.append(
                         json_compatible(
-                            datetime(current_year, current_month, week[0], hour, 0)
+                            datetime(
+                                current_year,
+                                current_month,
+                                week[0],
+                                hour,
+                                0,
+                                tzinfo=pytz.UTC,
+                            )
                         )
                     )
         self.assertEqual(expected, response.json()["items"])

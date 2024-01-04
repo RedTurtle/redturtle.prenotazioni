@@ -221,7 +221,7 @@ And here the `send` method must be implementend::
     from redturtle.prenotazioni.content.prenotazione import IPrenotazione
     from redturtle.prenotazioni.interfaces import IBookingNotificationSender
     from redturtle.prenotazioni.interfaces import IBookingSMSMessage
-    from redturtle.prenotazioni.behaviors.booking_folder.notification_sms.adapters import BookingNotificationSender
+    from redturtle.prenotazioni.behaviors.booking_folder.sms.adapters import BookingNotificationSender
 
 
     @implementer(IBookingNotificationSender)

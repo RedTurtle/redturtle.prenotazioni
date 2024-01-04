@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
+import json
+from urllib.parse import urlparse
+
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.interfaces import ISerializeToJson
+from plone.restapi.interfaces import ISerializeToJsonSummary
 from zExceptions import BadRequest
+from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
 
@@ -58,6 +63,23 @@ class AddBooking(BookingSchema):
                 _("Sorry, this slot is not available anymore.")
             )
             raise BadRequest(msg)
+
+        if "address" in data:
+            # XXX: i dati arrivano da un utente, eventualmente anche anonimo non possiamo
+            #      permetterci di salvare i dati raw che arrivano, piuttosto salviamo
+            #      solo la url dell'uffico di riferimento da cui poi recuperare i dati
+            #      in fase di visualizzazione o salviamo i dati serializzati ora a partire dalla url
+            #      passata dall'utente. Per ora la seconda opzione è più conservativa nel caso
+            #      in cui l'ufficio cambi i dati dopo la prenotazione o venga eliminato.
+            if data["address"].get("href", None):
+                # TODO: usare volto_frontend_url
+                path = urlparse(data["address"]["href"]).path
+                ou = api.content.get(path)
+                if ou:
+                    # TODO: aggiungere 'address' nello schema di booking ?
+                    obj.address = json.dumps(
+                        getMultiAdapter((ou, self.request), ISerializeToJsonSummary)()
+                    )
 
         serializer = queryMultiAdapter((obj, self.request), ISerializeToJson)
         return serializer()
