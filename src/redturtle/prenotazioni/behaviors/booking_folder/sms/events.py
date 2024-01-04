@@ -35,34 +35,33 @@ def send_notification_on_transition(context, event) -> None:
             IBookingSMSMessage,
         )
 
+        if message_adapter and message_adapter.message:
+            sender_adapter = getMultiAdapter(
+                (message_adapter, context, getRequest()),
+                IBookingNotificationSender,
+                name="booking_transition_sms_sender",
+            )
+            sender_adapter.send()
+
+
+@handle_exception_by_log
+def notify_on_move(context, event):
+    if not booking_folder_provides_current_behavior(context):
+        return
+
+    booking_folder = context.getPrenotazioniFolder()
+    if not getattr(booking_folder(), "notify_on_move", False):
+        return
+    if not getattr(context, "email", ""):
+        # booking does not have an email set
+        return
+    message_adapter = getMultiAdapter((context, event), IBookingSMSMessage)
+    if message_adapter and message_adapter.message:
         sender_adapter = getMultiAdapter(
             (message_adapter, context, getRequest()),
             IBookingNotificationSender,
             name="booking_transition_sms_sender",
         )
-
-        if message_adapter and message_adapter.message:
-            sender_adapter.send()
-
-
-# TODO: use the notify_on_after_transition_event method techique instead
-@handle_exception_by_log
-def notify_on_move(booking, event):
-    if not booking_folder_provides_current_behavior(booking):
-        return
-
-    if not getattr(booking.getPrenotazioniFolder(), "notify_on_move", False):
-        return
-    if not getattr(booking, "email", ""):
-        # booking does not have an email set
-        return
-    message_adapter = getMultiAdapter((booking, event), IBookingSMSMessage)
-    sender_adapter = getMultiAdapter(
-        (message_adapter, booking, getRequest()),
-        IBookingNotificationSender,
-        name="booking_transition_sms_sender",
-    )
-    if message_adapter and message_adapter.message:
         sender_adapter.send()
 
 
@@ -76,11 +75,10 @@ def send_booking_reminder(context, event):
         IBookingSMSMessage,
         name="reminder_notification_sms_message",
     )
-    sender_adapter = getMultiAdapter(
-        (message_adapter, context, getRequest()),
-        IBookingNotificationSender,
-        name="booking_transition_sms_sender",
-    )
-
     if message_adapter and message_adapter.message:
+        sender_adapter = getMultiAdapter(
+            (message_adapter, context, getRequest()),
+            IBookingNotificationSender,
+            name="booking_transition_sms_sender",
+        )
         sender_adapter.send()

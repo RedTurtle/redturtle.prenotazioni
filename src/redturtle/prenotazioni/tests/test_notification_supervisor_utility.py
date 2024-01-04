@@ -103,12 +103,6 @@ class TestBookingNotificationSupervisorUtility(unittest.TestCase):
 
     def test_is_appio_message_allowed_positive(self):
         self.folder_prenotazioni.notifications_appio_enabled = True
-
-        # Mock the AppIo subscription check
-        self.supervisor._check_user_appio_subscription_to_booking_type = (
-            lambda booking: True
-        )
-
         self.assertTrue(self.supervisor.is_appio_message_allowed(self.booking))
 
     def test_is_appio_message_allowed_negative(self):
@@ -124,14 +118,6 @@ class TestBookingNotificationSupervisorUtility(unittest.TestCase):
         # No fiscalcode provided
         self.folder_prenotazioni.notifications_appio_enabled = True
         self.booking.fiscalcode = None
-
-        self.assertFalse(self.supervisor.is_appio_message_allowed(self.booking))
-
-        # User has no AppIO service subscription
-        self.supervisor._check_user_appio_subscription_to_booking_type = (
-            lambda booking: False
-        )
-        self.booking.fiscalcode = "FISCALCODE"
 
         self.assertFalse(self.supervisor.is_appio_message_allowed(self.booking))
 
@@ -160,8 +146,8 @@ class TestBookingNotificationSupervisorUtility(unittest.TestCase):
         # AppIO notification is allowed
         self.supervisor.is_email_message_allowed = lambda booking: False
         self.supervisor.is_appio_message_allowed = lambda booking: True
+        self.supervisor.app_io_allowed_for = lambda *_: True
         self.folder_prenotazioni.notifications_sms_enabled = True
-
         self.assertFalse(self.supervisor.is_sms_message_allowed(self.booking))
 
         # No phone number was provided

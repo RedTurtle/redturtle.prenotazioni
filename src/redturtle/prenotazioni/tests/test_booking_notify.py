@@ -9,18 +9,22 @@ import pytz
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
+from zope.component import getGlobalSiteManager
 from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
-from zope.component import getGlobalSiteManager
 
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING
+from redturtle.prenotazioni.behaviors.booking_folder.sms.adapters import (
+    BookingNotificationSender,
+)
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingSMSMessage
-from redturtle.prenotazioni.behaviors.booking_folder.sms.adapters import BookingNotificationSender
 from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING,
+)
 
 
 @implementer(IObjectEvent)
@@ -88,7 +92,6 @@ class TestBookingNotify(unittest.TestCase):
         self.sms = sms = []
 
         class CustomSMSSenderAdapter(BookingNotificationSender):
-
             def send(self):
                 if self.is_notification_allowed():
                     # the message is automatically generated basing on the event type
@@ -133,7 +136,7 @@ class TestBookingNotify(unittest.TestCase):
         self.assertIn("[Prenota foo]: Booking Type A for ", self.sms[0][1])
         # default confirmation is not setted, so the sms is for creation
         self.assertIn(" at 08:00 has been created.", self.sms[0][1])
-        
+
         # reject booking does not send sms
         api.content.transition(obj=booking, transition="refuse")
         self.assertEqual(len(self.sms), 1)

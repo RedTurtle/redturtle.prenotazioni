@@ -288,7 +288,7 @@
       destination="2003"
       >
     <genericsetup:upgradeStep
-        title="Assign redturtle.prenotazioni.behavior.notification_email to         PrenotazioniFolder"
+        title="Assign redturtle.prenotazioni.behavior.notification_email to PrenotazioniFolder"
         handler=".upgrades.update_types"
         />
   </genericsetup:upgradeSteps>

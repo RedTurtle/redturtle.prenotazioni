@@ -10,10 +10,10 @@
       name="redturtle.prenotazioni.behavior.notification_email"
       title="Booking folder notification email"
       description="Notification email templates"
-      factory=".notification_email.NotificationEmail"
-      provides=".notification_email.INotificationEmail"
+      factory=".NotificationEmail"
+      provides=".INotificationEmail"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
-      marker=".notification_email.INotificationEmail"
+      marker=".INotificationEmail"
       />
 
   <subscriber

@@ -4,8 +4,8 @@
     i18n_domain="redturtle.prenotazioni"
     >
 
-  <include package=".notification_appio" />
-  <include package=".notification_email" />
+  <include package=".appio" />
+  <include package=".email" />
   <include package=".sms" />
 
   <plone:behavior

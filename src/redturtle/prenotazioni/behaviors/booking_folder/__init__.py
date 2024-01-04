@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
-
-from redturtle.prenotazioni.io_tools.api import Api
+from .appio.adapters import app_io_allowed_for
 
 
 def get_booking_folder_notification_flags(booking_folder):
@@ -33,10 +31,10 @@ class BookingNotificationSupervisorUtility:
         if not booking.fiscalcode:
             return False
 
-        if self._check_user_appio_subscription_to_booking_type(booking):
-            return True
+        return True
 
-        return False
+    def app_io_allowed_for(sefl, fiscalcode, service_code):
+        return app_io_allowed_for(fiscalcode, service_code=service_code)
 
     def is_sms_message_allowed(self, booking):
         if not getattr(
@@ -44,23 +42,19 @@ class BookingNotificationSupervisorUtility:
         ):
             return False
 
+        if not booking.phone:
+            return False
+
         if self.is_email_message_allowed(booking):
             return False
 
+        # if user is potentially notified by App IO, do not send sms
         if self.is_appio_message_allowed(booking):
-            return False
+            # XXX: questo sarebbe dovuto essere nell'adapter per App IO, ma l'adapter
+            #      richiede a suo volta un message_adapter ...
+            booking_type = booking.get_booking_type()
+            service_code = getattr(booking_type, "service_code", None)
+            if self.app_io_allowed_for(booking.fiscalcode, service_code):
+                return False
 
-        if booking.phone:
-            return True
-
-        return False
-
-    def _check_user_appio_subscription_to_booking_type(self, booking):
-        service_code = getattr(booking.get_booking_type(), "service_code", "")
-
-        if not service_code:
-            return False
-
-        return Api(secret=os.environ.get(service_code)).is_service_activated(
-            booking.fiscalcode
-        )
+        return True
