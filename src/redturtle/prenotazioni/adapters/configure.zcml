@@ -191,7 +191,7 @@
       />
 
 
-    <!-- code generator -->
-    <adapter factory=".booking_code.BookingCodeGenerator" />
+  <!-- code generator -->
+  <adapter factory=".booking_code.BookingCodeGenerator" />
 
 </configure>
