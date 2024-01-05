@@ -40,13 +40,13 @@
   <property name="behaviors"
             purge="false"
   >
+    <element value="redturtle.prenotazioni.behavior.notification_email" />
     <element value="plone.app.content.interfaces.INameFromTitle" />
     <element value="plone.app.dexterity.behaviors.discussion.IAllowDiscussion" />
     <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation" />
     <element value="plone.app.dexterity.behaviors.id.IShortName" />
     <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
     <element value="plone.app.lockingbehavior.behaviors.ILocking" />
-    <element value="redturtle.prenotazioni.behavior.notification_email" />
   </property>
 
   <!-- View information -->

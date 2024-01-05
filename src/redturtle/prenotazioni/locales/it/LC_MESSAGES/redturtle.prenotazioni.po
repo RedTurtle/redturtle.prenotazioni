@@ -1341,7 +1341,7 @@ msgstr "L'oggetto del messaggio quando una prenotazione è stata spostata."
 #. Default: "Notify when rejected."
 #: ../content/prenotazioni_folder.py:436
 msgid "notify_on_refuse"
-msgstr "Notifica se viene cancellata"
+msgstr "Notifica alla cancellazione"
 
 #. Default: "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused."
 #: ../behaviors/booking_folder/appio/__init__.py:91
