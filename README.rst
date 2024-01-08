@@ -285,7 +285,7 @@ And the adapter should be something like this::
 
 
     @implementer(IBookingCodeGenerator)
-    @adapter(IPrenotazione, IXideraPrenotazioniLayer)
+    @adapter(IPrenotazione, IMyPackageLayer)
     class MyNewBookingCodeGenerator(BookingCodeGenerator):
         def __call__(self, *args, **kwargs):
             return "XXXXX"
