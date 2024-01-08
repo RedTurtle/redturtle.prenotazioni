@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import logging
 from email.utils import formataddr
 from email.utils import parseaddr
 
@@ -12,8 +11,6 @@ from zope.component import getUtility
 from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.adapters.booking_code import IBookingCodeGenerator
-
-logger = logging.getLogger(__name__)
 
 
 def reallocate_gate(obj):

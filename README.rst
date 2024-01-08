@@ -263,6 +263,33 @@ bookings within a given time interval.
 You can also filter the results specifying a searchable text,
 a gate or a review state.
 
+Booking code generation
+-----------------------
+
+Every booking has an unique code generated on creation.
+
+By default this code is based on its UID.
+If you need to change this logic, you can do it registering a more specific adapter::
+
+    <adapter factory=".my_new_code.MyNewBookingCodeGenerator" />
+
+
+And the adapter should be something like this::
+
+    from redturtle.prenotazioni.adapters.booking_code import BookingCodeGenerator
+    from redturtle.prenotazioni.adapters.booking_code import IBookingCodeGenerator
+    from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+    from my.package.interfaces import IMyPackageLayer
+    from zope.component import adapter
+    from zope.interface import implementer
+
+
+    @implementer(IBookingCodeGenerator)
+    @adapter(IPrenotazione, IXideraPrenotazioniLayer)
+    class MyNewBookingCodeGenerator(BookingCodeGenerator):
+        def __call__(self, *args, **kwargs):
+            return "XXXXX"
+
 
 Rest API
 ========
@@ -463,7 +490,7 @@ Response::
     }
 
 @booking-schema
---------------------
+---------------
 
 Endpoint that need to be called on a PrenotazioniFolder.
 It returns the list of all fields to fill in for the booking.
