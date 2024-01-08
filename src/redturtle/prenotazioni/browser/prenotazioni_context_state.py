@@ -314,13 +314,10 @@ class PrenotazioniContextState(BrowserView):
         slot_min_size: seconds
         """
         # we have some conditions to check
-        # XXX: ma questo non si poteva fare prima... molto prima... di arrivare fin qui ?
         if not self.is_valid_day(day):
             return []
-        # XXX: ma questo non si poteva fare prima... molto prima... di arrivare fin qui ?
-        if self.maximum_bookable_date:
-            if day > self.maximum_bookable_date.date():
-                return []
+        if self.maximum_bookable_date and day > self.maximum_bookable_date.date():
+            return []
         # date = day.strftime("%Y-%m-%d")
         params = self.remembered_params.copy()
         times = slot.get_values_hr_every(300, slot_min_size=slot_min_size)
@@ -366,8 +363,12 @@ class PrenotazioniContextState(BrowserView):
                 ]
             }
         """
-        slots_by_gate = self.get_free_slots(day)
         urls = {}
+        if not self.is_valid_day(day):
+            return urls
+        if self.maximum_bookable_date and day > self.maximum_bookable_date.date():
+            return urls
+        slots_by_gate = self.get_free_slots(day)
         for gate in slots_by_gate:
             slots = slots_by_gate[gate]
             for slot in slots:

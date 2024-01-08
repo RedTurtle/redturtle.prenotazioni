@@ -5,6 +5,8 @@ Changelog
 2.4.0 (unreleased)
 ------------------
 
+- Performance improvements: changed functions: `hm2DT`, `value_hr`, `get_values_hr_every`
+
 - Split booking notification gateways to 'App IO', 'Email' and 'SMS'
   [folix-01]
 
