@@ -17,6 +17,9 @@ Changelog
 - Move code generation to adapter, to be more customizable.
   [cekk]
 
+- Add customizable email from in PrenotazioniFolder contents.
+  [cekk]
+
 2.3.2 (2024-01-03)
 ------------------
 
