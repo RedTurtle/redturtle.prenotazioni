@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-import hashlib
 from email.utils import formataddr
 from email.utils import parseaddr
 
 from plone import api
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
+from zope.component import getMultiAdapter
 from zope.component import getUtility
 
 from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.adapters.booking_code import IBookingCodeGenerator
 
 
 def reallocate_gate(obj):
@@ -68,8 +69,5 @@ def set_booking_code(booking, event):
     """
     if is_migration():
         return
-
-    hash_obj = hashlib.blake2b(bytes(booking.UID(), encoding="utf8"), digest_size=3)
-    hash_value = hash_obj.hexdigest().upper()
-    setattr(booking, "booking_code", hash_value)
-    return
+    booking_code = getMultiAdapter((booking, booking.REQUEST), IBookingCodeGenerator)()
+    setattr(booking, "booking_code", booking_code)
