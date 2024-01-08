@@ -121,7 +121,6 @@ class TestDaySlots(unittest.TestCase):
             f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
         )
         self.assertEqual(response.status_code, 200)
-
         results = response.json()["pauses"]
         # la risposta è in UTC
         tomorrow_start_utc = self.tomorrow.replace(hour=7, minute=15).astimezone(
