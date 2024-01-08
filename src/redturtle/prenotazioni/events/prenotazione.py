@@ -7,6 +7,7 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from zope.component import getMultiAdapter
 from zope.component import getUtility
+from zope.globalrequest import getRequest
 
 from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker
@@ -69,5 +70,5 @@ def set_booking_code(booking, event):
     """
     if is_migration():
         return
-    booking_code = getMultiAdapter((booking, booking.REQUEST), IBookingCodeGenerator)()
+    booking_code = getMultiAdapter((booking, getRequest()), IBookingCodeGenerator)()
     setattr(booking, "booking_code", booking_code)
