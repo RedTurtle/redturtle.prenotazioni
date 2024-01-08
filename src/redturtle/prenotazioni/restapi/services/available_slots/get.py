@@ -20,11 +20,12 @@ class AvailableSlots(Service):
 
         If not, the search will start from current date until the end of current month.
         """
-        prenotazioni_week_view = api.content.get_view(
-            "prenotazioni_week_view",
-            context=self.context,
-            request=self.request,
+        prenotazioni_context_state = api.content.get_view(
+            "prenotazioni_context_state",
+            self.context,
+            self.request,
         )
+
         start = self.request.form.get("start", "")
         end = self.request.form.get("end", "")
         past_slots = self.request.form.get("past_slots", False)
@@ -51,10 +52,7 @@ class AvailableSlots(Service):
         booking_type = self.request.form.get("booking_type")
         if booking_type:
             slot_min_size = (
-                prenotazioni_week_view.prenotazioni.get_booking_type_duration(
-                    booking_type
-                )
-                * 60
+                prenotazioni_context_state.get_booking_type_duration(booking_type) * 60
             )
         else:
             slot_min_size = 0
@@ -65,11 +63,11 @@ class AvailableSlots(Service):
         }
         for n in range(int((end - start).days) + 1):
             booking_date = start + timedelta(n)
-            slots = prenotazioni_week_view.prenotazioni.get_anonymous_slots(
+            slots = prenotazioni_context_state.get_anonymous_slots(
                 booking_date=booking_date
             )
             for slot in slots.get("anonymous_gate", []):
-                info = prenotazioni_week_view.prenotazioni.get_anonymous_booking_url(
+                info = prenotazioni_context_state.get_anonymous_booking_url(
                     booking_date, slot, slot_min_size=slot_min_size
                 )
                 if not info.get("url", ""):
@@ -78,3 +76,7 @@ class AvailableSlots(Service):
                     continue
                 response["items"].append(json_compatible(info.get("booking_date", "")))
         return response
+
+
+# from mrs.doubtfire.meta import metricmethod
+# AvailableSlots.reply = metricmethod(AvailableSlots.reply)
