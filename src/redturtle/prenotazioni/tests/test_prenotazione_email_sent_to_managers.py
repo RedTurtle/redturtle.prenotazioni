@@ -136,3 +136,18 @@ class TestEmailToManagers(unittest.TestCase):
                 data,
             )
         self.assertIn(f"UID:{booking.UID()}", data)
+
+    def test_email_sent_to_managers_has_default_from(self):
+        self.create_booking()
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        self.assertIn(b"From: noreply@example.com", self.mailhost.messages[0])
+
+    def test_email_sent_to_managers_from_address_overrided(self):
+        self.folder_prenotazioni.email_from = "noreply@foo.com"
+        self.create_booking()
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        self.assertIn(b"From: noreply@foo.com", self.mailhost.messages[0])
