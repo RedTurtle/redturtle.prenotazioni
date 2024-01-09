@@ -152,6 +152,8 @@ class PrenotazioneSearchableItemSerializer:
                     prenotazioni_folder.descriptionAgenda,
                     prenotazioni_folder,
                 ),
+                # BBB
+                "address": None,
             }
             for other in ["booking_address", "booking_office"]:
                 if getattr(self.prenotazione, other, None):
