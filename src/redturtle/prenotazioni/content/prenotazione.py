@@ -206,14 +206,12 @@ class Prenotazione(Item):
 
     def setBooking_date(self, date):
         self.booking_date = date
-        return
 
     def getBooking_expiration_date(self):
         return self.booking_expiration_date
 
     def setBooking_expiration_date(self, date):
         self.booking_expiration_date = date
-        return
 
     def getBooking_type(self):
         return self.booking_type
@@ -267,37 +265,9 @@ class Prenotazione(Item):
 
     def canAccessBooking(self):
         return True
-        # creator = self.Creator()
-        # if api.user.is_anonymous():
-        #     if creator:
-        #         return False
-        # else:
-        #     current_user = api.user.get_current()
-        #     if (
-        #         not api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni")
-        #         and creator != current_user.getUserName()
-        #     ):
-        #         return False
-        # return True
 
     def canDeleteBooking(self):
         return True
-        # creator = self.Creator()
-        # if not creator:
-        #     if api.user.is_anonymous():
-        #         return True
-        #     if api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni"):
-        #         return True
-        # else:
-        #     if api.user.is_anonymous():
-        #         return False
-        #     current_user = api.user.get_current()
-        #     if (
-        #         api.user.has_permission("redturtle.prenotazioni.ManagePrenotazioni")
-        #         or creator == current_user.getUserName()
-        #     ):
-        #         return True
-        # return False
 
     def get_booking_type(self):
         return {
