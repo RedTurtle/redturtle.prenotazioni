@@ -145,7 +145,9 @@ class PrenotazioneSearchableItemSerializer:
                 "@id": prenotazioni_folder.absolute_url(),
                 "uid": prenotazioni_folder.UID(),
                 "title": prenotazioni_folder.Title(),
-                "orario_di_apertura": getattr(prenotazioni_folder, "orario_di_apertura", None),
+                "orario_di_apertura": getattr(
+                    prenotazioni_folder, "orario_di_apertura", None
+                ),
                 "description_agenda": json_compatible(
                     prenotazioni_folder.descriptionAgenda,
                     prenotazioni_folder,
