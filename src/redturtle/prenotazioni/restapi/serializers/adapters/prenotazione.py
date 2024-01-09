@@ -140,28 +140,22 @@ class PrenotazioneSearchableItemSerializer:
                 "@id": prenotazioni_folder.absolute_url(),
                 "uid": prenotazioni_folder.UID(),
                 "title": prenotazioni_folder.Title(),
-                "orario_di_apertura": prenotazioni_folder.orario_di_apertura,
-                # "address": sede,
+                "orario_di_apertura": getattr(prenotazioni_folder, "orario_di_apertura", None),
                 "description_agenda": json_compatible(
                     prenotazioni_folder.descriptionAgenda,
                     prenotazioni_folder,
                 ),
             }
-            if getattr(self.prenotazione, "address", None):
-                try:
-                    data["booking_folder"]["address"] = json.loads(
-                        self.prenotazione.address
-                    )
-                except json.decoder.JSONDecodeError:
-                    logger.warning(
-                        "Address field is not JSON serializable: %s",
-                        self.prenotazione.address,
-                    )
-                except TypeError:
-                    logger.warning(
-                        "Address field is not JSON serializable: %s",
-                        self.prenotazione.address,
-                    )
+            for other in ["booking_address", "booking_office"]:
+                if getattr(self.prenotazione, other, None):
+                    try:
+                        data[other] = json.loads(getattr(self.prenotazione, other))
+                    except Exception:
+                        logger.warning(
+                            "%s field is not JSON serializable: %s",
+                            other,
+                            getattr(self.prenotazione, other),
+                        )
             data["requirements"] = requirements
             data["cosa_serve"] = requirements  # BBB
         return data

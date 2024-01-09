@@ -13,6 +13,7 @@ from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
 
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.adapters.booker import BookerException
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
@@ -64,25 +65,47 @@ class AddBooking(BookingSchema):
             )
             raise BadRequest(msg)
 
-        if "address" in data:
+        # other_fields: {
+        #   booking_address: prenotazioneObj.booking_folder?.address?.['@id'],
+        #   booking_office: prenotazioneObj.booking_office?.['url'],
+        #   booking_contact_info: (prenotazioneObj.booking_office?.contact_info || []).map((c) => c['@id']),
+        # },
+        if "other_fields" in data:
             # XXX: i dati arrivano da un utente, eventualmente anche anonimo non possiamo
             #      permetterci di salvare i dati raw che arrivano, piuttosto salviamo
             #      solo la url dell'uffico di riferimento da cui poi recuperare i dati
             #      in fase di visualizzazione o salviamo i dati serializzati ora a partire dalla url
             #      passata dall'utente. Per ora la seconda opzione è più conservativa nel caso
             #      in cui l'ufficio cambi i dati dopo la prenotazione o venga eliminato.
-            if data["address"].get("href", None):
-                # TODO: usare volto_frontend_url
-                path = urlparse(data["address"]["href"]).path
-                ou = api.content.get(path)
-                if ou:
-                    # TODO: aggiungere 'address' nello schema di booking ?
-                    obj.address = json.dumps(
-                        getMultiAdapter((ou, self.request), ISerializeToJsonSummary)()
-                    )
+            other = data["other_fields"]
+            if other.get("booking_office", None):
+                # XXX: aggiungere 'booking_office' nello schema di booking ?
+                self.save_other_field(obj, "booking_office", other["booking_office"])
+            if other.get("booking_address", None):
+                self.save_other_field(obj, "booking_address", other["booking_address"])
+            # XXX: da valutare
+            # if other.get("booking_contact_info", None):
 
         serializer = queryMultiAdapter((obj, self.request), ISerializeToJson)
         return serializer()
+
+    def save_other_field(self, obj, field, value):
+        try:
+            # TODO: usare volto_frontend_url
+            path = urlparse(value).path
+            other = api.content.get(path)
+            if other:
+                setattr(
+                    obj,
+                    field,
+                    json.dumps(
+                        getMultiAdapter(
+                            (other, self.request), ISerializeToJsonSummary
+                        )()
+                    ),
+                )
+        except Exception:
+            logger.exception("Error while saving %s field %s for %s", value, field, obj)
 
     def validate(self):
         data = json_body(self.request)
