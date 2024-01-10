@@ -10,10 +10,23 @@ from plone.memoize import forever
 
 from redturtle.prenotazioni import tznow
 
+# Born to be monkeypatched for the tests
+TIMEZONE_CACHE = True
 
-@forever.memoize
+
+# NOTE: If the site timezone was changed, you need to reload the instance due to forever.memoize usage \cc @mamico
 def get_default_timezone(as_tzinfo):
-    return default_timezone(as_tzinfo=as_tzinfo)
+    @forever.memoize
+    def cached_call():
+        return default_timezone(as_tzinfo=as_tzinfo)
+
+    def uncached_call():
+        return default_timezone(as_tzinfo=as_tzinfo)
+
+    if TIMEZONE_CACHE:
+        return cached_call()
+    else:
+        return uncached_call()
 
 
 def hm2handm(hm):
