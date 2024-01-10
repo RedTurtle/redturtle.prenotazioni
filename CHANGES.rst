@@ -5,6 +5,9 @@ Changelog
 2.4.0 (unreleased)
 ------------------
 
+- Perfomance refactoring for @available-slots view
+  [folix-01]
+
 - Split booking notification gateways to 'App IO', 'Email' and 'SMS'
   [folix-01]
 
