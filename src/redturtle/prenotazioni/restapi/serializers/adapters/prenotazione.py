@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 from plone import api
 from plone.restapi.interfaces import IFieldSerializer
 from plone.restapi.interfaces import ISerializeToJson
@@ -138,6 +140,31 @@ class PrenotazioneSearchableItemSerializer:
                 )()
             except ComponentLookupError:
                 requirements = ""
+            prenotazioni_folder = self.prenotazione.getPrenotazioniFolder()
+            data["booking_folder"] = {
+                "@id": prenotazioni_folder.absolute_url(),
+                "uid": prenotazioni_folder.UID(),
+                "title": prenotazioni_folder.Title(),
+                "orario_di_apertura": getattr(
+                    prenotazioni_folder, "orario_di_apertura", None
+                ),
+                "description_agenda": json_compatible(
+                    prenotazioni_folder.descriptionAgenda,
+                    prenotazioni_folder,
+                ),
+                # BBB
+                "address": {},
+            }
+            for other in ["booking_address", "booking_office"]:
+                if getattr(self.prenotazione, other, None):
+                    try:
+                        data[other] = json.loads(getattr(self.prenotazione, other))
+                    except Exception:
+                        logger.warning(
+                            "%s field is not JSON serializable: %s",
+                            other,
+                            getattr(self.prenotazione, other),
+                        )
             data["requirements"] = requirements
             data["cosa_serve"] = requirements  # BBB
         return data
