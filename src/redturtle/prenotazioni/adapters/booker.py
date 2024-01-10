@@ -268,8 +268,8 @@ class Booker(object):
             if not getattr(self.context, "auto_confirm", False) and getattr(
                 self.context, "auto_confirm_manager", False
             ):
-                # if self.context.auto_confirm  is True, auto confirm is made in event handler for all
-                api.content.transition(obj=obj, transition="confirm")
+                if api.content.get_state(obj) != "confirmed":
+                    api.content.transition(obj, transition="confirm")
         return obj
 
     def move(self, booking, data):
