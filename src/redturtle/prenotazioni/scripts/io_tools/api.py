@@ -46,11 +46,12 @@ PERMANENT_STATUS = (PROCESSED, REJECTED, FAILED)
 class Api(object):
     def __init__(self, secret, storage=None):
         self.storage = storage
-        header = "Ocp-Apim-Subscription-Key"
         http_client = RequestsClient()
-        http_client.set_api_key(
-            "api.io.italia.it", secret, param_name=header, param_in="header"
-        )
+        http_client.session.headers = {
+            "Ocp-Apim-Subscription-Key": f"{secret}",
+            "Content-Type": "application/json",
+        }
+
         # TODO: cache delle specifiche openapi
         self.api = SwaggerClient.from_url(
             "https://raw.githubusercontent.com/teamdigitale/io-functions-services/master/openapi/index.yaml",

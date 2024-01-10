@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
-from .io_tools.api import Api
-from .io_tools.storage import logstorage
 from datetime import datetime
 from datetime import timedelta
 from plone import api
 from redturtle.prenotazioni.config import NOTIFICATIONS_LOGS
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
+from redturtle.prenotazioni.scripts.io_tools.api import Api
+from redturtle.prenotazioni.scripts.io_tools.storage import logstorage
 from zope.annotation.interfaces import IAnnotations
 
 import click
@@ -50,6 +50,7 @@ def notifica_app_io(obj, api_io, msg_type, commit=False, verbose=False):
             obj.absolute_url(),
         )
         return False
+
     if fiscal_code:
         # TODO: spostare i template di messaggi in una configurazione esterna
         # allo script
