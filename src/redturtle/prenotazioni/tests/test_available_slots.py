@@ -100,7 +100,8 @@ class TestAvailableSlots(unittest.TestCase):
     def tearDown(self):
         self.api_session.close()
 
-    @freeze_time(date(date.today().year, date.today().month, 2))
+    # XXX: freezgun doesn't work with self.api_session
+    # @freeze_time(date(date.today().year, date.today().month, 2))
     def test_month_slots_called_without_params_return_all_available_slots_of_current_month(
         self,
     ):

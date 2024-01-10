@@ -5,9 +5,16 @@ from datetime import timedelta
 
 # import pytz
 import six
+from cachetools import TTLCache
+from cachetools import cached
 from plone.app.event.base import default_timezone
 
 from redturtle.prenotazioni import tznow
+
+
+@cached(cache=TTLCache(maxsize=10, ttl=timedelta(hours=1), timer=datetime.now))
+def get_default_timezone(as_tzinfo):
+    return default_timezone(as_tzinfo=as_tzinfo)
 
 
 def hm2handm(hm):
@@ -34,7 +41,7 @@ def hm2DT(day, hm, tzinfo=None):
     :param tzinfo: a timezone object (default: the default local timezone as in plone)
     """
     if tzinfo is None:
-        tzinfo = default_timezone(as_tzinfo=True)
+        tzinfo = get_default_timezone(as_tzinfo=True)
 
     if not hm or hm == "--NOVALUE--" or hm == ("--NOVALUE--",):
         return None
