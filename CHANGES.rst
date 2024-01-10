@@ -4,7 +4,8 @@ Changelog
 1.7.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix the AppIO sender header.
+  [folix-01]
 
 
 1.7.7 (2023-12-19)
