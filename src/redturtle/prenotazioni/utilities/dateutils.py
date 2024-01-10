@@ -5,8 +5,24 @@ from datetime import timedelta
 
 import six
 from plone.app.event.base import default_timezone
+from plone.memoize import forever
 
 from redturtle.prenotazioni import tznow
+
+# Born to be monkeypatched for the tests
+TIMEZONE_CACHE = True
+
+
+# NOTE: If the site timezone was changed, you need to reload the instance due to forever.memoize usage \cc @mamico
+def get_default_timezone(as_tzinfo):
+    @forever.memoize
+    def cached_call(as_tzinfo=as_tzinfo):
+        return default_timezone(as_tzinfo=as_tzinfo)
+
+    if TIMEZONE_CACHE:
+        return cached_call()
+    else:
+        return default_timezone(as_tzinfo=as_tzinfo)
 
 
 def hm2handm(hm):
@@ -33,7 +49,7 @@ def hm2DT(day, hm, tzinfo=None):
     :param tzinfo: a timezone object (default: the default local timezone as in plone)
     """
     if tzinfo is None:
-        tzinfo = default_timezone(as_tzinfo=True)
+        tzinfo = get_default_timezone(as_tzinfo=True)
 
     if not hm or hm == "--NOVALUE--" or hm == ("--NOVALUE--",):
         return None
