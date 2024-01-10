@@ -10,6 +10,7 @@ from plone.memoize import forever
 from redturtle.prenotazioni import tznow
 
 
+# NOTE: If the site timezone was changed, you need to reload the instance due to forever.memoize usage \cc @mamico
 @forever.memoize
 def get_default_timezone(as_tzinfo):
     return default_timezone(as_tzinfo=as_tzinfo)
