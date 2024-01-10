@@ -5,14 +5,13 @@ from datetime import timedelta
 
 # import pytz
 import six
-from cachetools import TTLCache
-from cachetools import cached
 from plone.app.event.base import default_timezone
+from plone.memoize import forever
 
 from redturtle.prenotazioni import tznow
 
 
-@cached(cache=TTLCache(maxsize=10, ttl=timedelta(hours=1), timer=datetime.now))
+@forever.memoize
 def get_default_timezone(as_tzinfo):
     return default_timezone(as_tzinfo=as_tzinfo)
 

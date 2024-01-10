@@ -67,7 +67,6 @@ setup(
         # 3.0.0a14 e successive richiedono plone.base che è solo su plone 6
         "plone.app.caching>=3.0.0a1",
         "bravado",
-        "cachetools",
     ],
     extras_require={
         "test": [
