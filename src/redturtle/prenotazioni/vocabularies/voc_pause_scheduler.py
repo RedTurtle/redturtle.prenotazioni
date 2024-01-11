@@ -9,7 +9,7 @@ from redturtle.prenotazioni.vocabularies.voc_ore_inizio import VocOreInizio
 class VocPauseScheduler(VocOreInizio):
     """Pause interval values"""
 
-    HOURS = [str(i) for i in range(7, 21)]
+    HOURS = [f"{i:02}" for i in range(7, 21)]
     MINUTES = [f"{i:02}" for i in range(0, 60, 5)]
 
 
