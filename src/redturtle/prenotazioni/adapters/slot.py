@@ -2,8 +2,9 @@
 from DateTime import DateTime
 from plone.app.event.base import default_timezone
 from pyinter.interval import Interval
-from six.moves import map
-from six.moves import range
+
+# from six.moves import map
+# from six.moves import range
 from zope.component import Interface
 from zope.interface import implementer
 
@@ -186,9 +187,9 @@ class BaseSlot(Interval):
         """format value in a human readable fashion"""
         if not value:
             return ""
-        hour = str(value // 3600).zfill(2)
-        minute = str(int((value % 3600) / 60)).zfill(2)
-        return "%s:%s" % (hour, minute)
+        minutes = value // 60
+        hours, minutes = divmod(minutes, 60)
+        return f"{hours:02d}:{minutes:02d}"
 
     def start(self):
         """Return the starting time"""
@@ -259,17 +260,24 @@ class BaseSlot(Interval):
         If slot_min_size is passed it will not return values whose distance
         from slot upper value is lower than this
         """
+
         if slot_min_size > len(self):
             return []
-        number_of_parts = int(len(self) / width)
-        values = set([])
+        # number_of_parts = int(len(self) / width)
+        # values = set([])
         start = self.lower_value
         end = self.upper_value
-        for i in range(number_of_parts):
-            value = start + width * i
-            if (end - value) >= slot_min_size:
-                values.add(value)
-        return list(map(self.value_hr, sorted(values)))
+        # for i in range(number_of_parts):
+        #     value = start + width * i
+        #     if (end - value) >= slot_min_size:
+        #         values.add(value)
+        # return list(map(self.value_hr, sorted(values)))
+        hr = start
+        values = []
+        while hr <= end - slot_min_size:
+            values.append(self.value_hr(hr))
+            hr += width
+        return values
 
 
 @implementer(ISlot)

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
 from datetime import time
+from datetime import datetime
 from datetime import timedelta
 
+# import pytz
 import six
 from plone.app.event.base import default_timezone
 from plone.memoize import forever
@@ -55,7 +56,11 @@ def hm2DT(day, hm, tzinfo=None):
         return None
     if len(hm) == 4 and ":" not in hm:
         hm = f"{hm[:2]}:{hm[2:]}"
-    return tzinfo.localize(datetime.combine(day, time.fromisoformat(hm)))
+    (h, m) = map(int, hm.split(":"))
+    # better performance but don't care of daylight saving time transitions.
+    # return pytz.datetime.datetime(day.year, dtake core of ay.month, day.day, h, m, tzinfo=tzinfo)
+    return tzinfo.localize(datetime.combine(day, time(h, m)))
+    # return tzinfo.localize(datetime.combine(day, time.fromisoformat(hm)))
 
 
 def hm2seconds(hm):
