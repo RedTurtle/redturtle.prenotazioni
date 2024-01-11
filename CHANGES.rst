@@ -6,6 +6,10 @@ Changelog
 ------------------
 
 - Performance improvements: changed functions: `hm2DT`, `value_hr`, `get_values_hr_every`
+  [mamico]
+
+- Perfomance refactoring for @available-slots view
+  [folix-01]
 
 - Split booking notification gateways to 'App IO', 'Email' and 'SMS'
   [folix-01]
