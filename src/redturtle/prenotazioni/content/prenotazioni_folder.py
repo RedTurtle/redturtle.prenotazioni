@@ -119,12 +119,12 @@ class IPauseTableRow(model.Schema):
     )
     pause_start = schema.Choice(
         title=_("pause_start_label", default="Pause start"),
-        vocabulary="redturtle.prenotazioni.VocOreInizio",
+        vocabulary="redturtle.prenotazioni.pause_scheduler",
         required=False,
     )
     pause_end = schema.Choice(
         title=_("pause_end_label", default="Pause end"),
-        vocabulary="redturtle.prenotazioni.VocOreInizio",
+        vocabulary="redturtle.prenotazioni.pause_scheduler",
         required=False,
     )
 
