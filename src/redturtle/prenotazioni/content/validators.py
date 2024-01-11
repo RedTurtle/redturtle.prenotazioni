@@ -3,7 +3,6 @@ import calendar
 import json
 from datetime import date
 
-from z3c.form import validator
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.interface import Invalid
@@ -65,7 +64,7 @@ def validate_pause_table(data={}):
         for pause in groups_of_pause[day]:
             #  0. Of course if we don't have a correct interval we can't do
             # more steps
-            if pause["pause_end"] == None or pause["pause_start"] == None:
+            if pause["pause_end"] is None or pause["pause_start"] is None:
                 raise Invalid(
                     translate(
                         _("You must set both start and end"), context=getRequest()
