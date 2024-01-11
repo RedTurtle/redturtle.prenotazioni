@@ -47,38 +47,10 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
     return data
 
 
-def validate_pause_table(context=None, data={}):
-    """Validate pause table
-    Is supposed as the z3c.form.validator.SimpleFieldValidator customized validation validator
-    And also as the invariant support validator
-    """
-    pause_table = None
-    week_table = None
-
-    if context and not data:
-        pause_table = get_dgf_values_from_request(
-            context.REQUEST,
-            "pause_table",
-            ["day", "pause_start", "pause_end"],
-        )
-        if not pause_table:
-            return
-
-        week_table = get_dgf_values_from_request(
-            context.REQUEST,
-            "week_table",
-            [
-                "day",
-                "morning_start",
-                "morning_end",
-                "afternoon_start",
-                "afternoon_end",
-            ],
-        )
-
-    elif data and not context:
-        pause_table = getattr(data, "pause_table", [])
-        week_table = getattr(data, "week_table", [])
+def validate_pause_table(data={}):
+    """Pause validator"""
+    pause_table = getattr(data, "pause_table", [])
+    week_table = getattr(data, "week_table", [])
 
     if not (pause_table and week_table):
         return
@@ -93,10 +65,7 @@ def validate_pause_table(context=None, data={}):
         for pause in groups_of_pause[day]:
             #  0. Of course if we don't have a correct interval we can't do
             # more steps
-            if (
-                pause["pause_end"] == "--NOVALUE--"
-                or pause["pause_start"] == "--NOVALUE--"
-            ):
+            if pause["pause_end"] == None or pause["pause_start"] == None:
                 raise Invalid(
                     translate(
                         _("You must set both start and end"), context=getRequest()
@@ -114,26 +83,35 @@ def validate_pause_table(context=None, data={}):
             interval = [pause["pause_start"], pause["pause_end"]]
             # 2. a pause interval should always be contained in the morning
             # or afternoon defined for these days
-            if not (
-                interval_is_contained(
+            if day_hours["morning_start"] and day_hours["morning_end"]:
+                if not interval_is_contained(
                     interval,
                     day_hours["morning_start"],
                     day_hours["morning_end"],
-                )
-                or interval_is_contained(
+                ):
+                    raise Invalid(
+                        translate(
+                            _(
+                                "Pause should be included in morning slot or afternoon slot"  # noqa
+                            ),
+                            context=getRequest(),
+                        )
+                    )
+
+            if day_hours["afternoon_start"] and day_hours["afternoon_end"]:
+                if not interval_is_contained(
                     interval,
                     day_hours["afternoon_start"],
                     day_hours["afternoon_end"],
-                )
-            ):
-                raise Invalid(
-                    translate(
-                        _(
-                            "Pause should be included in morning slot or afternoon slot"  # noqa
-                        ),
-                        context=getRequest(),
+                ):
+                    raise Invalid(
+                        translate(
+                            _(
+                                "Pause should be included in morning slot or afternoon slot"  # noqa
+                            ),
+                            context=getRequest(),
+                        )
                     )
-                )
         # 3. two pause interval on the same day should not overlap
         if is_intervals_overlapping(
             [
@@ -224,12 +202,3 @@ def checkOverrides(value):
                     )
 
     return True
-
-
-class PauseValidator(validator.SimpleFieldValidator):
-    """z3c.form validator class for international phone numbers"""
-
-    def validate(self, pause_table):
-        super().validate(pause_table)
-
-        return validate_pause_table(context=self.context)
