@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from collective.exportimport.export_content import ExportContent
-from plone.app.event.base import default_timezone
-
-from datetime import datetime
 from copy import deepcopy
+from datetime import datetime
+from plone.app.event.base import default_timezone
 
 import pytz
 
