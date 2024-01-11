@@ -47,14 +47,17 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
     return data
 
 
-class PauseValidator(validator.SimpleFieldValidator):
-    """z3c.form validator class for international phone numbers"""
+def validate_pause_table(context=None, data={}):
+    """Validate pause table
+    Is supposed as the z3c.form.validator.SimpleFieldValidator customized validation validator
+    And also as the invariant support validator
+    """
+    pause_table = None
+    week_table = None
 
-    def validate(self, pause_table):
-        """Validate international phone number on input"""
-        super(PauseValidator, self).validate(pause_table)
+    if context and not data:
         pause_table = get_dgf_values_from_request(
-            self.context.REQUEST,
+            context.REQUEST,
             "pause_table",
             ["day", "pause_start", "pause_end"],
         )
@@ -62,7 +65,7 @@ class PauseValidator(validator.SimpleFieldValidator):
             return
 
         week_table = get_dgf_values_from_request(
-            self.context.REQUEST,
+            context.REQUEST,
             "week_table",
             [
                 "day",
@@ -73,70 +76,77 @@ class PauseValidator(validator.SimpleFieldValidator):
             ],
         )
 
-        # validate pauses
-        groups_of_pause = {}
-        for pause in pause_table:
-            groups_of_pause.setdefault(pause["day"], []).append(pause)
+    elif data and not context:
+        pause_table = getattr(data, "pause_table", [])
+        week_table = getattr(data, "week_table", [])
 
-        for day in groups_of_pause:
-            day_hours = week_table[int(day)]
-            for pause in groups_of_pause[day]:
-                #  0. Of course if we don't have a correct interval we can't do
-                # more steps
-                if (
-                    pause["pause_end"] == "--NOVALUE--"
-                    or pause["pause_start"] == "--NOVALUE--"
-                ):
-                    raise Invalid(
-                        translate(
-                            _("You must set both start and end"), context=getRequest()
-                        )
-                    )
+    if not (pause_table and week_table):
+        return
 
-                # 1. Pause starts should always be bigger than pause ends
-                if not (pause["pause_end"] > pause["pause_start"]):
-                    raise Invalid(
-                        translate(
-                            _("Pause end should be greater than pause start"),
-                            context=getRequest(),
-                        )
-                    )
-                interval = [pause["pause_start"], pause["pause_end"]]
-                # 2. a pause interval should always be contained in the morning
-                # or afternoon defined for these days
-                if not (
-                    interval_is_contained(
-                        interval,
-                        day_hours["morning_start"],
-                        day_hours["morning_end"],
-                    )
-                    or interval_is_contained(
-                        interval,
-                        day_hours["afternoon_start"],
-                        day_hours["afternoon_end"],
-                    )
-                ):
-                    raise Invalid(
-                        translate(
-                            _(
-                                "Pause should be included in morning slot or afternoon slot"  # noqa
-                            ),
-                            context=getRequest(),
-                        )
-                    )
-            # 3. two pause interval on the same day should not overlap
-            if is_intervals_overlapping(
-                [
-                    (pause["pause_start"], pause["pause_end"])
-                    for pause in groups_of_pause[day]
-                ]
+    # validate pauses
+    groups_of_pause = {}
+    for pause in pause_table:
+        groups_of_pause.setdefault(pause["day"], []).append(pause)
+
+    for day in groups_of_pause:
+        day_hours = week_table[int(day)]
+        for pause in groups_of_pause[day]:
+            #  0. Of course if we don't have a correct interval we can't do
+            # more steps
+            if (
+                pause["pause_end"] == "--NOVALUE--"
+                or pause["pause_start"] == "--NOVALUE--"
             ):
                 raise Invalid(
                     translate(
-                        _("In the same day there are overlapping intervals"),
+                        _("You must set both start and end"), context=getRequest()
+                    )
+                )
+
+            # 1. Pause starts should always be bigger than pause ends
+            if not (pause["pause_end"] > pause["pause_start"]):
+                raise Invalid(
+                    translate(
+                        _("Pause end should be greater than pause start"),
                         context=getRequest(),
                     )
                 )
+            interval = [pause["pause_start"], pause["pause_end"]]
+            # 2. a pause interval should always be contained in the morning
+            # or afternoon defined for these days
+            if not (
+                interval_is_contained(
+                    interval,
+                    day_hours["morning_start"],
+                    day_hours["morning_end"],
+                )
+                or interval_is_contained(
+                    interval,
+                    day_hours["afternoon_start"],
+                    day_hours["afternoon_end"],
+                )
+            ):
+                raise Invalid(
+                    translate(
+                        _(
+                            "Pause should be included in morning slot or afternoon slot"  # noqa
+                        ),
+                        context=getRequest(),
+                    )
+                )
+        # 3. two pause interval on the same day should not overlap
+        if is_intervals_overlapping(
+            [
+                (pause["pause_start"], pause["pause_end"])
+                for pause in groups_of_pause[day]
+            ]
+        ):
+            raise Invalid(
+                translate(
+                    _("In the same day there are overlapping intervals"),
+                    context=getRequest(),
+                )
+            )
 
 
 class CustomValidationError(ValidationError):
@@ -214,3 +224,12 @@ def checkOverrides(value):
                     )
 
     return True
+
+
+class PauseValidator(validator.SimpleFieldValidator):
+    """z3c.form validator class for international phone numbers"""
+
+    def validate(self, pause_table):
+        super().validate(pause_table)
+
+        return validate_pause_table(context=self.context)

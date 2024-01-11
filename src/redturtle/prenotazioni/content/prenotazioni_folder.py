@@ -24,6 +24,7 @@ from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
 from redturtle.prenotazioni.content.prenotazione_type import PrenotazioneType
 from redturtle.prenotazioni.content.validators import PauseValidator
 from redturtle.prenotazioni.content.validators import checkOverrides
+from redturtle.prenotazioni.content.validators import validate_pause_table
 
 try:
     from plone.app.dexterity import textindexer
@@ -515,6 +516,10 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_refuse",
         ],
     )
+
+    @invariant
+    def puse_table_invariant(data):
+        validate_pause_table(data=data)
 
 
 validator.WidgetValidatorDiscriminators(
