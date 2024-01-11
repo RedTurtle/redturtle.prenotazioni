@@ -9,10 +9,8 @@ from plone.autoform import directives
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
-from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
-from zope.component import provideAdapter
 from zope.interface import Invalid
 from zope.interface import implementer
 from zope.interface import invariant
@@ -23,8 +21,8 @@ from redturtle.prenotazioni import _
 from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
 from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
 from redturtle.prenotazioni.content.prenotazione_type import PrenotazioneType
-from redturtle.prenotazioni.content.validators import PauseValidator
 from redturtle.prenotazioni.content.validators import checkOverrides
+from redturtle.prenotazioni.content.validators import validate_pause_table
 
 try:
     from plone.app.dexterity import textindexer
@@ -531,11 +529,9 @@ class IPrenotazioniFolder(model.Schema):
         ],
     )
 
-
-validator.WidgetValidatorDiscriminators(
-    PauseValidator, field=IPrenotazioniFolder["pause_table"]
-)
-provideAdapter(PauseValidator)
+    @invariant
+    def puse_table_invariant(data):
+        validate_pause_table(data=data)
 
 
 @implementer(IPrenotazioniFolder)
