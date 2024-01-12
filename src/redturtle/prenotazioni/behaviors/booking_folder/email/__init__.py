@@ -127,6 +127,15 @@ class INotificationEmail(model.Schema):
         default=True,
         required=False,
     )
+    email_from = schema.TextLine(
+        title=_("Email from"),
+        description=_(
+            'Insert an email address used as "from" in email notifications. '
+            "Leave empty to use the default from set in the site configuration."
+        ),
+        required=False,
+        default="",
+    )
     notify_on_submit_subject = schema.TextLine(
         title=_(
             "notify_on_submit_subject",
@@ -260,6 +269,7 @@ class INotificationEmail(model.Schema):
         ),
         fields=[
             "notifications_email_enabled",
+            "email_from",
             "notify_on_submit_subject",
             "notify_on_submit_message",
             "notify_on_confirm_subject",

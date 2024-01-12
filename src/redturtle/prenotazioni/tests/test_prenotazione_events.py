@@ -404,3 +404,30 @@ class TestSPrenotazioneEvents(unittest.TestCase):
         message = email.message_from_bytes(mail_sent)
 
         self.assertTrue(len(message.get_payload()), 1)
+
+    def test_email_sender_by_default_is_the_site_one(self):
+        self.folder_prenotazioni.notify_on_submit = True
+        self.folder_prenotazioni.notify_on_submit_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_submit_message = self.email_message
+
+        self.assertFalse(self.mailhost.messages)
+
+        self.create_booking()
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        self.assertIn(b"From: noreply@example.com", self.mailhost.messages[0])
+
+    def test_email_sender_overrided_in_folder_prenotazioni(self):
+        self.folder_prenotazioni.notify_on_submit = True
+        self.folder_prenotazioni.notify_on_submit_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_submit_message = self.email_message
+        self.folder_prenotazioni.email_from = "noreply@foo.com"
+
+        self.assertFalse(self.mailhost.messages)
+
+        self.create_booking()
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        self.assertIn(b"From: noreply@foo.com", self.mailhost.messages[0])

@@ -31,6 +31,7 @@ CTE = os.environ.get("MAIL_CONTENT_TRANSFER_ENCODING", None)
 class PrenotazioneEmailMessage:
     prenotazione = None
     event = None
+    error_msg = "Could not send notification email due to: {message}"
 
     def __init__(self, prenotazione, event):
         self.prenotazione = prenotazione
@@ -45,20 +46,32 @@ class PrenotazioneEmailMessage:
         raise NotImplementedError("The method was not implemented")
 
     @property
-    def message(self) -> MIMEMultipart:
-        error_msg = "Could not send notification email due to: {message}"
+    def prenotazioni_folder(self):
+        return self.prenotazione.getPrenotazioniFolder()
+
+    @property
+    def message_from(self) -> str:
+        """
+        Return the proper from address.
+        If set in PrenotazioniFolder, return that value, otherwise, return the site one.
+        """
         mfrom = api.portal.get_registry_record("plone.email_from_address")
+        return getattr(self.prenotazioni_folder, "email_from", "") or mfrom
+
+    @property
+    def message(self) -> MIMEMultipart:
+        mfrom = self.message_from
         recipient = self.prenotazione.email
 
         if not mfrom:
             logger.error(
-                error_msg.format(message="Email from address is not configured")
+                self.error_msg.format(message="Email from address is not configured")
             )
             return None
 
         if not recipient:
             logger.error(
-                error_msg.format(
+                self.error_msg.format(
                     message="Could not find recipients for the email message"
                 )
             )
@@ -108,21 +121,13 @@ class PrenotazioneMovedICalEmailMessage(
     @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
-            getattr(
-                self.prenotazione.getPrenotazioniFolder(),
-                "notify_on_move_subject",
-                "",
-            )
+            getattr(self.prenotazioni_folder, "notify_on_move_subject", "")
         )
 
     @property
     def message_text(self) -> MIMEText:
         text = IStringInterpolator(IContextWrapper(self.prenotazione)())(
-            getattr(
-                self.prenotazione.getPrenotazioniFolder(),
-                "notify_on_move_message",
-                None,
-            ),
+            getattr(self.prenotazioni_folder, "notify_on_move_message", None),
         )
         if CTE:
             cs = Charset("utf-8")
@@ -139,7 +144,7 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(
-                self.prenotazione.getPrenotazioniFolder(),
+                self.prenotazioni_folder,
                 f"notify_on_{self.event.transition and self.event.transition.__name__}_subject",
                 "",
             )
@@ -149,7 +154,7 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
     def message_text(self) -> MIMEText:
         text = IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(
-                self.prenotazione.getPrenotazioniFolder(),
+                self.prenotazioni_folder,
                 f"notify_on_{self.event.transition and self.event.transition.__name__}_message",
                 None,
             ),
@@ -188,13 +193,12 @@ class PrenotazioneManagerEmailMessage(
         """
         customized to send Bcc instead To
         """
-        error_msg = "Could not send notification email due to: {message}"
-        mfrom = api.portal.get_registry_record("plone.email_from_address")
+        mfrom = self.message_from
         bcc = ", ".join(getattr(self.prenotazione, "email_responsabile", []))
 
         if not mfrom:
             logger.error(
-                error_msg.format(message="Email from address is not configured")
+                self.error_msg.format(message="Email from address is not configured")
             )
             return None
 
@@ -277,21 +281,13 @@ class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
     @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
-            getattr(
-                self.prenotazione.getPrenotazioniFolder(),
-                "notify_as_reminder_subject",
-                "",
-            )
+            getattr(self.prenotazioni_folder, "notify_as_reminder_subject", "")
         )
 
     @property
     def message_text(self) -> MIMEText:
         text = IStringInterpolator(IContextWrapper(self.prenotazione)())(
-            getattr(
-                self.prenotazione.getPrenotazioniFolder(),
-                "notify_as_reminder_message",
-                None,
-            ),
+            getattr(self.prenotazioni_folder, "notify_as_reminder_message", None),
         )
         if CTE:
             cs = Charset("utf-8")
