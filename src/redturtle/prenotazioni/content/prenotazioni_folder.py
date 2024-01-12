@@ -127,6 +127,19 @@ class IPauseTableRow(model.Schema):
     )
 
 
+def holidays_constraint(value: list):
+    if not value:
+        return True
+
+    pattern = re.compile(r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(?:\d{4}|\*)$")
+
+    for i in value:
+        if not bool(re.match(pattern, i)):
+            return False
+
+    return True
+
+
 class IPrenotazioniFolder(model.Schema):
     """Marker interface and Dexterity Python Schema for PrenotazioniFolder"""
 
