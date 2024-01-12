@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from typing import Generator
 
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
@@ -124,6 +125,19 @@ class IPauseTableRow(model.Schema):
         vocabulary="redturtle.prenotazioni.pause_scheduler",
         required=False,
     )
+
+
+def holidays_constraint(value: list):
+    if not value:
+        return True
+
+    pattern = re.compile(r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(?:\d{4}|\*)$")
+
+    for i in value:
+        if not bool(re.match(pattern, i)):
+            return False
+
+    return True
 
 
 class IPrenotazioniFolder(model.Schema):
@@ -319,6 +333,7 @@ class IPrenotazioniFolder(model.Schema):
             "25/12/*",
             "26/12/*",
         ],
+        constraint=holidays_constraint,
     )
 
     futureDays = schema.Int(
