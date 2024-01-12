@@ -80,50 +80,51 @@ def validate_pause_table(data={}):
                     )
                 )
             interval = [pause["pause_start"], pause["pause_end"]]
-            # 2. a pause interval should always be contained in the morning
+
+            # 2. two pause interval on the same day should not overlap
+            if is_intervals_overlapping(
+                [
+                    (pause["pause_start"], pause["pause_end"])
+                    for pause in groups_of_pause[day]
+                ]
+            ):
+                raise Invalid(
+                    translate(
+                        _("In the same day there are overlapping intervals"),
+                        context=getRequest(),
+                    )
+                )
+
+            # 3. a pause interval should always be contained in the morning
             # or afternoon defined for these days
+
+            morning_includes_interval = False
+            afternoon_includes_interval = False
             if day_hours["morning_start"] and day_hours["morning_end"]:
-                if not interval_is_contained(
+                if interval_is_contained(
                     interval,
                     day_hours["morning_start"],
                     day_hours["morning_end"],
                 ):
-                    raise Invalid(
-                        translate(
-                            _(
-                                "Pause should be included in morning slot or afternoon slot"  # noqa
-                            ),
-                            context=getRequest(),
-                        )
-                    )
+                    morning_includes_interval = True
 
             if day_hours["afternoon_start"] and day_hours["afternoon_end"]:
-                if not interval_is_contained(
+                if interval_is_contained(
                     interval,
                     day_hours["afternoon_start"],
                     day_hours["afternoon_end"],
                 ):
-                    raise Invalid(
-                        translate(
-                            _(
-                                "Pause should be included in morning slot or afternoon slot"  # noqa
-                            ),
-                            context=getRequest(),
-                        )
+                    afternoon_includes_interval = True
+
+            if not (morning_includes_interval or afternoon_includes_interval):
+                raise Invalid(
+                    translate(
+                        _(
+                            "Pause should be included in morning slot or afternoon slot"  # noqa
+                        ),
+                        context=getRequest(),
                     )
-        # 3. two pause interval on the same day should not overlap
-        if is_intervals_overlapping(
-            [
-                (pause["pause_start"], pause["pause_end"])
-                for pause in groups_of_pause[day]
-            ]
-        ):
-            raise Invalid(
-                translate(
-                    _("In the same day there are overlapping intervals"),
-                    context=getRequest(),
                 )
-            )
 
 
 class CustomValidationError(ValidationError):
