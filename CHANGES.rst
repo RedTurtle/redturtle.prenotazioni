@@ -5,7 +5,8 @@ Changelog
 2.4.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Revert last changes to avoid incompatibility.
+  [cekk]
 
 
 2.4.1 (2024-01-15)
