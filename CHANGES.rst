@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.4.0 (unreleased)
+2.4.0 (2024-01-15)
 ------------------
 
 - Performance improvements: changed functions: `hm2DT`, `value_hr`, `get_values_hr_every`
