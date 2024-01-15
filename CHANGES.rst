@@ -5,7 +5,8 @@ Changelog
 2.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Register event handler for IObjectAddedEvent instead IObjectCreatedEvent for code generator.
+  [cekk]
 
 
 2.4.0 (2024-01-15)
