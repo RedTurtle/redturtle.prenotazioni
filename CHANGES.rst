@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.4.1 (unreleased)
+2.4.1 (2024-01-15)
 ------------------
 
 - Register event handler for IObjectAddedEvent instead IObjectCreatedEvent for code generator.
