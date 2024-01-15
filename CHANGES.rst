@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.4.2 (unreleased)
+2.4.2 (2024-01-15)
 ------------------
 
 - Revert last changes to avoid incompatibility.
