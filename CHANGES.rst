@@ -8,6 +8,9 @@ Changelog
 - Add @id in booking serializer
   [mamico]
 
+- Handle `modified_after` parameter in @bookings endpoint.
+  [cekk]
+
 
 2.4.2 (2024-01-15)
 ------------------

@@ -46,7 +46,7 @@ class BookingsSearch(Service):
         booking_type = self.request.get("booking_type", None)
         SearchableText = self.request.get("SearchableText", None)
         review_state = self.request.get("review_state", None)
-
+        modified_after = self.request.get("modified_after", None)
         # 2023-01-01 -> 2023-01-01T00:00:00
         if start_date and len(start_date) == 10:
             start_date = f"{start_date}T00:00:00"
@@ -57,7 +57,8 @@ class BookingsSearch(Service):
                 "query": [DateTime(i) for i in [start_date, end_date] if i],
                 "range": f"{start_date and 'min' or ''}{start_date and end_date and ':' or ''}{end_date and 'max' or ''}",  # noqa: E501
             }
-
+        if modified_after:
+            query["modified"] = {"query": DateTime(modified_after), "range": "min"}
         if gate:
             query["Subject"] = "Gate: {}".format(gate)
 
