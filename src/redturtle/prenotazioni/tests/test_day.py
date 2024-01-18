@@ -107,6 +107,9 @@ class TestDaySlots(unittest.TestCase):
                 results,
             )
 
+        # @id in bookings
+        self.assertEqual(results[0]["@id"], bookings[0].absolute_url())
+
     def test_pauses_returned(self):
         # le pause sono in localtime
         self.folder_prenotazioni.pause_table = [
