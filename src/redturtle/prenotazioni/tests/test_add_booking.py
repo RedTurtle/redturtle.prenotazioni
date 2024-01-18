@@ -5,7 +5,6 @@ from datetime import datetime
 from datetime import timedelta
 
 import transaction
-from Acquisition import aq_parent
 from freezegun import freeze_time
 from plone import api
 from plone.app.testing import SITE_OWNER_NAME
@@ -432,73 +431,37 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
         booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
             days=1, hours=8
         )
-        booking_expiration_date = datetime.fromisoformat(
-            date.today().isoformat()
-        ) + timedelta(days=1, hours=8, minutes=30)
-
-        # need this just to have the day container
-        container = aq_parent(
-            self.create_booking(
-                {
-                    "booking_date": booking_date + timedelta(hours=1),
-                    "booking_type": "Type A",
-                    "title": "foo",
-                }
-            )
+        booking = self.create_booking(
+            {
+                "booking_date": booking_date + timedelta(hours=1),
+                "booking_type": "Type A",
+                "title": "foo",
+            }
         )
-
-        new_booking = api.content.create(
-            container=container,
-            type="Prenotazione",
-            title="Booking A",
-            booking_date=booking_date,
-            gate="Gate A",
-            booking_type="Type A",
-            booking_expiration_date=booking_expiration_date,
-        )
-        self.assertIsNot(new_booking.getBookingCode(), None)
-        self.assertTrue(len(new_booking.getBookingCode()) > 0)
+        self.assertIsNot(booking.getBookingCode(), None)
+        self.assertTrue(len(booking.getBookingCode()) > 0)
 
     def test_booking_code_uniqueness(self):
         booking_date = datetime.fromisoformat(date.today().isoformat()) + timedelta(
             days=1, hours=8
         )
-        booking_expiration_date = datetime.fromisoformat(
-            date.today().isoformat()
-        ) + timedelta(days=1, hours=8, minutes=30)
-        # need this just to have the day container
-        container = aq_parent(
-            self.create_booking(
-                {
-                    "booking_date": booking_date + timedelta(hours=1),
-                    "booking_type": "Type A",
-                    "title": "foo",
-                }
-            )
+        booking_1 = self.create_booking(
+            {
+                "booking_date": booking_date + timedelta(hours=1),
+                "booking_type": "Type A",
+                "title": "foo",
+            }
         )
 
-        booking_gate_A = api.content.create(
-            container=container,
-            type="Prenotazione",
-            title="Booking A",
-            booking_date=booking_date,
-            gate="Gate A",
-            booking_type="Type A",
-            booking_expiration_date=booking_expiration_date,
-        )
-        booking_gate_B = api.content.create(
-            container=container,
-            type="Prenotazione",
-            title="Booking B",
-            booking_date=booking_date,
-            gate="Gate B",
-            booking_type="Type A",
-            booking_expiration_date=booking_expiration_date,
+        booking_2 = self.create_booking(
+            {
+                "booking_date": booking_date + timedelta(hours=1, minutes=30),
+                "booking_type": "Type A",
+                "title": "foo 2",
+            }
         )
 
-        self.assertNotEqual(
-            booking_gate_A.getBookingCode(), booking_gate_B.getBookingCode()
-        )
+        self.assertNotEqual(booking_1.getBookingCode(), booking_2.getBookingCode())
 
     def test_booker_auto_confirm_manager_true_by_default(self):
         folder_prenotazioni = api.content.create(

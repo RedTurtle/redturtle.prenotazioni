@@ -17,7 +17,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
 from zope.component import getAdapter
 from zope.interface import implementer
-from zope.lifecycleevent import IObjectAddedEvent
+from zope.interface import Interface
 
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
@@ -176,13 +176,39 @@ class PrenotazioneAfterTransitionEmailICalMessage(
 
 
 @implementer(IBookingEmailMessage)
-@adapter(IPrenotazione, IObjectAddedEvent)
+@adapter(IPrenotazione, IBookingReminderEvent)
+class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
+    @property
+    def message_subject(self) -> str:
+        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(self.prenotazioni_folder, "notify_as_reminder_subject", "")
+        )
+
+    @property
+    def message_text(self) -> MIMEText:
+        text = IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(self.prenotazioni_folder, "notify_as_reminder_message", None),
+        )
+        if CTE:
+            cs = Charset("utf-8")
+            cs.body_encoding = CTE  # e.g. 'base64'
+            return MIMEText(text, "html", cs)
+        else:
+            return MIMEText(text, "html")
+
+
+@implementer(IBookingEmailMessage)
+@adapter(IPrenotazione, Interface)
 class PrenotazioneManagerEmailMessage(
     PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
 ):
-    def __init__(self, prenotazione, event):
-        super().__init__(prenotazione=prenotazione, event=event)
+    """
+    This is not fired
+    """
 
+    def __init__(self, prenotazione, request):
+        self.prenotazione = prenotazione
+        self.request = request
         # set request annotation to mark it as manager notification.
         # this will be used in ical adapter to change the title of the ical item
         annotations = IAnnotations(prenotazione.REQUEST)
@@ -267,28 +293,6 @@ class PrenotazioneManagerEmailMessage(
             "title": getattr(booking, "title", ""),
         }
         text = mail_template(**parameters)
-        if CTE:
-            cs = Charset("utf-8")
-            cs.body_encoding = CTE  # e.g. 'base64'
-            return MIMEText(text, "html", cs)
-        else:
-            return MIMEText(text, "html")
-
-
-@implementer(IBookingEmailMessage)
-@adapter(IPrenotazione, IBookingReminderEvent)
-class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
-    @property
-    def message_subject(self) -> str:
-        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
-            getattr(self.prenotazioni_folder, "notify_as_reminder_subject", "")
-        )
-
-    @property
-    def message_text(self) -> MIMEText:
-        text = IStringInterpolator(IContextWrapper(self.prenotazione)())(
-            getattr(self.prenotazioni_folder, "notify_as_reminder_message", None),
-        )
         if CTE:
             cs = Charset("utf-8")
             cs.body_encoding = CTE  # e.g. 'base64'
