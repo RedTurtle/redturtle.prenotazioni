@@ -5,7 +5,8 @@ Changelog
 2.4.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add @id in booking serializer
+  [mamico]
 
 
 2.4.2 (2024-01-15)
