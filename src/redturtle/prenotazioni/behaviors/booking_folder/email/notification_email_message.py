@@ -203,7 +203,7 @@ class PrenotazioneManagerEmailMessage(
     PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
 ):
     """
-    This is not fired
+    This is not fired from an event, but used in booker.
     """
 
     def __init__(self, prenotazione, request):
