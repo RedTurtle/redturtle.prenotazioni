@@ -31,11 +31,6 @@
            redturtle.prenotazioni.interfaces.IBookingReminderEvent"
       handler=".events.send_booking_reminder"
       />
-  <subscriber
-      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
-           zope.lifecycleevent.IObjectAddedEvent"
-      handler=".events.send_email_to_managers"
-      />
 
   <adapter factory=".notification_email_message.PrenotazioneAfterTransitionEmailICalMessage" />
 
