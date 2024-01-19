@@ -7,6 +7,10 @@ Changelog
 
 - Add @id in booking serializer
   [mamico]
+
+- Add booking_code as catalog metadata.
+  [cekk]
+
 - [BREAKING] Move code generation and managers email notification from event handlers into booker.
   [cekk]
 

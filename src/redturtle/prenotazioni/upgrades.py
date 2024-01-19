@@ -446,3 +446,9 @@ def to_2000(context):
             booking_type_obj.reindexObject(idxs=["review_state"])
         if hasattr(obj, "cosa_serve"):
             delattr(obj, "cosa_serve")
+
+
+def to_2004(context):
+    for brain in api.content.find(portal_type="Prenotazione"):
+        obj = brain.getObject()
+        obj.reindexObject(idxs=["booking_code"])
