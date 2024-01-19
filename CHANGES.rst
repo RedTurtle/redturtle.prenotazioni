@@ -7,7 +7,8 @@ Changelog
 
 - Add @id in booking serializer
   [mamico]
-
+- [BREAKING] Move code generation and managers email notification from event handlers into booker.
+  [cekk]
 
 2.4.2 (2024-01-15)
 ------------------
