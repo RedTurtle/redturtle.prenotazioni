@@ -60,6 +60,7 @@ class PrenotazioneSerializer:
                 booking_date.year, booking_date.month, booking_date.day
             )
         return {
+            "@id": self.prenotazione.absolute_url(),
             "UID": self.prenotazione.UID(),
             "@type": self.prenotazione.portal_type,
             "title": self.prenotazione.title,

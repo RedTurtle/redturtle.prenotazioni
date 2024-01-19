@@ -107,6 +107,9 @@ class TestDaySlots(unittest.TestCase):
                 results,
             )
 
+        # @id in bookings
+        self.assertEqual(results[0]["@id"], bookings[0].absolute_url())
+
     def test_pauses_returned(self):
         # le pause sono in localtime
         self.folder_prenotazioni.pause_table = [
@@ -121,7 +124,6 @@ class TestDaySlots(unittest.TestCase):
             f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
         )
         self.assertEqual(response.status_code, 200)
-
         results = response.json()["pauses"]
         # la risposta è in UTC
         tomorrow_start_utc = self.tomorrow.replace(hour=7, minute=15).astimezone(

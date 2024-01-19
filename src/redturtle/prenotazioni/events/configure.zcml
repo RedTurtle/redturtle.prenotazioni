@@ -24,15 +24,6 @@
       />
 
   <subscriber
-      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
-           zope.lifecycleevent.IObjectCreatedEvent"
-      handler=".prenotazione.set_booking_code"
-      />
-
-  <!-- <subscriber for="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
-               handler=".prenotazione.reallocate_gate" /> -->
-
-  <subscriber
       for="redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
       handler=".prenotazione.reallocate_container"
       />

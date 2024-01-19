@@ -44,5 +44,10 @@
       component=".voc_booking_type_gates.VocPrenotazioneTypeGatesFactory"
       />
 
+  <utility
+      name="redturtle.prenotazioni.pause_scheduler"
+      component=".voc_pause_scheduler.VocPauseScheduler"
+      />
+
 
 </configure>

@@ -5,13 +5,9 @@ from email.utils import parseaddr
 from plone import api
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.globalrequest import getRequest
 
-from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.adapters.booking_code import IBookingCodeGenerator
 
 
 def reallocate_gate(obj):
@@ -62,13 +58,3 @@ def get_mail_from_address():
     if parseaddr(mfrom)[1] != from_address:
         mfrom = from_address
     return mfrom
-
-
-def set_booking_code(booking, event):
-    """
-    set booking code. skip if we are importing old booking
-    """
-    if is_migration():
-        return
-    booking_code = getMultiAdapter((booking, getRequest()), IBookingCodeGenerator)()
-    setattr(booking, "booking_code", booking_code)

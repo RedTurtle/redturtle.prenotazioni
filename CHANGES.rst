@@ -2,8 +2,44 @@ Changelog
 =========
 
 
-2.4.0 (unreleased)
+2.4.3 (unreleased)
 ------------------
+
+- Add @id in booking serializer
+  [mamico]
+
+- Handle `modified_after` parameter in @bookings endpoint.
+  [cekk]
+
+- Add booking_code as catalog metadata.
+  [cekk]
+
+- [BREAKING] Move code generation and managers email notification from event handlers into booker.
+  [cekk]
+
+
+2.4.2 (2024-01-15)
+------------------
+
+- Revert last changes to avoid incompatibility.
+  [cekk]
+
+
+2.4.1 (2024-01-15)
+------------------
+
+- Register event handler for IObjectAddedEvent instead IObjectCreatedEvent for code generator.
+  [cekk]
+
+
+2.4.0 (2024-01-15)
+------------------
+
+- Performance improvements: changed functions: `hm2DT`, `value_hr`, `get_values_hr_every`
+  [mamico]
+
+- Perfomance refactoring for @available-slots view
+  [folix-01]
 
 - Split booking notification gateways to 'App IO', 'Email' and 'SMS'
   [folix-01]
@@ -17,6 +53,9 @@ Changelog
 - Move code generation to adapter, to be more customizable.
   [cekk]
 
+- Add customizable email from in PrenotazioniFolder contents.
+  [cekk]
+
 2.3.2 (2024-01-03)
 ------------------
 
@@ -25,6 +64,9 @@ Changelog
  
 - Add fullobjects in @bookings
   [mamico]
+- Use the <PrenotazioniFolder>.holidays constraint.
+  [folix-01]
+
 
 2.3.1 (2023-12-21)
 ------------------

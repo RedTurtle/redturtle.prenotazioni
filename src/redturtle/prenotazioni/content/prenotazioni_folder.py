@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from typing import Generator
 
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
@@ -8,10 +9,8 @@ from plone.autoform import directives
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
-from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
-from zope.component import provideAdapter
 from zope.interface import Invalid
 from zope.interface import implementer
 from zope.interface import invariant
@@ -22,8 +21,8 @@ from redturtle.prenotazioni import _
 from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
 from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
 from redturtle.prenotazioni.content.prenotazione_type import PrenotazioneType
-from redturtle.prenotazioni.content.validators import PauseValidator
 from redturtle.prenotazioni.content.validators import checkOverrides
+from redturtle.prenotazioni.content.validators import validate_pause_table
 
 try:
     from plone.app.dexterity import textindexer
@@ -118,14 +117,27 @@ class IPauseTableRow(model.Schema):
     )
     pause_start = schema.Choice(
         title=_("pause_start_label", default="Pause start"),
-        vocabulary="redturtle.prenotazioni.VocOreInizio",
+        vocabulary="redturtle.prenotazioni.pause_scheduler",
         required=False,
     )
     pause_end = schema.Choice(
         title=_("pause_end_label", default="Pause end"),
-        vocabulary="redturtle.prenotazioni.VocOreInizio",
+        vocabulary="redturtle.prenotazioni.pause_scheduler",
         required=False,
     )
+
+
+def holidays_constraint(value: list):
+    if not value:
+        return True
+
+    pattern = re.compile(r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(?:\d{4}|\*)$")
+
+    for i in value:
+        if not bool(re.match(pattern, i)):
+            return False
+
+    return True
 
 
 class IPrenotazioniFolder(model.Schema):
@@ -321,6 +333,7 @@ class IPrenotazioniFolder(model.Schema):
             "25/12/*",
             "26/12/*",
         ],
+        constraint=holidays_constraint,
     )
 
     futureDays = schema.Int(
@@ -516,11 +529,9 @@ class IPrenotazioniFolder(model.Schema):
         ],
     )
 
-
-validator.WidgetValidatorDiscriminators(
-    PauseValidator, field=IPrenotazioniFolder["pause_table"]
-)
-provideAdapter(PauseValidator)
+    @invariant
+    def puse_table_invariant(data):
+        validate_pause_table(data=data)
 
 
 @implementer(IPrenotazioniFolder)
