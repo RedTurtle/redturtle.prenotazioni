@@ -8,6 +8,8 @@ Changelog
 - Add @id in booking serializer
   [mamico]
 
+- Add booking_code as catalog metadata.
+  [cekk]
 
 2.4.2 (2024-01-15)
 ------------------
