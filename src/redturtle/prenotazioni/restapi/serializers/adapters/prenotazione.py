@@ -125,8 +125,8 @@ class PrenotazioneSearchableItemSerializer:
             "staff_notes": self.prenotazione.staff_notes,
             "company": self.prenotazione.company,
             "vacation": self.prenotazione.isVacation(),
-            "modification_date": self.prenotazione.ModificationDate(),
-            "creation_date": self.prenotazione.CreationDate(),
+            "modification_date": json_compatible(self.prenotazione.modified()),
+            "creation_date": json_compatible(self.prenotazione.created()),
         }
         if kwargs.get("fullobjects", False):
             try:
