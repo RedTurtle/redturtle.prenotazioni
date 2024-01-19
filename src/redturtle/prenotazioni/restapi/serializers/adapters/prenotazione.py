@@ -85,6 +85,8 @@ class PrenotazioneSerializer:
             "notify_on_confirm": booking_folder.notify_on_confirm,
             "cosa_serve": requirements,  # BBB
             "requirements": requirements,
+            "modification_date": json_compatible(self.prenotazione.modified()),
+            "creation_date": json_compatible(self.prenotazione.created()),
         }
 
 
@@ -123,6 +125,8 @@ class PrenotazioneSearchableItemSerializer:
             "staff_notes": self.prenotazione.staff_notes,
             "company": self.prenotazione.company,
             "vacation": self.prenotazione.isVacation(),
+            "modification_date": json_compatible(self.prenotazione.modified()),
+            "creation_date": json_compatible(self.prenotazione.created()),
         }
         if kwargs.get("fullobjects", False):
             try:

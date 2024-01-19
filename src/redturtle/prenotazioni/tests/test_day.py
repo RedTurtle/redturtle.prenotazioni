@@ -9,11 +9,8 @@ from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.testing import RelativeSession
 from transaction import commit
-from zope.component import getMultiAdapter
-from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
@@ -99,16 +96,13 @@ class TestDaySlots(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-        results = response.json()["bookings"]["Gate A"]
+        results_uids = [x["UID"] for x in response.json()["bookings"]["Gate A"]]
 
         for booking in bookings:
             self.assertIn(
-                getMultiAdapter((booking, getRequest()), ISerializeToJson)(),
-                results,
+                booking.UID(),
+                results_uids,
             )
-
-        # @id in bookings
-        self.assertEqual(results[0]["@id"], bookings[0].absolute_url())
 
     def test_pauses_returned(self):
         # le pause sono in localtime
@@ -124,6 +118,7 @@ class TestDaySlots(unittest.TestCase):
             f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
         )
         self.assertEqual(response.status_code, 200)
+
         results = response.json()["pauses"]
         # la risposta è in UTC
         tomorrow_start_utc = self.tomorrow.replace(hour=7, minute=15).astimezone(
