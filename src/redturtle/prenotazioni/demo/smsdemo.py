@@ -3,7 +3,7 @@ from plone import api
 from zope.component import adapter
 from zope.interface import implementer
 
-from redturtle.prenotazioni.behaviors.booking_folder.sms.adapters import (
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.sms.adapters import (
     BookingNotificationSender,
 )
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione

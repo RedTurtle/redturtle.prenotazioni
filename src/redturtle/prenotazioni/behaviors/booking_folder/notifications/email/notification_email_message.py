@@ -16,8 +16,8 @@ from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
 from zope.component import getAdapter
-from zope.interface import implementer
 from zope.interface import Interface
+from zope.interface import implementer
 
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione

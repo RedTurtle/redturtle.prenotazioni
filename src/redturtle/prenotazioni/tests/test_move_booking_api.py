@@ -3,10 +3,10 @@ import unittest
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-from DateTime import DateTime
 
 import pytz
 import transaction
+from DateTime import DateTime
 from plone import api
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD

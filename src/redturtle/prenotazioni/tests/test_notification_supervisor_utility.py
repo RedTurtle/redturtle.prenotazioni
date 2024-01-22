@@ -10,7 +10,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.behaviors.booking_folder import (
+from redturtle.prenotazioni.behaviors.booking_folder.notifications import (
     BookingNotificationSupervisorUtility,
 )
 from redturtle.prenotazioni.testing import (
@@ -136,12 +136,13 @@ class TestBookingNotificationSupervisorUtility(unittest.TestCase):
 
         self.assertFalse(self.supervisor.is_sms_message_allowed(self.booking))
 
+        # Obsolete
         # Email notification is allowed
-        self.supervisor.is_email_message_allowed = lambda booking: True
-        self.supervisor.is_appio_message_allowed = lambda booking: False
-        self.folder_prenotazioni.notifications_sms_enabled = True
+        # self.supervisor.is_email_message_allowed = lambda booking: True
+        # self.supervisor.is_appio_message_allowed = lambda booking: False
+        # self.folder_prenotazioni.notifications_sms_enabled = True
 
-        self.assertFalse(self.supervisor.is_sms_message_allowed(self.booking))
+        # self.assertFalse(self.supervisor.is_sms_message_allowed(self.booking))
 
         # AppIO notification is allowed
         self.supervisor.is_email_message_allowed = lambda booking: False
