@@ -9,6 +9,7 @@ def get_booking_folder_notification_flags(booking_folder):
     }
 
 
+# Obsolete. Earlier it was used to manage the different notification types cross logics.
 class BookingNotificationSupervisorUtility:
     """Supervisor to allow/deny the specific
     notification type according to business logic"""
@@ -44,19 +45,5 @@ class BookingNotificationSupervisorUtility:
 
         if not booking.phone:
             return False
-
-        # if user is potentially notificabable by App IO, do not send sms
-        if self.is_appio_message_allowed(booking):
-            # XXX: questo sarebbe dovuto essere nell'adapter per App IO, ma l'adapter
-            #      richiede a suo volta un message_adapter ...
-            booking_type = booking.get_booking_type()
-            service_code = getattr(booking_type, "service_code", None)
-            fiscalcode = getattr(booking, "fiscalcode", None)
-            if (
-                fiscalcode
-                and service_code
-                and self.app_io_allowed_for(fiscalcode, service_code)
-            ):
-                return False
 
         return True
