@@ -7,10 +7,10 @@ from redturtle.prenotazioni.behaviors.booking_folder.notifications.sms.adapters 
     BookingNotificationSender,
 )
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.demo import logger
+from redturtle.prenotazioni.demo.interfaces import IRedturtlePrenotazioniStagingLayer
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingSMSMessage
-from redturtle.prenotazioni.staging import logger
-from redturtle.prenotazioni.staging.interfaces import IRedturtlePrenotazioniStagingLayer
 
 
 @implementer(IBookingNotificationSender)

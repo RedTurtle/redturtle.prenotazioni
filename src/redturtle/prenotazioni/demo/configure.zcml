@@ -8,8 +8,8 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="redturtle.prenotazioni.staging"
-      description="Installs the redturtle.prenotazioni.staging add-on (demo site purpose only)."
+      title="redturtle.prenotazioni.demo"
+      description="Installs the redturtle.prenotazioni.demo add-on (demo site purpose only)."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/default"
       post_handler=".setuphandlers.post_install"
@@ -18,7 +18,7 @@
   <genericsetup:registerProfile
       name="uninstall"
       title="redturtle.prenotazioni (uninstall)"
-      description="Uninstalls the redturtle.prenotazioni.staging add-on (demo site purpose only)."
+      description="Uninstalls the redturtle.prenotazioni.demo add-on (demo site purpose only)."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/uninstall"
       post_handler=".setuphandlers.uninstall"
