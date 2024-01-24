@@ -20,8 +20,8 @@ from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.adapters.booking_code import IBookingCodeGenerator
 from redturtle.prenotazioni.adapters.slot import BaseSlot
-from redturtle.prenotazioni.behaviors.booking_folder.email.events import (
-    booking_folder_provides_current_behavior,
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.email.events import (
+    booking_folder_provides_current_behavior as booking_folder_provides_email_notification_behavior,
 )
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
 from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
@@ -249,7 +249,7 @@ class Booker(object):
         """
         Send email notification for managers
         """
-        if not booking_folder_provides_current_behavior(booking):
+        if not booking_folder_provides_email_notification_behavior(booking):
             return
 
         if booking.isVacation():

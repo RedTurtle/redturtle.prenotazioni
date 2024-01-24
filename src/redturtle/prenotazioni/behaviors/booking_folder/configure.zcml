@@ -4,9 +4,8 @@
     i18n_domain="redturtle.prenotazioni"
     >
 
-  <include package=".appio" />
-  <include package=".email" />
-  <include package=".sms" />
+  <include package=".notifications" />
+
 
   <plone:behavior
       name="redturtle.prenotazioni.behavior.contacts"
@@ -16,11 +15,6 @@
       provides=".contacts.IContacts"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
       marker=".contacts.IContacts"
-      />
-
-  <utility
-      factory=".BookingNotificationSupervisorUtility"
-      provides="redturtle.prenotazioni.interfaces.IBookingNotificatorSupervisorUtility"
       />
 
 </configure>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
-import pytz
 
+import pytz
 from dateutil.tz.tz import tzutc
 from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
@@ -18,19 +18,31 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component import queryUtility
 
-
 from redturtle.prenotazioni.adapters.booking_code import IBookingCodeGenerator
-from redturtle.prenotazioni.behaviors.booking_folder.email import (
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.email import (
     notify_on_confirm_message_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.email import (
     notify_on_confirm_subject_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.email import (
     notify_on_move_message_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.email import (
     notify_on_move_subject_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.email import (
     notify_on_refuse_message_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.email import (
     notify_on_refuse_subject_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.email import (
     notify_on_submit_message_default_factory,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.email import (
     notify_on_submit_subject_default_factory,
 )
-
 
 logger = logging.getLogger(__name__)
 
