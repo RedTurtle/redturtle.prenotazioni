@@ -116,16 +116,12 @@ class DaySlots(Service):
 
     def get_bookings(self):
         bookings = self.prenotazioni_context_state.get_bookings_in_day_folder(self.day)
-
         bookings_result = {}
-
         for gate in {i.gate for i in bookings}:
             bookings_result[gate] = [
-                {
-                    **getMultiAdapter((i, self.request), ISerializeToJson)(),
-                }
-                for i in bookings
-                if i.gate == gate
+                getMultiAdapter((booking, self.request), ISerializeToJson)()
+                for booking in bookings
+                if booking.gate == gate
             ]
         return bookings_result
 

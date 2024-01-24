@@ -3,7 +3,6 @@
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
 
-from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.utilities import handle_exception_by_log
@@ -86,29 +85,3 @@ def send_booking_reminder(context, event):
     )
 
     sender_adapter.send()
-
-
-@handle_exception_by_log
-def send_email_to_managers(booking, event):
-    if not booking_folder_provides_current_behavior(booking):
-        return
-
-    # skip email for vacation/out-of-office
-    if is_migration():
-        return
-
-    if booking.isVacation():
-        return
-    if not getattr(booking, "email_responsabile", []):
-        return
-
-    message_adapter = getMultiAdapter(
-        (booking, event), IBookingEmailMessage, name="notify_manager"
-    )
-    sender_adapter = getMultiAdapter(
-        (message_adapter, booking, getRequest()),
-        IBookingNotificationSender,
-        name="booking_transition_email_sender",
-    )
-
-    sender_adapter.send(force=True)

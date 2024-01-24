@@ -10,4 +10,5 @@
   >
     <indexed_attr value="booking_type" />
   </index>
+  <column value="booking_code"/>
 </object>

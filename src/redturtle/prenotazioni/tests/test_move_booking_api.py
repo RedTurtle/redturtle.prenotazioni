@@ -6,11 +6,13 @@ from datetime import timedelta
 
 import pytz
 import transaction
+from DateTime import DateTime
 from plone import api
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
+from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
 
 from redturtle.prenotazioni.adapters.booker import IBooker
@@ -130,3 +132,42 @@ class TestMoveBookingApi(unittest.TestCase):
             response.json()["message"],
             "Sorry, this slot is not available or does not fit your booking.",
         )
+
+    def test_move_booking_update_modification_date(self):
+        booking = self.booker.book(
+            {
+                "booking_date": self.today,
+                "booking_type": "Type A",
+                "title": "foo",
+            }
+        )
+        booking.setModificationDate(booking.modified() - 1)
+        booking.reindexObject(idxs=["modified"])
+
+        uid = booking.UID()
+        old_modified = json_compatible(booking.modified())
+        transaction.commit()
+
+        # check that modification_date is right
+        response = self.api_session_admin.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}"
+        ).json()
+
+        self.assertEqual(old_modified, response["modification_date"])
+
+        # now move the booking
+        tomorrow = self.today + timedelta(1)
+        now = json_compatible(DateTime())
+        response = self.api_session_admin.post(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
+            json={
+                "booking_id": uid,
+                "booking_date": tomorrow.isoformat(),  # tomorrow
+            },
+        )
+        response = self.api_session_admin.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}",
+        ).json()
+
+        self.assertNotEqual(old_modified, response["modification_date"])
+        self.assertEqual(now, response["modification_date"])

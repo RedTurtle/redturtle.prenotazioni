@@ -52,6 +52,6 @@
       name="redturtle.prenotazioni-hiddenprofiles"
       />
 
-  <include package=".staging" />
+  <include package=".demo" />
 
 </configure>

@@ -61,6 +61,7 @@ class PrenotazioneSerializer:
             )
 
         return {
+            "@id": self.prenotazione.absolute_url(),
             "UID": self.prenotazione.UID(),
             "@type": self.prenotazione.portal_type,
             "title": self.prenotazione.title,
@@ -85,8 +86,8 @@ class PrenotazioneSerializer:
             "notify_on_confirm": booking_folder.notify_on_confirm,
             "cosa_serve": requirements,  # BBB
             "requirements": requirements,
-            "modification_date": self.prenotazione.ModificationDate(),
-            "creation_date": self.prenotazione.CreationDate(),
+            "modification_date": json_compatible(self.prenotazione.modified()),
+            "creation_date": json_compatible(self.prenotazione.created()),
         }
 
 
@@ -125,8 +126,8 @@ class PrenotazioneSearchableItemSerializer:
             "staff_notes": self.prenotazione.staff_notes,
             "company": self.prenotazione.company,
             "vacation": self.prenotazione.isVacation(),
-            "modification_date": self.prenotazione.ModificationDate(),
-            "creation_date": self.prenotazione.CreationDate(),
+            "modification_date": json_compatible(self.prenotazione.modified()),
+            "creation_date": json_compatible(self.prenotazione.created()),
         }
         if kwargs.get("fullobjects", False):
             try:

@@ -15,7 +15,7 @@ from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
 from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.behaviors.booking_folder.sms.adapters import (
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.sms.adapters import (
     BookingNotificationSender,
 )
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
