@@ -5,6 +5,9 @@ Changelog
 2.4.3 (unreleased)
 ------------------
 
+- Remove the notifiation gateways allowing cross logics
+  [folix-01]
+
 - Add @id in booking serializer
   [mamico]
 
