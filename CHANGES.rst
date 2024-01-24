@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.4.3 (unreleased)
+2.4.3 (2024-01-24)
 ------------------
 
 - Remove the notifiation gateways allowing cross logics
