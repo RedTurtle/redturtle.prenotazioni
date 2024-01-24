@@ -136,24 +136,6 @@ class TestBookingNotificationSupervisorUtility(unittest.TestCase):
 
         self.assertFalse(self.supervisor.is_sms_message_allowed(self.booking))
 
-        # Obsolete
-        # Email notification is allowed
-        # self.supervisor.is_email_message_allowed = lambda booking: True
-        # self.supervisor.is_appio_message_allowed = lambda booking: False
-        # self.folder_prenotazioni.notifications_sms_enabled = True
-
-        # self.assertFalse(self.supervisor.is_sms_message_allowed(self.booking))
-
-        # Obsolete
-        # AppIO notification is allowed
-        # self.supervisor.is_email_message_allowed = lambda booking: False
-        # self.supervisor.is_appio_message_allowed = lambda booking: True
-        # self.supervisor.app_io_allowed_for = lambda *_: True
-        # self.folder_prenotazioni.notifications_sms_enabled = True
-        # # XXX: booking_type needs to have a service_code
-        # self.booking.get_booking_type().service_code = "SERVICE_CODE"
-        # self.assertFalse(self.supervisor.is_sms_message_allowed(self.booking))
-
         # No phone number was provided
         self.supervisor.is_email_message_allowed = lambda booking: True
         self.supervisor.is_appio_message_allowed = lambda booking: True
