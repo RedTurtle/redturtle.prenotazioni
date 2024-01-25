@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.4.4 (unreleased)
+2.4.4 (2024-01-25)
 ------------------
 
 - Fix the sms nofications behavior's field label.
