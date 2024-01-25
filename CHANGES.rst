@@ -5,7 +5,8 @@ Changelog
 2.4.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix: term values must be unique in booking_type vocabulary
+  [mamico]
 
 
 2.4.4 (2024-01-25)

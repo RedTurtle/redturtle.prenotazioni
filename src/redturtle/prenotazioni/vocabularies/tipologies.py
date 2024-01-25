@@ -26,13 +26,12 @@ class PrenotazioneTypesVocabulary(object):
     def get_terms(self, context):
         """The vocabulary terms"""
         prenotazioni_folder = getPrenotazioniFolder(context)
-
-        return [
-            self.booking_type2term(booking_type)
-            for booking_type in prenotazioni_folder
-            and prenotazioni_folder.get_booking_types()
-            or []
-        ]
+        terms = []
+        for booking_type in prenotazioni_folder.get_booking_types():
+            term = self.booking_type2term(booking_type)
+            if term.value not in [t.value for t in terms]:
+                terms.append(term)
+        return terms
 
     def __call__(self, context):
         """
@@ -40,14 +39,15 @@ class PrenotazioneTypesVocabulary(object):
         """
         if IPloneSiteRoot.providedBy(context):
             catalog = api.portal.get_tool("portal_catalog")
-            return SimpleVocabulary(
-                [
-                    self.booking_type2term(brain.getObject())
-                    for brain in catalog(
-                        portal_type="PrenotazioneType", sort_by="sortable_title"
-                    )
-                ]
-            )
+            terms = []
+            for brain in catalog(
+                portal_type="PrenotazioneType", sort_by="sortable_title"
+            ):
+                booking_type = brain.getObject()
+                term = self.booking_type2term(booking_type)
+                if term.value not in [t.value for t in terms]:
+                    terms.append(term)
+            return SimpleVocabulary(terms)
         else:
             return SimpleVocabulary(self.get_terms(context))
 
