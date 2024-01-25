@@ -1172,7 +1172,7 @@ msgstr "Gestione delle Notifiche"
 #. Default: "Enable SMS notifications."
 #: redturtle/prenotazioni/behaviors/booking_folder/sms/__init__.py:70
 msgid "notifications_sms_enabled_help"
-msgstr "Abilita le notifiche via SMS. Queste notifiche partono solamente in caso le notifiche via AppIO o email non siano attive. Per poter ricevere un SMS, il campo 'Numero di telefono' della Prenotazione deve essere compilato."
+msgstr "Abilita le notifiche via SMS. Per poter ricevere un SMS, il campo 'Numero di telefono' della Prenotazione deve essere compilato."
 
 #. Default: "SMS notifications"
 #: redturtle/prenotazioni/behaviors/booking_folder/sms/__init__.py:69

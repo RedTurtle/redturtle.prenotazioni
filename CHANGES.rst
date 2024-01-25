@@ -5,7 +5,8 @@ Changelog
 2.4.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix the sms nofications behavior's field label.
+  [folix-01]
 
 
 2.4.3 (2024-01-24)
