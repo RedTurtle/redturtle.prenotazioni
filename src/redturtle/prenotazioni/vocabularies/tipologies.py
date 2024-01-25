@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from urllib.parse import quote
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -15,13 +16,14 @@ class PrenotazioneTypesVocabulary(object):
         """return a vocabulary tern with this"""
         name = booking_type.title
         duration = booking_type.duration
+        token = quote(name)
 
         if not duration:
             title = name
         else:
             title = f"{name} ({duration} min)"
 
-        return SimpleTerm(name, token=name, title=title)
+        return SimpleTerm(token, token=token, title=title)
 
     def get_terms(self, context):
         """The vocabulary terms"""

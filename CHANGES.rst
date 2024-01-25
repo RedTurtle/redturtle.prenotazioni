@@ -5,6 +5,9 @@ Changelog
 2.4.5 (unreleased)
 ------------------
 
+- Fix: urlencode/quote booking_type vocab terms
+  [mamico[
+
 - Fix: term values must be unique in booking_type vocabulary
   [mamico]
 
