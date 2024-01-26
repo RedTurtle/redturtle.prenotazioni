@@ -63,7 +63,7 @@ class TestStringInterp(unittest.TestCase):
 
     def test_stringinterp(self):
         booker = IBooker(self.folder_prenotazioni)
-        booking = booker.create(
+        booking = booker.book(
             {
                 "booking_date": self.tomorrow_8_0,
                 "booking_type": "Type A",

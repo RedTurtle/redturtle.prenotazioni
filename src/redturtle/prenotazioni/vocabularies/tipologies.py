@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from plone import api
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -36,7 +38,18 @@ class PrenotazioneTypesVocabulary(object):
         """
         Return all the tipologies defined in the PrenotazioniFolder
         """
-        return SimpleVocabulary(self.get_terms(context))
+        if IPloneSiteRoot.providedBy(context):
+            catalog = api.portal.get_tool("portal_catalog")
+            return SimpleVocabulary(
+                [
+                    self.booking_type2term(brain.getObject())
+                    for brain in catalog(
+                        portal_type="PrenotazioneType", sort_by="sortable_title"
+                    )
+                ]
+            )
+        else:
+            return SimpleVocabulary(self.get_terms(context))
 
 
 PrenotazioneTypesVocabularyFactory = PrenotazioneTypesVocabulary()

@@ -111,22 +111,17 @@ class DaySlots(Service):
             "@id": f"{self.context.absolute_url()}/@day/{self.day.isoformat()}",
             "bookings": self.get_bookings(),
             "pauses": self.get_pauses(),
-            "daily_schedule": self.get_daily_schedule(),
             "gates": self.get_gates(),
         }
 
     def get_bookings(self):
         bookings = self.prenotazioni_context_state.get_bookings_in_day_folder(self.day)
-
         bookings_result = {}
-
         for gate in {i.gate for i in bookings}:
             bookings_result[gate] = [
-                {
-                    **getMultiAdapter((i, self.request), ISerializeToJson)(),
-                }
-                for i in bookings
-                if i.gate == gate
+                getMultiAdapter((booking, self.request), ISerializeToJson)()
+                for booking in bookings
+                if booking.gate == gate
             ]
         return bookings_result
 
@@ -136,19 +131,17 @@ class DaySlots(Service):
             for i in self.prenotazioni_context_state.get_pauses_in_day_folder(self.day)
         ]
 
-    def get_daily_schedule(self):
-        intervals = self.prenotazioni_context_state.get_day_intervals(self.day)
-
-        if not intervals:
-            return {}
-        return {
-            "morning": getMultiAdapter(
-                (intervals["morning"], self.request), ISerializeToJson
-            )(),
-            "afternoon": getMultiAdapter(
-                (intervals["afternoon"], self.request), ISerializeToJson
-            )(),
-        }
-
     def get_gates(self):
-        return self.prenotazioni_context_state.get_gates(self.day)
+        gates = self.prenotazioni_context_state.get_gates(self.day)
+        intervals = self.prenotazioni_context_state.get_day_intervals(self.day)
+        for gate in gates:
+            gate["daily_schedule"] = {}
+            for period in ["morning", "afternoon"]:
+                interval = intervals.get(period, {})["gates"].get(gate["name"], None)
+                if interval:
+                    gate["daily_schedule"][period] = getMultiAdapter(
+                        (interval, self.request), ISerializeToJson
+                    )()
+                else:
+                    gate["daily_schedule"][period] = {"start": None, "end": None}
+        return gates

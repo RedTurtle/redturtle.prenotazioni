@@ -8,12 +8,6 @@ from redturtle.prenotazioni import _
 from redturtle.prenotazioni.utils import getPrenotazioniFolder
 
 
-class VocabItem(object):
-    def __init__(self, token, value):
-        self.token = token
-        self.value = value
-
-
 @implementer(IVocabularyFactory)
 class VocPrenotazioneTypeGatesFactory(object):
     """ """

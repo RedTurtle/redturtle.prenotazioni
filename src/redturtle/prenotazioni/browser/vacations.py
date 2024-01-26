@@ -199,7 +199,7 @@ class VacationBooking(form.Form):
             duration = len(slot) / 60
             slot_data = {k: v for k, v in data.items() if k != "gate"}
             slot_data["booking_date"] = booking_date
-            booker.create(slot_data, duration=duration, force_gate=data.get("gate"))
+            booker.book(slot_data, duration=duration, force_gate=data.get("gate"))
 
         msg = _("booking_created")
         IStatusMessage(self.request).add(msg, "info")

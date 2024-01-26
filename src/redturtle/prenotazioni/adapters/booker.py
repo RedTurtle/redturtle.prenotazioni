@@ -10,6 +10,7 @@ from six.moves.urllib.parse import parse_qs
 from six.moves.urllib.parse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import Interface
+from zope.component import getMultiAdapter
 from zope.event import notify
 from zope.interface import implementer
 from ZTUtils.Lazy import LazyMap
@@ -17,11 +18,17 @@ from ZTUtils.Lazy import LazyMap
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.adapters.booking_code import IBookingCodeGenerator
 from redturtle.prenotazioni.adapters.slot import BaseSlot
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.email.events import (
+    booking_folder_provides_current_behavior as booking_folder_provides_email_notification_behavior,
+)
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
 from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
 from redturtle.prenotazioni.exceptions import BookerException
 from redturtle.prenotazioni.exceptions import BookingsLimitExceded
+from redturtle.prenotazioni.interfaces import IBookingEmailMessage
+from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
 
@@ -70,6 +77,15 @@ class Booker(object):
             )
         ) >= (self.context.max_bookings_allowed):
             raise BookingsLimitExceded(self.context, booking_type=data["booking_type"])
+
+    @property
+    def is_manager(self):
+        """
+        Check if current user is Gestore
+        """
+        return api.user.has_permission(
+            "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
+        )
 
     def search_future_bookings_by_fiscalcode(
         self, fiscalcode: str, booking_type: str = None
@@ -123,6 +139,59 @@ class Booker(object):
         # less_used_gates = free_time_map[max_free_time]
         # return choice(less_used_gates)
 
+    def check_future_days(self, booking, data):
+        """
+        Check if date is in the right range.
+        Managers bypass this check
+        """
+        future_days = booking.getFutureDays()
+        if future_days and not self.prenotazioni.user_can_manage_prenotazioni:
+            if exceedes_date_limit(data, future_days):
+                msg = _("Sorry, you can not book this slot for now.")
+                raise BookerException(api.portal.translate(msg))
+
+    def generate_params(self, data, force_gate, duration):
+        # remove empty fields
+        params = {k: v for k, v in data.items() if v}
+        booking_type = params.get("booking_type", "")
+        user = api.user.get_current()
+
+        # set expiration date
+        if duration < 0:
+            # if we pass a negative duration it will be recalculated
+            duration = self.prenotazioni.get_booking_type_duration(booking_type)
+            # duration = (float(duration) / MIN_IN_DAY)
+            params["booking_expiration_date"] = params["booking_date"] + timedelta(
+                minutes=duration
+            )
+        else:
+            params["booking_expiration_date"] = params["booking_date"] + timedelta(
+                minutes=duration
+            )
+
+        # set gate
+        gate = ""
+        if force_gate:
+            gate = force_gate
+        else:
+            available_gate = self.get_available_gate(
+                params["booking_date"], params["booking_expiration_date"]
+            )
+            if available_gate:
+                gate = available_gate
+        params["gate"] = gate
+
+        # set fiscal code
+        fiscalcode = data.get("fiscalcode", "")
+
+        if not fiscalcode:
+            fiscalcode = user.getProperty("fiscalcode", "") or user.getId() or ""
+
+        if fiscalcode:
+            params["fiscalcode"] = fiscalcode.upper()
+
+        return params
+
     def _create(self, data, duration=-1, force_gate=""):
         """Create a Booking object
 
@@ -131,85 +200,75 @@ class Booker(object):
         :param force_gate: by default gates are assigned randomly except if you
                            pass this parameter.
         """
-        # remove empty fields
-        params = {k: v for k, v in data.items() if v}
+        params = self.generate_params(
+            data=data, duration=duration, force_gate=force_gate
+        )
+        if not params.get("gate", ""):
+            # no gate available
+            return
 
+        self._validate_user_limit(params)
         container = self.prenotazioni.get_container(
             params["booking_date"], create_missing=True
         )
-        booking_type = params.get("booking_type", "")
-        if duration < 0:
-            # if we pass a negative duration it will be recalculated
-            duration = self.prenotazioni.get_booking_type_duration(booking_type)
-            # duration = (float(duration) / MIN_IN_DAY)
-            booking_expiration_date = params["booking_date"] + timedelta(
-                minutes=duration
-            )
-        else:
-            booking_expiration_date = params["booking_date"] + timedelta(
-                minutes=duration
-            )
 
-        gate = ""
-        if not force_gate:
-            available_gate = self.get_available_gate(
-                params["booking_date"], booking_expiration_date
-            )
-            # if not available_gate: #
-            if available_gate is None:
-                # there isn't a free slot in any available gates
-                return None
-            # else assign the gate to the booking
-            gate = available_gate
-        else:
-            gate = force_gate
-
-        fiscalcode = data.get("fiscalcode", "") or ""
-        fiscalcode.upper()
-        user = api.user.get_current()
-
-        if not fiscalcode:
-            fiscalcode = (
-                user.getProperty("fiscalcode", "") or user.getId() or ""
-            ).upper()  # noqa
-
-        if fiscalcode:
-            params["fiscalcode"] = fiscalcode
-            self._validate_user_limit(params)
-
-        obj = api.content.create(
+        booking = api.content.create(
             type="Prenotazione",
             container=container,
-            booking_expiration_date=booking_expiration_date,
-            gate=gate,
             **params,
         )
 
-        annotations = IAnnotations(obj)
+        # set booking_code
+        booking_code = getMultiAdapter(
+            (booking, self.context.REQUEST), IBookingCodeGenerator
+        )()
+        setattr(booking, "booking_code", booking_code)
 
+        # check verified booking
+        user = api.user.get_current()
+        annotations = IAnnotations(booking)
         annotations[VERIFIED_BOOKING] = False
-
         if not api.user.is_anonymous() and not api.user.has_permission(
             "Modify portal content", obj=container
         ):
+            fiscalcode = params.get("fiscalcode", "")
             if user.hasProperty("fiscalcode") and fiscalcode:
                 if (user.getProperty("fiscalcode") or "").upper() == fiscalcode:
-                    logger.info("Booking verified: {}".format(obj.absolute_url()))
+                    logger.info("Booking verified: {}".format(booking.absolute_url()))
                     annotations[VERIFIED_BOOKING] = True
 
-        obj.reindexObject()
-        api.content.transition(obj, "submit")
-        return obj
+        booking.reindexObject()
+        api.content.transition(booking, "submit")
 
-    def create(self, data, duration=-1, force_gate=""):
-        """
-        Create a Booking object
+        # finally send email notification to managers
+        self.send_email_to_managers(booking=booking)
 
-        Like create but we disable security checks to allow creation
-        for anonymous users
+        return booking
+
+    def send_email_to_managers(self, booking):
         """
-        with api.env.adopt_roles(["Manager", "Member"]):
-            return self._create(data, duration=duration, force_gate=force_gate)
+        Send email notification for managers
+        """
+        if not booking_folder_provides_email_notification_behavior(booking):
+            return
+
+        if booking.isVacation():
+            return
+        if not getattr(booking, "email_responsabile", []):
+            return
+        request = self.context.REQUEST
+        message_adapter = getMultiAdapter(
+            (booking, request),
+            IBookingEmailMessage,
+            name="notify_manager",
+        )
+        sender_adapter = getMultiAdapter(
+            (message_adapter, booking, request),
+            IBookingNotificationSender,
+            name="booking_transition_email_sender",
+        )
+
+        sender_adapter.send(force=True)
 
     def fix_container(self, booking):
         """Take a booking and move it to the right date"""
@@ -225,18 +284,18 @@ class Booker(object):
 
     def book(self, data, force_gate=None, duration=-1):
         """
-        Book a resource
+        Create a Booking object
+
+        Like create but we disable security checks to allow creation
+        for anonymous users
         """
         data["booking_date"] = datetime_with_tz(data["booking_date"])
+
+        self.check_future_days(booking=self.context, data=data)
 
         conflict_manager = self.prenotazioni.conflict_manager
         if conflict_manager.conflicts(data):
             msg = _("Sorry, this slot is not available anymore.")
-            raise BookerException(api.portal.translate(msg))
-
-        future_days = self.context.getFutureDays()
-        if future_days and exceedes_date_limit(data, future_days):
-            msg = _("Sorry, you can not book this slot for now.")
             raise BookerException(api.portal.translate(msg))
 
         # XXX: deprecated
@@ -247,10 +306,19 @@ class Booker(object):
             if "gate" in params:
                 force_gate = params["gate"][0]
 
-        obj = self.create(data=data, force_gate=force_gate, duration=duration)
+        with api.env.adopt_roles(["Manager", "Member"]):
+            obj = self._create(data, duration=duration, force_gate=force_gate)
+
         if not obj:
             msg = _("Sorry, this slot is not available anymore.")
             raise BookerException(api.portal.translate(msg))
+
+        if self.is_manager:
+            if not getattr(self.context, "auto_confirm", False) and getattr(
+                self.context, "auto_confirm_manager", False
+            ):
+                if api.content.get_state(obj) != "confirmed":
+                    api.content.transition(obj, transition="confirm")
         return obj
 
     def move(self, booking, data):
@@ -275,10 +343,7 @@ class Booker(object):
             )
             raise BookerException(api.portal.translate(msg))
 
-        future_days = booking.getFutureDays()
-        if future_days and exceedes_date_limit(data, future_days):
-            msg = _("Sorry, you can not book this slot for now.")
-            raise BookerException(api.portal.translate(msg))
+        self.check_future_days(booking=booking, data=data)
 
         # move the booking
         duration = booking.getDuration()
@@ -336,5 +401,5 @@ class Booker(object):
                     slot_data = {k: v for k, v in data.items() if k != "gate"}
                     slot_data["booking_date"] = start
                     slot_data["booking_type"] = VACATION_TYPE
-                    if self.create(slot_data, duration=duration, force_gate=gate):
+                    if self.book(slot_data, duration=duration, force_gate=gate):
                         return 1

@@ -1,0 +1,55 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="redturtle.prenotazioni"
+    >
+
+  <plone:behavior
+      name="redturtle.prenotazioni.behavior.notification_email"
+      title="Booking folder notification email"
+      description="Notification email templates"
+      factory=".NotificationEmail"
+      provides=".INotificationEmail"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      marker=".INotificationEmail"
+      />
+
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+      handler=".events.send_email_notification_on_transition"
+      />
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           redturtle.prenotazioni.prenotazione_event.IMovedPrenotazione"
+      handler=".events.notify_on_move"
+      />
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           redturtle.prenotazioni.interfaces.IBookingReminderEvent"
+      handler=".events.send_booking_reminder"
+      />
+
+  <adapter factory=".notification_email_message.PrenotazioneAfterTransitionEmailICalMessage" />
+
+  <adapter
+      factory=".notification_email_message.PrenotazioneManagerEmailMessage"
+      name="notify_manager"
+      />
+
+  <adapter
+      factory=".notification_email_message.PrenotazioneReminderEmailMessage"
+      name="reminder_notification_email_message"
+      />
+
+  <!-- Prenotazione moved event message adapter -->
+  <adapter factory=".notification_email_message.PrenotazioneMovedICalEmailMessage" />
+
+  <adapter
+      factory=".adapters.BookingTransitionEmailSender"
+      name="booking_transition_email_sender"
+      />
+
+</configure>

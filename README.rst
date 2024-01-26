@@ -155,56 +155,87 @@ Managers can confirm a Booking using workflow transitions.
 The workflow transition triggers an email to be sent to the booker (see below).
 
 
-Content Rules (mail notifications)
-----------------------------------
+Booking Notifications
+---------------------
 
-There are additional content rules that can be used to notify booking owner when his booking has been created, accepted
-or re-scheduled.
+There are automated notifications implementend by the following behaviors:
 
-Rules are **NOT automatically** enabled in every Booking Folder.
-If you want to send some notification, you only need to enable them from rules link in Booking folder.
+* `redturtle.prenotazioni.behavior.notification_appio` (Notify via AppIO gateway)
+* `redturtle.prenotazioni.behavior.notification_email` (Notify via Email gateway)
+* `redturtle.prenotazioni.behavior.notification_sms` (Notify via SMS gateway)
 
-If you set "Responsible email" field, an email will be sent each time a new Booking has been submitted.
+Each behavior is implementing the following notification types:
+* `booking-accepted` (An notification if the booking had been accepted)
+* `booking-moved` (An notification if the booking had been moved)
+* `booking-created` (An notification if the booking had been created)
+* `booking-refuse` (An notification if the booking had been refused)
+* `booking-reminder` (An notification reminder)
 
-The rules which are available by default:
+Notifications are **NOT automatically** enabled in every Booking Folder.
+If you want to send some notification, you only need to enable them by assigning the behavior to PrenotazioniFolder c.t.
 
-* `booking-accepted` (Invia un'email all'utente quando la prenotazione è stata accettata)
-* `booking-moved` (Invia un'email all'utente quando la data della prenotazione viene cambiata)
-* `booking-created-user` (Invia un'email all'utente quando la prenotazione è stata creata)
-* `booking-refuse` (Invia un'email all'utente quando la prenotazione è stata rifiutata)
-* `booking-confirm` (Conferma automatica prenotazioni)
-
-
-You can create your own email templates for the booking events(confirm, refuse, create, delete).
+You can create your own notification templates for the booking events(confirm, refuse, create, delete, reminder).
 The temlates are being saved in the PrenotazioniFolder object.
 
 The template variables list:
 
-* ``${title}`` - booking title.
-* ``${booking_gate}`` - booking gate.
-* ``${booking_human_readable_start}`` - booking human readable start.
-* ``${booking_date}`` - booking date.
-* ``${booking_end_date}`` - booking end date.
-* ``${booking_time}`` - booking time.
-* ``${booking_time_end}`` - booking time end.
-* ``${booking_code}`` - booking code.
-* ``${booking_type}`` - booking type.
-* ``${booking_print_url}`` - booking print url.
-* ``${booking_url_with_delete_token}`` - booking url with delete token.
-* ``${booking_user_phone}`` - booking user phone.
-* ``${booking_user_email}`` - booking user email.
-* ``${booking_user_details}`` - booking user details.
-* ``${booking_office_contact_phone}`` - booking office contact phone.
-* ``${booking_office_contact_pec}`` - booking office contact pec.
-* ``${booking_office_contact_fax}`` - booking office contact fax.
-* ``${booking_how_to_get_to_office}`` - booking how to get to office.
-* ``${booking_office_complete_address}`` - booking office complete address.
-* ``${booking_user_details}`` - booking user details
-* ``${booking_requirements}`` - booking requeirements.
-* ``${prenotazioni_folder_title}`` - prenotazioni folder title.
-* ``${booking_user_details}`` - booking details.
-* ``${booking_requirements}`` - booking_requirements
-* ``${prenotazioni_folder_title}`` - PrenotazioniFolder title
+* ``${title}`` - Booking title.
+* ``${booking_gate}`` - Booking gate.
+* ``${booking_human_readable_start}`` - Booking human readable start datetime.
+* ``${booking_date}`` - Booking date.
+* ``${booking_end_date}`` - Booking end date.
+* ``${booking_time}`` - Booking time.
+* ``${booking_time_end}`` - Booking time end.
+* ``${booking_code}`` - Booking code.
+* ``${booking_type}`` - Booking type.
+* ``${booking_print_url}`` - Booking summary url.
+* ``${booking_url_with_delete_token}`` - Booking url to delete page.
+* ``${booking_user_phone}`` - Booking user phone.
+* ``${booking_user_email}`` - Booking user email.
+* ``${booking_user_details}`` - Booking user details.
+* ``${booking_office_contact_phone}`` - Booking office contact phone.
+* ``${booking_office_contact_pec}`` - Booking office contact pec.
+* ``${booking_office_contact_fax}`` - Booking office contact fax.
+* ``${booking_how_to_get_to_office}`` - Booking how to get to office.
+* ``${booking_office_complete_address}`` - Booking office complete address.
+* ``${booking_user_details}`` - Booking details inserted by user.
+* ``${booking_requirements}`` - Booking requeirements.
+* ``${prenotazioni_folder_title}`` - Booking folder title.
+* ``${booking_requirements}`` - Related PrenotazioneType.booking_requirements field
+
+Note that the sms can be used only if you implement an own sender adapter
+Example:
+
+You just need to register a new adapter::
+
+    <adapter
+      factory = ".my_adapter.CustomSMSSenderAdapter"
+      name="booking_transition_sms_sender"
+    />
+
+And here the `send` method must be implementend::
+
+    from zope.component import adapter
+    from zope.interface import implementer
+
+    from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+    from redturtle.prenotazioni.interfaces import IBookingNotificationSender
+    from redturtle.prenotazioni.interfaces import IBookingSMSMessage
+    from redturtle.prenotazioni.behaviors.booking_folder.sms.adapters import BookingNotificationSender
+
+
+    @implementer(IBookingNotificationSender)
+    @adapter(IBookingSMSMessage5, IPrenotazione, YourAddonLayerInterface)
+    class CustomSMSSenderAdapter(BookingNotificationSender):
+
+        def send(self):
+            if self.is_notification_allowed():
+                # the message is automatically generated basing on the event type
+                message = self.message_adapter.message
+                phone = self.booking.phone
+
+                # Your custom send logics integration below
+                custom_send_function(message, phone)
 
 
 Vacations
@@ -231,6 +262,33 @@ Using the prenotazioni_search view it is possible to search
 bookings within a given time interval.
 You can also filter the results specifying a searchable text,
 a gate or a review state.
+
+Booking code generation
+-----------------------
+
+Every booking has an unique code generated on creation.
+
+By default this code is based on its UID.
+If you need to change this logic, you can do it registering a more specific adapter::
+
+    <adapter factory=".my_new_code.MyNewBookingCodeGenerator" />
+
+
+And the adapter should be something like this::
+
+    from redturtle.prenotazioni.adapters.booking_code import BookingCodeGenerator
+    from redturtle.prenotazioni.adapters.booking_code import IBookingCodeGenerator
+    from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+    from my.package.interfaces import IMyPackageLayer
+    from zope.component import adapter
+    from zope.interface import implementer
+
+
+    @implementer(IBookingCodeGenerator)
+    @adapter(IPrenotazione, IMyPackageLayer)
+    class MyNewBookingCodeGenerator(BookingCodeGenerator):
+        def __call__(self, *args, **kwargs):
+            return "XXXXX"
 
 
 Rest API
@@ -432,7 +490,7 @@ Response::
     }
 
 @booking-schema
---------------------
+---------------
 
 Endpoint that need to be called on a PrenotazioniFolder.
 It returns the list of all fields to fill in for the booking.
@@ -512,16 +570,19 @@ Endpoint that returns a list of own *Prenotazione* content by parameters
 Parameters:
 
 - **SearchableText**: The SearchableText of content.
-- **from**: The start date of research.
-- **to**: The end date of research.
+- **from**: The start date of research (with YYYY-MM-DD format).
+- **to**: The end date of research (with YYYY-MM-DD format).
+- **modified_after**: To filter bookings modified only after given date (needed also a timezone: YYYY-MM-DDThh:mm:ss+02:00).
 - **gate**: The booking gate.
 - **userid**: The userid(basically it is the fiscalcode). Allowed to be used by users having the 'redturtle.prenotazioni: search prenotazioni' permission.
 - **booking_type**: The booking_type, available values are stored in 'redturtle.prenotazioni.booking_types' vocabulary.
 - **review_state**: The booking status, one of: 'confirmed', 'refused', 'private', 'pending'
+- **fullobjects**: If `fullobjects=1` is passed, the endpoint will return the full objects instead of a list of brains (actually the only information
+                   added is the `requirements` field. (aka `cosa_serve`).
 
 Example::
 
-   curl -i http://localhost:8080/Plone/@bookings?from=10-10-2023&to=20-10-2023&gate=Gate1&userid=user1&booking_type=type1&SearchableText=text1 \
+   curl -i http://localhost:8080/Plone/@bookings?from=2023-10-22&to=2023-10-22&gate=Gate1&userid=user1&booking_type=type1&SearchableText=text1 \
      -H 'Accept: application/json'
 
 Response::
@@ -659,6 +720,70 @@ Example::
 
 Response::
     Binary file
+
+@@send-booking-reminders
+------------------------
+
+This view sends a booking reminder email to all the bookings inside PrenotazioniFolders that
+have the Reminder Notification Gap field populated. If you intend to set up a cronjob to call this view, you might use a special script call.
+The script is located at src/redturtle/prenotazioni/scripts/notify_upcoming_bookings.py.
+
+
+
+Scripts
+=======
+
+notify_upcoming_bookings
+------------------------
+
+The script is supposed to be used to call the **@@send-booking-reminders** view.
+It is supposed to be ran once a day otherwise, duplicate emails will be sent.
+
+Usage::
+
+    bin/instance1 -OPlone run bin/notify_upcoming_bookings
+
+Buildout config example::
+
+    [buildout]
+
+    parts +=
+        notify-upcoming-bookings
+
+    [notify-upcoming-bookings]
+    recipe = z3c.recipe.usercrontab
+    times = 0 3 * * *
+    command = ${buildout:directory}/bin/notify_upcoming_bookings
+
+
+Behaviors
+=========
+
+redturtle.prenotazioni.behavior.notification_appio
+--------------------------------------------------
+
+If you mind to use this behavior note that first of all you also need to assign
+this **redturtle.prenotazioni.behavior.notification_appio_booking_type** to PrenotazioneType c.t.
+
+To send the messages via AppIO gateway the **service_code** field defined by **redturtle.prenotazioni.behavior.notification_appio_booking_type**
+must be compiled in the PrenotazioniType object. All the possible values of this field are being
+taken from the environmennt variables which have the following syntax **REDTURTLE_PRENOTAZIONI_APPIO_KEY_<AppIO Sevice code here>=<AppIO Sevice key here>**
+
+Content-transfer-encoding
+=========================
+
+It is possible to set the content-transfer-encoding for the email body, settings the environment
+variable `MAIL_CONTENT_TRANSFER_ENCODING`::
+
+    [instance]
+    environment-vars =
+        MAIL_CONTENT_TRANSFER_ENCODING base64
+
+This is useful for some SMTP servers that have problems with `quoted-printable` encoding.
+
+By default the content-transfer-encoding is `quoted-printable` as overrided in
+https://github.com/zopefoundation/Products.MailHost/blob/master/src/Products/MailHost/MailHost.py#L65
+
 
 How to develop
 ==============

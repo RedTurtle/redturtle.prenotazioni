@@ -10,18 +10,11 @@ from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from zope.event import notify
-from zope.interface import implementer
-from zope.interface.interfaces import IObjectEvent
 
 from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.events import BookingReminderEvent
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
-
-
-@implementer(IObjectEvent)
-class DummyEvent(object):
-    def __init__(self, object):
-        self.object = object
 
 
 class TestSPrenotazioneEvents(unittest.TestCase):
@@ -48,6 +41,7 @@ class TestSPrenotazioneEvents(unittest.TestCase):
             description="",
             daData=date.today(),
             gates=["Gate A"],
+            auto_confirm_manager=False,  # is True by default, but we are testing everything as manager
         )
 
         api.content.create(
@@ -77,7 +71,7 @@ class TestSPrenotazioneEvents(unittest.TestCase):
         booker = IBooker(self.folder_prenotazioni)
         if booking_date is None:
             booking_date = self.tomorrow_8_0
-        return booker.create(
+        return booker.book(
             {
                 "booking_date": booking_date,
                 "booking_type": "Type A",
@@ -398,3 +392,42 @@ class TestSPrenotazioneEvents(unittest.TestCase):
         message = email.message_from_bytes(mail_sent)
 
         self.assertTrue(len(message.get_payload()), 1)
+
+    def test_email_is_sent_on_booking_reminder_event(self):
+        self.assertFalse(self.mailhost.messages)
+
+        notify(BookingReminderEvent(self.create_booking()))
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        mail_sent = self.mailhost.messages[0]
+        message = email.message_from_bytes(mail_sent)
+
+        self.assertTrue(len(message.get_payload()), 1)
+
+    def test_email_sender_by_default_is_the_site_one(self):
+        self.folder_prenotazioni.notify_on_submit = True
+        self.folder_prenotazioni.notify_on_submit_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_submit_message = self.email_message
+
+        self.assertFalse(self.mailhost.messages)
+
+        self.create_booking()
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        self.assertIn(b"From: noreply@example.com", self.mailhost.messages[0])
+
+    def test_email_sender_overrided_in_folder_prenotazioni(self):
+        self.folder_prenotazioni.notify_on_submit = True
+        self.folder_prenotazioni.notify_on_submit_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_submit_message = self.email_message
+        self.folder_prenotazioni.email_from = "noreply@foo.com"
+
+        self.assertFalse(self.mailhost.messages)
+
+        self.create_booking()
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        self.assertIn(b"From: noreply@foo.com", self.mailhost.messages[0])

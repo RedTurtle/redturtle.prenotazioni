@@ -102,9 +102,6 @@ class TestDeleteBookingApi(unittest.TestCase):
             response = session.delete("{}/@booking".format(self.portal_url))
         else:
             response = session.delete("{}/@booking/{}".format(self.portal_url, uid))
-        # per le restapi il commit qui non ha senso, senza i test si rompono,
-        # ma è un caso, va spostato dove serve veramente, questo non è il suo posto
-        transaction.commit()
         return response
 
     def test_endpoint_raise_404_without_uid(self):
@@ -116,7 +113,7 @@ class TestDeleteBookingApi(unittest.TestCase):
         self.assertEqual(404, response.status_code)
 
     def test_admin_can_delete_booking(self):
-        booking = self.booker.create(
+        booking = self.booker.book(
             {
                 "booking_date": self.today + timedelta(1),  # tomorrow
                 "booking_type": "Type A",
@@ -136,7 +133,7 @@ class TestDeleteBookingApi(unittest.TestCase):
 
     @unittest.skip("wip")
     def test_anon_cant_delete_other_user_booking(self):
-        booking = self.booker.create(
+        booking = self.booker.book(
             {
                 "booking_date": self.today + timedelta(1),  # tomorrow
                 "booking_type": "Type A",
@@ -155,7 +152,7 @@ class TestDeleteBookingApi(unittest.TestCase):
 
     def test_anon_can_delete_anon_booking(self):
         logout()
-        booking = self.booker.create(
+        booking = self.booker.book(
             {
                 "booking_date": self.today + timedelta(1),  # tomorrow
                 "booking_type": "Type A",
@@ -172,6 +169,8 @@ class TestDeleteBookingApi(unittest.TestCase):
 
         response = self.get_response(session=self.api_session_anon, uid=uid)
 
+        transaction.commit()
+
         self.assertEqual(response.status_code, 204)
         self.assertEqual(
             len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
@@ -180,7 +179,7 @@ class TestDeleteBookingApi(unittest.TestCase):
 
     def test_user_can_delete_his_booking(self):
         login(self.portal, "user")
-        booking = self.booker.create(
+        booking = self.booker.book(
             {
                 "booking_date": self.today + timedelta(1),  # tomorrow
                 "booking_type": "Type A",
@@ -197,6 +196,8 @@ class TestDeleteBookingApi(unittest.TestCase):
 
         response = self.get_response(session=self.api_session_user, uid=uid)
 
+        transaction.commit()
+
         self.assertEqual(response.status_code, 204)
         self.assertEqual(
             len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
@@ -206,7 +207,7 @@ class TestDeleteBookingApi(unittest.TestCase):
     @unittest.skip("wip")
     def test_user_cant_delete_other_user_booking(self):
         login(self.portal, "user")
-        booking = self.booker.create(
+        booking = self.booker.book(
             {
                 "booking_date": self.today + timedelta(1),  # tomorrow
                 "booking_type": "Type A",
@@ -214,7 +215,6 @@ class TestDeleteBookingApi(unittest.TestCase):
             }
         )
         uid = booking.UID()
-        transaction.commit()
 
         self.assertEqual(
             len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
@@ -222,6 +222,7 @@ class TestDeleteBookingApi(unittest.TestCase):
         )
 
         response = self.get_response(session=self.api_session_user2, uid=uid)
+        transaction.commit()
 
         self.assertEqual(response.status_code, 401)
         self.assertEqual(
@@ -232,7 +233,7 @@ class TestDeleteBookingApi(unittest.TestCase):
     @unittest.skip("wip")
     def test_user_cant_delete_anon_booking(self):
         logout()
-        booking = self.booker.create(
+        booking = self.booker.book(
             {
                 "booking_date": self.today + timedelta(1),  # tomorrow
                 "booking_type": "Type A",
@@ -256,7 +257,7 @@ class TestDeleteBookingApi(unittest.TestCase):
         )
 
     def test_cant_delete_past_booking(self):
-        booking = self.booker.create(
+        booking = self.booker.book(
             {
                 "booking_date": self.today - timedelta(1),  # yesterday
                 "booking_type": "Type A",
@@ -283,7 +284,7 @@ class TestDeleteBookingApi(unittest.TestCase):
         )
 
     def test_cant_delete_today_booking(self):
-        booking = self.booker.create(
+        booking = self.booker.book(
             {
                 "booking_date": self.today,
                 "booking_type": "Type A",

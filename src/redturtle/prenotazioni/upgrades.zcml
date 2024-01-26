@@ -272,4 +272,38 @@
         handler=".upgrades.update_registry"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2001"
+      destination="2002"
+      >
+    <genericsetup:upgradeStep
+        title="Contributors can add PrenotazioniFolder"
+        handler=".upgrades.update_rolemap"
+        />
+  </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2002"
+      destination="2003"
+      >
+    <genericsetup:upgradeStep
+        title="Assign redturtle.prenotazioni.behavior.notification_email to PrenotazioniFolder"
+        handler=".upgrades.update_types"
+        />
+  </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2003"
+      destination="2004"
+      >
+    <genericsetup:upgradeStep
+        title="Add new metadata: booking_code"
+        handler=".upgrades.update_catalog"
+        />
+    <genericsetup:upgradeStep
+        title="Reindex prenotazioni"
+        handler=".upgrades.to_2004"
+        />
+  </genericsetup:upgradeSteps>
 </configure>

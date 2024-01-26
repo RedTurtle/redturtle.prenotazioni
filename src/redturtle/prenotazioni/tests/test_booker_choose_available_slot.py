@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 import unittest
-from datetime import date, datetime, timedelta
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 
 import transaction
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from freezegun import freeze_time
-from redturtle.prenotazioni.adapters.booker import IBooker
 
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.exceptions.booker import BookerException
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 
@@ -54,7 +57,7 @@ class TestGateChooser(unittest.TestCase):
 
     def create_booking(self, booking_date):
         # need this just to have the day container
-        return self.booker.create(
+        return self.booker.book(
             {
                 "booking_date": booking_date,
                 "booking_type": "Type A",
@@ -111,6 +114,11 @@ class TestGateChooser(unittest.TestCase):
         self.assertEqual(len(used_gates), 5)
         self.assertEqual(len(available_gates), 0)
 
-        self.assertIsNone(
-            self.create_booking(booking_date=now + timedelta(hours=9, minutes=0))
+        # there are not available gates
+        with self.assertRaises(BookerException) as cm:
+            self.create_booking(
+                booking_date=now + timedelta(hours=9, minutes=0),
+            )
+        self.assertEqual(
+            "Sorry, this slot is not available anymore.", str(cm.exception)
         )

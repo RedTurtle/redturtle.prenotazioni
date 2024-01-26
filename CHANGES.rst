@@ -2,15 +2,131 @@ Changelog
 =========
 
 
-2.2.6 (unreleased)
+2.4.5 (unreleased)
 ------------------
 
 - Return bookings in ascending date order so the ones for today are shown as first
   [pnicolli]
 
 
+2.4.4 (2024-01-25)
+------------------
+
+- Fix the sms nofications behavior's field label.
+  [folix-01]
+
+
+2.4.3 (2024-01-24)
+------------------
+
+- Remove the notifiation gateways allowing cross logics
+  [folix-01]
+
+- Add @id in booking serializer
+  [mamico]
+
+- Handle `modified_after` parameter in @bookings endpoint.
+  [cekk]
+
+- Add booking_code as catalog metadata.
+  [cekk]
+
+- [BREAKING] Move code generation and managers email notification from event handlers into booker.
+  [cekk]
+
+
+2.4.2 (2024-01-15)
+------------------
+
+- Revert last changes to avoid incompatibility.
+  [cekk]
+
+
+2.4.1 (2024-01-15)
+------------------
+
+- Register event handler for IObjectAddedEvent instead IObjectCreatedEvent for code generator.
+  [cekk]
+
+
+2.4.0 (2024-01-15)
+------------------
+
+- Performance improvements: changed functions: `hm2DT`, `value_hr`, `get_values_hr_every`
+  [mamico]
+
+- Perfomance refactoring for @available-slots view
+  [folix-01]
+
+- Split booking notification gateways to 'App IO', 'Email' and 'SMS'
+  [folix-01]
+
+- remove unused contentrules
+  [mamico]
+
+- Add booking reminder emails.
+  [folix-01]
+
+- Move code generation to adapter, to be more customizable.
+  [cekk]
+
+- Add customizable email from in PrenotazioniFolder contents.
+  [cekk]
+
+2.3.2 (2024-01-03)
+------------------
+
+- Add creation and modification dates to serialized booking
+  [folix-01]
+ 
+- Add fullobjects in @bookings
+  [mamico]
+- Use the <PrenotazioniFolder>.holidays constraint.
+  [folix-01]
+
+
+2.3.1 (2023-12-21)
+------------------
+
+- add content-transfer-encoding customization 
+  [mamico]
+
+
+2.3.0 (2023-12-19)
+------------------
+
+- Add booking_type vocabularies for portal_root
+  [mamico]
+
+- Improve manager mail notification subject to include also name and date.
+  [cekk]
+
+- Update the min booking type length value to 5min.
+  [folix-01]
+
+- Fix: hidden attribute in tipologia
+  [mamico]
+
+- Fix upgrade step error #139 
+  [mamico]
+
+- Add flag `auto_confirm_manager` that allows to automatically confirm bookings created by Booking Managers.
+  [cekk]
+
+- Booking Managers bypass futureDays checks when create new bookings.
+  [cekk]
+
+- Remove duplicated method in booker: create. Now there is only `book`.
+  [cekk]
+
+- Hide PrenotazioniYear in add menu for restapi.
+  [cekk]
+ 
 2.2.5 (2023-12-04)
 ------------------
+
+- Contributors can add PrenotazioniFolder.
+  [cekk]
 
 - On PrenotazioniFolder upgrade-step (2000->2001) migrate also requirements field.
   [cekk]
@@ -38,6 +154,7 @@ Changelog
 
 - Set PrenotazioniFolder and PrenotazioneType as not searchable (types_not_searched).
   [cekk]
+
 - Send ical also for manager notifications.
   [cekk]
 
@@ -75,13 +192,15 @@ Changelog
 
 - Add booking_refuse_message to Prenotazione stringinterp variables.
   [folix-01]
- 
+
 - Extended PrenotaizoniFolder email templates var list.
   [folix-01]
 
 - Better handle overrides between years.
   [cekk]
 
+- Handle possibility to create more overrides with different gates schedule.
+  [cekk]
 
 2.1.5 (2023-11-10)
 ------------------
@@ -293,8 +412,9 @@ Changelog
 
 - Handle contentrules by the plone events and do not use contentrules anymore.
   [folix-01]
+
 - Change "day" type in week_table (TODO: need an upgrade step?).
-  [mauro]
+  [mamico]
 
 2.0.0.dev2 (2023-06-30)
 -----------------------

@@ -190,27 +190,8 @@
       for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
       />
 
-  <!-- Prenotazione email message adapters -->
 
-
-  <adapter
-      factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailMessage"
-      name="refuse"
-      />
-  <adapter
-      factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailMessage"
-      name="submit"
-      />
-  <adapter
-      factory=".prenotazione_email_message.PrenotazioneAfterTransitionEmailICalMessage"
-      name="confirm"
-      />
-
-  <adapter
-      factory=".prenotazione_email_message.PrenotazioneManagerEmailMessage"
-      name="notify_manager"
-      />
-  <!-- Prenotazione moved event message adapter -->
-  <adapter factory=".prenotazione_email_message.PrenotazioneMovedICalEmailMessage" />
+  <!-- code generator -->
+  <adapter factory=".booking_code.BookingCodeGenerator" />
 
 </configure>

@@ -137,7 +137,7 @@ class TestBookingInfo(unittest.TestCase):
         # create a placeholder for first available monday
 
         booker = IBooker(self.folder_prenotazioni)
-        booking = booker.create(
+        booking = booker.book(
             {
                 "booking_date": datetime(current_year, current_month, monday, 7, 0),
                 "booking_type": "Type A",
@@ -181,7 +181,7 @@ class TestBookingInfo(unittest.TestCase):
         # create a placeholder for first available monday
 
         booker = IBooker(self.folder_prenotazioni)
-        booker.create(
+        booker.book(
             {
                 "booking_date": datetime(current_year, current_month, monday, 7, 0),
                 "booking_type": "Type A",

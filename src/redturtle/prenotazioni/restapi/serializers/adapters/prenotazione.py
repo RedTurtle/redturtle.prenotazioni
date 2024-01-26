@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 from plone import api
 from plone.restapi.interfaces import IFieldSerializer
 from plone.restapi.interfaces import ISerializeToJson
@@ -58,6 +60,7 @@ class PrenotazioneSerializer:
                 booking_date.year, booking_date.month, booking_date.day
             )
         return {
+            "@id": self.prenotazione.absolute_url(),
             "UID": self.prenotazione.UID(),
             "@type": self.prenotazione.portal_type,
             "title": self.prenotazione.title,
@@ -80,7 +83,10 @@ class PrenotazioneSerializer:
             "vacation": self.prenotazione.isVacation(),
             "booking_code": self.prenotazione.getBookingCode(),
             "notify_on_confirm": booking_folder.notify_on_confirm,
-            "cosa_serve": requirements,
+            "cosa_serve": requirements,  # BBB
+            "requirements": requirements,
+            "modification_date": json_compatible(self.prenotazione.modified()),
+            "creation_date": json_compatible(self.prenotazione.created()),
         }
 
 
@@ -94,7 +100,7 @@ class PrenotazioneSearchableItemSerializer:
     def __call__(self, *args, **kwargs):
         wf_tool = api.portal.get_tool("portal_workflow")
         status = wf_tool.getStatusOf("prenotazioni_workflow", self.prenotazione)
-        return {
+        data = {
             "title": self.prenotazione.Title(),
             "description": self.prenotazione.description,
             "booking_id": self.prenotazione.UID(),
@@ -119,4 +125,46 @@ class PrenotazioneSearchableItemSerializer:
             "staff_notes": self.prenotazione.staff_notes,
             "company": self.prenotazione.company,
             "vacation": self.prenotazione.isVacation(),
+            "modification_date": json_compatible(self.prenotazione.modified()),
+            "creation_date": json_compatible(self.prenotazione.created()),
         }
+        if kwargs.get("fullobjects", False):
+            try:
+                requirements = getMultiAdapter(
+                    (
+                        getFields(IPrenotazioneType)["requirements"],
+                        self.prenotazione.get_booking_type(),
+                        self.request,
+                    ),
+                    IFieldSerializer,
+                )()
+            except ComponentLookupError:
+                requirements = ""
+            prenotazioni_folder = self.prenotazione.getPrenotazioniFolder()
+            data["booking_folder"] = {
+                "@id": prenotazioni_folder.absolute_url(),
+                "uid": prenotazioni_folder.UID(),
+                "title": prenotazioni_folder.Title(),
+                "orario_di_apertura": getattr(
+                    prenotazioni_folder, "orario_di_apertura", None
+                ),
+                "description_agenda": json_compatible(
+                    prenotazioni_folder.descriptionAgenda,
+                    prenotazioni_folder,
+                ),
+                # BBB
+                "address": {},
+            }
+            for other in ["booking_address", "booking_office"]:
+                if getattr(self.prenotazione, other, None):
+                    try:
+                        data[other] = json.loads(getattr(self.prenotazione, other))
+                    except Exception:
+                        logger.warning(
+                            "%s field is not JSON serializable: %s",
+                            other,
+                            getattr(self.prenotazione, other),
+                        )
+            data["requirements"] = requirements
+            data["cosa_serve"] = requirements  # BBB
+        return data

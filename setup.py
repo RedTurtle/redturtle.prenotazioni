@@ -15,7 +15,7 @@ long_description = "\n\n".join(
 
 setup(
     name="redturtle.prenotazioni",
-    version="2.2.6.dev0",
+    version="2.4.5.dev0",
     description="An add-on for Plone",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -56,7 +56,7 @@ setup(
         # -*- Extra requirements: -*-
         "z3c.jbot",
         "plone.api>=1.8.4",
-        "plone.restapi",
+        "plone.restapi>=8.38.0",
         "collective.contentrules.mailfromfield>=1.2.0",
         "pyinter",
         "collective.honeypot",
@@ -66,6 +66,7 @@ setup(
         # FIXME: se si rimuove il profilo di caching da qui (perchè c'è?), si può togliere anche questo pin
         # 3.0.0a14 e successive richiedono plone.base che è solo su plone 6
         "plone.app.caching>=3.0.0a1",
+        "bravado",
     ],
     extras_require={
         "test": [
@@ -91,5 +92,6 @@ setup(
     [console_scripts]
     update_locale = redturtle.prenotazioni.locales.update:update_locale
     app_io = redturtle.prenotazioni.scripts.app_io:main
+    notify_upcoming_bookings = redturtle.prenotazioni.scripts.notify_upcoming_bookings:main
     """,
 )

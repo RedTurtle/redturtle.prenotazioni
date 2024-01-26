@@ -1,0 +1,20 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="redturtle.prenotazioni"
+    >
+
+  <include package=".notifications" />
+
+
+  <plone:behavior
+      name="redturtle.prenotazioni.behavior.contacts"
+      title="Contatti cartella prenotazioni"
+      description="Contacts fields."
+      factory=".contacts.Contacts"
+      provides=".contacts.IContacts"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      marker=".contacts.IContacts"
+      />
+
+</configure>

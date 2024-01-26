@@ -14,6 +14,7 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
+from plone.app.textfield import RichTextValue
 from plone.restapi.testing import RelativeSession
 from plone.testing.zope import Browser
 
@@ -58,6 +59,9 @@ class TestPrenotazioniSearch(unittest.TestCase):
             duration=30,
             container=self.folder_prenotazioni,
             gates=["all"],
+            requirements=RichTextValue(
+                "You need to bring your own food", "text/plain", "text/html"
+            ),
         )
 
         week_table = deepcopy(self.folder_prenotazioni.week_table)
@@ -172,7 +176,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
             booking_date=self.testing_booking_date + timedelta(days=8),
             booking_expiration_date=self.booking_expiration_date + timedelta(days=9),
             fiscalcode=self.testing_fiscal_code,
-            booking_type="typeA",
+            booking_type="Type A",
         )
         self.prenotazione_confirmed = api.content.create(
             container=self.day_folder1,
@@ -215,6 +219,19 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
         self.assertIn(self.prenotazione_fscode.UID(), result_uids)
         self.assertNotIn(self.prenotazione_no_fscode.UID(), result_uids)
+
+    def test_fullobjects(self):
+        items = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?fullobjects=1"
+        ).json()["items"]
+        self.assertIn(
+            {
+                "content-type": "text/plain",
+                "data": "<p>You need to bring your own food</p>",
+                "encoding": "utf-8",
+            },  # noqa: E501
+            [i["requirements"] for i in items],
+        )
 
     def test_search_by_fiscalcode_case_insensitive(self):
         # ABCDEF12G34H567I -> AbCdEf12G34H567i
@@ -278,6 +295,45 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.assertNotIn(self.prenotazione_datetime_plus4.UID(), result_uids)
         self.assertNotIn(self.prenotazione_datetime.UID(), result_uids)
 
+    def test_search_by_modified_date(self):
+        modified_booking = api.content.create(
+            container=self.day_folder1,
+            type="Prenotazione",
+            title="Prenotazione",
+            booking_date=self.testing_booking_date + timedelta(days=2),
+            booking_expiration_date=self.booking_expiration_date,
+            fiscalcode=self.testing_fiscal_code,
+        )
+
+        # change modification date
+        self.prenotazione_datetime_plus2.setModificationDate(self.testing_booking_date)
+        modification_date = self.testing_booking_date + timedelta(days=1)
+        modified_booking.setModificationDate(modification_date + timedelta(hours=3))
+
+        self.prenotazione_datetime_plus2.reindexObject(idxs=["modified"])
+        modified_booking.reindexObject(idxs=["modified"])
+        transaction.commit()
+
+        # test by start and end date, return both
+        result = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?from={str(self.testing_booking_date + timedelta(days=1))}&to={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}"
+        ).json()
+        result_uids = [x["booking_id"] for x in result["items"]]
+
+        self.assertEqual(result["items_total"], 2)
+        self.assertIn(self.prenotazione_datetime_plus2.UID(), result_uids)
+        self.assertIn(modified_booking.UID(), result_uids)
+
+        # test by start and end date and modified, return only one
+        result = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?from={str(self.testing_booking_date + timedelta(days=1))}&to={str(self.testing_booking_date + timedelta(days=3))}&fiscalcode={self.testing_fiscal_code}&modified_after={modification_date.isoformat()}"
+        ).json()
+        result_uids = [x["booking_id"] for x in result["items"]]
+
+        self.assertEqual(result["items_total"], 1)
+        self.assertNotIn(self.prenotazione_datetime_plus2.UID(), result_uids)
+        self.assertIn(modified_booking.UID(), result_uids)
+
     def test_search_inside_a_folder(self):
         res = self.api_session.get(
             f"{self.folder_prenotazioni2.absolute_url()}/@bookings"
@@ -301,7 +357,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         result_uids = [
             i["booking_id"]
             for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@bookings?booking_type=typeA"
+                f"{self.portal.absolute_url()}/@bookings?booking_type=Type+A"
             ).json()["items"]
         ]
 

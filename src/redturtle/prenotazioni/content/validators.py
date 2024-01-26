@@ -3,7 +3,6 @@ import calendar
 import json
 from datetime import date
 
-from z3c.form import validator
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.interface import Invalid
@@ -47,84 +46,42 @@ def get_dgf_values_from_request(request, fieldname, columns=[]):
     return data
 
 
-class PauseValidator(validator.SimpleFieldValidator):
-    """z3c.form validator class for international phone numbers"""
+def validate_pause_table(data={}):
+    """Pause validator"""
+    pause_table = getattr(data, "pause_table", [])
+    week_table = getattr(data, "week_table", [])
 
-    def validate(self, pause_table):
-        """Validate international phone number on input"""
-        super(PauseValidator, self).validate(pause_table)
-        pause_table = get_dgf_values_from_request(
-            self.context.REQUEST,
-            "pause_table",
-            ["day", "pause_start", "pause_end"],
-        )
-        if not pause_table:
-            return
+    if not (pause_table and week_table):
+        return
 
-        week_table = get_dgf_values_from_request(
-            self.context.REQUEST,
-            "week_table",
-            [
-                "day",
-                "morning_start",
-                "morning_end",
-                "afternoon_start",
-                "afternoon_end",
-            ],
-        )
+    # validate pauses
+    groups_of_pause = {}
+    for pause in pause_table:
+        groups_of_pause.setdefault(pause["day"], []).append(pause)
 
-        # validate pauses
-        groups_of_pause = {}
-        for pause in pause_table:
-            groups_of_pause.setdefault(pause["day"], []).append(pause)
+    for day in groups_of_pause:
+        day_hours = week_table[int(day)]
+        for pause in groups_of_pause[day]:
+            #  0. Of course if we don't have a correct interval we can't do
+            # more steps
+            if pause["pause_end"] is None or pause["pause_start"] is None:
+                raise Invalid(
+                    translate(
+                        _("You must set both start and end"), context=getRequest()
+                    )
+                )
 
-        for day in groups_of_pause:
-            day_hours = week_table[int(day)]
-            for pause in groups_of_pause[day]:
-                #  0. Of course if we don't have a correct interval we can't do
-                # more steps
-                if (
-                    pause["pause_end"] == "--NOVALUE--"
-                    or pause["pause_start"] == "--NOVALUE--"
-                ):
-                    raise Invalid(
-                        translate(
-                            _("You must set both start and end"), context=getRequest()
-                        )
+            # 1. Pause starts should always be bigger than pause ends
+            if not (pause["pause_end"] > pause["pause_start"]):
+                raise Invalid(
+                    translate(
+                        _("Pause end should be greater than pause start"),
+                        context=getRequest(),
                     )
+                )
+            interval = [pause["pause_start"], pause["pause_end"]]
 
-                # 1. Pause starts should always be bigger than pause ends
-                if not (pause["pause_end"] > pause["pause_start"]):
-                    raise Invalid(
-                        translate(
-                            _("Pause end should be greater than pause start"),
-                            context=getRequest(),
-                        )
-                    )
-                interval = [pause["pause_start"], pause["pause_end"]]
-                # 2. a pause interval should always be contained in the morning
-                # or afternoon defined for these days
-                if not (
-                    interval_is_contained(
-                        interval,
-                        day_hours["morning_start"],
-                        day_hours["morning_end"],
-                    )
-                    or interval_is_contained(
-                        interval,
-                        day_hours["afternoon_start"],
-                        day_hours["afternoon_end"],
-                    )
-                ):
-                    raise Invalid(
-                        translate(
-                            _(
-                                "Pause should be included in morning slot or afternoon slot"  # noqa
-                            ),
-                            context=getRequest(),
-                        )
-                    )
-            # 3. two pause interval on the same day should not overlap
+            # 2. two pause interval on the same day should not overlap
             if is_intervals_overlapping(
                 [
                     (pause["pause_start"], pause["pause_end"])
@@ -134,6 +91,37 @@ class PauseValidator(validator.SimpleFieldValidator):
                 raise Invalid(
                     translate(
                         _("In the same day there are overlapping intervals"),
+                        context=getRequest(),
+                    )
+                )
+
+            # 3. a pause interval should always be contained in the morning
+            # or afternoon defined for these days
+
+            morning_includes_interval = False
+            afternoon_includes_interval = False
+            if day_hours["morning_start"] and day_hours["morning_end"]:
+                if interval_is_contained(
+                    interval,
+                    day_hours["morning_start"],
+                    day_hours["morning_end"],
+                ):
+                    morning_includes_interval = True
+
+            if day_hours["afternoon_start"] and day_hours["afternoon_end"]:
+                if interval_is_contained(
+                    interval,
+                    day_hours["afternoon_start"],
+                    day_hours["afternoon_end"],
+                ):
+                    afternoon_includes_interval = True
+
+            if not (morning_includes_interval or afternoon_includes_interval):
+                raise Invalid(
+                    translate(
+                        _(
+                            "Pause should be included in morning slot or afternoon slot"  # noqa
+                        ),
                         context=getRequest(),
                     )
                 )

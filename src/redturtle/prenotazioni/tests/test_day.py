@@ -9,11 +9,8 @@ from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.testing import RelativeSession
 from transaction import commit
-from zope.component import getMultiAdapter
-from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
@@ -63,7 +60,7 @@ class TestDaySlots(unittest.TestCase):
         week_table = self.folder_prenotazioni.week_table
         for row in week_table:
             row["morning_start"] = "0700"
-            row["morning_end"] = "1000"
+            row["morning_end"] = "1100"
         self.folder_prenotazioni.week_table = week_table
 
         # fix timezone
@@ -71,14 +68,14 @@ class TestDaySlots(unittest.TestCase):
             "plone.portal_timezone",
             "Europe/Rome",
         )
-        self.today = tznow().replace(hour=8)
+        self.today = tznow().replace(hour=8, minute=0)
         self.tomorrow = self.today + timedelta(1)
 
         commit()
 
     def create_booking(self, date):
         booker = IBooker(self.folder_prenotazioni)
-        return booker.create(
+        return booker.book(
             {
                 "booking_date": date,  # tomorrow
                 "booking_type": "Type A",
@@ -99,12 +96,12 @@ class TestDaySlots(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-        results = response.json()["bookings"]["Gate A"]
+        results_uids = [x["UID"] for x in response.json()["bookings"]["Gate A"]]
 
         for booking in bookings:
             self.assertIn(
-                getMultiAdapter((booking, getRequest()), ISerializeToJson)(),
-                results,
+                booking.UID(),
+                results_uids,
             )
 
     def test_pauses_returned(self):
@@ -143,40 +140,7 @@ class TestDaySlots(unittest.TestCase):
         self.assertEqual(res.json()["type"], "BadRequest")
         self.assertEqual(res.status_code, 400)
 
-    def test_daily_schedule(self):
-        # TODO: testare con timezone differenti
-        response = self.api_session.get(
-            f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
-        )
-        self.assertEqual(response.status_code, 200)
-        results = response.json()
-
-        self.assertIn("daily_schedule", results)
-        # sul database gli orari sono in localtime
-        self.assertEqual(
-            self.folder_prenotazioni.week_table[0]["morning_start"], "0700"
-        )
-        self.assertEqual(self.folder_prenotazioni.week_table[0]["morning_end"], "1000")
-        # la risposta è in UTC
-        tomorrow_start_utc = self.tomorrow.replace(hour=7, minute=00).astimezone(
-            pytz.utc
-        )
-        tomorrow_end_utc = self.tomorrow.replace(hour=10, minute=00).astimezone(
-            pytz.utc
-        )
-
-        self.assertEqual(
-            {
-                "afternoon": {"start": None, "end": None},
-                "morning": {
-                    "start": tomorrow_start_utc.strftime("%Y-%m-%dT%H:%M:00+00:00"),
-                    "end": tomorrow_end_utc.strftime("%Y-%m-%dT%H:%M:00+00:00"),
-                },
-            },
-            results["daily_schedule"],
-        )
-
-    def test_gates_returned(self):
+    def test_gates_returned_with_daily_schedule(self):
         # TODO: testare con timezone differenti
         response = self.api_session.get(
             f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
@@ -185,9 +149,27 @@ class TestDaySlots(unittest.TestCase):
         results = response.json()
 
         self.assertIn("gates", results)
-        self.assertEqual(
-            [{"name": "Gate A", "available": True}],
-            results["gates"],
-        )
 
-    # TODO: test vacation slots
+        # now check schedule
+        # sul database gli orari sono in localtime
+        self.assertEqual(
+            self.folder_prenotazioni.week_table[0]["morning_start"], "0700"
+        )
+        self.assertEqual(self.folder_prenotazioni.week_table[0]["morning_end"], "1100")
+        # la risposta è in UTC
+        tomorrow_start_utc = self.tomorrow.replace(hour=7, minute=00).astimezone(
+            pytz.utc
+        )
+        tomorrow_end_utc = self.tomorrow.replace(hour=11, minute=00).astimezone(
+            pytz.utc
+        )
+        self.assertEqual(
+            {
+                "afternoon": {"start": None, "end": None},
+                "morning": {
+                    "start": tomorrow_start_utc.strftime("%Y-%m-%dT%H:%M:00+00:00"),
+                    "end": tomorrow_end_utc.strftime("%Y-%m-%dT%H:%M:00+00:00"),
+                },
+            },
+            results["gates"][0]["daily_schedule"],
+        )

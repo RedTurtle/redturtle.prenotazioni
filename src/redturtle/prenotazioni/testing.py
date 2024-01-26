@@ -38,6 +38,8 @@ class RedturtlePrenotazioniLayer(PloneSandboxLayer):
         if HAS_DX_TEXTINDEXER:
             self.loadZCML(package=collective.dexteritytextindexer)
 
+        redturtle.prenotazioni.utilities.dateutils.TIMEZONE_CACHE = False
+
     def setUpPloneSite(self, portal):
         applyProfile(portal, "plone.app.caching:default")
         applyProfile(portal, "redturtle.prenotazioni:default")
@@ -74,6 +76,8 @@ class RedturtlePrenotazioniRestApiLayer(PloneRestApiDXLayer):
 
         if HAS_DX_TEXTINDEXER:
             self.loadZCML(package=collective.dexteritytextindexer)
+
+        redturtle.prenotazioni.utilities.dateutils.TIMEZONE_CACHE = False
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, "plone.app.caching:default")

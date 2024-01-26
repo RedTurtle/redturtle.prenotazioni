@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from typing import Generator
 
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
@@ -8,16 +9,11 @@ from plone.autoform import directives
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
-from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
-from zope.component import provideAdapter
-from zope.i18n import translate
 from zope.interface import Invalid
 from zope.interface import implementer
 from zope.interface import invariant
-from zope.interface import provider
-from zope.schema.interfaces import IContextAwareDefaultFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
@@ -25,8 +21,8 @@ from redturtle.prenotazioni import _
 from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
 from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
 from redturtle.prenotazioni.content.prenotazione_type import PrenotazioneType
-from redturtle.prenotazioni.content.validators import PauseValidator
 from redturtle.prenotazioni.content.validators import checkOverrides
+from redturtle.prenotazioni.content.validators import validate_pause_table
 
 try:
     from plone.app.dexterity import textindexer
@@ -121,92 +117,27 @@ class IPauseTableRow(model.Schema):
     )
     pause_start = schema.Choice(
         title=_("pause_start_label", default="Pause start"),
-        vocabulary="redturtle.prenotazioni.VocOreInizio",
+        vocabulary="redturtle.prenotazioni.pause_scheduler",
         required=False,
     )
     pause_end = schema.Choice(
         title=_("pause_end_label", default="Pause end"),
-        vocabulary="redturtle.prenotazioni.VocOreInizio",
+        vocabulary="redturtle.prenotazioni.pause_scheduler",
         required=False,
     )
 
 
-@provider(IContextAwareDefaultFactory)
-def notify_on_submit_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
-        _("notify_on_submit_subject_default_value", "Booking created ${title}")
-    )
+def holidays_constraint(value: list):
+    if not value:
+        return True
 
+    pattern = re.compile(r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(?:\d{4}|\*)$")
 
-@provider(IContextAwareDefaultFactory)
-def notify_on_submit_message_default_factory(context):
-    return getattr(context, "translate", translate)(
-        _(
-            "notify_on_submit_message_default_value",
-            "Booking ${booking_type} for ${booking_date} at ${booking_time} was created.<a href=${booking_print_url}>Link</a>",
-        )
-    )
+    for i in value:
+        if not bool(re.match(pattern, i)):
+            return False
 
-
-@provider(IContextAwareDefaultFactory)
-def notify_on_confirm_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
-        _(
-            "notify_on_confirm_subject_default_value",
-            "Booking of ${booking_date} at ${booking_time} was accepted",
-        )
-    )
-
-
-@provider(IContextAwareDefaultFactory)
-def notify_on_confirm_message_default_factory(context):
-    return getattr(context, "translate", translate)(
-        _(
-            "notify_on_confirm_message_default_value",
-            "The booking${booking_type} for ${title} was confirmed! <a href=${booking_print_url}>Link</a>",
-        )
-    )
-
-
-@provider(IContextAwareDefaultFactory)
-def notify_on_move_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
-        _(
-            "notify_on_move_subject_default_value",
-            "Modified the boolking date for ${title}",
-        )
-    )
-
-
-@provider(IContextAwareDefaultFactory)
-def notify_on_move_message_default_factory(context):
-    return getattr(context, "translate", translate)(
-        _(
-            "notify_on_move_message_default_value",
-            "The booking scheduling of ${booking_type} was modified."
-            "The new one is on ${booking_date} at ${booking_time}. <a href=${booking_print_url}>Link</a>.",
-        )
-    )
-
-
-@provider(IContextAwareDefaultFactory)
-def notify_on_refuse_subject_default_factory(context):
-    return getattr(context, "translate", translate)(
-        _(
-            "notify_on_refuse_subject_default_value",
-            "Booking refused for ${title}",
-        )
-    )
-
-
-@provider(IContextAwareDefaultFactory)
-def notify_on_refuse_message_default_factory(context):
-    return getattr(context, "translate", translate)(
-        _(
-            "notify_on_refuse_message_default_value",
-            "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
-        )
-    )
+    return True
 
 
 class IPrenotazioniFolder(model.Schema):
@@ -402,6 +333,7 @@ class IPrenotazioniFolder(model.Schema):
             "25/12/*",
             "26/12/*",
         ],
+        constraint=holidays_constraint,
     )
 
     futureDays = schema.Int(
@@ -444,6 +376,15 @@ class IPrenotazioniFolder(model.Schema):
         default=False,
         required=False,
     )
+    auto_confirm_manager = schema.Bool(
+        title=_("auto_confirm_manager", default="Automatically confirmfor managers."),
+        description=_(
+            "auto_confirm_manager_help",
+            default="All bookings created by Managers will be automatically accepted.",
+        ),
+        default=True,
+        required=False,
+    )
     # XXX validate email
     email_responsabile = schema.List(
         title=_("Responsible email"),
@@ -476,14 +417,6 @@ class IPrenotazioniFolder(model.Schema):
             if interval["afternoon_start"] and interval["afternoon_end"]:
                 if interval["afternoon_start"] > interval["afternoon_end"]:
                     raise Invalid(_("Afternoon start should not be greater than end."))
-
-    # TODO: definire o descrivere quando avviee la notifica
-    # TODO: inserire qui la chiave IO ? o su un config in zope.conf/environment ?
-    app_io_enabled = schema.Bool(
-        title=_("App IO notification"),
-        default=False,
-        required=False,
-    )
 
     notify_on_submit = schema.Bool(
         title=_("notify_on_submit", default="Notify when created."),
@@ -521,79 +454,6 @@ class IPrenotazioniFolder(model.Schema):
         default=False,
         required=False,
     )
-    notify_on_submit_subject = schema.TextLine(
-        title=_(
-            "notify_on_submit_subject",
-            default="Prenotazione created notification subject.",
-        ),
-        description=_("notify_on_submit_subject_help", default=""),
-        defaultFactory=notify_on_submit_subject_default_factory,
-        required=False,
-    )
-    notify_on_submit_message = schema.Text(
-        title=_(
-            "notify_on_submit_message",
-            default="Prenotazione created notification message.",
-        ),
-        description=_("notify_on_submit_message_help", default=""),
-        defaultFactory=notify_on_submit_message_default_factory,
-        required=False,
-    )
-    notify_on_confirm_subject = schema.TextLine(
-        title=_(
-            "notify_on_confirm_subject",
-            default="Prenotazione confirmed notification subject.",
-        ),
-        description=_("notify_on_confirm_subject_help", default=""),
-        defaultFactory=notify_on_confirm_subject_default_factory,
-        required=False,
-    )
-    notify_on_confirm_message = schema.Text(
-        title=_(
-            "notify_on_confirm_message",
-            default="Prenotazione confirmed notification message.",
-        ),
-        description=_("notify_on_confirm_message_help", default=""),
-        defaultFactory=notify_on_confirm_message_default_factory,
-        required=False,
-    )
-    notify_on_move_subject = schema.TextLine(
-        title=_(
-            "notify_on_move_subject",
-            default="Prenotazione moved notification subject.",
-        ),
-        description=_("notify_on_move_subject_help", default=""),
-        defaultFactory=notify_on_move_subject_default_factory,
-        required=False,
-    )
-    notify_on_move_message = schema.Text(
-        title=_(
-            "notify_on_move_message",
-            default="Prenotazione moved notification message.",
-        ),
-        description=_("notify_on_move_message_help", default=""),
-        defaultFactory=notify_on_move_message_default_factory,
-        required=False,
-    )
-    notify_on_refuse_subject = schema.TextLine(
-        title=_(
-            "notify_on_refuse_subject",
-            default="Prenotazione refused notification subject.",
-        ),
-        description=_("notify_on_refuse_subject_help", default=""),
-        defaultFactory=notify_on_refuse_subject_default_factory,
-        required=False,
-    )
-    notify_on_refuse_message = schema.Text(
-        title=_(
-            "notify_on_refuse_message",
-            default="Prenotazione created notification message.",
-        ),
-        description=_("notify_on_refuse_message_help", default=""),
-        defaultFactory=notify_on_refuse_message_default_factory,
-        required=False,
-    )
-
     max_bookings_allowed = schema.Int(
         title=_(
             "max_bookings_allowed_label",
@@ -605,6 +465,18 @@ class IPrenotazioniFolder(model.Schema):
         ),
         required=False,
         default=0,
+    )
+    reminder_notification_gap = schema.Int(
+        title=_(
+            "reminder_notification_gap_label",
+            default="Booking reminder days",
+        ),
+        description=_(
+            "reminder_notification_gap_description",
+            default="Set how many days before of a booking date the user will be notified about it.",
+        ),
+        required=False,
+        default=3,
     )
 
     model.fieldset(
@@ -636,78 +508,30 @@ class IPrenotazioniFolder(model.Schema):
             "week_table_overrides",
         ],
     )
-
     model.fieldset(
-        "Notifications",
+        "fields",
+        label=_("booking_fields_label", default="Booking fields"),
+        fields=[
+            "visible_booking_fields",
+            "required_booking_fields",
+        ],
+    )
+    model.fieldset(
+        "notifications",
         label=_("notifications_label", default="Notifications"),
         fields=[
+            "email_responsabile",
+            "reminder_notification_gap",
             "notify_on_submit",
             "notify_on_confirm",
             "notify_on_move",
             "notify_on_refuse",
         ],
     )
-    model.fieldset(
-        "Prenotazioni Email Templates",
-        label=_(
-            "prenotazioni_email_templates_label",
-            default="Testo delle email di notifica",
-        ),
-        # TODO: Use custom frontend widget for the new
-        # field where we must render the html of field's description
-        # description=_(
-        #     "templates_usage_default_value",
-        #     "${title} - title."
-        #     "${booking_gate} - booking gate."
-        #     "${booking_human_readable_start} - booking human readable start."
-        #     "${booking_date} - booking date."
-        #     "${booking_end_date} - booking end date."
-        #     "${booking_time} - booking time."
-        #     "${booking_time_end} - booking time end."
-        #     "${booking_code} - booking code."
-        #     "${booking_type} - booking type."
-        #     "${booking_print_url} - booking print url."
-        #     "${booking_url_with_delete_token} - booking url with delete token."
-        #     "${booking_user_phone} - booking user phone."
-        #     "${booking_user_email} - booking user email."
-        #     "${booking_user_details} - booking user details."
-        #     "${booking_office_contact_phone} - booking office contact phone."
-        #     "${booking_office_contact_pec} - booking office contact pec."
-        #     "${booking_office_contact_fax} - booking office contact fax."
-        #     "${booking_how_to_get_to_office} - booking how to get to office."
-        #     "${booking_office_complete_address} - booking office complete address.",
-        #     "${booking_user_details} - booking user details",
-        #     "${booking_requirements} - booking requeirements.",
-        #     "${prenotazioni_folder_title} - prenotazioni folder title.",
-        # ),
-        # description=_(
-        #     "prenotazioni_email_templates_description",
-        #     default="",
-        # ),
-        fields=[
-            "notify_on_submit_subject",
-            "notify_on_submit_message",
-            "notify_on_confirm_subject",
-            "notify_on_confirm_message",
-            "notify_on_move_subject",
-            "notify_on_move_message",
-            "notify_on_refuse_subject",
-            "notify_on_refuse_message",
-        ],
-    )
-    model.fieldset(
-        "Reminders",
-        label=_("reminders_label", default="Reminders"),
-        fields=[
-            "app_io_enabled",
-        ],
-    )
 
-
-validator.WidgetValidatorDiscriminators(
-    PauseValidator, field=IPrenotazioniFolder["pause_table"]
-)
-provideAdapter(PauseValidator)
+    @invariant
+    def puse_table_invariant(data):
+        validate_pause_table(data=data)
 
 
 @implementer(IPrenotazioniFolder)
@@ -736,6 +560,12 @@ class PrenotazioniFolder(Container):
         return self.listFolderContents(
             contentFilter={"portal_type": "PrenotazioneType"}
         )
+
+    def get_notification_flags(self):
+        return {
+            action: getattr(self, f"notify_on_{action}", False)
+            for action in ("confirm", "submit", "refuse")
+        }
 
     # BBB: compatibility with old code (booking_types was a List of IBookingTypeRow)
     @property
