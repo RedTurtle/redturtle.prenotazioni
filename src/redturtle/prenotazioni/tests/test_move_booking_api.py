@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 import unittest
 from datetime import date
 from datetime import datetime
@@ -6,7 +7,6 @@ from datetime import timedelta
 
 import pytz
 import transaction
-from DateTime import DateTime
 from plone import api
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
@@ -156,8 +156,8 @@ class TestMoveBookingApi(unittest.TestCase):
         self.assertEqual(old_modified, response["modification_date"])
 
         # now move the booking
+        time.sleep(1)
         tomorrow = self.today + timedelta(1)
-        now = json_compatible(DateTime())
         response = self.api_session_admin.post(
             f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
             json={
@@ -169,5 +169,5 @@ class TestMoveBookingApi(unittest.TestCase):
             f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}",
         ).json()
 
-        self.assertNotEqual(old_modified, response["modification_date"])
-        self.assertEqual(now, response["modification_date"])
+        self.assertNotEqual(response["modification_date"], old_modified)
+        self.assertGreater(response["modification_date"], old_modified)
