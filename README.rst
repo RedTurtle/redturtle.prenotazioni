@@ -569,16 +569,17 @@ Endpoint that returns a list of own *Prenotazione* content by parameters
 
 Parameters:
 
-- **SearchableText**: The SearchableText of content.
-- **from**: The start date of research (with YYYY-MM-DD format).
-- **to**: The end date of research (with YYYY-MM-DD format).
-- **modified_after**: To filter bookings modified only after given date (needed also a timezone: YYYY-MM-DDThh:mm:ss+02:00).
-- **gate**: The booking gate.
-- **userid**: The userid(basically it is the fiscalcode). Allowed to be used by users having the 'redturtle.prenotazioni: search prenotazioni' permission.
-- **booking_type**: The booking_type, available values are stored in 'redturtle.prenotazioni.booking_types' vocabulary.
-- **review_state**: The booking status, one of: 'confirmed', 'refused', 'private', 'pending'
-- **fullobjects**: If `fullobjects=1` is passed, the endpoint will return the full objects instead of a list of brains (actually the only information
-                   added is the `requirements` field. (aka `cosa_serve`).
+- **SearchableText**: The SearchableText of content;
+- **from**: The start date of research (with YYYY-MM-DD format);
+- **to**: The end date of research (with YYYY-MM-DD format);
+- **modified_after**: To filter bookings modified only after given date (needed also a timezone: YYYY-MM-DDThh:mm:ss+02:00);
+- **gate**: The booking gate;
+- **userid**: The userid(basically it is the fiscalcode). Allowed to be used by users having the 'redturtle.prenotazioni: search prenotazioni' permission;
+- **booking_type**: The booking_type, available values are stored in 'redturtle.prenotazioni.booking_types' vocabulary;
+- **review_state**: The booking status, one of: 'confirmed', 'refused', 'private', 'pending';
+- **sort_on**: The index by which to order (default 'Date' aka the booking datetime);
+- **sort_order**: The order in which to sort, possible values: 'ascending', 'descending' (default 'ascending');
+- **fullobjects**: If `fullobjects=1` is passed, the endpoint will return the full objects instead of a list of brains (actually the only information added is the `requirements` field. (aka `cosa_serve`).
 
 Example::
 

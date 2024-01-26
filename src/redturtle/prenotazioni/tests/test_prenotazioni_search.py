@@ -124,7 +124,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.prenotazione_fscode = api.content.create(
             container=self.day_folder,
             type="Prenotazione",
-            title="Prenotazione",
+            title="Prenotazione fscode",
             booking_date=self.testing_booking_date - timedelta(days=2),
             booking_expiration_date=self.booking_expiration_date,
             fiscalcode=self.testing_fiscal_code,
@@ -134,12 +134,12 @@ class TestPrenotazioniSearch(unittest.TestCase):
             type="Prenotazione",
             booking_date=self.testing_booking_date - timedelta(days=2),
             booking_expiration_date=self.booking_expiration_date,
-            title="Prenotazione",
+            title="Prenotazione no fscode",
         )
         self.prenotazione_datetime = api.content.create(
             container=self.day_folder,
             type="Prenotazione",
-            title="Prenotazione",
+            title="Prenotazione datetime",
             booking_date=self.testing_booking_date,
             booking_expiration_date=self.booking_expiration_date,
             fiscalcode=self.testing_fiscal_code,
@@ -147,7 +147,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.prenotazione_datetime_plus2 = api.content.create(
             container=self.day_folder1,
             type="Prenotazione",
-            title="Prenotazione",
+            title="Prenotazione datetime plus 2",
             booking_date=self.testing_booking_date + timedelta(days=2),
             booking_expiration_date=self.booking_expiration_date,
             fiscalcode=self.testing_fiscal_code,
@@ -155,7 +155,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.prenotazione_datetime_plus4 = api.content.create(
             container=self.day_folder2,
             type="Prenotazione",
-            title="Prenotazione",
+            title="Prenotazione datetime plus 4",
             booking_date=self.testing_booking_date + timedelta(days=4),
             booking_expiration_date=self.booking_expiration_date,
             fiscalcode=self.testing_fiscal_code,
@@ -163,7 +163,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.prenotazione_gateA = api.content.create(
             container=self.day_folder1,
             type="Prenotazione",
-            title="Prenotazione",
+            title="Prenotazione gate A",
             booking_date=self.testing_booking_date + timedelta(days=8),
             booking_expiration_date=self.booking_expiration_date + timedelta(days=9),
             fiscalcode=self.testing_fiscal_code,
@@ -172,7 +172,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.prenotazione_typeA = api.content.create(
             container=self.day_folder1,
             type="Prenotazione",
-            title="Prenotazione",
+            title="Prenotazione type A",
             booking_date=self.testing_booking_date + timedelta(days=8),
             booking_expiration_date=self.booking_expiration_date + timedelta(days=9),
             fiscalcode=self.testing_fiscal_code,
@@ -181,7 +181,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.prenotazione_confirmed = api.content.create(
             container=self.day_folder1,
             type="Prenotazione",
-            title="Prenotazione",
+            title="Prenotazione confirmed",
             booking_date=self.testing_booking_date + timedelta(days=8),
             booking_expiration_date=self.booking_expiration_date + timedelta(days=9),
             fiscalcode=self.testing_fiscal_code,
@@ -374,6 +374,36 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
         self.assertEqual(len(result_uids), 1)
         self.assertIn(self.prenotazione_confirmed.UID(), result_uids)
+
+    def test_sort(self):
+        res = self.api_session.get(f"{self.portal.absolute_url()}/@bookings")
+        # default sort Date, ascending
+        self.assertEqual(
+            [b["booking_date"] for b in res.json()["items"]],
+            sorted([b["booking_date"] for b in res.json()["items"]]),
+        )
+        res = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?sort_order=descending"
+        )
+        self.assertEqual(
+            [b["booking_date"] for b in res.json()["items"]],
+            sorted([b["booking_date"] for b in res.json()["items"]], reverse=True),
+        )
+        # sort on Title
+        res = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?sort_on=sortable_title"
+        )
+        self.assertEqual(
+            [b["title"] for b in res.json()["items"]],
+            sorted([b["title"] for b in res.json()["items"]]),
+        )
+        res = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?sort_on=sortable_title&sort_order=descending"
+        )
+        self.assertEqual(
+            [b["title"] for b in res.json()["items"]],
+            sorted([b["title"] for b in res.json()["items"]], reverse=True),
+        )
 
     def test_download_xlsx(self):
         self.browser.addHeader(
