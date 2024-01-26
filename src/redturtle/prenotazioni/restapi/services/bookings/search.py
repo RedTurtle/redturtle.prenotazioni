@@ -22,10 +22,12 @@ class BookingsSearch(Service):
         return self
 
     def query(self):
+        sort_on = self.request.get("sort_on") or "Date"
+        sort_order = self.request.get("sort_order") or "descending"
         query = {
             "portal_type": "Prenotazione",
-            "sort_on": "Date",
-            "sort_order": "reverse",
+            "sort_on": sort_on,
+            "sort_order": sort_order,
         }
 
         if api.user.is_anonymous():

@@ -5,7 +5,8 @@ Changelog
 2.4.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Return bookings in ascending date order so the ones for today are shown as first
+  [pnicolli]
 
 
 2.4.4 (2024-01-25)
