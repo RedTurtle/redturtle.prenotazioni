@@ -578,7 +578,7 @@ Parameters:
 - **booking_type**: The booking_type, available values are stored in 'redturtle.prenotazioni.booking_types' vocabulary;
 - **review_state**: The booking status, one of: 'confirmed', 'refused', 'private', 'pending';
 - **sort_on**: The index by which to order (default 'Date' aka the booking datetime);
-- **sort_order**: The order in which to sort, possible values: 'ascending', 'descending' (default 'ascending');
+- **sort_order**: The order in which to sort, possible values: 'ascending', 'descending' (default 'descending');
 - **fullobjects**: If `fullobjects=1` is passed, the endpoint will return the full objects instead of a list of brains (actually the only information added is the `requirements` field. (aka `cosa_serve`).
 
 Example::

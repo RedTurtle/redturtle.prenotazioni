@@ -23,7 +23,7 @@ class BookingsSearch(Service):
 
     def query(self):
         sort_on = self.request.get("sort_on") or "Date"
-        sort_order = self.request.get("sort_order") or "ascending"
+        sort_order = self.request.get("sort_order") or "descending"
         query = {
             "portal_type": "Prenotazione",
             "sort_on": sort_on,

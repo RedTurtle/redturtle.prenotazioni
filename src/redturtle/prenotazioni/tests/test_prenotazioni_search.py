@@ -380,14 +380,14 @@ class TestPrenotazioniSearch(unittest.TestCase):
         # default sort Date, ascending
         self.assertEqual(
             [b["booking_date"] for b in res.json()["items"]],
-            sorted([b["booking_date"] for b in res.json()["items"]]),
+            sorted([b["booking_date"] for b in res.json()["items"]], reverse=True),
         )
         res = self.api_session.get(
-            f"{self.portal.absolute_url()}/@bookings?sort_order=descending"
+            f"{self.portal.absolute_url()}/@bookings?sort_order=ascending"
         )
         self.assertEqual(
             [b["booking_date"] for b in res.json()["items"]],
-            sorted([b["booking_date"] for b in res.json()["items"]], reverse=True),
+            sorted([b["booking_date"] for b in res.json()["items"]]),
         )
         # sort on Title
         res = self.api_session.get(
@@ -395,14 +395,14 @@ class TestPrenotazioniSearch(unittest.TestCase):
         )
         self.assertEqual(
             [b["title"] for b in res.json()["items"]],
-            sorted([b["title"] for b in res.json()["items"]]),
+            sorted([b["title"] for b in res.json()["items"]], reverse=True),
         )
         res = self.api_session.get(
-            f"{self.portal.absolute_url()}/@bookings?sort_on=sortable_title&sort_order=descending"
+            f"{self.portal.absolute_url()}/@bookings?sort_on=sortable_title&sort_order=ascending"
         )
         self.assertEqual(
             [b["title"] for b in res.json()["items"]],
-            sorted([b["title"] for b in res.json()["items"]], reverse=True),
+            sorted([b["title"] for b in res.json()["items"]]),
         )
 
     def test_download_xlsx(self):
