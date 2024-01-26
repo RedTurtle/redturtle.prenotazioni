@@ -377,7 +377,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
     def test_sort(self):
         res = self.api_session.get(f"{self.portal.absolute_url()}/@bookings")
-        # default sort Date, ascending
+        # default sort Date, descending
         self.assertEqual(
             [b["booking_date"] for b in res.json()["items"]],
             sorted([b["booking_date"] for b in res.json()["items"]], reverse=True),
