@@ -782,7 +782,7 @@ appio_config_keys.yaml::
         key: ABC312
 
 The file path is being taken from the **APPIO_CONFIG_FILE** env var.
-You can configure it automatically using the following config.
+This variable can be configured automatically in the buildout using the following config.
 
 buildout.cfg::
 
