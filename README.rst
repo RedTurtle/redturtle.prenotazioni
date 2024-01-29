@@ -781,7 +781,7 @@ appio_config_keys.yaml::
     - name: Service3
         key: ABC312
 
-If you want to automize the env var assignment, to use the normal **yaml** configuration file in your buildout.
+If you want to automize the env var assignment using the normal **yaml** configuration file in your buildout.
 Add the following config to your buildout.cfg. It is supposed that you also add the appio_config_keys.yam file
 to the buildout directory.
 
