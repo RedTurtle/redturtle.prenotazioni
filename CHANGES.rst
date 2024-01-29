@@ -16,6 +16,7 @@ Changelog
   [mamico]
 - Use the yaml config for the AppIO keys
 - Use the yaml config to configure the AppIO keys
+- Use the yaml file to configure the AppIO keys
   [folix-01]
 
 - Return bookings in ascending date order so the ones for today are shown as first
