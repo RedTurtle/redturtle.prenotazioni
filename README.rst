@@ -768,9 +768,10 @@ this **redturtle.prenotazioni.behavior.notification_appio_booking_type** to Pren
 
 To send the messages via AppIO gateway the **service_code** field defined by **redturtle.prenotazioni.behavior.notification_appio_booking_type**
 must be compiled in the PrenotazioniType object. All the possible values of this field are being
-taken from an environmennt variable **APPIO_CONFIG_STREAM** which must contain the base64 encoded yaml file wit the following structure:
+taken from an environmennt variable **APPIO_CONFIG_STREAM** which must contain a base64 encoded yaml file wit the following structure:
 
 appio_config_keys.yaml::
+
     - name: Service1
         key: ABC123
 
@@ -785,7 +786,6 @@ Add the following config to your buildout.cfg. It is supposed that you also add 
 to the buildout directory.
 
 buildout.cfg::
-    ....
 
     [appio_keys]
     recipe = mr.scripty
@@ -795,19 +795,9 @@ buildout.cfg::
         ... return base64.b64encode(open("${buildout:directory}" + "/appio_keys.yaml", "rb").read()).decode('utf-8')
 
     [instance]
-    eggs +=
-        rer.revertposition
-        design.plone.iocittadino
-        rt.lastmodifier
-        zope.app.cache
-
     environment-vars =
         APPIO_CONFIG_STREAM ${appio_keys:config_stream}
 
-
-
-
-    .....
 
 Content-transfer-encoding
 =========================
