@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import base64
 import os
+from logging import getLogger
 
 import yaml
 from zope.interface import implementer
@@ -8,11 +8,20 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
+logger = getLogger(__name__)
+
 
 def load_yaml_config():
-    return yaml.safe_load(
-        base64.b64decode(os.environ.get("APPIO_CONFIG_STREAM", "")).decode("utf-8")
-    )
+    filepath = os.environ.get("APPIO_CONFIG_FILE", "")
+
+    try:
+        with open(filepath, "r") as config:
+            return yaml.safe_load(config)
+
+    except FileNotFoundError:
+        logger.error(f'Filepath "{filepath}" does not exist.')
+
+    return []
 
 
 @implementer(IVocabularyFactory)
