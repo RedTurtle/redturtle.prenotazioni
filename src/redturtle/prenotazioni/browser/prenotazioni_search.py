@@ -111,7 +111,7 @@ class SearchForm(form.Form):
             return ""
         return {k: v.title for (k, v) in factory(self.context).by_token.items()}
 
-    def get_query(self, data):
+    def get_query(self, data):  # NOQA: C901
         """The query we requested"""
         self.query_data = {}
         sort_on = self.request.get("sort_on") or "Date"
