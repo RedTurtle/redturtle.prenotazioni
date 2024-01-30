@@ -410,7 +410,6 @@ class TestPrenotazioniSearch(unittest.TestCase):
             "Authorization",
             f"Basic {SITE_OWNER_NAME}:{SITE_OWNER_PASSWORD}",
         )
-
         self.browser.open(
             f"{self.folder_prenotazioni.absolute_url()}/@@download/bookings.xlsx"
         )
@@ -476,4 +475,31 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.assertEqual(
             [r[1].value for r in data["Sheet 1"].rows],
             ["Stato", "Confermato"],
+        )
+
+    def test_download_xlsx_sort(self):
+        self.browser.addHeader(
+            "Authorization",
+            f"Basic {SITE_OWNER_NAME}:{SITE_OWNER_PASSWORD}",
+        )
+        self.browser.open(
+            f"{self.folder_prenotazioni.absolute_url()}/@@download/bookings.xlsx?sort_order=ascending&sort_on=sortable_title"  # noqa: E501
+        )
+        self.assertEqual(self.browser._response.status, "200 OK")
+        data = openpyxl.load_workbook(BytesIO(self.browser._response.body))
+        self.assertEqual(len(list(data["Sheet 1"].rows)), 8)
+        self.assertEqual(
+            [r[0].value for r in data["Sheet 1"].rows][1:],
+            sorted([r[0].value for r in data["Sheet 1"].rows][1:]),
+        )
+
+        self.browser.open(
+            f"{self.folder_prenotazioni.absolute_url()}/@@download/bookings.xlsx?sort_order=descending&sort_on=sortable_title"  # noqa: E501
+        )
+        self.assertEqual(self.browser._response.status, "200 OK")
+        data = openpyxl.load_workbook(BytesIO(self.browser._response.body))
+        self.assertEqual(len(list(data["Sheet 1"].rows)), 8)
+        self.assertEqual(
+            [r[0].value for r in data["Sheet 1"].rows][1:],
+            sorted([r[0].value for r in data["Sheet 1"].rows][1:], reverse=True),
         )

@@ -114,11 +114,25 @@ class SearchForm(form.Form):
     def get_query(self, data):
         """The query we requested"""
         self.query_data = {}
-        query = {
-            "sort_on": "Date",
-            "sort_order": "reverse",
-            "path": "/".join(self.context.getPhysicalPath()),
-        }
+        sort_on = self.request.get("sort_on") or "Date"
+        sort_order = self.request.get("sort_order") or "descending"
+        query = {}
+        if "portal_type" in data:
+            query["portal_type"] = data["portal_type"]
+        else:
+            query["portal_type"] = "Prenotazione"
+        if "sort_on" in data:
+            query["sort_on"] = data["sort_on"]
+        else:
+            query["sort_on"] = sort_on
+        if "sort_order" in data:
+            query["sort_order"] = data["sort_order"]
+        else:
+            query["sort_order"] = sort_order
+        if "path" in data:
+            query["path"] = data["path"]
+        else:
+            query["path"] = "/".join(self.context.getPhysicalPath())
         if data.get("text"):
             query["SearchableText"] = quote_chars(data["text"])
         if data.get("review_state"):
@@ -355,15 +369,18 @@ class DownloadReservation(SearchForm):
         return states.get(get_state(obj), "")
 
     def __call__(self):
+        req = self.request_path or self.request.form
+        sort_on = req.get("sort_on") or "Date"
+        sort_order = req.get("sort_order") or "descending"
         args = {
-            "sort_on": "Date",
-            "sort_order": "reverse",
+            "portal_type": "Prenotazione",
+            "sort_on": sort_on,
+            "sort_order": sort_order,
             "path": "/".join(self.context.getPhysicalPath()),
         }
         # TODO: restringere la ricerca solo su parametri precisi
-        req = self.request_path or self.request.form
         for k, v in req.items():
-            if v and v != "None":
+            if v and v != "None" and k not in args:
                 args[k] = v
         query = self.get_query(data=args)
         # TODO: serve unrestricted ?
