@@ -2,7 +2,14 @@ Changelog
 =========
 
 
-2.4.4 (unreleased)
+2.4.5 (unreleased)
+------------------
+
+- sort_on/sort_order in restapi bookings and xlsx
+  [mamico]
+
+
+2.4.4 (2024-01-25)
 ------------------
 
 - Fix the sms nofications behavior's field label.
