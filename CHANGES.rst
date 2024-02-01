@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.4.5 (unreleased)
+2.4.5 (2024-02-01)
 ------------------
 
 - sort_on/sort_order in restapi bookings and xlsx
