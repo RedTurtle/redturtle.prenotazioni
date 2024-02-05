@@ -84,5 +84,13 @@
       <role name="Bookings Manager" />
     </permission>
 
+    <!-- questo permesso è necessario per la move delle prenotazioni
+         servirebbe in teoria solo per gli oggetti PrenotazioneDay, valutare
+         di fare un workflow su quelli
+    -->
+    <permission acquire="True" name="Delete objects">
+      <role name="Bookings Manager" />
+    </permission>
+
   </permissions>
 </rolemap>

@@ -115,9 +115,8 @@ class TestMoveBookingApi(unittest.TestCase):
                 "title": "foo",
             }
         )
-        uid = booking.UID()
         transaction.commit()
-
+        uid = booking.UID()
         tomorrow = self.today + timedelta(1)
         response = self.api_session_bookings_manager.post(
             f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
