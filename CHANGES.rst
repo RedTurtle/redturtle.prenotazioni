@@ -12,9 +12,6 @@ Changelog
 2.4.5 (2024-02-01)
 ------------------
 
-- permission for move bookings for booking managers
-  [mamico]
-
 - sort_on/sort_order in restapi bookings and xlsx
   [mamico]
 
