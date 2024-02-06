@@ -33,6 +33,16 @@ class TestMoveBookingApi(unittest.TestCase):
         self.api_session_admin.headers.update({"Accept": "application/json"})
         self.api_session_admin.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
 
+        api.user.create(
+            email="user@example.com",
+            username="jdoe",
+            password="secret!!!",
+        )
+        api.user.grant_roles(username="jdoe", roles=["Bookings Manager"])
+        self.api_session_bookings_manager = RelativeSession(self.portal_url)
+        self.api_session_bookings_manager.headers.update({"Accept": "application/json"})
+        self.api_session_bookings_manager.auth = ("jdoe", "secret!!!")
+
         self.portal_url = self.portal.absolute_url()
         self.folder_prenotazioni = api.content.create(
             container=self.portal,
@@ -89,6 +99,35 @@ class TestMoveBookingApi(unittest.TestCase):
         self.assertEqual(response.status_code, 204)
 
         response = self.api_session_admin.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            datetime.fromisoformat(response.json()["booking_date"]),
+            tomorrow,
+        )
+
+    def test_booking_manager_move(self):
+        booking = self.booker.book(
+            {
+                "booking_date": self.today,
+                "booking_type": "Type A",
+                "title": "foo",
+            }
+        )
+        transaction.commit()
+        uid = booking.UID()
+        tomorrow = self.today + timedelta(1)
+        response = self.api_session_bookings_manager.post(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
+            json={
+                "booking_id": uid,
+                "booking_date": tomorrow.isoformat(),  # tomorrow
+            },
+        )
+        self.assertEqual(response.status_code, 204)
+
+        response = self.api_session_bookings_manager.get(
             f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}",
         )
         self.assertEqual(response.status_code, 200)

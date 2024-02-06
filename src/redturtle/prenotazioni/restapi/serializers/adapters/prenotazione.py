@@ -101,6 +101,7 @@ class PrenotazioneSearchableItemSerializer:
         wf_tool = api.portal.get_tool("portal_workflow")
         status = wf_tool.getStatusOf("prenotazioni_workflow", self.prenotazione)
         data = {
+            "@id": self.prenotazione.absolute_url(),
             "title": self.prenotazione.Title(),
             "description": self.prenotazione.description,
             "booking_id": self.prenotazione.UID(),

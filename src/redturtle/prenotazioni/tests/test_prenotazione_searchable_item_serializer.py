@@ -82,6 +82,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.assertEqual(
             result,
             {
+                "@id": "http://nohost/plone/prenota-foo/year/week/day/prenotazione",
                 "title": self.prenotazione_fscode.Title(),
                 "description": self.prenotazione_fscode.Description(),
                 "booking_id": self.prenotazione_fscode.UID(),
