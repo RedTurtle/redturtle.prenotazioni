@@ -5,7 +5,8 @@ Changelog
 2.4.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- permission for move bookings for booking managers
+  [mamico]
 
 
 2.4.5 (2024-02-01)
