@@ -5,6 +5,9 @@ Changelog
 2.4.5 (unreleased)
 ------------------
 
+- permission for move bookings for booking managers
+  [mamico]
+
 - sort_on/sort_order in restapi bookings and xlsx
   [mamico]
 
@@ -19,7 +22,7 @@ Changelog
 2.4.3 (2024-01-24)
 ------------------
 
-- Remove the notifiation gateways allowing cross logics
+- Remove the notification gateways allowing cross logics
   [folix-01]
 
 - Add @id in booking serializer
