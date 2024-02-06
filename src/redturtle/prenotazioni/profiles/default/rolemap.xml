@@ -84,9 +84,10 @@
       <role name="Bookings Manager" />
     </permission>
 
-    <!-- questo permesso è necessario per la move delle prenotazioni
+    <!-- XXX: questo permesso è necessario per la move delle prenotazioni
          servirebbe in teoria solo per gli oggetti PrenotazioneDay, valutare
-         di fare un workflow su quelli
+         di fare un workflow solo su PrenotazioniDay e limitare il permesso
+         solo lì
     -->
     <permission acquire="True" name="Delete objects">
       <role name="Bookings Manager" />

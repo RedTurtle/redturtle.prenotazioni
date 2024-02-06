@@ -464,3 +464,9 @@ def to_2004(context):
     for brain in api.content.find(portal_type="Prenotazione"):
         obj = brain.getObject()
         obj.reindexObject(idxs=["booking_code"])
+
+
+def to_2005(context):
+    context.runImportStepFromProfile(
+        "profile-redturtle.prenotazioni:to_2005", "rolemap"
+    )

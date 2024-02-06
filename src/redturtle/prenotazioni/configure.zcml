@@ -47,6 +47,14 @@
       directory="profiles/to_1500"
       />
 
+  <genericsetup:registerProfile
+      name="to_2005"
+      title="redturtle.prenotazioni (to_2005)"
+      description="redturtle.prenotazioni to 2005."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/to_2005"
+      />
+
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="redturtle.prenotazioni-hiddenprofiles"
