@@ -33,7 +33,7 @@ class VocPrenotazioneTypeGatesFactory(object):
     def __call__(self, context):
         terms = []
 
-        for item in load_yaml_config():
+        for item in APPIO_CONFIG:
             terms.append(
                 SimpleTerm(
                     value=item["key"],
