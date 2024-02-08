@@ -12,8 +12,9 @@ logger = getLogger(__name__)
 
 
 def load_yaml_config():
-    filepath = os.environ.get("APPIO_CONFIG_FILE", "")
-
+    filepath = os.environ.get("APPIO_CONFIG_FILE")
+    if not filepath:
+        return []
     try:
         with open(filepath, "r") as config:
             return yaml.safe_load(config)
