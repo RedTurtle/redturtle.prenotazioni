@@ -24,6 +24,7 @@ def load_yaml_config():
 
     return []
 
+APPIO_CONFIG = load_yaml_config()
 
 @implementer(IVocabularyFactory)
 class VocPrenotazioneTypeGatesFactory(object):
