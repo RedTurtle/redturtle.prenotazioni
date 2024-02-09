@@ -8,15 +8,14 @@ Changelog
 - permission for move bookings for booking managers
   [mamico]
 
+- Use the yaml file to configure the AppIO keys
+  [folix-01]
 
 2.4.5 (2024-02-01)
 ------------------
 
 - sort_on/sort_order in restapi bookings and xlsx
   [mamico]
-
-- Use the yaml file to configure the AppIO keys
-  [folix-01]
 
 - Return bookings in ascending date order so the ones for today are shown as first
   [pnicolli]
