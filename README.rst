@@ -768,28 +768,7 @@ this **redturtle.prenotazioni.behavior.notification_appio_booking_type** to Pren
 
 To send the messages via AppIO gateway the **service_code** field defined by **redturtle.prenotazioni.behavior.notification_appio_booking_type**
 must be compiled in the PrenotazioniType object. All the possible values of this field are being
-taken from an **yaml** file with the following format.
-
-appio_config_keys.yaml::
-
-    - name: Service1
-        key: ABC123
-
-    - name: Service2
-        key: ABC231
-
-    - name: Service3
-        key: ABC312
-
-The file path is being taken from the **APPIO_CONFIG_FILE** env var.
-This variable can be configured automatically in the buildout using the following config.
-
-buildout.cfg::
-
-    [instance]
-    environment-vars =
-        APPIO_CONFIG_FILE ${buildout:directory}/appio_config_keys.yaml
-
+taken from the environmennt variables which have the following syntax **REDTURTLE_PRENOTAZIONI_APPIO_KEY_<AppIO Sevice code here>=<AppIO Sevice key here>**
 
 Content-transfer-encoding
 =========================

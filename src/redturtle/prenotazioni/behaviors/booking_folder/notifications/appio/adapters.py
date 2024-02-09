@@ -4,7 +4,6 @@ import os
 from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import implementer
-from zope.schema.interfaces import IVocabularyFactory
 
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
@@ -44,7 +43,6 @@ class BookingTransitionAPPIoSender:
 
     def send(self) -> bool:
         supervisor = getUtility(IBookingNotificatorSupervisorUtility)
-
         if supervisor.is_appio_message_allowed(self.booking):
             message = self.message_adapter.message
             subject = self.message_adapter.subject
@@ -63,12 +61,7 @@ class BookingTransitionAPPIoSender:
                 )
                 return False
 
-            term = getUtility(
-                IVocabularyFactory, "redturtle.prenotazioni.appio_services"
-            )(self.booking).getTerm(service_code)
-
-            api_key = term and term.value or None
-
+            api_key = os.environ.get(service_code)
             if not api_key:
                 logger.warning(
                     "No App IO API key found for service code %s booking type %s",
