@@ -14,8 +14,7 @@ Changelog
 
 - sort_on/sort_order in restapi bookings and xlsx
   [mamico]
-- Use the yaml config for the AppIO keys
-- Use the yaml config to configure the AppIO keys
+
 - Use the yaml file to configure the AppIO keys
   [folix-01]
 
