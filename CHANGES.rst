@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.4.6 (unreleased)
+2.4.6 (2024-02-12)
 ------------------
 
 - permission for move bookings for booking managers
