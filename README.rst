@@ -773,13 +773,13 @@ taken from an **yaml** file with the following format.
 appio_config_keys.yaml::
 
     - name: Service1
-        key: ABC123
+      key: ABC123
 
     - name: Service2
-        key: ABC231
+      key: ABC231
 
     - name: Service3
-        key: ABC312
+      key: ABC312
 
 The file path is being taken from the **APPIO_CONFIG_FILE** env var.
 This variable can be configured automatically in the buildout using the following config.
