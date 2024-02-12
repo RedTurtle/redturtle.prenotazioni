@@ -89,7 +89,14 @@
          di fare un workflow solo su PrenotazioniDay e limitare il permesso
          solo lì
     -->
-    <permission acquire="True" name="Delete objects">
+    <permission acquire="True"
+                name="Delete objects"
+    >
+      <role name="Bookings Manager" />
+    </permission>
+    <permission acquire="True"
+                name="CMFEditions: Access previous versions"
+    >
       <role name="Bookings Manager" />
     </permission>
 

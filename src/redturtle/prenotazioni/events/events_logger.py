@@ -67,7 +67,7 @@ def on_modify(obj, event):
     try:
         old = pr.retrieve(obj, old_version).object
     except Exception:
-        # ArchivistRetrieveError
+        # ArchivistRetrieveError see https://github.com/RedTurtle/redturtle.prenotazioni/pull/178
         logger.exception("error on_modify %s", obj.absolute_url())
         return
     changes = []

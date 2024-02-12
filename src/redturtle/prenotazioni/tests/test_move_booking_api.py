@@ -4,6 +4,7 @@ import unittest
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
+from dateutil.relativedelta import relativedelta
 
 import pytz
 import transaction
@@ -117,7 +118,7 @@ class TestMoveBookingApi(unittest.TestCase):
         )
         transaction.commit()
         uid = booking.UID()
-        tomorrow = self.today + timedelta(1)
+        tomorrow = self.today + timedelta(days=1)
         response = self.api_session_bookings_manager.post(
             f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
             json={
@@ -134,6 +135,35 @@ class TestMoveBookingApi(unittest.TestCase):
         self.assertEqual(
             datetime.fromisoformat(response.json()["booking_date"]),
             tomorrow,
+        )
+
+    def test_booking_manager_move_month(self):
+        booking = self.booker.book(
+            {
+                "booking_date": self.today,
+                "booking_type": "Type A",
+                "title": "foo",
+            }
+        )
+        transaction.commit()
+        uid = booking.UID()
+        nextmonth = self.today + relativedelta(months=1)
+        response = self.api_session_bookings_manager.post(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
+            json={
+                "booking_id": uid,
+                "booking_date": nextmonth.isoformat(),  # nextmonth
+            },
+        )
+        self.assertEqual(response.status_code, 204)
+
+        response = self.api_session_bookings_manager.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            datetime.fromisoformat(response.json()["booking_date"]),
+            nextmonth,
         )
 
     def test_move_booking_to_used_slot(self):
