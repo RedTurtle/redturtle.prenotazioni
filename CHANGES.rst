@@ -8,6 +8,8 @@ Changelog
 - permission for move bookings for booking managers
   [mamico]
 
+- Use the yaml file to configure the AppIO keys
+  [folix-01]
 
 2.4.5 (2024-02-01)
 ------------------
@@ -85,7 +87,7 @@ Changelog
 
 - Add creation and modification dates to serialized booking
   [folix-01]
- 
+
 - Add fullobjects in @bookings
   [mamico]
 - Use the <PrenotazioniFolder>.holidays constraint.
@@ -95,7 +97,7 @@ Changelog
 2.3.1 (2023-12-21)
 ------------------
 
-- add content-transfer-encoding customization 
+- add content-transfer-encoding customization
   [mamico]
 
 
@@ -114,7 +116,7 @@ Changelog
 - Fix: hidden attribute in tipologia
   [mamico]
 
-- Fix upgrade step error #139 
+- Fix upgrade step error #139
   [mamico]
 
 - Add flag `auto_confirm_manager` that allows to automatically confirm bookings created by Booking Managers.
@@ -128,7 +130,7 @@ Changelog
 
 - Hide PrenotazioniYear in add menu for restapi.
   [cekk]
- 
+
 2.2.5 (2023-12-04)
 ------------------
 
