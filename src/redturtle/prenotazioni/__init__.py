@@ -4,7 +4,7 @@ from datetime import timedelta
 from logging import FileHandler
 from logging import Formatter
 from logging import getLogger
-
+from OFS.CopySupport import CopyError
 import dateutil
 import pytz
 from AccessControl import Unauthorized
@@ -88,7 +88,7 @@ def get_or_create_obj(folder, key, portal_type):
             raise UserNotFoundError()
         with api.env.adopt_user(userid):
             return api.content.create(type=portal_type, title=key, container=folder)
-    except (UserNotFoundError, Unauthorized):
+    except (UserNotFoundError, Unauthorized, CopyError):
         with api.env.adopt_roles(["Manager"]):
             return api.content.create(type=portal_type, title=key, container=folder)
 

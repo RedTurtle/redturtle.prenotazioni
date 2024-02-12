@@ -35,7 +35,8 @@ def reallocate_container(obj):
     If we moved Prenotazione to a new week we should move it
     """
     container = obj.object.getPrenotazioniFolder()
-    IBooker(container).fix_container(obj.object)
+    with api.env.adopt_roles(["Manager"]):
+        IBooker(container).fix_container(obj.object)
 
 
 def autoconfirm(booking, event):
