@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
-
+from plone import api
 from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import implementer
@@ -25,13 +24,18 @@ def app_io_allowed_for(fiscalcode, service_code):
     if not service_code:
         return False
 
-    api_key = os.environ.get(service_code)
+    term = getUtility(IVocabularyFactory, "redturtle.prenotazioni.appio_services")(
+        api.portal.get()
+    ).getTerm(service_code)
+
+    api_key = term and term.value or None
+
     if not api_key:
         logger.warning("No App IO API key found for service code %s", service_code)
         return False
 
-    api = Api(secret=api_key)
-    return api.is_service_activated(fiscalcode)
+    appio_api = Api(secret=api_key)
+    return appio_api.is_service_activated(fiscalcode)
 
 
 @implementer(IBookingNotificationSender)
@@ -77,7 +81,7 @@ class BookingTransitionAPPIoSender:
                 )
                 return False
 
-            api = Api(secret=api_key, storage=logstorage)
+            appio_api = Api(secret=api_key, storage=logstorage)
 
             # XXX: qui si usa supervisor perchè nei test c'è un mock su questo
             # if not api.is_service_activated(self.booking.fiscalcode):
@@ -89,7 +93,7 @@ class BookingTransitionAPPIoSender:
                 )
                 return False
 
-            msgid = api.send_message(
+            msgid = appio_api.send_message(
                 fiscal_code=self.booking.fiscalcode,
                 subject=subject,
                 body=message,
