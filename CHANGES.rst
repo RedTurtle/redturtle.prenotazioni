@@ -5,7 +5,8 @@ Changelog
 2.4.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove acquisition when getting version_id in **on_modify** event handler.
+  [cekk]
 
 
 2.4.7 (2024-02-12)
