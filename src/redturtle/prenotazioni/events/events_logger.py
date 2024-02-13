@@ -3,6 +3,7 @@ from json import dumps
 from time import time
 
 from plone import api
+from redturtle.prenotazioni import logger
 
 
 def log_data_for_booking(obj, data):
@@ -63,8 +64,12 @@ def on_modify(obj, event):
         "title",
     ]
     pr = api.portal.get_tool(name="portal_repository")
-
-    old = pr.retrieve(obj, old_version).object
+    try:
+        old = pr.retrieve(obj, old_version).object
+    except Exception:
+        # ArchivistRetrieveError see https://github.com/RedTurtle/redturtle.prenotazioni/pull/178
+        logger.exception("error on_modify %s", obj.absolute_url())
+        return
 
     changes = []
     for fname in fnames:
