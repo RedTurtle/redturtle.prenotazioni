@@ -48,7 +48,7 @@ def on_modify(obj, event):
     This handler logs a cvs string for
     every IPrenotazione document modified
     """
-    old_version = getattr(obj, "version_id", 0) - 1
+    old_version = getattr(obj.aq_base, "version_id", 0) - 1
     if old_version < 0:
         return
 
@@ -70,6 +70,7 @@ def on_modify(obj, event):
         # ArchivistRetrieveError see https://github.com/RedTurtle/redturtle.prenotazioni/pull/178
         logger.exception("error on_modify %s", obj.absolute_url())
         return
+
     changes = []
     for fname in fnames:
         c_value = obj.getField(fname, obj).get(obj)
