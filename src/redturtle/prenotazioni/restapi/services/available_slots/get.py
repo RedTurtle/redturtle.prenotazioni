@@ -20,6 +20,9 @@ class AvailableSlots(Service):
 
         If not, the search will start from current date until the end of current month.
         """
+        # XXX: nocache also for anonymous
+        self.request.response.setHeader("Cache-Control", "no-cache")
+
         prenotazioni_context_state = api.content.get_view(
             "prenotazioni_context_state",
             self.context,
