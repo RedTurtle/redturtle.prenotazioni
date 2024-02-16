@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.4.8 (unreleased)
+2.4.8 (2024-02-16)
 ------------------
 
 - No cache per restapi available_slots, available_slots changes frequently and anonymous users
