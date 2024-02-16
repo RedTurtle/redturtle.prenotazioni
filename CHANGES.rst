@@ -5,6 +5,10 @@ Changelog
 2.4.8 (unreleased)
 ------------------
 
+- No cache per restapi available_slots, available_slots changes frequently and anonymous users
+  need to see the updated data.
+  [mamico]
+
 - Remove acquisition when getting version_id in **on_modify** event handler.
   [cekk]
 

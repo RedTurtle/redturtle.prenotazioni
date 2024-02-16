@@ -408,3 +408,9 @@ class TestAvailableSlots(unittest.TestCase):
         # self.assertEqual(len(response.json()["items"]), 4)
         type_b_len = len(response.json()["items"])
         self.assertTrue(type_a_len > type_b_len)
+
+    def test_cacheability(self):
+        response = self.api_session.get(
+            "{}/@available-slots".format(self.folder_prenotazioni.absolute_url())
+        )
+        self.assertEqual(response.headers["Cache-Control"], "no-cache")
