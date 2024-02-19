@@ -65,11 +65,12 @@ class Booker(object):
         Raises:
             BookingsLimitExceded: User exceeded limit
         """
-
         if not self.context.max_bookings_allowed:
             return
         if data.get("booking_type", "") == "out-of-office":
             # don't limit number of out-of-office
+            return
+        if not data.get("fiscalcode", ""):
             return
         if len(
             self.search_future_bookings_by_fiscalcode(
