@@ -5,7 +5,8 @@ Changelog
 2.4.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Improved check on fiscal code.
+  [daniele]
 
 
 2.4.8 (2024-02-16)
