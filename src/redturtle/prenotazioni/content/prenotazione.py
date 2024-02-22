@@ -213,6 +213,8 @@ class Prenotazione(Item):
     def setBooking_expiration_date(self, date):
         self.booking_expiration_date = date
 
+    # OBSOLETE
+    # TODO: Check if can be deleted
     def getBooking_type(self):
         return self.booking_type
 
