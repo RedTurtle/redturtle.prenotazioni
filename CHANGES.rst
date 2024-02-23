@@ -11,7 +11,7 @@ Changelog
 2.4.9 (2024-02-22)
 ------------------
 
-- Improved check on fiscal code.
+- Disabled "user has exceeded the limit" validation when the fiscal code is missing.
   [daniele]
 
 
