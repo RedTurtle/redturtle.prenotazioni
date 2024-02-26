@@ -473,6 +473,7 @@ def to_2005(context):
 
 
 def to_2006(context):
+    import pdb; pdb.set_trace()
     context.runImportStepFromProfile(
         "profile-redturtle.prenotazioni:to_2006", "workflow"
     )

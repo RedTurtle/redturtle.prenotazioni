@@ -245,7 +245,7 @@
   </transition>
   <transition after_script=""
               before_script=""
-              new_state="refused"
+              new_state="canceled"
               title="Rifiuta"
               transition_id="cancel"
               trigger="USER"
