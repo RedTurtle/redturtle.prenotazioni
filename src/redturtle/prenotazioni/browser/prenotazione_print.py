@@ -32,6 +32,10 @@ class PrenotazionePrint(BrowserView):
                 "confirm_booking_refused_message",
                 "Your booking has been refused.",
             ),
+            "canceled": _(
+                "confirm_booking_canceled_message",
+                "Your booking has been canceled.",
+            ),
         }
         return messages_mapping.get(review_state, "")
 
