@@ -1,4 +1,3 @@
-"""Top-level package for IO tools."""
 # -*- encoding: utf-8 -*-
 
 __author__ = """Mauro Amico"""

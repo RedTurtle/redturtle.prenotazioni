@@ -74,7 +74,6 @@ class ISearchForm(Interface):
 
 @implementer(ISearchForm)
 class SearchForm(form.Form):
-
     """ """
 
     ignoreContext = True

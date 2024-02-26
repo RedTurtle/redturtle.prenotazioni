@@ -470,3 +470,9 @@ def to_2005(context):
     context.runImportStepFromProfile(
         "profile-redturtle.prenotazioni:to_2005", "rolemap"
     )
+
+
+def to_2006(context):
+    context.runImportStepFromProfile(
+        "profile-redturtle.prenotazioni:to_2006", "workflow"
+    )

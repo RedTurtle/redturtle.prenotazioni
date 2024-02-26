@@ -17,6 +17,7 @@
     <description>Waiting to be reviewed, not editable by the owner and not visible</description>
     <exit-transition transition_id="confirm" />
     <exit-transition transition_id="refuse" />
+    <exit-transition transition_id="cancel" />
     <permission-map acquired="False"
                     name="Access contents information"
     >
@@ -97,8 +98,9 @@
   <state state_id="confirmed"
          title="Confermato"
   >
-    <exit-transition transition_id="refuse" />
-    <permission-map acquired="False"
+  <exit-transition transition_id="refuse" />
+  <exit-transition transition_id="cancel" />
+  <permission-map acquired="False"
                     name="Access contents information"
     >
       <permission-role>Owner</permission-role>
@@ -172,6 +174,45 @@
       <permission-role>Bookings Manager</permission-role>
     </permission-map>
   </state>
+  <state state_id="canceled"
+         title="Annullato"
+  >
+    <exit-transition transition_id="restore" />
+    <permission-map acquired="False"
+                    name="Access contents information"
+    >
+      <permission-role>Editor</permission-role>
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Reader</permission-role>
+      <permission-role>Reviewer</permission-role>
+      <permission-role>Bookings Manager</permission-role>
+    </permission-map>
+    <permission-map acquired="False"
+                    name="Modify portal content"
+    >
+      <permission-role>Manager</permission-role>
+      <permission-role>Reviewer</permission-role>
+      <permission-role>Bookings Manager</permission-role>
+    </permission-map>
+    <permission-map acquired="False"
+                    name="View"
+    >
+      <permission-role>Editor</permission-role>
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Reader</permission-role>
+      <permission-role>Reviewer</permission-role>
+      <permission-role>Bookings Manager</permission-role>
+    </permission-map>
+    <permission-map acquired="False"
+                    name="Review portal content"
+    >
+      <permission-role>Manager</permission-role>
+      <permission-role>Reviewer</permission-role>
+      <permission-role>Bookings Manager</permission-role>
+    </permission-map>
+  </state>  
   <transition after_script=""
               before_script=""
               new_state="confirmed"
@@ -198,6 +239,21 @@
             icon=""
             url="%(content_url)s/content_status_modify?workflow_action=refuse"
     >Rifiuta</action>
+    <guard>
+      <guard-permission>Review portal content</guard-permission>
+    </guard>
+  </transition>
+  <transition after_script=""
+              before_script=""
+              new_state="refused"
+              title="Rifiuta"
+              transition_id="cancel"
+              trigger="USER"
+  >
+    <action category="workflow"
+            icon=""
+            url="%(content_url)s/content_status_modify?workflow_action=cancel"
+    >Annulla</action>
     <guard>
       <guard-permission>Review portal content</guard-permission>
     </guard>

@@ -11,7 +11,6 @@ from redturtle.prenotazioni.utilities.urls import urlify
 
 
 class PrenotazionePrint(BrowserView):
-
     """
     This is a view to proxy autorizzazione
     """

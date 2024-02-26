@@ -31,7 +31,6 @@ from redturtle.prenotazioni.utilities.urls import urlify
 
 
 class PrenotazioniContextState(BrowserView):
-
     """
     This is a view to for checking prenotazioni context state
     """
