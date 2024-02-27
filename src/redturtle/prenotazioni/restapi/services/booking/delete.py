@@ -4,7 +4,6 @@ from plone.restapi.services import Service
 from zExceptions import BadRequest
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
-# from redturtle.prenotazioni import _
 
 
 @implementer(IPublishTraverse)
@@ -24,19 +23,14 @@ class DeleteBooking(Service):
             if not booking:
                 return self.reply_no_content(status=404)
             # TODO: refuse only confirmed or pending bookings
-            if api.content.get_state(booking) not in ("confirmed", "pending"):
-                raise BadRequest("Cannot cancel this booking")
-            api.content.transition(booking, "cancel")  # , comment=_("Booking canceled"))
-            return self.reply_no_content()
-
-        # self.request.form["uid"] = self.booking_uid
-        # delete_view = api.content.get_view(
-        #     name="confirm-delete",
-        #     context=booking.getPrenotazioniFolder(),
-        #     request=self.request,
-        # )
-        # res = delete_view.do_delete()
-        # if not res:
-        #     # ok
-        #     return self.reply_no_content()
-        # raise BadRequest(res.get("error", ""))
+            self.request.form["uid"] = self.booking_uid
+            delete_view = api.content.get_view(
+                name="confirm-delete",
+                context=booking.getPrenotazioniFolder(),
+                request=self.request,
+            )
+            res = delete_view.do_delete()
+            if not res:
+                # ok
+                return self.reply_no_content()
+            raise BadRequest(res.get("error", ""))

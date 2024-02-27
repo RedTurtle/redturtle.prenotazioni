@@ -13,6 +13,7 @@ from zExceptions import NotFound
 from zope.i18n import translate
 
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni import logger
 
 
 class BaseView(BrowserView):
@@ -142,7 +143,27 @@ class ConfirmDelete(BaseView):
                     context=self.request,
                 ),
             }
+        if api.content.get_state(self.prenotazione) not in ("confirmed", "pending"):
+            return {
+                "error": translate(
+                    _(
+                        "delete_refused_booking",
+                        "You can't delete your reservation.",
+                    ),
+                    context=self.request,
+                ),
+            }
 
         with api.env.adopt_roles(["Manager", "Member"]):
-            day_folder = self.prenotazione.aq_parent
-            day_folder.manage_delObjects(self.prenotazione.id)
+            try:
+                api.content.transition(
+                    self.prenotazione, "cancel"
+                )  # , comment=_("Booking canceled"))
+            except api.exc.InvalidParameterError:
+                # TODO: backward compatibility, remove soon ----- >8 ----------------
+                logger.exception(
+                    "Please run the redturtle.prenotazioni upgrade step!",
+                    self.booking_uid,
+                )
+                day_folder = self.prenotazione.aq_parent
+                day_folder.manage_delObjects(self.prenotazione.id)
