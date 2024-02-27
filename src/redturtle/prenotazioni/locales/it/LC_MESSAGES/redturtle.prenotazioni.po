@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-02-26 23:03+0000\n"
+"POT-Creation-Date: 2024-02-27 07:37+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -606,7 +606,7 @@ msgid "booking_created"
 msgstr "Prenotazione creata"
 
 #. Default: "Your booking has been deleted."
-#: ../browser/delete_reservation.py:114
+#: ../browser/delete_reservation.py:115
 msgid "booking_deleted_success"
 msgstr "La tua prenotazione è stata cancellata."
 
@@ -750,12 +750,17 @@ msgid "day_label"
 msgstr "Giorno"
 
 #. Default: "You can't delete your reservation; it's too late."
-#: ../browser/delete_reservation.py:138
+#: ../browser/delete_reservation.py:139
 msgid "delete_expired_booking"
 msgstr "Non puoi cancellare questa prenotazione; è troppo tardi."
 
+#. Default: "You can't delete your reservation."
+#: ../browser/delete_reservation.py:149
+msgid "delete_refused_booking"
+msgstr "Non puoi cancellare questa prenotazione."
+
 #. Default: "Delete reservation request for: ${name}"
-#: ../browser/delete_reservation.py:61
+#: ../browser/delete_reservation.py:62
 msgid "delete_reservation_request"
 msgstr "Cancella la richiesta di prenotazione per: ${name}"
 
@@ -1082,12 +1087,12 @@ msgid "max_bookings_allowed_label"
 msgstr "Numero massimo delle prenotazioni"
 
 #. Default: "Unable to find a booking with the givend id: ${uid}."
-#: ../browser/delete_reservation.py:44
+#: ../browser/delete_reservation.py:45
 msgid "missing_booking"
 msgstr "Impossibile trovare la prenotazione con id: ${uid}."
 
 #. Default: "You need to provide a reservation id."
-#: ../browser/delete_reservation.py:38
+#: ../browser/delete_reservation.py:39
 msgid "missing_uid"
 msgstr "Devi fornite un'id prenotazione."
 
@@ -1663,6 +1668,6 @@ msgid "week_table_overrides_label"
 msgstr "Personalizzazioni Schedulazione Settimanale"
 
 #. Default: "You tried to delete booking with a wrong action."
-#: ../browser/delete_reservation.py:97
+#: ../browser/delete_reservation.py:98
 msgid "wrong_authenticator"
 msgstr "Stai cercando di cancellare una prenotazione con un'azione sbagliata."
