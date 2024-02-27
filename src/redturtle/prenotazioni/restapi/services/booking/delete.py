@@ -22,15 +22,15 @@ class DeleteBooking(Service):
             booking = api.content.get(UID=self.booking_uid)
             if not booking:
                 return self.reply_no_content(status=404)
-            # TODO: refuse only confirmed or pending bookings
-            self.request.form["uid"] = self.booking_uid
-            delete_view = api.content.get_view(
-                name="confirm-delete",
-                context=booking.getPrenotazioniFolder(),
-                request=self.request,
-            )
-            res = delete_view.do_delete()
-            if not res:
-                # ok
-                return self.reply_no_content()
-            raise BadRequest(res.get("error", ""))
+        # TODO: refuse only confirmed or pending bookings
+        self.request.form["uid"] = self.booking_uid
+        delete_view = api.content.get_view(
+            name="confirm-delete",
+            context=booking.getPrenotazioniFolder(),
+            request=self.request,
+        )
+        res = delete_view.do_delete()
+        if not res:
+            # ok
+            return self.reply_no_content()
+        raise BadRequest(res.get("error", ""))
