@@ -134,7 +134,7 @@ class WeekTableOverridesValidationError(ValidationError):
         return super().doc()
 
 
-def checkOverrides(value):
+def checkOverrides(value):  # noqa
     overrides = json.loads(value)
     now = date.today()
     for override in overrides:
