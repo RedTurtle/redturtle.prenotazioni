@@ -127,7 +127,7 @@ def validate_pause_table(data={}):
                 )
 
 
-class CustomValidationError(ValidationError):
+class WeekTableOverridesValidationError(ValidationError):
     def doc(self):
         if len(self.args) == 1:
             return translate(self.args[0], context=getRequest())
@@ -138,20 +138,41 @@ def checkOverrides(value):
     overrides = json.loads(value)
     now = date.today()
     for override in overrides:
+        from_year = override.get("from_year", "")
         from_month = override.get("from_month", "")
         from_day = override.get("from_day", "")
+
+        to_year = override.get("to_year", "")
         to_month = override.get("to_month", "")
         to_day = override.get("to_day", "")
+
+        if to_year and from_year:
+            if not int(from_year) <= int(to_year):
+                raise WeekTableOverridesValidationError(
+                    _(
+                        "from_year_bigger_than_to_year_error",
+                        default="From year must be lower/equal than to year.",
+                    )
+                )
+
+        if bool(from_year) != bool(to_year):
+            raise WeekTableOverridesValidationError(
+                _(
+                    "uncomplete_years_range_error",
+                    default="From and to year must be compiled both or no one.",
+                )
+            )
+
         # check from
         if not from_month and not from_day:
-            raise CustomValidationError(
+            raise WeekTableOverridesValidationError(
                 _("from_month_error", default="You should set a start range.")
             )
         from_month = int(from_month)
         from_day = int(from_day)
         from_month_days = calendar.monthrange(now.year, from_month)[1]
         if from_day > from_month_days:
-            raise CustomValidationError(
+            raise WeekTableOverridesValidationError(
                 _(
                     "from_month_too_days_error",
                     default='Selected day is too big for that month for "from" field.',
@@ -159,14 +180,14 @@ def checkOverrides(value):
             )
         # check to
         if not to_month and not to_day:
-            raise CustomValidationError(
+            raise WeekTableOverridesValidationError(
                 _("to_month_error", default="You should set an end range.")
             )
         to_month = int(to_month)
         to_day = int(to_day)
         to_month_days = calendar.monthrange(now.year, to_month)[1]
         if to_day > to_month_days:
-            raise CustomValidationError(
+            raise WeekTableOverridesValidationError(
                 _(
                     "to_month_too_days_error",
                     default='Selected day is too big for that month for "to" field.',
@@ -175,29 +196,29 @@ def checkOverrides(value):
 
         for interval in override["week_table"]:
             if interval["morning_start"] and not interval["morning_end"]:
-                raise CustomValidationError(
+                raise WeekTableOverridesValidationError(
                     _("You should set an end time for morning.")
                 )
             if interval["morning_end"] and not interval["morning_start"]:
-                raise CustomValidationError(
+                raise WeekTableOverridesValidationError(
                     _("You should set a start time for morning.")
                 )
             if interval["afternoon_start"] and not interval["afternoon_end"]:
-                raise CustomValidationError(
+                raise WeekTableOverridesValidationError(
                     _("You should set an end time for afternoon.")
                 )
             if interval["afternoon_end"] and not interval["afternoon_start"]:
-                raise CustomValidationError(
+                raise WeekTableOverridesValidationError(
                     _("You should set a start time for afternoon.")
                 )
             if interval["morning_start"] and interval["morning_end"]:
                 if interval["morning_start"] > interval["morning_end"]:
-                    raise CustomValidationError(
+                    raise WeekTableOverridesValidationError(
                         _("Morning start should not be greater than end.")
                     )
             if interval["afternoon_start"] and interval["afternoon_end"]:
                 if interval["afternoon_start"] > interval["afternoon_end"]:
-                    raise CustomValidationError(
+                    raise WeekTableOverridesValidationError(
                         _("Afternoon start should not be greater than end.")
                     )
 

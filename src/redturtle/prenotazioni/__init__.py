@@ -4,13 +4,14 @@ from datetime import timedelta
 from logging import FileHandler
 from logging import Formatter
 from logging import getLogger
-from OFS.CopySupport import CopyError
+
 import dateutil
 import pytz
 from AccessControl import Unauthorized
 from App.config import getConfiguration
 from DateTime import DateTime
 from dateutil.tz.tz import tzutc
+from OFS.CopySupport import CopyError
 from plone import api
 from plone.api.exc import UserNotFoundError
 from plone.app.event.base import default_timezone

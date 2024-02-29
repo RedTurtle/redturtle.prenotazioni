@@ -5,7 +5,8 @@ Changelog
 2.4.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add years range configuration to week table overrides.
+  [folix-01]
 
 
 2.4.9 (2024-02-22)
