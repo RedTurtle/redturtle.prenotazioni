@@ -23,7 +23,6 @@ from redturtle.prenotazioni.utilities.urls import urlify
 
 
 class IMoveForm(Interface):
-
     """
     Interface for moving a prenotazione
     """
@@ -34,7 +33,6 @@ class IMoveForm(Interface):
 
 @implementer(IMoveForm)
 class MoveForm(form.Form):
-
     """Controller for moving a booking"""
 
     ignoreContext = True

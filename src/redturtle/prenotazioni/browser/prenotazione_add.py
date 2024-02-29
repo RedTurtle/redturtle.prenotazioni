@@ -29,7 +29,6 @@ DEFAULT_REQUIRED_FIELDS = []
 
 
 class IAddForm(IPrenotazione):
-
     """
     Interface for creating a prenotazione
     """

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object meta_type="Plone Workflow Tool"
+        name="portal_workflow"
+>
+  <property name="title">Contains workflow definitions for your portal</property>
+  <object meta_type="Workflow"
+          name="prenotazioni_workflow"
+  />
+</object>
