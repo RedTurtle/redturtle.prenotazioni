@@ -327,3 +327,26 @@ class PrenotazioneCanceledManagerEmailMessage(PrenotazioneManagerEmailMessage):
             context=self.request,
         )
         return f"{booking_canceled} [{booking_type}] {date} {booking_code}"
+
+    @property
+    def message(self) -> MIMEMultipart:
+        """
+        customized to send Bcc instead To
+        """
+        mfrom = self.message_from
+        bcc = ", ".join(getattr(self.prenotazione, "email_responsabile", []))
+
+        if not mfrom:
+            logger.error(
+                self.error_msg.format(message="Email from address is not configured")
+            )
+            return None
+
+        msg = MIMEMultipart()
+
+        msg.attach(self.message_text)
+        msg["Subject"] = self.message_subject
+        msg["From"] = mfrom
+        msg["Bcc"] = bcc
+
+        return msg
