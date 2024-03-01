@@ -323,7 +323,7 @@ class PrenotazioneCanceledManagerEmailMessage(PrenotazioneManagerEmailMessage):
         date = self.prenotazione.booking_date.strftime("%d-%m-%Y %H:%M")
 
         booking_canceled = translate(
-            _("booking_canceled_mail_subject_part", default="Booking cancelled: "),
+            _("booking_canceled_mail_subject_part", default="Booking canceled: "),
             context=self.request,
         )
         return f"{booking_canceled} [{booking_type}] {date} {booking_code}"
