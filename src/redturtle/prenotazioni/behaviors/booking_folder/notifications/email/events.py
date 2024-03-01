@@ -85,3 +85,37 @@ def send_booking_reminder(context, event):
     )
 
     sender_adapter.send()
+
+
+def send_booking_canceled_to_managers(booking, event):
+    """
+    Send email notification for managers
+    """
+
+    if not getattr(getattr(event, "transition", {}), "id", "") == "cancel":
+        return
+
+    if not booking_folder_provides_current_behavior(booking):
+        return
+
+    if booking.isVacation():
+        return
+
+    if not getattr(booking, "email_responsabile", []):
+        return
+
+    request = getRequest()
+
+    message_adapter = getMultiAdapter(
+        (booking, request),
+        IBookingEmailMessage,
+        name="notify_manager_booking_canceled",
+    )
+
+    sender_adapter = getMultiAdapter(
+        (message_adapter, booking, request),
+        IBookingNotificationSender,
+        name="booking_transition_email_sender",
+    )
+
+    sender_adapter.send(force=True)
