@@ -5,7 +5,8 @@ Changelog
 2.5.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Change the booking notification flag label.
+  [folix-01]
 
 
 2.5.0 (2024-02-29)
