@@ -99,7 +99,7 @@ class TestDeleteBooking(unittest.TestCase):
         res = self.view.do_delete()
 
         self.assertIsNone(res)
-        self.assertIsNone(api.content.get(UID=uid))
+        self.assertEqual(api.content.get_state(api.content.get(UID=uid)), "canceled")
 
     @unittest.skip("wip")
     def test_anon_cant_delete_other_user_booking(self):
@@ -137,10 +137,9 @@ class TestDeleteBooking(unittest.TestCase):
         res = self.view.do_delete()
 
         self.assertIsNone(res)
-        self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
-            0,
-        )
+        # the booking is marked as canceled
+        brains = self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)
+        self.assertEqual([brain.review_state for brain in brains], ["canceled"])
 
     def test_user_can_delete_his_booking(self):
         login(self.portal, "user")
@@ -161,10 +160,9 @@ class TestDeleteBooking(unittest.TestCase):
         res = self.view.do_delete()
 
         self.assertIsNone(res)
-        self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
-            0,
-        )
+        # the booking is marked as canceled
+        brains = self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)
+        self.assertEqual([brain.review_state for brain in brains], ["canceled"])
 
     @unittest.skip("wip")
     def test_user_cant_delete_other_user_booking(self):

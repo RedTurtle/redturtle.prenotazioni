@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 from DateTime import DateTime
 from plone import api
 from plone.restapi.services import Service
@@ -8,6 +9,9 @@ from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
 from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
+
+
+logger = logging.getLogger(__name__)
 
 
 @implementer(IPublishTraverse)
@@ -80,16 +84,20 @@ class BookingsSearch(Service):
         response = {"id": self.context.absolute_url() + "/@bookings"}
         query = self.query()
         # XXX: `fullobjects` the correct behavior should be to use different serializers
-        response["items"] = [
-            getMultiAdapter(
-                (i.getObject(), self.request),
-                ISerializeToPrenotazioneSearchableItem,
-            )(fullobjects=fullobjects)
-            for i in api.portal.get_tool("portal_catalog")(**query)
-        ]
-
+        items = []
+        for i in api.portal.get_tool("portal_catalog")(**query):
+            # TEMP: errors with broken catalog entries
+            try:
+                items.append(
+                    getMultiAdapter(
+                        (i.getObject(), self.request),
+                        ISerializeToPrenotazioneSearchableItem,
+                    )(fullobjects=fullobjects)
+                )
+            except:  # noqa: E722
+                logger.exception("error with %s", i.getPath())
+        response["items"] = items
         response["items_total"] = len(response["items"])
-
         return response
 
 

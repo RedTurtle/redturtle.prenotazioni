@@ -129,7 +129,8 @@ class TestDeleteBookingApi(unittest.TestCase):
         transaction.commit()
 
         self.assertEqual(response.status_code, 204)
-        self.assertIsNone(api.content.get(UID=uid))
+        brains = self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)
+        self.assertEqual([brain.review_state for brain in brains], ["canceled"])
 
     @unittest.skip("wip")
     def test_anon_cant_delete_other_user_booking(self):
@@ -148,7 +149,8 @@ class TestDeleteBookingApi(unittest.TestCase):
         response = self.get_response(session=self.api_session_anon, uid=uid)
 
         self.assertEqual(response.status_code, 401)
-        self.assertIsNotNone(api.content.get(UID=uid))
+        brains = self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)
+        self.assertEqual([brain.review_state for brain in brains], ["canceled"])
 
     def test_anon_can_delete_anon_booking(self):
         logout()
@@ -172,10 +174,8 @@ class TestDeleteBookingApi(unittest.TestCase):
         transaction.commit()
 
         self.assertEqual(response.status_code, 204)
-        self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
-            0,
-        )
+        brains = self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)
+        self.assertEqual([brain.review_state for brain in brains], ["canceled"])
 
     def test_user_can_delete_his_booking(self):
         login(self.portal, "user")
@@ -199,10 +199,9 @@ class TestDeleteBookingApi(unittest.TestCase):
         transaction.commit()
 
         self.assertEqual(response.status_code, 204)
-        self.assertEqual(
-            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
-            0,
-        )
+        # the booking is marked as canceled
+        brains = self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)
+        self.assertEqual([brain.review_state for brain in brains], ["canceled"])
 
     @unittest.skip("wip")
     def test_user_cant_delete_other_user_booking(self):

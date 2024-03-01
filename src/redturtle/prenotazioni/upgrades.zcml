@@ -306,4 +306,33 @@
         handler=".upgrades.to_2004"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2004"
+      destination="2005"
+      >
+    <genericsetup:upgradeStep
+        title="Upgrade rolemap"
+        handler=".upgrades.to_2005"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:registerProfile
+      name="to_2006"
+      title="redturtle.prenotazioni (to_2006)"
+      description="redturtle.prenotazioni to 2006."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/to_2006"
+      />
+
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2005"
+      destination="2006"
+      >
+    <genericsetup:upgradeStep
+        title="Update booking workflow (canceled state)"
+        handler=".upgrades.to_2006"
+        />
+  </genericsetup:upgradeSteps>
 </configure>

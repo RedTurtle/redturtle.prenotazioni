@@ -90,7 +90,6 @@ class IVacationBooking(Interface):
 
 @implementer(IVacationBooking)
 class VacationBooking(form.Form):
-
     """
     This is a view that allows to book a gate for a certain period
     """
@@ -248,7 +247,6 @@ class VacationBooking(form.Form):
 
 
 class VacationBookingShow(BrowserView):
-
     """
     Should this functionality be confirmed?
     """

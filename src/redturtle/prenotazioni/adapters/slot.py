@@ -88,19 +88,16 @@ def merge_intervals(slots):
 
 
 class ISlot(Interface):
-
     """
     Interface for a Slot object
     """
 
 
 class LowerEndpoint(int):
-
     """Lower Endpoint"""
 
 
 class UpperEndpoint(int):
-
     """Upper Endpoint"""
 
 

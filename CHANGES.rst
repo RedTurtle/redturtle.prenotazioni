@@ -2,12 +2,18 @@ Changelog
 =========
 
 
-2.4.10 (unreleased)
--------------------
+2.5.1 (unreleased)
+------------------
 
 - Add the years range configuration to week table overrides.
   [folix-01]
 
+
+2.5.0 (2024-02-29)
+------------------
+
+- `canceled` state for booking. if an user cancel a booking, the booking is not deleted but is set to cancel state
+  [mamico]
 
 2.4.9 (2024-02-22)
 ------------------
