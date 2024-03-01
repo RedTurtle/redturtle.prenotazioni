@@ -5,6 +5,9 @@ Changelog
 2.5.1 (unreleased)
 ------------------
 
+- Add manager notification on booking canceled
+  [folix-01]
+
 - Change the booking notification flag label.
   [folix-01]
 
