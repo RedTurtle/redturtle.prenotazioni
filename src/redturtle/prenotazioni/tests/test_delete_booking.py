@@ -24,6 +24,7 @@ class TestDeleteBooking(unittest.TestCase):
         self.app = self.layer["app"]
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
+        self.mailhost = self.portal.MailHost
 
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
@@ -46,6 +47,7 @@ class TestDeleteBooking(unittest.TestCase):
             description="",
             daData=date.today(),
             gates=["Gate A"],
+            email_responsabile=["operator@example.org"],
         )
 
         api.content.create(
@@ -94,12 +96,19 @@ class TestDeleteBooking(unittest.TestCase):
         )
         uid = booking.UID()
         self.assertIsNotNone(api.content.get(UID=uid))
+        # creation email is sent to the operator
+        self.assertEqual(len(self.mailhost.messages), 1)
 
         self.request.form["uid"] = booking.UID()
         res = self.view.do_delete()
-
         self.assertIsNone(res)
         self.assertEqual(api.content.get_state(api.content.get(UID=uid)), "canceled")
+
+        # cancel email is sent to the operator
+        self.assertEqual(len(self.mailhost.messages), 2)
+        # XXX: we should check the email destination, but actually we can't,
+        # because MockMailHost doesn't store the bcc field
+        self.assertIn(b"Subject: Booking canceled: ", self.mailhost.messages[1])
 
     @unittest.skip("wip")
     def test_anon_cant_delete_other_user_booking(self):
@@ -132,6 +141,8 @@ class TestDeleteBooking(unittest.TestCase):
             len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
             1,
         )
+        # creation email is sent to the operator
+        self.assertEqual(len(self.mailhost.messages), 1)
 
         self.request.form["uid"] = booking.UID()
         res = self.view.do_delete()
@@ -140,6 +151,12 @@ class TestDeleteBooking(unittest.TestCase):
         # the booking is marked as canceled
         brains = self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)
         self.assertEqual([brain.review_state for brain in brains], ["canceled"])
+
+        # cancel email is sent to the operator
+        self.assertEqual(len(self.mailhost.messages), 2)
+        # XXX: we should check the email destination, but actually we can't,
+        # because MaockMailHost doesn't store the bcc field
+        self.assertIn(b"Subject: Booking canceled: ", self.mailhost.messages[1])
 
     def test_user_can_delete_his_booking(self):
         login(self.portal, "user")
@@ -156,6 +173,9 @@ class TestDeleteBooking(unittest.TestCase):
             1,
         )
 
+        # creation email is sent to the operator
+        self.assertEqual(len(self.mailhost.messages), 1)
+
         self.request.form["uid"] = booking.UID()
         res = self.view.do_delete()
 
@@ -163,6 +183,12 @@ class TestDeleteBooking(unittest.TestCase):
         # the booking is marked as canceled
         brains = self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)
         self.assertEqual([brain.review_state for brain in brains], ["canceled"])
+
+        # cancel email is sent to the operator
+        self.assertEqual(len(self.mailhost.messages), 2)
+        # XXX: we should check the email destination, but actually we can't,
+        # because MaockMailHost doesn't store the bcc field
+        self.assertIn(b"Subject: Booking canceled: ", self.mailhost.messages[1])
 
     @unittest.skip("wip")
     def test_user_cant_delete_other_user_booking(self):

@@ -91,8 +91,10 @@ def send_booking_canceled_to_managers(booking, event):
     """
     Send email notification for managers
     """
-
-    if not getattr(getattr(event, "transition", {}), "id", "") == "cancel":
+    if (
+        event.transition is None
+        or not getattr(event.transition, "id", None) == "cancel"
+    ):
         return
 
     if not booking_folder_provides_current_behavior(booking):
