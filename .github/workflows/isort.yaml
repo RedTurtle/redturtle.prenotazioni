@@ -10,6 +10,3 @@ jobs:
         with:
           python-version: 3.11
       - uses: isort/isort-action@master
-        with:
-          check-only: true
-          settings-path: .isort.cfg
