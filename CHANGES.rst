@@ -5,6 +5,9 @@ Changelog
 2.5.1 (unreleased)
 ------------------
 
+- Bypass the today delete limit for the 'out-of-office' types
+  [folix-01]
+
 - Change the booking notification flag label.
   [folix-01]
 
