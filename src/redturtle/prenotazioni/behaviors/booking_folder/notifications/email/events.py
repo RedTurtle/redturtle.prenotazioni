@@ -103,6 +103,7 @@ def send_booking_canceled_to_managers(booking, event):
     if booking.isVacation():
         return
 
+    # Taken by aquisition
     if not getattr(booking, "email_responsabile", []):
         return
 
