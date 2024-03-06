@@ -185,43 +185,63 @@ class PrenotazioniContextState(BrowserView):
         week_table_overrides = json.loads(
             getattr(self.context, "week_table_overrides", "[]") or "[]"
         )
+
         if not week_table_overrides:
             return []
+
         overrides = []
+        unlimited_overrides = []
+
         for override in week_table_overrides:
+            from_year = int(override.get("from_year", 0))
             from_month = int(override.get("from_month", ""))
             from_day = int(override.get("from_day", ""))
+
+            to_year = int(override.get("to_year", 0))
             to_month = int(override.get("to_month", ""))
             to_day = int(override.get("to_day", ""))
-            to_year = day.year
-            if from_month <= to_month:
-                # same year (i.e from "10 aug" to "4 sep")
-                from_date = date(to_year, from_month, from_day)
-                to_date = date(to_year, to_month, to_day)
-            else:
-                # ends next year (i.e. from "20 dec" to "7 jan")
-                if day.month < from_month:
-                    # i.e day is 03 jan
-                    from_date = date(to_year - 1, from_month, from_day)
-                    to_date = date(to_year, to_month, to_day)
-                else:
-                    # i.e day is 28 dec
-                    from_date = date(to_year, from_month, from_day)
-                    to_date = date(to_year + 1, to_month, to_day)
-                # today_year = date.today().year
-                # if today_year < to_year:
-                #     from_date = date(today_year, from_month, from_day)
-                #     to_date = date(to_year, to_month, to_day)
-                # else:
-                #     from_date = date(to_year, from_month, from_day)
-                #     to_date = date(to_year + 1, to_month, to_day)
 
             booking_date = day
-            if isinstance(day, datetime):
-                booking_date = day.date()
 
-            if from_date <= booking_date <= to_date:
-                overrides.append(override)
+            if from_year and to_year:
+                from_date = date(from_year, from_month, from_day)
+                to_date = date(to_year, to_month, to_day)
+
+                if isinstance(day, datetime):
+                    booking_date = day.date()
+
+                if from_date <= booking_date <= to_date:
+                    overrides.append(override)
+
+            else:
+                to_year = day.year
+
+                if from_month <= to_month:
+                    # same year (i.e from "10 aug" to "4 sep")
+                    from_date = date(to_year, from_month, from_day)
+                    to_date = date(to_year, to_month, to_day)
+
+                else:
+                    # ends next year (i.e. from "20 dec" to "7 jan")
+                    if day.month < from_month:
+                        # i.e day is 03 jan
+                        from_date = date(to_year - 1, from_month, from_day)
+                        to_date = date(to_year, to_month, to_day)
+
+                    else:
+                        # i.e day is 28 dec
+                        from_date = date(to_year, from_month, from_day)
+                        to_date = date(to_year + 1, to_month, to_day)
+
+                if isinstance(day, datetime):
+                    booking_date = day.date()
+
+                if from_date <= booking_date <= to_date:
+                    unlimited_overrides.append(override)
+
+        # More specific overrides first
+        overrides = unlimited_overrides + overrides
+
         return overrides
 
     def get_week_table(self, day):

@@ -5,6 +5,9 @@ Changelog
 2.5.1 (unreleased)
 ------------------
 
+- Add the years range configuration to week table overrides.
+  [folix-01]
+ 
 - Bypass the today delete limit for the 'out-of-office' types
   [folix-01]
 
