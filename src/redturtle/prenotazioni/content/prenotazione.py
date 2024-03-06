@@ -199,7 +199,8 @@ class Prenotazione(Item):
     """ """
 
     def isVacation(self):
-        self.getBooking_type() == VACATION_TYPE
+        # TODO: Remove None after check if it will not broke the front-end
+        return self.booking_type == VACATION_TYPE or None
 
     def getBooking_date(self):
         return self.booking_date

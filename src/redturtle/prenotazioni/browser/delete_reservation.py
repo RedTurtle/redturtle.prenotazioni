@@ -133,7 +133,8 @@ class ConfirmDelete(BaseView):
         expiration = datetime.combine(
             self.prenotazione.booking_date.date(), time(0, 0, 0)
         )
-        if now > expiration:
+
+        if now > expiration and not self.prenotazione.isVacation():
             return {
                 "error": translate(
                     _(

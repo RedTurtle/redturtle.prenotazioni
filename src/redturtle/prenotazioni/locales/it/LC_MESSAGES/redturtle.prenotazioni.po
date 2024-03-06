@@ -1385,7 +1385,7 @@ msgstr "L'oggetto del messaggio quando una prenotazione è stata spostata."
 #. Default: "Notify when rejected."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:449
 msgid "notify_on_refuse"
-msgstr "Notifica alla cancellazione"
+msgstr "Notifica al rifiuto"
 
 #. Default: "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused."
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/__init__.py:91
@@ -1400,7 +1400,7 @@ msgstr "[${prenotazioni_folder_title}] Prenotazione rifiutata per ${title}"
 #. Default: "Notify via mail the user when his booking has been rejected."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:450
 msgid "notify_on_refuse_help"
-msgstr "Notifica l'utente via mail se la prenotazione viene cancellata"
+msgstr "Notifica l'utente via mail se la prenotazione viene rifiutata"
 
 #. Default: "[Refuse] message"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/__init__.py:215

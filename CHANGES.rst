@@ -7,6 +7,12 @@ Changelog
 
 - Add the years range configuration to week table overrides.
   [folix-01]
+ 
+- Bypass the today delete limit for the 'out-of-office' types
+  [folix-01]
+
+- Change the booking notification flag label.
+  [folix-01]
 
 
 2.5.0 (2024-02-29)

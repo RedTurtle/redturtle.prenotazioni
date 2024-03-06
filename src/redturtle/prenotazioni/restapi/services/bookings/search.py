@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from DateTime import DateTime
 from plone import api
 from plone.restapi.services import Service
@@ -9,7 +10,6 @@ from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
 from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
-
 
 logger = logging.getLogger(__name__)
 
