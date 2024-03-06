@@ -4,10 +4,10 @@ import unittest
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-from dateutil.relativedelta import relativedelta
 
 import pytz
 import transaction
+from dateutil.relativedelta import relativedelta
 from plone import api
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD

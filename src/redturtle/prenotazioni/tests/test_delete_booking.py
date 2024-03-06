@@ -284,3 +284,29 @@ class TestDeleteBooking(unittest.TestCase):
         self.assertRaises(NotFound, self.view.do_delete)
 
         self.assertIsNotNone(api.content.get(UID=uid))
+
+    def test_can_delete_today_booking_if_it_is_block(self):
+        booking = self.booker.book(
+            {
+                "booking_date": self.today,
+                "booking_type": "out-of-office",
+                "title": "foo",
+            }
+        )
+        uid = booking.UID()
+
+        self.assertEqual(
+            len(self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)),
+            1,
+        )
+
+        self.request.form["uid"] = booking.UID()
+
+        self.view.do_delete()
+
+        self.assertEqual(
+            self.portal.portal_catalog.unrestrictedSearchResults(UID=uid)[
+                0
+            ].review_state,
+            "canceled",
+        )
