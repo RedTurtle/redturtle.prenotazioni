@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-03-01 09:15+0000\n"
+"POT-Creation-Date: 2024-03-06 09:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -767,12 +767,12 @@ msgid "day_label"
 msgstr ""
 
 #. Default: "You can't delete your reservation; it's too late."
-#: redturtle/prenotazioni/browser/delete_reservation.py:139
+#: redturtle/prenotazioni/browser/delete_reservation.py:140
 msgid "delete_expired_booking"
 msgstr ""
 
 #. Default: "You can't delete your reservation."
-#: redturtle/prenotazioni/browser/delete_reservation.py:149
+#: redturtle/prenotazioni/browser/delete_reservation.py:150
 msgid "delete_refused_booking"
 msgstr ""
 
