@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.5.1 (unreleased)
+2.5.1 (2024-03-06)
 ------------------
 
 - Add the years range configuration to week table overrides.
