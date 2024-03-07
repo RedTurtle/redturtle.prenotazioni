@@ -31,12 +31,21 @@
            redturtle.prenotazioni.interfaces.IBookingReminderEvent"
       handler=".events.send_booking_reminder"
       />
+  <subscriber
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
+           Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+      handler=".events.send_booking_canceled_to_managers"
+      />
 
   <adapter factory=".notification_email_message.PrenotazioneAfterTransitionEmailICalMessage" />
 
   <adapter
       factory=".notification_email_message.PrenotazioneManagerEmailMessage"
       name="notify_manager"
+      />
+  <adapter
+      factory=".notification_email_message.PrenotazioneCanceledManagerEmailMessage"
+      name="notify_manager_booking_canceled"
       />
 
   <adapter

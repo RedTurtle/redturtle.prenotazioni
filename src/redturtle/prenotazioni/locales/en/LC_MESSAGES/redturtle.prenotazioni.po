@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-03-01 09:15+0000\n"
+"POT-Creation-Date: 2024-03-06 09:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -607,6 +607,11 @@ msgstr ""
 msgid "booked_prenotation_message"
 msgstr ""
 
+#. Default: "Booking canceled: "
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:326
+msgid "booking_canceled_mail_subject_part"
+msgstr ""
+
 #. Default: "Booking confirmed"
 #: redturtle/prenotazioni/browser/templates/prenotazione_macros.pt:456
 msgid "booking_confirmed"
@@ -762,12 +767,12 @@ msgid "day_label"
 msgstr ""
 
 #. Default: "You can't delete your reservation; it's too late."
-#: redturtle/prenotazioni/browser/delete_reservation.py:139
+#: redturtle/prenotazioni/browser/delete_reservation.py:140
 msgid "delete_expired_booking"
 msgstr ""
 
 #. Default: "You can't delete your reservation."
-#: redturtle/prenotazioni/browser/delete_reservation.py:149
+#: redturtle/prenotazioni/browser/delete_reservation.py:150
 msgid "delete_refused_booking"
 msgstr ""
 

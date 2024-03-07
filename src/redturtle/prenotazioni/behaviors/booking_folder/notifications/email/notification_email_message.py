@@ -16,9 +16,11 @@ from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
 from zope.component import getAdapter
+from zope.i18n import translate
 from zope.interface import Interface
 from zope.interface import implementer
 
+from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingEmailMessage
@@ -197,6 +199,9 @@ class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
             return MIMEText(text, "html")
 
 
+# NOTE: We are talking about the booking created message here
+# TODO: If this logic is being used in the booker, so this message generation
+#       must be moved to the main module. It is very bad approach to keep this code here(in behavior)
 @implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, Interface)
 class PrenotazioneManagerEmailMessage(
@@ -299,3 +304,49 @@ class PrenotazioneManagerEmailMessage(
             return MIMEText(text, "html", cs)
         else:
             return MIMEText(text, "html")
+
+
+@implementer(IBookingEmailMessage)
+@adapter(IPrenotazione, Interface)
+class PrenotazioneCanceledManagerEmailMessage(PrenotazioneManagerEmailMessage):
+    """
+    This is not fired from an event, but used in booker.
+    """
+
+    @property
+    def message_subject(self) -> str:
+        """
+        return subject
+        """
+        booking_type = getattr(self.prenotazione, "booking_type", "")
+        booking_code = self.prenotazione.getBookingCode()
+        date = self.prenotazione.booking_date.strftime("%d-%m-%Y %H:%M")
+
+        booking_canceled = translate(
+            _("booking_canceled_mail_subject_part", default="Booking canceled: "),
+            context=self.request,
+        )
+        return f"{booking_canceled} [{booking_type}] {date} {booking_code}"
+
+    @property
+    def message(self) -> MIMEMultipart:
+        """
+        customized to send Bcc instead To
+        """
+        mfrom = self.message_from
+        bcc = ", ".join(getattr(self.prenotazione, "email_responsabile", []))
+
+        if not mfrom:
+            logger.error(
+                self.error_msg.format(message="Email from address is not configured")
+            )
+            return None
+
+        msg = MIMEMultipart()
+
+        msg.attach(self.message_text)
+        msg["Subject"] = self.message_subject
+        msg["From"] = mfrom
+        msg["Bcc"] = bcc
+
+        return msg

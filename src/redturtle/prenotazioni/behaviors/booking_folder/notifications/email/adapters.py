@@ -21,6 +21,11 @@ class BookingTransitionEmailSender:
         self.request = request
 
     def send(self, force=False):
+        """
+        force: bool
+            If True, the message will be sent even if the email is not allowed
+            (ie. for operator notifications)
+        """
         message = self.message_adapter.message
 
         if force or getUtility(
