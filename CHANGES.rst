@@ -8,6 +8,8 @@ Changelog
 - Fix rolemap
   [lucabel]
 
+- Add manager notification on booking canceled
+  [folix-01]
 
 2.5.1 (2024-03-06)
 ------------------
@@ -16,7 +18,6 @@ Changelog
   [folix-01]
  
 - Bypass the today delete limit for the 'out-of-office' types
-- Add manager notification on booking canceled
   [folix-01]
 
 - Change the booking notification flag label.
