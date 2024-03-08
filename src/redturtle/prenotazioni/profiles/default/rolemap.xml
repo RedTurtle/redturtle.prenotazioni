@@ -93,11 +93,21 @@
                 name="Delete objects"
     >
       <role name="Bookings Manager" />
+      <role name="Editor" />
+      <role name="Manager" />
+      <role name="Owner" />
+      <role name="Site Administrator" />
     </permission>
     <permission acquire="True"
                 name="CMFEditions: Access previous versions"
     >
       <role name="Bookings Manager" />
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Editor" />
+      <role name="Reviewer" />
+      <role name="Contributor" />
     </permission>
 
   </permissions>

@@ -476,3 +476,7 @@ def to_2006(context):
     context.runImportStepFromProfile(
         "profile-redturtle.prenotazioni:to_2006", "workflow"
     )
+
+
+def to_2007(context):
+    update_rolemap(context)

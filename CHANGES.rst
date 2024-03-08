@@ -5,7 +5,8 @@ Changelog
 2.5.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix rolemap
+  [lucabel]
 
 
 2.5.1 (2024-03-06)
