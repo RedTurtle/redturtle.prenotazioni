@@ -5,7 +5,11 @@ Changelog
 2.5.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix: urlencode/quote booking_type vocab terms
+  [mamico[
+
+- Fix: term values must be unique in booking_type vocabulary
+  [mamico]
 
 
 2.5.2 (2024-03-08)
