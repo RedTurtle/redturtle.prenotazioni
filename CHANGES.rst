@@ -5,7 +5,8 @@ Changelog
 2.5.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix SMS links.
+  [folix-01]
 
 
 2.5.2 (2024-03-08)

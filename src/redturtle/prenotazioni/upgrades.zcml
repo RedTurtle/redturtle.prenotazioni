@@ -345,5 +345,15 @@
         handler=".upgrades.to_2007"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2007"
+      destination="2008"
+      >
+    <genericsetup:upgradeStep
+        title="Fix sms links"
+        handler=".upgrades.to_2008"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

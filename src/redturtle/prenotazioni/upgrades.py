@@ -480,3 +480,28 @@ def to_2006(context):
 
 def to_2007(context):
     update_rolemap(context)
+
+
+def to_2008(context):
+    fields_to_fix = [
+        "notify_on_submit_sms_message",
+        "notify_on_confirm_sms_message",
+        "notify_on_move_sms_message",
+        "notify_on_refuse_sms_message",
+        "notify_as_reminder_sms_message",
+    ]
+
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        logger.info(f"Sanitizing the {brain.getPath()} SMS links.")
+        booking_folder = brain.getObject()
+
+        for field in fields_to_fix:
+            value = getattr(booking_folder, field, "")
+
+            value and setattr(
+                booking_folder,
+                field,
+                value.replace("${booking_print_url}.", "${booking_print_url} ."),
+            )
