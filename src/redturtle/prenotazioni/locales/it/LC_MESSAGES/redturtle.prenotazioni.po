@@ -1238,7 +1238,7 @@ msgstr "Il testo del messaggio inviato come promemoria."
 msgid "notify_as_reminder_sms_message_default_value"
 msgstr ""
 "[${prenotazioni_folder_title}]: Promemoria prenotazione per ${booking_type} il ${booking_date} alle ${booking_time}.\n"
-"Per dettagli: ${booking_print_url}."
+"Per dettagli: ${booking_print_url} ."
 
 #. Default: "[Reminder] subject"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/__init__.py:227
@@ -1302,7 +1302,7 @@ msgstr "Il testo del messaggio quando una prenotazione è stata confermata."
 msgid "notify_on_confirm_sms_message_default_value"
 msgstr ""
 "[${prenotazioni_folder_title}]: La prenotazione ${booking_type} per ${title} è stata confermata.\n"
-"Per dettagli: ${booking_print_url}."
+"Per dettagli: ${booking_print_url} ."
 
 #. Default: "[Confirm] subject"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/__init__.py:155
@@ -1368,7 +1368,7 @@ msgstr "Il testo del messaggio quando una prenotazione è stata spostata."
 msgid "notify_on_move_sms_message_default_value"
 msgstr ""
 "[${prenotazioni_folder_title}]: orario della prenotazione ${booking_type} modificato: ${booking_date} alle ${booking_time}.\n"
-"Per dettagli: ${booking_print_url}."
+"Per dettagli: ${booking_print_url} ."
 
 #. Default: "[Move] subject"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/__init__.py:179
@@ -1494,7 +1494,7 @@ msgstr "Il testo del messaggio quando una prenotazione è stata creata."
 #. Default: "[${prenotazioni_folder_title}]: Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.\nSee details or delete it: ${booking_print_url}."
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/__init__.py:18
 msgid "notify_on_submit_sms_message_default_value"
-msgstr "[${prenotazioni_folder_title}]: La prenotazione ${booking_type} per il ${booking_date} alle ${booking_time} è stata creata. Per dettagli: ${booking_print_url}."
+msgstr "[${prenotazioni_folder_title}]: La prenotazione ${booking_type} per il ${booking_date} alle ${booking_time} è stata creata. Per dettagli: ${booking_print_url} ."
 
 #. Default: "[Created] subject"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/__init__.py:131

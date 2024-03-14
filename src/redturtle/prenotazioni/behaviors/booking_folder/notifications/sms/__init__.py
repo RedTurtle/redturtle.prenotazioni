@@ -17,7 +17,7 @@ def notify_on_submit_sms_message_default_factory(context):
     return api.portal.translate(
         _(
             "notify_on_submit_sms_message_default_value",
-            "[${prenotazioni_folder_title}]: Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.\nSee details or delete it: ${booking_print_url}.",
+            "[${prenotazioni_folder_title}]: Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.\nSee details or delete it: ${booking_print_url} .",
         )
     )
 
@@ -27,7 +27,7 @@ def notify_on_confirm_sms_message_default_factory(context):
     return api.portal.translate(
         _(
             "notify_on_confirm_sms_message_default_value",
-            "[${prenotazioni_folder_title}]: Booking of ${booking_date} at ${booking_time} has been accepted.\nSee details or delete it: ${booking_print_url}.",
+            "[${prenotazioni_folder_title}]: Booking of ${booking_date} at ${booking_time} has been accepted.\nSee details or delete it: ${booking_print_url} .",
         )
     )
 
@@ -37,7 +37,7 @@ def notify_on_move_sms_message_default_factory(context):
     return api.portal.translate(
         _(
             "notify_on_move_sms_message_default_value",
-            "[${prenotazioni_folder_title}]: The booking scheduling for ${booking_type} was modified.\nThe new one is on ${booking_date} at ${booking_time}.\nSee details or delete it: ${booking_print_url}.",
+            "[${prenotazioni_folder_title}]: The booking scheduling for ${booking_type} was modified.\nThe new one is on ${booking_date} at ${booking_time} .\nSee details or delete it: ${booking_print_url} .",
         )
     )
 
@@ -57,8 +57,8 @@ def notify_as_reminder_sms_message_default_factory(context):
     return api.portal.translate(
         _(
             "notify_as_reminder_sms_message_default_value",
-            "[${prenotazioni_folder_title}]: This is an automatic reminder about your booking on ${date} for ${booking_type}."
-            "\nSee details or delete it: ${booking_print_url}.",
+            "[${prenotazioni_folder_title}]: This is an automatic reminder about your booking on ${date} for ${booking_type} ."
+            "\nSee details or delete it: ${booking_print_url} .",
         )
     )
 
