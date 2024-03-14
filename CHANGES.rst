@@ -5,7 +5,7 @@ Changelog
 2.5.3 (unreleased)
 ------------------
 
-- Fix SMS links.
+- Fix SMS links. Removed the dot immediately after the url
   [folix-01]
 
 
