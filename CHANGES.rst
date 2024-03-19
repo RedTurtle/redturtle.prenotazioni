@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.5.3 (unreleased)
+2.5.3 (2024-03-19)
 ------------------
 
 - Fix SMS links. Removed the dot immediately after the url
