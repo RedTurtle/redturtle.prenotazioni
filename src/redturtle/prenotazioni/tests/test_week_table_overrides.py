@@ -32,7 +32,7 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
             title="Prenota foo",
             description="",
             daData=date.today(),
-            gates=["Gate A"],
+            gates=["Gate A", "Gate B"],
             week_table=[
                 {
                     "day": "Lunedì",
@@ -80,18 +80,14 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
     def test_if_day_not_in_overrides_use_default_week_table(self):
         now = date.today()
         res = self.view.get_week_table(date(now.year, 6, 1))
-        self.assertEqual(res, {"Gate A": self.folder_prenotazioni.week_table})
+        self.assertEqual(res["Gate A"], self.folder_prenotazioni.week_table)
 
     def test_if_day_is_in_overrides_use_override_week_table(self):
         now = date.today()
         res = self.view.get_week_table(date(now.year, 1, 10))
         self.assertEqual(
-            res,
-            {
-                "Gate A": json.loads(self.folder_prenotazioni.week_table_overrides)[0][
-                    "week_table"
-                ]
-            },
+            res["Gate A"],
+            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
         )
 
     @freeze_time("2023-05-14")
@@ -119,37 +115,25 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
 
         # if in range, return table overrides
         self.assertEqual(
-            self.view.get_week_table(date(now.year, 12, 25)),
-            {
-                "Gate A": json.loads(self.folder_prenotazioni.week_table_overrides)[0][
-                    "week_table"
-                ]
-            },
+            self.view.get_week_table(date(now.year, 12, 25))["Gate A"],
+            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
         )
 
         # if in range and next year, return table overrides
         self.assertEqual(
-            self.view.get_week_table(date(now.year + 1, 1, 25)),
-            {
-                "Gate A": json.loads(self.folder_prenotazioni.week_table_overrides)[0][
-                    "week_table"
-                ]
-            },
+            self.view.get_week_table(date(now.year + 1, 1, 25))["Gate A"],
+            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
         )
         # if in range and next year +1, return table overrides
         self.assertEqual(
-            self.view.get_week_table(date(now.year + 1, 12, 25)),
-            {
-                "Gate A": json.loads(self.folder_prenotazioni.week_table_overrides)[0][
-                    "week_table"
-                ]
-            },
+            self.view.get_week_table(date(now.year + 1, 12, 25))["Gate A"],
+            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
         )
 
         # if out of range, return base table
         self.assertEqual(
-            self.view.get_week_table(date(now.year, 10, 10)),
-            {"Gate A": self.folder_prenotazioni.week_table},
+            self.view.get_week_table(date(now.year, 10, 10))["Gate A"],
+            self.folder_prenotazioni.week_table,
         )
 
     @freeze_time("2023-05-14")
@@ -179,12 +163,8 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
 
         # if in range, return table overrides
         self.assertEqual(
-            self.view.get_week_table(date(now.year, 12, 25)),
-            {
-                "Gate A": json.loads(self.folder_prenotazioni.week_table_overrides)[0][
-                    "week_table"
-                ]
-            },
+            self.view.get_week_table(date(now.year, 12, 25))["Gate A"],
+            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
         )
 
     @freeze_time("2023-05-14")
@@ -213,8 +193,8 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
 
         # if out of range, return base table
         self.assertEqual(
-            self.view.get_week_table(date(2026, 10, 10)),
-            {"Gate A": self.folder_prenotazioni.week_table},
+            self.view.get_week_table(date(2026, 10, 10))["Gate A"],
+            self.folder_prenotazioni.week_table,
         )
 
     @freeze_time("2023-05-14")
@@ -259,12 +239,8 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
 
         # if in range, return table overrides
         self.assertEqual(
-            self.view.get_week_table(date(now.year, 12, 25)),
-            {
-                "Gate A": json.loads(self.folder_prenotazioni.week_table_overrides)[0][
-                    "week_table"
-                ]
-            },
+            self.view.get_week_table(date(now.year, 12, 25))["Gate A"],
+            json.loads(self.folder_prenotazioni.week_table_overrides)[0]["week_table"],
         )
 
     @freeze_time("2023-05-14")
@@ -327,12 +303,57 @@ class TestWeekTableOverridesContextState(unittest.TestCase):
 
         # if in range, return table overrides
         self.assertEqual(
-            self.view.get_week_table(date(now.year, 12, 25)),
-            {
-                "Gate A": json.loads(self.folder_prenotazioni.week_table_overrides)[1][
-                    "week_table"
-                ]
-            },
+            self.view.get_week_table(date(now.year, 12, 25))["Gate A"],
+            json.loads(self.folder_prenotazioni.week_table_overrides)[1]["week_table"],
+        )
+
+    @freeze_time("2023-05-14")
+    def test_only_the_last_gate_is_returtned(self):
+        self.folder_prenotazioni.week_table_overrides = json.dumps(
+            [
+                {
+                    "from_year": "2021",
+                    "from_day": "1",
+                    "from_month": "12",
+                    "to_year": "2024",
+                    "to_day": "1",
+                    "to_month": "3",
+                    "gates": ["Gate B"],
+                    "week_table": [
+                        {
+                            "day": "Lunedì",
+                            "morning_start": "1200",
+                            "morning_end": "1300",
+                            "afternoon_start": None,
+                            "afternoon_end": None,
+                        },
+                    ],
+                },
+                {
+                    "from_year": "2021",
+                    "from_day": "1",
+                    "from_month": "12",
+                    "to_year": "2024",
+                    "to_day": "1",
+                    "to_month": "3",
+                    "gates": ["Gate B"],
+                    "week_table": [
+                        {
+                            "day": "Lunedì",
+                            "morning_start": "1300",
+                            "morning_end": "1400",
+                            "afternoon_start": None,
+                            "afternoon_end": None,
+                        },
+                    ],
+                },
+            ],
+        )
+        now = date.today()
+
+        self.assertEqual(
+            self.view.get_week_table(date(now.year, 12, 25))["Gate B"],
+            json.loads(self.folder_prenotazioni.week_table_overrides)[1]["week_table"],
         )
 
 

@@ -242,6 +242,16 @@ class PrenotazioniContextState(BrowserView):
         # More specific overrides first
         overrides = unlimited_overrides + overrides
 
+        # remove double gates, we are interested only about the last one
+        gates = []
+
+        for i, j in reversed(list(enumerate(overrides))):
+            for gate in j.get("gates", []):
+                if gate in gates:
+                    overrides[i]["gates"].remove(gate)
+                else:
+                    gates.append(gate)
+
         return overrides
 
     def get_week_table(self, day):
