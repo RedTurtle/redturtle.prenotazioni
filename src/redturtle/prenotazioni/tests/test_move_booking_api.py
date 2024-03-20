@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import time
 import unittest
 from datetime import date
 from datetime import datetime
@@ -225,7 +224,6 @@ class TestMoveBookingApi(unittest.TestCase):
         self.assertEqual(old_modified, response["modification_date"])
 
         # now move the booking
-        time.sleep(1)
         tomorrow = self.today + timedelta(1)
         response = self.api_session_admin.post(
             f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
