@@ -5,7 +5,8 @@ Changelog
 2.5.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix double gate when it is repeated in more than one week table overrides.
+  [folix-01]
 
 
 2.5.3 (2024-03-19)
