@@ -20,8 +20,8 @@ class AvailableSlots(Service):
 
         If not, the search will start from current date until the end of current month.
 
-        If u pass the `unlimited_end` flag u will search by all the available time of the Bookging Folder or in the next 10 years
-        note that this option is available only to Booking Managers
+        If u pass the `first_available` flag u will search by all the available time of the Bookging Folder or in the next 10 years
+        and obtain the first one if exitsts, note that this option is available only to Booking Managers
         """
 
         # XXX: nocache also for anonymous
@@ -37,6 +37,7 @@ class AvailableSlots(Service):
         end = self.request.form.get("end", "")
         past_slots = self.request.form.get("past_slots", False)
         today = datetime.date.today()
+        first_available = self.request.form.get("first_available")
 
         if start:
             start = datetime.date.fromisoformat(start)
@@ -45,7 +46,7 @@ class AvailableSlots(Service):
 
         if end:
             end = datetime.date.fromisoformat(end)
-        elif self.request.form.get("unlimited_end") and api.user.has_permission(
+        elif first_available and api.user.has_permission(
             "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
         ):
             end = (
@@ -90,7 +91,12 @@ class AvailableSlots(Service):
                     continue
                 if not past_slots and not info.get("future"):
                     continue
+
                 response["items"].append(json_compatible(info.get("booking_date", "")))
+
+                if first_available:
+                    return response
+
         return response
 
 

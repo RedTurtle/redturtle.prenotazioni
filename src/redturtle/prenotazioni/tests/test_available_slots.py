@@ -274,14 +274,12 @@ class TestAvailableSlots(unittest.TestCase):
         self.assertEqual(expected, response.json()["items"])
 
     @freeze_time(DATE_STR)
-    def test_if_unlimited_end_return_all_the_available_slots(
+    def test_if_first_available_return_the_first_available(
         self,
     ):
-        setRoles(self.portal, TEST_USER_ID, ["Bookings Manager"])
-
         api_manager_session = RelativeSession(self.portal_url)
         api_manager_session.headers.update({"Accept": "application/json"})
-        api_manager_session.auth = (TEST_USER_ID, TEST_USER_PASSWORD)
+        api_manager_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
 
         now = date.today()
         current_year = now.year
@@ -293,13 +291,13 @@ class TestAvailableSlots(unittest.TestCase):
 
         # all mondays in next month
         response = api_manager_session.get(
-            "{}/@available-slots?unlimited_end=true&start={}".format(
+            "{}/@available-slots?first_available=true&start={}".format(
                 self.folder_prenotazioni.absolute_url(),
-                json_compatible(date(current_year, current_month, 1)),
+                json_compatible(date(current_year, next_month, 1)),
             )
         )
 
-        # get next mondays in next
+        # get first available slot
         expected = []
         for week in calendar.monthcalendar(current_year, next_month):
             monday = week[0]
@@ -309,22 +307,17 @@ class TestAvailableSlots(unittest.TestCase):
                         datetime(current_year, next_month, monday, 7, 0)
                     )
                 )
-                expected.append(
-                    self.dt_local_to_json(
-                        datetime(current_year, next_month, monday, 8, 0)
-                    )
-                )
-                expected.append(
-                    self.dt_local_to_json(
-                        datetime(current_year, next_month, monday, 9, 0)
-                    )
-                )
+
+                break
+
         self.assertEqual(expected, response.json()["items"])
 
     @freeze_time(DATE_STR)
-    def test_if_unlimited_end_and_no_bookign_manager_permission(
+    def test_if_first_available_and_no_bookign_manager_permission(
         self,
     ):
+        """Nothing to happen is expexted"""
+
         api_manager_session = RelativeSession(self.portal_url)
         api_manager_session.headers.update({"Accept": "application/json"})
         api_manager_session.auth = (TEST_USER_ID, TEST_USER_PASSWORD)
@@ -346,7 +339,7 @@ class TestAvailableSlots(unittest.TestCase):
 
         # all mondays in next month
         response = api_manager_session.get(
-            "{}/@available-slots?unlimited_end=true&start={}".format(
+            "{}/@available-slots?first_available=true&start={}".format(
                 self.folder_prenotazioni.absolute_url(),
                 json_compatible(date(current_year, current_month, 1)),
             )
@@ -360,16 +353,6 @@ class TestAvailableSlots(unittest.TestCase):
                 expected.append(
                     self.dt_local_to_json(
                         datetime(current_year, next_month, monday, 7, 0)
-                    )
-                )
-                expected.append(
-                    self.dt_local_to_json(
-                        datetime(current_year, next_month, monday, 8, 0)
-                    )
-                )
-                expected.append(
-                    self.dt_local_to_json(
-                        datetime(current_year, next_month, monday, 9, 0)
                     )
                 )
 
