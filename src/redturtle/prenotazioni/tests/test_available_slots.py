@@ -13,6 +13,7 @@ from plone import api
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
@@ -39,6 +40,7 @@ class TestAvailableSlots(unittest.TestCase):
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
         self.portal_url = self.portal.absolute_url()
+
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
         self.api_session = RelativeSession(self.portal_url)
@@ -270,6 +272,108 @@ class TestAvailableSlots(unittest.TestCase):
                     )
                 )
         self.assertEqual(expected, response.json()["items"])
+
+    @freeze_time(DATE_STR)
+    def test_if_unlimited_end_return_all_the_available_slots(
+        self,
+    ):
+        setRoles(self.portal, TEST_USER_ID, ["Bookings Manager"])
+
+        api_manager_session = RelativeSession(self.portal_url)
+        api_manager_session.headers.update({"Accept": "application/json"})
+        api_manager_session.auth = (TEST_USER_ID, TEST_USER_PASSWORD)
+
+        now = date.today()
+        current_year = now.year
+        current_month = now.month
+        next_month = current_month + 1
+
+        self.folder_prenotazioni.daData = now
+        transaction.commit()
+
+        # all mondays in next month
+        response = api_manager_session.get(
+            "{}/@available-slots?unlimited_end=true&start={}".format(
+                self.folder_prenotazioni.absolute_url(),
+                json_compatible(date(current_year, current_month, 1)),
+            )
+        )
+
+        # get next mondays in next
+        expected = []
+        for week in calendar.monthcalendar(current_year, next_month):
+            monday = week[0]
+            if monday > 0:
+                expected.append(
+                    self.dt_local_to_json(
+                        datetime(current_year, next_month, monday, 7, 0)
+                    )
+                )
+                expected.append(
+                    self.dt_local_to_json(
+                        datetime(current_year, next_month, monday, 8, 0)
+                    )
+                )
+                expected.append(
+                    self.dt_local_to_json(
+                        datetime(current_year, next_month, monday, 9, 0)
+                    )
+                )
+        self.assertEqual(expected, response.json()["items"])
+
+    @freeze_time(DATE_STR)
+    def test_if_unlimited_end_and_no_bookign_manager_permission(
+        self,
+    ):
+        api_manager_session = RelativeSession(self.portal_url)
+        api_manager_session.headers.update({"Accept": "application/json"})
+        api_manager_session.auth = (TEST_USER_ID, TEST_USER_PASSWORD)
+
+        now = date.today()
+        current_year = now.year
+        current_month = now.month
+        next_month = current_month + 1
+
+        self.folder_prenotazioni.daData = now
+
+        api.content.transition(self.folder_prenotazioni, transition="publish")
+
+        self.folder_prenotazioni.reindexObject(idxs=["review_state"])
+
+        setRoles(self.portal, TEST_USER_ID, ["Anonymous"])
+
+        transaction.commit()
+
+        # all mondays in next month
+        response = api_manager_session.get(
+            "{}/@available-slots?unlimited_end=true&start={}".format(
+                self.folder_prenotazioni.absolute_url(),
+                json_compatible(date(current_year, current_month, 1)),
+            )
+        )
+
+        # get next mondays in next
+        expected = []
+        for week in calendar.monthcalendar(current_year, next_month):
+            monday = week[0]
+            if monday > 0:
+                expected.append(
+                    self.dt_local_to_json(
+                        datetime(current_year, next_month, monday, 7, 0)
+                    )
+                )
+                expected.append(
+                    self.dt_local_to_json(
+                        datetime(current_year, next_month, monday, 8, 0)
+                    )
+                )
+                expected.append(
+                    self.dt_local_to_json(
+                        datetime(current_year, next_month, monday, 9, 0)
+                    )
+                )
+
+        [self.assertNotIn(i, response.json()["items"]) for i in expected]
 
     def test_if_start_and_end_return_all_available_slots_between_these_dates(
         self,

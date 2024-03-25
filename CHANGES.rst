@@ -5,6 +5,9 @@ Changelog
 2.5.4 (unreleased)
 ------------------
 
+- unlimited_end flag for the @avaliable_slots endpoint
+  [flix-01]
+
 - Fix double gate when it is repeated in more than one week table overrides.
   [folix-01]
 
