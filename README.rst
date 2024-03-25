@@ -447,7 +447,7 @@ Parameters:
 
 - **start** a start date. If not given, the start will be today.
 - **end** an end date. If not given, the end will be the last day of current month.
-- **unlimited_end** a boolean flag that removes the end limit. Available to the "Bookings Manager" role.
+- **first_available** a boolean flag the first available slot without the current month limit.
 
 Example::
 

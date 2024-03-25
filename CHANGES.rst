@@ -5,7 +5,7 @@ Changelog
 2.5.4 (unreleased)
 ------------------
 
-- unlimited_end flag for the @avaliable_slots endpoint
+- first_available flag for the @avaliable_slots endpoint.
   [flix-01]
 
 - Fix double gate when it is repeated in more than one week table overrides.
@@ -33,7 +33,7 @@ Changelog
 
 - Add the years range configuration to week table overrides.
   [folix-01]
- 
+
 - Bypass the today delete limit for the 'out-of-office' types
   [folix-01]
 
