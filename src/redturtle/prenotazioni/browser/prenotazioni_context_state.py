@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import itertools
 import json
+from copy import deepcopy
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
@@ -246,7 +247,7 @@ class PrenotazioniContextState(BrowserView):
         gates = []
 
         for i, j in reversed(list(enumerate(overrides))):
-            for gate in j.get("gates", []):
+            for gate in deepcopy(j.get("gates", [])):
                 if gate in gates:
                     overrides[i]["gates"].remove(gate)
                 else:
