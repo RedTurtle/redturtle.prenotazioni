@@ -36,7 +36,6 @@ class AvailableSlots(Service):
         start = self.request.form.get("start", "")
         end = self.request.form.get("end", "")
         past_slots = self.request.form.get("past_slots", False)
-        today = datetime.date.today()
         first_available = self.request.form.get("first_available")
 
         if start:
@@ -52,7 +51,7 @@ class AvailableSlots(Service):
             end = (
                 self.context.aData
                 and self.context.aData
-                or datetime.date(today.year + 10, today.month, today.day)
+                or datetime.date(start.year + 10, start.month, start.day)
             )
         else:
             end = start.replace(day=calendar.monthrange(start.year, start.month)[1])
