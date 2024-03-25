@@ -5,6 +5,9 @@ Changelog
 2.5.4 (unreleased)
 ------------------
 
+- Return empty data from the @day endpoint if requested date is out of PrenotazioniFolder range
+  [folix-01]
+
 - Fix double gate bug.
   [folix-01]
 

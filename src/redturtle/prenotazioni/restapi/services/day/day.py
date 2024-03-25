@@ -105,14 +105,35 @@ class DaySlots(Service):
                         }
                     }`
         """
+
         if self.day is None:
             self.day = date.today()
-        return {
+
+        response = {
             "@id": f"{self.context.absolute_url()}/@day/{self.day.isoformat()}",
-            "bookings": self.get_bookings(),
-            "pauses": self.get_pauses(),
-            "gates": self.get_gates(),
         }
+
+        # check if date is in the Booking Folder availability dates range
+        if self.context.daData < self.day and (
+            not self.context.aData or self.context.aData >= self.day
+        ):
+            response.update(
+                {
+                    "bookings": self.get_bookings(),
+                    "pauses": self.get_pauses(),
+                    "gates": self.get_gates(),
+                }
+            )
+        else:
+            response.update(
+                {
+                    "bookings": [],
+                    "pauses": [],
+                    "gates": [],
+                }
+            )
+
+        return response
 
     def get_bookings(self):
         bookings = self.prenotazioni_context_state.get_bookings_in_day_folder(self.day)
