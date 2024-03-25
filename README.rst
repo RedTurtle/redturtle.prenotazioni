@@ -447,7 +447,7 @@ Parameters:
 
 - **start** a start date. If not given, the start will be today.
 - **end** an end date. If not given, the end will be the last day of current month.
-- **first_available** a boolean flag, if valiorized, the first available slot returned without the current month search limit.
+- **first_available** a boolean flag, if valiorized, the first available slot returned without the current month search limit but the one year.
 
 Example::
 

@@ -20,7 +20,7 @@ class AvailableSlots(Service):
 
         If not, the search will start from current date until the end of current month.
 
-        If you pass the `first_available` flag the site will search in all the available time range of the Bookging Folder or in the next 10 years
+        If you pass the `first_available` flag the site will search in all the available time range of the Bookging Folder or in the next year
         and obtain the first one if exits, note that this option is only allowed for Booking Managers
         """
 
@@ -51,7 +51,7 @@ class AvailableSlots(Service):
             end = (
                 self.context.aData
                 and self.context.aData
-                or datetime.date(start.year + 10, start.month, start.day)
+                or datetime.date(start.year + 1, start.month, start.day)
             )
         else:
             end = start.replace(day=calendar.monthrange(start.year, start.month)[1])
