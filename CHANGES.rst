@@ -5,7 +5,7 @@ Changelog
 2.5.4 (unreleased)
 ------------------
 
-- first_available flag for the @avaliable_slots endpoint.
+- first_available flag for the @available-slots endpoint.
   [flix-01]
 
 - Fix double gate when it is repeated in more than one week table overrides.
