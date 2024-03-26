@@ -173,3 +173,20 @@ class TestDaySlots(unittest.TestCase):
             },
             results["gates"][0]["daily_schedule"],
         )
+
+    def test_requested_day_is_out_of_range(self):
+        self.folder_prenotazioni.aData = self.today.date()
+
+        commit()
+
+        response = self.api_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        results = response.json()
+
+        self.assertEquals(results["gates"], [])
+        self.assertEquals(results["pauses"], [])
+        self.assertEquals(results["bookings"], [])
