@@ -285,6 +285,10 @@ class PrenotazioniContextState(BrowserView):
     @memoize
     def is_valid_day(self, day):
         """Returns True if the day is valid"""
+        if api.user.has_permission(
+            "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
+        ):
+            return True
         if day < self.first_bookable_day:
             return False
         if self.is_vacation_day(day):
