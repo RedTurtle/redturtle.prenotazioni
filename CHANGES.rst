@@ -5,7 +5,7 @@ Changelog
 2.5.4 (unreleased)
 ------------------
 
-- Bypass the date valitation in PrenotazioniContextState.is_valid_day if Bookings Manager
+- Bypass the date validation in PrenotazioniContextState.is_valid_day if Bookings Manager
   [folix-01]
 
 - Return empty data from the @day endpoint if requested date is out of PrenotazioniFolder range
