@@ -478,7 +478,7 @@ msgstr "Tipologia di prenotazione sconosciuta '${booking_type}'."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:149
 msgid "Usage of `future days` field requires the `fiscalcode` to be between the required fields."
-msgstr "L'uso del campo `Massimi giorni nel futuro` richider il `Codice fiscale` come il campo obbligatorio della prenotazioni"
+msgstr "L'uso del campo `Massimi giorni nel futuro` richide il `Codice fiscale` come il campo obbligatorio della prenotazione."
 
 #: redturtle/prenotazioni/profiles/default/types/Prenotazione.xml
 #: redturtle/prenotazioni/profiles/default/types/PrenotazioneType.xml
