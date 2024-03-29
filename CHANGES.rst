@@ -5,6 +5,9 @@ Changelog
 2.5.4 (unreleased)
 ------------------
 
+- Manage the user's phone attribute in booking-schema
+  [mamico]
+
 - Return empty data from the @day endpoint if requested date is out of PrenotazioniFolder range
   [folix-01]
 
