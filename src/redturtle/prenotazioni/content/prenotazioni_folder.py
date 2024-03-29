@@ -140,6 +140,18 @@ def holidays_constraint(value: list):
     return True
 
 
+def validate_future_days(data):
+    """
+    if `futureDays` popolated, the `required_booking_fields` must be popolated too
+    """
+    if data.futureDays and "fiscalcode" not in data.required_booking_fields:
+        raise Invalid(
+            _(
+                "Usage of `future days` field requires the `fiscalcode` to be between the required fields."
+            )
+        )
+
+
 class IPrenotazioniFolder(model.Schema):
     """Marker interface and Dexterity Python Schema for PrenotazioniFolder"""
 
@@ -532,6 +544,10 @@ class IPrenotazioniFolder(model.Schema):
     @invariant
     def puse_table_invariant(data):
         validate_pause_table(data=data)
+
+    @invariant
+    def futureDays_invariant(data):
+        validate_future_days(data)
 
 
 @implementer(IPrenotazioniFolder)
