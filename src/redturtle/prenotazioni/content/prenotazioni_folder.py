@@ -140,16 +140,16 @@ def holidays_constraint(value: list):
     return True
 
 
-def validate_future_days(data):
+def validate_max_bookings_allowed(data):
     """
-    if `futureDays` popolated, the `required_booking_fields` must be popolated too
+    if `max_bookings_allowed` popolated, the `required_booking_fields` must be popolated too
     """
-    if getattr(data, "futureDays", 0) and "fiscalcode" not in getattr(
+    if getattr(data, "max_bookings_allowed", 0) and "fiscalcode" not in getattr(
         data, "required_booking_fields", []
     ):
         raise Invalid(
             _(
-                "Usage of `future days` field requires the `fiscalcode` to be between the required fields."
+                "Usage of `max_bookings_allowed` field requires the `fiscalcode` to be between the required fields."
             )
         )
 
@@ -549,7 +549,7 @@ class IPrenotazioniFolder(model.Schema):
 
     @invariant
     def futureDays_invariant(data):
-        validate_future_days(data)
+        validate_max_bookings_allowed(data)
 
 
 @implementer(IPrenotazioniFolder)
