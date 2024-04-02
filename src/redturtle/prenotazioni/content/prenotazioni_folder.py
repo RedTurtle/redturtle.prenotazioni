@@ -144,8 +144,8 @@ def validate_max_bookings_allowed(data):
     """
     if `max_bookings_allowed` popolated, the `required_booking_fields` must be popolated too
     """
-    if getattr(data, "max_bookings_allowed", 0) and "fiscalcode" not in getattr(
-        data, "required_booking_fields", []
+    if getattr(data, "max_bookings_allowed", 0) and "fiscalcode" not in (
+        getattr(data, "required_booking_fields", None) or []
     ):
         raise Invalid(
             _(
