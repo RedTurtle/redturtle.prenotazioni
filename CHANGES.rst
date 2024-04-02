@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.5.4 (unreleased)
+2.6.0 (2024-04-02)
 ------------------
 
 - Return empty data from the @day endpoint if requested date is out of PrenotazioniFolder range
