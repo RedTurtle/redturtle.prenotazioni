@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.6.1 (unreleased)
+2.6.1 (2024-04-02)
 ------------------
 
 - PrenotazioniFolder.max_bookings_allowed constraint (if compiled, the fiscalcode must be required).
