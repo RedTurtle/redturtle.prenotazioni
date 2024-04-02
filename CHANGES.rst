@@ -11,6 +11,9 @@ Changelog
 2.6.0 (2024-04-02)
 ------------------
 
+- PrenotazioniFolder.max_bookings_allowed constraint (if compiled, the fiscalcode must be required).
+  [folix-01]
+
 - Return empty data from the @day endpoint if requested date is out of PrenotazioniFolder range
   [folix-01]
 

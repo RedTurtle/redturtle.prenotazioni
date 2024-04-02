@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-03-06 09:32+0000\n"
+"POT-Creation-Date: 2024-03-29 10:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:419
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:433
 #: redturtle/prenotazioni/content/validators.py:222
 msgid "Afternoon start should not be greater than end."
 msgstr ""
@@ -114,19 +114,19 @@ msgstr ""
 msgid "Content listing"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:193
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:207
 msgid "Data fine validità"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:190
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:204
 msgid "Data inizio validità"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:484
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:498
 msgid "Date validità"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:353
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:367
 msgid "Days booking is not allowed before"
 msgstr ""
 
@@ -134,7 +134,7 @@ msgid "Delete"
 msgstr ""
 
 #. Default: "Descrizione Agenda"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:149
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:163
 msgid "Descrizione Agenda"
 msgstr ""
 
@@ -182,11 +182,11 @@ msgstr ""
 msgid "Informations about a single booking"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:150
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:164
 msgid "Inserire il testo di presentazione dell'agenda corrente"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:391
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:405
 msgid "Insert a list of email addresses that will be notified when new bookings get created."
 msgstr ""
 
@@ -214,11 +214,11 @@ msgstr ""
 msgid "Insert here the contact phone"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:303
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:317
 msgid "Insert pause table schema."
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:226
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:240
 msgid "Insert week table schema."
 msgstr ""
 
@@ -230,7 +230,7 @@ msgstr ""
 msgid "Installs the redturtle.prenotazioni.demo add-on (demo site purpose only)."
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:341
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:355
 msgid "Max days in the future"
 msgstr ""
 
@@ -238,7 +238,7 @@ msgstr ""
 msgid "Monday"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:416
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:430
 #: redturtle/prenotazioni/content/validators.py:217
 msgid "Morning start should not be greater than end."
 msgstr ""
@@ -257,7 +257,7 @@ msgstr ""
 msgid "Nessuno slot creato, verificare la corretteza dei dati inseriti"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:205
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:219
 msgid "No"
 msgstr ""
 
@@ -289,7 +289,7 @@ msgstr ""
 msgid "Pause should be included in morning slot or afternoon slot"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:302
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:316
 msgid "Pause table"
 msgstr ""
 
@@ -325,7 +325,7 @@ msgstr ""
 msgid "Required input is missing."
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:390
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:404
 msgid "Responsible email"
 msgstr ""
 
@@ -474,6 +474,10 @@ msgstr ""
 msgid "Unknown booking type '${booking_type}'."
 msgstr ""
 
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:151
+msgid "Usage of `max_bookings_allowed` field requires the `fiscalcode` to be between the required fields."
+msgstr ""
+
 #: redturtle/prenotazioni/profiles/default/types/Prenotazione.xml
 #: redturtle/prenotazioni/profiles/default/types/PrenotazioneType.xml
 #: redturtle/prenotazioni/profiles/default/types/PrenotazioniDay.xml
@@ -484,11 +488,11 @@ msgstr ""
 msgid "Wednesday"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:225
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:239
 msgid "Week table"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:204
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:218
 msgid "Yes"
 msgstr ""
 
@@ -500,22 +504,22 @@ msgstr ""
 msgid "You must set both start and end"
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:413
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:427
 #: redturtle/prenotazioni/content/validators.py:212
 msgid "You should set a start time for afternoon."
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:409
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:423
 #: redturtle/prenotazioni/content/validators.py:204
 msgid "You should set a start time for morning."
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:411
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:425
 #: redturtle/prenotazioni/content/validators.py:208
 msgid "You should set an end time for afternoon."
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:407
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:421
 #: redturtle/prenotazioni/content/validators.py:200
 msgid "You should set an end time for morning."
 msgstr ""
@@ -525,7 +529,7 @@ msgid "[DEPRECATED] The booking print url with delete token."
 msgstr ""
 
 #. Default: "Leave empty, and this Booking Folder will never expire"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:194
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:208
 msgid "aData_help"
 msgstr ""
 
@@ -568,27 +572,27 @@ msgid "all"
 msgstr ""
 
 #. Default: "Automatically confirm."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:371
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:385
 msgid "auto_confirm"
 msgstr ""
 
 #. Default: "All bookings will be automatically accepted."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:372
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:386
 msgid "auto_confirm_help"
 msgstr ""
 
 #. Default: "Automatically confirmfor managers."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:380
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:394
 msgid "auto_confirm_manager"
 msgstr ""
 
 #. Default: "All bookings created by Managers will be automatically accepted."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:381
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:395
 msgid "auto_confirm_manager_help"
 msgstr ""
 
 #. Default: "End date should be greater than start."
-#: redturtle/prenotazioni/restapi/services/available_slots/get.py:48
+#: redturtle/prenotazioni/restapi/services/available_slots/get.py:61
 msgid "available_slots_wrong_dates"
 msgstr ""
 
@@ -628,7 +632,7 @@ msgid "booking_deleted_success"
 msgstr ""
 
 #. Default: "Booking fields"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:513
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:527
 msgid "booking_fields_label"
 msgstr ""
 
@@ -722,7 +726,7 @@ msgid "bookings_sms_templates_label"
 msgstr ""
 
 #. Default: "Busy"
-#: redturtle/prenotazioni/browser/prenotazioni_context_state.py:44
+#: redturtle/prenotazioni/browser/prenotazioni_context_state.py:45
 msgid "busy"
 msgstr ""
 
@@ -835,17 +839,17 @@ msgid "fullname"
 msgstr ""
 
 #. Default: "Limit booking in the future to an amount of days in the future starting from the current day. \nKeep 0 to give no limits."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:342
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:356
 msgid "futureDays"
 msgstr ""
 
 #. Default: "Put gates here (one per line)."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:364
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:378
 msgid "gates_help"
 msgstr ""
 
 #. Default: "Gates"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:363
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:377
 msgid "gates_label"
 msgstr ""
 
@@ -854,12 +858,12 @@ msgid "help_prenotazione_add"
 msgstr ""
 
 #. Default: "User will not be able to add a booking unless those fields are filled. Remember that, whatever you selected in this list, users have to supply at least one of \"Email\", \"Mobile\", or \"Telephone\""
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:176
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:190
 msgid "help_required_booking_fields"
 msgstr ""
 
 #. Default: "States if it is not allowed to reserve a booking during the current day"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:215
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:229
 msgid "help_same_day_booking_disallowed"
 msgstr ""
 
@@ -869,17 +873,17 @@ msgid "help_tipologies"
 msgstr ""
 
 #. Default: "User will not be able to add a booking unless those fields are filled. Remember that, whatever you selected in this list, users have to supply at least one of \"Email\" or \"Telephone\""
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:158
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:172
 msgid "help_visible_booking_fields"
 msgstr ""
 
 #. Default: "Set holidays (one for line) in DD/MM/YYYY. you can write * for the year, if this event is yearly."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:316
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:330
 msgid "holidays_help"
 msgstr ""
 
 #. Default: "Holidays"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:315
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:329
 msgid "holidays_label"
 msgstr ""
 
@@ -1033,12 +1037,12 @@ msgid "label_new_booking_notify_link"
 msgstr ""
 
 #. Default: "Required booking fields"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:175
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:189
 msgid "label_required_booking_fields"
 msgstr ""
 
 #. Default: "Disallow same day booking"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:211
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:225
 msgid "label_same_day_booking_disallowed"
 msgstr ""
 
@@ -1080,7 +1084,7 @@ msgid "label_user"
 msgstr ""
 
 #. Default: "Visible booking fields"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:157
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:171
 msgid "label_visible_booking_fields"
 msgstr ""
 
@@ -1100,12 +1104,12 @@ msgid "legend_note"
 msgstr ""
 
 #. Default: "The number of simultaneous bookings allowed for the same user."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:462
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:476
 msgid "max_bookings_allowed_description"
 msgstr ""
 
 #. Default: "Maximum bookings number allowed"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:458
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:472
 msgid "max_bookings_allowed_label"
 msgstr ""
 
@@ -1155,7 +1159,7 @@ msgid "next-week"
 msgstr ""
 
 #. Default: "Booking is not allowed before the amount of days specified. \nKeep 0 to give no limits."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:354
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:368
 msgid "notBeforeDays"
 msgstr ""
 
@@ -1180,7 +1184,7 @@ msgid "notifications_email_enabled_label"
 msgstr ""
 
 #. Default: "Notifications"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:521
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:535
 msgid "notifications_label"
 msgstr ""
 
@@ -1228,7 +1232,7 @@ msgstr ""
 msgid "notify_as_reminder_message_help"
 msgstr ""
 
-#. Default: "[${prenotazioni_folder_title}]: This is an automatic reminder about your booking on ${date} for ${booking_type}.\nSee details or delete it: ${booking_print_url}."
+#. Default: "[${prenotazioni_folder_title}]: This is an automatic reminder about your booking on ${date} for ${booking_type} .\nSee details or delete it: ${booking_print_url} ."
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/__init__.py:58
 msgid "notify_as_reminder_sms_message_default_value"
 msgstr ""
@@ -1250,7 +1254,7 @@ msgid "notify_as_reminder_subject_help"
 msgstr ""
 
 #. Default: "Notify when confirmed."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:431
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:445
 msgid "notify_on_confirm"
 msgstr ""
 
@@ -1265,7 +1269,7 @@ msgid "notify_on_confirm_appio_subject_default_value"
 msgstr ""
 
 #. Default: "Notify via mail the user when his booking has been confirmed."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:432
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:446
 msgid "notify_on_confirm_help"
 msgstr ""
 
@@ -1288,7 +1292,7 @@ msgstr ""
 msgid "notify_on_confirm_message_help"
 msgstr ""
 
-#. Default: "[${prenotazioni_folder_title}]: Booking of ${booking_date} at ${booking_time} has been accepted.\nSee details or delete it: ${booking_print_url}."
+#. Default: "[${prenotazioni_folder_title}]: Booking of ${booking_date} at ${booking_time} has been accepted.\nSee details or delete it: ${booking_print_url} ."
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/__init__.py:28
 msgid "notify_on_confirm_sms_message_default_value"
 msgstr ""
@@ -1311,7 +1315,7 @@ msgid "notify_on_confirm_subject_help"
 msgstr ""
 
 #. Default: "Notify when moved."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:440
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:454
 msgid "notify_on_move"
 msgstr ""
 
@@ -1326,7 +1330,7 @@ msgid "notify_on_move_appio_subject_default_value"
 msgstr ""
 
 #. Default: "Notify via mail the user when his booking has been moved."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:441
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:455
 msgid "notify_on_move_help"
 msgstr ""
 
@@ -1349,7 +1353,7 @@ msgstr ""
 msgid "notify_on_move_message_help"
 msgstr ""
 
-#. Default: "[${prenotazioni_folder_title}]: The booking scheduling for ${booking_type} was modified.\nThe new one is on ${booking_date} at ${booking_time}.\nSee details or delete it: ${booking_print_url}."
+#. Default: "[${prenotazioni_folder_title}]: The booking scheduling for ${booking_type} was modified.\nThe new one is on ${booking_date} at ${booking_time} .\nSee details or delete it: ${booking_print_url} ."
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/__init__.py:38
 msgid "notify_on_move_sms_message_default_value"
 msgstr ""
@@ -1372,7 +1376,7 @@ msgid "notify_on_move_subject_help"
 msgstr ""
 
 #. Default: "Notify when rejected."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:449
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:463
 msgid "notify_on_refuse"
 msgstr ""
 
@@ -1387,7 +1391,7 @@ msgid "notify_on_refuse_appio_subject_default_value"
 msgstr ""
 
 #. Default: "Notify via mail the user when his booking has been rejected."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:450
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:464
 msgid "notify_on_refuse_help"
 msgstr ""
 
@@ -1433,7 +1437,7 @@ msgid "notify_on_refuse_subject_help"
 msgstr ""
 
 #. Default: "Notify when created."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:422
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:436
 msgid "notify_on_submit"
 msgstr ""
 
@@ -1448,7 +1452,7 @@ msgid "notify_on_submit_appio_subject_default_value"
 msgstr ""
 
 #. Default: "Notify via mail the user when his booking has been created. If auto-confirm flag is selected and confirm notify is selected, this one will be ignored."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:423
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:437
 msgid "notify_on_submit_help"
 msgstr ""
 
@@ -1471,7 +1475,7 @@ msgstr ""
 msgid "notify_on_submit_message_help"
 msgstr ""
 
-#. Default: "[${prenotazioni_folder_title}]: Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.\nSee details or delete it: ${booking_print_url}."
+#. Default: "[${prenotazioni_folder_title}]: Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.\nSee details or delete it: ${booking_print_url} ."
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/__init__.py:18
 msgid "notify_on_submit_sms_message_default_value"
 msgstr ""
@@ -1563,12 +1567,12 @@ msgid "reject_booking"
 msgstr ""
 
 #. Default: "Set how many days before of a booking date the user will be notified about it."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:474
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:488
 msgid "reminder_notification_gap_description"
 msgstr ""
 
 #. Default: "Booking reminder days"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:470
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:484
 msgid "reminder_notification_gap_label"
 msgstr ""
 
@@ -1677,12 +1681,12 @@ msgid "view_booking"
 msgstr ""
 
 #. Default: "Insert here week schema for some custom date intervals."
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:293
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:307
 msgid "week_table_overrides_help"
 msgstr ""
 
 #. Default: "Week table overrides"
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:292
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:306
 msgid "week_table_overrides_label"
 msgstr ""
 
