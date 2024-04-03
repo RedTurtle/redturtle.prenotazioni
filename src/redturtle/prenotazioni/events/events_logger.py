@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+from json import dumps
 from time import time
 
 from plone import api
+
+from redturtle.prenotazioni import logger
 
 
 def log_data_for_booking(obj, data):
@@ -41,41 +44,41 @@ def on_move(obj, event):
     log_data_for_booking(obj, data)
 
 
-# NOTE: Was not used for a while, check if needed again
-# def on_modify(obj, event):
-# """
-# This handler logs a cvs string for
-# every IPrenotazione document modified
-# """
-# old_version = getattr(obj.aq_base, "version_id", 0) - 1
-# if old_version < 0:
-#     return
+def on_modify(obj, event):
+    """
+    This handler logs a cvs string for
+    every IPrenotazione document modified
+    """
+    old_version = getattr(obj.aq_base, "version_id", 0) - 1
+    if old_version < 0:
+        return
 
-# # Below a list of fields to be logged to
-# fnames = [
-#     "company",
-#     "description",
-#     "email",
-#     "gate",
-#     "phone",
-#     "staff_notes",
-#     "booking_type",
-#     "title",
-# ]
-# pr = api.portal.get_tool(name="portal_repository")
-# try:
-#     old = pr.retrieve(obj, old_version).object
-# except Exception:
-#     # ArchivistRetrieveError see https://github.com/RedTurtle/redturtle.prenotazioni/pull/178
-#     logger.exception("error on_modify %s", obj.absolute_url())
-#     return
+    # Below a list of fields to be logged to
+    fnames = [
+        "company",
+        "description",
+        "email",
+        "gate",
+        "phone",
+        "staff_notes",
+        "booking_type",
+        "title",
+    ]
+    pr = api.portal.get_tool(name="portal_repository")
 
-# changes = []
-# for fname in fnames:
-#     c_value = obj.getField(fname, obj).get(obj)
-#     o_value = old.getField(fname, old).get(old)
-#     if c_value != o_value:
-#         changes.append({"new_" + fname: c_value, "old_" + fname: o_value})
+    try:
+        old = pr.retrieve(obj, old_version).object
+    except Exception:
+        # ArchivistRetrieveError see https://github.com/RedTurtle/redturtle.prenotazioni/pull/178
+        logger.exception("error on_modify %s", obj.absolute_url())
+        return
 
-# data = ["changed", dumps(changes)]
-# log_data_for_booking(obj, data)
+    changes = []
+    for fname in fnames:
+        c_value = getattr(obj, fname)
+        o_value = getattr(old, fname)
+        if c_value != o_value:
+            changes.append({"new_" + fname: c_value, "old_" + fname: o_value})
+
+    data = ["changed", dumps(changes)]
+    log_data_for_booking(obj, data)
