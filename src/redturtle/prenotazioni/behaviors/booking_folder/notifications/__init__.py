@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+from functools import wraps
+
+from Products.CMFCore.utils import getToolByName
+
+from redturtle.prenotazioni import _
+
 from .appio.adapters import app_io_allowed_for
 
 
@@ -7,6 +13,28 @@ def get_booking_folder_notification_flags(booking_folder):
         i: getattr(booking_folder, f"notify_on_{i}", False)
         for i in ("confirm", "submit", "refuse")
     }
+
+
+def notify_the_message_failure(func, gateway_type=""):
+    """Decorator to write the errors during the message senditg to the booking history"""
+
+    @wraps(func)
+    def inner(context, event, *args, **kwargs):
+        try:
+            func(context, event, *args, *kwargs)
+        except Exception as e:
+            pr = getToolByName(context, "portal_repository")
+
+            pr.save(
+                context,
+                comment=_(
+                    "Could not send {gateway_type} message due to internal errors"
+                ).format(gateway_type=gateway_type),
+            )
+
+            raise e
+
+    return inner
 
 
 # Obsolete. Earlier it was used to manage the different notification types cross logics.
