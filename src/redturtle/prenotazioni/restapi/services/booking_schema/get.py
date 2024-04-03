@@ -96,6 +96,11 @@ class BookingSchema(Service):
                     value = current_user.getProperty("email")
                     # readonly solo se ha un valore
                     is_readonly = bool(value)
+                if field == "phone":
+                    value = current_user.getProperty("phone", "")
+                    # readonly solo se ha un valore (?) non lo lascerei mai readonly permettendo al cittadino
+                    # di modificare il proprio numero di telefono
+                    # is_readonly = bool(value)
                 if field == "fiscalcode":
                     value = current_user.getUserName()
                     is_readonly = True
