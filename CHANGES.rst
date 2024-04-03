@@ -36,6 +36,7 @@ Changelog
   [folix-01]
 
 - Fix day endpoint to show the available scheduling for the same day as start date.
+- Write to history if could not send booking notification
   [folix-01]
 
 - Manage the user's phone attribute in booking-schema
