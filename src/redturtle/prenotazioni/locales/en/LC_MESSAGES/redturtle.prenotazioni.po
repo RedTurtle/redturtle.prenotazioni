@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-03-29 10:56+0000\n"
+"POT-Creation-Date: 2024-04-04 08:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,6 +112,10 @@ msgstr ""
 
 #: redturtle/prenotazioni/browser/templates/prenotazioni_search.pt:46
 msgid "Content listing"
+msgstr ""
+
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/__init__.py:30
+msgid "Could not send {gateway_type} message due to internal errors"
 msgstr ""
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:207
@@ -346,7 +350,7 @@ msgstr ""
 msgid "Sorry, this slot is not available anymore."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:342
+#: redturtle/prenotazioni/adapters/booker.py:343
 msgid "Sorry, this slot is not available or does not fit your booking."
 msgstr ""
 
@@ -446,11 +450,11 @@ msgstr ""
 msgid "The phone number of the user who made the reservation."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:391
+#: redturtle/prenotazioni/adapters/booker.py:392
 msgid "This day is not valid."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:386
+#: redturtle/prenotazioni/adapters/booker.py:387
 msgid "This gate has some booking schedule in this time period."
 msgstr ""
 
