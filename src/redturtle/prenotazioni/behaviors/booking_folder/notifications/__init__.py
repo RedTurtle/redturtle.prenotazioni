@@ -15,6 +15,12 @@ def get_booking_folder_notification_flags(booking_folder):
     }
 
 
+def write_message_to_object_history(object, message):
+    """Write a message to object versioning history"""
+    pr = getToolByName(object, "portal_repository")
+    pr.save(object, message)
+
+
 def notify_the_message_failure(func, gateway_type=""):
     """Decorator to write the errors during the message senditg to the booking history"""
 
@@ -23,11 +29,9 @@ def notify_the_message_failure(func, gateway_type=""):
         try:
             func(context, event, *args, *kwargs)
         except Exception as e:
-            pr = getToolByName(context, "portal_repository")
-
-            pr.save(
-                context,
-                comment=_(
+            write_message_to_object_history(
+                object=context,
+                message=_(
                     "Could not send {gateway_type} message due to internal errors"
                 ).format(gateway_type=gateway_type),
             )

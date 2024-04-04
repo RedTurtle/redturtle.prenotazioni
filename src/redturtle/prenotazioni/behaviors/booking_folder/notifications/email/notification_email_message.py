@@ -40,6 +40,10 @@ class PrenotazioneEmailMessage:
         self.event = event
 
     @property
+    def message_history(self) -> str:
+        raise NotImplementedError("The method was not implemented")
+
+    @property
     def message_subject(self) -> str:
         raise NotImplementedError("The method was not implemented")
 
@@ -120,6 +124,17 @@ class PrenotazioneEventMessageICalMixIn:
 class PrenotazioneMovedICalEmailMessage(
     PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
 ):
+
+    @property
+    def message_history(self) -> str:
+        transition = self.event.transition and translate(
+            self.event.transition.__name__, context=self.prenotazione
+        )
+
+        return _("Email message about the {transition} was sent").format(
+            transition=transition
+        )
+
     @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
