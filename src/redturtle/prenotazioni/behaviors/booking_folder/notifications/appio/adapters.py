@@ -14,8 +14,6 @@ from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.io_tools.api import Api
 from redturtle.prenotazioni.io_tools.storage import logstorage
 
-from .. import write_message_to_object_history
-
 
 # TODO: ramcache ?
 def app_io_allowed_for(fiscalcode, service_code):
@@ -49,6 +47,8 @@ class BookingTransitionAPPIoSender:
         self.request = request
 
     def send(self) -> bool:
+        from .. import write_message_to_object_history
+
         supervisor = getUtility(IBookingNotificatorSupervisorUtility)
 
         if supervisor.is_appio_message_allowed(self.booking):

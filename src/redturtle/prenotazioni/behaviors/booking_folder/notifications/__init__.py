@@ -17,6 +17,9 @@ def get_booking_folder_notification_flags(booking_folder):
 
 def write_message_to_object_history(object, message):
     """Write a message to object versioning history"""
+    import pdb
+
+    pdb.set_trace()
     pr = getToolByName(object, "portal_repository")
     pr.save(object, message)
 

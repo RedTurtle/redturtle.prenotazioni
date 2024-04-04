@@ -39,9 +39,7 @@ class BookingTransitionEmailSender:
             logger.info(
                 f"Sending the notification <{self.booking.UID()}> via Email gateway"
             )
-            import pdb
 
-            pdb.set_trace()
             send_email(message)
 
             write_message_to_object_history(
