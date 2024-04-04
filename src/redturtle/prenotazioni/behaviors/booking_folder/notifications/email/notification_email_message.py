@@ -124,16 +124,9 @@ class PrenotazioneEventMessageICalMixIn:
 class PrenotazioneMovedICalEmailMessage(
     PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
 ):
-
     @property
     def message_history(self) -> str:
-        transition = self.event.transition and translate(
-            self.event.transition.__name__, context=self.prenotazione
-        )
-
-        return _("Email message about the {transition} was sent").format(
-            transition=transition
-        )
+        return _("Email message about the booking reschedule was sent")
 
     @property
     def message_subject(self) -> str:
@@ -157,6 +150,16 @@ class PrenotazioneMovedICalEmailMessage(
 @implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
 class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
+    @property
+    def message_history(self) -> str:
+        transition = self.event.transition and translate(
+            self.event.transition.__name__, context=self.prenotazione
+        )
+
+        return _("Email message about the {transition} transition was sent").format(
+            transition=transition
+        )
+
     @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
@@ -195,6 +198,10 @@ class PrenotazioneAfterTransitionEmailICalMessage(
 @implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, IBookingReminderEvent)
 class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
+    @property
+    def message_history(self) -> str:
+        return _("Email reminder was sent")
+
     @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(

@@ -6,7 +6,9 @@ from plone.stringinterp.interfaces import IStringInterpolator
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.component import adapter
 from zope.interface import implementer
+from zope.i18n import translate
 
+from redturtle.prenotazioni import _
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingAPPIoMessage
 from redturtle.prenotazioni.interfaces import IBookingReminderEvent
@@ -29,6 +31,10 @@ class PrenotazioneAPPIoMessage:
 @implementer(IBookingAPPIoMessage)
 @adapter(IPrenotazione, IMovedPrenotazione)
 class PrenotazioneMovedAPPIoMessage(PrenotazioneAPPIoMessage):
+    @property
+    def message_history(self) -> str:
+        return _("AppiIO message about the booking reschedule was sent")
+
     @property
     def message(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
@@ -54,6 +60,16 @@ class PrenotazioneMovedAPPIoMessage(PrenotazioneAPPIoMessage):
 @adapter(IPrenotazione, IAfterTransitionEvent)
 class PrenotazioneAfterTransitionAPPIoMessage(PrenotazioneAPPIoMessage):
     @property
+    def message_history(self) -> str:
+        transition = self.event.transition and translate(
+            self.event.transition.__name__, context=self.prenotazione
+        )
+
+        return _("AppIO message about the {transition} transition was sent").format(
+            transition=transition
+        )
+
+    @property
     def message(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(
@@ -77,6 +93,10 @@ class PrenotazioneAfterTransitionAPPIoMessage(PrenotazioneAPPIoMessage):
 @implementer(IBookingAPPIoMessage)
 @adapter(IPrenotazione, IBookingReminderEvent)
 class PrenotazioneReminderAppIOMessage(PrenotazioneAPPIoMessage):
+    @property
+    def message_history(self) -> str:
+        return _("AppIO reminder was sent")
+
     @property
     def message(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(

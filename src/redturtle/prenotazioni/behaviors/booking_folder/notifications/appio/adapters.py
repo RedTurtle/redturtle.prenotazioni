@@ -14,6 +14,8 @@ from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.io_tools.api import Api
 from redturtle.prenotazioni.io_tools.storage import logstorage
 
+from .. import write_message_to_object_history
+
 
 # TODO: ramcache ?
 def app_io_allowed_for(fiscalcode, service_code):
@@ -109,4 +111,9 @@ class BookingTransitionAPPIoSender:
                 subject,
                 msgid,
             )
+
+            write_message_to_object_history(
+                self.booking, self.message_adapter.message_history
+            )
+
             return True

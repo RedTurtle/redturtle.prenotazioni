@@ -6,11 +6,13 @@ from plone.stringinterp.interfaces import IStringInterpolator
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.component import adapter
 from zope.interface import implementer
+from zope.i18n import translate
 
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 from redturtle.prenotazioni.interfaces import IBookingSMSMessage
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
+from redturtle.prenotazioni import _
 
 
 class PrenotazioneSMSMessage:
@@ -23,7 +25,11 @@ class PrenotazioneSMSMessage:
 
     @property
     def message(self) -> str:
-        NotImplementedError
+        raise NotImplementedError("The method was not implemented")
+
+    @property
+    def message_history(self) -> str:
+        raise NotImplementedError("The method was not implemented")
 
 
 @implementer(IBookingSMSMessage)
@@ -39,6 +45,10 @@ class PrenotazioneMovedSMSMessage(PrenotazioneSMSMessage):
             ),
         )
 
+    @property
+    def message_history(self) -> str:
+        return _("SMS about the booking reschedule was sent")
+
 
 @implementer(IBookingSMSMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
@@ -51,6 +61,15 @@ class PrenotazioneAfterTransitionSMSMessage(PrenotazioneSMSMessage):
                 f"notify_on_{self.event.transition and self.event.transition.__name__}_sms_message",
                 None,
             ),
+        )
+
+    @property
+    def message_history(self) -> str:
+        transition = self.event.transition and translate(
+            self.event.transition.__name__, context=self.prenotazione
+        )
+        return _("SMS about the {transizion} transition was sent").format(
+            transition=transition
         )
 
 
@@ -66,3 +85,7 @@ class PrenotazioneReminderSMSMessage(PrenotazioneSMSMessage):
                 "",
             )
         )
+
+    @property
+    def message_history(self) -> str:
+        return _("SMS reminder was sent")
