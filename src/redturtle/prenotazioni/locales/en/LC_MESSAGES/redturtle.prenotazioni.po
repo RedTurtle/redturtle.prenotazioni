@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-04-04 12:59+0000\n"
+"POT-Creation-Date: 2024-04-04 13:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,7 +126,7 @@ msgstr ""
 msgid "Content listing"
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/__init__.py:34
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/__init__.py:37
 msgid "Could not send {gateway_type} message due to internal errors"
 msgstr ""
 
@@ -168,11 +168,7 @@ msgstr ""
 msgid "Email message about the booking reschedule was sent"
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:159
-msgid "Email message about the {transition} transition was sent"
-msgstr ""
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:203
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:204
 msgid "Email reminder was sent"
 msgstr ""
 
@@ -652,7 +648,7 @@ msgid "booked_prenotation_message"
 msgstr ""
 
 #. Default: "Booking canceled: "
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:348
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:349
 msgid "booking_canceled_mail_subject_part"
 msgstr ""
 
@@ -674,6 +670,11 @@ msgstr ""
 #. Default: "Booking fields"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:527
 msgid "booking_fields_label"
+msgstr ""
+
+#. Default: "Email message about the {transition} transition was sent"
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:159
+msgid "booking_history_email_log"
 msgstr ""
 
 #: redturtle/prenotazioni/browser/prenotazione_move.py:135

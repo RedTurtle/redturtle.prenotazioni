@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-04-04 12:59+0000\n"
+"POT-Creation-Date: 2024-04-04 13:47+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -128,7 +128,7 @@ msgstr "Contatti cartella prenotazioni"
 msgid "Content listing"
 msgstr "Elenco dei contenuti"
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/__init__.py:34
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/__init__.py:37
 msgid "Could not send {gateway_type} message due to internal errors"
 msgstr "Non è stato possibile inviare la notifica via {gateway_type}"
 
@@ -170,11 +170,7 @@ msgstr "Mittente"
 msgid "Email message about the booking reschedule was sent"
 msgstr "Notifica email, per lo spostamento della prenotazione è stata inviata."
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:159
-msgid "Email message about the {transition} transition was sent"
-msgstr "Notifica email per il cambio di stato {transition} è stata inviata."
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:203
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:204
 msgid "Email reminder was sent"
 msgstr "Notifica email per promemoria è stata inviata."
 
@@ -654,7 +650,7 @@ msgid "booked_prenotation_message"
 msgstr "${day}, ore ${booking_time}, prenotato da ${booked_by}, prenotazione: ${booking_type} durata: ${duration} minuti"
 
 #. Default: "Booking canceled: "
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:348
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:349
 msgid "booking_canceled_mail_subject_part"
 msgstr "Prenotazione cancellata: "
 
@@ -678,6 +674,11 @@ msgstr "La tua prenotazione è stata cancellata."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:527
 msgid "booking_fields_label"
 msgstr "Campi Prenotazioni"
+
+#. Default: "Email message about the {transition} transition was sent"
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:159
+msgid "booking_history_email_log"
+msgstr "Notifica Email per il cambio di stato {transition} è stata inviata"
 
 #: redturtle/prenotazioni/browser/prenotazione_move.py:135
 msgid "booking_moved"
