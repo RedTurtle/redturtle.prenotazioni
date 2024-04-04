@@ -126,7 +126,9 @@ class PrenotazioneMovedICalEmailMessage(
 ):
     @property
     def message_history(self) -> str:
-        return _("Email message about the booking reschedule was sent")
+        return self.prenotazione.translate(
+            _("Email message about the booking reschedule was sent")
+        )
 
     @property
     def message_subject(self) -> str:
@@ -156,9 +158,8 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
             self.event.transition.__name__, context=self.prenotazione
         )
 
-        return translate(
+        return self.prenotazione.translate(
             _("Email message about the {transition} transition was sent"),
-            context=self.prenotazione,
         ).format(transition=transition)
 
     @property
@@ -201,7 +202,7 @@ class PrenotazioneAfterTransitionEmailICalMessage(
 class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
     @property
     def message_history(self) -> str:
-        return _("Email reminder was sent")
+        return self.prenotazione.translate(_("Email reminder was sent"))
 
     @property
     def message_subject(self) -> str:

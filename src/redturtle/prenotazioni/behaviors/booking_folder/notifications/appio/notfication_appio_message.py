@@ -5,8 +5,8 @@ from plone.stringinterp.interfaces import IContextWrapper
 from plone.stringinterp.interfaces import IStringInterpolator
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.component import adapter
-from zope.interface import implementer
 from zope.i18n import translate
+from zope.interface import implementer
 
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
@@ -33,7 +33,9 @@ class PrenotazioneAPPIoMessage:
 class PrenotazioneMovedAPPIoMessage(PrenotazioneAPPIoMessage):
     @property
     def message_history(self) -> str:
-        return _("AppiIO message about the booking reschedule was sent")
+        return self.prenotazione.translate(
+            _("AppiIO message about the booking reschedule was sent")
+        )
 
     @property
     def message(self) -> str:
@@ -65,9 +67,9 @@ class PrenotazioneAfterTransitionAPPIoMessage(PrenotazioneAPPIoMessage):
             self.event.transition.__name__, context=self.prenotazione
         )
 
-        return _("AppIO message about the {transition} transition was sent").format(
-            transition=transition
-        )
+        return self.prenotazione.translate(
+            _("AppIO message about the {transition} transition was sent")
+        ).format(transition=transition)
 
     @property
     def message(self) -> str:
@@ -95,7 +97,7 @@ class PrenotazioneAfterTransitionAPPIoMessage(PrenotazioneAPPIoMessage):
 class PrenotazioneReminderAppIOMessage(PrenotazioneAPPIoMessage):
     @property
     def message_history(self) -> str:
-        return _("AppIO reminder was sent")
+        return self.prenotazione.translate(_("AppIO reminder was sent"))
 
     @property
     def message(self) -> str:
