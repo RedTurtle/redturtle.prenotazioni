@@ -156,9 +156,9 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
             self.event.transition.__name__, context=self.prenotazione
         )
 
-        return _(
-            "booking_history_email_log",
-            default="Email message about the {transition} transition was sent",
+        return translate(
+            _("Email message about the {transition} transition was sent"),
+            context=self.prenotazione,
         ).format(transition=transition)
 
     @property
