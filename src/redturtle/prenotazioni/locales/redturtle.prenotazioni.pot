@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-04-04 13:47+0000\n"
+"POT-Creation-Date: 2024-04-04 13:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -169,6 +169,10 @@ msgstr ""
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:129
 msgid "Email message about the booking reschedule was sent"
+msgstr ""
+
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:160
+msgid "Email message about the {transition} transition was sent"
 msgstr ""
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:204
@@ -673,11 +677,6 @@ msgstr ""
 #. Default: "Booking fields"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:527
 msgid "booking_fields_label"
-msgstr ""
-
-#. Default: "Email message about the {transition} transition was sent"
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:159
-msgid "booking_history_email_log"
 msgstr ""
 
 #: redturtle/prenotazioni/browser/prenotazione_move.py:135

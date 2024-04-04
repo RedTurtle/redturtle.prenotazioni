@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-04-04 13:47+0000\n"
+"POT-Creation-Date: 2024-04-04 13:54+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -169,6 +169,10 @@ msgstr "Mittente"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:129
 msgid "Email message about the booking reschedule was sent"
 msgstr "Notifica email, per lo spostamento della prenotazione è stata inviata."
+
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:160
+msgid "Email message about the {transition} transition was sent"
+msgstr "Notifica Email per il cambio di stato {transition} è stata inviata"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:204
 msgid "Email reminder was sent"
@@ -674,11 +678,6 @@ msgstr "La tua prenotazione è stata cancellata."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:527
 msgid "booking_fields_label"
 msgstr "Campi Prenotazioni"
-
-#. Default: "Email message about the {transition} transition was sent"
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:159
-msgid "booking_history_email_log"
-msgstr "Notifica Email per il cambio di stato {transition} è stata inviata"
 
 #: redturtle/prenotazioni/browser/prenotazione_move.py:135
 msgid "booking_moved"
