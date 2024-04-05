@@ -8,6 +8,9 @@ Changelog
 - Workarounds for esternal integration: search with tinit- prefixed user,
   schema with some ields with only spaces
   [mamico]
+- Nothing changed yet.
+- Write to history the booking notifications log
+  [folix-01]
 
 
 2.6.5 (2024-04-24)
