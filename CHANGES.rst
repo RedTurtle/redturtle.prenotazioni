@@ -5,6 +5,9 @@ Changelog
 2.6.2 (unreleased)
 ------------------
 
+- Fix day endpoint to show the available scheduling for the same day as start date.
+  [folix-01]
+
 - Manage the user's phone attribute in booking-schema
   [mamico]
 
