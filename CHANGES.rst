@@ -4,6 +4,11 @@ Changelog
 
 2.6.6 (unreleased)
 2.6.3 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
 2.6.2 (2024-04-12)
 ------------------
 
