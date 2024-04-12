@@ -5,6 +5,9 @@ Changelog
 2.6.2 (unreleased)
 ------------------
 
+- Bypass notBeforeDays when using the @available-slots to find the first bookable slot(used by BookinManager).
+  [folix-01]
+
 - Fix day endpoint to show the available scheduling for the same day as start date.
   [folix-01]
 

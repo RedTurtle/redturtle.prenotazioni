@@ -85,6 +85,7 @@ class AvailableSlots(Service):
             slots = prenotazioni_context_state.get_anonymous_slots(
                 booking_date=booking_date
             )
+
             for slot in slots.get("anonymous_gate", []):
                 info = prenotazioni_context_state.get_anonymous_booking_url(
                     booking_date,
