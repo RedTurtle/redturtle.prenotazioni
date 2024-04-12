@@ -37,6 +37,7 @@ class AvailableSlots(Service):
         end = self.request.form.get("end", "")
         past_slots = self.request.form.get("past_slots", False)
         first_available = self.request.form.get("first_available")
+        bypass_user_restrictions = False
 
         if start:
             start = datetime.date.fromisoformat(start)
@@ -53,6 +54,7 @@ class AvailableSlots(Service):
                 and self.context.aData
                 or datetime.date(start.year + 1, start.month, start.day)
             )
+            bypass_user_restrictions = True
         else:
             end = start.replace(day=calendar.monthrange(start.year, start.month)[1])
 
@@ -77,6 +79,7 @@ class AvailableSlots(Service):
             "@id": f"{self.context.absolute_url()}/@available-slots",
             "items": [],
         }
+
         for n in range(int((end - start).days) + 1):
             booking_date = start + timedelta(n)
             slots = prenotazioni_context_state.get_anonymous_slots(
@@ -84,7 +87,10 @@ class AvailableSlots(Service):
             )
             for slot in slots.get("anonymous_gate", []):
                 info = prenotazioni_context_state.get_anonymous_booking_url(
-                    booking_date, slot, slot_min_size=slot_min_size
+                    booking_date,
+                    slot,
+                    slot_min_size=slot_min_size,
+                    bypass_user_restrictions=bypass_user_restrictions,
                 )
                 if not info.get("url", ""):
                     continue

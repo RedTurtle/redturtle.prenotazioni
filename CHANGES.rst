@@ -11,6 +11,7 @@ Changelog
 - Manage the user's phone attribute in booking-schema
   [mamico]
 
+
 2.6.1 (2024-04-02)
 ------------------
 
