@@ -17,6 +17,8 @@ Changelog
 ------------------
 
 - Package chore.
+- Write to history if could not send booking notification
+- Bypass notBeforeDays when using the @available-slots to find the first bookable slot(used by BookingManager).
   [folix-01]
 
 
