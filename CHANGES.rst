@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.6.2 (unreleased)
+2.6.2 (2024-04-12)
 ------------------
 
 - Bypass notBeforeDays when using the @available-slots to find the first bookable slot(used by BookingManager).
