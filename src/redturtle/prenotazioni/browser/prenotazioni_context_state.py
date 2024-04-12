@@ -273,9 +273,10 @@ class PrenotazioniContextState(BrowserView):
                 res[gate] = override_week_table
         return res
 
-    def is_before_allowed_period(self, day):
+    def is_before_allowed_period(self, day, bypass_user_restrictions=False):
         """Returns True if the day is before the first bookable day"""
-        date_limit = self.minimum_bookable_date
+        date_limit = not bypass_user_restrictions and self.minimum_bookable_date or None
+
         if not date_limit:
             return False
         if day <= date_limit.date():
@@ -283,7 +284,7 @@ class PrenotazioniContextState(BrowserView):
         return False
 
     @memoize
-    def is_valid_day(self, day):
+    def is_valid_day(self, day, bypass_user_restrictions=False):
         """Returns True if the day is valid"""
         if day < self.first_bookable_day:
             return False
@@ -291,7 +292,9 @@ class PrenotazioniContextState(BrowserView):
             return False
         if self.last_bookable_day and day > self.last_bookable_day:
             return False
-        if self.is_before_allowed_period(day):
+        if self.is_before_allowed_period(
+            day, bypass_user_restrictions=bypass_user_restrictions
+        ):
             return False
         return self.is_configured_day(day)
 
@@ -338,13 +341,17 @@ class PrenotazioniContextState(BrowserView):
         """Return the base booking url (no parameters) for this context"""
         return "%s/%s" % (self.context.absolute_url(), self.add_view)
 
-    def get_booking_urls(self, day, slot, slot_min_size=0, gate=None):
+    def get_booking_urls(
+        self, day, slot, slot_min_size=0, gate=None, bypass_user_restrictions=False
+    ):
         """Returns, if possible, the booking urls
 
         slot_min_size: seconds
         """
         # we have some conditions to check
-        if not self.is_valid_day(day):
+        if not self.is_valid_day(
+            day, bypass_user_restrictions=bypass_user_restrictions
+        ):
             return []
         if self.maximum_bookable_date and day > self.maximum_bookable_date.date():
             return []
@@ -371,7 +378,9 @@ class PrenotazioniContextState(BrowserView):
             )
         return urls
 
-    def get_all_booking_urls_by_gate(self, day, slot_min_size=0):
+    def get_all_booking_urls_by_gate(
+        self, day, slot_min_size=0, bypass_user_restrictions=False
+    ):
         """Get all the booking urls divided by gate
 
         XXX: used only by 'get_all_booking_urls' !!!
@@ -394,7 +403,9 @@ class PrenotazioniContextState(BrowserView):
             }
         """
         urls = {}
-        if not self.is_valid_day(day):
+        if not self.is_valid_day(
+            day, bypass_user_restrictions=bypass_user_restrictions
+        ):
             return urls
         if self.maximum_bookable_date and day > self.maximum_bookable_date.date():
             return urls
@@ -403,19 +414,26 @@ class PrenotazioniContextState(BrowserView):
             slots = slots_by_gate[gate]
             for slot in slots:
                 slot_urls = self.get_booking_urls(
-                    day, slot, slot_min_size=slot_min_size
+                    day,
+                    slot,
+                    slot_min_size=slot_min_size,
+                    bypass_user_restrictions=bypass_user_restrictions,
                 )
                 urls.setdefault(gate, []).extend(slot_urls)
         return urls
 
-    def get_all_booking_urls(self, day, slot_min_size=0):
+    def get_all_booking_urls(
+        self, day, slot_min_size=0, bypass_user_restrictions=False
+    ):
         """Get all the booking urls
 
         Not divided by gate
 
         slot_min_size: seconds
         """
-        urls_by_gate = self.get_all_booking_urls_by_gate(day, slot_min_size)
+        urls_by_gate = self.get_all_booking_urls_by_gate(
+            day, slot_min_size, bypass_user_restrictions=bypass_user_restrictions
+        )
         urls = {}
         for url in itertools.chain.from_iterable(urls_by_gate.values()):
             urls[url["title"]] = url
@@ -433,7 +451,9 @@ class PrenotazioniContextState(BrowserView):
         return True
 
     @memoize
-    def get_anonymous_booking_url(self, day, slot, slot_min_size=0):
+    def get_anonymous_booking_url(
+        self, day, slot, slot_min_size=0, bypass_user_restrictions=False
+    ):
         """Returns, the the booking url for an anonymous user
 
         Returns the first available/bookable slot/url that fits
@@ -442,7 +462,9 @@ class PrenotazioniContextState(BrowserView):
         slot_min_size: seconds
         """
         # First we check if we have booking urls
-        all_booking_urls = self.get_all_booking_urls(day, slot_min_size)
+        all_booking_urls = self.get_all_booking_urls(
+            day, slot_min_size, bypass_user_restrictions=bypass_user_restrictions
+        )
         if not all_booking_urls:
             # If not the slot can be unavailable or busy
             if self.is_slot_busy(day, slot):

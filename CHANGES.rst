@@ -5,11 +5,15 @@ Changelog
 2.6.2 (unreleased)
 ------------------
 
+- Bypass notBeforeDays when using the @available-slots to find the first bookable slot(used by BookingManager).
+  [folix-01]
+
 - Fix day endpoint to show the available scheduling for the same day as start date.
   [folix-01]
 
 - Manage the user's phone attribute in booking-schema
   [mamico]
+
 
 2.6.1 (2024-04-02)
 ------------------
