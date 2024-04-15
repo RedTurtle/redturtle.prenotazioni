@@ -27,48 +27,6 @@ from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 DATE_STR = "2023-05-14"
 
 
-# class Mixin(unittest.TestCase):
-#     def setUp(self):
-#         self.app = self.layer["app"]
-#         self.portal = self.layer["portal"]
-#         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-#         self.portal_url = self.portal.absolute_url()
-
-#         api.user.create(
-#             email="user@example.com",
-#             username="jdoe",
-#             password="secret!!!",
-#         )
-
-#         api.user.grant_roles(username="jdoe", roles=["Bookings Manager"])
-
-#         self.folder_prenotazioni = api.content.create(
-#             container=self.portal,
-#             type="PrenotazioniFolder",
-#             title="Prenota foo",
-#             description="",
-#             daData=date.today(),
-#             gates=["Gate A", "Gate B"],
-#         )
-
-#         type_a = api.content.create(
-#             type="PrenotazioneType",
-#             title="Type A",
-#             duration=30,
-#             container=self.folder_prenotazioni,
-#             gates=["all"],
-#         )
-
-#         week_table = self.folder_prenotazioni.week_table
-#         for row in week_table:
-#             row["morning_start"] = "0700"
-#             row["morning_end"] = "1000"
-#         self.folder_prenotazioni.week_table = week_table
-
-#         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
-#         api.content.transition(obj=type_a, transition="publish")
-
-
 class TestSchemaDirectives(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 
