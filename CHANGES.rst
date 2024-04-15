@@ -7,6 +7,14 @@ Changelog
 ------------------
 
 - Nothing changed yet.
+- Write to history the booking notifications log
+  [folix-01]
+
+- Write to history if could not send booking notification
+  [folix-01]
+
+- avoid gate collision
+  [mamico]
 
 
 2.6.2 (2024-04-12)
