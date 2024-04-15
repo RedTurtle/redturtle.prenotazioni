@@ -140,6 +140,20 @@ def holidays_constraint(value: list):
     return True
 
 
+def validate_max_bookings_allowed(data):
+    """
+    if `max_bookings_allowed` popolated, the `required_booking_fields` must be popolated too
+    """
+    if getattr(data, "max_bookings_allowed", 0) and "fiscalcode" not in (
+        getattr(data, "required_booking_fields", None) or []
+    ):
+        raise Invalid(
+            _(
+                "Usage of `max_bookings_allowed` field requires the `fiscalcode` to be between the required fields."
+            )
+        )
+
+
 class IPrenotazioniFolder(model.Schema):
     """Marker interface and Dexterity Python Schema for PrenotazioniFolder"""
 
@@ -532,6 +546,10 @@ class IPrenotazioniFolder(model.Schema):
     @invariant
     def puse_table_invariant(data):
         validate_pause_table(data=data)
+
+    @invariant
+    def futureDays_invariant(data):
+        validate_max_bookings_allowed(data)
 
 
 @implementer(IPrenotazioniFolder)

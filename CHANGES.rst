@@ -2,7 +2,34 @@ Changelog
 =========
 
 
-2.5.4 (unreleased)
+2.6.3 (unreleased)
+------------------
+
+- avoid gate collision
+  [mamico]
+
+
+2.6.2 (2024-04-12)
+------------------
+
+- Bypass notBeforeDays when using the @available-slots to find the first bookable slot(used by BookingManager).
+  [folix-01]
+
+- Fix day endpoint to show the available scheduling for the same day as start date.
+  [folix-01]
+
+- Manage the user's phone attribute in booking-schema
+  [mamico]
+
+
+2.6.1 (2024-04-02)
+------------------
+
+- PrenotazioniFolder.max_bookings_allowed constraint (if compiled, the fiscalcode must be required).
+  [folix-01]
+
+
+2.6.0 (2024-04-02)
 ------------------
 
 - Bypass the date validation in PrenotazioniContextState.is_valid_day if Bookings Manager

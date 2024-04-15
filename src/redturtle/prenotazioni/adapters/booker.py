@@ -295,7 +295,7 @@ class Booker(object):
         self.check_future_days(booking=self.context, data=data)
 
         conflict_manager = self.prenotazioni.conflict_manager
-        if conflict_manager.conflicts(data):
+        if conflict_manager.conflicts(data, force_gate=force_gate):
             msg = _("Sorry, this slot is not available anymore.")
             raise BookerException(api.portal.translate(msg))
 

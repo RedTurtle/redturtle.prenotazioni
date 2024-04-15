@@ -114,7 +114,7 @@ class DaySlots(Service):
         }
 
         # check if date is in the Booking Folder availability dates range
-        if self.context.daData < self.day and (
+        if self.context.daData <= self.day and (
             not self.context.aData or self.context.aData >= self.day
         ):
             response.update(
