@@ -50,7 +50,7 @@ class TestMoveBookingApi(unittest.TestCase):
             title="Folder",
             description="",
             daData=date.today(),
-            gates=["Gate A"],
+            gates=["Gate A", "Gate B"],
         )
 
         api.content.create(

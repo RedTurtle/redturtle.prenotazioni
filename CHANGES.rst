@@ -5,7 +5,8 @@ Changelog
 2.6.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- avoid gate collision
+  [mamico]
 
 
 2.6.2 (2024-04-12)
