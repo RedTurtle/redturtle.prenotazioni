@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.6.3 (unreleased)
+2.6.3 (2024-04-15)
 ------------------
 
 - avoid gate collision
