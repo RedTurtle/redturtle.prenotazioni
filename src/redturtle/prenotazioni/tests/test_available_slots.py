@@ -119,6 +119,7 @@ class TestAvailableSlots(unittest.TestCase):
         for week in calendar.monthcalendar(current_year, current_month):
             # week[0] is monday and should be greater than today
             if week[0] > current_day:
+                # local hours
                 for hour in [7, 8, 9]:
                     expected.append(
                         json_compatible(
