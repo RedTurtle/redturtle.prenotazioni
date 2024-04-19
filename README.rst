@@ -747,14 +747,16 @@ Usage::
 Buildout config example::
 
     [buildout]
-
+    # You can change it in according to your policy
+    cron_instance = instance1
     parts +=
         notify-upcoming-bookings
 
     [notify-upcoming-bookings]
     recipe = z3c.recipe.usercrontab
     times = 0 3 * * *
-    command = ${buildout:directory}/bin/notify_upcoming_bookings
+    command = flock -n ${buildout:directory}/var/notify_upcoming_bookings.lock ${buildout:directory}/bin/${buildout:cron_instance} -OPlone run bin/notify_upcoming_bookings >> ${buildout:directory}/var/log/notify_upcoming_bookings.log 2>&1
+
 
 
 Behaviors
