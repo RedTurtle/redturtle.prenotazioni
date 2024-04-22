@@ -244,6 +244,12 @@ class PrenotazioneManagerEmailMessage(
         annotations["ical_manager_notification"] = True
 
     @property
+    def message_history(self) -> str:
+        return self.prenotazione.translate(
+            _("Email notification was sent to booking manager"),
+        )
+
+    @property
     def message(self) -> MIMEMultipart:
         """
         customized to send Bcc instead To
