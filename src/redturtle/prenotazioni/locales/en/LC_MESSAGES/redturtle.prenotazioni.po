@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-04-04 13:54+0000\n"
+"POT-Creation-Date: 2024-04-22 12:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,15 +36,15 @@ msgstr ""
 msgid "Afternoon start should not be greater than end."
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:68
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:71
 msgid "AppIO message about the {transition} transition was sent"
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:98
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:100
 msgid "AppIO reminder was sent"
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:36
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:37
 msgid "AppiIO message about the booking reschedule was sent"
 msgstr ""
 
@@ -126,7 +126,7 @@ msgstr ""
 msgid "Content listing"
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/__init__.py:37
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/__init__.py:34
 msgid "Could not send {gateway_type} message due to internal errors"
 msgstr ""
 
@@ -164,15 +164,19 @@ msgstr ""
 msgid "Email from"
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:129
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:130
 msgid "Email message about the booking reschedule was sent"
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:160
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:162
 msgid "Email message about the {transition} transition was sent"
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:204
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:249
+msgid "Email notification was sent to booking manager"
+msgstr ""
+
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:205
 msgid "Email reminder was sent"
 msgstr ""
 
@@ -357,15 +361,15 @@ msgstr ""
 msgid "Responsible email"
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:50
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:51
 msgid "SMS about the booking reschedule was sent"
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:71
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:74
 msgid "SMS about the {transizion} transition was sent"
 msgstr ""
 
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:91
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:93
 msgid "SMS reminder was sent"
 msgstr ""
 
@@ -386,7 +390,7 @@ msgstr ""
 msgid "Sorry, this slot is not available anymore."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:343
+#: redturtle/prenotazioni/adapters/booker.py:342
 msgid "Sorry, this slot is not available or does not fit your booking."
 msgstr ""
 
@@ -486,11 +490,11 @@ msgstr ""
 msgid "The phone number of the user who made the reservation."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:392
+#: redturtle/prenotazioni/adapters/booker.py:391
 msgid "This day is not valid."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:387
+#: redturtle/prenotazioni/adapters/booker.py:386
 msgid "This gate has some booking schedule in this time period."
 msgstr ""
 
@@ -632,7 +636,7 @@ msgid "auto_confirm_manager_help"
 msgstr ""
 
 #. Default: "End date should be greater than start."
-#: redturtle/prenotazioni/restapi/services/available_slots/get.py:61
+#: redturtle/prenotazioni/restapi/services/available_slots/get.py:63
 msgid "available_slots_wrong_dates"
 msgstr ""
 
@@ -652,7 +656,7 @@ msgid "booked_prenotation_message"
 msgstr ""
 
 #. Default: "Booking canceled: "
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:349
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:356
 msgid "booking_canceled_mail_subject_part"
 msgstr ""
 
