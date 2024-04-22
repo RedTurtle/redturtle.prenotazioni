@@ -245,8 +245,9 @@ class PrenotazioneManagerEmailMessage(
 
     @property
     def message_history(self) -> str:
-        return self.prenotazione.translate(
+        return translate(
             _("Email notification was sent to booking manager"),
+            context=self.prenotazione,
         )
 
     @property
