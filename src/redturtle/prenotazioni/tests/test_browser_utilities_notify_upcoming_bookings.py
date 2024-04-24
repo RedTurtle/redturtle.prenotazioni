@@ -64,6 +64,8 @@ class TestNotifyAboutUpcommingBookings(unittest.TestCase):
             gates=["all"],
         )
 
+        api.content.transition(obj=self.folder_prenotazioni, transition="publish")
+
         self.today_8_0 = self.dt_local_to_utc(
             datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
         )
