@@ -5,7 +5,8 @@ Changelog
 2.6.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix reminder send view.
+  [folix-01]
 
 
 2.6.3 (2024-04-15)

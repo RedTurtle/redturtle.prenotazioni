@@ -12,15 +12,7 @@ from zope.globalrequest import getRequest
 from redturtle.prenotazioni import logger
 
 
-def main(app):
-    app = makerequest(app)
-    portal = app.Plone
-    admin = app.acl_users.getUserById("admin")
-
-    newSecurityManager(None, admin)
-    setHooks()
-    setSite(portal)
-
+def main():
     with api.env.adopt_roles(roles=["Manager"]):
         logger.info("Call the send reminders view")
         api.content.get_view(
@@ -33,4 +25,4 @@ def main(app):
 
 
 if __name__ == "__main__":
-    main(app)  # noqa
+    main()  # noqa
