@@ -5,7 +5,8 @@ Changelog
 2.6.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Package chore.
+  [folix-01]
 
 
 2.6.4 (2024-04-24)
