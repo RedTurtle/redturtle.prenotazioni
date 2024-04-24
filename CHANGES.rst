@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.6.5 (unreleased)
+2.6.5 (2024-04-24)
 ------------------
 
 - Package chore.
