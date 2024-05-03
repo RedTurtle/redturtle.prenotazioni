@@ -505,3 +505,14 @@ def to_2008(context):
                 field,
                 value.replace("${booking_print_url}.", "${booking_print_url} ."),
             )
+
+
+def to_2009(context):
+    update_profile(context, "plone-difftool")
+    update_profile(context, "repositorytool")
+
+    portal_types = api.portal.get_tool(name="portal_types")
+    modulo_behaviors = [x for x in portal_types["Prenotazione"].behaviors]
+    if "plone.versioning" not in modulo_behaviors:
+        modulo_behaviors.append("plone.versioning")
+    portal_types["Prenotazione"].behaviors = tuple(modulo_behaviors)
