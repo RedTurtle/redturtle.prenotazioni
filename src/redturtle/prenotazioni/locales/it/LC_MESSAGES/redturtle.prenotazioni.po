@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-04-22 12:15+0000\n"
+"POT-Creation-Date: 2024-05-06 08:38+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -392,7 +392,7 @@ msgstr "Seleziona un giorno"
 msgid "Sorry, this slot is not available anymore."
 msgstr "Ci dispiace, ma questo intervallo di tempo non è più disponibile"
 
-#: redturtle/prenotazioni/adapters/booker.py:342
+#: redturtle/prenotazioni/adapters/booker.py:343
 msgid "Sorry, this slot is not available or does not fit your booking."
 msgstr "Ci dispiace questo intervallo di tempo non è disponibile o non è adatto alla tua prenotazione."
 
@@ -492,11 +492,11 @@ msgstr "Le informazioni per raggiungere l'ufficio presso cui si prenota"
 msgid "The phone number of the user who made the reservation."
 msgstr "Il numero di telefono di chi ha prenotato"
 
-#: redturtle/prenotazioni/adapters/booker.py:391
+#: redturtle/prenotazioni/adapters/booker.py:392
 msgid "This day is not valid."
 msgstr "Il giorno inserito non è valido."
 
-#: redturtle/prenotazioni/adapters/booker.py:386
+#: redturtle/prenotazioni/adapters/booker.py:387
 msgid "This gate has some booking schedule in this time period."
 msgstr "Lo sportello selezionato ha già delle prenotazioni nel periodo indicato."
 
