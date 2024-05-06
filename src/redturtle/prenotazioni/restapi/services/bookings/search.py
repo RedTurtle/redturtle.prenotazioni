@@ -44,7 +44,11 @@ class BookingsSearch(Service):
             userid = api.user.get_current().getUserId()
 
         if userid:
-            query["fiscalcode"] = userid.upper()
+            if userid.lower().startswith("tinit-") and userid[6:]:
+                # search for both the original and the prefixed fiscalcode
+                query["fiscalcode"] = [userid.upper(), userid[6:].upper()]
+            else:
+                query["fiscalcode"] = userid.upper()
 
         start_date = self.request.get("from", None)
         end_date = self.request.get("to", None)

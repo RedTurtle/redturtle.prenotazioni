@@ -95,6 +95,8 @@ class BookingSchema(Service):
                 if field == "email":
                     value = current_user.getProperty("email")
                     # readonly solo se ha un valore
+                    if value:
+                        value = value.strip()
                     is_readonly = bool(value)
                 if field == "phone":
                     value = current_user.getProperty("phone", "")
@@ -107,6 +109,8 @@ class BookingSchema(Service):
                 if field == "title":
                     value = current_user.getProperty("fullname")
                     # readonly solo se ha un valore
+                    if value:
+                        value = value.strip()
                     is_readonly = bool(value)
 
             fields_list.append(
