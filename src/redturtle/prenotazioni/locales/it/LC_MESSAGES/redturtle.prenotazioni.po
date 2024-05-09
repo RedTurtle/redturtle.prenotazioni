@@ -887,52 +887,52 @@ msgstr "Gli utenti vedranno solo i campi selezionati all'atto della creazione de
 #. Default: "AppIO reminder was sent"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:108
 msgid "history_appio_reminder_sent"
-msgstr ""
+msgstr "Inviata notifica AppIO per il promemoria"
 
 #. Default: "AppIO message about the booking reschedule was sent"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:36
 msgid "history_appio_reschedule_sent"
-msgstr "Inviata notifica AppIO per lo spostamento della prenotazione."
+msgstr "Inviata notifica AppIO per lo spostamento della prenotazione"
 
 #. Default: "AppIO message about the ${transition} transition was sent."
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:74
 msgid "history_appio_transition_sent"
-msgstr "Inviata notifica AppIO per il cambio di stato della prenotazione: ${transition}."
+msgstr "Inviata notifica AppIO per il cambio di stato della prenotazione: ${transition}"
 
 #. Default: "Email notification was sent to booking manager"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:259
 msgid "history_email_manager_notification_sent"
-msgstr "Inviata notifica email al Gestore delle prenotazioni."
+msgstr "Inviata notifica email al Gestore delle prenotazioni"
 
 #. Default: "Email message about the booking reschedule was sent"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:130
 msgid "history_email_reschedule_sent"
-msgstr "Inviata notifica email per lo spostamento della prenotazione."
+msgstr "Inviata notifica email per lo spostamento della prenotazione"
 
 #. Default: "Email message about the ${transition} transition was sent"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:166
 msgid "history_email_transition_sent"
-msgstr "Inviata notifica email per il cambio di stato della prenotazione: ${transition}."
+msgstr "Inviata notifica email per il cambio di stato della prenotazione: ${transition}"
 
 #. Default: "Email reminder was sent"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:214
 msgid "history_reminder_sent"
-msgstr "Inviata notifica email per il promemoria."
+msgstr "Inviata notifica email per il promemoria"
 
 #. Default: "SMS reminder was sent"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:101
 msgid "history_sms_reminder_sent"
-msgstr "Inviata notifica SMS per il promemoria."
+msgstr "Inviata notifica SMS per il promemoria"
 
 #. Default: "SMS message about the booking reschedule was sent"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:50
 msgid "history_sms_reschedule_sent"
-msgstr "Inviata notifica SMS per lo spostamento della prenotazione."
+msgstr "Inviata notifica SMS per lo spostamento della prenotazione"
 
 #. Default: "SMS message about the ${transition} transition was sent"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:77
 msgid "history_sms_transition_sent"
-msgstr "Inviata notifica SMS per il cambio di stato della prenotazione: ${transition}."
+msgstr "Inviata notifica SMS per il cambio di stato della prenotazione: ${transition}"
 
 #. Default: "Set holidays (one for line) in DD/MM/YYYY. you can write * for the year, if this event is yearly."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:330
