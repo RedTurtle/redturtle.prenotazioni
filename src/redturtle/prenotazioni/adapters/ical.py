@@ -65,7 +65,7 @@ class ICalendarBookingComponent(ICalendarEventComponent):
 
     @property
     def summary(self):
-        # XXX: `self.context.translate` raise Unauthorized exception
+        # XXX: `api.portal.translate` raise Unauthorized exception
         # Module Products.PythonScripts.PythonScript, line 338, in _exec
         # Module script, line 19, in translate
         # <FSPythonScript at /Plone/cartella-prenotazioni/2023/37/1//translate>

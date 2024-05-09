@@ -41,7 +41,6 @@ class BookingTransitionEmailSender:
             )
 
             send_email(message)
-
             write_message_to_object_history(
                 self.booking, message=self.message_adapter.message_history
             )

@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """AppIO notification templates"""
-
+from plone import api
 from plone.stringinterp.interfaces import IContextWrapper
 from plone.stringinterp.interfaces import IStringInterpolator
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.component import adapter
-from zope.i18n import translate
 from zope.interface import implementer
 
 from redturtle.prenotazioni import _
@@ -33,8 +32,9 @@ class PrenotazioneAPPIoMessage:
 class PrenotazioneMovedAPPIoMessage(PrenotazioneAPPIoMessage):
     @property
     def message_history(self) -> str:
-        return self.prenotazione.translate(
-            _("AppiIO message about the booking reschedule was sent")
+        _(
+            "history_appio_reschedule_sent",
+            default="AppIO message about the booking reschedule was sent",
         )
 
     @property
@@ -63,13 +63,19 @@ class PrenotazioneMovedAPPIoMessage(PrenotazioneAPPIoMessage):
 class PrenotazioneAfterTransitionAPPIoMessage(PrenotazioneAPPIoMessage):
     @property
     def message_history(self) -> str:
-        transition = self.event.transition and translate(
-            self.event.transition.__name__, context=self.prenotazione
+        transition = (
+            self.event.transition
+            and api.portal.translate(self.event.transition.title)
+            or ""
         )
 
-        return self.prenotazione.translate(
-            _("AppIO message about the {transition} transition was sent")
-        ).format(transition=transition)
+        return api.portal.translate(
+            _(
+                "history_appio_transition_sent",
+                "AppIO message about the ${transition} transition was sent.",
+                mapping={"transition": transition},
+            ),
+        )
 
     @property
     def message(self) -> str:
@@ -97,7 +103,9 @@ class PrenotazioneAfterTransitionAPPIoMessage(PrenotazioneAPPIoMessage):
 class PrenotazioneReminderAppIOMessage(PrenotazioneAPPIoMessage):
     @property
     def message_history(self) -> str:
-        return self.prenotazione.translate(_("AppIO reminder was sent"))
+        return api.portal.translate(
+            _("history_appio_reminder_sent", default="AppIO reminder was sent")
+        )
 
     @property
     def message(self) -> str:

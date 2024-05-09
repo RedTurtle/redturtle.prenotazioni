@@ -389,7 +389,7 @@ class Booker(object):
             raise BookerException(msg)
 
         if not self.prenotazioni.is_valid_day(start.date()):
-            msg = self.context.translate(_("This day is not valid."))
+            msg = api.portal.translate(_("This day is not valid."))
             raise BookerException(msg)
 
         for period in ("morning", "afternoon"):

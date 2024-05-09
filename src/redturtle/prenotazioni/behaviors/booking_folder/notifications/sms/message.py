@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """SMS Notification Templates"""
-
+from plone import api
 from plone.stringinterp.interfaces import IContextWrapper
 from plone.stringinterp.interfaces import IStringInterpolator
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.component import adapter
-from zope.i18n import translate
 from zope.interface import implementer
 
 from redturtle.prenotazioni import _
@@ -47,8 +46,9 @@ class PrenotazioneMovedSMSMessage(PrenotazioneSMSMessage):
 
     @property
     def message_history(self) -> str:
-        return self.prenotazione.translate(
-            _("SMS about the booking reschedule was sent")
+        _(
+            "history_sms_reschedule_sent",
+            default="SMS message about the booking reschedule was sent",
         )
 
 
@@ -67,12 +67,18 @@ class PrenotazioneAfterTransitionSMSMessage(PrenotazioneSMSMessage):
 
     @property
     def message_history(self) -> str:
-        transition = self.event.transition and translate(
-            self.event.transition.__name__, context=self.prenotazione
+        transition = (
+            self.event.transition
+            and api.portal.translate(self.event.transition.title)
+            or ""
         )
-        return self.prenotazione.translate(
-            _("SMS about the {transizion} transition was sent")
-        ).format(transition=transition)
+        return api.portal.translate(
+            _(
+                "history_sms_transition_sent",
+                "SMS message about the ${transition} transition was sent",
+                mapping={"transition": transition},
+            ),
+        )
 
 
 @implementer(IBookingSMSMessage)
@@ -90,4 +96,6 @@ class PrenotazioneReminderSMSMessage(PrenotazioneSMSMessage):
 
     @property
     def message_history(self) -> str:
-        return self.prenotazione.translate(_("SMS reminder was sent"))
+        return api.portal.translate(
+            _("history_sms_reminder_sent", default="SMS reminder was sent")
+        )

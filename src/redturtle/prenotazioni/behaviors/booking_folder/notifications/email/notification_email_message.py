@@ -126,8 +126,11 @@ class PrenotazioneMovedICalEmailMessage(
 ):
     @property
     def message_history(self) -> str:
-        return self.prenotazione.translate(
-            _("Email message about the booking reschedule was sent")
+        return api.portal.translate(
+            _(
+                "history_email_reschedule_sent",
+                default="Email message about the booking reschedule was sent",
+            )
         )
 
     @property
@@ -154,13 +157,18 @@ class PrenotazioneMovedICalEmailMessage(
 class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
     @property
     def message_history(self) -> str:
-        transition = self.event.transition and translate(
-            self.event.transition.__name__, context=self.prenotazione
+        transition = (
+            self.event.transition
+            and api.portal.translate(self.event.transition.title)
+            or ""
         )
-
-        return self.prenotazione.translate(
-            _("Email message about the {transition} transition was sent"),
-        ).format(transition=transition)
+        return api.portal.translate(
+            _(
+                "history_email_transition_sent",
+                "Email message about the ${transition} transition was sent",
+                mapping={"transition": transition},
+            ),
+        )
 
     @property
     def message_subject(self) -> str:
@@ -202,7 +210,9 @@ class PrenotazioneAfterTransitionEmailICalMessage(
 class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
     @property
     def message_history(self) -> str:
-        return self.prenotazione.translate(_("Email reminder was sent"))
+        return api.portal.translate(
+            _("history_reminder_sent", default="Email reminder was sent")
+        )
 
     @property
     def message_subject(self) -> str:
@@ -246,7 +256,10 @@ class PrenotazioneManagerEmailMessage(
     @property
     def message_history(self) -> str:
         return translate(
-            _("Email notification was sent to booking manager"),
+            _(
+                "history_email_manager_notification_sent",
+                default="Email notification was sent to booking manager",
+            ),
         )
 
     @property

@@ -179,24 +179,24 @@ class SearchForm(form.Form):
         if "text" in data and data.get("text", None):
             result.append(
                 MARKUP.format(
-                    self.context.translate(_("label_text", "Text to search")),
+                    api.portal.translate(_("label_text", "Text to search")),
                     data["text"],
                 )
             )
         if "review_state" in data and data.get("review_state", None):
             result.append(
                 MARKUP.format(
-                    self.context.translate(
+                    api.portal.translate(
                         __("State"),
                     ),
-                    self.context.translate(__(data["review_state"])),
+                    api.portal.translate(__(data["review_state"])),
                 )
             )
 
         if "gate" in data and data.get("gate", None):
             result.append(
                 MARKUP.format(
-                    self.context.translate(
+                    api.portal.translate(
                         _("label_gate", "Gate"),
                     ),
                     data["gate"],
@@ -208,7 +208,7 @@ class SearchForm(form.Form):
                 data["start"] = datetime.strptime(data.get("start"), "%Y-%m-%d")
             result.append(
                 MARKUP.format(
-                    self.context.translate(_("label_start", "Start date ")),
+                    api.portal.translate(_("label_start", "Start date ")),
                     data["start"].strftime("%d/%m/%Y"),
                 )
             )
@@ -218,7 +218,7 @@ class SearchForm(form.Form):
                 data["end"] = datetime.strptime(data.get("end"), "%Y-%m-%d")
             result.append(
                 MARKUP.format(
-                    self.context.translate(_("label_end", "End date")),
+                    api.portal.translate(_("label_end", "End date")),
                     data["end"].strftime("%d/%m/%Y"),
                 )
             )

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-05-06 08:38+0000\n"
+"POT-Creation-Date: 2024-05-09 09:40+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -31,24 +31,12 @@ msgid "A folder that will contain booking for this day"
 msgstr "Una cartella che conterrà le prenotazioni per questo day"
 
 msgid "Add"
-msgstr ""
+msgstr "Aggiungi"
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:433
 #: redturtle/prenotazioni/content/validators.py:222
 msgid "Afternoon start should not be greater than end."
 msgstr "L'orario di inizio del pomeriggio non può essere successivo alla chiusura."
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:71
-msgid "AppIO message about the {transition} transition was sent"
-msgstr "Notifica AppIO per il cambio di stato {transition} è stata inviata."
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:100
-msgid "AppIO reminder was sent"
-msgstr "Notifica AppIO per promemoria è stata inviata."
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:37
-msgid "AppiIO message about the booking reschedule was sent"
-msgstr "Notifica AppIO, per lo spostamento della prenotazione è stata inviata."
 
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:29
 msgid "Attention"
@@ -149,7 +137,7 @@ msgid "Days booking is not allowed before"
 msgstr "Giorni da cui si può effettuare una prenotazione"
 
 msgid "Delete"
-msgstr ""
+msgstr "Cancella"
 
 #. Default: "Descrizione Agenda"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:163
@@ -165,22 +153,6 @@ msgstr "Modifica"
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/__init__.py:131
 msgid "Email from"
 msgstr "Mittente"
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:130
-msgid "Email message about the booking reschedule was sent"
-msgstr "Notifica email, per lo spostamento della prenotazione è stata inviata."
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:162
-msgid "Email message about the {transition} transition was sent"
-msgstr "Notifica Email per il cambio di stato {transition} è stata inviata"
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:249
-msgid "Email notification was sent to booking manager"
-msgstr "La notifica email è stata inviata all'operatore prenotazioni."
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:205
-msgid "Email reminder was sent"
-msgstr "Notifica email per promemoria è stata inviata."
 
 #: redturtle/prenotazioni/content/prenotazione.py:175
 msgid "Expiration date booking"
@@ -201,7 +173,7 @@ msgid "Gate"
 msgstr "Postazione"
 
 msgid "Group"
-msgstr ""
+msgstr "Gruppo"
 
 #. Default: "How to get here"
 #: redturtle/prenotazioni/behaviors/booking_folder/contacts.py:19
@@ -262,7 +234,7 @@ msgstr "Install redturtle.prenotazioni"
 
 #: redturtle/prenotazioni/demo/configure.zcml:16
 msgid "Installs the redturtle.prenotazioni.demo add-on (demo site purpose only)."
-msgstr ""
+msgstr "Installa il profilo redturtle.prenotazioni.demo."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:355
 msgid "Max days in the future"
@@ -282,10 +254,10 @@ msgid "Move booking"
 msgstr "Sposta la prenotazione"
 
 msgid "Move down"
-msgstr ""
+msgstr "Sposta in giù"
 
 msgid "Move up"
-msgstr ""
+msgstr "Sposta in su"
 
 #: redturtle/prenotazioni/restapi/services/booking/vacation.py:27
 msgid "Nessuno slot creato, verificare la corretteza dei dati inseriti"
@@ -351,7 +323,7 @@ msgstr "PrenotazioniYear"
 msgid "Print"
 msgstr "Stampa"
 
-#: redturtle/prenotazioni/restapi/services/booking/add.py:122
+#: redturtle/prenotazioni/restapi/services/booking/add.py:120
 msgid "Required input '${field}' is missing."
 msgstr "Campo obbligatorio '${field}' mancante."
 
@@ -362,18 +334,6 @@ msgstr "Manca l'input obbligatorio."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:404
 msgid "Responsible email"
 msgstr "Email del responsabile"
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:51
-msgid "SMS about the booking reschedule was sent"
-msgstr "Notifica SMS, per lo spostamento della prenotazione è stata inviata."
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:74
-msgid "SMS about the {transizion} transition was sent"
-msgstr "Notifica SMS per il cambio di stato {transition} è stata inviata."
-
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:93
-msgid "SMS reminder was sent"
-msgstr "Notifica SMS per promemoria è stata inviata."
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:113
 msgid "Saturday"
@@ -388,7 +348,7 @@ msgid "Select a day"
 msgstr "Seleziona un giorno"
 
 #: redturtle/prenotazioni/adapters/booker.py:299
-#: redturtle/prenotazioni/restapi/services/booking/add.py:64
+#: redturtle/prenotazioni/restapi/services/booking/add.py:63
 msgid "Sorry, this slot is not available anymore."
 msgstr "Ci dispiace, ma questo intervallo di tempo non è più disponibile"
 
@@ -514,9 +474,9 @@ msgstr "Disinstall redturtle.prenotazioni"
 
 #: redturtle/prenotazioni/demo/configure.zcml:25
 msgid "Uninstalls the redturtle.prenotazioni.demo add-on (demo site purpose only)."
-msgstr ""
+msgstr "Disinstalla redturtle.prenotazioni.demo."
 
-#: redturtle/prenotazioni/restapi/services/booking/add.py:158
+#: redturtle/prenotazioni/restapi/services/booking/add.py:156
 msgid "Unknown booking type '${booking_type}'."
 msgstr "Tipologia di prenotazione sconosciuta '${booking_type}'."
 
@@ -542,7 +502,7 @@ msgstr "Schedulazione Settimanale"
 msgid "Yes"
 msgstr "Si"
 
-#: redturtle/prenotazioni/restapi/services/booking/add.py:115
+#: redturtle/prenotazioni/restapi/services/booking/add.py:113
 msgid "You are not allowed to force the gate."
 msgstr "Non hai i permessi necessari a forzare lo sportello."
 
@@ -658,7 +618,7 @@ msgid "booked_prenotation_message"
 msgstr "${day}, ore ${booking_time}, prenotato da ${booked_by}, prenotazione: ${booking_type} durata: ${duration} minuti"
 
 #. Default: "Booking canceled: "
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:356
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:369
 msgid "booking_canceled_mail_subject_part"
 msgstr "Prenotazione cancellata: "
 
@@ -923,6 +883,56 @@ msgstr "Lista dei tipi di prenotazione disponibili per l'agenda corrente"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:172
 msgid "help_visible_booking_fields"
 msgstr "Gli utenti vedranno solo i campi selezionati all'atto della creazione della prenotazione."
+
+#. Default: "AppIO reminder was sent"
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:108
+msgid "history_appio_reminder_sent"
+msgstr ""
+
+#. Default: "AppIO message about the booking reschedule was sent"
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:36
+msgid "history_appio_reschedule_sent"
+msgstr "Inviata notifica AppIO per lo spostamento della prenotazione."
+
+#. Default: "AppIO message about the ${transition} transition was sent."
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/notfication_appio_message.py:74
+msgid "history_appio_transition_sent"
+msgstr "Inviata notifica AppIO per il cambio di stato della prenotazione: ${transition}."
+
+#. Default: "Email notification was sent to booking manager"
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:259
+msgid "history_email_manager_notification_sent"
+msgstr "Inviata notifica email al Gestore delle prenotazioni."
+
+#. Default: "Email message about the booking reschedule was sent"
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:130
+msgid "history_email_reschedule_sent"
+msgstr "Inviata notifica email per lo spostamento della prenotazione."
+
+#. Default: "Email message about the ${transition} transition was sent"
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:166
+msgid "history_email_transition_sent"
+msgstr "Inviata notifica email per il cambio di stato della prenotazione: ${transition}."
+
+#. Default: "Email reminder was sent"
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:214
+msgid "history_reminder_sent"
+msgstr "Inviata notifica email per il promemoria."
+
+#. Default: "SMS reminder was sent"
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:101
+msgid "history_sms_reminder_sent"
+msgstr "Inviata notifica SMS per il promemoria."
+
+#. Default: "SMS message about the booking reschedule was sent"
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:50
+msgid "history_sms_reschedule_sent"
+msgstr "Inviata notifica SMS per lo spostamento della prenotazione."
+
+#. Default: "SMS message about the ${transition} transition was sent"
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/sms/message.py:77
+msgid "history_sms_transition_sent"
+msgstr "Inviata notifica SMS per il cambio di stato della prenotazione: ${transition}."
 
 #. Default: "Set holidays (one for line) in DD/MM/YYYY. you can write * for the year, if this event is yearly."
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:330
@@ -1719,7 +1729,7 @@ msgid "to_month_too_days_error"
 msgstr "Il giorno selezionato non è compatibile col mese selezionato nel campo \"Al\"."
 
 #. Default: "You can't add a booking with type '${booking_type}'."
-#: redturtle/prenotazioni/restapi/services/booking/add.py:134
+#: redturtle/prenotazioni/restapi/services/booking/add.py:132
 msgid "unauthorized_add_vacation"
 msgstr "Impossibile creare una nuova prenotazione per la tipologia '${booking_type}'."
 
