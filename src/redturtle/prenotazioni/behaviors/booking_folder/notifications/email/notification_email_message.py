@@ -16,7 +16,6 @@ from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
 from zope.component import getAdapter
-from zope.i18n import translate
 from zope.interface import Interface
 from zope.interface import implementer
 
@@ -255,7 +254,7 @@ class PrenotazioneManagerEmailMessage(
 
     @property
     def message_history(self) -> str:
-        return translate(
+        return api.portal.translate(
             _(
                 "history_email_manager_notification_sent",
                 default="Email notification was sent to booking manager",
@@ -365,7 +364,7 @@ class PrenotazioneCanceledManagerEmailMessage(PrenotazioneManagerEmailMessage):
         booking_code = self.prenotazione.getBookingCode()
         date = self.prenotazione.booking_date.strftime("%d-%m-%Y %H:%M")
 
-        booking_canceled = translate(
+        booking_canceled = api.portal.translate(
             _("booking_canceled_mail_subject_part", default="Booking canceled: "),
             context=self.request,
         )
