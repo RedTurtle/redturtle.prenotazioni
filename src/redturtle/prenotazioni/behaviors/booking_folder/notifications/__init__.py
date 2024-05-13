@@ -2,6 +2,7 @@
 from functools import wraps
 
 from Products.CMFCore.utils import getToolByName
+from plone import api
 
 from redturtle.prenotazioni import _
 
@@ -17,8 +18,9 @@ def get_booking_folder_notification_flags(booking_folder):
 
 def write_message_to_object_history(object, message):
     """Write a message to object versioning history"""
-    pr = getToolByName(object, "portal_repository")
-    pr.save(object, message)
+    with api.env.adopt_roles(["Manager"]):
+        pr = getToolByName(object, "portal_repository")
+        pr.save(object, message)
 
 
 def notify_the_message_failure(func, gateway_type=""):
