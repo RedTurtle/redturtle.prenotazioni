@@ -326,40 +326,39 @@ class Booker(object):
         """
         Move a booking in a new slot
         """
-        with api.env.adopt_roles(roles=["Manager"]):
-            data["booking_date"] = booking_date = datetime_with_tz(data["booking_date"])
+        data["booking_date"] = booking_date = datetime_with_tz(data["booking_date"])
 
-            data["booking_type"] = booking.getBooking_type()
-            conflict_manager = self.prenotazioni.conflict_manager
-            current_data = booking.getBooking_date()
-            current = {
-                "booking_date": current_data,
-                "booking_type": data["booking_type"],
-            }
-            current_slot = conflict_manager.get_choosen_slot(current)
-            current_gate = getattr(booking, "gate", "")
-            exclude = {current_gate: [current_slot]}
-            if conflict_manager.conflicts(data, exclude=exclude):
-                msg = _(
-                    "Sorry, this slot is not available or does not fit your " "booking."
-                )
-                raise BookerException(api.portal.translate(msg))
+        data["booking_type"] = booking.getBooking_type()
+        conflict_manager = self.prenotazioni.conflict_manager
+        current_data = booking.getBooking_date()
+        current = {
+            "booking_date": current_data,
+            "booking_type": data["booking_type"],
+        }
+        current_slot = conflict_manager.get_choosen_slot(current)
+        current_gate = getattr(booking, "gate", "")
+        exclude = {current_gate: [current_slot]}
+        if conflict_manager.conflicts(data, exclude=exclude):
+            msg = _(
+                "Sorry, this slot is not available or does not fit your " "booking."
+            )
+            raise BookerException(api.portal.translate(msg))
 
-            self.check_future_days(booking=booking, data=data)
+        self.check_future_days(booking=booking, data=data)
 
-            # move the booking
-            duration = booking.getDuration()
-            booking_expiration_date = booking_date + duration
-            booking.setBooking_date(booking_date)
-            booking.setBooking_expiration_date(booking_expiration_date)
+        # move the booking
+        duration = booking.getDuration()
+        booking_expiration_date = booking_date + duration
+        booking.setBooking_date(booking_date)
+        booking.setBooking_expiration_date(booking_expiration_date)
 
-            # se non passato il gate va bene lasciare quello precedente o
-            # va rimosso ?
-            if data.get("gate"):
-                booking.gate = data["gate"]
+        # se non passato il gate va bene lasciare quello precedente o
+        # va rimosso ?
+        if data.get("gate"):
+            booking.gate = data["gate"]
 
-            booking.reindexObject(idxs=["Subject"])
-            notify(MovedPrenotazione(booking))
+        booking.reindexObject(idxs=["Subject"])
+        notify(MovedPrenotazione(booking))
 
     def create_vacation(self, data):
         data["start"] = start = datetime_with_tz(data["start"])
@@ -389,7 +388,7 @@ class Booker(object):
             raise BookerException(msg)
 
         if not self.prenotazioni.is_valid_day(start.date()):
-            msg = api.portal.translate(_("This day is not valid."))
+            msg = self.context.translate(_("This day is not valid."))
             raise BookerException(msg)
 
         for period in ("morning", "afternoon"):
