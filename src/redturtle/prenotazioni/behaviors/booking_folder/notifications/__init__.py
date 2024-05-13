@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from functools import wraps
 
-from Products.CMFCore.utils import getToolByName
 from plone import api
+from Products.CMFCore.utils import getToolByName
 
 from redturtle.prenotazioni import _
 
