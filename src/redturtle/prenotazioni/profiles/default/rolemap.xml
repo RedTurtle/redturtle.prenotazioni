@@ -110,5 +110,10 @@
       <role name="Contributor" />
     </permission>
 
+    <permission acquire="True"
+                name="CMFEditions: Save new version">
+       <role name="Bookings Manager" />
+    </permission>
+
   </permissions>
 </rolemap>
