@@ -2,53 +2,14 @@ Changelog
 =========
 
 
-2.6.6 (unreleased)
 2.6.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
 - Write to history the booking notifications log
   [folix-01]
 
 - Write to history if could not send booking notification
   [folix-01]
-
-- avoid gate collision
-  [mamico]
-
-
-2.6.2 (2024-04-12)
-------------------
-
-- Workarounds for esternal integration: search with tinit- prefixed user,
-  schema with some ields with only spaces
-  [mamico]
-- Nothing changed yet.
-- Write to history the booking notifications log
-  [folix-01]
-
-
-2.6.5 (2024-04-24)
-------------------
-
-- Package chore.
-- Write to history if could not send booking notification
-- Bypass notBeforeDays when using the @available-slots to find the first bookable slot(used by BookingManager).
-  [folix-01]
-
-
-2.6.4 (2024-04-24)
-------------------
-
-- Fix reminder send view.
-  [folix-01]
-
-
-2.6.3 (2024-04-15)
-------------------
-
-- avoid gate collision
-  [mamico]
 
 
 2.6.2 (2024-04-12)
@@ -58,7 +19,6 @@ Changelog
   [folix-01]
 
 - Fix day endpoint to show the available scheduling for the same day as start date.
-- Write to history if could not send booking notification
   [folix-01]
 
 - Manage the user's phone attribute in booking-schema
