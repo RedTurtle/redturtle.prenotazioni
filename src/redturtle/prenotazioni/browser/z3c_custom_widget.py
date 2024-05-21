@@ -147,9 +147,9 @@ class CustomRadioWidget(RadioWidget):
 
     def get_radio_message(self, label):
         message = "{} {}, {}".format(
-            self.context.translate(_("Field", "Campo")),
-            self.context.translate(label),
-            self.context.translate(
+            api.portal.translate(_("Field", "Campo")),
+            api.portal.translate(label),
+            api.portal.translate(
                 _(
                     "select-option",
                     "seleziona l'opzione desiderata dal gruppo di radio button seguente",

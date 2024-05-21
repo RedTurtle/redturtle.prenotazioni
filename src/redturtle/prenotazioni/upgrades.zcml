@@ -355,5 +355,15 @@
         handler=".upgrades.to_2008"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2008"
+      destination="2009"
+      >
+    <genericsetup:upgradeStep
+        title="Add versioning to Prenotazione c.t."
+        handler=".upgrades.to_2009"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

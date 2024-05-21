@@ -154,6 +154,7 @@ class TestMoveBookingApi(unittest.TestCase):
                 "booking_date": nextmonth.isoformat(),  # nextmonth
             },
         )
+
         self.assertEqual(response.status_code, 204)
 
         response = self.api_session_bookings_manager.get(

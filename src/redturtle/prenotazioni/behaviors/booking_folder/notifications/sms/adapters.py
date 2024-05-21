@@ -10,6 +10,8 @@ from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
 from redturtle.prenotazioni.interfaces import IBookingSMSMessage
 
+from .. import write_message_to_object_history
+
 
 @implementer(IBookingNotificationSender)
 @adapter(IBookingSMSMessage, IPrenotazione, Interface)
@@ -21,6 +23,8 @@ class BookingNotificationSender:
 
     def send(self):
         if self.is_notification_allowed():
+            # dont foget to write the history log about sending
+            # self.write_message_to_booking_history(self.booking, self.message_adapter.message_history)
             raise NotImplementedError("The method was not implemented")
 
     def is_notification_allowed(self):
@@ -29,3 +33,8 @@ class BookingNotificationSender:
         ).is_sms_message_allowed(self.booking):
             return True
         return False
+
+    def write_message_to_booking_history(self):
+        write_message_to_object_history(
+            self.booking, self.message_adapter.message_history
+        )

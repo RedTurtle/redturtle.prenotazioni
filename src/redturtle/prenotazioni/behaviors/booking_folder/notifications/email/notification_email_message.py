@@ -16,7 +16,6 @@ from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
 from zope.component import getAdapter
-from zope.i18n import translate
 from zope.interface import Interface
 from zope.interface import implementer
 
@@ -38,6 +37,10 @@ class PrenotazioneEmailMessage:
     def __init__(self, prenotazione, event):
         self.prenotazione = prenotazione
         self.event = event
+
+    @property
+    def message_history(self) -> str:
+        raise NotImplementedError("The method was not implemented")
 
     @property
     def message_subject(self) -> str:
@@ -121,6 +124,15 @@ class PrenotazioneMovedICalEmailMessage(
     PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
 ):
     @property
+    def message_history(self) -> str:
+        return api.portal.translate(
+            _(
+                "history_email_reschedule_sent",
+                default="Email message about the booking reschedule was sent",
+            )
+        )
+
+    @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(self.prenotazioni_folder, "notify_on_move_subject", "")
@@ -142,6 +154,21 @@ class PrenotazioneMovedICalEmailMessage(
 @implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
 class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
+    @property
+    def message_history(self) -> str:
+        transition = (
+            self.event.transition
+            and api.portal.translate(self.event.transition.title)
+            or ""
+        )
+        return api.portal.translate(
+            _(
+                "history_email_transition_sent",
+                "Email message about the ${transition} transition was sent",
+                mapping={"transition": transition},
+            ),
+        )
+
     @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
@@ -181,6 +208,12 @@ class PrenotazioneAfterTransitionEmailICalMessage(
 @adapter(IPrenotazione, IBookingReminderEvent)
 class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
     @property
+    def message_history(self) -> str:
+        return api.portal.translate(
+            _("history_reminder_sent", default="Email reminder was sent")
+        )
+
+    @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(self.prenotazioni_folder, "notify_as_reminder_subject", "")
@@ -218,6 +251,15 @@ class PrenotazioneManagerEmailMessage(
         # this will be used in ical adapter to change the title of the ical item
         annotations = IAnnotations(prenotazione.REQUEST)
         annotations["ical_manager_notification"] = True
+
+    @property
+    def message_history(self) -> str:
+        return api.portal.translate(
+            _(
+                "history_email_manager_notification_sent",
+                default="Email notification was sent to booking manager",
+            ),
+        )
 
     @property
     def message(self) -> MIMEMultipart:
@@ -322,9 +364,8 @@ class PrenotazioneCanceledManagerEmailMessage(PrenotazioneManagerEmailMessage):
         booking_code = self.prenotazione.getBookingCode()
         date = self.prenotazione.booking_date.strftime("%d-%m-%Y %H:%M")
 
-        booking_canceled = translate(
-            _("booking_canceled_mail_subject_part", default="Booking canceled: "),
-            context=self.request,
+        booking_canceled = api.portal.translate(
+            _("booking_canceled_mail_subject_part", default="Booking canceled: ")
         )
         return f"{booking_canceled} [{booking_type}] {date} {booking_code}"
 

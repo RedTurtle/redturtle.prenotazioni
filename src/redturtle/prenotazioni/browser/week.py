@@ -228,7 +228,7 @@ class View(BaseView):
             mapping={
                 "booking_time": booking_url["title"],
                 "day": "{} {}".format(
-                    self.context.translate(
+                    api.portal.translate(
                         self.get_day_msgid(day), domain="plonelocales"
                     ),
                     day.strftime("%d"),
@@ -259,7 +259,7 @@ class View(BaseView):
             mapping={
                 "booking_time": link["title"],
                 "day": "{} {}".format(
-                    self.context.translate(
+                    api.portal.translate(
                         self.get_day_msgid(day), domain="plonelocales"
                     ),
                     day.strftime("%d"),
@@ -279,7 +279,7 @@ class View(BaseView):
             mapping={
                 "booking_time": booking.Date().strftime("%H:%M"),
                 "day": "{} {}".format(
-                    self.context.translate(
+                    api.portal.translate(
                         self.get_day_msgid(day), domain="plonelocales"
                     ),
                     day.strftime("%d"),

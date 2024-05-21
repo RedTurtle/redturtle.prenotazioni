@@ -9,6 +9,14 @@ Changelog
   schema with some ields with only spaces
   [mamico]
 
+- Write to history the booking notifications log
+  [folix-01]
+
+- Write to history if could not send booking notification
+  [folix-01]
+
+
+
 
 2.6.5 (2024-04-24)
 ------------------

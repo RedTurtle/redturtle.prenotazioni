@@ -11,6 +11,8 @@ from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtili
 from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.utilities import send_email
 
+from .. import write_message_to_object_history
+
 
 @implementer(IBookingNotificationSender)
 @adapter(IBookingEmailMessage, IPrenotazione, IRedturtlePrenotazioniLayer)
@@ -37,4 +39,8 @@ class BookingTransitionEmailSender:
             logger.info(
                 f"Sending the notification <{self.booking.UID()}> via Email gateway"
             )
+
             send_email(message)
+            write_message_to_object_history(
+                self.booking, message=self.message_adapter.message_history
+            )

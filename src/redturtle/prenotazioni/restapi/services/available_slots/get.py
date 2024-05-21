@@ -59,7 +59,7 @@ class AvailableSlots(Service):
             end = start.replace(day=calendar.monthrange(start.year, start.month)[1])
 
         if start > end:
-            msg = self.context.translate(
+            msg = api.portal.translate(
                 _(
                     "available_slots_wrong_dates",
                     default="End date should be greater than start.",

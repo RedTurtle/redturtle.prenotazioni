@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from functools import partial
 
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
@@ -7,7 +8,10 @@ from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.utilities import handle_exception_by_log
 
+from .. import notify_the_message_failure
 from . import INotificationEmail
+
+notify_the_message_failure = partial(notify_the_message_failure, gateway_type="Email")
 
 
 def booking_folder_provides_current_behavior(booking):
@@ -15,6 +19,7 @@ def booking_folder_provides_current_behavior(booking):
 
 
 @handle_exception_by_log
+@notify_the_message_failure
 def send_email_notification_on_transition(context, event) -> None:
     if not booking_folder_provides_current_behavior(context):
         return
@@ -47,7 +52,10 @@ def send_email_notification_on_transition(context, event) -> None:
 
 
 # TODO: use the notify_on_after_transition_event method techique instead
+
+
 @handle_exception_by_log
+@notify_the_message_failure
 def notify_on_move(context, event):
     if not booking_folder_provides_current_behavior(context):
         return
@@ -69,6 +77,7 @@ def notify_on_move(context, event):
 
 
 @handle_exception_by_log
+@notify_the_message_failure
 def send_booking_reminder(context, event):
     if not booking_folder_provides_current_behavior(context):
         return

@@ -60,9 +60,7 @@ class AddBooking(BookingSchema):
         except BookerException as e:
             raise BadRequest(e) from e
         if not obj:
-            msg = self.context.translate(
-                _("Sorry, this slot is not available anymore.")
-            )
+            msg = api.portal.translate(_("Sorry, this slot is not available anymore."))
             raise BadRequest(msg)
 
         # other_fields: {
@@ -112,13 +110,13 @@ class AddBooking(BookingSchema):
         data_fields = {field["name"]: field["value"] for field in data["fields"]}
 
         if data.get("force", False) and not self.is_manager:
-            msg = self.context.translate(_("You are not allowed to force the gate."))
+            msg = api.portal.translate(_("You are not allowed to force the gate."))
             raise BadRequest(msg)
 
         # campi che non sono nei data_fields
         for field in ("booking_date", "booking_type"):
             if not data.get(field):
-                msg = self.context.translate(
+                msg = api.portal.translate(
                     _(
                         "Required input '${field}' is missing.",
                         mapping=dict(field=field),
@@ -130,7 +128,7 @@ class AddBooking(BookingSchema):
             if not api.user.has_permission(
                 "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
             ):
-                msg = self.context.translate(
+                msg = api.portal.translate(
                     _(
                         "unauthorized_add_vacation",
                         "You can't add a booking with type '${booking_type}'.",
@@ -143,7 +141,7 @@ class AddBooking(BookingSchema):
 
         for field in self.required_fields:
             if not data_fields.get(field):
-                msg = self.context.translate(
+                msg = api.portal.translate(
                     _(
                         "Required input '${field}' is missing.",
                         mapping=dict(field=field),
@@ -154,7 +152,7 @@ class AddBooking(BookingSchema):
         if data["booking_type"] not in [
             _t.title for _t in self.context.get_booking_types()
         ]:
-            msg = self.context.translate(
+            msg = api.portal.translate(
                 _(
                     "Unknown booking type '${booking_type}'.",
                     mapping=dict(booking_type=data["booking_type"]),

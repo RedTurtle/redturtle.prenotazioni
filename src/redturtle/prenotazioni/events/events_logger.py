@@ -65,6 +65,7 @@ def on_modify(obj, event):
         "title",
     ]
     pr = api.portal.get_tool(name="portal_repository")
+
     try:
         old = pr.retrieve(obj, old_version).object
     except Exception:
@@ -74,8 +75,8 @@ def on_modify(obj, event):
 
     changes = []
     for fname in fnames:
-        c_value = obj.getField(fname, obj).get(obj)
-        o_value = old.getField(fname, old).get(old)
+        c_value = getattr(obj, fname)
+        o_value = getattr(old, fname)
         if c_value != o_value:
             changes.append({"new_" + fname: c_value, "old_" + fname: o_value})
 

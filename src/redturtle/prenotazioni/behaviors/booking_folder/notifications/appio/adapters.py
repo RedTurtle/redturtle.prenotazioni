@@ -47,6 +47,8 @@ class BookingTransitionAPPIoSender:
         self.request = request
 
     def send(self) -> bool:
+        from .. import write_message_to_object_history
+
         supervisor = getUtility(IBookingNotificatorSupervisorUtility)
 
         if supervisor.is_appio_message_allowed(self.booking):
@@ -109,4 +111,9 @@ class BookingTransitionAPPIoSender:
                 subject,
                 msgid,
             )
+
+            write_message_to_object_history(
+                self.booking, self.message_adapter.message_history
+            )
+
             return True
