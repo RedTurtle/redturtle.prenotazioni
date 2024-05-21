@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<dc-workflow description="Workflow for Prenotazione content type"
+<dc-workflow
+             i18n:domain="redturtle.prenotazioni"
+             xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+             description="Workflow for Prenotazione content type"
              initial_state="private"
              manager_bypass="False"
              state_variable="review_state"
@@ -11,9 +14,8 @@
   <permission>View</permission>
   <permission>Review portal content</permission>
   <permission>redturtle.prenotazioni: Manage Prenotazioni</permission>
-  <state state_id="pending"
-         title="In attesa"
-  >
+  <state state_id="pending">
+    <title i18n:translate="">Pending</title>
     <description>Waiting to be reviewed, not editable by the owner and not visible</description>
     <exit-transition transition_id="confirm" />
     <exit-transition transition_id="refuse" />
@@ -53,9 +55,8 @@
       <permission-role>Bookings Manager</permission-role>
     </permission-map>
   </state>
-  <state state_id="private"
-         title="Private"
-  >
+  <state state_id="private">
+    <title i18n:translate="">Private</title>
     <description>Fake initial state, immediately changed</description>
     <exit-transition transition_id="submit" />
     <permission-map acquired="False"
@@ -95,9 +96,8 @@
       <permission-role>Bookings Manager</permission-role>
     </permission-map>
   </state>
-  <state state_id="confirmed"
-         title="Confermato"
-  >
+  <state state_id="confirmed">
+  <title i18n:translate="">Confirmed</title>
   <exit-transition transition_id="refuse" />
   <exit-transition transition_id="cancel" />
   <permission-map acquired="False"
@@ -135,9 +135,8 @@
       <permission-role>Bookings Manager</permission-role>
     </permission-map>
   </state>
-  <state state_id="refused"
-         title="Rifiutato"
-  >
+  <state state_id="refused">
+    <title i18n:translate="">Refused</title>
     <exit-transition transition_id="restore" />
     <permission-map acquired="False"
                     name="Access contents information"
@@ -174,9 +173,8 @@
       <permission-role>Bookings Manager</permission-role>
     </permission-map>
   </state>
-  <state state_id="canceled"
-         title="Annullato"
-  >
+  <state state_id="canceled">
+    <title i18n:translate="">Canceled</title>
     <exit-transition transition_id="restore" />
     <permission-map acquired="False"
                     name="Access contents information"
@@ -212,7 +210,7 @@
       <permission-role>Reviewer</permission-role>
       <permission-role>Bookings Manager</permission-role>
     </permission-map>
-  </state>  
+  </state>
   <transition after_script=""
               before_script=""
               new_state="confirmed"

@@ -5,9 +5,9 @@ from plone import api
 from plone.restapi.interfaces import IFieldSerializer
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.serializer.converters import json_compatible
+from Products.CMFCore.utils import getToolByName
 from zope.component import adapter
 from zope.component import getMultiAdapter
-from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface.interfaces import ComponentLookupError
 from zope.publisher.interfaces import IRequest
@@ -17,6 +17,15 @@ from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.content.prenotazione_type import IPrenotazioneType
 from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
+
+
+def get_state_title(context, review_state):
+    portal_workflow = getToolByName(context, "portal_workflow")
+
+    return (
+        portal_workflow.getTitleForStateOnType(review_state, context.portal_type)
+        or "Unknows state"
+    )
 
 
 @implementer(ISerializeToJson)
@@ -59,6 +68,7 @@ class PrenotazioneSerializer:
             booking_expiration_date = booking_expiration_date.replace(
                 booking_date.year, booking_date.month, booking_date.day
             )
+
         return {
             "@id": self.prenotazione.absolute_url(),
             "UID": self.prenotazione.UID(),
@@ -75,8 +85,8 @@ class PrenotazioneSerializer:
             "booking_date": json_compatible(booking_date),
             "booking_expiration_date": json_compatible(booking_expiration_date),
             "booking_status": status["review_state"],
-            "booking_status_label": translate(
-                status["review_state"], context=self.request
+            "booking_status_label": get_state_title(
+                self.prenotazione, status["review_state"]
             ),
             "booking_type": self.prenotazione.booking_type,
             "booking_folder_uid": booking_folder.UID(),
@@ -115,8 +125,8 @@ class PrenotazioneSearchableItemSerializer:
             # "booking_room": None,
             "booking_gate": self.prenotazione.gate,
             "booking_status": status["review_state"],
-            "booking_status_label": translate(
-                status["review_state"], context=self.request
+            "booking_status_label": get_state_title(
+                self.prenotazione, status["review_state"]
             ),
             "booking_status_date": json_compatible(status["time"]),
             "booking_status_notes": status["comments"],

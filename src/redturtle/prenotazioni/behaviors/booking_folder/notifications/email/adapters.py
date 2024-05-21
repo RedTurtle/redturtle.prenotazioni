@@ -28,9 +28,7 @@ class BookingTransitionEmailSender:
             If True, the message will be sent even if the email is not allowed
             (ie. for operator notifications)
         """
-        import pdb
 
-        pdb.set_trace()
         message = self.message_adapter.message
 
         if force or getUtility(

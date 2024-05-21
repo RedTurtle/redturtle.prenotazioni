@@ -22,9 +22,7 @@ class BookingNotificationSender:
         self.request = request
 
     def send(self):
-        import pdb
 
-        pdb.set_trace()
         if self.is_notification_allowed():
             # dont foget to write the history log about sending
             # self.write_message_to_booking_history(self.booking, self.message_adapter.message_history)
