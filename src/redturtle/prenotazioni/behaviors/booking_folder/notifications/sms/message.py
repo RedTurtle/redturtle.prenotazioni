@@ -99,3 +99,23 @@ class PrenotazioneReminderSMSMessage(PrenotazioneSMSMessage):
         return api.portal.translate(
             _("history_sms_reminder_sent", default="SMS reminder was sent")
         )
+
+
+@implementer(IBookingSMSMessage)
+@adapter(IPrenotazione, IBookingReminderEvent)
+class PrenotazioneRemovedSMSMessage(PrenotazioneSMSMessage):
+    @property
+    def message(self) -> str:
+        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(
+                self.prenotazione.getPrenotazioniFolder(),
+                "notify_as_removed_sms_message",
+                "",
+            )
+        )
+
+    @property
+    def message_history(self) -> str:
+        return api.portal.translate(
+            _("history_sms_removed_sent", default="SMS removed notification was sent")
+        )

@@ -126,3 +126,27 @@ class PrenotazioneReminderAppIOMessage(PrenotazioneAPPIoMessage):
                 "",
             )
         )
+
+
+@implementer(IBookingAPPIoMessage)
+@adapter(IPrenotazione, IBookingReminderEvent)
+class PrenotazioneRemovedAppIOMessage(PrenotazioneAPPIoMessage):
+    @property
+    def message(self) -> str:
+        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(
+                self.prenotazione.getPrenotazioniFolder(),
+                "notify_as_removed_appio_message",
+                "",
+            )
+        )
+
+    @property
+    def subject(self) -> str:
+        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(
+                self.prenotazione.getPrenotazioniFolder(),
+                "notify_as_removed_appio_subject",
+                "",
+            )
+        )
