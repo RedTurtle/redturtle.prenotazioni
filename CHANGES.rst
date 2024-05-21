@@ -2,14 +2,41 @@ Changelog
 =========
 
 
-2.6.3 (unreleased)
+2.6.6 (unreleased)
 ------------------
+
+- Workarounds for esternal integration: search with tinit- prefixed user,
+  schema with some ields with only spaces
+  [mamico]
 
 - Write to history the booking notifications log
   [folix-01]
 
 - Write to history if could not send booking notification
   [folix-01]
+
+
+
+
+2.6.5 (2024-04-24)
+------------------
+
+- Package chore.
+  [folix-01]
+
+
+2.6.4 (2024-04-24)
+------------------
+
+- Fix reminder send view.
+  [folix-01]
+
+
+2.6.3 (2024-04-15)
+------------------
+
+- avoid gate collision
+  [mamico]
 
 
 2.6.2 (2024-04-12)
