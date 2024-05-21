@@ -47,6 +47,9 @@ class BookingTransitionAPPIoSender:
         self.request = request
 
     def send(self) -> bool:
+        import pdb
+
+        pdb.set_trace()
         from .. import write_message_to_object_history
 
         supervisor = getUtility(IBookingNotificatorSupervisorUtility)

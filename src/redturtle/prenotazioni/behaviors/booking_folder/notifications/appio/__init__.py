@@ -96,6 +96,26 @@ def notify_on_refuse_appio_message_default_factory(context):
 
 
 @provider(IContextAwareDefaultFactory)
+def notify_on_cancel_appio_subject_default_factory(context):
+    return api.portal.translate(
+        _(
+            "notify_on_cancel_appio_subject_default_value",
+            "[${prenotazioni_folder_title}] Booking canceled for ${title}",
+        )
+    )
+
+
+@provider(IContextAwareDefaultFactory)
+def notify_on_cancel_appio_message_default_factory(context):
+    return api.portal.translate(
+        _(
+            "notify_on_cancel_appio_message_default_value",
+            "The booking ${booking_type} of ${booking_date} at ${booking_time} was canceled.",
+        )
+    )
+
+
+@provider(IContextAwareDefaultFactory)
 def notify_as_reminder_appio_subject_default_factory(context):
     return api.portal.translate(
         _(
@@ -223,6 +243,30 @@ class INotificationAppIO(model.Schema):
         defaultFactory=notify_on_refuse_appio_message_default_factory,
         required=False,
     )
+    notify_on_cancel_appio_subject = schema.Text(
+        title=_(
+            "notify_on_cancel_subject",
+            default="[Cancel] subject",
+        ),
+        description=_(
+            "notify_on_cancel_subject_help",
+            default="The message subject when a booking has been canceled.",
+        ),
+        defaultFactory=notify_on_cancel_appio_subject_default_factory,
+        required=False,
+    )
+    notify_on_cancel_appio_message = schema.Text(
+        title=_(
+            "notify_on_cancel_message",
+            default="[Cancel] message",
+        ),
+        description=_(
+            "notify_on_cancel_message_help",
+            default="The message text when a booking has been canceled.",
+        ),
+        defaultFactory=notify_on_cancel_appio_message_default_factory,
+        required=False,
+    )
     notify_as_reminder_appio_subject = schema.Text(
         title=_(
             "notify_as_reminder_subject",
@@ -268,6 +312,8 @@ class INotificationAppIO(model.Schema):
             "notify_on_move_appio_message",
             "notify_on_refuse_appio_subject",
             "notify_on_refuse_appio_message",
+            "notify_on_cancel_appio_subject",
+            "notify_on_cancel_appio_message",
             "notify_as_reminder_appio_subject",
             "notify_as_reminder_appio_message",
         ],

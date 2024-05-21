@@ -468,6 +468,15 @@ class IPrenotazioniFolder(model.Schema):
         default=False,
         required=False,
     )
+    notify_on_cancel = schema.Bool(
+        title=_("notify_on_cancel", default="Notify when canceled."),
+        description=_(
+            "notify_on_cancel_help",
+            default="Notify via mail the user when his booking has been canceled.",
+        ),
+        default=False,
+        required=False,
+    )
     max_bookings_allowed = schema.Int(
         title=_(
             "max_bookings_allowed_label",
@@ -540,6 +549,7 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_confirm",
             "notify_on_move",
             "notify_on_refuse",
+            "notify_on_cancel",
         ],
     )
 
@@ -582,7 +592,7 @@ class PrenotazioniFolder(Container):
     def get_notification_flags(self):
         return {
             action: getattr(self, f"notify_on_{action}", False)
-            for action in ("confirm", "submit", "refuse")
+            for action in ("confirm", "submit", "refuse", "cancel")
         }
 
     # BBB: compatibility with old code (booking_types was a List of IBookingTypeRow)

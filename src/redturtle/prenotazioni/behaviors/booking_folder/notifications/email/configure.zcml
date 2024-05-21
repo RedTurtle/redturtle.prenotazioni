@@ -33,11 +33,6 @@
       />
   <subscriber
       for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
-           zope.lifecycleevent.IObjectRemovedEvent"
-      handler=".events.send_booking_removed"
-      />
-  <subscriber
-      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione
            Products.DCWorkflow.interfaces.IAfterTransitionEvent"
       handler=".events.send_booking_canceled_to_managers"
       />
