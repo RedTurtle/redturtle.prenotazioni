@@ -15,6 +15,8 @@ Changelog
 - Write to history if could not send booking notification
   [folix-01]
 
+- Booking canceled message + wf states translations
+  [folix-01]
 
 
 

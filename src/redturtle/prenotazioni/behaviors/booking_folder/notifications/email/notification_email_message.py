@@ -391,3 +391,25 @@ class PrenotazioneCanceledManagerEmailMessage(PrenotazioneManagerEmailMessage):
         msg["Bcc"] = bcc
 
         return msg
+
+
+@implementer(IBookingEmailMessage)
+@adapter(IPrenotazione, IBookingReminderEvent)
+class PrenotazioneRemovedEmailMessage(PrenotazioneEmailMessage):
+    @property
+    def message_subject(self) -> str:
+        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(self.prenotazioni_folder, "notify_as_removed_subject", "")
+        )
+
+    @property
+    def message_text(self) -> MIMEText:
+        text = IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(self.prenotazioni_folder, "notify_as_removed_message", None),
+        )
+        if CTE:
+            cs = Charset("utf-8")
+            cs.body_encoding = CTE  # e.g. 'base64'
+            return MIMEText(text, "html", cs)
+        else:
+            return MIMEText(text, "html")

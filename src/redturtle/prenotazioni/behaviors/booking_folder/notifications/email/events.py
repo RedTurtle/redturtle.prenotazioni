@@ -96,6 +96,25 @@ def send_booking_reminder(context, event):
     sender_adapter.send()
 
 
+@notify_the_message_failure
+def send_booking_removed(context, event):
+    if not booking_folder_provides_current_behavior(context):
+        return
+
+    message_adapter = getMultiAdapter(
+        (context, event),
+        IBookingEmailMessage,
+        name="removed_notification_email_message",
+    )
+    sender_adapter = getMultiAdapter(
+        (message_adapter, context, getRequest()),
+        IBookingNotificationSender,
+        name="booking_transition_email_sender",
+    )
+
+    sender_adapter.send()
+
+
 def send_booking_canceled_to_managers(booking, event):
     """
     Send email notification for managers

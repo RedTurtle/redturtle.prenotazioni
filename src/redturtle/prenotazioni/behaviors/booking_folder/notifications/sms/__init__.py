@@ -53,6 +53,16 @@ def notify_on_refuse_sms_message_default_factory(context):
 
 
 @provider(IContextAwareDefaultFactory)
+def notify_on_cancel_sms_message_default_factory(context):
+    return api.portal.translate(
+        _(
+            "notify_on_cancel_sms_message_default_value",
+            "[${prenotazioni_folder_title}]: The booking ${booking_type} of ${booking_date} at ${booking_time} was canceled.",
+        )
+    )
+
+
+@provider(IContextAwareDefaultFactory)
 def notify_as_reminder_sms_message_default_factory(context):
     return api.portal.translate(
         _(
@@ -122,6 +132,18 @@ class INotificationSMS(model.Schema):
         defaultFactory=notify_on_refuse_sms_message_default_factory,
         required=False,
     )
+    notify_on_cancel_sms_message = schema.Text(
+        title=_(
+            "notify_on_cancel_message",
+            default="[Cancel] message",
+        ),
+        description=_(
+            "notify_on_cancel_message_help",
+            default="The message text when a booking has been canceled.",
+        ),
+        defaultFactory=notify_on_cancel_sms_message_default_factory,
+        required=False,
+    )
     notify_as_reminder_sms_message = schema.Text(
         title=_(
             "notify_as_reminder_message",
@@ -151,6 +173,7 @@ class INotificationSMS(model.Schema):
             "notify_on_confirm_sms_message",
             "notify_on_move_sms_message",
             "notify_on_refuse_sms_message",
+            "notify_on_cancel_sms_message",
             "notify_as_reminder_sms_message",
         ],
     )

@@ -93,3 +93,23 @@ def send_booking_reminder(context, event):
             name="booking_transition_sms_sender",
         )
         sender_adapter.send()
+
+
+@handle_exception_by_log
+@notify_the_message_failure
+def send_booking_removed(context, event):
+    if not booking_folder_provides_current_behavior(context):
+        return
+
+    message_adapter = getMultiAdapter(
+        (context, event),
+        IBookingSMSMessage,
+        name="removed_notification_sms_message",
+    )
+    if message_adapter and message_adapter.message:
+        sender_adapter = getMultiAdapter(
+            (message_adapter, context, getRequest()),
+            IBookingNotificationSender,
+            name="booking_transition_sms_sender",
+        )
+        sender_adapter.send()
