@@ -6,7 +6,7 @@ Changelog
 ------------------
 
 - Workarounds for external integration: search with tinit- prefixed user,
-  schema with some ields with only spaces
+  schema with some fields with only spaces
   [mamico]
 
 - Write to history the booking notifications log
