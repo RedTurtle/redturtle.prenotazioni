@@ -18,18 +18,3 @@ msgstr ""
 
 msgid "Can Manage Bookings"
 msgstr "Può gestire le prenotazioni"
-
-msgid "pending"
-msgstr "In attesa"
-
-msgid "private"
-msgstr "Privato"
-
-msgid "confirmed"
-msgstr "Confermato"
-
-msgid "refused"
-msgstr "Rifiutato"
-
-msgid "canceled"
-msgstr "Cancellato"

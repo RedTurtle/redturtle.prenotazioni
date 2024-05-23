@@ -1854,3 +1854,18 @@ msgstr "Personalizzazioni Schedulazione Settimanale"
 #: redturtle/prenotazioni/browser/delete_reservation.py:98
 msgid "wrong_authenticator"
 msgstr "Stai cercando di cancellare una prenotazione con un'azione sbagliata."
+
+msgid "pending"
+msgstr "In attesa"
+
+msgid "private"
+msgstr "Privato"
+
+msgid "confirmed"
+msgstr "Confermato"
+
+msgid "refused"
+msgstr "Rifiutato"
+
+msgid "canceled"
+msgstr "Annullato"

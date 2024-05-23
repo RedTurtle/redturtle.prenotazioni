@@ -1837,3 +1837,18 @@ msgstr ""
 #: redturtle/prenotazioni/browser/delete_reservation.py:98
 msgid "wrong_authenticator"
 msgstr ""
+
+msgid "pending"
+msgstr "In attesa"
+
+msgid "private"
+msgstr "Privato"
+
+msgid "confirmed"
+msgstr "Confermato"
+
+msgid "refused"
+msgstr "Rifiutato"
+
+msgid "canceled"
+msgstr "Annullato"
