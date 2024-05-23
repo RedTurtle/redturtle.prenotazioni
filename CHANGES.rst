@@ -2,10 +2,10 @@ Changelog
 =========
 
 
-2.6.6 (unreleased)
+2.7.0 (unreleased)
 ------------------
 
-- Workarounds for esternal integration: search with tinit- prefixed user,
+- Workarounds for external integration: search with tinit- prefixed user,
   schema with some ields with only spaces
   [mamico]
 
@@ -16,6 +16,8 @@ Changelog
   [folix-01]
 
 - Booking canceled message + wf states translations
+  BREAKING CHANGE: frontend uses booking_state_label insteat of booking_state, this change of translations
+  requires a new release of the frontend (@redturtle/volto-io-prenoto >= 1.20.0)
   [folix-01]
 
 
