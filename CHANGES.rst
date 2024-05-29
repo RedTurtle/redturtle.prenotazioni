@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.0 (unreleased)
+2.7.0 (2024-05-29)
 ------------------
 
 - Workarounds for external integration: search with tinit- prefixed user,
