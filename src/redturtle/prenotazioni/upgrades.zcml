@@ -365,5 +365,15 @@
         handler=".upgrades.to_2009"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2009"
+      destination="2010"
+      >
+    <genericsetup:upgradeStep
+        title="Update rolemap"
+        handler=".upgrades.to_2010"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

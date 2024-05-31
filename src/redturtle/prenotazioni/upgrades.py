@@ -516,3 +516,7 @@ def to_2009(context):
     if "plone.versioning" not in modulo_behaviors:
         modulo_behaviors.append("plone.versioning")
     portal_types["Prenotazione"].behaviors = tuple(modulo_behaviors)
+
+
+def to_2010(context):
+    update_rolemap(context)

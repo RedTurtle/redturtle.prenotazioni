@@ -5,7 +5,8 @@ Changelog
 2.7.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Hotfix missing permission.
+  [folix-01]
 
 
 2.7.0 (2024-05-29)
