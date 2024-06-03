@@ -112,7 +112,13 @@
 
     <permission acquire="True"
                 name="CMFEditions: Save new version">
-       <role name="Bookings Manager" />
+      <role name="Bookings Manager" />
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Editor" />
+      <role name="Reviewer" />
+      <role name="Contributor" />
     </permission>
 
   </permissions>
