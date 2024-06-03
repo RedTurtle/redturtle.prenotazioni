@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.2 (unreleased)
+2.7.2 (2024-06-03)
 ------------------
 
 - Hotfix missing permission.
