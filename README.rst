@@ -611,6 +611,10 @@ Response::
           }
     }
 
+If a user is authenticated and, he is not a site operator, returns all own bookings.
+
+With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return 
+also the bookings created by anonymous users with the same fiscalcode of the authenticated user.
 
 @booking-notify
 ---------------
