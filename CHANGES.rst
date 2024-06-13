@@ -5,7 +5,9 @@ Changelog
 2.7.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return 
+  also the bookings created by anonymous users with the same fiscalcode of the authenticated user.
+  [mamico]
 
 
 2.7.2 (2024-06-03)

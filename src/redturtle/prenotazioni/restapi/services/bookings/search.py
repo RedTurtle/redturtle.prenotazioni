@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+import os
 
 from DateTime import DateTime
 from plone import api
@@ -12,6 +13,11 @@ from zope.publisher.interfaces import IPublishTraverse
 from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
 
 logger = logging.getLogger(__name__)
+SEE_OWN_ANONYMOUS_BOOKINGS = os.environ.get("SEE_OWN_ANONYMOUS_BOOKINGS") in [
+    "True",
+    "true",
+    "1",
+]
 
 
 @implementer(IPublishTraverse)
@@ -84,25 +90,43 @@ class BookingsSearch(Service):
         return query
 
     def reply(self):
+        # XXX: `fullobjects` the correct behavior should be to use different serializers
         fullobjects = self.request.form.get("fullobjects", False) == "1"
         response = {"id": self.context.absolute_url() + "/@bookings"}
         query = self.query()
-        # XXX: `fullobjects` the correct behavior should be to use different serializers
         items = []
-        for i in api.portal.get_tool("portal_catalog")(**query):
+        if query.get("fiscalcode") and SEE_OWN_ANONYMOUS_BOOKINGS:
+            # brains = api.content.find(**query, unrestricted=True)
+            brains = api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
+                **query
+            )
+            unrestricted = True
+        else:
+            # brains = api.content.find(**query)
+            brains = api.portal.get_tool("portal_catalog")(**query)
+            unrestricted = False
+        for brain in brains:
             # TEMP: errors with broken catalog entries
             try:
                 items.append(
                     getMultiAdapter(
-                        (i.getObject(), self.request),
+                        (self.wrappedGetObject(brain, unrestricted), self.request),
                         ISerializeToPrenotazioneSearchableItem,
                     )(fullobjects=fullobjects)
                 )
             except:  # noqa: E722
-                logger.exception("error with %s", i.getPath())
+                logger.exception("error with %s", brain.getPath())
         response["items"] = items
         response["items_total"] = len(response["items"])
         return response
+
+    @staticmethod
+    def wrappedGetObject(brain, unrestricted=False):
+        if unrestricted:
+            # with api.env.adopt_user(brain.Creator):
+            with api.env.adopt_roles("Manager"):
+                return brain.getObject()
+        return brain.getObject()
 
 
 class BookingsSearchFolder(BookingsSearch):

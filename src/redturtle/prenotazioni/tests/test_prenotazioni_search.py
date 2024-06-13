@@ -503,3 +503,202 @@ class TestPrenotazioniSearch(unittest.TestCase):
             [r[0].value for r in data["Sheet 1"].rows][1:],
             sorted([r[0].value for r in data["Sheet 1"].rows][1:], reverse=True),
         )
+
+
+class TestPrenotazioniUserSearch(unittest.TestCase):
+    """Test the restapi search endpoint (<portal_url>/@bookings)"""
+
+    layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.app = self.layer["app"]
+        self.portal = self.layer["portal"]
+        self.portal_url = self.portal.absolute_url()
+        self.testing_fiscal_code = "TESTINGFISCALCODE"
+        self.testing_booking_date = parser.parse("2023-04-28 16:00:00")
+        self.booking_expiration_date = parser.parse("2023-04-28 16:00:00") + timedelta(
+            days=100
+        )
+
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+        api.user.create(
+            email="john@example.org",
+            username="TESTINGFISCALCODE",
+            password="testingpassowrd",
+            properties={"fiscalcode": "TESTINGFISCALCODE"},
+        )
+
+        self.api_session = RelativeSession(self.portal_url)
+        self.api_session.headers.update({"Accept": "application/json"})
+        self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
+
+        self.anon_session = RelativeSession(self.portal_url)
+        self.anon_session.headers.update({"Accept": "application/json"})
+        self.anon_session.auth = None
+
+        self.user_session = RelativeSession(self.portal_url)
+        self.user_session.headers.update({"Accept": "application/json"})
+        self.user_session.auth = ("TESTINGFISCALCODE", "testingpassowrd")
+
+        self.browser = Browser(self.layer["app"])
+
+        self.folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            gates=["Gate A"],
+        )
+        api.content.transition(obj=self.folder_prenotazioni, transition="publish")
+
+        obj = api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+            requirements=RichTextValue(
+                "You need to bring your own food", "text/plain", "text/html"
+            ),
+        )
+        api.content.transition(obj=obj, transition="publish")
+
+        week_table = deepcopy(self.folder_prenotazioni.week_table)
+        week_table[0]["morning_start"] = "0700"
+        week_table[0]["morning_end"] = "1000"
+        self.folder_prenotazioni.week_table = week_table
+
+        self.folder_prenotazioni2 = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota bar",
+            description="",
+            daData=date.today(),
+            gates=["Gate A"],
+        )
+        api.content.transition(obj=self.folder_prenotazioni2, transition="publish")
+
+        obj = api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=10,
+            container=self.folder_prenotazioni2,
+            gates=["all"],
+        )
+        api.content.transition(obj=obj, transition="publish")
+
+        obj = api.content.create(
+            type="PrenotazioneType",
+            title="Type B",
+            duration=20,
+            container=self.folder_prenotazioni2,
+            gates=["all"],
+        )
+        api.content.transition(obj=obj, transition="publish")
+
+        week_table = deepcopy(self.folder_prenotazioni2.week_table)
+        week_table[0]["morning_start"] = "0700"
+        week_table[0]["morning_end"] = "1000"
+        self.folder_prenotazioni2.week_table = week_table
+
+        transaction.commit()
+
+    def tearDown(self):
+        self.api_session.close()
+        self.anon_session.close()
+        self.user_session.close()
+
+    def test_search_own_bookings(self):
+
+        # booking_date = "{}T09:00:00+00:00".format(
+        #     (date.today() + timedelta(1)).strftime("%Y-%m-%d")
+        # )
+        res = self.anon_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@available-slots"
+        )
+        booking_date = res.json()["items"][0]
+        # anonymous user 1
+        res = self.add_booking(
+            self.anon_session,
+            booking_date=booking_date,
+            booking_type="Type A",
+            fields=[
+                {"name": "title", "value": "Mario Rossi"},
+                {"name": "email", "value": "mario.rossi@example"},
+                {"name": "fiscalcode", "value": "ABCDEF12G34H567I"},
+            ],
+        )
+        self.assertEqual(res.status_code, 200)
+        # anonymous user 2 (not the same fiscalcode, pretend to be john)
+        res = self.anon_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@available-slots"
+        )
+        booking_date = res.json()["items"][0]
+        res = self.add_booking(
+            self.anon_session,
+            booking_date=booking_date,
+            booking_type="Type A",
+            fields=[
+                {"name": "title", "value": "John Rossi"},
+                {"name": "email", "value": "john@example"},
+                {"name": "fiscalcode", "value": "TESTINGFISCALCODE"},
+            ],
+        )
+        self.assertEqual(res.status_code, 200)
+        # john
+        res = self.anon_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@available-slots"
+        )
+        booking_date = res.json()["items"][0]
+        res = self.add_booking(
+            self.user_session,
+            booking_date=booking_date,
+            booking_type="Type A",
+            fields=[
+                {"name": "title", "value": "John Rossi"},
+                {"name": "email", "value": "john@example"},
+                # {"name": "fiscalcode", "value": "TESTINGFISCALCODE"},
+            ],
+        )
+        self.assertEqual(res.status_code, 200)
+
+        # anonimo non può vedere le prenotazioni
+        res = self.anon_session.get(
+            f"{self.portal.absolute_url()}/@bookings/TESTINGFISCALCODE"
+        )
+        self.assertEqual(res.status_code, 401)
+
+        # il manager vede tutte le prenotazioni (3)
+        res = self.api_session.get(f"{self.portal.absolute_url()}/@bookings")
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["items_total"], 3)
+
+        # la prenotazione fatta da anonimo con il codicefiscale di john non è visibile
+        res = self.user_session.get(f"{self.portal.absolute_url()}/@bookings")
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["items_total"], 1)
+
+        # XXX: monkeypatching per vedere le prenotazioni anonime
+        from redturtle.prenotazioni.restapi.services.bookings import search
+
+        search.SEE_OWN_ANONYMOUS_BOOKINGS = True
+        res = self.user_session.get(f"{self.portal.absolute_url()}/@bookings")
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["items_total"], 2)
+        search.SEE_OWN_ANONYMOUS_BOOKINGS = False
+
+        # TODO: verificare che siano le prenotazioni giuste
+
+    # utility methods
+
+    def add_booking(self, api_session, booking_date, booking_type, fields):
+        return api_session.post(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking",
+            json={
+                "booking_date": booking_date,
+                "booking_type": booking_type,
+                "fields": fields,
+            },
+        )
