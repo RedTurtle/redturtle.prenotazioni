@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.3 (unreleased)
+2.7.3 (2024-06-14)
 ------------------
 
 - With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return 
