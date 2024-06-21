@@ -613,7 +613,7 @@ Response::
 
 If a user is authenticated and, he is not a site operator, returns all own bookings.
 
-With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return 
+With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return
 also the bookings created by anonymous users with the same fiscalcode of the authenticated user.
 
 @booking-notify
@@ -734,6 +734,16 @@ have the Reminder Notification Gap field populated. If you intend to set up a cr
 The script is located at src/redturtle/prenotazioni/scripts/notify_upcoming_bookings.py.
 
 
+@@bookings-export
+-----------------
+
+Export bookings by passed **date** in ISO format or today by default.
+
+Example::
+    curl -i http://localhost:8080/Plone/folder/@@bookings-export?date=2024-06-21
+
+Response::
+    Binary csv file
 
 Scripts
 =======
