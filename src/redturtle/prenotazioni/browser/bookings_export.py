@@ -62,6 +62,7 @@ class BookingsExport(BrowserView):
                 "range": "min:max",
             },
             review_state="confirmed",
+            sort_on="Date",
         )
 
     def setHeader(self, *args):
