@@ -38,7 +38,6 @@ class BookingsExport(BrowserView):
                 _("csv_export_booking_folder", default="BOOKING FOLDER")
             ),
             api.portal.translate(_("csv_export_company", default="COMPANY")),
-            api.portal.translate(_("csv_export_link", default="LINK")),
         ]
 
     @property
@@ -109,9 +108,6 @@ class BookingsExport(BrowserView):
             api.portal.translate(
                 _("csv_export_company", default="COMPANY")
             ): booking.company,
-            api.portal.translate(
-                _("csv_exptranslate_link", default="LINK")
-            ): booking.absolute_url(),
         }
 
     def get_csv_rows(self):
