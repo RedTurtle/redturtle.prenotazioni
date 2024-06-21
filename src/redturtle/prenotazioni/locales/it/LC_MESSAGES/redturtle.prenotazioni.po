@@ -782,7 +782,7 @@ msgstr "Contatti"
 #. Default: "BOOKING FOLDER"
 #: redturtle/prenotazioni/browser/bookings_export.py:37
 msgid "csv_export_booking_folder"
-msgstr "CARTELLE PRENOTAZIONI"
+msgstr "CARTELLA PRENOTAZIONI"
 
 #. Default: "CODE"
 #: redturtle/prenotazioni/browser/bookings_export.py:24
