@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-06-21 13:54+0000\n"
+"POT-Creation-Date: 2024-06-21 15:20+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -42,7 +42,7 @@ msgstr "L'orario di inizio del pomeriggio non può essere successivo alla chiusu
 msgid "Attention"
 msgstr "Attenzione!"
 
-#: redturtle/prenotazioni/browser/bookings_export.py:146
+#: redturtle/prenotazioni/browser/bookings_export.py:150
 msgid "Bad date format passed"
 msgstr "Parametro 'date' è composto male"
 
@@ -780,7 +780,7 @@ msgid "contacts_label"
 msgstr "Contatti"
 
 #. Default: "BOOKING FOLDER"
-#: redturtle/prenotazioni/browser/bookings_export.py:38
+#: redturtle/prenotazioni/browser/bookings_export.py:39
 msgid "csv_export_booking_folder"
 msgstr "CARTELLA PRENOTAZIONI"
 
@@ -790,7 +790,7 @@ msgid "csv_export_code"
 msgstr "CODICE"
 
 #. Default: "COMPANY"
-#: redturtle/prenotazioni/browser/bookings_export.py:40
+#: redturtle/prenotazioni/browser/bookings_export.py:41
 msgid "csv_export_company"
 msgstr "AZIENDA"
 
@@ -800,22 +800,27 @@ msgid "csv_export_email"
 msgstr "EMAIL"
 
 #. Default: "BOOKING EXPIRATION"
-#: redturtle/prenotazioni/browser/bookings_export.py:32
+#: redturtle/prenotazioni/browser/bookings_export.py:33
 msgid "csv_export_end_time"
 msgstr "FINE PRENOTAZIONE"
 
 #. Default: "FISCALCODE"
-#: redturtle/prenotazioni/browser/bookings_export.py:29
+#: redturtle/prenotazioni/browser/bookings_export.py:30
 msgid "csv_export_fiscalcode"
 msgstr "CODICE FISCALE"
 
 #. Default: "GATE"
-#: redturtle/prenotazioni/browser/bookings_export.py:35
+#: redturtle/prenotazioni/browser/bookings_export.py:36
 msgid "csv_export_gate"
 msgstr "POSTAZIONE"
 
+#. Default: "NAME SURNAME"
+#: redturtle/prenotazioni/browser/bookings_export.py:29
+msgid "csv_export_name"
+msgstr ""
+
 #. Default: "NOTES"
-#: redturtle/prenotazioni/browser/bookings_export.py:36
+#: redturtle/prenotazioni/browser/bookings_export.py:37
 msgid "csv_export_notes"
 msgstr "NOTE"
 
@@ -825,12 +830,12 @@ msgid "csv_export_phone"
 msgstr "NUMERO TELEFONO"
 
 #. Default: "BOOKING START"
-#: redturtle/prenotazioni/browser/bookings_export.py:30
+#: redturtle/prenotazioni/browser/bookings_export.py:31
 msgid "csv_export_start_time"
 msgstr "INIZIO PRENOTAZIONE"
 
 #. Default: "STATE"
-#: redturtle/prenotazioni/browser/bookings_export.py:34
+#: redturtle/prenotazioni/browser/bookings_export.py:35
 msgid "csv_export_state"
 msgstr "STATO"
 

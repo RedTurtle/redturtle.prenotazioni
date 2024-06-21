@@ -26,6 +26,7 @@ class BookingsExport(BrowserView):
             api.portal.translate(_("csv_export_type", default="TYPE")),
             api.portal.translate(_("csv_export_phone", default="PHONE")),
             api.portal.translate(_("csv_export_email", default="EMAIL")),
+            api.portal.translate(_("csv_export_name", default="NAME SURNAME")),
             api.portal.translate(_("csv_export_fiscalcode", default="FISCALCODE")),
             api.portal.translate(_("csv_export_start_time", default="BOOKING START")),
             api.portal.translate(
@@ -108,6 +109,9 @@ class BookingsExport(BrowserView):
             api.portal.translate(
                 _("csv_export_company", default="COMPANY")
             ): booking.company,
+            api.portal.translate(
+                _("csv_export_name", default="NAME SURNAME")
+            ): booking.title,
         }
 
     def get_csv_rows(self):
