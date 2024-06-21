@@ -6,11 +6,12 @@ from plone import api
 from Products.Five import BrowserView
 from six import StringIO
 from zExceptions import BadRequest
-from redturtle.prenotazioni.utilities.dateutils import get_default_timezone
+
+from redturtle.prenotazioni import _
 from redturtle.prenotazioni.restapi.serializers.adapters.prenotazione import (
     get_booking_wf_state_title,
 )
-from redturtle.prenotazioni import _
+from redturtle.prenotazioni.utilities.dateutils import get_default_timezone
 
 
 class BookingsExport(BrowserView):
