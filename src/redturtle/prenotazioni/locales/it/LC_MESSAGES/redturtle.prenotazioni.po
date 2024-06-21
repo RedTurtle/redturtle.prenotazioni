@@ -817,7 +817,7 @@ msgstr "POSTAZIONE"
 #. Default: "NAME SURNAME"
 #: redturtle/prenotazioni/browser/bookings_export.py:29
 msgid "csv_export_name"
-msgstr ""
+msgstr "NOME COGNOME"
 
 #. Default: "NOTES"
 #: redturtle/prenotazioni/browser/bookings_export.py:37
