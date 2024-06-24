@@ -5,7 +5,8 @@ Changelog
 2.7.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- @@bookings-export view.
+  [folix-01]
 
 
 2.7.3 (2024-06-14)

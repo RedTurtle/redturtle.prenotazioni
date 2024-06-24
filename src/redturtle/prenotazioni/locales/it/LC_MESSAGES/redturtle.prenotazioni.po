@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-05-21 14:53+0000\n"
+"POT-Creation-Date: 2024-06-21 15:20+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -41,6 +41,10 @@ msgstr "L'orario di inizio del pomeriggio non può essere successivo alla chiusu
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:29
 msgid "Attention"
 msgstr "Attenzione!"
+
+#: redturtle/prenotazioni/browser/bookings_export.py:150
+msgid "Bad date format passed"
+msgstr "Parametro 'date' è composto male"
 
 #: redturtle/prenotazioni/adapters/stringinterp.py:27
 msgid "Booking"
@@ -82,10 +86,6 @@ msgstr "Prenotazione di"
 msgid "Booking type notification appio"
 msgstr "Notifiche AppIO per tipologia prenotazione"
 
-#: redturtle/prenotazioni/profiles/default/workflows/prenotazioni_workflow/definition.xml
-msgid "Canceled"
-msgstr "Cancellato"
-
 #. Default: "Change date/time"
 #: redturtle/prenotazioni/profiles/default/actions.xml
 msgid "Change date/time"
@@ -95,10 +95,6 @@ msgstr "Cambia la data di prenotazione."
 #: redturtle/prenotazioni/behaviors/booking_folder/contacts.py:43
 msgid "Complete address"
 msgstr "Indirizzo completo"
-
-#: redturtle/prenotazioni/profiles/default/workflows/prenotazioni_workflow/definition.xml
-msgid "Confirmed"
-msgstr "Confermato"
 
 #: redturtle/prenotazioni/behaviors/booking_folder/contacts.py:36
 msgid "Contact PEC"
@@ -307,10 +303,6 @@ msgstr "Le pause devono essere comprese tra l'orario di inizio o di termine dell
 msgid "Pause table"
 msgstr "Schedulazione delle pause"
 
-#: redturtle/prenotazioni/profiles/default/workflows/prenotazioni_workflow/definition.xml
-msgid "Pending"
-msgstr "In attes"
-
 #: redturtle/prenotazioni/browser/prenotazione_add.py:220
 msgid "Please provide a booking date"
 msgstr "Per favore seleziona una data."
@@ -334,14 +326,6 @@ msgstr "PrenotazioniYear"
 #: redturtle/prenotazioni/browser/templates/prenotazione_print.pt:129
 msgid "Print"
 msgstr "Stampa"
-
-#: redturtle/prenotazioni/profiles/default/workflows/prenotazioni_workflow/definition.xml
-msgid "Private"
-msgstr "Privato"
-
-#: redturtle/prenotazioni/profiles/default/workflows/prenotazioni_workflow/definition.xml
-msgid "Refused"
-msgstr "Rifiutato"
 
 #: redturtle/prenotazioni/restapi/services/booking/add.py:120
 msgid "Required input '${field}' is missing."
@@ -757,6 +741,10 @@ msgstr "Notifiche SMS"
 msgid "busy"
 msgstr "Occupato"
 
+#. Default: "Annullato"
+msgid "canceled"
+msgstr "Annullato"
+
 #. Default: "Your booking has been canceled."
 #: redturtle/prenotazioni/browser/prenotazione_print.py:35
 msgid "confirm_booking_canceled_message"
@@ -777,6 +765,10 @@ msgstr "La tua prenotazione è stata rifiutata."
 msgid "confirm_booking_waiting_message"
 msgstr "La tua prenotazione deve essere confermata dagli amministratori."
 
+#. Default: "Confermato"
+msgid "confirmed"
+msgstr "Confermato"
+
 #. Default: "Show here contacts information that will be used by authomatic mail system"
 #: redturtle/prenotazioni/behaviors/booking_folder/contacts.py:49
 msgid "contacts_help"
@@ -786,6 +778,76 @@ msgstr "Indicare tutte le informazioni di contatto che saranno usate dal sistema
 #: redturtle/prenotazioni/behaviors/booking_folder/contacts.py:48
 msgid "contacts_label"
 msgstr "Contatti"
+
+#. Default: "BOOKING FOLDER"
+#: redturtle/prenotazioni/browser/bookings_export.py:39
+msgid "csv_export_booking_folder"
+msgstr "CARTELLA PRENOTAZIONI"
+
+#. Default: "CODE"
+#: redturtle/prenotazioni/browser/bookings_export.py:25
+msgid "csv_export_code"
+msgstr "CODICE"
+
+#. Default: "COMPANY"
+#: redturtle/prenotazioni/browser/bookings_export.py:41
+msgid "csv_export_company"
+msgstr "AZIENDA"
+
+#. Default: "EMAIL"
+#: redturtle/prenotazioni/browser/bookings_export.py:28
+msgid "csv_export_email"
+msgstr "EMAIL"
+
+#. Default: "BOOKING EXPIRATION"
+#: redturtle/prenotazioni/browser/bookings_export.py:33
+msgid "csv_export_end_time"
+msgstr "FINE PRENOTAZIONE"
+
+#. Default: "FISCALCODE"
+#: redturtle/prenotazioni/browser/bookings_export.py:30
+msgid "csv_export_fiscalcode"
+msgstr "CODICE FISCALE"
+
+#. Default: "GATE"
+#: redturtle/prenotazioni/browser/bookings_export.py:36
+msgid "csv_export_gate"
+msgstr "POSTAZIONE"
+
+#. Default: "NAME SURNAME"
+#: redturtle/prenotazioni/browser/bookings_export.py:29
+msgid "csv_export_name"
+msgstr "NOME COGNOME"
+
+#. Default: "NOTES"
+#: redturtle/prenotazioni/browser/bookings_export.py:37
+msgid "csv_export_notes"
+msgstr "NOTE"
+
+#. Default: "PHONE"
+#: redturtle/prenotazioni/browser/bookings_export.py:27
+msgid "csv_export_phone"
+msgstr "NUMERO TELEFONO"
+
+#. Default: "BOOKING START"
+#: redturtle/prenotazioni/browser/bookings_export.py:31
+msgid "csv_export_start_time"
+msgstr "INIZIO PRENOTAZIONE"
+
+#. Default: "STATE"
+#: redturtle/prenotazioni/browser/bookings_export.py:35
+msgid "csv_export_state"
+msgstr "STATO"
+
+#. Default: "TYPE"
+#: redturtle/prenotazioni/browser/bookings_export.py:26
+msgid "csv_export_type"
+msgstr "TIPO"
+
+#. Default: "UID"
+#: redturtle/prenotazioni/browser/bookings_export.py:24
+msgid "csv_export_uid"
+msgstr "UID"
 
 #. Default: "This day is not valid."
 #: redturtle/prenotazioni/browser/vacations.py:223
@@ -1667,6 +1729,10 @@ msgstr "Termine pausa"
 msgid "pause_start_label"
 msgstr "Inizio pausa"
 
+#. Default: "In attesa"
+msgid "pending"
+msgstr "In attesa"
+
 #. Default: "Please select a time slot"
 #: redturtle/prenotazioni/browser/prenotazione_add.py:279
 msgid "please_pick_a_date"
@@ -1686,6 +1752,10 @@ msgstr "Ricerca"
 #: redturtle/prenotazioni/browser/templates/prenotazione_macros.pt:14
 msgid "previous-week"
 msgstr "Settimana precedente"
+
+#. Default: "Privato"
+msgid "private"
+msgstr "Privato"
 
 #: redturtle/prenotazioni/configure.zcml:31
 msgid "redturtle.prenotazioni"
@@ -1715,6 +1785,10 @@ msgstr ""
 #: redturtle/prenotazioni/demo/configure.zcml:16
 msgid "redturtle.prenotazioni.demo"
 msgstr ""
+
+#. Default: "Rifiutato"
+msgid "refused"
+msgstr "Rifiutato"
 
 #. Default: "The booking state is \"refused\". If you change it, the booking time may conflict with another one."
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:30
@@ -1854,18 +1928,3 @@ msgstr "Personalizzazioni Schedulazione Settimanale"
 #: redturtle/prenotazioni/browser/delete_reservation.py:98
 msgid "wrong_authenticator"
 msgstr "Stai cercando di cancellare una prenotazione con un'azione sbagliata."
-
-msgid "pending"
-msgstr "In attesa"
-
-msgid "private"
-msgstr "Privato"
-
-msgid "confirmed"
-msgstr "Confermato"
-
-msgid "refused"
-msgstr "Rifiutato"
-
-msgid "canceled"
-msgstr "Annullato"

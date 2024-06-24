@@ -217,6 +217,13 @@
       permission="redturtle.prenotazioni.SearchPrenotazioni"
       />
 
+  <browser:page
+      name="bookings-export"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".bookings_export.BookingsExport"
+      permission="cmf.ModifyPortalContent"
+      />
+
   <!-- define new widget -->
   <class class=".widget.WeekTableOverridesWidget">
     <require
