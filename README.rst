@@ -740,7 +740,7 @@ The script is located at src/redturtle/prenotazioni/scripts/notify_upcoming_book
 Export bookings by passed **date** in ISO format or today by default.
 
 Example::
-    curl -i http://localhost:8080/Plone/folder/@@bookings-export?date=2024-06-21
+    curl -i http://localhost:8080/Plone/@@bookings-export?date=2024-06-21
 
 Response::
     Binary csv file
