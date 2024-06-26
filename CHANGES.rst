@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.5 (unreleased)
+2.7.5 (2024-06-26)
 ------------------
 
 - Accept email as an tuple in booking schema get.
