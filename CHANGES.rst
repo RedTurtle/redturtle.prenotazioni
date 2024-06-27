@@ -5,6 +5,9 @@ Changelog
 2.7.6 (unreleased)
 ------------------
 
+- Add creator and creation date to bookings export
+  [folix-01]
+
 - Fix notify_about_confirm service in according to last updates.
   [folix-01]
 
