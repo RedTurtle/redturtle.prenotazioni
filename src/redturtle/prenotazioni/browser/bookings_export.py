@@ -22,6 +22,10 @@ class BookingsExport(BrowserView):
     def csv_fields(self):
         return [
             api.portal.translate(_("csv_export_uid", default="UID")),
+            api.portal.translate(_("csv_export_creator", default="CREATOR")),
+            api.portal.translate(
+                _("csv_export_creation_date", default="CREATION DATE")
+            ),
             api.portal.translate(_("csv_export_code", default="CODE")),
             api.portal.translate(_("csv_export_type", default="TYPE")),
             api.portal.translate(_("csv_export_phone", default="PHONE")),
@@ -79,6 +83,12 @@ class BookingsExport(BrowserView):
 
         return {
             api.portal.translate(_("csv_export_uid", default="UID")): booking.UID(),
+            api.portal.translate(
+                _("csv_export_creator", default="CREATOR")
+            ): booking.Creator(),
+            api.portal.translate(
+                _("csv_export_creation_date", default="CREATION DATE")
+            ): booking.created().strftime("%Y-%m-%d %H:%M:%S"),
             api.portal.translate(
                 _("csv_export_code", default="CODE")
             ): booking.getBookingCode(),
