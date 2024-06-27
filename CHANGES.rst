@@ -5,7 +5,8 @@ Changelog
 2.7.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix notify_about_confirm service in according to last updates.
+  [folix-01]
 
 
 2.7.5 (2024-06-26)
