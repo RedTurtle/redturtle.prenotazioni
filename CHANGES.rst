@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.6 (unreleased)
+2.7.6 (2024-06-27)
 ------------------
 
 - Add creator and creation date to bookings export
