@@ -24,7 +24,7 @@ class NotifyUserAboutBookingConfirm(Service):
             raise BadRequest("Booking not found")
 
         transition_billet = type(
-            "TranstionBillet", (object,), {"__name__": "confirm"}
+            "TranstionBillet", (object,), {"__name__": "confirm", "title": "Confirm"}
         )()
 
         notify(
