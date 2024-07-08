@@ -96,7 +96,9 @@ class BookingSchema(Service):
                     value = current_user.getProperty("email")
                     # readonly solo se ha un valore
                     if value:
-                        value = (type(value) == str and value.strip()) or (type(value) == tuple and value[0].strip()) # noqa
+                        value = (type(value) is str and value.strip()) or (
+                            type(value) is tuple and value[0].strip()
+                        )  # noqa
                     is_readonly = bool(value)
                 if field == "phone":
                     value = current_user.getProperty("phone", "")
