@@ -1,0 +1,5 @@
+[bandit]
+exclude = tests,locales
+# token in vocabularies
+# ignore assert check
+skips = B106,B101

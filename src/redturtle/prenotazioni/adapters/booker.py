@@ -120,7 +120,7 @@ class Booker(object):
         )
         if len(available_gates) == 0:
             return None
-        return choice(list(available_gates))
+        return choice(list(available_gates))  # nosec B311
 
         # if len(available_gates) == 1:
         #    return available_gates[0]
