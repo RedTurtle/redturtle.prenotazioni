@@ -30,7 +30,6 @@ from redturtle.prenotazioni.exceptions import BookingsLimitExceded
 from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
-from redturtle.prenotazioni.utilities.dateutils import exceedes_date_limit
 
 
 class IBooker(Interface):

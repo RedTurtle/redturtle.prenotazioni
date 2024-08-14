@@ -627,6 +627,7 @@ class TestPrenotazioniUserSearch(unittest.TestCase):
         res = self.anon_session.get(
             f"{self.folder_prenotazioni.absolute_url()}/@available-slots"
         )
+
         booking_date = res.json()["items"][0]
         # anonymous user 1
         res = self.add_booking(
