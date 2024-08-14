@@ -155,6 +155,11 @@ class PrenotazioniContextState(BrowserView):
             return
         return adata
 
+    @property
+    @memoize
+    def future_days_limit(self):
+        return self.context.getFutureDays()
+
     @memoize
     def is_vacation_day(self, date):
         """
@@ -296,12 +301,25 @@ class PrenotazioniContextState(BrowserView):
             return False
         if self.is_vacation_day(day):
             return False
-        if self.last_bookable_day and day > self.last_bookable_day:
+        if (
+            self.last_bookable_day and day > self.last_bookable_day
+        ) or not bypass_user_restrictions:
             return False
         if self.is_before_allowed_period(
             day, bypass_user_restrictions=bypass_user_restrictions
         ):
             return False
+
+        date_limit = tznow() + timedelta(self.future_days_limit)
+
+        if not day.tzinfo:
+            tzinfo = date_limit.tzinfo
+            if tzinfo:
+                day = tzinfo.localize(day)
+
+        if day <= date_limit or not bypass_user_restrictions:
+            return False
+
         return self.is_configured_day(day)
 
     @property

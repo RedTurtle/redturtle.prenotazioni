@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import math
-from datetime import timedelta
+from datetime import timedelta, datetime
 from random import choice
 
 from DateTime import DateTime
@@ -140,17 +140,27 @@ class Booker(object):
         # less_used_gates = free_time_map[max_free_time]
         # return choice(less_used_gates)
 
-    def check_future_days(self, booking, data):
+    def check_date_validity(self, booking, data):
         """
         Check if date is in the right range.
         Managers bypass this check
         """
         future_days = booking.getFutureDays()
-        if future_days and not (
+
+        booking_date = data.get("booking_date", None)
+
+        if not isinstance(booking_date, datetime):
+            return False
+
+        bypass_user_restrictions = (
             self.prenotazioni.user_can_manage_prenotazioni
             and not self.prenotazioni.bookins_manager_is_restricted_by_dates
-        ):
-            if exceedes_date_limit(data, future_days):
+        )
+
+        if future_days and not self.prenotazioni.user_can_manage_prenotazioni:
+            if not self.prenotazioni.is_valid_day(
+                booking_date, bypass_user_restrictions=bypass_user_restrictions
+            ):
                 msg = _("Sorry, you can not book this slot for now.")
                 raise BookerException(api.portal.translate(msg))
 
@@ -297,7 +307,7 @@ class Booker(object):
         """
         data["booking_date"] = datetime_with_tz(data["booking_date"])
 
-        self.check_future_days(booking=self.context, data=data)
+        self.check_date_validity(booking=self.context, data=data)
 
         conflict_manager = self.prenotazioni.conflict_manager
         if conflict_manager.conflicts(data, force_gate=force_gate):
@@ -349,7 +359,7 @@ class Booker(object):
             )
             raise BookerException(api.portal.translate(msg))
 
-        self.check_future_days(booking=booking, data=data)
+        self.check_date_validity(booking=booking, data=data)
 
         # move the booking
         duration = booking.getDuration()
