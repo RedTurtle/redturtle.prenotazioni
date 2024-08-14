@@ -146,7 +146,10 @@ class Booker(object):
         Managers bypass this check
         """
         future_days = booking.getFutureDays()
-        if future_days and not self.prenotazioni.user_can_manage_prenotazioni:
+        if future_days and not (
+            self.prenotazioni.user_can_manage_prenotazioni
+            and not self.prenotazioni.bookins_manager_is_restricted_by_dates
+        ):
             if exceedes_date_limit(data, future_days):
                 msg = _("Sorry, you can not book this slot for now.")
                 raise BookerException(api.portal.translate(msg))

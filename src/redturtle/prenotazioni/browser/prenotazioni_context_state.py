@@ -95,6 +95,12 @@ class PrenotazioniContextState(BrowserView):
 
     @property
     @memoize
+    def bookins_manager_is_restricted_by_dates(self):
+        """Bookings manager is restricted by dates as an usual user"""
+        return self.context.apply_date_restrictions_to_manager
+
+    @property
+    @memoize
     def booker(self):
         """
         Return the conflict manager for this context
