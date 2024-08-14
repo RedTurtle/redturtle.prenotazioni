@@ -326,10 +326,11 @@ class PrenotazioniContextState(BrowserView):
         ):
             return False
 
-        date_limit = date.today() + timedelta(days=self.future_days_limit)
+        if self.future_days_limit:
+            date_limit = date.today() + timedelta(days=self.future_days_limit)
 
-        if day >= date_limit and not bypass_user_restrictions:
-            return False
+            if day >= date_limit and not bypass_user_restrictions:
+                return False
 
         return is_configured_day
 
