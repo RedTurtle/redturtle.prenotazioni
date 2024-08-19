@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-06-27 14:16+0000\n"
+"POT-Creation-Date: 2024-08-19 14:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -640,6 +640,16 @@ msgstr ""
 #. Default: "Your booking has been deleted."
 #: redturtle/prenotazioni/browser/delete_reservation.py:115
 msgid "booking_deleted_success"
+msgstr ""
+
+#. Default: "Bookign detail help text"
+#: redturtle/prenotazioni/content/prenotazione_type.py:41
+msgid "booking_details_help_text_label"
+msgstr ""
+
+#. Default: "This field will be visualized as \"Details\" helptext during the booking steps"
+#: redturtle/prenotazioni/content/prenotazione_type.py:42
+msgid "booking_details_help_text_label_help"
 msgstr ""
 
 #. Default: "Booking fields"
