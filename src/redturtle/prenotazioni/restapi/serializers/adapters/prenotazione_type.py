@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from plone import api
+from plone.restapi.serializer.converters import json_compatible
 from zope.component import adapter
 from zope.interface import implementer
-from plone.restapi.serializer.converters import json_compatible
 
 from redturtle.prenotazioni.content.prenotazione_type import IPrenotazioneType
 from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
