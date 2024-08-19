@@ -5,7 +5,8 @@ Changelog
 2.7.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Bookings details help text.
+  [folix-01]
 
 
 2.7.6 (2024-06-27)

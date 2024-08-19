@@ -2,6 +2,7 @@
 from plone import api
 from zope.component import adapter
 from zope.interface import implementer
+from plone.restapi.serializer.converters import json_compatible
 
 from redturtle.prenotazioni.content.prenotazione_type import IPrenotazioneType
 from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
@@ -23,4 +24,7 @@ class PrenotazioneTypeRetroCompatibleSerializer:
             "name": self.context.title,
             "duration": str(self.context.duration),
             "hidden": hidden,
+            "booking_details_help_text": json_compatible(
+                self.context.booking_details_help_text, self.context
+            ),
         }
