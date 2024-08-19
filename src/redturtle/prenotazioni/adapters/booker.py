@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import math
-from datetime import timedelta, datetime
+from datetime import datetime
+from datetime import timedelta
 from random import choice
 
 from DateTime import DateTime
@@ -144,8 +145,6 @@ class Booker(object):
         Check if date is in the right range.
         Managers bypass this check
         """
-        future_days = booking.getFutureDays()
-
         booking_date = data.get("booking_date", None)
 
         if not isinstance(booking_date, datetime):
@@ -156,12 +155,11 @@ class Booker(object):
             and not self.prenotazioni.bookins_manager_is_restricted_by_dates
         )
 
-        if future_days and not self.prenotazioni.user_can_manage_prenotazioni:
-            if not self.prenotazioni.is_valid_day(
-                booking_date, bypass_user_restrictions=bypass_user_restrictions
-            ):
-                msg = _("Sorry, you can not book this slot for now.")
-                raise BookerException(api.portal.translate(msg))
+        if not self.prenotazioni.is_valid_day(
+            booking_date, bypass_user_restrictions=bypass_user_restrictions
+        ):
+            msg = _("Sorry, you can not book this slot for now.")
+            raise BookerException(api.portal.translate(msg))
 
     def generate_params(self, data, force_gate, duration):
         # remove empty fields

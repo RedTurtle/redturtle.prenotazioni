@@ -374,7 +374,7 @@ class IPrenotazioniFolder(model.Schema):
     )
 
     notBeforeDays = schema.Int(
-        default=2,
+        default=0,
         title=_("Days booking is not allowed before"),
         description=_(
             "notBeforeDays",
