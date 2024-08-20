@@ -5,7 +5,7 @@ Changelog
 2.7.7 (unreleased)
 ------------------
 
-- Bookings details help text.
+- Bookings details help text in `Tipologia prenotazione`.
   [folix-01]
 
 

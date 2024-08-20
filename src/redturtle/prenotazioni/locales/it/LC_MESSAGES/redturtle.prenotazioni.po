@@ -645,12 +645,12 @@ msgstr "La tua prenotazione è stata cancellata."
 #. Default: "Bookign detail help text"
 #: redturtle/prenotazioni/content/prenotazione_type.py:41
 msgid "booking_details_help_text_label"
-msgstr "Dettaglio prenotazione help text"
+msgstr "Istruzioni per campo dettaglio nella prenotazione"
 
 #. Default: "This field will be visualized as \"Details\" helptext during the booking steps"
 #: redturtle/prenotazioni/content/prenotazione_type.py:42
 msgid "booking_details_help_text_label_help"
-msgstr "Il testo verra visualizzato come help text per il campo \"Dettagli\" nella form della prenotazione"
+msgstr "Il testo verra visualizzato come testo d'aiuto per la compilazione del campo \"Dettagli\" da parte del cittadino nella form della prenotazione"
 
 #. Default: "Booking fields"
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:536
