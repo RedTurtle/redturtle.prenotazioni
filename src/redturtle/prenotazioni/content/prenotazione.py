@@ -12,6 +12,7 @@ from plone.supermodel import model
 from zope import schema
 from zope.interface import implementer
 from zope.schema import ValidationError
+from plone.app.z3cform.widget import ReadOnlyFieldWidget
 
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
@@ -186,12 +187,22 @@ class IPrenotazione(model.Schema):
         required=False, title=_("label_booking_staff_notes", "Staff notes")
     )
 
+    # Schema is defined in PrenotaizioneType ad an datagridfield, and here we save the data as an json
+    # in base of selected type
+    additional_fields = schema.TextLine(
+        title="Additional fields, not editable"
+        required=False,
+    )
+
     directives.widget(
         "booking_date",
         DatetimeFieldWidget,
         default_timezone=default_timezone,
         klass="booking_date",
     )
+
+    directives.widget('additional_fields', ReadOnlyFieldWidget)
+
 
 
 @implementer(IPrenotazione)
