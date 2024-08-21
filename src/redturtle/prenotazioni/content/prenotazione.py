@@ -190,7 +190,7 @@ class IPrenotazione(model.Schema):
     # Schema is defined in PrenotaizioneType ad an datagridfield, and here we save the data as an json
     # in base of selected type
     additional_fields = schema.TextLine(
-        title="Additional fields, not editable"
+        title="Additional fields, not editable",
         required=False,
     )
 
@@ -201,8 +201,7 @@ class IPrenotazione(model.Schema):
         klass="booking_date",
     )
 
-    directives.widget('additional_fields', ReadOnlyFieldWidget)
-
+    directives.widget("additional_fields", ReadOnlyFieldWidget)
 
 
 @implementer(IPrenotazione)

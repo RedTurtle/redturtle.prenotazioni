@@ -9,6 +9,27 @@ from collective.z3cform.datagridfield.row import DictRow
 from redturtle.prenotazioni import _
 
 
+class IBookingAdditionalFieldsSchema(model.Schema):
+    name = schema.TextLine(
+        title=_("booking_additional_fieldname", default="Name"),
+        required=True,
+        default="",
+    )
+    description = schema.TextLine(
+        title=_("booking_additional_field_description", default="Descrizione"),
+        required=False,
+        default="",
+    )
+    type = schema.List(
+        title=_("booking_additional_field_type", default="Tipo"),
+        required=True,
+        default="",
+        value_type=schema.Choice(
+            vocabulary="redturtle.prenotazioni.booking_additional_fields_types"
+        ),
+    )
+
+
 class IPrenotazioneType(model.Schema):
     """Marker interface and Dexterity Python Schema for Prenotazione"""
 
@@ -52,16 +73,10 @@ class IPrenotazioneType(model.Schema):
             default="Booking additional fields schema",
         ),
         default=[],
-        value_type=DictRow(schema=ITempiEScadenzeValueSchema),
+        value_type=DictRow(schema=IBookingAdditionalFieldsSchema),
         description=_(
-            "timeline_tempi_scadenze_help",
-            default="Timeline tempi e scadenze del servizio: indicare per ogni "
-            "scadenza un titolo descrittivo ed un eventuale sottotitolo. "
-            "Per ogni scadenza, selezionare opzionalmente o l'intervallo (Campi"
-            ' "Intervallo" e "Tipo Intervallo", es. "1" e "settimana"),'
-            ' oppure direttamente una data di scadenza (campo: "Data Scadenza"'
-            ", esempio 31/12/2023). "
-            'Se vengono compilati entrambi, ha priorità il campo "Data Scadenza".',
+            "booking_additional_fields_schema_description",
+            default="This schema is being used for the additional bookign fields",
         ),
         required=False,
     )
