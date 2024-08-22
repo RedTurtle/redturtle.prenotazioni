@@ -710,6 +710,11 @@ Booking Additional Fields
 You can also create the addtional fields for your booking, you just need to compile them in your PrenotazioneType.
 And they will appear in the ["booking_types"]["booking_additional_fields_schema"] in your booking schema so u can compile them for your booking in this way:
 
+@booking
+--------
+
+Create booking with an additional field
+
 POST
 ~~~~
 
