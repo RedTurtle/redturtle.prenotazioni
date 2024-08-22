@@ -12,7 +12,6 @@ from plone.supermodel import model
 from zope import schema
 from zope.interface import implementer
 from zope.schema import ValidationError
-from plone.app.z3cform.widget import ReadOnlyFieldWidget
 
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
@@ -201,7 +200,7 @@ class IPrenotazione(model.Schema):
         klass="booking_date",
     )
 
-    directives.widget("additional_fields", ReadOnlyFieldWidget)
+    directives.widget("additional_fields", readonly=True)
 
 
 @implementer(IPrenotazione)

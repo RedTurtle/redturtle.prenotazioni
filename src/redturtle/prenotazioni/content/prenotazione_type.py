@@ -23,7 +23,7 @@ class IBookingAdditionalFieldsSchema(model.Schema):
     type = schema.List(
         title=_("booking_additional_field_type", default="Tipo"),
         required=True,
-        default="",
+        default=[],
         value_type=schema.Choice(
             vocabulary="redturtle.prenotazioni.booking_additional_fields_types"
         ),
