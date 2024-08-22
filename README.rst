@@ -756,7 +756,9 @@ Response::
         "additional_fields": [{"name": "field1", "value": "Addional field text"}]
     }
 
-Available types are:
+Available types are
+-------------------
+
 - **textline**: Text which uses default zope.schema.TextLine validation
 
 
