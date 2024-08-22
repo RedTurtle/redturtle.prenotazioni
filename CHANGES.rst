@@ -18,6 +18,9 @@ Changelog
 2.7.7 (2024-08-22)
 ------------------
 
+- Booking additional fields.
+  [folix-01]
+
 - Bookings details help text in `Tipologia prenotazione`.
   [folix-01]
 
@@ -49,7 +52,7 @@ Changelog
 2.7.3 (2024-06-14)
 ------------------
 
-- With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return 
+- With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return
   also the bookings created by anonymous users with the same fiscalcode of the authenticated user.
   [mamico]
 

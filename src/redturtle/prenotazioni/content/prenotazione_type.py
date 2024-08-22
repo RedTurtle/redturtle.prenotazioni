@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield.row import DictRow
 from plone.app.textfield import RichText
+from plone.autoform import directives as form
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from zope import schema
 from zope.interface import implementer
-from collective.z3cform.datagridfield.row import DictRow
 
 from redturtle.prenotazioni import _
 
@@ -20,13 +22,10 @@ class IBookingAdditionalFieldsSchema(model.Schema):
         required=False,
         default="",
     )
-    type = schema.List(
+    type = schema.Choice(
         title=_("booking_additional_field_type", default="Tipo"),
         required=True,
-        default=[],
-        value_type=schema.Choice(
-            vocabulary="redturtle.prenotazioni.booking_additional_fields_types"
-        ),
+        vocabulary="redturtle.prenotazioni.booking_additional_fields_types",
     )
 
 
@@ -79,6 +78,14 @@ class IPrenotazioneType(model.Schema):
             default="This schema is being used for the additional bookign fields",
         ),
         required=False,
+    )
+
+    form.widget(
+        "booking_additional_fields_schema",
+        DataGridFieldFactory,
+        frontendOptions={
+            "widget": "data_grid",
+        },
     )
 
 

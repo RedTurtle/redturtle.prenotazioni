@@ -1,28 +1,43 @@
 # -*- coding: utf-8 -*-
 from zope.i18n import translate
 from zope.interface import implementer
+from zope.schema import TextLine
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 from redturtle.prenotazioni import _
-from redturtle.prenotazioni.config import BOOKING_ADDITIONAL_FIELDS_TYPES
+
+
+class SimpleTermFieldType(SimpleTerm):
+    field_validator = None
+
+    def __init__(self, *args, **kwargs):
+        self.field_validator = kwargs.get("field_validator")
+
+        if self.field_validator:
+            del kwargs["field_validator"]
+
+        return super().__init__(*args, **kwargs)
 
 
 @implementer(IVocabularyFactory)
 class BookingAdditionalFieldsTypesVocabulary(object):
     def __call__(self, context):
         return SimpleVocabulary(
+            # Other fields may be added in the future
             [
-                SimpleTerm(
-                    field,
-                    field,
+                SimpleTermFieldType(
+                    "textline",
+                    "textline",
                     translate(
-                        _("label_booking_additional_field{}".format(field)),
-                        context=context.REQUEST,
+                        _(
+                            "label_booking_additional_field_textline",
+                            default="Text line",
+                        )
                     ),
+                    field_validator=TextLine().validate,
                 )
-                for field in BOOKING_ADDITIONAL_FIELDS_TYPES
             ]
         )
 

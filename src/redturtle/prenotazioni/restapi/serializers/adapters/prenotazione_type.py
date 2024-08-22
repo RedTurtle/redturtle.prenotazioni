@@ -27,4 +27,7 @@ class PrenotazioneTypeRetroCompatibleSerializer:
             "booking_details_help_text": json_compatible(
                 self.context.booking_details_help_text, self.context
             ),
+            "booking_additional_fields_schema": json_compatible(
+                self.context.booking_additional_fields_schema
+            ),
         }

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import math
 from datetime import timedelta
 from random import choice
@@ -190,6 +191,11 @@ class Booker(object):
 
         if fiscalcode:
             params["fiscalcode"] = fiscalcode.upper()
+
+        additional_fields = data.get("additional_fields", "")
+
+        if additional_fields:
+            params["additional_fields"] = json.dumps(additional_fields)
 
         return params
 

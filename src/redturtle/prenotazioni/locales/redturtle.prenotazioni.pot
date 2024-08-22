@@ -622,6 +622,31 @@ msgstr ""
 msgid "booked_prenotation_message"
 msgstr ""
 
+#. Default: "Descrizione"
+#: redturtle/prenotazioni/content/prenotazione_type.py:21
+msgid "booking_additional_field_description"
+msgstr ""
+
+#. Default: "Tipo"
+#: redturtle/prenotazioni/content/prenotazione_type.py:26
+msgid "booking_additional_field_type"
+msgstr ""
+
+#. Default: "Name"
+#: redturtle/prenotazioni/content/prenotazione_type.py:16
+msgid "booking_additional_fieldname"
+msgstr ""
+
+#. Default: "This schema is being used for the additional bookign fields"
+#: redturtle/prenotazioni/content/prenotazione_type.py:79
+msgid "booking_additional_fields_schema_description"
+msgstr ""
+
+#. Default: "Booking additional fields schema"
+#: redturtle/prenotazioni/content/prenotazione_type.py:73
+msgid "booking_additional_fields_schema_title"
+msgstr ""
+
 #. Default: "Booking canceled: "
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:371
 msgid "booking_canceled_mail_subject_part"
@@ -643,12 +668,12 @@ msgid "booking_deleted_success"
 msgstr ""
 
 #. Default: "Bookign detail help text"
-#: redturtle/prenotazioni/content/prenotazione_type.py:41
+#: redturtle/prenotazioni/content/prenotazione_type.py:65
 msgid "booking_details_help_text_label"
 msgstr ""
 
 #. Default: "This field will be visualized as \"Details\" helptext during the booking steps"
-#: redturtle/prenotazioni/content/prenotazione_type.py:42
+#: redturtle/prenotazioni/content/prenotazione_type.py:66
 msgid "booking_details_help_text_label_help"
 msgstr ""
 
@@ -672,7 +697,7 @@ msgid "booking_refused"
 msgstr ""
 
 #. Default: "Duration value"
-#: redturtle/prenotazioni/content/prenotazione_type.py:15
+#: redturtle/prenotazioni/content/prenotazione_type.py:39
 msgid "booking_type_duration_label"
 msgstr ""
 
@@ -682,12 +707,12 @@ msgid "booking_type_name"
 msgstr ""
 
 #. Default: "List of requirements to recieve the service"
-#: redturtle/prenotazioni/content/prenotazione_type.py:23
+#: redturtle/prenotazioni/content/prenotazione_type.py:47
 msgid "booking_type_requirements_help"
 msgstr ""
 
 #. Default: "Requirements"
-#: redturtle/prenotazioni/content/prenotazione_type.py:22
+#: redturtle/prenotazioni/content/prenotazione_type.py:46
 msgid "booking_type_requirements_labled"
 msgstr ""
 
@@ -1093,6 +1118,11 @@ msgstr ""
 #. Default: "This date is past"
 #: redturtle/prenotazioni/content/prenotazione.py:36
 msgid "is_not_future_date"
+msgstr ""
+
+#. Default: "Text line"
+#: redturtle/prenotazioni/vocabularies/voc_booking_additional_fiels_types.py:19
+msgid "label_booking_additional_field_textline"
 msgstr ""
 
 #. Default: "Booking code"
