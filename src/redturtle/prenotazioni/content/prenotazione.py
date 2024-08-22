@@ -200,8 +200,6 @@ class IPrenotazione(model.Schema):
         klass="booking_date",
     )
 
-    directives.widget("additional_fields", readonly=True)
-
 
 @implementer(IPrenotazione)
 class Prenotazione(Item):
