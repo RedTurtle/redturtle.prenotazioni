@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.7 (unreleased)
+2.7.7 (2024-08-22)
 ------------------
 
 - Bookings details help text in `Tipologia prenotazione`.
