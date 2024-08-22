@@ -31,6 +31,10 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
+#: redturtle/prenotazioni/restapi/services/booking/add.py:213
+msgid "Additional field '${additional_field_name}' value is missing."
+msgstr ""
+
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:433
 #: redturtle/prenotazioni/content/validators.py:222
 msgid "Afternoon start should not be greater than end."
@@ -120,6 +124,10 @@ msgstr ""
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/__init__.py:34
 msgid "Could not send {gateway_type} message due to internal errors"
+msgstr ""
+
+#: redturtle/prenotazioni/restapi/services/booking/add.py:230
+msgid "Could not validate value for the ${field_name} due to: ${err_message}"
 msgstr ""
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:207
@@ -325,7 +333,7 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-#: redturtle/prenotazioni/restapi/services/booking/add.py:120
+#: redturtle/prenotazioni/restapi/services/booking/add.py:123
 msgid "Required input '${field}' is missing."
 msgstr ""
 
@@ -349,16 +357,16 @@ msgstr ""
 msgid "Select a day"
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:299
-#: redturtle/prenotazioni/restapi/services/booking/add.py:63
+#: redturtle/prenotazioni/adapters/booker.py:305
+#: redturtle/prenotazioni/restapi/services/booking/add.py:66
 msgid "Sorry, this slot is not available anymore."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:342
+#: redturtle/prenotazioni/adapters/booker.py:348
 msgid "Sorry, this slot is not available or does not fit your booking."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:151
+#: redturtle/prenotazioni/adapters/booker.py:152
 msgid "Sorry, you can not book this slot for now."
 msgstr ""
 
@@ -454,11 +462,11 @@ msgstr ""
 msgid "The phone number of the user who made the reservation."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:391
+#: redturtle/prenotazioni/adapters/booker.py:397
 msgid "This day is not valid."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:386
+#: redturtle/prenotazioni/adapters/booker.py:392
 msgid "This gate has some booking schedule in this time period."
 msgstr ""
 
@@ -478,7 +486,11 @@ msgstr ""
 msgid "Uninstalls the redturtle.prenotazioni.demo add-on (demo site purpose only)."
 msgstr ""
 
-#: redturtle/prenotazioni/restapi/services/booking/add.py:156
+#: redturtle/prenotazioni/restapi/services/booking/add.py:200
+msgid "Unknown additional field '${additional_field_name}'."
+msgstr ""
+
+#: redturtle/prenotazioni/restapi/services/booking/add.py:159
 msgid "Unknown booking type '${booking_type}'."
 msgstr ""
 
@@ -504,7 +516,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: redturtle/prenotazioni/restapi/services/booking/add.py:113
+#: redturtle/prenotazioni/restapi/services/booking/add.py:116
 msgid "You are not allowed to force the gate."
 msgstr ""
 
@@ -619,31 +631,6 @@ msgstr ""
 msgid "booked_prenotation_message"
 msgstr ""
 
-#. Default: "Descrizione"
-#: redturtle/prenotazioni/content/prenotazione_type.py:21
-msgid "booking_additional_field_description"
-msgstr ""
-
-#. Default: "Tipo"
-#: redturtle/prenotazioni/content/prenotazione_type.py:26
-msgid "booking_additional_field_type"
-msgstr ""
-
-#. Default: "Name"
-#: redturtle/prenotazioni/content/prenotazione_type.py:16
-msgid "booking_additional_fieldname"
-msgstr ""
-
-#. Default: "This schema is being used for the additional bookign fields"
-#: redturtle/prenotazioni/content/prenotazione_type.py:79
-msgid "booking_additional_fields_schema_description"
-msgstr ""
-
-#. Default: "Booking additional fields schema"
-#: redturtle/prenotazioni/content/prenotazione_type.py:73
-msgid "booking_additional_fields_schema_title"
-msgstr ""
-
 #. Default: "Booking canceled: "
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:371
 msgid "booking_canceled_mail_subject_part"
@@ -665,12 +652,12 @@ msgid "booking_deleted_success"
 msgstr ""
 
 #. Default: "Bookign detail help text"
-#: redturtle/prenotazioni/content/prenotazione_type.py:65
+#: redturtle/prenotazioni/content/prenotazione_type.py:41
 msgid "booking_details_help_text_label"
 msgstr ""
 
 #. Default: "This field will be visualized as \"Details\" helptext during the booking steps"
-#: redturtle/prenotazioni/content/prenotazione_type.py:66
+#: redturtle/prenotazioni/content/prenotazione_type.py:42
 msgid "booking_details_help_text_label_help"
 msgstr ""
 
@@ -694,7 +681,7 @@ msgid "booking_refused"
 msgstr ""
 
 #. Default: "Duration value"
-#: redturtle/prenotazioni/content/prenotazione_type.py:39
+#: redturtle/prenotazioni/content/prenotazione_type.py:15
 msgid "booking_type_duration_label"
 msgstr ""
 
@@ -704,12 +691,12 @@ msgid "booking_type_name"
 msgstr ""
 
 #. Default: "List of requirements to recieve the service"
-#: redturtle/prenotazioni/content/prenotazione_type.py:47
+#: redturtle/prenotazioni/content/prenotazione_type.py:23
 msgid "booking_type_requirements_help"
 msgstr ""
 
 #. Default: "Requirements"
-#: redturtle/prenotazioni/content/prenotazione_type.py:46
+#: redturtle/prenotazioni/content/prenotazione_type.py:22
 msgid "booking_type_requirements_labled"
 msgstr ""
 
@@ -1115,11 +1102,6 @@ msgstr ""
 #. Default: "This date is past"
 #: redturtle/prenotazioni/content/prenotazione.py:36
 msgid "is_not_future_date"
-msgstr ""
-
-#. Default: "Text line"
-#: redturtle/prenotazioni/vocabularies/voc_booking_additional_fiels_types.py:19
-msgid "label_booking_additional_field_textline"
 msgstr ""
 
 #. Default: "Booking code"
@@ -1924,7 +1906,7 @@ msgid "to_month_too_days_error"
 msgstr ""
 
 #. Default: "You can't add a booking with type '${booking_type}'."
-#: redturtle/prenotazioni/restapi/services/booking/add.py:132
+#: redturtle/prenotazioni/restapi/services/booking/add.py:135
 msgid "unauthorized_add_vacation"
 msgstr ""
 
