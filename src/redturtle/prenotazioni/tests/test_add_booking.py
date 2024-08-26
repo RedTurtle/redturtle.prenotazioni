@@ -507,6 +507,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
                 "additional_fields": [{"name": "field1", "value": "bar"}],
             },
         )
+
         self.assertEqual(res.status_code, 204)
         res = self.api_session.get(booking_url)
         self.assertEqual(
