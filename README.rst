@@ -510,7 +510,7 @@ Response::
                 {
                 "duration": "60",
                 "name": "Rilascio CIE"
-                "booking_additional_fields_schema": {"name": "field1", "desctiption": "Field number 1", "type": "textline"}
+                "booking_additional_fields_schema": {"name": "field1", "desctiption": "Field number 1", "type": "text"}
               }
             ]
         },

@@ -376,7 +376,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.json()["booking_status"], "pending")
 
     def test_additional_fields_text(self):
-        # Field types for the type field are defined in the 
+        # Field types for the type field are defined in the
         # redturtle.prenotazioni.booking_additional_fields_types vocabulary
         self.booking_type_A.booking_additional_fields_schema = [
             {
@@ -492,9 +492,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
                     {"name": "email", "value": "mario.rossi@example"},
                 ],
                 "gate": "Gate A",
-                "additional_fields": [
-                    {"name": "field1", "value": "foo"}
-                ],
+                "additional_fields": [{"name": "field1", "value": "foo"}],
             },
         )
         self.assertEqual(res.status_code, 200)
@@ -503,12 +501,10 @@ class TestBookingRestAPIAdd(unittest.TestCase):
             '[{"name": "field1", "value": "foo"}]',
         )
         booking_url = res.json()["@id"]
-        res =self.api_session.patch(
+        res = self.api_session.patch(
             booking_url,
             json={
-                "additional_fields": [
-                    {"name": "field1", "value": "bar"}
-                ],
+                "additional_fields": [{"name": "field1", "value": "bar"}],
             },
         )
         self.assertEqual(res.status_code, 204)

@@ -12,8 +12,19 @@ from redturtle.prenotazioni import _
 
 
 class IBookingAdditionalFieldsSchema(model.Schema):
+    # TODO: definire un validatore per fare in modo che il nome sia unico e
+    #       che non contenga caratteri strani non ammessi
     name = schema.TextLine(
-        title=_("booking_additional_fieldname", default="Name"),
+        title=_("booking_additional_field_name", default="id"),
+        required=True,
+        default="",
+        description=_(
+            "booking_additional_field_name_help",
+            default="Identificativo del campo aggiuntivo, deve essere unico e non contenere spazi o caratteri speciali",
+        ),
+    )
+    label = schema.TextLine(
+        title=_("booking_additional_field_label", default="Label"),
         required=True,
         default="",
     )

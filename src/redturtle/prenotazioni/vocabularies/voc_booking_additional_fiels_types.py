@@ -28,8 +28,8 @@ class BookingAdditionalFieldsTypesVocabulary(object):
             # Other fields may be added in the future
             [
                 SimpleTermFieldType(
-                    "textline",
-                    "textline",
+                    "text",
+                    "text",
                     translate(
                         _(
                             "label_booking_additional_field_textline",
