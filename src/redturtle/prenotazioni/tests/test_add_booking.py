@@ -375,13 +375,14 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["booking_status"], "pending")
 
-    def test_addtional_fields_text(self):
-        # Field tyes for the type field are defined in the redturtle.prenotazioni.booking_additional_fields_types vocabulary
+    def test_additional_fields_text(self):
+        # Field types for the type field are defined in the 
+        # redturtle.prenotazioni.booking_additional_fields_types vocabulary
         self.booking_type_A.booking_additional_fields_schema = [
             {
                 "name": "text line",
                 "description": "text field description",
-                "type": "textline",
+                "type": "text",
             }
         ]
 
@@ -469,6 +470,53 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         )
         self.assertEqual(res.status_code, 400)
         self.assertIn("Unknown additional field 'unexistent'.", res.json()["message"])
+
+    def test_edit_additional_fields(self):
+        self.booking_type_A.booking_additional_fields_schema = [
+            {
+                "name": "field1",
+                "label": "Field 1",
+                "description": "text field description",
+                "type": "text",
+            }
+        ]
+        transaction.commit()
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+                "additional_fields": [
+                    {"name": "field1", "value": "foo"}
+                ],
+            },
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(
+            res.json()["additional_fields"],
+            '[{"name": "field1", "value": "foo"}]',
+        )
+        booking_url = res.json()["@id"]
+        res =self.api_session.patch(
+            booking_url,
+            json={
+                "additional_fields": [
+                    {"name": "field1", "value": "bar"}
+                ],
+            },
+        )
+        self.assertEqual(res.status_code, 204)
+        res = self.api_session.get(booking_url)
+        self.assertEqual(
+            res.json()["additional_fields"],
+            '[{"name": "field1", "value": "bar"}]',
+        )
 
 
 class TestPrenotazioniIntegrationTesting(unittest.TestCase):
