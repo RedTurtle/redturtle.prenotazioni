@@ -646,17 +646,17 @@ msgstr ""
 #. Default: "Name"
 #: redturtle/prenotazioni/content/prenotazione_type.py:16
 msgid "booking_additional_fieldname"
-msgstr ""
+msgstr "Nome"
 
-#. Default: "This schema is being used for the additional bookign fields"
+#. Default: "This schema is being used for the additional booking fields"
 #: redturtle/prenotazioni/content/prenotazione_type.py:76
 msgid "booking_additional_fields_schema_description"
-msgstr ""
+msgstr "Campi aggiuntivi richiesti per questa tipologia"
 
 #. Default: "Booking additional fields schema"
 #: redturtle/prenotazioni/content/prenotazione_type.py:70
 msgid "booking_additional_fields_schema_title"
-msgstr ""
+msgstr "Campi aggiuntivi"
 
 #. Default: "Booking canceled: "
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:371
@@ -679,7 +679,7 @@ msgstr "Prenotazione creata"
 msgid "booking_deleted_success"
 msgstr "La tua prenotazione è stata cancellata."
 
-#. Default: "Bookign detail help text"
+#. Default: "Booking detail help text"
 #: redturtle/prenotazioni/content/prenotazione_type.py:62
 msgid "booking_details_help_text_label"
 msgstr "Istruzioni per campo dettaglio nella prenotazione"

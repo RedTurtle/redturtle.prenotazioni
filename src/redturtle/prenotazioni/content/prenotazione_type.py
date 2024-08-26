@@ -59,7 +59,7 @@ class IPrenotazioneType(model.Schema):
 
     booking_details_help_text = RichText(
         required=False,
-        title=_("booking_details_help_text_label", default="Bookign detail help text"),
+        title=_("booking_details_help_text_label", default="Booking detail help text"),
         description=_(
             "booking_details_help_text_label_help",
             default='This field will be visualized as "Details" helptext during the booking steps',
@@ -75,7 +75,7 @@ class IPrenotazioneType(model.Schema):
         value_type=DictRow(schema=IBookingAdditionalFieldsSchema),
         description=_(
             "booking_additional_fields_schema_description",
-            default="This schema is being used for the additional bookign fields",
+            default="This schema is being used for the additional booking fields",
         ),
         required=False,
     )
