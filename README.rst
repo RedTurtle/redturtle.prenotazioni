@@ -761,7 +761,7 @@ Response::
 Available types are
 -------------------
 
-- **textline**: Text which uses default zope.schema.TextLine validation
+- **text**: Text which uses default zope.schema.TextLine validation
 
 
 Special Views
