@@ -4,10 +4,11 @@ from copy import deepcopy
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
-from freezegun import freeze_time
+
 import openpyxl
 import transaction
 from dateutil import parser
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
@@ -714,26 +715,27 @@ class TestPrenotazioniUserSearch(unittest.TestCase):
                 {"name": "email", "value": "mario.rossi@example"},
                 {"name": "fiscalcode", "value": "ABCDEF12G34H567I"},
             ],
-            additional_fields=[
-                {"name": "foo", "value": "bar"}
-            ],
+            additional_fields=[{"name": "foo", "value": "bar"}],
         )
         self.assertEqual(res.status_code, 200)
         self.assertEqual(
-            res.json()['additional_fields'],
-            [{'name': 'foo', 'value': 'bar'}]
+            res.json()["additional_fields"], [{"name": "foo", "value": "bar"}]
         )
-        booking_code = res.json()['booking_code']
-        res = self.api_session.get(f"{self.portal.absolute_url()}/@bookings?SearchableText={booking_code}")
+        booking_code = res.json()["booking_code"]
+        res = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?SearchableText={booking_code}"
+        )
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(res.json()['items_total'], 1)
+        self.assertEqual(res.json()["items_total"], 1)
         self.assertEqual(
-            res.json()['items'][0]['additional_fields'],
-            [{'name': 'foo', 'value': 'bar'}]
+            res.json()["items"][0]["additional_fields"],
+            [{"name": "foo", "value": "bar"}],
         )
 
     # utility methods
-    def add_booking(self, api_session, booking_date, booking_type, fields, additional_fields=None):
+    def add_booking(
+        self, api_session, booking_date, booking_type, fields, additional_fields=None
+    ):
         return api_session.post(
             f"{self.folder_prenotazioni.absolute_url()}/@booking",
             json={
