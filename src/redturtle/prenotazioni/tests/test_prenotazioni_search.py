@@ -4,7 +4,7 @@ from copy import deepcopy
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
-
+from freezegun import freeze_time
 import openpyxl
 import transaction
 from dateutil import parser
@@ -548,7 +548,7 @@ class TestPrenotazioniUserSearch(unittest.TestCase):
             type="PrenotazioniFolder",
             title="Prenota foo",
             description="",
-            daData=date.today(),
+            daData=parser.parse("2023-04-01").date(),
             gates=["Gate A"],
         )
         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
@@ -562,6 +562,14 @@ class TestPrenotazioniUserSearch(unittest.TestCase):
             requirements=RichTextValue(
                 "You need to bring your own food", "text/plain", "text/html"
             ),
+            booking_additional_fields_schema=[
+                {
+                    "name": "foo",
+                    "label": "This is Foo",
+                    "description": "text field description",
+                    "type": "text",
+                }
+            ],
         )
         api.content.transition(obj=obj, transition="publish")
 
@@ -610,8 +618,8 @@ class TestPrenotazioniUserSearch(unittest.TestCase):
         self.anon_session.close()
         self.user_session.close()
 
+    @freeze_time("2023-05-14")
     def test_search_own_bookings(self):
-
         # booking_date = "{}T09:00:00+00:00".format(
         #     (date.today() + timedelta(1)).strftime("%Y-%m-%d")
         # )
@@ -691,14 +699,47 @@ class TestPrenotazioniUserSearch(unittest.TestCase):
 
         # TODO: verificare che siano le prenotazioni giuste
 
-    # utility methods
+    @freeze_time("2023-05-14")
+    def test_additional_fields(self):
+        res = self.anon_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@available-slots"
+        )
+        booking_date = res.json()["items"][0]
+        res = self.add_booking(
+            self.anon_session,
+            booking_date=booking_date,
+            booking_type="Type A",
+            fields=[
+                {"name": "title", "value": "Mario Rossi"},
+                {"name": "email", "value": "mario.rossi@example"},
+                {"name": "fiscalcode", "value": "ABCDEF12G34H567I"},
+            ],
+            additional_fields=[
+                {"name": "foo", "value": "bar"}
+            ],
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(
+            res.json()['additional_fields'],
+            [{'name': 'foo', 'value': 'bar'}]
+        )
+        booking_code = res.json()['booking_code']
+        res = self.api_session.get(f"{self.portal.absolute_url()}/@bookings?SearchableText={booking_code}")
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()['items_total'], 1)
+        self.assertEqual(
+            res.json()['items'][0]['additional_fields'],
+            [{'name': 'foo', 'value': 'bar'}]
+        )
 
-    def add_booking(self, api_session, booking_date, booking_type, fields):
+    # utility methods
+    def add_booking(self, api_session, booking_date, booking_type, fields, additional_fields=None):
         return api_session.post(
             f"{self.folder_prenotazioni.absolute_url()}/@booking",
             json={
                 "booking_date": booking_date,
                 "booking_type": booking_type,
                 "fields": fields,
+                "additional_fields": additional_fields,
             },
         )

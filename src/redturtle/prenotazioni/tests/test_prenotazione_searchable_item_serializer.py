@@ -108,6 +108,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
                 # 'gate': None,
                 # 'id': 'prenotazione',
                 "phone": self.prenotazione_fscode.phone,
+                "additional_fields": [],
                 "staff_notes": self.prenotazione_fscode.staff_notes,
                 "company": self.prenotazione_fscode.company,
                 "vacation": None,
