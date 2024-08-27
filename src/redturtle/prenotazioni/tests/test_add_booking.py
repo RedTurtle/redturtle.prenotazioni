@@ -410,7 +410,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(
             res.json()["additional_fields"],
-            '[{"name": "text line", "value": "text field value"}]',
+            [{"name": "text line", "value": "text field value"}],
         )
 
         # Text wrong field type
@@ -498,7 +498,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(
             res.json()["additional_fields"],
-            '[{"name": "field1", "value": "foo"}]',
+            [{"name": "field1", "value": "foo"}],
         )
         booking_url = res.json()["@id"]
         res = self.api_session.patch(
@@ -512,7 +512,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         res = self.api_session.get(booking_url)
         self.assertEqual(
             res.json()["additional_fields"],
-            '[{"name": "field1", "value": "bar"}]',
+            [{"name": "field1", "value": "bar"}],
         )
 
 
