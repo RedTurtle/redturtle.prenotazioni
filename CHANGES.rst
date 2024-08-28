@@ -2,13 +2,20 @@ Changelog
 =========
 
 
-2.7.7 (unreleased)
+2.7.8 (unreleased)
 ------------------
 
 - Apply validity dates restrictions for the Bookings Manger if selected flag 'apply_date_restrictions_to_manager'.
   [folix-01]
 
 - Fixed missing validity dates check during the booking creation.
+  [folix-01]
+
+
+2.7.7 (2024-08-22)
+------------------
+
+- Bookings details help text in `Tipologia prenotazione`.
   [folix-01]
 
 

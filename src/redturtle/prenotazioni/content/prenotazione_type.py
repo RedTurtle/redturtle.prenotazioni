@@ -36,6 +36,15 @@ class IPrenotazioneType(model.Schema):
     #     default=[],
     # )
 
+    booking_details_help_text = RichText(
+        required=False,
+        title=_("booking_details_help_text_label", default="Bookign detail help text"),
+        description=_(
+            "booking_details_help_text_label_help",
+            default='This field will be visualized as "Details" helptext during the booking steps',
+        ),
+    )
+
 
 @implementer(IPrenotazioneType)
 class PrenotazioneType(Item):
