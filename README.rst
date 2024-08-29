@@ -744,7 +744,7 @@ Response::
         "booking_code": "17E3E6",
         "booking_date": "2023-05-22T09:09:00",
         "booking_expiration_date": "2023-05-22T09:10:00",
-        "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+        "booking_type": "Type x",
         "company": null,
         "cosa_serve": null,
         "description": "",
