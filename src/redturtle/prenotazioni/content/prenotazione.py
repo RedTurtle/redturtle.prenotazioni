@@ -4,6 +4,7 @@ import re
 import six
 from DateTime import DateTime
 from plone import api
+from plone import schema as plone_schema
 from plone.app.event.base import default_timezone
 from plone.app.z3cform.widget import DatetimeFieldWidget
 from plone.autoform import directives
@@ -188,9 +189,11 @@ class IPrenotazione(model.Schema):
 
     # Schema is defined in PrenotaizioneType ad an datagridfield, and here we save the data as an json
     # in base of selected type
-    additional_fields = schema.TextLine(
+    additional_fields = schema.List(
         title="Additional fields, not editable",
         required=False,
+        value_type=plone_schema.JSONField(),
+        default=[],
     )
 
     directives.widget(

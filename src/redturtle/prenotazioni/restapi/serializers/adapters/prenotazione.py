@@ -100,9 +100,7 @@ class PrenotazioneSerializer:
             "requirements": requirements,
             "modification_date": json_compatible(self.prenotazione.modified()),
             "creation_date": json_compatible(self.prenotazione.created()),
-            "additional_fields": json.loads(
-                self.prenotazione.additional_fields or "[]"
-            ),
+            "additional_fields": self.prenotazione.additional_fields,
         }
 
 
@@ -137,9 +135,7 @@ class PrenotazioneSearchableItemSerializer:
             "email": self.prenotazione.email,
             "fiscalcode": self.prenotazione.fiscalcode,
             "phone": self.prenotazione.phone,
-            "additional_fields": json.loads(
-                self.prenotazione.additional_fields or "[]"
-            ),
+            "additional_fields": self.prenotazione.additional_fields,
             "staff_notes": self.prenotazione.staff_notes,
             "company": self.prenotazione.company,
             "vacation": self.prenotazione.isVacation(),

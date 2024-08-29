@@ -2,6 +2,7 @@
 import json
 
 from plone import api
+from plone.restapi.deserializer import json_body
 from plone.restapi.services.content.update import ContentPatch
 from zExceptions import BadRequest
 from zope.component import getUtility
@@ -19,7 +20,7 @@ class UpdateBooking(ContentPatch):
         return super().reply(*args, **kwargs)
 
     def handle_additional_fields(self):
-        data = json.loads(self.request.get("BODY", b"").decode())
+        data = json_body(self.request)
         booking_folder = self.context.getPrenotazioniFolder()
 
         if data:
@@ -96,7 +97,5 @@ class UpdateBooking(ContentPatch):
                     additional_fields_data.append(
                         {"name": field.get("name"), "value": field.get("value")}
                     )
-
-                data["additional_fields"] = json.dumps(additional_fields_data)
 
             self.request["BODY"] = json.dumps(data).encode()
