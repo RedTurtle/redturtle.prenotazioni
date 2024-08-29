@@ -730,7 +730,7 @@ Example::
         -H 'Content-Type: application/json' \
         -d '{
             "booking_date": "2023-05-23T09:00:00+02:00",
-            "booking_type": "SPID: SOLO riconoscimento \"de visu\" (no registrazione)",
+            "booking_type": "Type x",
             "fields": [
                 {"name": "fullname", "value": "Mario Rossi"},
                 {"name": "email", "value": "mario.rossi@example"}
