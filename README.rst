@@ -750,7 +750,7 @@ Response::
         "description": "",
         "email": "mario.rossi@example",
         "fiscalcode": "",
-        "gate": "postazione1",
+        "gate": "gate 1",
         "id": "mario-rossi-1",
         "phone": "",
         "staff_notes": null,
