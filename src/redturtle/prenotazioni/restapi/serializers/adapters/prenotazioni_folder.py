@@ -24,6 +24,8 @@ class PrenotazioniFolderSerializer(SerializeFolderToJson):
         # Questo è un workaround per gesitire il caso in cui ci siano uffici correlati con contatti vuoti
         if res.get("uffici_correlati"):
             for ufficio in res["uffici_correlati"]:
-                ufficio["contact_info"] = [contact for contact in ufficio.get("contact_info") or [] if contact]
+                ufficio["contact_info"] = [
+                    contact for contact in ufficio.get("contact_info") or [] if contact
+                ]
 
         return res
