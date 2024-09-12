@@ -5,7 +5,8 @@ Changelog
 2.7.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Workaround for empty contacts
+  [mamico]
 
 
 2.7.7 (2024-08-22)
