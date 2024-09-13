@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-08-19 14:54+0000\n"
+"POT-Creation-Date: 2024-09-13 14:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -620,7 +620,7 @@ msgid "booked_prenotation_message"
 msgstr ""
 
 #. Default: "Booking canceled: "
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:368
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:371
 msgid "booking_canceled_mail_subject_part"
 msgstr ""
 
@@ -751,6 +751,11 @@ msgstr ""
 #. Default: "Annullato"
 msgid "canceled"
 msgstr "Annullato"
+
+#. Default: "Confirm"
+#: redturtle/prenotazioni/restapi/services/booking/notify_about_confirm.py:33
+msgid "confirm"
+msgstr ""
 
 #. Default: "Your booking has been canceled."
 #: redturtle/prenotazioni/browser/prenotazione_print.py:35
@@ -999,7 +1004,7 @@ msgid "history_appio_transition_sent"
 msgstr ""
 
 #. Default: "Email notification was sent to booking manager"
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:258
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:261
 msgid "history_email_manager_notification_sent"
 msgstr ""
 
@@ -1009,12 +1014,12 @@ msgid "history_email_reschedule_sent"
 msgstr ""
 
 #. Default: "Email message about the ${transition} transition was sent"
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:165
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:168
 msgid "history_email_transition_sent"
 msgstr ""
 
 #. Default: "Email reminder was sent"
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:213
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:216
 msgid "history_reminder_sent"
 msgstr ""
 

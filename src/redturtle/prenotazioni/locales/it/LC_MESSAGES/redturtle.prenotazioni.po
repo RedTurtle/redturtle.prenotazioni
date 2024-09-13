@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-08-19 14:54+0000\n"
+"POT-Creation-Date: 2024-09-13 14:01+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -622,7 +622,7 @@ msgid "booked_prenotation_message"
 msgstr "${day}, ore ${booking_time}, prenotato da ${booked_by}, prenotazione: ${booking_type} durata: ${duration} minuti"
 
 #. Default: "Booking canceled: "
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:368
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:371
 msgid "booking_canceled_mail_subject_part"
 msgstr "Prenotazione cancellata: "
 
@@ -754,6 +754,11 @@ msgstr "Occupato"
 #. Default: "Annullato"
 msgid "canceled"
 msgstr "Annullato"
+
+#. Default: "Confirm"
+#: redturtle/prenotazioni/restapi/services/booking/notify_about_confirm.py:33
+msgid "confirm"
+msgstr "Conferma"
 
 #. Default: "Your booking has been canceled."
 #: redturtle/prenotazioni/browser/prenotazione_print.py:35
@@ -1002,7 +1007,7 @@ msgid "history_appio_transition_sent"
 msgstr "Inviata notifica AppIO per il cambio di stato della prenotazione: ${transition}"
 
 #. Default: "Email notification was sent to booking manager"
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:258
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:261
 msgid "history_email_manager_notification_sent"
 msgstr "Inviata notifica email al Gestore delle prenotazioni"
 
@@ -1012,12 +1017,12 @@ msgid "history_email_reschedule_sent"
 msgstr "Inviata notifica email per lo spostamento della prenotazione"
 
 #. Default: "Email message about the ${transition} transition was sent"
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:165
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:168
 msgid "history_email_transition_sent"
 msgstr "Inviata notifica email per il cambio di stato della prenotazione: ${transition}"
 
 #. Default: "Email reminder was sent"
-#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:213
+#: redturtle/prenotazioni/behaviors/booking_folder/notifications/email/notification_email_message.py:216
 msgid "history_reminder_sent"
 msgstr "Inviata notifica email per il promemoria"
 
