@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.8 (unreleased)
+2.7.8 (2024-09-13)
 ------------------
 
 - Remove csrf protection from send reminder endpoint.
