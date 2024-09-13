@@ -434,7 +434,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
             "Could not validate value for the text line due to", res.json()["message"]
         )
 
-        # Missing required field value
+        # Missing field value
         res = self.api_session.post(
             self.folder_prenotazioni.absolute_url() + "/@booking",
             json={
@@ -446,15 +446,35 @@ class TestBookingRestAPIAdd(unittest.TestCase):
                     {"name": "email", "value": "mario.rossi@example"},
                 ],
                 "gate": "Gate A",
-                "additional_fields": [{"name": "text line", "value": ""}],
+                "additional_fields": [{"name": "text line"}],
             },
         )
+
         self.assertEqual(res.status_code, 400)
         self.assertIn(
-            "Additional field 'text line' value is required.", res.json()["message"]
+            "Additional field 'text line' value is missing.", res.json()["message"]
         )
 
-        # Not required field is missing
+        # Missing required field
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(2)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+                "additional_fields": [],
+            },
+        )
+
+        self.assertEqual(res.status_code, 400)
+        self.assertIn("Additional field 'text line' is missing.", res.json()["message"])
+
+        # Missing not required field
         self.booking_type_A.booking_additional_fields_schema = [
             {
                 "name": "text line",
@@ -463,10 +483,8 @@ class TestBookingRestAPIAdd(unittest.TestCase):
                 "required": False,
             }
         ]
-
         transaction.commit()
-
-        res = self.api_session.post(
+        self.api_session.post(
             self.folder_prenotazioni.absolute_url() + "/@booking",
             json={
                 "booking_date": "%sT09:00:00"
@@ -477,28 +495,12 @@ class TestBookingRestAPIAdd(unittest.TestCase):
                     {"name": "email", "value": "mario.rossi@example"},
                 ],
                 "gate": "Gate A",
-                "additional_fields": [{"name": "text line", "value": ""}],
+                "additional_fields": [],
             },
         )
-        self.assertEqual(res.status_code, 200)
 
-        # Text field is not defined
-        res = self.api_session.post(
-            self.folder_prenotazioni.absolute_url() + "/@booking",
-            json={
-                "booking_date": "%sT09:00:00"
-                % (date.today() + timedelta(2)).strftime("%Y-%m-%d"),
-                "booking_type": "Type A",
-                "fields": [
-                    {"name": "title", "value": "Mario Rossi"},
-                    {"name": "email", "value": "mario.rossi@example"},
-                ],
-                "gate": "Gate A",
-                "additional_fields": [{"name": "unexistent", "value": "text"}],
-            },
-        )
         self.assertEqual(res.status_code, 400)
-        self.assertIn("Unknown additional field 'unexistent'.", res.json()["message"])
+        self.assertIn("Additional field 'text line' is missing.", res.json()["message"])
 
     def test_edit_additional_fields(self):
         self.booking_type_A.booking_additional_fields_schema = [
@@ -545,19 +547,18 @@ class TestBookingRestAPIAdd(unittest.TestCase):
             [{"name": "field1", "value": "bar"}],
         )
 
-        # Missing required field value
+        # Missing required field
         res = self.api_session.patch(
             booking_url,
             json={
-                "additional_fields": [{"name": "field1", "value": ""}],
+                "additional_fields": [],
             },
         )
-        self.assertEqual(res.status_code, 400)
-        self.assertIn(
-            "Additional field 'field1' value is required.", res.json()["message"]
-        )
 
-        # Not required field is missing
+        self.assertEqual(res.status_code, 400)
+        self.assertIn("Additional field 'field1' is missing.", res.json()["message"])
+
+        # Missing not required field
         self.booking_type_A.booking_additional_fields_schema = [
             {
                 "name": "field1",
@@ -567,13 +568,12 @@ class TestBookingRestAPIAdd(unittest.TestCase):
                 "required": False,
             }
         ]
-
         transaction.commit()
 
         res = self.api_session.patch(
             booking_url,
             json={
-                "additional_fields": [{"name": "field1", "value": ""}],
+                "additional_fields": [],
             },
         )
 
