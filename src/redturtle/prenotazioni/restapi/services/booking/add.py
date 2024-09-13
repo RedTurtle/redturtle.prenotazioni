@@ -164,7 +164,7 @@ class AddBooking(BookingSchema):
             raise BadRequest(msg)
 
         # booking.additional_fields validation below
-        additional_fields = data.get("additional_fields")
+        additional_fields = data.get("additional_fields") or []
 
         # rewrite the fields to prevent not required data
         additional_fields_data = []
@@ -185,8 +185,7 @@ class AddBooking(BookingSchema):
             )
         )[0]
 
-        for field_schema in booking_type.booking_additional_fields_schema:
-
+        for field_schema in booking_type.booking_additional_fields_schema or []:
             field = list(
                 filter(
                     lambda i: i.get("name") == field_schema.get("name"),

@@ -25,7 +25,7 @@ class UpdateBooking(ContentPatch):
 
         if data:
             # booking.additional_fields validation below
-            additional_fields = data.get("additional_fields")
+            additional_fields = data.get("additional_fields") or []
 
             # rewrite the fields to prevent not required data
             additional_fields_data = []
@@ -41,7 +41,7 @@ class UpdateBooking(ContentPatch):
 
             booking_type = self.context.get_booking_type()
 
-            for field_schema in booking_type.booking_additional_fields_schema:
+            for field_schema in booking_type.booking_additional_fields_schema or []:
                 field = list(
                     filter(
                         lambda i: i.get("name") == field_schema.get("name"),
