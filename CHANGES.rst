@@ -5,7 +5,8 @@ Changelog
 2.7.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove csrf protection from send reminder endpoint.
+  [folix-01]
 
 
 2.7.7 (2024-08-22)
