@@ -65,11 +65,13 @@ class UpdateBooking(ContentPatch):
                     field_schema = field_schema[0]
 
                     try:
-                        if not field.get("value"):
+                        if field_schema.get("required", False) and not field.get(
+                            "value"
+                        ):
                             raise BadRequest(
                                 api.portal.translate(
                                     _(
-                                        "Additional field '${additional_field_name}' value is missing.",
+                                        "Additional field '${additional_field_name}' value is required.",
                                         mapping=dict(
                                             additional_field_name=field.get("name")
                                         ),

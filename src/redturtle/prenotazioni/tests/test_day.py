@@ -187,6 +187,6 @@ class TestDaySlots(unittest.TestCase):
 
         results = response.json()
 
-        self.assertEquals(results["gates"], [])
-        self.assertEquals(results["pauses"], [])
-        self.assertEquals(results["bookings"], [])
+        self.assertEqual(results["gates"], [])
+        self.assertEqual(results["pauses"], [])
+        self.assertEqual(results["bookings"], [])

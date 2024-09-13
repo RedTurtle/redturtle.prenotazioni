@@ -187,7 +187,7 @@ class IPrenotazione(model.Schema):
         required=False, title=_("label_booking_staff_notes", "Staff notes")
     )
 
-    # Schema is defined in PrenotaizioneType ad an datagridfield, and here we save the data as an json
+    # Schema is defined in PrenotaizioneType as an datagridfield, and here we save the data as an json
     # in base of selected type
     additional_fields = schema.List(
         title="Additional fields, not editable",

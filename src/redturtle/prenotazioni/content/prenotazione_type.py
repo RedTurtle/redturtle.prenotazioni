@@ -20,7 +20,7 @@ class IBookingAdditionalFieldsSchema(model.Schema):
         default="",
         description=_(
             "booking_additional_field_name_help",
-            default="Identificativo del campo aggiuntivo, deve essere unico e non contenere spazi o caratteri speciali",
+            default="Additional field id must be unique",
         ),
     )
     label = schema.TextLine(
@@ -37,6 +37,11 @@ class IBookingAdditionalFieldsSchema(model.Schema):
         title=_("booking_additional_field_type", default="Tipo"),
         required=True,
         vocabulary="redturtle.prenotazioni.booking_additional_fields_types",
+    )
+    required = schema.Bool(
+        title=_("booking_additional_field_required", default="Required"),
+        required=False,
+        default=False,
     )
 
 
