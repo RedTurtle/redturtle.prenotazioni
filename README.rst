@@ -510,7 +510,7 @@ Response::
                 {
                 "duration": "60",
                 "name": "Rilascio CIE"
-                "booking_additional_fields_schema": {"name": "field1", "description": "Field number 1", "type": "text"}
+                "booking_additional_fields_schema": {"name": "field1", "description": "Field number 1", "type": "text", "required": true}
               }
             ]
         },
@@ -707,9 +707,9 @@ Response::
 Booking Additional Fields
 =========================
 
-You can also create the addtional fields for your booking, you just need to compile 
+You can also create the addtional fields for your booking, you just need to compile
 them in your PrenotazioneType.
-And they will appear in the ["booking_types"]["booking_additional_fields_schema"] 
+And they will appear in the ["booking_types"]["booking_additional_fields_schema"]
 in your booking schema so you can compile them for your booking in this way:
 
 @booking
