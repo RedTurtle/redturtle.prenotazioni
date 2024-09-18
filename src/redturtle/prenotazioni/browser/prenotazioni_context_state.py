@@ -296,12 +296,23 @@ class PrenotazioniContextState(BrowserView):
 
     @memoize
     def is_valid_day(self, day, bypass_user_restrictions=False):
-        """Returns True if the day is valid"""
+        """Returns True if the day is valid
+        Day is not valid in those conditions:
+            - day is out of validity range
+                (not applied to BookingManager if PrenotazioniFolder.bookins_manager_is_restricted_by_dates is False)
+            - day is vacation day
+            - day is out of PrenotazioniFolder.futures_day range
+                (not applied to BookingManager if PrenotazioniFolder.bookins_manager_is_restricted_by_dates is False)
+            - week day is not configured
+        """
 
         if isinstance(day, datetime):
             day = day.date()
 
         is_configured_day = self.is_configured_day(day)
+
+        if bypass_user_restrictions:
+            return True
 
         if (
             is_configured_day
@@ -316,20 +327,16 @@ class PrenotazioniContextState(BrowserView):
         if self.is_vacation_day(day):
             return False
 
-        if not bypass_user_restrictions and (
-            self.last_bookable_day and day > self.last_bookable_day
-        ):
+        if self.last_bookable_day and day > self.last_bookable_day:
             return False
 
-        if self.is_before_allowed_period(
-            day, bypass_user_restrictions=bypass_user_restrictions
-        ):
+        if self.is_before_allowed_period(day, bypass_user_restrictions=False):
             return False
 
         if self.future_days_limit:
             date_limit = date.today() + timedelta(days=self.future_days_limit)
 
-            if day >= date_limit and not bypass_user_restrictions:
+            if day >= date_limit:
                 return False
 
         return is_configured_day
