@@ -4,6 +4,7 @@ import unittest
 from datetime import date
 
 import transaction
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
@@ -14,6 +15,8 @@ from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
+
+TESTING_DATE = "2023-01-05"
 
 
 class TestPausesOverride(unittest.TestCase):
@@ -193,7 +196,7 @@ class TestPauseOverrideAPIPost(unittest.TestCase):
             container=self.portal,
             type="PrenotazioniFolder",
             title="Prenota foo",
-            daData=date.today(),
+            daData=date(year=2023, month=1, day=5),
             gates=["Gate A"],
             pause_table=[
                 {"day": "0", "pause_start": "0900", "pause_end": "0915"},
@@ -277,6 +280,7 @@ class TestPauseOverrideAPIPost(unittest.TestCase):
     def tearDown(self):
         self.api_session.close()
 
+    @freeze_time(TESTING_DATE)
     def test_add_booking_in_overrided_pause_return_400(self):
         self.api_session.auth = None
         booking_date = "{}T11:00:00+00:00".format(
@@ -300,6 +304,7 @@ class TestPauseOverrideAPIPost(unittest.TestCase):
             res.json()["message"], "Sorry, this slot is not available anymore."
         )
 
+    @freeze_time(TESTING_DATE)
     def test_add_booking_outside_overrided_pause_return_200(self):
         self.api_session.auth = None
         booking_date = "{}T09:00:00+00:00".format(

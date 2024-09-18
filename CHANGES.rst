@@ -5,7 +5,11 @@ Changelog
 2.7.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Apply validity dates restrictions for the Bookings Manger if selected flag 'apply_date_restrictions_to_manager'.
+  [folix-01]
+
+- Fixed missing validity dates check during the booking creation.
+  [folix-01]
 
 
 2.7.8 (2024-09-13)
@@ -49,7 +53,7 @@ Changelog
 2.7.3 (2024-06-14)
 ------------------
 
-- With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return 
+- With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return
   also the bookings created by anonymous users with the same fiscalcode of the authenticated user.
   [mamico]
 
