@@ -41,48 +41,34 @@ class UpdateBooking(ContentPatch):
 
             booking_type = self.context.get_booking_type()
 
+            # validate additional fields
+            # TODO: refactor this code to a separate method to avoid code duplication
             for field_schema in booking_type.booking_additional_fields_schema or []:
-                field = list(
-                    filter(
-                        lambda i: i.get("name") == field_schema.get("name"),
-                        additional_fields,
-                    )
-                )
+                field = None
+                for additional_field in additional_fields:
+                    if additional_field.get("name") == field_schema.get("name"):
+                        field = additional_field
+                        break
 
-                if not field and field_schema.get("required", False):
-                    raise BadRequest(
-                        api.portal.translate(
-                            _(
-                                "Additional field '${additional_field_name}' is missing.",
-                                mapping=dict(
-                                    additional_field_name=field_schema.get("name")
-                                ),
-                            )
-                        )
-                    )
-                elif not field:
-                    continue
-
-                field = field[0]
-
-                try:
-                    if not field.get("value"):
+                if field_schema.get("required", False):
+                    if not field or not field.get("value"):
                         raise BadRequest(
                             api.portal.translate(
                                 _(
-                                    "Additional field '${additional_field_name}' value is missing.",
+                                    "Additional field '${additional_field_name}' is missing.",
                                     mapping=dict(
                                         additional_field_name=field_schema.get("name")
                                     ),
                                 )
                             )
                         )
+                elif not field:
+                    continue
 
-                    # Validation
+                try:
                     field_types_validators.get(field_schema.get("type"))(
                         field.get("value")
                     )
-
                 except ValidationError as e:
                     raise BadRequest(
                         api.portal.translate(

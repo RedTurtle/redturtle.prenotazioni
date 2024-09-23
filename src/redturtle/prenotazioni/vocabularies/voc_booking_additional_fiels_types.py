@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from zope.i18n import translate
 from zope.interface import implementer
 from zope.schema import TextLine
 from zope.schema.interfaces import IVocabularyFactory
@@ -30,7 +29,7 @@ class BookingAdditionalFieldsTypesVocabulary(object):
                 SimpleTermFieldType(
                     "text",
                     "text",
-                    translate(
+                    context.translate(
                         _(
                             "label_booking_additional_field_textline",
                             default="Text line",

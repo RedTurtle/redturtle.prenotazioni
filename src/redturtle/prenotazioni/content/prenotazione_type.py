@@ -28,11 +28,6 @@ class IBookingAdditionalFieldsSchema(model.Schema):
         required=True,
         default="",
     )
-    description = schema.TextLine(
-        title=_("booking_additional_field_description", default="Descrizione"),
-        required=False,
-        default="",
-    )
     type = schema.Choice(
         title=_("booking_additional_field_type", default="Tipo"),
         required=True,
@@ -42,6 +37,11 @@ class IBookingAdditionalFieldsSchema(model.Schema):
         title=_("booking_additional_field_required", default="Required"),
         required=False,
         default=False,
+    )
+    description = schema.TextLine(
+        title=_("booking_additional_field_description", default="Descrizione"),
+        required=False,
+        default="",
     )
 
 
@@ -102,6 +102,14 @@ class IPrenotazioneType(model.Schema):
         frontendOptions={
             "widget": "data_grid",
         },
+    )
+
+    model.fieldset(
+        "additional_fields",
+        label=_("booking_additional_fields_schema_title"),
+        fields=[
+            "booking_additional_fields_schema",
+        ],
     )
 
 
