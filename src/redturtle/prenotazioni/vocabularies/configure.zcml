@@ -49,5 +49,9 @@
       component=".voc_pause_scheduler.VocPauseScheduler"
       />
 
+  <utility
+      name="redturtle.prenotazioni.booking_additional_fields_types"
+      component=".voc_booking_additional_fiels_types.BookingAdditionalFieldsTypesVocabularyFactory"
+      />
 
 </configure>

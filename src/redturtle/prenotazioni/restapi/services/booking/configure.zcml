@@ -32,6 +32,13 @@
       />
 
   <plone:service
+      method="PATCH"
+      factory=".update.UpdateBooking"
+      for="redturtle.prenotazioni.content.prenotazione.IPrenotazione"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <plone:service
       method="POST"
       factory=".move.MoveBooking"
       for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"

@@ -510,6 +510,7 @@ Response::
                 {
                 "duration": "60",
                 "name": "Rilascio CIE"
+                "booking_additional_fields_schema": {"name": "field1", "description": "Field number 1", "type": "text", "required": true}
               }
             ]
         },
@@ -702,6 +703,66 @@ Response::
             ...
         ]
     }
+
+Booking Additional Fields
+=========================
+
+You can also create the addtional fields for your booking, you just need to compile
+them in your PrenotazioneType.
+And they will appear in the ["booking_types"]["booking_additional_fields_schema"]
+in your booking schema so you can compile them for your booking in this way:
+
+@booking
+--------
+
+Create booking with an additional field
+
+POST
+~~~~
+
+This endpoint allows to create a new booking.
+
+Example::
+
+    curl http://localhost:8080/Plone/++api++/<booking_folder_path>/@booking \
+        -X POST \
+        -H 'Accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+            "booking_date": "2023-05-23T09:00:00+02:00",
+            "booking_type": "Type x",
+            "fields": [
+                {"name": "fullname", "value": "Mario Rossi"},
+                {"name": "email", "value": "mario.rossi@example"}
+            ],
+            "additional_fields": [{"name": "field1", "value": "Addional field text"}]
+        }'
+
+Response::
+
+    {
+        "booking_code": "17E3E6",
+        "booking_date": "2023-05-22T09:09:00",
+        "booking_expiration_date": "2023-05-22T09:10:00",
+        "booking_type": "Type x",
+        "company": null,
+        "cosa_serve": null,
+        "description": "",
+        "email": "mario.rossi@example",
+        "fiscalcode": "",
+        "gate": "gate 1",
+        "id": "mario-rossi-1",
+        "phone": "",
+        "staff_notes": null,
+        "title": "Mario Rossi",
+        "additional_fields": [{"name": "field1", "value": "Addional field text"}]
+    }
+
+Available types are
+-------------------
+
+- **text**: Text which uses default zope.schema.TextLine validation
+
 
 Special Views
 ==============

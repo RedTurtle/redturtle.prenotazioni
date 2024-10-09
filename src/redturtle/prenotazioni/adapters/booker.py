@@ -191,6 +191,8 @@ class Booker(object):
         if fiscalcode:
             params["fiscalcode"] = fiscalcode.upper()
 
+        params["additional_fields"] = data.get("additional_fields", [])
+
         return params
 
     def _create(self, data, duration=-1, force_gate=""):

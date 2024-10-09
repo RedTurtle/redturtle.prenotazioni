@@ -149,6 +149,7 @@ class TestBookingSchema(unittest.TestCase):
                         "name": "Type A",
                         "hidden": True,
                         "booking_details_help_text": None,
+                        "booking_additional_fields_schema": [],
                     }
                 ],
             },
@@ -230,6 +231,7 @@ class TestBookingSchema(unittest.TestCase):
                         "name": "Type A",
                         "hidden": True,
                         "booking_details_help_text": None,
+                        "booking_additional_fields_schema": [],
                     }
                 ],
                 "unbookable": [],
