@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.9 (unreleased)
+2.7.9 (2024-10-09)
 ------------------
 
 - Booking additional fields.
