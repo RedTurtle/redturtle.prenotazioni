@@ -5,7 +5,8 @@ Changelog
 2.7.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Booking additional fields.
+  [folix-01]
 
 
 2.7.8 (2024-09-13)
@@ -17,9 +18,6 @@ Changelog
 
 2.7.7 (2024-08-22)
 ------------------
-
-- Booking additional fields.
-  [folix-01]
 
 - Bookings details help text in `Tipologia prenotazione`.
   [folix-01]
