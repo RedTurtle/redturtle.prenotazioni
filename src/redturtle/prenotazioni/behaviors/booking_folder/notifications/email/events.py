@@ -23,7 +23,6 @@ def booking_folder_provides_current_behavior(booking):
 def send_email_notification_on_transition(context, event) -> None:
     if not booking_folder_provides_current_behavior(context):
         return
-
     booking_folder = context.getPrenotazioniFolder()
     flags = booking_folder.get_notification_flags()
 

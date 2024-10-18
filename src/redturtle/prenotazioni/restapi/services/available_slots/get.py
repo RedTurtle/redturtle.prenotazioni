@@ -23,7 +23,6 @@ class AvailableSlots(Service):
         If you pass the `first_available` flag the site will search in all the available time range of the Bookging Folder or in the next year
         and obtain the first one if exits, note that this option is only allowed for Booking Managers
         """
-
         # XXX: nocache also for anonymous
         self.request.response.setHeader("Cache-Control", "no-cache")
 

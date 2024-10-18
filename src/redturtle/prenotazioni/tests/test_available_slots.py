@@ -315,7 +315,7 @@ class TestAvailableSlots(unittest.TestCase):
         self.assertEqual(expected, response.json()["items"])
 
     @freeze_time(DATE_STR)
-    def test_if_first_available_and_no_bookign_manager_permission(
+    def test_if_first_available_and_no_booking_manager_permission(
         self,
     ):
         """Nothing to happen is expexted"""

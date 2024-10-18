@@ -43,7 +43,7 @@ class IBookingAPPIoMessage(Interface):
 
 
 class IBookingNotificatorSupervisorUtility(Interface):
-    """Bookign notificator supervisor
+    """Booking notificator supervisor
     basically contains the business logic to allow/disallow the
     notification sending to gateways
     """

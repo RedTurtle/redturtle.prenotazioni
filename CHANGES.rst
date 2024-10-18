@@ -2,13 +2,27 @@ Changelog
 =========
 
 
-2.7.8 (unreleased)
-------------------
+2.7.10 (unreleased)
+-------------------
 
 - Apply validity dates restrictions for the Bookings Manger if selected flag 'apply_date_restrictions_to_manager'.
   [folix-01]
 
 - Fixed missing validity dates check during the booking creation.
+  [folix-01]
+
+
+2.7.9 (2024-10-09)
+------------------
+
+- Booking additional fields.
+  [folix-01]
+
+
+2.7.8 (2024-09-13)
+------------------
+
+- Remove csrf protection from send reminder endpoint.
   [folix-01]
 
 
