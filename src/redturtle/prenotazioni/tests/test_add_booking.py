@@ -147,6 +147,50 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.json()["email"], "mario.rossi@example")
         self.assertEqual(res.json()["id"], "mario-rossi")
 
+    def test_add_booking_anonymous_over_validity_dates(self):
+        self.folder_prenotazioni.aData = date.today() - timedelta(days=1)
+
+        transaction.commit()
+
+        self.api_session.auth = None
+        booking_date = "{}T09:00:00+00:00".format(
+            (date.today() + timedelta(1)).strftime("%Y-%m-%d")
+        )
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": booking_date,
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+            },
+        )
+
+        self.assertEqual(res.status_code, 400)
+
+    def test_add_booking_anonymous_before_validity_dates(self):
+        self.folder_prenotazioni.aData = date.today() + timedelta(days=1)
+
+        transaction.commit()
+
+        self.api_session.auth = None
+        booking_date = "{}T09:00:00+00:00".format((date.today()).strftime("%Y-%m-%d"))
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": booking_date,
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+            },
+        )
+
+        self.assertEqual(res.status_code, 400)
+
     def test_add_booking_anonymous_wrong_booking_type(self):
         self.api_session.auth = None
         res = self.api_session.post(
@@ -908,3 +952,26 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
             }
         )
         self.assertEqual(book.booking_date.date(), future_date.date())
+
+    @freeze_time(DATE_STR)
+    def test_booker_do_not_bypass_futureDays_check_if_manager_and_flag_selected(self):
+        today = date.today()
+        self.folder_prenotazioni.daData = today
+        self.folder_prenotazioni.futureDays = 6
+        self.folder_prenotazioni.apply_date_restrictions_to_manager = True
+
+        logout()
+        login(self.portal, "jdoe")
+
+        future_date = datetime.fromisoformat(today.isoformat()) + timedelta(
+            hours=8, days=8
+        )
+        with self.assertRaises(BookerException):
+            self.create_booking(
+                data={
+                    "booking_date": future_date,
+                    "booking_type": "Type A",
+                    "title": "foo",
+                    "email": "jdoe@redturtle.it",
+                }
+            )
