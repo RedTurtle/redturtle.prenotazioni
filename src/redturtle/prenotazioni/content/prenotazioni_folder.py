@@ -212,6 +212,17 @@ class IPrenotazioniFolder(model.Schema):
         required=False,
     )
 
+    apply_date_restrictions_to_manager = schema.Bool(
+        title=_(
+            "Apply restrictions to Bookings Manager",
+        ),
+        description=_(
+            "If selected, Bookings Manager will be restricted by selected dates as an usual user."
+        ),
+        required=False,
+        default=False,
+    )
+
     def get_options():
         """Return the options for this widget"""
         options = [
@@ -363,7 +374,7 @@ class IPrenotazioniFolder(model.Schema):
     )
 
     notBeforeDays = schema.Int(
-        default=2,
+        default=0,
         title=_("Days booking is not allowed before"),
         description=_(
             "notBeforeDays",
@@ -512,6 +523,7 @@ class IPrenotazioniFolder(model.Schema):
             "holidays",
             "futureDays",
             "notBeforeDays",
+            "apply_date_restrictions_to_manager",
         ],
     )
 

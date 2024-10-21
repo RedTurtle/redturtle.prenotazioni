@@ -5,7 +5,11 @@ Changelog
 2.7.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Apply validity dates restrictions for the Bookings Manger if selected flag 'apply_date_restrictions_to_manager'.
+  [folix-01]
+
+- Fixed missing validity dates check during the booking creation.
+  [folix-01]
 
 
 2.7.9 (2024-10-09)
