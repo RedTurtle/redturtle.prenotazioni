@@ -46,7 +46,7 @@ msgstr ""
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:216
 msgid "Apply restrictions to Bookings Manager"
-msgstr ""
+msgstr "Applica le restrizioni sulle date anche agli operatori"
 
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:29
 msgid "Attention"
