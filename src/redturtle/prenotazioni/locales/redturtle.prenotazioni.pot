@@ -201,7 +201,7 @@ msgstr ""
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:219
 msgid "If selected, Bookings Manager will be restricted by selected dates as an usual user."
-msgstr ""
+msgstr "Se selezionato, gli operatori avranno le stesse restrizioni sulle date come un qualsiasi utente"
 
 #: redturtle/prenotazioni/content/validators.py:93
 msgid "In the same day there are overlapping intervals"
