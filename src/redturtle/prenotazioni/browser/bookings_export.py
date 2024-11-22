@@ -62,38 +62,53 @@ class BookingsExport(BrowserView):
 
     @property
     def brains(self):
-        return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
-            portal_type="Prenotazione",
-            Date={
-                "query": (
-                    get_default_timezone(True).localize(self.booking_start_from),
-                    get_default_timezone(True).localize(self.booking_start_to),
-                ),
-                "range": "min:max",
-            },
-            review_state="confirmed",
-            sort_on="Date",
-            path=self.path and {"query": self.path} or "",
-            created=(self.booking_creation_from or self.booking_creation_to)
-            and {
-                "query": (self.booking_creation_from and self.booking_creation_to)
-                and (
-                    get_default_timezone(True).localize(self.booking_creation_from),
-                    get_default_timezone(True).localize(self.booking_creation_to),
-                )
-                or self.booking_creation_from
-                and get_default_timezone(True).localize(self.booking_creation_from)
-                or self.booking_creation_to
-                and get_default_timezone(True).localize(self.booking_creation_to),
-                "range": (self.booking_creation_from and self.booking_creation_to)
-                and "min:max"
-                or self.booking_creation_from
-                and "min"
-                or self.booking_creation_to
-                and "max",
-            }
-            or "",
-        )
+        created = (self.booking_creation_from or self.booking_creation_to) and {
+            "query": (self.booking_creation_from and self.booking_creation_to)
+            and (
+                get_default_timezone(True).localize(self.booking_creation_from),
+                get_default_timezone(True).localize(self.booking_creation_to),
+            )
+            or self.booking_creation_from
+            and get_default_timezone(True).localize(self.booking_creation_from)
+            or self.booking_creation_to
+            and get_default_timezone(True).localize(self.booking_creation_to),
+            "range": (self.booking_creation_from and self.booking_creation_to)
+            and "min:max"
+            or self.booking_creation_from
+            and "min"
+            or self.booking_creation_to
+            and "max",
+        }
+
+        if created:
+            return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
+                portal_type="Prenotazione",
+                Date={
+                    "query": (
+                        get_default_timezone(True).localize(self.booking_start_from),
+                        get_default_timezone(True).localize(self.booking_start_to),
+                    ),
+                    "range": "min:max",
+                },
+                review_state="confirmed",
+                sort_on="Date",
+                path=self.path and {"query": self.path} or "",
+                created=created,
+            )
+        else:
+            return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
+                portal_type="Prenotazione",
+                Date={
+                    "query": (
+                        get_default_timezone(True).localize(self.booking_start_from),
+                        get_default_timezone(True).localize(self.booking_start_to),
+                    ),
+                    "range": "min:max",
+                },
+                review_state="confirmed",
+                sort_on="Date",
+                path=self.path and {"query": self.path} or "",
+            )
 
     def setHeader(self, *args):
         """
