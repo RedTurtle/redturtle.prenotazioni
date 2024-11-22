@@ -49,7 +49,12 @@ class BookingsExport(BrowserView):
     def csv_filename(self):
         """Return a filename for this csv"""
 
-        return "%s-%s.csv" % (self.filename, self.date.date().isoformat())
+        return "%s_%s.csv" % (
+            self.filename,
+            self.booking_start_from.date().isoformat()
+            + "-"
+            + self.booking_start_to.date().isoformat(),
+        )
 
     @property
     def brains(self):
@@ -58,10 +63,8 @@ class BookingsExport(BrowserView):
             portal_type="Prenotazione",
             Date={
                 "query": (
-                    get_default_timezone(True).localize(self.date),
-                    get_default_timezone(True).localize(
-                        self.date.replace(hour=23, minute=59)
-                    ),
+                    get_default_timezone(True).localize(self.booking_start_from),
+                    get_default_timezone(True).localize(self.booking_start_to),
                 ),
                 "range": "min:max",
             },
@@ -145,19 +148,39 @@ class BookingsExport(BrowserView):
         return buffer.getvalue().encode("utf-8")
 
     def __call__(self):
-        date = self.request.get("date")
+        booking_start_from = self.request.get("booking_start_from")
+        booking_start_to = self.request.get("booking_start_to")
 
-        if not date:
-            self.date = datetime.datetime.combine(
+        if not booking_start_from:
+            self.booking_start_from = datetime.datetime.combine(
                 datetime.date.today(), datetime.datetime.min.time()
             )
         else:
             try:
-                self.date = datetime.datetime.combine(
-                    datetime.date.fromisoformat(date), datetime.datetime.min.time()
+                self.booking_start_from = datetime.datetime.combine(
+                    datetime.date.fromisoformat(booking_start_from),
+                    datetime.datetime.min.time(),
                 )
             except ValueError:
-                raise BadRequest(_("Bad date format passed"))
+                raise BadRequest(
+                    api.portal_translate(_("Badly composed `booking_start_from` value"))
+                )
+
+        if not booking_start_to:
+            self.booking_start_to = datetime.datetime.combine(
+                datetime.date.today(), datetime.datetime.min.time()
+            )
+        else:
+            try:
+                self.booking_start_to = datetime.datetime.combine(
+                    datetime.date.fromisoformat(booking_start_to),
+                    datetime.datetime.min.time(hour=23, minute=59),
+                )
+            except ValueError:
+                raise BadRequest(
+                    api.portal_translate(_("Badly composed `booking_start_to` value"))
+                )
+
         self.setHeader(
             "Content-Disposition", "attachment;filename=%s" % self.csv_filename
         )
