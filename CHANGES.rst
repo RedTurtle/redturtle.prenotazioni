@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.10 (unreleased)
+2.7.10 (2024-11-22)
 -------------------
 
 - Apply validity dates restrictions for the Bookings Manger if selected flag 'apply_date_restrictions_to_manager'.
