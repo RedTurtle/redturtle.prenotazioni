@@ -798,7 +798,7 @@ The script is located at src/redturtle/prenotazioni/scripts/notify_upcoming_book
 @@bookings-export
 -----------------
 
-All the parameters below are ISO formatted datetime strings
+All the time parameters below are ISO formatted datetime strings
 
 - **booking_start_from** - booking start from range.
 - **booking_start_to** - booking start to range.
