@@ -799,11 +799,12 @@ The script is located at src/redturtle/prenotazioni/scripts/notify_upcoming_book
 -----------------
 
 All the parameters below are ISO formatted datetime strings
-**booking_start_from** - booking start from range.
-**booking_start_to** - booking start to range.
-**booking_creation_from** - booking created from range.
-**booking_creation_to** - bookking createtd to range
-**path** - booking folder path
+
+- **booking_start_from** - booking start from range.
+- **booking_start_to** - booking start to range.
+- **booking_creation_from** - booking created from range.
+- **booking_creation_to** - bookking createtd to range
+- **path** - booking folder path
 
 Example::
     curl -i http://localhost:8080/Plone/@@bookings-export?booking_start_from=2023-10-22T12:27:18
