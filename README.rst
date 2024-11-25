@@ -804,7 +804,7 @@ All the time parameters below are ISO formatted datetime strings
 - **booking_start_to** - booking start to range.
 - **booking_creation_from** - booking created from range.
 - **booking_creation_to** - bookking createtd to range
-- **path** - booking folder path
+- **path** - booking folder path (es: "/Plone/booking_folder")
 
 Example::
     curl -i http://localhost:8080/Plone/@@bookings-export?booking_start_from=2023-10-22T12:27:18
