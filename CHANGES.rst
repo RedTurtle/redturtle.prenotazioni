@@ -5,7 +5,11 @@ Changelog
 2.7.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix: urlencode/quote booking_type vocab terms
+  [mamico[
+
+- Fix: term values must be unique in booking_type vocabulary
+  [mamico]
 
 
 2.7.10 (2024-11-22)
