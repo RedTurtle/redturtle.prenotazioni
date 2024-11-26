@@ -5,7 +5,8 @@ Changelog
 2.7.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Divide PrenotazioniFolder.week_table time choice by 5 minutes instead of 15.
+  [folix-01]
 
 
 2.7.10 (2024-11-22)
