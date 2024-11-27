@@ -222,14 +222,28 @@ class BookingsExport(BrowserView):
                 )
 
         if booking_creation_from:
-            self.booking_creation_from = datetime.datetime.fromisoformat(
-                booking_creation_from
-            )
+            try:
+                self.booking_creation_from = datetime.datetime.fromisoformat(
+                    booking_creation_from
+                )
+            except ValueError:
+                raise BadRequest(
+                    api.portal_translate(
+                        _("Badly composed `booking_creation_from` value")
+                    )
+                )
 
         if booking_creation_to:
-            self.booking_creation_to = datetime.datetime.fromisoformat(
-                booking_creation_to
-            )
+            try:
+                self.booking_creation_to = datetime.datetime.fromisoformat(
+                    booking_creation_to
+                )
+            except:
+                raise BadRequest(
+                    api.portal_translate(
+                        _("Badly composed `booking_creation_to` value")
+                    )
+                )
 
         self.setHeader(
             "Content-Disposition", "attachment;filename=%s" % self.csv_filename
