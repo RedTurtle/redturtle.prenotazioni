@@ -16,7 +16,11 @@ from redturtle.prenotazioni.utilities.dateutils import get_default_timezone
 
 class BookingsExport(BrowserView):
     filename = "Bookings_export"
-    date = None
+    booking_start_from = None
+    booking_start_to = None
+    booking_creation_from = None
+    booking_creation_to = None
+    path = None
 
     @property
     def csv_fields(self):
@@ -49,25 +53,62 @@ class BookingsExport(BrowserView):
     def csv_filename(self):
         """Return a filename for this csv"""
 
-        return "%s-%s.csv" % (self.filename, self.date.date().isoformat())
+        return "%s_%s.csv" % (
+            self.filename,
+            self.booking_start_from.date().isoformat()
+            + "-"
+            + self.booking_start_to.date().isoformat(),
+        )
 
     @property
     def brains(self):
+        created = (self.booking_creation_from or self.booking_creation_to) and {
+            "query": (self.booking_creation_from and self.booking_creation_to)
+            and (
+                get_default_timezone(True).localize(self.booking_creation_from),
+                get_default_timezone(True).localize(self.booking_creation_to),
+            )
+            or self.booking_creation_from
+            and get_default_timezone(True).localize(self.booking_creation_from)
+            or self.booking_creation_to
+            and get_default_timezone(True).localize(self.booking_creation_to),
+            "range": (self.booking_creation_from and self.booking_creation_to)
+            and "min:max"
+            or self.booking_creation_from
+            and "min"
+            or self.booking_creation_to
+            and "max",
+        }
 
-        return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
-            portal_type="Prenotazione",
-            Date={
-                "query": (
-                    get_default_timezone(True).localize(self.date),
-                    get_default_timezone(True).localize(
-                        self.date.replace(hour=23, minute=59)
+        if created:
+            return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
+                portal_type="Prenotazione",
+                Date={
+                    "query": (
+                        get_default_timezone(True).localize(self.booking_start_from),
+                        get_default_timezone(True).localize(self.booking_start_to),
                     ),
-                ),
-                "range": "min:max",
-            },
-            review_state="confirmed",
-            sort_on="Date",
-        )
+                    "range": "min:max",
+                },
+                review_state="confirmed",
+                sort_on="Date",
+                path=self.path and {"query": self.path} or "",
+                created=created,
+            )
+        else:
+            return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
+                portal_type="Prenotazione",
+                Date={
+                    "query": (
+                        get_default_timezone(True).localize(self.booking_start_from),
+                        get_default_timezone(True).localize(self.booking_start_to),
+                    ),
+                    "range": "min:max",
+                },
+                review_state="confirmed",
+                sort_on="Date",
+                path=self.path and {"query": self.path} or "",
+            )
 
     def setHeader(self, *args):
         """
@@ -145,19 +186,65 @@ class BookingsExport(BrowserView):
         return buffer.getvalue().encode("utf-8")
 
     def __call__(self):
-        date = self.request.get("date")
+        booking_start_from = self.request.get("booking_start_from")
+        booking_start_to = self.request.get("booking_start_to")
+        booking_creation_from = self.request.get("booking_creation_from")
+        booking_creation_to = self.request.get("booking_creation_to")
+        self.path = self.request.get("booking_folder_path")
 
-        if not date:
-            self.date = datetime.datetime.combine(
-                datetime.date.today(), datetime.datetime.min.time()
+        if not booking_start_from:
+            self.booking_start_from = datetime.datetime.now().replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
+
+        else:
+            try:
+                self.booking_start_from = datetime.datetime.fromisoformat(
+                    booking_start_from
+                )
+            except ValueError:
+                raise BadRequest(
+                    api.portal_translate(_("Badly composed `booking_start_from` value"))
+                )
+
+        if not booking_start_to:
+            self.booking_start_to = datetime.datetime.now().replace(
+                hour=23, minute=59, second=0, microsecond=0
             )
         else:
             try:
-                self.date = datetime.datetime.combine(
-                    datetime.date.fromisoformat(date), datetime.datetime.min.time()
+                self.booking_start_to = datetime.datetime.fromisoformat(
+                    booking_start_to
                 )
             except ValueError:
-                raise BadRequest(_("Bad date format passed"))
+                raise BadRequest(
+                    api.portal_translate(_("Badly composed `booking_start_to` value"))
+                )
+
+        if booking_creation_from:
+            try:
+                self.booking_creation_from = datetime.datetime.fromisoformat(
+                    booking_creation_from
+                )
+            except ValueError:
+                raise BadRequest(
+                    api.portal_translate(
+                        _("Badly composed `booking_creation_from` value")
+                    )
+                )
+
+        if booking_creation_to:
+            try:
+                self.booking_creation_to = datetime.datetime.fromisoformat(
+                    booking_creation_to
+                )
+            except ValueError:
+                raise BadRequest(
+                    api.portal_translate(
+                        _("Badly composed `booking_creation_to` value")
+                    )
+                )
+
         self.setHeader(
             "Content-Disposition", "attachment;filename=%s" % self.csv_filename
         )

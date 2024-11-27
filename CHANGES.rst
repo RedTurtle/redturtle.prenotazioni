@@ -5,7 +5,8 @@ Changelog
 2.8.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Extend bookings-export filters.
+  [folix-01]
 
 
 2.8.0 (2024-11-26)

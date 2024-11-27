@@ -798,10 +798,16 @@ The script is located at src/redturtle/prenotazioni/scripts/notify_upcoming_book
 @@bookings-export
 -----------------
 
-Export bookings by passed **date** in ISO format or today by default.
+All the time parameters below are ISO formatted datetime strings
+
+- **booking_start_from** - booking start from range.
+- **booking_start_to** - booking start to range.
+- **booking_creation_from** - booking created from range.
+- **booking_creation_to** - bookking createtd to range
+- **path** - booking folder path (es: "/Plone/booking_folder")
 
 Example::
-    curl -i http://localhost:8080/Plone/@@bookings-export?date=2024-06-21
+    curl -i http://localhost:8080/Plone/@@bookings-export?booking_start_from=2023-10-22T12:27:18
 
 Response::
     Binary csv file
