@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.8.2 (unreleased)
+2.8.2 (2024-11-27)
 ------------------
 
 - Fix translation mechanism for exceptions.
