@@ -57,19 +57,19 @@ msgstr "Attenzione!"
 
 #: redturtle/prenotazioni/browser/bookings_export.py:232
 msgid "Badly composed `booking_creation_from` value"
-msgstr "Valore del campo `booking_creation_from` è composto male."
+msgstr "Il valore del campo `booking_creation_from` è composto male."
 
 #: redturtle/prenotazioni/browser/bookings_export.py:244
 msgid "Badly composed `booking_creation_to` value"
-msgstr "Valore del campo `booking_creation_to` è composto male."
+msgstr "Il valore del campo `booking_creation_to` è composto male."
 
 #: redturtle/prenotazioni/browser/bookings_export.py:207
 msgid "Badly composed `booking_start_from` value"
-msgstr "Valore del campo `booking_start_from` è composto male."
+msgstr "Il valore del campo `booking_start_from` è composto male."
 
 #: redturtle/prenotazioni/browser/bookings_export.py:221
 msgid "Badly composed `booking_start_to` value"
-msgstr "Valore del campo `booking_start_to` è composto male."
+msgstr "Il valore del campo `booking_start_to` è composto male."
 
 #: redturtle/prenotazioni/adapters/stringinterp.py:27
 msgid "Booking"
