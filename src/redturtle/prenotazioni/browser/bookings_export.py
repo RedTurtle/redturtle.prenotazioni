@@ -204,7 +204,7 @@ class BookingsExport(BrowserView):
                 )
             except ValueError:
                 raise BadRequest(
-                    api.portal_translate(_("Badly composed `booking_start_from` value"))
+                    api.portal.translate(_("Badly composed `booking_start_from` value"))
                 )
 
         if not booking_start_to:
@@ -218,7 +218,7 @@ class BookingsExport(BrowserView):
                 )
             except ValueError:
                 raise BadRequest(
-                    api.portal_translate(_("Badly composed `booking_start_to` value"))
+                    api.portal.translate(_("Badly composed `booking_start_to` value"))
                 )
 
         if booking_creation_from:
@@ -228,7 +228,7 @@ class BookingsExport(BrowserView):
                 )
             except ValueError:
                 raise BadRequest(
-                    api.portal_translate(
+                    api.portal.translate(
                         _("Badly composed `booking_creation_from` value")
                     )
                 )
@@ -240,7 +240,7 @@ class BookingsExport(BrowserView):
                 )
             except ValueError:
                 raise BadRequest(
-                    api.portal_translate(
+                    api.portal.translate(
                         _("Badly composed `booking_creation_to` value")
                     )
                 )

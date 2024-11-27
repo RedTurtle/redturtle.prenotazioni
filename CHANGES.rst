@@ -5,7 +5,8 @@ Changelog
 2.8.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix translation mechanism for exceptions.
+  [folix-01]
 
 
 2.8.1 (2024-11-27)
