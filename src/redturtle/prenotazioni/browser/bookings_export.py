@@ -53,12 +53,7 @@ class BookingsExport(BrowserView):
     def csv_filename(self):
         """Return a filename for this csv"""
 
-        return "%s_%s.csv" % (
-            self.filename,
-            self.booking_start_from.date().isoformat()
-            + "-"
-            + self.booking_start_to.date().isoformat(),
-        )
+        return self.filename + ".csv"
 
     @property
     def brains(self):
@@ -80,35 +75,39 @@ class BookingsExport(BrowserView):
             and "max",
         }
 
+        date = (self.booking_start_from or self.booking_start_to) and {
+            "query": (self.booking_start_from and self.booking_start_to)
+            and (
+                get_default_timezone(True).localize(self.booking_start_from),
+                get_default_timezone(True).localize(self.booking_start_to),
+            )
+            or self.booking_start_from
+            and get_default_timezone(True).localize(self.booking_start_from)
+            or self.booking_start_to
+            and get_default_timezone(True).localize(self.booking_start_to),
+            "range": (self.booking_start_from and self.booking_start_to)
+            and "min:max"
+            or self.booking_start_from
+            and "min"
+            or self.booking_start_to
+            and "max",
+        }
+
+        query = dict(
+            portal_type="Prenotazione",
+            review_state="confirmed",
+            sort_on="Date",
+            path=self.path and {"query": self.path} or "",
+            created=created,
+        )
+
         if created:
-            return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
-                portal_type="Prenotazione",
-                Date={
-                    "query": (
-                        get_default_timezone(True).localize(self.booking_start_from),
-                        get_default_timezone(True).localize(self.booking_start_to),
-                    ),
-                    "range": "min:max",
-                },
-                review_state="confirmed",
-                sort_on="Date",
-                path=self.path and {"query": self.path} or "",
-                created=created,
-            )
-        else:
-            return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
-                portal_type="Prenotazione",
-                Date={
-                    "query": (
-                        get_default_timezone(True).localize(self.booking_start_from),
-                        get_default_timezone(True).localize(self.booking_start_to),
-                    ),
-                    "range": "min:max",
-                },
-                review_state="confirmed",
-                sort_on="Date",
-                path=self.path and {"query": self.path} or "",
-            )
+            query["created"] = created
+
+        if date:
+            query["Date"] = date
+
+        return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(**query)
 
     def setHeader(self, *args):
         """
@@ -192,12 +191,7 @@ class BookingsExport(BrowserView):
         booking_creation_to = self.request.get("booking_creation_to")
         self.path = self.request.get("booking_folder_path")
 
-        if not booking_start_from:
-            self.booking_start_from = datetime.datetime.now().replace(
-                hour=0, minute=0, second=0, microsecond=0
-            )
-
-        else:
+        if booking_start_from:
             try:
                 self.booking_start_from = datetime.datetime.fromisoformat(
                     booking_start_from
@@ -207,11 +201,7 @@ class BookingsExport(BrowserView):
                     api.portal.translate(_("Badly composed `booking_start_from` value"))
                 )
 
-        if not booking_start_to:
-            self.booking_start_to = datetime.datetime.now().replace(
-                hour=23, minute=59, second=0, microsecond=0
-            )
-        else:
+        if booking_start_to:
             try:
                 self.booking_start_to = datetime.datetime.fromisoformat(
                     booking_start_to

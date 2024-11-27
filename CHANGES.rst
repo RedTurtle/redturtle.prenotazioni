@@ -6,6 +6,7 @@ Changelog
 ------------------
 
 - Fix translation mechanism for exceptions.
+- bookings-export remove default filter values.
   [folix-01]
 
 
