@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-11-27 11:08+0000\n"
+"POT-Creation-Date: 2024-11-27 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,7 +40,7 @@ msgstr ""
 msgid "Additional field '${additional_field_name}' value is missing."
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:433
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:444
 #: redturtle/prenotazioni/content/validators.py:222
 msgid "Afternoon start should not be greater than end."
 msgstr ""
@@ -383,16 +383,16 @@ msgstr ""
 msgid "Select a day"
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:310
-#: redturtle/prenotazioni/restapi/services/booking/add.py:63
+#: redturtle/prenotazioni/adapters/booker.py:311
+#: redturtle/prenotazioni/restapi/services/booking/add.py:66
 msgid "Sorry, this slot is not available anymore."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:353
+#: redturtle/prenotazioni/adapters/booker.py:354
 msgid "Sorry, this slot is not available or does not fit your booking."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:162
+#: redturtle/prenotazioni/adapters/booker.py:161
 msgid "Sorry, you can not book this slot for now."
 msgstr ""
 
@@ -488,11 +488,11 @@ msgstr ""
 msgid "The phone number of the user who made the reservation."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:402
+#: redturtle/prenotazioni/adapters/booker.py:403
 msgid "This day is not valid."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:397
+#: redturtle/prenotazioni/adapters/booker.py:398
 msgid "This gate has some booking schedule in this time period."
 msgstr ""
 

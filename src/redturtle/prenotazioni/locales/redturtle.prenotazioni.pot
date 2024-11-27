@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-11-27 11:09+0000\n"
+"POT-Creation-Date: 2024-11-27 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,14 +43,14 @@ msgstr ""
 msgid "Additional field '${additional_field_name}' value is missing."
 msgstr ""
 
-#: redturtle/prenotazioni/content/prenotazioni_folder.py:433
+#: redturtle/prenotazioni/content/prenotazioni_folder.py:444
 #: redturtle/prenotazioni/content/validators.py:222
 msgid "Afternoon start should not be greater than end."
 msgstr ""
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:216
 msgid "Apply restrictions to Bookings Manager"
-msgstr "Applica le restrizioni sulle date anche agli operatori"
+msgstr ""
 
 #: redturtle/prenotazioni/browser/templates/prenotazione.pt:29
 msgid "Attention"
@@ -217,7 +217,7 @@ msgstr ""
 
 #: redturtle/prenotazioni/content/prenotazioni_folder.py:219
 msgid "If selected, Bookings Manager will be restricted by selected dates as an usual user."
-msgstr "Se selezionato, gli operatori avranno le stesse restrizioni sulle date come un qualsiasi utente"
+msgstr ""
 
 #: redturtle/prenotazioni/content/validators.py:93
 msgid "In the same day there are overlapping intervals"
@@ -363,7 +363,6 @@ msgid "Print"
 msgstr ""
 
 #: redturtle/prenotazioni/restapi/services/booking/add.py:123
-#: redturtle/prenotazioni/restapi/services/booking/add.py:123
 msgid "Required input '${field}' is missing."
 msgstr ""
 
@@ -387,16 +386,16 @@ msgstr ""
 msgid "Select a day"
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:301
+#: redturtle/prenotazioni/adapters/booker.py:311
 #: redturtle/prenotazioni/restapi/services/booking/add.py:66
 msgid "Sorry, this slot is not available anymore."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:344
+#: redturtle/prenotazioni/adapters/booker.py:354
 msgid "Sorry, this slot is not available or does not fit your booking."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:162
+#: redturtle/prenotazioni/adapters/booker.py:161
 msgid "Sorry, you can not book this slot for now."
 msgstr ""
 
@@ -492,11 +491,11 @@ msgstr ""
 msgid "The phone number of the user who made the reservation."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:393
+#: redturtle/prenotazioni/adapters/booker.py:403
 msgid "This day is not valid."
 msgstr ""
 
-#: redturtle/prenotazioni/adapters/booker.py:388
+#: redturtle/prenotazioni/adapters/booker.py:398
 msgid "This gate has some booking schedule in this time period."
 msgstr ""
 
@@ -542,7 +541,6 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: redturtle/prenotazioni/restapi/services/booking/add.py:116
 #: redturtle/prenotazioni/restapi/services/booking/add.py:116
 msgid "You are not allowed to force the gate."
 msgstr ""
@@ -1978,7 +1976,6 @@ msgid "to_month_too_days_error"
 msgstr ""
 
 #. Default: "You can't add a booking with type '${booking_type}'."
-#: redturtle/prenotazioni/restapi/services/booking/add.py:135
 #: redturtle/prenotazioni/restapi/services/booking/add.py:135
 msgid "unauthorized_add_vacation"
 msgstr ""
