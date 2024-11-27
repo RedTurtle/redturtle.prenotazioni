@@ -238,7 +238,7 @@ class BookingsExport(BrowserView):
                 self.booking_creation_to = datetime.datetime.fromisoformat(
                     booking_creation_to
                 )
-            except:
+            except ValueError:
                 raise BadRequest(
                     api.portal_translate(
                         _("Badly composed `booking_creation_to` value")
