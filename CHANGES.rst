@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.8.1 (unreleased)
+2.8.1 (2024-11-27)
 ------------------
 
 - Extend bookings-export filters.
