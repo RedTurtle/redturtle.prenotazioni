@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.8.3 (unreleased)
+2.8.3 (2024-11-28)
 ------------------
 
 - @bookings-export filters hotfix.
