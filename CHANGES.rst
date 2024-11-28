@@ -5,7 +5,8 @@ Changelog
 2.8.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- @bookings-export filters hotfix.
+  [folix-01]
 
 
 2.8.2 (2024-11-27)

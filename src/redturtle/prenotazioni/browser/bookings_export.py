@@ -97,8 +97,6 @@ class BookingsExport(BrowserView):
             portal_type="Prenotazione",
             review_state="confirmed",
             sort_on="Date",
-            path=self.path and {"query": self.path} or "",
-            created=created,
         )
 
         if created:
@@ -106,6 +104,9 @@ class BookingsExport(BrowserView):
 
         if date:
             query["Date"] = date
+
+        if self.path:
+            query["path"] = self.path
 
         return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(**query)
 
