@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.8.4 (unreleased)
+2.8.4 (2024-12-02)
 ------------------
 
 - Change date validation order, if the validated
