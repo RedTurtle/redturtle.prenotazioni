@@ -5,9 +5,10 @@ Changelog
 2.8.4 (unreleased)
 ------------------
 
-- Fix first available day result.
+- Change the date validation order, if day is vacation, it is not possibile to book.
   [folix-01]
-
+- Lower log level for AppIO exceptions
+  [folix-01]
 
 2.8.3 (2024-11-28)
 ------------------
