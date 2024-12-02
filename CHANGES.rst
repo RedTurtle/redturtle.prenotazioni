@@ -5,7 +5,8 @@ Changelog
 2.8.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix first available day result.
+  [folix-01]
 
 
 2.8.3 (2024-11-28)
