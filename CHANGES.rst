@@ -6,9 +6,8 @@ Changelog
 ------------------
 
 - Fix: urlencode/quote booking_type vocab terms
-  [mamico[
+  [mamico]
 
-- Fix: term values must be unique in booking_type vocabulary
 - isort with plone profile
   [mamico]
 
