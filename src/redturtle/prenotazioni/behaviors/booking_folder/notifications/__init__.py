@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-from functools import wraps
-
-from Products.CMFCore.utils import getToolByName
-
-from redturtle.prenotazioni import _
-
 from .appio.adapters import app_io_allowed_for
+from functools import wraps
+from Products.CMFCore.utils import getToolByName
+from redturtle.prenotazioni import _
 
 
 def get_booking_folder_notification_flags(booking_folder):

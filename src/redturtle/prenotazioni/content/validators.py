@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
-import calendar
-import json
 from datetime import date
-
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.adapters.slot import interval_is_contained
+from redturtle.prenotazioni.adapters.slot import is_intervals_overlapping
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.interface import Invalid
 from zope.schema import ValidationError
 
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.slot import interval_is_contained
-from redturtle.prenotazioni.adapters.slot import is_intervals_overlapping
+import calendar
+import json
 
 
 def get_dgf_values_from_request(request, fieldname, columns=[]):

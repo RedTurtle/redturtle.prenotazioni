@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
-import unittest
+from Acquisition import aq_parent
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-
-from Acquisition import aq_parent
 from plone import api
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
-
+from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
+
+import unittest
 
 
 class TestPrenotazioniContextState(unittest.TestCase):

@@ -2,12 +2,11 @@
 # from datetime import time, datetime
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.serializer.converters import json_compatible
+from redturtle.prenotazioni.adapters.slot import ISlot
+from redturtle.prenotazioni.utilities.dateutils import hm2DT
 from zope.component import adapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IRequest
-
-from redturtle.prenotazioni.adapters.slot import ISlot
-from redturtle.prenotazioni.utilities.dateutils import hm2DT
 
 
 @implementer(ISerializeToJson)

@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
+from .. import notify_the_message_failure
+from . import INotificationEmail
 from functools import partial
-
-from zope.component import getMultiAdapter
-from zope.globalrequest import getRequest
-
 from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.utilities import handle_exception_by_log
+from zope.component import getMultiAdapter
+from zope.globalrequest import getRequest
 
-from .. import notify_the_message_failure
-from . import INotificationEmail
 
 notify_the_message_failure = partial(notify_the_message_failure, gateway_type="Email")
 

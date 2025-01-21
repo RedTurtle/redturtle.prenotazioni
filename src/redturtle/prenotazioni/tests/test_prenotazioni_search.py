@@ -1,25 +1,24 @@
 # -*- coding: utf-8 -*-
-import unittest
 from copy import deepcopy
 from datetime import date
 from datetime import timedelta
-from io import BytesIO
-
-import openpyxl
-import transaction
 from dateutil import parser
 from freezegun import freeze_time
+from io import BytesIO
 from plone import api
+from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
-from plone.app.testing import setRoles
 from plone.app.textfield import RichTextValue
 from plone.restapi.testing import RelativeSession
 from plone.testing.zope import Browser
-
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+
+import openpyxl
+import transaction
+import unittest
 
 
 class TestPrenotazioniSearch(unittest.TestCase):

@@ -1,23 +1,22 @@
 # -*- coding: utf-8 -*-
-import unittest
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
 from functools import partial
-
-import pytz
-import transaction
 from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from zope.globalrequest import getRequest
-
+from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.behaviors.booking_folder.notifications import (
     notify_the_message_failure,
 )
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from zope.globalrequest import getRequest
+
+import pytz
+import transaction
+import unittest
 
 
 class TestNotifyTheMessageFailure(unittest.TestCase):

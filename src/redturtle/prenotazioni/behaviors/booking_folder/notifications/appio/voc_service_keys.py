@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-import os
 from logging import getLogger
-
-import yaml
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+
+import os
+import yaml
+
 
 logger = getLogger(__name__)
 

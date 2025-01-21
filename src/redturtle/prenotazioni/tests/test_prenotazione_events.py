@@ -1,20 +1,19 @@
 # -*- coding: UTF-8 -*-
-import email
-import unittest
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-
-import pytz
 from plone import api
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from zope.event import notify
-
+from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.events import BookingReminderEvent
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from zope.event import notify
+
+import email
+import pytz
+import unittest
 
 
 class TestSPrenotazioneEvents(unittest.TestCase):

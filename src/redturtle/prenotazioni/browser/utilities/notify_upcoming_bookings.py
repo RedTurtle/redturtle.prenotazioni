@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from datetime import timedelta
-
 from plone import api
 from Products.Five.browser import BrowserView
-from zope.event import notify
-
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.events import BookingReminderEvent
+from zope.event import notify
 
 
 class NotifyUpcomingBookings(BrowserView):

@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-import unittest
-from datetime import date
-
 from AccessControl.unauthorized import Unauthorized
+from datetime import date
 from plone import api
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import login
 from plone.app.testing import setRoles
-
+from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
+
+import unittest
 
 
 class TestAddBookingType(unittest.TestCase):
