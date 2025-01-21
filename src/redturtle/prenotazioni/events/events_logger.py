@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from json import dumps
-from time import time
-
 from plone import api
+from redturtle.prenotazioni import logger
+from time import time
 
 
 def log_data_for_booking(obj, data):
@@ -47,7 +47,7 @@ def on_modify(obj, event):
     This handler logs a cvs string for
     every IPrenotazione document modified
     """
-    old_version = getattr(obj, "version_id", 0) - 1
+    old_version = getattr(obj.aq_base, "version_id", 0) - 1
     if old_version < 0:
         return
 
@@ -63,11 +63,18 @@ def on_modify(obj, event):
         "title",
     ]
     pr = api.portal.get_tool(name="portal_repository")
-    old = pr.retrieve(obj, old_version).object
+
+    try:
+        old = pr.retrieve(obj, old_version).object
+    except Exception:
+        # ArchivistRetrieveError see https://github.com/RedTurtle/redturtle.prenotazioni/pull/178
+        logger.exception("error on_modify %s", obj.absolute_url())
+        return
+
     changes = []
     for fname in fnames:
-        c_value = obj.getField(fname, obj).get(obj)
-        o_value = old.getField(fname, old).get(old)
+        c_value = getattr(obj, fname)
+        o_value = getattr(old, fname)
         if c_value != o_value:
             changes.append({"new_" + fname: c_value, "old_" + fname: o_value})
 

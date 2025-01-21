@@ -1,22 +1,21 @@
 # -*- coding: utf-8 -*-
-import unittest
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-
-import pytz
-import transaction
-from DateTime import DateTime
+from dateutil.relativedelta import relativedelta
 from plone import api
+from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
-
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+
+import pytz
+import transaction
+import unittest
 
 
 class TestMoveBookingApi(unittest.TestCase):
@@ -33,6 +32,16 @@ class TestMoveBookingApi(unittest.TestCase):
         self.api_session_admin.headers.update({"Accept": "application/json"})
         self.api_session_admin.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
 
+        api.user.create(
+            email="user@example.com",
+            username="jdoe",
+            password="secret!!!",
+        )
+        api.user.grant_roles(username="jdoe", roles=["Bookings Manager"])
+        self.api_session_bookings_manager = RelativeSession(self.portal_url)
+        self.api_session_bookings_manager.headers.update({"Accept": "application/json"})
+        self.api_session_bookings_manager.auth = ("jdoe", "secret!!!")
+
         self.portal_url = self.portal.absolute_url()
         self.folder_prenotazioni = api.content.create(
             container=self.portal,
@@ -40,7 +49,7 @@ class TestMoveBookingApi(unittest.TestCase):
             title="Folder",
             description="",
             daData=date.today(),
-            gates=["Gate A"],
+            gates=["Gate A", "Gate B"],
         )
 
         api.content.create(
@@ -95,6 +104,65 @@ class TestMoveBookingApi(unittest.TestCase):
         self.assertEqual(
             datetime.fromisoformat(response.json()["booking_date"]),
             tomorrow,
+        )
+
+    def test_booking_manager_move(self):
+        booking = self.booker.book(
+            {
+                "booking_date": self.today,
+                "booking_type": "Type A",
+                "title": "foo",
+            }
+        )
+        transaction.commit()
+        uid = booking.UID()
+        tomorrow = self.today + timedelta(days=1)
+        response = self.api_session_bookings_manager.post(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
+            json={
+                "booking_id": uid,
+                "booking_date": tomorrow.isoformat(),  # tomorrow
+            },
+        )
+        self.assertEqual(response.status_code, 204)
+
+        response = self.api_session_bookings_manager.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            datetime.fromisoformat(response.json()["booking_date"]),
+            tomorrow,
+        )
+
+    def test_booking_manager_move_month(self):
+        booking = self.booker.book(
+            {
+                "booking_date": self.today,
+                "booking_type": "Type A",
+                "title": "foo",
+            }
+        )
+        transaction.commit()
+        uid = booking.UID()
+        nextmonth = self.today + relativedelta(months=1)
+        response = self.api_session_bookings_manager.post(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
+            json={
+                "booking_id": uid,
+                "booking_date": nextmonth.isoformat(),  # nextmonth
+            },
+        )
+
+        self.assertEqual(response.status_code, 204)
+
+        response = self.api_session_bookings_manager.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            datetime.fromisoformat(response.json()["booking_date"]),
+            nextmonth,
         )
 
     def test_move_booking_to_used_slot(self):
@@ -157,7 +225,6 @@ class TestMoveBookingApi(unittest.TestCase):
 
         # now move the booking
         tomorrow = self.today + timedelta(1)
-        now = json_compatible(DateTime())
         response = self.api_session_admin.post(
             f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
             json={
@@ -169,5 +236,5 @@ class TestMoveBookingApi(unittest.TestCase):
             f"{self.folder_prenotazioni.absolute_url()}/@booking/{uid}",
         ).json()
 
-        self.assertNotEqual(old_modified, response["modification_date"])
-        self.assertEqual(now, response["modification_date"])
+        self.assertNotEqual(response["modification_date"], old_modified)
+        self.assertGreater(response["modification_date"], old_modified)

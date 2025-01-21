@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
-import itertools
-import json
+from copy import deepcopy
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-
-import six
 from DateTime import DateTime
 from plone import api
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
-from six.moves import map
-from six.moves import range
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import get_or_create_obj
 from redturtle.prenotazioni import logger
@@ -28,10 +22,15 @@ from redturtle.prenotazioni.content.prenotazione_type import PrenotazioneType
 from redturtle.prenotazioni.utilities.dateutils import hm2DT
 from redturtle.prenotazioni.utilities.dateutils import hm2seconds
 from redturtle.prenotazioni.utilities.urls import urlify
+from six.moves import map
+from six.moves import range
+
+import itertools
+import json
+import six
 
 
 class PrenotazioniContextState(BrowserView):
-
     """
     This is a view to for checking prenotazioni context state
     """
@@ -95,6 +94,12 @@ class PrenotazioniContextState(BrowserView):
 
     @property
     @memoize
+    def bookins_manager_is_restricted_by_dates(self):
+        """Bookings manager is restricted by dates as an usual user"""
+        return self.context.apply_date_restrictions_to_manager
+
+    @property
+    @memoize
     def booker(self):
         """
         Return the conflict manager for this context
@@ -149,6 +154,11 @@ class PrenotazioniContextState(BrowserView):
             return
         return adata
 
+    @property
+    @memoize
+    def future_days_limit(self):
+        return self.context.getFutureDays()
+
     @memoize
     def is_vacation_day(self, date):
         """
@@ -186,43 +196,73 @@ class PrenotazioniContextState(BrowserView):
         week_table_overrides = json.loads(
             getattr(self.context, "week_table_overrides", "[]") or "[]"
         )
+
         if not week_table_overrides:
             return []
+
         overrides = []
+        unlimited_overrides = []
+
         for override in week_table_overrides:
+            from_year = int(override.get("from_year", 0))
             from_month = int(override.get("from_month", ""))
             from_day = int(override.get("from_day", ""))
+
+            to_year = int(override.get("to_year", 0))
             to_month = int(override.get("to_month", ""))
             to_day = int(override.get("to_day", ""))
-            to_year = day.year
-            if from_month <= to_month:
-                # same year (i.e from "10 aug" to "4 sep")
-                from_date = date(to_year, from_month, from_day)
-                to_date = date(to_year, to_month, to_day)
-            else:
-                # ends next year (i.e. from "20 dec" to "7 jan")
-                if day.month < from_month:
-                    # i.e day is 03 jan
-                    from_date = date(to_year - 1, from_month, from_day)
-                    to_date = date(to_year, to_month, to_day)
-                else:
-                    # i.e day is 28 dec
-                    from_date = date(to_year, from_month, from_day)
-                    to_date = date(to_year + 1, to_month, to_day)
-                # today_year = date.today().year
-                # if today_year < to_year:
-                #     from_date = date(today_year, from_month, from_day)
-                #     to_date = date(to_year, to_month, to_day)
-                # else:
-                #     from_date = date(to_year, from_month, from_day)
-                #     to_date = date(to_year + 1, to_month, to_day)
 
             booking_date = day
-            if isinstance(day, datetime):
-                booking_date = day.date()
 
-            if from_date <= booking_date <= to_date:
-                overrides.append(override)
+            if from_year and to_year:
+                from_date = date(from_year, from_month, from_day)
+                to_date = date(to_year, to_month, to_day)
+
+                if isinstance(day, datetime):
+                    booking_date = day.date()
+
+                if from_date <= booking_date <= to_date:
+                    overrides.append(override)
+
+            else:
+                to_year = day.year
+
+                if from_month <= to_month:
+                    # same year (i.e from "10 aug" to "4 sep")
+                    from_date = date(to_year, from_month, from_day)
+                    to_date = date(to_year, to_month, to_day)
+
+                else:
+                    # ends next year (i.e. from "20 dec" to "7 jan")
+                    if day.month < from_month:
+                        # i.e day is 03 jan
+                        from_date = date(to_year - 1, from_month, from_day)
+                        to_date = date(to_year, to_month, to_day)
+
+                    else:
+                        # i.e day is 28 dec
+                        from_date = date(to_year, from_month, from_day)
+                        to_date = date(to_year + 1, to_month, to_day)
+
+                if isinstance(day, datetime):
+                    booking_date = day.date()
+
+                if from_date <= booking_date <= to_date:
+                    unlimited_overrides.append(override)
+
+        # More specific overrides first
+        overrides = unlimited_overrides + overrides
+
+        # remove double gates, we are interested only about the last one
+        gates = []
+
+        for i, j in reversed(list(enumerate(overrides))):
+            for gate in deepcopy(j.get("gates", [])):
+                if gate in gates:
+                    overrides[i]["gates"].remove(gate)
+                else:
+                    gates.append(gate)
+
         return overrides
 
     def get_week_table(self, day):
@@ -243,9 +283,10 @@ class PrenotazioniContextState(BrowserView):
                 res[gate] = override_week_table
         return res
 
-    def is_before_allowed_period(self, day):
+    def is_before_allowed_period(self, day, bypass_user_restrictions=False):
         """Returns True if the day is before the first bookable day"""
-        date_limit = self.minimum_bookable_date
+        date_limit = not bypass_user_restrictions and self.minimum_bookable_date or None
+
         if not date_limit:
             return False
         if day <= date_limit.date():
@@ -253,17 +294,51 @@ class PrenotazioniContextState(BrowserView):
         return False
 
     @memoize
-    def is_valid_day(self, day):
-        """Returns True if the day is valid"""
-        if day < self.first_bookable_day:
-            return False
+    def is_valid_day(self, day, bypass_user_restrictions=False):
+        """Returns True if the day is valid
+        Day is not valid in those conditions:
+            - day is out of validity range
+                (not applied to BookingManager if PrenotazioniFolder.bookins_manager_is_restricted_by_dates is False)
+            - day is vacation day
+            - day is out of PrenotazioniFolder.futures_day range
+                (not applied to BookingManager if PrenotazioniFolder.bookins_manager_is_restricted_by_dates is False)
+            - week day is not configured
+        """
+
+        if isinstance(day, datetime):
+            day = day.date()
+
+        is_configured_day = self.is_configured_day(day)
+
         if self.is_vacation_day(day):
             return False
+
+        if bypass_user_restrictions:
+            return True
+
+        if (
+            is_configured_day
+            and self.user_can_manage_prenotazioni
+            and not self.bookins_manager_is_restricted_by_dates
+        ):
+            return True
+
+        if day < self.first_bookable_day:
+            return False
+
         if self.last_bookable_day and day > self.last_bookable_day:
             return False
-        if self.is_before_allowed_period(day):
+
+        if self.is_before_allowed_period(day, bypass_user_restrictions=False):
             return False
-        return self.is_configured_day(day)
+
+        if self.future_days_limit:
+            date_limit = date.today() + timedelta(days=self.future_days_limit)
+
+            if day >= date_limit:
+                return False
+
+        return is_configured_day
 
     @property
     @memoize
@@ -308,13 +383,17 @@ class PrenotazioniContextState(BrowserView):
         """Return the base booking url (no parameters) for this context"""
         return "%s/%s" % (self.context.absolute_url(), self.add_view)
 
-    def get_booking_urls(self, day, slot, slot_min_size=0, gate=None):
+    def get_booking_urls(
+        self, day, slot, slot_min_size=0, gate=None, bypass_user_restrictions=False
+    ):
         """Returns, if possible, the booking urls
 
         slot_min_size: seconds
         """
         # we have some conditions to check
-        if not self.is_valid_day(day):
+        if not self.is_valid_day(
+            day, bypass_user_restrictions=bypass_user_restrictions
+        ):
             return []
         if self.maximum_bookable_date and day > self.maximum_bookable_date.date():
             return []
@@ -341,7 +420,9 @@ class PrenotazioniContextState(BrowserView):
             )
         return urls
 
-    def get_all_booking_urls_by_gate(self, day, slot_min_size=0):
+    def get_all_booking_urls_by_gate(
+        self, day, slot_min_size=0, bypass_user_restrictions=False
+    ):
         """Get all the booking urls divided by gate
 
         XXX: used only by 'get_all_booking_urls' !!!
@@ -364,7 +445,9 @@ class PrenotazioniContextState(BrowserView):
             }
         """
         urls = {}
-        if not self.is_valid_day(day):
+        if not self.is_valid_day(
+            day, bypass_user_restrictions=bypass_user_restrictions
+        ):
             return urls
         if self.maximum_bookable_date and day > self.maximum_bookable_date.date():
             return urls
@@ -373,19 +456,26 @@ class PrenotazioniContextState(BrowserView):
             slots = slots_by_gate[gate]
             for slot in slots:
                 slot_urls = self.get_booking_urls(
-                    day, slot, slot_min_size=slot_min_size
+                    day,
+                    slot,
+                    slot_min_size=slot_min_size,
+                    bypass_user_restrictions=bypass_user_restrictions,
                 )
                 urls.setdefault(gate, []).extend(slot_urls)
         return urls
 
-    def get_all_booking_urls(self, day, slot_min_size=0):
+    def get_all_booking_urls(
+        self, day, slot_min_size=0, bypass_user_restrictions=False
+    ):
         """Get all the booking urls
 
         Not divided by gate
 
         slot_min_size: seconds
         """
-        urls_by_gate = self.get_all_booking_urls_by_gate(day, slot_min_size)
+        urls_by_gate = self.get_all_booking_urls_by_gate(
+            day, slot_min_size, bypass_user_restrictions=bypass_user_restrictions
+        )
         urls = {}
         for url in itertools.chain.from_iterable(urls_by_gate.values()):
             urls[url["title"]] = url
@@ -403,7 +493,9 @@ class PrenotazioniContextState(BrowserView):
         return True
 
     @memoize
-    def get_anonymous_booking_url(self, day, slot, slot_min_size=0):
+    def get_anonymous_booking_url(
+        self, day, slot, slot_min_size=0, bypass_user_restrictions=False
+    ):
         """Returns, the the booking url for an anonymous user
 
         Returns the first available/bookable slot/url that fits
@@ -412,7 +504,9 @@ class PrenotazioniContextState(BrowserView):
         slot_min_size: seconds
         """
         # First we check if we have booking urls
-        all_booking_urls = self.get_all_booking_urls(day, slot_min_size)
+        all_booking_urls = self.get_all_booking_urls(
+            day, slot_min_size, bypass_user_restrictions=bypass_user_restrictions
+        )
         if not all_booking_urls:
             # If not the slot can be unavailable or busy
             if self.is_slot_busy(day, slot):

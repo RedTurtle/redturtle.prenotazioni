@@ -2,19 +2,6 @@
 from plone import api
 from plone.memoize.view import memoize
 from plone.z3cform.layout import wrap_form
-from z3c.form import button
-from z3c.form import field
-from z3c.form import form
-from z3c.form.interfaces import HIDDEN_MODE
-from z3c.form.interfaces import ActionExecutionError
-from z3c.form.interfaces import WidgetActionExecutionError
-from zope.component import getUtility
-from zope.interface import Invalid
-from zope.interface import implementer
-from zope.schema import Text
-from zope.schema import TextLine
-from zope.schema.interfaces import IVocabularyFactory
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni.adapters.booker import BookerException
@@ -24,12 +11,24 @@ from redturtle.prenotazioni.browser.z3c_custom_widget import CustomRadioFieldWid
 from redturtle.prenotazioni.config import REQUIRABLE_AND_VISIBLE_FIELDS
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.utilities.urls import urlify
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
+from z3c.form.interfaces import ActionExecutionError
+from z3c.form.interfaces import HIDDEN_MODE
+from z3c.form.interfaces import WidgetActionExecutionError
+from zope.component import getUtility
+from zope.interface import implementer
+from zope.interface import Invalid
+from zope.schema import Text
+from zope.schema import TextLine
+from zope.schema.interfaces import IVocabularyFactory
+
 
 DEFAULT_REQUIRED_FIELDS = []
 
 
 class IAddForm(IPrenotazione):
-
     """
     Interface for creating a prenotazione
     """

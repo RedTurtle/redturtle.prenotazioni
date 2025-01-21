@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
-import unittest
 from datetime import date
 from datetime import timedelta
-
 from dateutil import parser
 from plone import api
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.restapi.serializer.converters import json_compatible
+from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 
-from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
+import unittest
 
 
 class TestPrenotazioniSearch(unittest.TestCase):
@@ -82,6 +81,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.assertEqual(
             result,
             {
+                "@id": "http://nohost/plone/prenota-foo/year/week/day/prenotazione",
                 "title": self.prenotazione_fscode.Title(),
                 "description": self.prenotazione_fscode.Description(),
                 "booking_id": self.prenotazione_fscode.UID(),
@@ -107,6 +107,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
                 # 'gate': None,
                 # 'id': 'prenotazione',
                 "phone": self.prenotazione_fscode.phone,
+                "additional_fields": [],
                 "staff_notes": self.prenotazione_fscode.staff_notes,
                 "company": self.prenotazione_fscode.company,
                 "vacation": None,

@@ -306,4 +306,85 @@
         handler=".upgrades.to_2004"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2004"
+      destination="2005"
+      >
+    <genericsetup:upgradeStep
+        title="Upgrade rolemap"
+        handler=".upgrades.to_2005"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:registerProfile
+      name="to_2006"
+      title="redturtle.prenotazioni (to_2006)"
+      description="redturtle.prenotazioni to 2006."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/to_2006"
+      />
+
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2005"
+      destination="2006"
+      >
+    <genericsetup:upgradeStep
+        title="Update booking workflow (canceled state)"
+        handler=".upgrades.to_2006"
+        />
+  </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2006"
+      destination="2007"
+      >
+    <genericsetup:upgradeStep
+        title="Update rolemap: restore some plone permission"
+        handler=".upgrades.to_2007"
+        />
+  </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2007"
+      destination="2008"
+      >
+    <genericsetup:upgradeStep
+        title="Fix sms links"
+        handler=".upgrades.to_2008"
+        />
+  </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2008"
+      destination="2009"
+      >
+    <genericsetup:upgradeStep
+        title="Add versioning to Prenotazione c.t."
+        handler=".upgrades.to_2009"
+        />
+  </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2009"
+      destination="2010"
+      >
+    <genericsetup:upgradeStep
+        title="Update rolemap"
+        handler=".upgrades.to_2010"
+        />
+  </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2010"
+      destination="2011"
+      >
+    <genericsetup:upgradeStep
+        title="Update rolemap"
+        handler=".upgrades.update_rolemap"
+        />
+  </genericsetup:upgradeSteps>
+
+
 </configure>

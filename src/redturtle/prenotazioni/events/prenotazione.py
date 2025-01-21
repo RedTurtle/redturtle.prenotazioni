@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from email.utils import formataddr
 from email.utils import parseaddr
-
 from plone import api
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from zope.component import getUtility
-
 from redturtle.prenotazioni.adapters.booker import IBooker
+from zope.component import getUtility
 
 
 def reallocate_gate(obj):
@@ -35,7 +33,8 @@ def reallocate_container(obj):
     If we moved Prenotazione to a new week we should move it
     """
     container = obj.object.getPrenotazioniFolder()
-    IBooker(container).fix_container(obj.object)
+    with api.env.adopt_roles(["Manager"]):
+        IBooker(container).fix_container(obj.object)
 
 
 def autoconfirm(booking, event):

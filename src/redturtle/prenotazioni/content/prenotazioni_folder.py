@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
-from typing import Generator
-
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 from plone.app.textfield import RichText
@@ -9,20 +6,23 @@ from plone.autoform import directives
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
-from z3c.form.browser.checkbox import CheckBoxFieldWidget
-from zope import schema
-from zope.interface import Invalid
-from zope.interface import implementer
-from zope.interface import invariant
-from zope.schema.vocabulary import SimpleTerm
-from zope.schema.vocabulary import SimpleVocabulary
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.browser.widget import WeekTableOverridesFieldWidget
 from redturtle.prenotazioni.config import DEFAULT_VISIBLE_BOOKING_FIELDS
 from redturtle.prenotazioni.content.prenotazione_type import PrenotazioneType
 from redturtle.prenotazioni.content.validators import checkOverrides
 from redturtle.prenotazioni.content.validators import validate_pause_table
+from typing import Generator
+from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from zope import schema
+from zope.interface import implementer
+from zope.interface import Invalid
+from zope.interface import invariant
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
+
+import re
+
 
 try:
     from plone.app.dexterity import textindexer
@@ -140,6 +140,20 @@ def holidays_constraint(value: list):
     return True
 
 
+def validate_max_bookings_allowed(data):
+    """
+    if `max_bookings_allowed` popolated, the `required_booking_fields` must be popolated too
+    """
+    if getattr(data, "max_bookings_allowed", 0) and "fiscalcode" not in (
+        getattr(data, "required_booking_fields", None) or []
+    ):
+        raise Invalid(
+            _(
+                "Usage of `max_bookings_allowed` field requires the `fiscalcode` to be between the required fields."
+            )
+        )
+
+
 class IPrenotazioniFolder(model.Schema):
     """Marker interface and Dexterity Python Schema for PrenotazioniFolder"""
 
@@ -196,6 +210,17 @@ class IPrenotazioniFolder(model.Schema):
             default="Leave empty, and this Booking Folder will never expire",
         ),  # noqa
         required=False,
+    )
+
+    apply_date_restrictions_to_manager = schema.Bool(
+        title=_(
+            "Apply restrictions to Bookings Manager",
+        ),
+        description=_(
+            "If selected, Bookings Manager will be restricted by selected dates as an usual user."
+        ),
+        required=False,
+        default=False,
     )
 
     def get_options():
@@ -349,7 +374,7 @@ class IPrenotazioniFolder(model.Schema):
     )
 
     notBeforeDays = schema.Int(
-        default=2,
+        default=0,
         title=_("Days booking is not allowed before"),
         description=_(
             "notBeforeDays",
@@ -454,6 +479,15 @@ class IPrenotazioniFolder(model.Schema):
         default=False,
         required=False,
     )
+    notify_on_cancel = schema.Bool(
+        title=_("notify_on_cancel", default="Notify when canceled."),
+        description=_(
+            "notify_on_cancel_help",
+            default="Notify via mail the user when his booking has been canceled.",
+        ),
+        default=False,
+        required=False,
+    )
     max_bookings_allowed = schema.Int(
         title=_(
             "max_bookings_allowed_label",
@@ -489,6 +523,7 @@ class IPrenotazioniFolder(model.Schema):
             "holidays",
             "futureDays",
             "notBeforeDays",
+            "apply_date_restrictions_to_manager",
         ],
     )
 
@@ -526,12 +561,17 @@ class IPrenotazioniFolder(model.Schema):
             "notify_on_confirm",
             "notify_on_move",
             "notify_on_refuse",
+            "notify_on_cancel",
         ],
     )
 
     @invariant
     def puse_table_invariant(data):
         validate_pause_table(data=data)
+
+    @invariant
+    def futureDays_invariant(data):
+        validate_max_bookings_allowed(data)
 
 
 @implementer(IPrenotazioniFolder)
@@ -564,7 +604,7 @@ class PrenotazioniFolder(Container):
     def get_notification_flags(self):
         return {
             action: getattr(self, f"notify_on_{action}", False)
-            for action in ("confirm", "submit", "refuse")
+            for action in ("confirm", "submit", "refuse", "cancel")
         }
 
     # BBB: compatibility with old code (booking_types was a List of IBookingTypeRow)

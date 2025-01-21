@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-
-import six
 from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
+from redturtle.prenotazioni.adapters.slot import BaseSlot
 from six.moves import range
 from zope.component import Interface
 from zope.interface import implementer
 
-from redturtle.prenotazioni.adapters.slot import BaseSlot
+import six
 
 
 class IConflictManager(Interface):
@@ -114,10 +113,11 @@ class ConflictManager(object):
 
         return availability
 
-    def conflicts(self, data, exclude=None):
+    def conflicts(self, data, force_gate=None, exclude=None):
         """
         Check if we already have a conflictual booking
 
+        :param force_gate: force the gate to be checked
         :param exclude: exclude a time slot (useful when we want to move
                         something).
                         Exclude should be a dict in the form
@@ -131,8 +131,10 @@ class ConflictManager(object):
 
         if exclude:
             availability = self.add_exclude(exclude, availability)
+        if force_gate:
+            availability = {force_gate: availability.get(force_gate, [])}
 
-        # remove not interesting gates
+        # remove not interesting gates (is it this code still useful?)
         for key in set(availability.keys()):
             if key != data.get("gate", None):
                 gate = data.get("gate", None)

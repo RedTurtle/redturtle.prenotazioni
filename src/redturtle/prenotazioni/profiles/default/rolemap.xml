@@ -84,5 +84,42 @@
       <role name="Bookings Manager" />
     </permission>
 
+    <!-- XXX: questo permesso è necessario per la move delle prenotazioni
+         servirebbe in teoria solo per gli oggetti PrenotazioneDay, valutare
+         di fare un workflow solo su PrenotazioniDay e limitare il permesso
+         solo lì
+    -->
+    <permission acquire="True"
+                name="Delete objects"
+    >
+      <role name="Bookings Manager" />
+      <role name="Editor" />
+      <role name="Manager" />
+      <role name="Owner" />
+      <role name="Site Administrator" />
+    </permission>
+    <permission acquire="True"
+                name="CMFEditions: Access previous versions"
+    >
+      <role name="Bookings Manager" />
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Editor" />
+      <role name="Reviewer" />
+      <role name="Contributor" />
+    </permission>
+
+    <permission acquire="True"
+                name="CMFEditions: Save new version">
+      <role name="Bookings Manager" />
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Editor" />
+      <role name="Reviewer" />
+      <role name="Contributor" />
+    </permission>
+
   </permissions>
 </rolemap>

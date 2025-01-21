@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
+from AccessControl import Unauthorized
+from App.config import getConfiguration
 from datetime import datetime
 from datetime import timedelta
+from DateTime import DateTime
+from dateutil.tz.tz import tzutc
 from logging import FileHandler
 from logging import Formatter
 from logging import getLogger
-
-import dateutil
-import pytz
-from AccessControl import Unauthorized
-from App.config import getConfiguration
-from DateTime import DateTime
-from dateutil.tz.tz import tzutc
+from OFS.CopySupport import CopyError
 from plone import api
 from plone.api.exc import UserNotFoundError
 from plone.app.event.base import default_timezone
 from six.moves import map
 from zope.globalrequest import getRequest
 from zope.i18nmessageid import MessageFactory
+
+import dateutil
+import pytz
+
 
 logger = getLogger("redturtle.prenotazioni")
 _ = MessageFactory("redturtle.prenotazioni")
@@ -88,7 +90,7 @@ def get_or_create_obj(folder, key, portal_type):
             raise UserNotFoundError()
         with api.env.adopt_user(userid):
             return api.content.create(type=portal_type, title=key, container=folder)
-    except (UserNotFoundError, Unauthorized):
+    except (UserNotFoundError, Unauthorized, CopyError):
         with api.env.adopt_roles(["Manager"]):
             return api.content.create(type=portal_type, title=key, container=folder)
 

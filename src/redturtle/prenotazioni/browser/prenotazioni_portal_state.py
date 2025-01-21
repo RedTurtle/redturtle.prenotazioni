@@ -10,7 +10,6 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 
 class PrenotazioniPortalState(BrowserView):
-
     """Some globals for this package"""
 
     booking_types = ["Prenotazione"]

@@ -5,13 +5,11 @@ from plone.protect.utils import addTokenToUrl
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.utilities.urls import urlify
 
 
 class PrenotazionePrint(BrowserView):
-
     """
     This is a view to proxy autorizzazione
     """
@@ -32,6 +30,10 @@ class PrenotazionePrint(BrowserView):
             "refused": _(
                 "confirm_booking_refused_message",
                 "Your booking has been refused.",
+            ),
+            "canceled": _(
+                "confirm_booking_canceled_message",
+                "Your booking has been canceled.",
             ),
         }
         return messages_mapping.get(review_state, "")

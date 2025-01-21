@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-import unittest
-
+from redturtle.prenotazioni.content.validators import validate_pause_table
 from zope.interface import Invalid
 
-from redturtle.prenotazioni.content.validators import validate_pause_table
+import unittest
 
 
 class TestValidatePauseTable(unittest.TestCase):

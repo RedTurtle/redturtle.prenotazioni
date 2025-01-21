@@ -2,13 +2,12 @@
 from plone import api
 from plone.memoize.view import memoize
 from plone.restapi.services import Service
-from zExceptions import BadRequest
-from zope.component import getMultiAdapter
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni.config import STATIC_REQUIRED_FIELDS
 from redturtle.prenotazioni.interfaces import ISerializeToRetroCompatibleJson
+from zExceptions import BadRequest
+from zope.component import getMultiAdapter
 
 
 class BookingSchema(Service):
@@ -95,13 +94,24 @@ class BookingSchema(Service):
                 if field == "email":
                     value = current_user.getProperty("email")
                     # readonly solo se ha un valore
+                    if value:
+                        value = (type(value) is str and value.strip()) or (
+                            type(value) is tuple and value[0].strip()
+                        )  # noqa
                     is_readonly = bool(value)
+                if field == "phone":
+                    value = current_user.getProperty("phone", "")
+                    # readonly solo se ha un valore (?) non lo lascerei mai readonly permettendo al cittadino
+                    # di modificare il proprio numero di telefono
+                    # is_readonly = bool(value)
                 if field == "fiscalcode":
                     value = current_user.getUserName()
                     is_readonly = True
                 if field == "title":
                     value = current_user.getProperty("fullname")
                     # readonly solo se ha un valore
+                    if value:
+                        value = value.strip()
                     is_readonly = bool(value)
 
             fields_list.append(

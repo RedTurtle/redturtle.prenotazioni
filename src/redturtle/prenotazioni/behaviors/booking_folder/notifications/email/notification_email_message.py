@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 """Email notification templates"""
 
-import os
 from email.charset import Charset
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
 from plone import api
 from plone.app.event.base import default_timezone
 from plone.event.interfaces import IICalendar
@@ -13,17 +11,20 @@ from plone.stringinterp.interfaces import IContextWrapper
 from plone.stringinterp.interfaces import IStringInterpolator
 from plone.stringinterp.interfaces import IStringSubstitution
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
-from zope.annotation.interfaces import IAnnotations
-from zope.component import adapter
-from zope.component import getAdapter
-from zope.interface import Interface
-from zope.interface import implementer
-
+from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
+from zope.annotation.interfaces import IAnnotations
+from zope.component import adapter
+from zope.component import getAdapter
+from zope.interface import implementer
+from zope.interface import Interface
+
+import os
+
 
 CTE = os.environ.get("MAIL_CONTENT_TRANSFER_ENCODING", None)
 
@@ -36,6 +37,10 @@ class PrenotazioneEmailMessage:
     def __init__(self, prenotazione, event):
         self.prenotazione = prenotazione
         self.event = event
+
+    @property
+    def message_history(self) -> str:
+        raise NotImplementedError("The method was not implemented")
 
     @property
     def message_subject(self) -> str:
@@ -119,6 +124,15 @@ class PrenotazioneMovedICalEmailMessage(
     PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
 ):
     @property
+    def message_history(self) -> str:
+        return api.portal.translate(
+            _(
+                "history_email_reschedule_sent",
+                default="Email message about the booking reschedule was sent",
+            )
+        )
+
+    @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(self.prenotazioni_folder, "notify_on_move_subject", "")
@@ -140,6 +154,21 @@ class PrenotazioneMovedICalEmailMessage(
 @implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
 class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
+    @property
+    def message_history(self) -> str:
+        transition = (
+            self.event.transition
+            and api.portal.translate(self.event.transition.title)
+            or ""
+        )
+        return api.portal.translate(
+            _(
+                "history_email_transition_sent",
+                "Email message about the ${transition} transition was sent",
+                mapping={"transition": transition},
+            ),
+        )
+
     @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
@@ -179,6 +208,12 @@ class PrenotazioneAfterTransitionEmailICalMessage(
 @adapter(IPrenotazione, IBookingReminderEvent)
 class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
     @property
+    def message_history(self) -> str:
+        return api.portal.translate(
+            _("history_reminder_sent", default="Email reminder was sent")
+        )
+
+    @property
     def message_subject(self) -> str:
         return IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(self.prenotazioni_folder, "notify_as_reminder_subject", "")
@@ -197,6 +232,9 @@ class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
             return MIMEText(text, "html")
 
 
+# NOTE: We are talking about the booking created message here
+# TODO: If this logic is being used in the booker, so this message generation
+#       must be moved to the main module. It is very bad approach to keep this code here(in behavior)
 @implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, Interface)
 class PrenotazioneManagerEmailMessage(
@@ -213,6 +251,15 @@ class PrenotazioneManagerEmailMessage(
         # this will be used in ical adapter to change the title of the ical item
         annotations = IAnnotations(prenotazione.REQUEST)
         annotations["ical_manager_notification"] = True
+
+    @property
+    def message_history(self) -> str:
+        return api.portal.translate(
+            _(
+                "history_email_manager_notification_sent",
+                default="Email notification was sent to booking manager",
+            ),
+        )
 
     @property
     def message(self) -> MIMEMultipart:
@@ -293,6 +340,73 @@ class PrenotazioneManagerEmailMessage(
             "title": getattr(booking, "title", ""),
         }
         text = mail_template(**parameters)
+        if CTE:
+            cs = Charset("utf-8")
+            cs.body_encoding = CTE  # e.g. 'base64'
+            return MIMEText(text, "html", cs)
+        else:
+            return MIMEText(text, "html")
+
+
+@implementer(IBookingEmailMessage)
+@adapter(IPrenotazione, Interface)
+class PrenotazioneCanceledManagerEmailMessage(PrenotazioneManagerEmailMessage):
+    """
+    This is not fired from an event, but used in booker.
+    """
+
+    @property
+    def message_subject(self) -> str:
+        """
+        return subject
+        """
+        booking_type = getattr(self.prenotazione, "booking_type", "")
+        booking_code = self.prenotazione.getBookingCode()
+        date = self.prenotazione.booking_date.strftime("%d-%m-%Y %H:%M")
+
+        booking_canceled = api.portal.translate(
+            _("booking_canceled_mail_subject_part", default="Booking canceled: ")
+        )
+        return f"{booking_canceled} [{booking_type}] {date} {booking_code}"
+
+    @property
+    def message(self) -> MIMEMultipart:
+        """
+        customized to send Bcc instead To
+        """
+        mfrom = self.message_from
+        bcc = ", ".join(getattr(self.prenotazione, "email_responsabile", []))
+
+        if not mfrom:
+            logger.error(
+                self.error_msg.format(message="Email from address is not configured")
+            )
+            return None
+
+        msg = MIMEMultipart()
+
+        msg.attach(self.message_text)
+        msg["Subject"] = self.message_subject
+        msg["From"] = mfrom
+        msg["Bcc"] = bcc
+
+        return msg
+
+
+@implementer(IBookingEmailMessage)
+@adapter(IPrenotazione, IBookingReminderEvent)
+class PrenotazioneRemovedEmailMessage(PrenotazioneEmailMessage):
+    @property
+    def message_subject(self) -> str:
+        return IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(self.prenotazioni_folder, "notify_as_removed_subject", "")
+        )
+
+    @property
+    def message_text(self) -> MIMEText:
+        text = IStringInterpolator(IContextWrapper(self.prenotazione)())(
+            getattr(self.prenotazioni_folder, "notify_as_removed_message", None),
+        )
         if CTE:
             cs = Charset("utf-8")
             cs.body_encoding = CTE  # e.g. 'base64'

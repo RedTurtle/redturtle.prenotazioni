@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import six
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from collective.contentrules.mailfromfield import logger
@@ -11,12 +10,13 @@ from plone.contentrules.rule.interfaces import IExecutable
 from plone.dexterity.interfaces import IDexterityContainer
 from plone.event.interfaces import IICalendar
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 from six.moves import filter
 from zope.component import adapter
-from zope.interface import Interface
 from zope.interface import implementer
+from zope.interface import Interface
 
-from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
+import six
 
 
 class MailActionExecutor(BaseExecutor):

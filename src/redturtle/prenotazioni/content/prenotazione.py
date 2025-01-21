@@ -1,24 +1,24 @@
 # -*- coding: utf-8 -*-
-import re
-
-import six
+from .prenotazioni_folder import IPrenotazioniFolder
 from DateTime import DateTime
 from plone import api
+from plone import schema as plone_schema
 from plone.app.event.base import default_timezone
 from plone.app.z3cform.widget import DatetimeFieldWidget
 from plone.autoform import directives
 from plone.dexterity.content import Item
 from plone.supermodel import model
-from zope import schema
-from zope.interface import implementer
-from zope.schema import ValidationError
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni import tznow
+from zope import schema
+from zope.interface import implementer
+from zope.schema import ValidationError
 
-from .prenotazioni_folder import IPrenotazioniFolder
+import re
+import six
+
 
 VACATION_TYPE = "out-of-office"
 TELEPHONE_PATTERN = re.compile(r"^(\+){0,1}([0-9]| )*$")
@@ -186,6 +186,15 @@ class IPrenotazione(model.Schema):
         required=False, title=_("label_booking_staff_notes", "Staff notes")
     )
 
+    # Schema is defined in PrenotaizioneType as an datagridfield, and here we save the data as an json
+    # in base of selected type
+    additional_fields = schema.List(
+        title="Additional fields, not editable",
+        required=False,
+        value_type=plone_schema.JSONField(),
+        default=[],
+    )
+
     directives.widget(
         "booking_date",
         DatetimeFieldWidget,
@@ -199,7 +208,8 @@ class Prenotazione(Item):
     """ """
 
     def isVacation(self):
-        self.getBooking_type() == VACATION_TYPE
+        # TODO: Remove None after check if it will not broke the front-end
+        return self.booking_type == VACATION_TYPE or None
 
     def getBooking_date(self):
         return self.booking_date
@@ -213,6 +223,8 @@ class Prenotazione(Item):
     def setBooking_expiration_date(self, date):
         self.booking_expiration_date = date
 
+    # OBSOLETE
+    # TODO: Check if can be deleted
     def getBooking_type(self):
         return self.booking_type
 

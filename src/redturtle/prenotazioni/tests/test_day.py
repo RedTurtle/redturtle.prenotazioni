@@ -1,22 +1,21 @@
 # -*- coding: UTF-8 -*-
-import unittest
 from datetime import date
 from datetime import timedelta
-
-import pytz
 from plone import api
+from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
 from plone.restapi.testing import RelativeSession
+from redturtle.prenotazioni import tznow
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 from transaction import commit
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
-from redturtle.prenotazioni import tznow
-from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+import pytz
+import unittest
 
 
 @implementer(IObjectEvent)
@@ -173,3 +172,20 @@ class TestDaySlots(unittest.TestCase):
             },
             results["gates"][0]["daily_schedule"],
         )
+
+    def test_requested_day_is_out_of_range(self):
+        self.folder_prenotazioni.aData = self.today.date()
+
+        commit()
+
+        response = self.api_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@day/{self.tomorrow.isoformat()}"
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        results = response.json()
+
+        self.assertEqual(results["gates"], [])
+        self.assertEqual(results["pauses"], [])
+        self.assertEqual(results["bookings"], [])

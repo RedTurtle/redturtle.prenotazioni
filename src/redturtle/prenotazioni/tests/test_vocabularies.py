@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-import unittest
 from datetime import date
-
 from plone import api
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+import unittest
 
 
 class TestVocabularies(unittest.TestCase):

@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-import base64
-import json
 from datetime import datetime
+from DateTime import DateTime
 
 # from ZPublisher.Iterators import filestream_iterator
 from io import BytesIO
-
-from DateTime import DateTime
 from plone import api
 from plone.api.content import get_state
 from plone.app.event.base import default_timezone
@@ -16,14 +13,17 @@ from Products.CMFPlone import PloneMessageFactory as __
 from Products.CMFPlone.browser.search import quote_chars
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from pyexcel_xlsx import save_data
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.adapters.conflict import IConflictManager
+from redturtle.prenotazioni.utilities.urls import urlify
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 from zExceptions import NotFound
 from zope.component import getUtility
 from zope.i18n import translate
-from zope.interface import Interface
 from zope.interface import implementer
+from zope.interface import Interface
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema import Choice
 from zope.schema import Date
@@ -31,9 +31,8 @@ from zope.schema import TextLine
 from zope.schema import ValidationError
 from zope.schema.interfaces import IVocabularyFactory
 
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.conflict import IConflictManager
-from redturtle.prenotazioni.utilities.urls import urlify
+import base64
+import json
 
 
 class InvalidDate(ValidationError):
@@ -74,7 +73,6 @@ class ISearchForm(Interface):
 
 @implementer(ISearchForm)
 class SearchForm(form.Form):
-
     """ """
 
     ignoreContext = True
@@ -111,14 +109,28 @@ class SearchForm(form.Form):
             return ""
         return {k: v.title for (k, v) in factory(self.context).by_token.items()}
 
-    def get_query(self, data):
+    def get_query(self, data):  # NOQA: C901
         """The query we requested"""
         self.query_data = {}
-        query = {
-            "sort_on": "Date",
-            "sort_order": "reverse",
-            "path": "/".join(self.context.getPhysicalPath()),
-        }
+        sort_on = self.request.get("sort_on") or "Date"
+        sort_order = self.request.get("sort_order") or "descending"
+        query = {}
+        if "portal_type" in data:
+            query["portal_type"] = data["portal_type"]
+        else:
+            query["portal_type"] = "Prenotazione"
+        if "sort_on" in data:
+            query["sort_on"] = data["sort_on"]
+        else:
+            query["sort_on"] = sort_on
+        if "sort_order" in data:
+            query["sort_order"] = data["sort_order"]
+        else:
+            query["sort_order"] = sort_order
+        if "path" in data:
+            query["path"] = data["path"]
+        else:
+            query["path"] = "/".join(self.context.getPhysicalPath())
         if data.get("text"):
             query["SearchableText"] = quote_chars(data["text"])
         if data.get("review_state"):
@@ -166,24 +178,24 @@ class SearchForm(form.Form):
         if "text" in data and data.get("text", None):
             result.append(
                 MARKUP.format(
-                    self.context.translate(_("label_text", "Text to search")),
+                    api.portal.translate(_("label_text", "Text to search")),
                     data["text"],
                 )
             )
         if "review_state" in data and data.get("review_state", None):
             result.append(
                 MARKUP.format(
-                    self.context.translate(
+                    api.portal.translate(
                         __("State"),
                     ),
-                    self.context.translate(__(data["review_state"])),
+                    api.portal.translate(__(data["review_state"])),
                 )
             )
 
         if "gate" in data and data.get("gate", None):
             result.append(
                 MARKUP.format(
-                    self.context.translate(
+                    api.portal.translate(
                         _("label_gate", "Gate"),
                     ),
                     data["gate"],
@@ -195,7 +207,7 @@ class SearchForm(form.Form):
                 data["start"] = datetime.strptime(data.get("start"), "%Y-%m-%d")
             result.append(
                 MARKUP.format(
-                    self.context.translate(_("label_start", "Start date ")),
+                    api.portal.translate(_("label_start", "Start date ")),
                     data["start"].strftime("%d/%m/%Y"),
                 )
             )
@@ -205,7 +217,7 @@ class SearchForm(form.Form):
                 data["end"] = datetime.strptime(data.get("end"), "%Y-%m-%d")
             result.append(
                 MARKUP.format(
-                    self.context.translate(_("label_end", "End date")),
+                    api.portal.translate(_("label_end", "End date")),
                     data["end"].strftime("%d/%m/%Y"),
                 )
             )
@@ -355,15 +367,18 @@ class DownloadReservation(SearchForm):
         return states.get(get_state(obj), "")
 
     def __call__(self):
+        req = self.request_path or self.request.form
+        sort_on = req.get("sort_on") or "Date"
+        sort_order = req.get("sort_order") or "descending"
         args = {
-            "sort_on": "Date",
-            "sort_order": "reverse",
+            "portal_type": "Prenotazione",
+            "sort_on": sort_on,
+            "sort_order": sort_order,
             "path": "/".join(self.context.getPhysicalPath()),
         }
         # TODO: restringere la ricerca solo su parametri precisi
-        req = self.request_path or self.request.form
         for k, v in req.items():
-            if v and v != "None":
+            if v and v != "None" and k not in args:
                 args[k] = v
         query = self.get_query(data=args)
         # TODO: serve unrestricted ?

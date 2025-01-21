@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 from datetime import datetime
-
 from io_tools.storage import Storage as Base
 from pony import orm
+
 
 db = orm.Database()
 
@@ -78,9 +78,9 @@ class Storage(Base):
             body=body,
             amount=payment_data["amount"] if payment_data else None,
             notice_number=payment_data["notice_number"] if payment_data else None,
-            invalid_after_due_date=payment_data["invalid_after_due_date"]
-            if payment_data
-            else None,
+            invalid_after_due_date=(
+                payment_data["invalid_after_due_date"] if payment_data else None
+            ),
             due_date=due_date,
             status="created",
         )

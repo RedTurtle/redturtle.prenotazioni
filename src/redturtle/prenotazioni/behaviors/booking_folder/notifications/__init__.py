@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from .appio.adapters import app_io_allowed_for
+from functools import wraps
+from Products.CMFCore.utils import getToolByName
+from redturtle.prenotazioni import _
 
 
 def get_booking_folder_notification_flags(booking_folder):
@@ -7,6 +10,32 @@ def get_booking_folder_notification_flags(booking_folder):
         i: getattr(booking_folder, f"notify_on_{i}", False)
         for i in ("confirm", "submit", "refuse")
     }
+
+
+def write_message_to_object_history(object, message):
+    """Write a message to object versioning history"""
+    pr = getToolByName(object, "portal_repository")
+    pr.save(object, message)
+
+
+def notify_the_message_failure(func, gateway_type=""):
+    """Decorator to write the errors during the message senditg to the booking history"""
+
+    @wraps(func)
+    def inner(context, event, *args, **kwargs):
+        try:
+            func(context, event, *args, *kwargs)
+        except Exception as e:
+            write_message_to_object_history(
+                object=context,
+                message=_(
+                    "Could not send {gateway_type} message due to internal errors"
+                ).format(gateway_type=gateway_type),
+            )
+
+            raise e
+
+    return inner
 
 
 # Obsolete. Earlier it was used to manage the different notification types cross logics.

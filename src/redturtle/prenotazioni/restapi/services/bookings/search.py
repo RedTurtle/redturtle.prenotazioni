@@ -2,12 +2,22 @@
 from DateTime import DateTime
 from plone import api
 from plone.restapi.services import Service
+from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
 from zExceptions import Unauthorized
 from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
-from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
+import logging
+import os
+
+
+logger = logging.getLogger(__name__)
+SEE_OWN_ANONYMOUS_BOOKINGS = os.environ.get("SEE_OWN_ANONYMOUS_BOOKINGS") in [
+    "True",
+    "true",
+    "1",
+]
 
 
 @implementer(IPublishTraverse)
@@ -22,10 +32,12 @@ class BookingsSearch(Service):
         return self
 
     def query(self):
+        sort_on = self.request.get("sort_on") or "Date"
+        sort_order = self.request.get("sort_order") or "descending"
         query = {
             "portal_type": "Prenotazione",
-            "sort_on": "Date",
-            "sort_order": "reverse",
+            "sort_on": sort_on,
+            "sort_order": sort_order,
         }
 
         if api.user.is_anonymous():
@@ -38,7 +50,11 @@ class BookingsSearch(Service):
             userid = api.user.get_current().getUserId()
 
         if userid:
-            query["fiscalcode"] = userid.upper()
+            if userid.lower().startswith("tinit-") and userid[6:]:
+                # search for both the original and the prefixed fiscalcode
+                query["fiscalcode"] = [userid.upper(), userid[6:].upper()]
+            else:
+                query["fiscalcode"] = userid.upper()
 
         start_date = self.request.get("from", None)
         end_date = self.request.get("to", None)
@@ -74,21 +90,43 @@ class BookingsSearch(Service):
         return query
 
     def reply(self):
+        # XXX: `fullobjects` the correct behavior should be to use different serializers
         fullobjects = self.request.form.get("fullobjects", False) == "1"
         response = {"id": self.context.absolute_url() + "/@bookings"}
         query = self.query()
-        # XXX: `fullobjects` the correct behavior should be to use different serializers
-        response["items"] = [
-            getMultiAdapter(
-                (i.getObject(), self.request),
-                ISerializeToPrenotazioneSearchableItem,
-            )(fullobjects=fullobjects)
-            for i in api.portal.get_tool("portal_catalog")(**query)
-        ]
-
+        items = []
+        if query.get("fiscalcode") and SEE_OWN_ANONYMOUS_BOOKINGS:
+            # brains = api.content.find(**query, unrestricted=True)
+            brains = api.portal.get_tool("portal_catalog").unrestrictedSearchResults(
+                **query
+            )
+            unrestricted = True
+        else:
+            # brains = api.content.find(**query)
+            brains = api.portal.get_tool("portal_catalog")(**query)
+            unrestricted = False
+        for brain in brains:
+            # TEMP: errors with broken catalog entries
+            try:
+                items.append(
+                    getMultiAdapter(
+                        (self.wrappedGetObject(brain, unrestricted), self.request),
+                        ISerializeToPrenotazioneSearchableItem,
+                    )(fullobjects=fullobjects)
+                )
+            except:  # noqa: E722
+                logger.exception("error with %s", brain.getPath())
+        response["items"] = items
         response["items_total"] = len(response["items"])
-
         return response
+
+    @staticmethod
+    def wrappedGetObject(brain, unrestricted=False):
+        if unrestricted:
+            # with api.env.adopt_user(brain.Creator):
+            with api.env.adopt_roles("Manager"):
+                return brain.getObject()
+        return brain.getObject()
 
 
 class BookingsSearchFolder(BookingsSearch):

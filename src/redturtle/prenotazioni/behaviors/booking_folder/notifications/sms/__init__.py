@@ -3,13 +3,12 @@ from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
+from redturtle.prenotazioni import _
 from zope import schema
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
-
-from redturtle.prenotazioni import _
 
 
 @provider(IContextAwareDefaultFactory)
@@ -17,7 +16,7 @@ def notify_on_submit_sms_message_default_factory(context):
     return api.portal.translate(
         _(
             "notify_on_submit_sms_message_default_value",
-            "[${prenotazioni_folder_title}]: Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.\nSee details or delete it: ${booking_print_url}.",
+            "[${prenotazioni_folder_title}]: Booking ${booking_type} for ${booking_date} at ${booking_time} has been created.\nSee details or delete it: ${booking_print_url} .",
         )
     )
 
@@ -27,7 +26,7 @@ def notify_on_confirm_sms_message_default_factory(context):
     return api.portal.translate(
         _(
             "notify_on_confirm_sms_message_default_value",
-            "[${prenotazioni_folder_title}]: Booking of ${booking_date} at ${booking_time} has been accepted.\nSee details or delete it: ${booking_print_url}.",
+            "[${prenotazioni_folder_title}]: Booking of ${booking_date} at ${booking_time} has been accepted.\nSee details or delete it: ${booking_print_url} .",
         )
     )
 
@@ -37,7 +36,7 @@ def notify_on_move_sms_message_default_factory(context):
     return api.portal.translate(
         _(
             "notify_on_move_sms_message_default_value",
-            "[${prenotazioni_folder_title}]: The booking scheduling for ${booking_type} was modified.\nThe new one is on ${booking_date} at ${booking_time}.\nSee details or delete it: ${booking_print_url}.",
+            "[${prenotazioni_folder_title}]: The booking scheduling for ${booking_type} was modified.\nThe new one is on ${booking_date} at ${booking_time} .\nSee details or delete it: ${booking_print_url} .",
         )
     )
 
@@ -53,12 +52,22 @@ def notify_on_refuse_sms_message_default_factory(context):
 
 
 @provider(IContextAwareDefaultFactory)
+def notify_on_cancel_sms_message_default_factory(context):
+    return api.portal.translate(
+        _(
+            "notify_on_cancel_sms_message_default_value",
+            "[${prenotazioni_folder_title}]: The booking ${booking_type} of ${booking_date} at ${booking_time} was canceled.",
+        )
+    )
+
+
+@provider(IContextAwareDefaultFactory)
 def notify_as_reminder_sms_message_default_factory(context):
     return api.portal.translate(
         _(
             "notify_as_reminder_sms_message_default_value",
-            "[${prenotazioni_folder_title}]: This is an automatic reminder about your booking on ${date} for ${booking_type}."
-            "\nSee details or delete it: ${booking_print_url}.",
+            "[${prenotazioni_folder_title}]: This is an automatic reminder about your booking on ${date} for ${booking_type} ."
+            "\nSee details or delete it: ${booking_print_url} .",
         )
     )
 
@@ -122,6 +131,18 @@ class INotificationSMS(model.Schema):
         defaultFactory=notify_on_refuse_sms_message_default_factory,
         required=False,
     )
+    notify_on_cancel_sms_message = schema.Text(
+        title=_(
+            "notify_on_cancel_message",
+            default="[Cancel] message",
+        ),
+        description=_(
+            "notify_on_cancel_message_help",
+            default="The message text when a booking has been canceled.",
+        ),
+        defaultFactory=notify_on_cancel_sms_message_default_factory,
+        required=False,
+    )
     notify_as_reminder_sms_message = schema.Text(
         title=_(
             "notify_as_reminder_message",
@@ -151,6 +172,7 @@ class INotificationSMS(model.Schema):
             "notify_on_confirm_sms_message",
             "notify_on_move_sms_message",
             "notify_on_refuse_sms_message",
+            "notify_on_cancel_sms_message",
             "notify_as_reminder_sms_message",
         ],
     )

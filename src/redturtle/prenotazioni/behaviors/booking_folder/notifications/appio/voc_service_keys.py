@@ -1,11 +1,32 @@
 # -*- coding: utf-8 -*-
-import os
-import re
-
+from logging import getLogger
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+
+import os
+import yaml
+
+
+logger = getLogger(__name__)
+
+
+def load_yaml_config():
+    filepath = os.environ.get("APPIO_CONFIG_FILE")
+    if not filepath:
+        return []
+    try:
+        with open(filepath, "r") as config:
+            return yaml.safe_load(config)
+
+    except FileNotFoundError:
+        logger.error(f'Filepath "{filepath}" does not exist.')
+
+    return []
+
+
+APPIO_CONFIG = load_yaml_config()
 
 
 @implementer(IVocabularyFactory)
@@ -15,17 +36,14 @@ class VocPrenotazioneTypeGatesFactory(object):
     def __call__(self, context):
         terms = []
 
-        myPattern = re.compile(r"REDTURTLE_PRENOTAZIONI_APPIO_KEY_\w+")
-
-        for key in os.environ.keys():
-            if myPattern.match(key):
-                terms.append(
-                    SimpleTerm(
-                        value=key,
-                        token=key,
-                        title=key.replace("REDTURTLE_PRENOTAZIONI_APPIO_KEY_", ""),
-                    )
+        for item in APPIO_CONFIG:
+            terms.append(
+                SimpleTerm(
+                    value=item["key"],
+                    token=item["name"],
+                    title=item["name"],
                 )
+            )
 
         return SimpleVocabulary(terms)
 

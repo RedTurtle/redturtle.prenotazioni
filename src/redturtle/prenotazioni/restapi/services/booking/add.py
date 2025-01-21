@@ -1,23 +1,26 @@
 # -*- coding: utf-8 -*-
-import json
-from urllib.parse import urlparse
-
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.interfaces import ISerializeToJsonSummary
-from zExceptions import BadRequest
-from zope.component import getMultiAdapter
-from zope.component import queryMultiAdapter
-from zope.interface import alsoProvides
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.adapters.booker import BookerException
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
 from redturtle.prenotazioni.restapi.services.booking_schema.get import BookingSchema
+from urllib.parse import urlparse
+from zExceptions import BadRequest
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.component import queryMultiAdapter
+from zope.interface import alsoProvides
+from zope.schema._bootstrapinterfaces import ValidationError
+from zope.schema.interfaces import IVocabularyFactory
+
+import json
+
 
 # src/redturtle/prenotazioni/browser/prenotazione_add.py
 
@@ -60,9 +63,7 @@ class AddBooking(BookingSchema):
         except BookerException as e:
             raise BadRequest(e) from e
         if not obj:
-            msg = self.context.translate(
-                _("Sorry, this slot is not available anymore.")
-            )
+            msg = api.portal.translate(_("Sorry, this slot is not available anymore."))
             raise BadRequest(msg)
 
         # other_fields: {
@@ -112,13 +113,13 @@ class AddBooking(BookingSchema):
         data_fields = {field["name"]: field["value"] for field in data["fields"]}
 
         if data.get("force", False) and not self.is_manager:
-            msg = self.context.translate(_("You are not allowed to force the gate."))
+            msg = api.portal.translate(_("You are not allowed to force the gate."))
             raise BadRequest(msg)
 
         # campi che non sono nei data_fields
         for field in ("booking_date", "booking_type"):
             if not data.get(field):
-                msg = self.context.translate(
+                msg = api.portal.translate(
                     _(
                         "Required input '${field}' is missing.",
                         mapping=dict(field=field),
@@ -130,7 +131,7 @@ class AddBooking(BookingSchema):
             if not api.user.has_permission(
                 "redturtle.prenotazioni: Manage Prenotazioni", obj=self.context
             ):
-                msg = self.context.translate(
+                msg = api.portal.translate(
                     _(
                         "unauthorized_add_vacation",
                         "You can't add a booking with type '${booking_type}'.",
@@ -143,7 +144,7 @@ class AddBooking(BookingSchema):
 
         for field in self.required_fields:
             if not data_fields.get(field):
-                msg = self.context.translate(
+                msg = api.portal.translate(
                     _(
                         "Required input '${field}' is missing.",
                         mapping=dict(field=field),
@@ -154,12 +155,92 @@ class AddBooking(BookingSchema):
         if data["booking_type"] not in [
             _t.title for _t in self.context.get_booking_types()
         ]:
-            msg = self.context.translate(
+            msg = api.portal.translate(
                 _(
                     "Unknown booking type '${booking_type}'.",
                     mapping=dict(booking_type=data["booking_type"]),
                 )
             )
             raise BadRequest(msg)
+
+        # booking.additional_fields validation below
+        additional_fields = data.get("additional_fields") or []
+
+        # rewrite the fields to prevent not required data
+        additional_fields_data = []
+
+        field_types_vocabulary = getUtility(
+            IVocabularyFactory,
+            "redturtle.prenotazioni.booking_additional_fields_types",
+        )(self.context)
+
+        field_types_validators = {
+            i.value: i.field_validator for i in field_types_vocabulary
+        }
+
+        booking_type = list(
+            filter(
+                lambda i: i.title == data["booking_type"],
+                self.context.get_booking_types(),
+            )
+        )[0]
+
+        for field_schema in booking_type.booking_additional_fields_schema or []:
+            field = list(
+                filter(
+                    lambda i: i.get("name") == field_schema.get("name"),
+                    additional_fields,
+                )
+            )
+
+            if not field and field_schema.get("required", False):
+                raise BadRequest(
+                    api.portal.translate(
+                        _(
+                            "Additional field '${additional_field_name}' is missing.",
+                            mapping=dict(
+                                additional_field_name=field_schema.get("name")
+                            ),
+                        )
+                    )
+                )
+            elif not field:
+                continue
+
+            field = field[0]
+
+            try:
+                if not field.get("value"):
+                    raise BadRequest(
+                        api.portal.translate(
+                            _(
+                                "Additional field '${additional_field_name}' value is missing.",
+                                mapping=dict(
+                                    additional_field_name=field_schema.get("name")
+                                ),
+                            )
+                        )
+                    )
+
+                # Validation
+                field_types_validators.get(field_schema.get("type"))(field.get("value"))
+
+            except ValidationError as e:
+                raise BadRequest(
+                    api.portal.translate(
+                        _(
+                            "Could not validate value for the ${field_name} due to: ${err_message}",
+                            mapping=dict(
+                                field_name=field_schema.get("name"), err_message=str(e)
+                            ),
+                        )
+                    )
+                )
+
+            additional_fields_data.append(
+                {"name": field.get("name"), "value": field.get("value")}
+            )
+
+            data_fields["additional_fields"] = additional_fields_data
 
         return data, data_fields

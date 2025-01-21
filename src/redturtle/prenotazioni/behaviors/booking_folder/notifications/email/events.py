@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-
-from zope.component import getMultiAdapter
-from zope.globalrequest import getRequest
-
+from .. import notify_the_message_failure
+from . import INotificationEmail
+from functools import partial
 from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.utilities import handle_exception_by_log
+from zope.component import getMultiAdapter
+from zope.globalrequest import getRequest
 
-from . import INotificationEmail
+
+notify_the_message_failure = partial(notify_the_message_failure, gateway_type="Email")
 
 
 def booking_folder_provides_current_behavior(booking):
@@ -15,10 +17,10 @@ def booking_folder_provides_current_behavior(booking):
 
 
 @handle_exception_by_log
+@notify_the_message_failure
 def send_email_notification_on_transition(context, event) -> None:
     if not booking_folder_provides_current_behavior(context):
         return
-
     booking_folder = context.getPrenotazioniFolder()
     flags = booking_folder.get_notification_flags()
 
@@ -47,7 +49,10 @@ def send_email_notification_on_transition(context, event) -> None:
 
 
 # TODO: use the notify_on_after_transition_event method techique instead
+
+
 @handle_exception_by_log
+@notify_the_message_failure
 def notify_on_move(context, event):
     if not booking_folder_provides_current_behavior(context):
         return
@@ -69,6 +74,7 @@ def notify_on_move(context, event):
 
 
 @handle_exception_by_log
+@notify_the_message_failure
 def send_booking_reminder(context, event):
     if not booking_folder_provides_current_behavior(context):
         return
@@ -85,3 +91,58 @@ def send_booking_reminder(context, event):
     )
 
     sender_adapter.send()
+
+
+@notify_the_message_failure
+def send_booking_removed(context, event):
+    if not booking_folder_provides_current_behavior(context):
+        return
+
+    message_adapter = getMultiAdapter(
+        (context, event),
+        IBookingEmailMessage,
+        name="removed_notification_email_message",
+    )
+    sender_adapter = getMultiAdapter(
+        (message_adapter, context, getRequest()),
+        IBookingNotificationSender,
+        name="booking_transition_email_sender",
+    )
+
+    sender_adapter.send()
+
+
+def send_booking_canceled_to_managers(booking, event):
+    """
+    Send email notification for managers
+    """
+    if (
+        event.transition is None
+        or not getattr(event.transition, "id", None) == "cancel"
+    ):
+        return
+
+    if not booking_folder_provides_current_behavior(booking):
+        return
+
+    if booking.isVacation():
+        return
+
+    if not getattr(booking.getPrenotazioniFolder(), "email_responsabile", []):
+        return
+
+    request = getRequest()
+
+    message_adapter = getMultiAdapter(
+        (booking, request),
+        IBookingEmailMessage,
+        name="notify_manager_booking_canceled",
+    )
+
+    sender_adapter = getMultiAdapter(
+        (message_adapter, booking, request),
+        IBookingNotificationSender,
+        name="booking_transition_email_sender",
+    )
+
+    sender_adapter.send(force=True)

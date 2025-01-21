@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
-
-from zope.component import getMultiAdapter
-from zope.globalrequest import getRequest
-
+from .. import notify_the_message_failure
+from . import INotificationSMS
+from functools import partial
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingSMSMessage
 from redturtle.prenotazioni.utilities import handle_exception_by_log
-
-from . import INotificationSMS
+from zope.component import getMultiAdapter
+from zope.globalrequest import getRequest
 
 
 def booking_folder_provides_current_behavior(booking):
     return INotificationSMS.providedBy(booking.getPrenotazioniFolder())
 
 
+notify_the_message_failure = partial(notify_the_message_failure, gateway_type="SMS")
+
+
 @handle_exception_by_log
+@notify_the_message_failure
 def send_notification_on_transition(context, event) -> None:
     if not booking_folder_provides_current_behavior(context):
         return
@@ -45,6 +48,7 @@ def send_notification_on_transition(context, event) -> None:
 
 
 @handle_exception_by_log
+@notify_the_message_failure
 def notify_on_move(context, event):
     if not booking_folder_provides_current_behavior(context):
         return
@@ -69,6 +73,7 @@ def notify_on_move(context, event):
 
 
 @handle_exception_by_log
+@notify_the_message_failure
 def send_booking_reminder(context, event):
     if not booking_folder_provides_current_behavior(context):
         return
@@ -77,6 +82,26 @@ def send_booking_reminder(context, event):
         (context, event),
         IBookingSMSMessage,
         name="reminder_notification_sms_message",
+    )
+    if message_adapter and message_adapter.message:
+        sender_adapter = getMultiAdapter(
+            (message_adapter, context, getRequest()),
+            IBookingNotificationSender,
+            name="booking_transition_sms_sender",
+        )
+        sender_adapter.send()
+
+
+@handle_exception_by_log
+@notify_the_message_failure
+def send_booking_removed(context, event):
+    if not booking_folder_provides_current_behavior(context):
+        return
+
+    message_adapter = getMultiAdapter(
+        (context, event),
+        IBookingSMSMessage,
+        name="removed_notification_sms_message",
     )
     if message_adapter and message_adapter.message:
         sender_adapter = getMultiAdapter(

@@ -447,7 +447,7 @@ Parameters:
 
 - **start** a start date. If not given, the start will be today.
 - **end** an end date. If not given, the end will be the last day of current month.
-
+- **first_available** a boolean flag, if valiorized, the first available slot returned without the current month search limit but the one year.
 
 Example::
 
@@ -510,6 +510,7 @@ Response::
                 {
                 "duration": "60",
                 "name": "Rilascio CIE"
+                "booking_additional_fields_schema": {"name": "field1", "description": "Field number 1", "type": "text", "required": true}
               }
             ]
         },
@@ -569,16 +570,17 @@ Endpoint that returns a list of own *Prenotazione* content by parameters
 
 Parameters:
 
-- **SearchableText**: The SearchableText of content.
-- **from**: The start date of research (with YYYY-MM-DD format).
-- **to**: The end date of research (with YYYY-MM-DD format).
-- **modified_after**: To filter bookings modified only after given date (needed also a timezone: YYYY-MM-DDThh:mm:ss+02:00).
-- **gate**: The booking gate.
-- **userid**: The userid(basically it is the fiscalcode). Allowed to be used by users having the 'redturtle.prenotazioni: search prenotazioni' permission.
-- **booking_type**: The booking_type, available values are stored in 'redturtle.prenotazioni.booking_types' vocabulary.
-- **review_state**: The booking status, one of: 'confirmed', 'refused', 'private', 'pending'
-- **fullobjects**: If `fullobjects=1` is passed, the endpoint will return the full objects instead of a list of brains (actually the only information
-                   added is the `requirements` field. (aka `cosa_serve`).
+- **SearchableText**: The SearchableText of content;
+- **from**: The start date of research (with YYYY-MM-DD format);
+- **to**: The end date of research (with YYYY-MM-DD format);
+- **modified_after**: To filter bookings modified only after given date (needed also a timezone: YYYY-MM-DDThh:mm:ss+02:00);
+- **gate**: The booking gate;
+- **userid**: The userid(basically it is the fiscalcode). Allowed to be used by users having the 'redturtle.prenotazioni: search prenotazioni' permission;
+- **booking_type**: The booking_type, available values are stored in 'redturtle.prenotazioni.booking_types' vocabulary;
+- **review_state**: The booking status, one of: 'confirmed', 'refused', 'private', 'pending';
+- **sort_on**: The index by which to order (default 'Date' aka the booking datetime);
+- **sort_order**: The order in which to sort, possible values: 'ascending', 'descending' (default 'descending');
+- **fullobjects**: If `fullobjects=1` is passed, the endpoint will return the full objects instead of a list of brains (actually the only information added is the `requirements` field. (aka `cosa_serve`).
 
 Example::
 
@@ -610,6 +612,10 @@ Response::
           }
     }
 
+If a user is authenticated and, he is not a site operator, returns all own bookings.
+
+With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return
+also the bookings created by anonymous users with the same fiscalcode of the authenticated user.
 
 @booking-notify
 ---------------
@@ -698,6 +704,66 @@ Response::
         ]
     }
 
+Booking Additional Fields
+=========================
+
+You can also create the addtional fields for your booking, you just need to compile
+them in your PrenotazioneType.
+And they will appear in the ["booking_types"]["booking_additional_fields_schema"]
+in your booking schema so you can compile them for your booking in this way:
+
+@booking
+--------
+
+Create booking with an additional field
+
+POST
+~~~~
+
+This endpoint allows to create a new booking.
+
+Example::
+
+    curl http://localhost:8080/Plone/++api++/<booking_folder_path>/@booking \
+        -X POST \
+        -H 'Accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+            "booking_date": "2023-05-23T09:00:00+02:00",
+            "booking_type": "Type x",
+            "fields": [
+                {"name": "fullname", "value": "Mario Rossi"},
+                {"name": "email", "value": "mario.rossi@example"}
+            ],
+            "additional_fields": [{"name": "field1", "value": "Addional field text"}]
+        }'
+
+Response::
+
+    {
+        "booking_code": "17E3E6",
+        "booking_date": "2023-05-22T09:09:00",
+        "booking_expiration_date": "2023-05-22T09:10:00",
+        "booking_type": "Type x",
+        "company": null,
+        "cosa_serve": null,
+        "description": "",
+        "email": "mario.rossi@example",
+        "fiscalcode": "",
+        "gate": "gate 1",
+        "id": "mario-rossi-1",
+        "phone": "",
+        "staff_notes": null,
+        "title": "Mario Rossi",
+        "additional_fields": [{"name": "field1", "value": "Addional field text"}]
+    }
+
+Available types are
+-------------------
+
+- **text**: Text which uses default zope.schema.TextLine validation
+
+
 Special Views
 ==============
 
@@ -729,6 +795,22 @@ have the Reminder Notification Gap field populated. If you intend to set up a cr
 The script is located at src/redturtle/prenotazioni/scripts/notify_upcoming_bookings.py.
 
 
+@@bookings-export
+-----------------
+
+All the time parameters below are ISO formatted datetime strings
+
+- **booking_start_from** - booking start from range.
+- **booking_start_to** - booking start to range.
+- **booking_creation_from** - booking created from range.
+- **booking_creation_to** - bookking createtd to range
+- **path** - booking folder path (es: "/Plone/booking_folder")
+
+Example::
+    curl -i http://localhost:8080/Plone/@@bookings-export?booking_start_from=2023-10-22T12:27:18
+
+Response::
+    Binary csv file
 
 Scripts
 =======
@@ -746,14 +828,16 @@ Usage::
 Buildout config example::
 
     [buildout]
-
+    # You can change it in according to your policy
+    cron_instance = instance1
     parts +=
         notify-upcoming-bookings
 
     [notify-upcoming-bookings]
     recipe = z3c.recipe.usercrontab
     times = 0 3 * * *
-    command = ${buildout:directory}/bin/notify_upcoming_bookings
+    command = flock -n ${buildout:directory}/var/notify_upcoming_bookings.lock ${buildout:directory}/bin/${buildout:cron_instance} -OPlone run bin/notify_upcoming_bookings >> ${buildout:directory}/var/log/notify_upcoming_bookings.log 2>&1
+
 
 
 Behaviors
@@ -767,7 +851,28 @@ this **redturtle.prenotazioni.behavior.notification_appio_booking_type** to Pren
 
 To send the messages via AppIO gateway the **service_code** field defined by **redturtle.prenotazioni.behavior.notification_appio_booking_type**
 must be compiled in the PrenotazioniType object. All the possible values of this field are being
-taken from the environmennt variables which have the following syntax **REDTURTLE_PRENOTAZIONI_APPIO_KEY_<AppIO Sevice code here>=<AppIO Sevice key here>**
+taken from an **yaml** file with the following format.
+
+appio_config_keys.yaml::
+
+    - name: Service1
+      key: ABC123
+
+    - name: Service2
+      key: ABC231
+
+    - name: Service3
+      key: ABC312
+
+The file path is being taken from the **APPIO_CONFIG_FILE** env var.
+This variable can be configured automatically in the buildout using the following config.
+
+buildout.cfg::
+
+    [instance]
+    environment-vars =
+        APPIO_CONFIG_FILE ${buildout:directory}/appio_config_keys.yaml
+
 
 Content-transfer-encoding
 =========================

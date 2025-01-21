@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-import logging
-
-import pytz
 from dateutil.tz.tz import tzutc
 from plone import api
 from plone.app.contentrules.actions.workflow import WorkflowAction
@@ -14,10 +11,6 @@ from plone.app.upgrade.utils import loadMigrationProfile
 from plone.app.workflow.remap import remap_workflow
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.interfaces import IRuleStorage
-from zope.component import getMultiAdapter
-from zope.component import getUtility
-from zope.component import queryUtility
-
 from redturtle.prenotazioni.adapters.booking_code import IBookingCodeGenerator
 from redturtle.prenotazioni.behaviors.booking_folder.notifications.email import (
     notify_on_confirm_message_default_factory,
@@ -43,6 +36,13 @@ from redturtle.prenotazioni.behaviors.booking_folder.notifications.email import 
 from redturtle.prenotazioni.behaviors.booking_folder.notifications.email import (
     notify_on_submit_subject_default_factory,
 )
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.component import queryUtility
+
+import logging
+import pytz
+
 
 logger = logging.getLogger(__name__)
 
@@ -464,3 +464,59 @@ def to_2004(context):
     for brain in api.content.find(portal_type="Prenotazione"):
         obj = brain.getObject()
         obj.reindexObject(idxs=["booking_code"])
+
+
+def to_2005(context):
+    context.runImportStepFromProfile(
+        "profile-redturtle.prenotazioni:to_2005", "rolemap"
+    )
+
+
+def to_2006(context):
+    context.runImportStepFromProfile(
+        "profile-redturtle.prenotazioni:to_2006", "workflow"
+    )
+
+
+def to_2007(context):
+    update_rolemap(context)
+
+
+def to_2008(context):
+    fields_to_fix = [
+        "notify_on_submit_sms_message",
+        "notify_on_confirm_sms_message",
+        "notify_on_move_sms_message",
+        "notify_on_refuse_sms_message",
+        "notify_as_reminder_sms_message",
+    ]
+
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        logger.info(f"Sanitizing the {brain.getPath()} SMS links.")
+        booking_folder = brain.getObject()
+
+        for field in fields_to_fix:
+            value = getattr(booking_folder, field, "")
+
+            value and setattr(
+                booking_folder,
+                field,
+                value.replace("${booking_print_url}.", "${booking_print_url} ."),
+            )
+
+
+def to_2009(context):
+    update_profile(context, "plone-difftool")
+    update_profile(context, "repositorytool")
+
+    portal_types = api.portal.get_tool(name="portal_types")
+    modulo_behaviors = [x for x in portal_types["Prenotazione"].behaviors]
+    if "plone.versioning" not in modulo_behaviors:
+        modulo_behaviors.append("plone.versioning")
+    portal_types["Prenotazione"].behaviors = tuple(modulo_behaviors)
+
+
+def to_2010(context):
+    update_rolemap(context)

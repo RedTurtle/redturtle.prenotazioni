@@ -2,13 +2,283 @@ Changelog
 =========
 
 
-2.4.5 (unreleased)
+2.8.5 (unreleased)
 ------------------
 
 - Fix: urlencode/quote booking_type vocab terms
   [mamico[
 
 - Fix: term values must be unique in booking_type vocabulary
+- isort with plone profile
+  [mamico]
+
+
+2.8.4 (2024-12-02)
+------------------
+
+- Change date validation order, if the validated
+  day is vacation, it is not possibile to book.
+  [folix-01]
+- Lower log level for AppIO exceptions
+  [folix-01]
+
+2.8.3 (2024-11-28)
+------------------
+
+- @bookings-export filters hotfix.
+  [folix-01]
+
+
+2.8.2 (2024-11-27)
+------------------
+
+- Fix translation mechanism for exceptions.
+  [folix-01]
+- bookings-export remove default filter values.
+  [folix-01]
+
+
+2.8.1 (2024-11-27)
+------------------
+
+- Extend bookings-export filters.
+  [folix-01]
+
+
+2.8.0 (2024-11-26)
+------------------
+
+- Divide PrenotazioniFolder.week_table time choice by 5 minutes instead of 15.
+  [folix-01]
+
+
+2.7.10 (2024-11-22)
+-------------------
+
+- Apply validity dates restrictions for the Bookings Manger if selected flag 'apply_date_restrictions_to_manager'.
+  [folix-01]
+
+- Fixed missing validity dates check during the booking creation.
+  [folix-01]
+
+
+2.7.9 (2024-10-09)
+------------------
+
+- Booking additional fields.
+  [folix-01]
+
+
+2.7.8 (2024-09-13)
+------------------
+
+- Remove csrf protection from send reminder endpoint.
+  [folix-01]
+
+
+2.7.7 (2024-08-22)
+------------------
+
+- Bookings details help text in `Tipologia prenotazione`.
+  [folix-01]
+
+
+2.7.6 (2024-06-27)
+------------------
+
+- Add creator and creation date to bookings export
+  [folix-01]
+
+- Fix notify_about_confirm service in according to last updates.
+  [folix-01]
+
+
+2.7.5 (2024-06-26)
+------------------
+
+- Accept email as an tuple in booking schema get.
+  [folix-01]
+
+
+2.7.4 (2024-06-24)
+------------------
+
+- @@bookings-export view.
+  [folix-01]
+
+
+2.7.3 (2024-06-14)
+------------------
+
+- With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return
+  also the bookings created by anonymous users with the same fiscalcode of the authenticated user.
+  [mamico]
+
+
+2.7.2 (2024-06-03)
+------------------
+
+- Hotfix missing permission.
+  [folix-01]
+
+
+2.7.1 (2024-05-31)
+------------------
+
+- Hotfix missing permission.
+  [folix-01]
+
+
+2.7.0 (2024-05-29)
+------------------
+
+- Workarounds for external integration: search with tinit- prefixed user,
+  schema with some fields with only spaces
+  [mamico]
+
+- Write to history the booking notifications log
+  [folix-01]
+
+- Write to history if could not send booking notification
+  [folix-01]
+
+- Booking canceled message + wf states translations
+  BREAKING CHANGE: frontend uses booking_state_label insteat of booking_state, this change of translations
+  requires a new release of the frontend (@redturtle/volto-io-prenoto >= 1.20.0)
+  [folix-01]
+
+
+
+2.6.5 (2024-04-24)
+------------------
+
+- Package chore.
+  [folix-01]
+
+
+2.6.4 (2024-04-24)
+------------------
+
+- Fix reminder send view.
+  [folix-01]
+
+
+2.6.3 (2024-04-15)
+------------------
+
+- avoid gate collision
+  [mamico]
+
+
+2.6.2 (2024-04-12)
+------------------
+
+- Bypass notBeforeDays when using the @available-slots to find the first bookable slot(used by BookingManager).
+  [folix-01]
+
+- Fix day endpoint to show the available scheduling for the same day as start date.
+  [folix-01]
+
+- Manage the user's phone attribute in booking-schema
+  [mamico]
+
+
+2.6.1 (2024-04-02)
+------------------
+
+- PrenotazioniFolder.max_bookings_allowed constraint (if compiled, the fiscalcode must be required).
+  [folix-01]
+
+
+2.6.0 (2024-04-02)
+------------------
+
+- Return empty data from the @day endpoint if requested date is out of PrenotazioniFolder range
+  [folix-01]
+
+- Fix double gate bug.
+  [folix-01]
+
+- first_available flag for the @available-slots endpoint.
+  [folix-01]
+
+- Fix double gate when it is repeated in more than one week table overrides.
+  [folix-01]
+
+
+2.5.3 (2024-03-19)
+------------------
+
+- Fix SMS links. Removed the dot immediately after the url
+  [folix-01]
+
+
+2.5.2 (2024-03-08)
+------------------
+
+- Fix rolemap
+  [lucabel]
+
+- Add manager notification on booking canceled
+  [folix-01]
+
+2.5.1 (2024-03-06)
+------------------
+
+- Add the years range configuration to week table overrides.
+  [folix-01]
+
+- Bypass the today delete limit for the 'out-of-office' types
+  [folix-01]
+
+- Change the booking notification flag label.
+  [folix-01]
+
+
+2.5.0 (2024-02-29)
+------------------
+
+- `canceled` state for booking. if an user cancel a booking, the booking is not deleted but is set to cancel state
+  [mamico]
+
+2.4.9 (2024-02-22)
+------------------
+
+- Disabled "user has exceeded the limit" validation when the fiscal code is missing.
+  [daniele]
+
+
+2.4.8 (2024-02-16)
+------------------
+
+- No cache per restapi available_slots, available_slots changes frequently and anonymous users
+  need to see the updated data.
+  [mamico]
+
+- Remove acquisition when getting version_id in **on_modify** event handler.
+  [cekk]
+
+
+2.4.7 (2024-02-12)
+------------------
+
+- permission for move bookings for booking managers
+  [mamico]
+
+
+2.4.6 (2024-02-12)
+------------------
+
+- permission for move bookings for booking managers
+  [mamico]
+
+- Use the yaml file to configure the AppIO keys
+  [folix-01]
+
+2.4.5 (2024-02-01)
+------------------
+
+- sort_on/sort_order in restapi bookings and xlsx
   [mamico]
 
 
@@ -22,7 +292,7 @@ Changelog
 2.4.3 (2024-01-24)
 ------------------
 
-- Remove the notifiation gateways allowing cross logics
+- Remove the notification gateways allowing cross logics
   [folix-01]
 
 - Add @id in booking serializer
@@ -81,7 +351,7 @@ Changelog
 
 - Add creation and modification dates to serialized booking
   [folix-01]
- 
+
 - Add fullobjects in @bookings
   [mamico]
 - Use the <PrenotazioniFolder>.holidays constraint.
@@ -91,7 +361,7 @@ Changelog
 2.3.1 (2023-12-21)
 ------------------
 
-- add content-transfer-encoding customization 
+- add content-transfer-encoding customization
   [mamico]
 
 
@@ -110,7 +380,7 @@ Changelog
 - Fix: hidden attribute in tipologia
   [mamico]
 
-- Fix upgrade step error #139 
+- Fix upgrade step error #139
   [mamico]
 
 - Add flag `auto_confirm_manager` that allows to automatically confirm bookings created by Booking Managers.
@@ -124,7 +394,7 @@ Changelog
 
 - Hide PrenotazioniYear in add menu for restapi.
   [cekk]
- 
+
 2.2.5 (2023-12-04)
 ------------------
 
