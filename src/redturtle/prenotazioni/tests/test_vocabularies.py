@@ -68,8 +68,10 @@ class TestVocabularies(unittest.TestCase):
             IVocabularyFactory, name="redturtle.prenotazioni.booking_types"
         )
         self.assertEqual(
-            set(factory(self.portal).by_token.keys()), {"Type%20A", "Type%20B", "Type%20C"}
+            set(factory(self.portal).by_token.keys()),
+            {"Type%20A", "Type%20B", "Type%20C"},
         )
         self.assertEqual(
-            set(factory(self.folder_prenotazioni).by_token.keys()), {"Type%20A", "Type%20B"}
+            set(factory(self.folder_prenotazioni).by_token.keys()),
+            {"Type%20A", "Type%20B"},
         )
