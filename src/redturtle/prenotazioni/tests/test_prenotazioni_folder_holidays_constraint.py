@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import unittest
-
 from redturtle.prenotazioni.content.prenotazioni_folder import holidays_constraint
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
+
+import unittest
 
 
 class TestPrenotazioniSearch(unittest.TestCase):

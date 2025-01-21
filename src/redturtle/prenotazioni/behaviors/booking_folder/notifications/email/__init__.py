@@ -3,13 +3,12 @@ from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
+from redturtle.prenotazioni import _
 from zope import schema
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
-
-from redturtle.prenotazioni import _
 
 
 @provider(IContextAwareDefaultFactory)

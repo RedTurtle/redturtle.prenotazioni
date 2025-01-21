@@ -2,10 +2,9 @@
 """Send reminders script"""
 
 from plone import api
+from redturtle.prenotazioni import logger
 from transaction import commit
 from zope.globalrequest import getRequest
-
-from redturtle.prenotazioni import logger
 
 
 def main():

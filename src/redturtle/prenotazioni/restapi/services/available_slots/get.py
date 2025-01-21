@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-import calendar
-import datetime
 from datetime import timedelta
-
 from plone import api
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.services import Service
+from redturtle.prenotazioni import _
 from zExceptions import BadRequest
 
-from redturtle.prenotazioni import _
+import calendar
+import datetime
 
 
 class AvailableSlots(Service):

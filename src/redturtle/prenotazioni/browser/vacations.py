@@ -1,31 +1,30 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-
-import six
 from DateTime import DateTime
 from plone import api
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
-from six.moves import map
-from z3c.form import button
-from z3c.form import field
-from z3c.form import form
-from z3c.form.interfaces import ActionExecutionError
-from zope.interface import Interface
-from zope.interface import Invalid
-from zope.interface import implementer
-from zope.schema import Choice
-from zope.schema import Date
-from zope.schema import TextLine
-from zope.schema import ValidationError
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni import time2timedelta
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.utilities.urls import urlify
+from six.moves import map
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
+from z3c.form.interfaces import ActionExecutionError
+from zope.interface import implementer
+from zope.interface import Interface
+from zope.interface import Invalid
+from zope.schema import Choice
+from zope.schema import Date
+from zope.schema import TextLine
+from zope.schema import ValidationError
+
+import six
 
 
 class InvalidDate(ValidationError):

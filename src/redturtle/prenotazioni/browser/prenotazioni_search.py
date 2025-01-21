@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-import base64
-import json
 from datetime import datetime
+from DateTime import DateTime
 
 # from ZPublisher.Iterators import filestream_iterator
 from io import BytesIO
-
-from DateTime import DateTime
 from plone import api
 from plone.api.content import get_state
 from plone.app.event.base import default_timezone
@@ -16,14 +13,17 @@ from Products.CMFPlone import PloneMessageFactory as __
 from Products.CMFPlone.browser.search import quote_chars
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from pyexcel_xlsx import save_data
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.adapters.conflict import IConflictManager
+from redturtle.prenotazioni.utilities.urls import urlify
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 from zExceptions import NotFound
 from zope.component import getUtility
 from zope.i18n import translate
-from zope.interface import Interface
 from zope.interface import implementer
+from zope.interface import Interface
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema import Choice
 from zope.schema import Date
@@ -31,9 +31,8 @@ from zope.schema import TextLine
 from zope.schema import ValidationError
 from zope.schema.interfaces import IVocabularyFactory
 
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni.adapters.conflict import IConflictManager
-from redturtle.prenotazioni.utilities.urls import urlify
+import base64
+import json
 
 
 class InvalidDate(ValidationError):

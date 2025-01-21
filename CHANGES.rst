@@ -5,7 +5,8 @@ Changelog
 2.8.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- isort with plone profile
+  [mamico]
 
 
 2.8.4 (2024-12-02)

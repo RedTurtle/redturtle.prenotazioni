@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
+from AccessControl import Unauthorized
 from datetime import datetime
 from datetime import time
-
-from AccessControl import Unauthorized
 from plone import api
 from plone.memoize.view import memoize
 from plone.protect import CheckAuthenticator
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni import logger
 from zExceptions import Forbidden
 from zExceptions import NotFound
 from zope.i18n import translate
-
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni import logger
 
 
 class BaseView(BrowserView):
