@@ -5,6 +5,9 @@ Changelog
 2.8.5 (unreleased)
 ------------------
 
+- Fix: urlencode/quote booking_type vocab terms
+  [mamico]
+
 - isort with plone profile
   [mamico]
 

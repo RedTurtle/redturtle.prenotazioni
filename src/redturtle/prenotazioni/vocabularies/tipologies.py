@@ -2,6 +2,7 @@
 from plone import api
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from redturtle.prenotazioni.utils.get_prenotazioni_folder import getPrenotazioniFolder
+from urllib.parse import quote
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -14,24 +15,24 @@ class PrenotazioneTypesVocabulary(object):
         """return a vocabulary tern with this"""
         name = booking_type.title
         duration = booking_type.duration
+        token = quote(name)
 
         if not duration:
             title = name
         else:
             title = f"{name} ({duration} min)"
 
-        return SimpleTerm(name, token=name, title=title)
+        return SimpleTerm(token, token=token, title=title)
 
     def get_terms(self, context):
         """The vocabulary terms"""
         prenotazioni_folder = getPrenotazioniFolder(context)
-
-        return [
-            self.booking_type2term(booking_type)
-            for booking_type in prenotazioni_folder
-            and prenotazioni_folder.get_booking_types()
-            or []
-        ]
+        terms = []
+        for booking_type in prenotazioni_folder.get_booking_types():
+            term = self.booking_type2term(booking_type)
+            if term.value not in [t.value for t in terms]:
+                terms.append(term)
+        return terms
 
     def __call__(self, context):
         """
@@ -39,14 +40,15 @@ class PrenotazioneTypesVocabulary(object):
         """
         if IPloneSiteRoot.providedBy(context):
             catalog = api.portal.get_tool("portal_catalog")
-            return SimpleVocabulary(
-                [
-                    self.booking_type2term(brain.getObject())
-                    for brain in catalog(
-                        portal_type="PrenotazioneType", sort_by="sortable_title"
-                    )
-                ]
-            )
+            terms = []
+            for brain in catalog(
+                portal_type="PrenotazioneType", sort_by="sortable_title"
+            ):
+                booking_type = brain.getObject()
+                term = self.booking_type2term(booking_type)
+                if term.value not in [t.value for t in terms]:
+                    terms.append(term)
+            return SimpleVocabulary(terms)
         else:
             return SimpleVocabulary(self.get_terms(context))
 
