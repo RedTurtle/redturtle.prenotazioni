@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
+from redturtle.prenotazioni import _
 from zope.interface import implementer
 from zope.schema import TextLine
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
-
-from redturtle.prenotazioni import _
 
 
 class SimpleTermFieldType(SimpleTerm):

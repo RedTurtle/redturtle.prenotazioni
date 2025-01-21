@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from plone import api
-
 from redturtle.prenotazioni import _
 
 

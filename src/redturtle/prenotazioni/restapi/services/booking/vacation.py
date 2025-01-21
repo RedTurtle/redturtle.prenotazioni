@@ -5,12 +5,11 @@
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
-from zExceptions import BadRequest
-from zope.interface import alsoProvides
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.adapters.booker import BookerException
 from redturtle.prenotazioni.adapters.booker import IBooker
+from zExceptions import BadRequest
+from zope.interface import alsoProvides
 
 
 class AddVacation(Service):

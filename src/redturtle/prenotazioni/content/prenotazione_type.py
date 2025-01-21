@@ -5,10 +5,9 @@ from plone.app.textfield import RichText
 from plone.autoform import directives as form
 from plone.dexterity.content import Item
 from plone.supermodel import model
+from redturtle.prenotazioni import _
 from zope import schema
 from zope.interface import implementer
-
-from redturtle.prenotazioni import _
 
 
 class IBookingAdditionalFieldsSchema(model.Schema):

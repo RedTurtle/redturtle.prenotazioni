@@ -1,21 +1,10 @@
 # -*- coding: utf-8 -*-
-import math
 from datetime import datetime
 from datetime import timedelta
-from random import choice
-
 from DateTime import DateTime
 from plone import api
 from plone.memoize.instance import memoize
-from six.moves.urllib.parse import parse_qs
-from six.moves.urllib.parse import urlparse
-from zope.annotation.interfaces import IAnnotations
-from zope.component import Interface
-from zope.component import getMultiAdapter
-from zope.event import notify
-from zope.interface import implementer
-from ZTUtils.Lazy import LazyMap
-
+from random import choice
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import logger
@@ -31,6 +20,16 @@ from redturtle.prenotazioni.exceptions import BookingsLimitExceded
 from redturtle.prenotazioni.interfaces import IBookingEmailMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
+from six.moves.urllib.parse import parse_qs
+from six.moves.urllib.parse import urlparse
+from zope.annotation.interfaces import IAnnotations
+from zope.component import getMultiAdapter
+from zope.component import Interface
+from zope.event import notify
+from zope.interface import implementer
+from ZTUtils.Lazy import LazyMap
+
+import math
 
 
 class IBooker(Interface):

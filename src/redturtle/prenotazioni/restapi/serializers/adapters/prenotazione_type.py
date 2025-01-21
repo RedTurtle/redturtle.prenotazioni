@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from plone.restapi.serializer.converters import json_compatible
-from zope.component import adapter
-from zope.interface import implementer
-
 from redturtle.prenotazioni.content.prenotazione_type import IPrenotazioneType
 from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.interfaces import ISerializeToRetroCompatibleJson
+from zope.component import adapter
+from zope.interface import implementer
 
 
 @implementer(ISerializeToRetroCompatibleJson)

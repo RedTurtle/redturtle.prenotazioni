@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
+from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 from zope.interface import implementer
 from zope.interface.interfaces import ObjectEvent
-
-from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 
 
 @implementer(IBookingReminderEvent)

@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
-import json
-from urllib.parse import urlparse
-
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.interfaces import ISerializeToJsonSummary
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.adapters.booker import BookerException
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
+from redturtle.prenotazioni.restapi.services.booking_schema.get import BookingSchema
+from urllib.parse import urlparse
 from zExceptions import BadRequest
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -15,12 +19,8 @@ from zope.interface import alsoProvides
 from zope.schema._bootstrapinterfaces import ValidationError
 from zope.schema.interfaces import IVocabularyFactory
 
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni import logger
-from redturtle.prenotazioni.adapters.booker import BookerException
-from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
-from redturtle.prenotazioni.restapi.services.booking_schema.get import BookingSchema
+import json
+
 
 # src/redturtle/prenotazioni/browser/prenotazione_add.py
 

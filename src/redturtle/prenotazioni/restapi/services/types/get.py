@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from plone.restapi.interfaces import IExpandableElement
 from plone.restapi.services.types.get import TypesInfo
-from zope.component import adapter
-from zope.interface import Interface
-from zope.interface import implementer
-
 from redturtle.prenotazioni.content.prenotazioni_folder import IPrenotazioniFolder
+from zope.component import adapter
+from zope.interface import implementer
+from zope.interface import Interface
 
 
 @implementer(IExpandableElement)

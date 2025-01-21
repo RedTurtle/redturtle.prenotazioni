@@ -3,13 +3,12 @@ from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.services import Service
 from Products.DCWorkflow.events import AfterTransitionEvent
+from redturtle.prenotazioni import _
 from zExceptions import BadRequest
 from zope.event import notify
 from zope.interface import alsoProvides
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
-
-from redturtle.prenotazioni import _
 
 
 @implementer(IPublishTraverse)

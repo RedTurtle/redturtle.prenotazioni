@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
-import unittest
+from AccessControl import Unauthorized
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-
-import transaction
-from AccessControl import Unauthorized
 from plone import api
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
-from zExceptions import NotFound
-
+from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from zExceptions import NotFound
+
+import transaction
+import unittest
 
 
 class TestDeleteBooking(unittest.TestCase):

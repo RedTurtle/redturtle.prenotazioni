@@ -1,19 +1,12 @@
 # -*- coding: utf-8 -*-
-import itertools
-import json
 from copy import deepcopy
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-
-import six
 from DateTime import DateTime
 from plone import api
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
-from six.moves import map
-from six.moves import range
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import get_or_create_obj
 from redturtle.prenotazioni import logger
@@ -29,6 +22,12 @@ from redturtle.prenotazioni.content.prenotazione_type import PrenotazioneType
 from redturtle.prenotazioni.utilities.dateutils import hm2DT
 from redturtle.prenotazioni.utilities.dateutils import hm2seconds
 from redturtle.prenotazioni.utilities.urls import urlify
+from six.moves import map
+from six.moves import range
+
+import itertools
+import json
+import six
 
 
 class PrenotazioniContextState(BrowserView):

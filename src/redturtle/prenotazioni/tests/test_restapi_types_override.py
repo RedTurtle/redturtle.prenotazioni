@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
-import unittest
 from datetime import date
-
-import transaction
 from plone import api
+from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
 from plone.restapi.testing import RelativeSession
-
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+
+import transaction
+import unittest
 
 
 class TestTypesOverrides(unittest.TestCase):

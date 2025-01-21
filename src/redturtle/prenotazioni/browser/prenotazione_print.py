@@ -5,7 +5,6 @@ from plone.protect.utils import addTokenToUrl
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.utilities.urls import urlify
 

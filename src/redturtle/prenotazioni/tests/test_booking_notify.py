@@ -1,19 +1,10 @@
 # -*- coding: UTF-8 -*-
-import email
-import unittest
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-
-import pytz
 from plone import api
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from zope.component import getGlobalSiteManager
-from zope.globalrequest import getRequest
-from zope.interface import implementer
-from zope.interface.interfaces import IObjectEvent
-
+from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.behaviors.booking_folder.notifications.sms.adapters import (
     BookingNotificationSender,
@@ -25,6 +16,14 @@ from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.testing import (
     REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING,
 )
+from zope.component import getGlobalSiteManager
+from zope.globalrequest import getRequest
+from zope.interface import implementer
+from zope.interface.interfaces import IObjectEvent
+
+import email
+import pytz
+import unittest
 
 
 @implementer(IObjectEvent)

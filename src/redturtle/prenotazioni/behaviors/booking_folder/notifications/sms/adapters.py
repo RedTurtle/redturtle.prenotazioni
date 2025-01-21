@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from zope.component import adapter
-from zope.component import getUtility
-from zope.interface import Interface
-from zope.interface import implementer
-
+from .. import write_message_to_object_history
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
 from redturtle.prenotazioni.interfaces import IBookingSMSMessage
-
-from .. import write_message_to_object_history
+from zope.component import adapter
+from zope.component import getUtility
+from zope.interface import implementer
+from zope.interface import Interface
 
 
 @implementer(IBookingNotificationSender)

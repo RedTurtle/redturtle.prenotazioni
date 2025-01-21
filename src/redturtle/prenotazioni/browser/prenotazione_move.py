@@ -4,22 +4,21 @@ from plone import api
 from plone.memoize.view import memoize
 from plone.protect.utils import addTokenToUrl
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from z3c.form import button
-from z3c.form import field
-from z3c.form import form
-from z3c.form.interfaces import ActionExecutionError
-from zope.interface import Interface
-from zope.interface import Invalid
-from zope.interface import implementer
-from zope.schema import Datetime
-from zope.schema import TextLine
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import tznow
 from redturtle.prenotazioni.adapters.booker import BookerException
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.utilities.urls import urlify
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
+from z3c.form.interfaces import ActionExecutionError
+from zope.interface import implementer
+from zope.interface import Interface
+from zope.interface import Invalid
+from zope.schema import Datetime
+from zope.schema import TextLine
 
 
 class IMoveForm(Interface):

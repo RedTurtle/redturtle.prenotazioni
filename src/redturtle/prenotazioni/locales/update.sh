@@ -8,5 +8,5 @@
 
 domain=redturtle.prenotazioni
 
-pipx run i18ndude rebuild-pot --pot $domain.pot --create $domain ../
+pipx run i18ndude rebuild-pot --pot $domain.pot --merge manual.pot --create $domain ../
 pipx run i18ndude sync --pot $domain.pot */LC_MESSAGES/$domain.po

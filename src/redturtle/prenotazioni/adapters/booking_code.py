@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-import hashlib
-
-from zope.component import Interface
+from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from zope.component import adapter
+from zope.component import Interface
 from zope.interface import implementer
 
-from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+import hashlib
 
 
 class IBookingCodeGenerator(Interface):

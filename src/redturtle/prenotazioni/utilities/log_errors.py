@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-import inspect
 from functools import wraps
 from logging import getLogger
+
+import inspect
 
 
 def handle_exception_by_log(func):

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-import re
-
-import six
+from .prenotazioni_folder import IPrenotazioniFolder
 from DateTime import DateTime
 from plone import api
 from plone import schema as plone_schema
@@ -10,16 +8,17 @@ from plone.app.z3cform.widget import DatetimeFieldWidget
 from plone.autoform import directives
 from plone.dexterity.content import Item
 from plone.supermodel import model
-from zope import schema
-from zope.interface import implementer
-from zope.schema import ValidationError
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import is_migration
 from redturtle.prenotazioni import tznow
+from zope import schema
+from zope.interface import implementer
+from zope.schema import ValidationError
 
-from .prenotazioni_folder import IPrenotazioniFolder
+import re
+import six
+
 
 VACATION_TYPE = "out-of-office"
 TELEPHONE_PATTERN = re.compile(r"^(\+){0,1}([0-9]| )*$")
