@@ -311,6 +311,9 @@ class PrenotazioniContextState(BrowserView):
 
         is_configured_day = self.is_configured_day(day)
 
+        if self.is_vacation_day(day):
+            return False
+
         if bypass_user_restrictions:
             return True
 
@@ -322,9 +325,6 @@ class PrenotazioniContextState(BrowserView):
             return True
 
         if day < self.first_bookable_day:
-            return False
-
-        if self.is_vacation_day(day):
             return False
 
         if self.last_bookable_day and day > self.last_bookable_day:

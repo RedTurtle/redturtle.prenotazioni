@@ -15,7 +15,7 @@ long_description = "\n\n".join(
 
 setup(
     name="redturtle.prenotazioni",
-    version="2.7.11.dev0",
+    version="2.8.5.dev0",
     description="An add-on for Plone",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -63,6 +63,7 @@ setup(
         "collective.z3cform.datagridfield>=2.0",
         "pyexcel-xlsx",
         "click",
+        "qrcode",
         # FIXME: se si rimuove il profilo di caching da qui (perchè c'è?), si può togliere anche questo pin
         # 3.0.0a14 e successive richiedono plone.base che è solo su plone 6
         "plone.app.caching>=3.0.0a1",

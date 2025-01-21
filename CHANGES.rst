@@ -2,8 +2,47 @@ Changelog
 =========
 
 
-2.7.11 (unreleased)
--------------------
+2.8.5 (unreleased)
+------------------
+
+- Add booking code as qrcode attachment in email messages
+  [mamico]
+
+
+2.8.4 (2024-12-02)
+------------------
+
+- Change date validation order, if the validated
+  day is vacation, it is not possibile to book.
+  [folix-01]
+- Lower log level for AppIO exceptions
+  [folix-01]
+
+2.8.3 (2024-11-28)
+------------------
+
+- @bookings-export filters hotfix.
+  [folix-01]
+
+
+2.8.2 (2024-11-27)
+------------------
+
+- Fix translation mechanism for exceptions.
+  [folix-01]
+- bookings-export remove default filter values.
+  [folix-01]
+
+
+2.8.1 (2024-11-27)
+------------------
+
+- Extend bookings-export filters.
+  [folix-01]
+
+
+2.8.0 (2024-11-26)
+------------------
 
 - Divide PrenotazioniFolder.week_table time choice by 5 minutes instead of 15.
   [folix-01]

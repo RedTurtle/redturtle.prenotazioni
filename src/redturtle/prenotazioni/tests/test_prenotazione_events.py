@@ -1,20 +1,19 @@
 # -*- coding: UTF-8 -*-
-import email
-import unittest
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-
-import pytz
 from plone import api
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from zope.event import notify
-
+from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.events import BookingReminderEvent
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from zope.event import notify
+
+import email
+import pytz
+import unittest
 
 
 class TestSPrenotazioneEvents(unittest.TestCase):
@@ -129,6 +128,34 @@ class TestSPrenotazioneEvents(unittest.TestCase):
             self.email_message,
             mail.get_payload()[0].get_payload(),
         )
+
+    def test_qrcode_attachment_in_email(self):
+        self.folder_prenotazioni.notify_on_confirm = True
+        self.folder_prenotazioni.notify_on_confirm_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_confirm_message = self.email_message
+        self.folder_prenotazioni.attach_qrcode = True
+
+        self.assertFalse(self.mailhost.messages)
+
+        booking = self.create_booking()
+        api.content.transition(booking, "confirm")
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        mail = email.message_from_bytes(self.mailhost.messages[0])
+        self.assertTrue(mail.is_multipart())
+
+        # Check for QR code attachment
+        attachments = [
+            part for part in mail.walk() if part.get_content_type() == "image/png"
+        ]
+        self.assertEqual(len(attachments), 1)
+
+        qr_attachment = attachments[0]
+        self.assertEqual(
+            qr_attachment.get_filename(), f"{booking.getBookingCode()}.png"
+        )
+        self.assertTrue(qr_attachment.get_payload())
 
     def test_email_send_on_submit_and_confirm_if_not_autoconfirm(self):
         self.folder_prenotazioni.notify_on_submit = True
