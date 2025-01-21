@@ -107,8 +107,10 @@ class PrenotazioneEventMessageMixIn:
             )
             return None
 
-        # TODO: verificare la resa nelle email del QRCode come allegato, e se non soddisfacente
-        #       spostarlo nel testo del messaggio
+        # TODO: verificare la resa nelle email del QRCode come allegato,
+        #       e se non soddisfacente spostarlo nel messaggio (che mi pare html)
+        #       cfr:https://mailtrap.io/blog/embedding-images-in-html-email-have-the-rules-changed/
+        #       <p><img src="cid:qrcode"></img></p>
         if (
             getattr(self.prenotazioni_folder, "attach_qrcode", None)
             and self.prenotazione.getBookingCode()
@@ -126,7 +128,7 @@ class PrenotazioneEventMessageMixIn:
             img_buffer = BytesIO()
             img.save(img_buffer, format="PNG")
             img_bytes = img_buffer.getvalue()
-            qrcodepart = MIMEImage(img_bytes)
+            qrcodepart = MIMEImage(img_bytes, name="qrcode")
             qrcodepart.add_header(
                 "Content-Disposition",
                 f"attachment; filename={self.prenotazione.getBookingCode()}.png",
