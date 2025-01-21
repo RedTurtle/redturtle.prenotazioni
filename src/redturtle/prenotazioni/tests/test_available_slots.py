@@ -1,25 +1,25 @@
 # -*- coding: utf-8 -*-
-import calendar
-import unittest
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-
-import pytz
-import transaction
 from dateutil import relativedelta
 from freezegun import freeze_time
 from plone import api
+from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
-from plone.app.testing import setRoles
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
-
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+
+import calendar
+import pytz
+import transaction
+import unittest
+
 
 DATE_STR = "2023-05-14"
 

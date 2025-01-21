@@ -4,14 +4,13 @@ from plone import api
 from plone.stringinterp.interfaces import IContextWrapper
 from plone.stringinterp.interfaces import IStringInterpolator
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
-from zope.component import adapter
-from zope.interface import implementer
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingAPPIoMessage
 from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
+from zope.component import adapter
+from zope.interface import implementer
 
 
 class PrenotazioneAPPIoMessage:

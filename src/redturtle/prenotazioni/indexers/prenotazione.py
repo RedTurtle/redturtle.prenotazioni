@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone.indexer.decorator import indexer
-
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+
 
 try:
     from plone.base.utils import safe_text
