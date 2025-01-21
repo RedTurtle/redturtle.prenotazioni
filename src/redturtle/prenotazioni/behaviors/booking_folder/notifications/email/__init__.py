@@ -3,13 +3,12 @@ from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
+from redturtle.prenotazioni import _
 from zope import schema
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
-
-from redturtle.prenotazioni import _
 
 
 @provider(IContextAwareDefaultFactory)
@@ -300,6 +299,15 @@ class INotificationEmail(model.Schema):
         defaultFactory=notify_as_reminder_message_default_factory,
         required=False,
     )
+    attach_qrcode = schema.Bool(
+        title=_("attach_qrcode_label", default="Attach QR Code"),
+        description=_(
+            "attach_qrcode_help",
+            default="Attach a QR Code with booking code to the email notification.",
+        ),
+        default=False,
+        required=False,
+    )
 
     model.fieldset(
         "email_notifications",
@@ -326,6 +334,7 @@ class INotificationEmail(model.Schema):
             "notify_on_cancel_message",
             "notify_as_reminder_subject",
             "notify_as_reminder_message",
+            "attach_qrcode",
         ],
     )
 

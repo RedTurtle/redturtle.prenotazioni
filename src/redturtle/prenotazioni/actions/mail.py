@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import six
+# DEPRECATED
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from collective.contentrules.mailfromfield import logger
@@ -11,17 +11,20 @@ from plone.contentrules.rule.interfaces import IExecutable
 from plone.dexterity.interfaces import IDexterityContainer
 from plone.event.interfaces import IICalendar
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
 from six.moves import filter
 from zope.component import adapter
-from zope.interface import Interface
+from zope.deprecation import deprecate
 from zope.interface import implementer
+from zope.interface import Interface
 
-from redturtle.prenotazioni.prenotazione_event import IMovedPrenotazione
+import six
 
 
 class MailActionExecutor(BaseExecutor):
     """The executor for this action."""
 
+    @deprecate("contentrules in redturtle.prenotazioni are deprecated")
     def get_target_obj(self):
         """Get's the target object, i.e. the object that will provide the field
         with the email address
@@ -41,11 +44,11 @@ class MailActionExecutor(BaseExecutor):
             raise ValueError(target)
         return aq_base(aq_inner(obj))
 
+    @deprecate("contentrules in redturtle.prenotazioni are deprecated")
     def get_recipients(self):
         """
         The recipients of this mail
         """
-
         if self.event.object.portal_type != "Prenotazione":
             return super().get_recipients()
 
@@ -68,6 +71,7 @@ class MailActionExecutor(BaseExecutor):
             return []
         return list(filter(bool, recipients))
 
+    @deprecate("contentrules in redturtle.prenotazioni are deprecated")
     def manage_attachments(self, msg):
         booking = self.event.object
         action = getattr(self.event, "action", "")
