@@ -5,7 +5,8 @@ Changelog
 2.8.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add booking code as qrcode attachment in email messages
+  [mamico]
 
 
 2.8.4 (2024-12-02)
