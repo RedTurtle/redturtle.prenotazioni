@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone import api
+from plone.restapi.serializer.converters import json_compatible
 from zope.component import adapter
 from zope.interface import implementer
 
@@ -23,4 +24,10 @@ class PrenotazioneTypeRetroCompatibleSerializer:
             "name": self.context.title,
             "duration": str(self.context.duration),
             "hidden": hidden,
+            "booking_details_help_text": json_compatible(
+                self.context.booking_details_help_text, self.context
+            ),
+            "booking_additional_fields_schema": json_compatible(
+                self.context.booking_additional_fields_schema
+            ),
         }

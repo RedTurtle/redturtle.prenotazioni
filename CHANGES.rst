@@ -2,10 +2,80 @@ Changelog
 =========
 
 
-2.7.7 (unreleased)
+2.8.5 (unreleased)
 ------------------
 
 - Nothing changed yet.
+
+
+2.8.4 (2024-12-02)
+------------------
+
+- Change date validation order, if the validated
+  day is vacation, it is not possibile to book.
+  [folix-01]
+- Lower log level for AppIO exceptions
+  [folix-01]
+
+2.8.3 (2024-11-28)
+------------------
+
+- @bookings-export filters hotfix.
+  [folix-01]
+
+
+2.8.2 (2024-11-27)
+------------------
+
+- Fix translation mechanism for exceptions.
+  [folix-01]
+- bookings-export remove default filter values.
+  [folix-01]
+
+
+2.8.1 (2024-11-27)
+------------------
+
+- Extend bookings-export filters.
+  [folix-01]
+
+
+2.8.0 (2024-11-26)
+------------------
+
+- Divide PrenotazioniFolder.week_table time choice by 5 minutes instead of 15.
+  [folix-01]
+
+
+2.7.10 (2024-11-22)
+-------------------
+
+- Apply validity dates restrictions for the Bookings Manger if selected flag 'apply_date_restrictions_to_manager'.
+  [folix-01]
+
+- Fixed missing validity dates check during the booking creation.
+  [folix-01]
+
+
+2.7.9 (2024-10-09)
+------------------
+
+- Booking additional fields.
+  [folix-01]
+
+
+2.7.8 (2024-09-13)
+------------------
+
+- Remove csrf protection from send reminder endpoint.
+  [folix-01]
+
+
+2.7.7 (2024-08-22)
+------------------
+
+- Bookings details help text in `Tipologia prenotazione`.
+  [folix-01]
 
 
 2.7.6 (2024-06-27)
@@ -35,7 +105,7 @@ Changelog
 2.7.3 (2024-06-14)
 ------------------
 
-- With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return 
+- With an experimental envionment `SEE_OWN_ANONYMOUS_BOOKINGS` set to `True`, the endpoint will return
   also the bookings created by anonymous users with the same fiscalcode of the authenticated user.
   [mamico]
 

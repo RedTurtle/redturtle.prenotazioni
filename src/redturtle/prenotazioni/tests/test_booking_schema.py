@@ -143,7 +143,15 @@ class TestBookingSchema(unittest.TestCase):
         expected = {
             "booking_types": {
                 "bookable": [],
-                "unbookable": [{"duration": "30", "name": "Type A", "hidden": True}],
+                "unbookable": [
+                    {
+                        "duration": "30",
+                        "name": "Type A",
+                        "hidden": True,
+                        "booking_details_help_text": None,
+                        "booking_additional_fields_schema": [],
+                    }
+                ],
             },
             "fields": [
                 {
@@ -217,7 +225,15 @@ class TestBookingSchema(unittest.TestCase):
 
         expected = {
             "booking_types": {
-                "bookable": [{"duration": "30", "name": "Type A", "hidden": True}],
+                "bookable": [
+                    {
+                        "duration": "30",
+                        "name": "Type A",
+                        "hidden": True,
+                        "booking_details_help_text": None,
+                        "booking_additional_fields_schema": [],
+                    }
+                ],
                 "unbookable": [],
             },
             "fields": [

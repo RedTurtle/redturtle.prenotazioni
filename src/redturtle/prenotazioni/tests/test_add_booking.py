@@ -97,7 +97,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
             week_table=WEEK_TABLE_SCHEMA,
         )
 
-        booking_type_A = api.content.create(
+        self.booking_type_A = api.content.create(
             type="PrenotazioneType",
             title="Type A",
             duration=30,
@@ -106,7 +106,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         )
 
         api.content.transition(obj=self.folder_prenotazioni, transition="publish")
-        api.content.transition(obj=booking_type_A, transition="publish")
+        api.content.transition(obj=self.booking_type_A, transition="publish")
 
         transaction.commit()
 
@@ -146,6 +146,50 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.json()["title"], "Mario Rossi")
         self.assertEqual(res.json()["email"], "mario.rossi@example")
         self.assertEqual(res.json()["id"], "mario-rossi")
+
+    def test_add_booking_anonymous_over_validity_dates(self):
+        self.folder_prenotazioni.aData = date.today() - timedelta(days=1)
+
+        transaction.commit()
+
+        self.api_session.auth = None
+        booking_date = "{}T09:00:00+00:00".format(
+            (date.today() + timedelta(1)).strftime("%Y-%m-%d")
+        )
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": booking_date,
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+            },
+        )
+
+        self.assertEqual(res.status_code, 400)
+
+    def test_add_booking_anonymous_before_validity_dates(self):
+        self.folder_prenotazioni.aData = date.today() + timedelta(days=1)
+
+        transaction.commit()
+
+        self.api_session.auth = None
+        booking_date = "{}T09:00:00+00:00".format((date.today()).strftime("%Y-%m-%d"))
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": booking_date,
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+            },
+        )
+
+        self.assertEqual(res.status_code, 400)
 
     def test_add_booking_anonymous_wrong_booking_type(self):
         self.api_session.auth = None
@@ -374,6 +418,210 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         )
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["booking_status"], "pending")
+
+    def test_additional_fields_text(self):
+        # Field types for the type field are defined in the
+        # redturtle.prenotazioni.booking_additional_fields_types vocabulary
+        self.booking_type_A.booking_additional_fields_schema = [
+            {
+                "name": "text line",
+                "description": "text field description",
+                "type": "text",
+                "required": True,
+            }
+        ]
+
+        transaction.commit()
+
+        self.api_session.auth = None
+
+        # Test positive
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+                "additional_fields": [
+                    {"name": "text line", "value": "text field value"}
+                ],
+            },
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(
+            res.json()["additional_fields"],
+            [{"name": "text line", "value": "text field value"}],
+        )
+
+        # Text wrong field type
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(2)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+                "additional_fields": [{"name": "text line", "value": 2}],
+            },
+        )
+        self.assertEqual(res.status_code, 400)
+        self.assertIn(
+            "Could not validate value for the text line due to", res.json()["message"]
+        )
+
+        # Missing field value
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(2)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+                "additional_fields": [{"name": "text line"}],
+            },
+        )
+
+        self.assertEqual(res.status_code, 400)
+        self.assertIn(
+            "Additional field 'text line' value is missing.", res.json()["message"]
+        )
+
+        # Missing required field
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(2)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+                "additional_fields": [],
+            },
+        )
+
+        self.assertEqual(res.status_code, 400)
+        self.assertIn("Additional field 'text line' is missing.", res.json()["message"])
+
+        # Missing not required field
+        self.booking_type_A.booking_additional_fields_schema = [
+            {
+                "name": "text line",
+                "description": "text field description",
+                "type": "text",
+                "required": False,
+            }
+        ]
+        transaction.commit()
+        self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(2)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+                "additional_fields": [],
+            },
+        )
+
+        self.assertEqual(res.status_code, 400)
+        self.assertIn("Additional field 'text line' is missing.", res.json()["message"])
+
+    def test_edit_additional_fields(self):
+        self.booking_type_A.booking_additional_fields_schema = [
+            {
+                "name": "field1",
+                "label": "Field 1",
+                "description": "text field description",
+                "type": "text",
+                "required": True,
+            }
+        ]
+        transaction.commit()
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": "%sT09:00:00"
+                % (date.today() + timedelta(1)).strftime("%Y-%m-%d"),
+                "booking_type": "Type A",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+                "gate": "Gate A",
+                "additional_fields": [{"name": "field1", "value": "foo"}],
+            },
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(
+            res.json()["additional_fields"],
+            [{"name": "field1", "value": "foo"}],
+        )
+        booking_url = res.json()["@id"]
+        res = self.api_session.patch(
+            booking_url,
+            json={
+                "additional_fields": [{"name": "field1", "value": "bar"}],
+            },
+        )
+
+        self.assertEqual(res.status_code, 204)
+        res = self.api_session.get(booking_url)
+        self.assertEqual(
+            res.json()["additional_fields"],
+            [{"name": "field1", "value": "bar"}],
+        )
+
+        # Missing required field
+        res = self.api_session.patch(
+            booking_url,
+            json={
+                "additional_fields": [],
+            },
+        )
+
+        self.assertEqual(res.status_code, 400)
+        self.assertIn("Additional field 'field1' is missing.", res.json()["message"])
+
+        # Missing not required field
+        self.booking_type_A.booking_additional_fields_schema = [
+            {
+                "name": "field1",
+                "label": "Field 1",
+                "description": "text field description",
+                "type": "text",
+                "required": False,
+            }
+        ]
+        transaction.commit()
+
+        res = self.api_session.patch(
+            booking_url,
+            json={
+                "additional_fields": [],
+            },
+        )
+
+        self.assertEqual(res.status_code, 204)
 
 
 class TestPrenotazioniIntegrationTesting(unittest.TestCase):
@@ -704,3 +952,26 @@ class TestPrenotazioniIntegrationTesting(unittest.TestCase):
             }
         )
         self.assertEqual(book.booking_date.date(), future_date.date())
+
+    @freeze_time(DATE_STR)
+    def test_booker_do_not_bypass_futureDays_check_if_manager_and_flag_selected(self):
+        today = date.today()
+        self.folder_prenotazioni.daData = today
+        self.folder_prenotazioni.futureDays = 6
+        self.folder_prenotazioni.apply_date_restrictions_to_manager = True
+
+        logout()
+        login(self.portal, "jdoe")
+
+        future_date = datetime.fromisoformat(today.isoformat()) + timedelta(
+            hours=8, days=8
+        )
+        with self.assertRaises(BookerException):
+            self.create_booking(
+                data={
+                    "booking_date": future_date,
+                    "booking_type": "Type A",
+                    "title": "foo",
+                    "email": "jdoe@redturtle.it",
+                }
+            )

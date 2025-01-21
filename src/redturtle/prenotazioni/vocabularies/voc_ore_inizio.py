@@ -17,23 +17,8 @@ class VocabItem(object):
 class VocOreInizio(object):
     """ """
 
-    HOURS = [
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-    ]
-    MINUTES = ["00", "15", "30", "45"]
+    HOURS = [f"{i:02}" for i in range(7, 21)]
+    MINUTES = [f"{i:02}" for i in range(0, 60, 5)]
 
     def __call__(self, context):
         items = []
