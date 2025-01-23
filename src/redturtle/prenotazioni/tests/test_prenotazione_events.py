@@ -129,6 +129,34 @@ class TestSPrenotazioneEvents(unittest.TestCase):
             mail.get_payload()[0].get_payload(),
         )
 
+    def test_qrcode_attachment_in_email(self):
+        self.folder_prenotazioni.notify_on_confirm = True
+        self.folder_prenotazioni.notify_on_confirm_subject = self.email_subject
+        self.folder_prenotazioni.notify_on_confirm_message = self.email_message
+        self.folder_prenotazioni.attach_qrcode = True
+
+        self.assertFalse(self.mailhost.messages)
+
+        booking = self.create_booking()
+        api.content.transition(booking, "confirm")
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+
+        mail = email.message_from_bytes(self.mailhost.messages[0])
+        self.assertTrue(mail.is_multipart())
+
+        # Check for QR code attachment
+        attachments = [
+            part for part in mail.walk() if part.get_content_type() == "image/png"
+        ]
+        self.assertEqual(len(attachments), 1)
+
+        qr_attachment = attachments[0]
+        self.assertEqual(
+            qr_attachment.get_filename(), f"{booking.getBookingCode()}.png"
+        )
+        self.assertTrue(qr_attachment.get_payload())
+
     def test_email_send_on_submit_and_confirm_if_not_autoconfirm(self):
         self.folder_prenotazioni.notify_on_submit = True
         self.folder_prenotazioni.notify_on_confirm = True

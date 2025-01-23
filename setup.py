@@ -64,6 +64,7 @@ setup(
         "collective.z3cform.datagridfield>=2.0",
         "pyexcel-xlsx",
         "click",
+        "qrcode",
         # FIXME: se si rimuove il profilo di caching da qui (perchè c'è?), si può togliere anche questo pin
         # 3.0.0a14 e successive richiedono plone.base che è solo su plone 6
         "plone.app.caching>=3.0.0a1",
@@ -91,7 +92,6 @@ setup(
     [z3c.autoinclude.plugin]
     target = plone
     [console_scripts]
-    update_locale = redturtle.prenotazioni.locales.update:update_locale
     app_io = redturtle.prenotazioni.scripts.app_io:main
     notify_upcoming_bookings = redturtle.prenotazioni.scripts.notify_upcoming_bookings:main
     """,

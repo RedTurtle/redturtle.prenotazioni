@@ -2,8 +2,10 @@
 """Email notification templates"""
 
 from email.charset import Charset
+from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from io import BytesIO
 from plone import api
 from plone.app.event.base import default_timezone
 from plone.event.interfaces import IICalendar
@@ -24,6 +26,7 @@ from zope.interface import implementer
 from zope.interface import Interface
 
 import os
+import qrcode
 
 
 CTE = os.environ.get("MAIL_CONTENT_TRANSFER_ENCODING", None)
@@ -93,7 +96,7 @@ class PrenotazioneEmailMessage:
         return msg
 
 
-class PrenotazioneEventMessageICalMixIn:
+class PrenotazioneEventMessageMixIn:
     @property
     def message(self, *args, **kwargs):
         message = super().message
@@ -104,24 +107,54 @@ class PrenotazioneEventMessageICalMixIn:
             )
             return None
 
+        # TODO: verificare la resa nelle email del QRCode come allegato,
+        #       e se non soddisfacente spostarlo nel messaggio (che mi pare html)
+        #       cfr:https://mailtrap.io/blog/embedding-images-in-html-email-have-the-rules-changed/
+        #       <p><img src="cid:qrcode"></img></p>
+        if (
+            getattr(self.prenotazioni_folder, "attach_qrcode", None)
+            and self.prenotazione.getBookingCode()
+        ):
+            # Generate QR Code
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data(self.prenotazione.getBookingCode())
+            qr.make(fit=True)
+            img = qr.make_image()
+            img_buffer = BytesIO()
+            img.save(img_buffer, format="PNG")
+            img_bytes = img_buffer.getvalue()
+            qrcodepart = MIMEImage(img_bytes, name="qrcode")
+            qrcodepart.add_header(
+                "Content-Disposition",
+                f"attachment; filename={self.prenotazione.getBookingCode()}.png",
+            )
+            message.attach(qrcodepart)
+
+        # ICAL
         message.add_header("Content-class", "urn:content-classes:calendarmessage")
         name = f"{self.prenotazione.getId()}.ics"
-
         ical = getAdapter(object=self.prenotazione, interface=IICalendar)
         icspart = MIMEText(ical.to_ical().decode("utf-8"), "calendar")
-
         icspart.add_header("Filename", name)
         icspart.add_header("Content-Disposition", f"attachment; filename={name}")
-
         message.attach(icspart)
 
         return message
 
 
+# BBB: nel caso la classe viene usata, con questo nome, da eventuali addon
+PrenotazioneEventMessageICalMixIn = PrenotazioneEventMessageMixIn
+
+
 @implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, IMovedPrenotazione)
 class PrenotazioneMovedICalEmailMessage(
-    PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
+    PrenotazioneEventMessageMixIn, PrenotazioneEmailMessage
 ):
     @property
     def message_history(self) -> str:
@@ -188,6 +221,8 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
                 None,
             ),
         )
+        # TODO: verificare la resa nelle email del QRCode come allegato, e se non soddisfacente
+        #       spostarlo nel testo del messaggio
         if CTE:
             cs = Charset("utf-8")
             cs.body_encoding = CTE  # e.g. 'base64'
@@ -199,7 +234,7 @@ class PrenotazioneAfterTransitionEmailMessage(PrenotazioneEmailMessage):
 @implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, IAfterTransitionEvent)
 class PrenotazioneAfterTransitionEmailICalMessage(
-    PrenotazioneEventMessageICalMixIn, PrenotazioneAfterTransitionEmailMessage
+    PrenotazioneEventMessageMixIn, PrenotazioneAfterTransitionEmailMessage
 ):
     pass
 
@@ -221,15 +256,15 @@ class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
 
     @property
     def message_text(self) -> MIMEText:
-        text = IStringInterpolator(IContextWrapper(self.prenotazione)())(
+        html = IStringInterpolator(IContextWrapper(self.prenotazione)())(
             getattr(self.prenotazioni_folder, "notify_as_reminder_message", None),
         )
         if CTE:
             cs = Charset("utf-8")
             cs.body_encoding = CTE  # e.g. 'base64'
-            return MIMEText(text, "html", cs)
+            return MIMEText(html, "html", cs)
         else:
-            return MIMEText(text, "html")
+            return MIMEText(html, "html")
 
 
 # NOTE: We are talking about the booking created message here
@@ -238,7 +273,7 @@ class PrenotazioneReminderEmailMessage(PrenotazioneEmailMessage):
 @implementer(IBookingEmailMessage)
 @adapter(IPrenotazione, Interface)
 class PrenotazioneManagerEmailMessage(
-    PrenotazioneEventMessageICalMixIn, PrenotazioneEmailMessage
+    PrenotazioneEventMessageMixIn, PrenotazioneEmailMessage
 ):
     """
     This is not fired from an event, but used in booker.
@@ -285,13 +320,10 @@ class PrenotazioneManagerEmailMessage(
         # ical part
         msg.add_header("Content-class", "urn:content-classes:calendarmessage")
         name = f"{self.prenotazione.getId()}.ics"
-
         ical = getAdapter(object=self.prenotazione, interface=IICalendar)
         icspart = MIMEText(ical.to_ical().decode("utf-8"), "calendar")
-
         icspart.add_header("Filename", name)
         icspart.add_header("Content-Disposition", f"attachment; filename={name}")
-
         msg.attach(icspart)
         return msg
 

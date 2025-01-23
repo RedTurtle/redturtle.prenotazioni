@@ -5,6 +5,7 @@ Changelog
 2.8.5 (unreleased)
 ------------------
 
+- Add booking code as qrcode attachment in email messages
 - isort with plone profile
   [mamico]
 
