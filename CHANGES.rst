@@ -6,6 +6,7 @@ Changelog
 ------------------
 
 - Add booking code as qrcode attachment in email messages
+  [mamico]
 - isort with plone profile
   [mamico]
 
