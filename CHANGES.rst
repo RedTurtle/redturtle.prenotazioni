@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.8.5 (unreleased)
+2.8.5 (2025-01-23)
 ------------------
 
 - Add booking code as qrcode attachment in email messages
