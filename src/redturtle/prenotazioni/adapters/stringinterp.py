@@ -152,6 +152,15 @@ class BookingUserDetailsSubstitution(BaseSubstitution):
 
 
 @adapter(Interface)
+class BookingUserFiscalCodeSubstitution(BaseSubstitution):
+    category = _("Booking")
+    description = _("The fiscal code of the user who made the reservation.")
+
+    def safe_call(self):
+        return getattr(self.context, "fiscalcode", "")
+
+
+@adapter(Interface)
 class BookingOfficeContactPhoneSubstitution(BaseSubstitution):
     category = _("Booking")
     description = _("The booking office contact phone.")

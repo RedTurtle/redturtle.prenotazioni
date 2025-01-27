@@ -7,6 +7,8 @@ Changelog
 
 - Add booking code as qrcode attachment in email messages
 - Nothing changed yet.
+- Add also fiscalcode to stringinterp variables.
+  [cekk]
 
 
 2.8.5 (2025-01-23)
