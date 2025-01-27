@@ -5,7 +5,8 @@ Changelog
 2.8.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add also fiscalcode to stringinterp variables.
+  [cekk]
 
 
 2.8.5 (2025-01-23)

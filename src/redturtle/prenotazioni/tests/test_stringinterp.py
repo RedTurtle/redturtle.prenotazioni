@@ -89,3 +89,19 @@ class TestStringInterp(unittest.TestCase):
         )()
         self.assertEqual(booking_time, "08:00")
         self.assertEqual(booking_time_end, "08:30")
+
+    def test_stringinterp_fiscalcode(self):
+        booker = IBooker(self.folder_prenotazioni)
+        booking = booker.book(
+            {
+                "booking_date": self.tomorrow_8_0,
+                "booking_type": "Type A",
+                "title": "foo",
+                "email": "jdoe@redturtle.it",
+                "fiscalcode": "ABCDEF12G34H567I",
+            }
+        )
+        fiscalcode = getAdapter(
+            booking, IStringSubstitution, "booking_user_fiscalcode"
+        )()
+        self.assertEqual(fiscalcode, "ABCDEF12G34H567I")
