@@ -2,10 +2,18 @@ Changelog
 =========
 
 
-2.8.5 (unreleased)
+2.8.6 (unreleased)
 ------------------
 
 - Add booking code as qrcode attachment in email messages
+- Nothing changed yet.
+
+
+2.8.5 (2025-01-23)
+------------------
+
+- Add booking code as qrcode attachment in email messages
+  [mamico]
 - isort with plone profile
   [mamico]
 
