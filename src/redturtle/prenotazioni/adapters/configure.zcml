@@ -103,6 +103,12 @@
       name="booking_user_details"
       />
   <adapter
+      factory=".stringinterp.BookingUserFiscalCodeSubstitution"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      for="*"
+      name="booking_user_fiscalcode"
+      />
+  <adapter
       factory=".stringinterp.BookingCodeSubstitution"
       provides="plone.stringinterp.interfaces.IStringSubstitution"
       for="*"
