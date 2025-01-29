@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.8.6 (unreleased)
+2.8.6 (2025-01-29)
 ------------------
 
 - Add also fiscalcode to stringinterp variables.
