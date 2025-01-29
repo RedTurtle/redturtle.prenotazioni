@@ -9,4 +9,6 @@ include *.js
 include *.json
 include *.lock
 include tox.ini
+exclude .babelrc
+exclude .nvmrc
 recursive-include src *.bandit
