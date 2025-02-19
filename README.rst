@@ -567,7 +567,7 @@ Response::
 ---------
 
 Endpoint that returns a list of own *Prenotazione* content by parameters.
-Note that HTTP 440 is returned if no search parameters were passed.
+Note that HTTP 400 is returned if no search parameters were passed.
 
 Parameters:
 
