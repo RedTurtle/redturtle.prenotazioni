@@ -566,7 +566,8 @@ Response::
 @bookings
 ---------
 
-Endpoint that returns a list of own *Prenotazione* content by parameters
+Endpoint that returns a list of own *Prenotazione* content by parameters.
+Note that HTTP 440 is returned if no search parameters were passed.
 
 Parameters:
 
