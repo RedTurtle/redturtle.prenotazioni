@@ -96,7 +96,9 @@ class BookingsSearch(Service):
             query["review_state"] = review_state
 
         if len(query) <= empty_query_len:
-            raise BadRequest(_("No search parameters were passed."))
+            raise BadRequest(
+                api.portal.translate(_("No search parameters were passed."))
+            )
 
         return query
 
