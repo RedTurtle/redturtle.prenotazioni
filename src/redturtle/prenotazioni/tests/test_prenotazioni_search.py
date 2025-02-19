@@ -2,6 +2,7 @@
 from copy import deepcopy
 from datetime import date
 from datetime import timedelta
+from datetime import datetime
 from dateutil import parser
 from freezegun import freeze_time
 from io import BytesIO
@@ -24,6 +25,7 @@ import unittest
 class TestPrenotazioniSearch(unittest.TestCase):
     """Test the restapi search endpoint (<portal_url>/@bookings)"""
 
+    from_date = datetime.min.isoformat()
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
     def setUp(self):
@@ -196,7 +198,9 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
     def test_view_permission(self):
         self.assertEqual(
-            self.api_session.get(f"{self.portal.absolute_url()}/@bookings").status_code,
+            self.api_session.get(
+                f"{self.portal.absolute_url()}/@bookings?from={self.from_date}"
+            ).status_code,
             200,
         )
 
@@ -213,7 +217,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
         result_uids = [
             i["booking_id"]
             for i in self.api_session.get(
-                f"{self.portal.absolute_url()}/@bookings/{self.testing_fiscal_code}"  # noqa: E501
+                f"{self.portal.absolute_url()}/@bookings/{self.testing_fiscal_code}?from={self.from_date}"  # noqa: E501
             ).json()["items"]
         ]
 
@@ -222,7 +226,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
     def test_fullobjects(self):
         items = self.api_session.get(
-            f"{self.portal.absolute_url()}/@bookings?fullobjects=1"
+            f"{self.portal.absolute_url()}/@bookings?from={self.from_date}&fullobjects=1"
         ).json()["items"]
         self.assertIn(
             {
@@ -336,7 +340,7 @@ class TestPrenotazioniSearch(unittest.TestCase):
 
     def test_search_inside_a_folder(self):
         res = self.api_session.get(
-            f"{self.folder_prenotazioni2.absolute_url()}/@bookings"
+            f"{self.folder_prenotazioni2.absolute_url()}/@bookings?from={self.from_date}"
         )
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["items_total"], 1)
@@ -376,14 +380,16 @@ class TestPrenotazioniSearch(unittest.TestCase):
         self.assertIn(self.prenotazione_confirmed.UID(), result_uids)
 
     def test_sort(self):
-        res = self.api_session.get(f"{self.portal.absolute_url()}/@bookings")
+        res = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?from={self.from_date}"
+        )
         # default sort Date, descending
         self.assertEqual(
             [b["booking_date"] for b in res.json()["items"]],
             sorted([b["booking_date"] for b in res.json()["items"]], reverse=True),
         )
         res = self.api_session.get(
-            f"{self.portal.absolute_url()}/@bookings?sort_order=ascending"
+            f"{self.portal.absolute_url()}/@bookings?sort_order=ascending&from={self.from_date}"
         )
         self.assertEqual(
             [b["booking_date"] for b in res.json()["items"]],
@@ -391,14 +397,14 @@ class TestPrenotazioniSearch(unittest.TestCase):
         )
         # sort on Title
         res = self.api_session.get(
-            f"{self.portal.absolute_url()}/@bookings?sort_on=sortable_title"
+            f"{self.portal.absolute_url()}/@bookings?sort_on=sortable_title&from={self.from_date}"
         )
         self.assertEqual(
             [b["title"] for b in res.json()["items"]],
             sorted([b["title"] for b in res.json()["items"]], reverse=True),
         )
         res = self.api_session.get(
-            f"{self.portal.absolute_url()}/@bookings?sort_on=sortable_title&sort_order=ascending"
+            f"{self.portal.absolute_url()}/@bookings?sort_on=sortable_title&sort_order=ascending&from={self.from_date}"
         )
         self.assertEqual(
             [b["title"] for b in res.json()["items"]],
@@ -504,10 +510,18 @@ class TestPrenotazioniSearch(unittest.TestCase):
             sorted([r[0].value for r in data["Sheet 1"].rows][1:], reverse=True),
         )
 
+    def test_empty_query(self):
+        res = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?sort_order=descending&sort_on=sortable_title"
+        )
+
+        self.assertEqual(res.status_code, 400)
+
 
 class TestPrenotazioniUserSearch(unittest.TestCase):
     """Test the restapi search endpoint (<portal_url>/@bookings)"""
 
+    from_date = datetime.min.isoformat()
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
     def setUp(self):
@@ -618,6 +632,20 @@ class TestPrenotazioniUserSearch(unittest.TestCase):
         self.anon_session.close()
         self.user_session.close()
 
+    # utility methods
+    def add_booking(
+        self, api_session, booking_date, booking_type, fields, additional_fields=None
+    ):
+        return api_session.post(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking",
+            json={
+                "booking_date": booking_date,
+                "booking_type": booking_type,
+                "fields": fields,
+                "additional_fields": additional_fields,
+            },
+        )
+
     @freeze_time("2023-05-14")
     def test_search_own_bookings(self):
         # booking_date = "{}T09:00:00+00:00".format(
@@ -680,12 +708,16 @@ class TestPrenotazioniUserSearch(unittest.TestCase):
         self.assertEqual(res.status_code, 401)
 
         # il manager vede tutte le prenotazioni (3)
-        res = self.api_session.get(f"{self.portal.absolute_url()}/@bookings")
+        res = self.api_session.get(
+            f"{self.portal.absolute_url()}/@bookings?from={self.from_date}"
+        )
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["items_total"], 3)
 
         # la prenotazione fatta da anonimo con il codicefiscale di john non è visibile
-        res = self.user_session.get(f"{self.portal.absolute_url()}/@bookings")
+        res = self.user_session.get(
+            f"{self.portal.absolute_url()}/@bookings?from={self.from_date}"
+        )
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["items_total"], 1)
 
@@ -693,7 +725,9 @@ class TestPrenotazioniUserSearch(unittest.TestCase):
         from redturtle.prenotazioni.restapi.services.bookings import search
 
         search.SEE_OWN_ANONYMOUS_BOOKINGS = True
-        res = self.user_session.get(f"{self.portal.absolute_url()}/@bookings")
+        res = self.user_session.get(
+            f"{self.portal.absolute_url()}/@bookings?from={self.from_date}"
+        )
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["items_total"], 2)
         search.SEE_OWN_ANONYMOUS_BOOKINGS = False
@@ -730,18 +764,4 @@ class TestPrenotazioniUserSearch(unittest.TestCase):
         self.assertEqual(
             res.json()["items"][0]["additional_fields"],
             [{"name": "foo", "value": "bar"}],
-        )
-
-    # utility methods
-    def add_booking(
-        self, api_session, booking_date, booking_type, fields, additional_fields=None
-    ):
-        return api_session.post(
-            f"{self.folder_prenotazioni.absolute_url()}/@booking",
-            json={
-                "booking_date": booking_date,
-                "booking_type": booking_type,
-                "fields": fields,
-                "additional_fields": additional_fields,
-            },
         )

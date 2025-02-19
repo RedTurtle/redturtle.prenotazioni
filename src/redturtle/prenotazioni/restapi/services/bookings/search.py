@@ -3,21 +3,22 @@ from DateTime import DateTime
 from plone import api
 from plone.restapi.services import Service
 from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
-from zExceptions import Unauthorized
+from zExceptions import Unauthorized, BadRequest
 from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
+from redturtle.prenotazioni import _
 
 import logging
 import os
 
 
 logger = logging.getLogger(__name__)
-SEE_OWN_ANONYMOUS_BOOKINGS = os.environ.get("SEE_OWN_ANONYMOUS_BOOKINGS") in [
+SEE_OWN_ANONYMOUS_BOOKINGS = os.environ.get("SEE_OWN_ANONYMOUS_BOOKINGS") in {
     "True",
     "true",
     "1",
-]
+}
 
 
 @implementer(IPublishTraverse)
@@ -39,6 +40,7 @@ class BookingsSearch(Service):
             "sort_on": sort_on,
             "sort_order": sort_order,
         }
+        empty_query_len = len(query)
 
         if api.user.is_anonymous():
             raise Unauthorized("You must be logged in to perform this action")
@@ -63,18 +65,23 @@ class BookingsSearch(Service):
         SearchableText = self.request.get("SearchableText", None)
         review_state = self.request.get("review_state", None)
         modified_after = self.request.get("modified_after", None)
+
         # 2023-01-01 -> 2023-01-01T00:00:00
         if start_date and len(start_date) == 10:
             start_date = f"{start_date}T00:00:00"
+
         if end_date and len(end_date) == 10:
             end_date = f"{end_date}T23:59:59"
+
         if start_date or end_date:
             query["Date"] = {
                 "query": [DateTime(i) for i in [start_date, end_date] if i],
                 "range": f"{start_date and 'min' or ''}{start_date and end_date and ':' or ''}{end_date and 'max' or ''}",  # noqa: E501
             }
+
         if modified_after:
             query["modified"] = {"query": DateTime(modified_after), "range": "min"}
+
         if gate:
             query["Subject"] = "Gate: {}".format(gate)
 
@@ -86,6 +93,9 @@ class BookingsSearch(Service):
 
         if review_state:
             query["review_state"] = review_state
+
+        if len(query) <= empty_query_len:
+            raise BadRequest(_("No search parameters were passed."))
 
         return query
 
