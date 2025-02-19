@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import date
-from datetime import timedelta
 from datetime import datetime
+from datetime import timedelta
 from dateutil import parser
 from freezegun import freeze_time
 from io import BytesIO
