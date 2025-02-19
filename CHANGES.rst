@@ -5,7 +5,7 @@ Changelog
 2.8.7 (unreleased)
 ------------------
 
-- @bookings endpoint return 400 if no search parameters are passed.
+- @bookings endpoint returns 400 if no search parameters are passed.
   [folix-01]
 
 
