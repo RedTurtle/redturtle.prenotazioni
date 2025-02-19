@@ -307,7 +307,7 @@ msgstr "No"
 
 #: redturtle/prenotazioni/restapi/services/bookings/search.py:100
 msgid "No search parameters were passed."
-msgstr "Nessun parametro di ricerca è stato passato"
+msgstr "Nessun parametro di ricerca è stato passato."
 
 #: redturtle/prenotazioni/behaviors/booking_folder/notifications/appio/configure.zcml:17
 msgid "Notification APPIo"
