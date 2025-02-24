@@ -97,7 +97,12 @@ class BookingsSearch(Service):
 
         if len(query) <= empty_query_len:
             raise BadRequest(
-                api.portal.translate(_("No search parameters were passed."))
+                api.portal.translate(
+                    _(
+                        "bookings_search_empty_query_warning",
+                        default="No search parameters were passed.",
+                    )
+                )
             )
 
         return query
