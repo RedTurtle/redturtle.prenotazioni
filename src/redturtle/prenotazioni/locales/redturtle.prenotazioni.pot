@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2025-01-21 13:05+0000\n"
+"POT-Creation-Date: 2025-02-24 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -423,27 +423,27 @@ msgstr ""
 msgid "The booking code."
 msgstr ""
 
-#: ../adapters/stringinterp.py:291
+#: ../adapters/stringinterp.py:300
 msgid "The booking folder title"
 msgstr ""
 
-#: ../adapters/stringinterp.py:211
+#: ../adapters/stringinterp.py:220
 msgid "The booking human readable date"
 msgstr ""
 
-#: ../adapters/stringinterp.py:177
+#: ../adapters/stringinterp.py:186
 msgid "The booking office contact fax."
 msgstr ""
 
-#: ../adapters/stringinterp.py:167
+#: ../adapters/stringinterp.py:176
 msgid "The booking office contact pec address."
 msgstr ""
 
-#: ../adapters/stringinterp.py:157
+#: ../adapters/stringinterp.py:166
 msgid "The booking office contact phone."
 msgstr ""
 
-#: ../adapters/stringinterp.py:250
+#: ../adapters/stringinterp.py:259
 msgid "The booking operator url"
 msgstr ""
 
@@ -451,11 +451,11 @@ msgstr ""
 msgid "The booking print url."
 msgstr ""
 
-#: ../adapters/stringinterp.py:259
+#: ../adapters/stringinterp.py:268
 msgid "The booking refuse message"
 msgstr ""
 
-#: ../adapters/stringinterp.py:280
+#: ../adapters/stringinterp.py:289
 msgid "The booking requirements url"
 msgstr ""
 
@@ -467,11 +467,11 @@ msgstr ""
 msgid "The booking type."
 msgstr ""
 
-#: ../adapters/stringinterp.py:238
+#: ../adapters/stringinterp.py:247
 msgid "The booking url with delete token"
 msgstr ""
 
-#: ../adapters/stringinterp.py:199
+#: ../adapters/stringinterp.py:208
 msgid "The complete address information of the office whereuser book a reservation"
 msgstr ""
 
@@ -479,11 +479,15 @@ msgstr ""
 msgid "The email address of the user who made the reservation."
 msgstr ""
 
+#: ../adapters/stringinterp.py:157
+msgid "The fiscal code of the user who made the reservation."
+msgstr ""
+
 #: ../adapters/stringinterp.py:28
 msgid "The gate booked."
 msgstr ""
 
-#: ../adapters/stringinterp.py:187
+#: ../adapters/stringinterp.py:196
 msgid "The information to reach the office where user book a reservation"
 msgstr ""
 
@@ -707,7 +711,7 @@ msgid "booking_additional_fields_schema_title"
 msgstr ""
 
 #. Default: "Booking canceled: "
-#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:398
+#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:400
 msgid "booking_canceled_mail_subject_part"
 msgstr ""
 
@@ -818,6 +822,11 @@ msgstr ""
 #. Default: "Bookings not in agenda"
 #: ../browser/templates/prenotazione_macros.pt:111
 msgid "bookings_not_in_agenda"
+msgstr ""
+
+#. Default: "No search parameters were passed."
+#: ../restapi/services/bookings/search.py:101
+msgid "bookings_search_empty_query_warning"
 msgstr ""
 
 #. Default: "Set message text for all available notification events. Remember that SMS has a 160 characters limit. Depending on your gateway service, it can split messages, if you exceed that limit."
@@ -1091,22 +1100,22 @@ msgid "history_appio_transition_sent"
 msgstr ""
 
 #. Default: "Email notification was sent to booking manager"
-#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:291
+#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:293
 msgid "history_email_manager_notification_sent"
 msgstr ""
 
 #. Default: "Email message about the booking reschedule was sent"
-#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:160
+#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:162
 msgid "history_email_reschedule_sent"
 msgstr ""
 
 #. Default: "Email message about the ${transition} transition was sent"
-#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:196
+#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:198
 msgid "history_email_transition_sent"
 msgstr ""
 
 #. Default: "Email reminder was sent"
-#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:246
+#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:248
 msgid "history_reminder_sent"
 msgstr ""
 

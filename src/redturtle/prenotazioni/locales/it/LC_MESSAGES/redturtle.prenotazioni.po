@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-01-21 13:05+0000\n"
+"POT-Creation-Date: 2025-02-24 13:05+0000\n"
 "PO-Revision-Date: 2014-05-27 17:36+0200\n"
 "Last-Translator: Alessandro Pisa <alessandro.pisa@redturtle.it>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -422,27 +422,27 @@ msgstr "L'orario di prenotazione"
 msgid "The booking code."
 msgstr "Il codice di prenotazione"
 
-#: ../adapters/stringinterp.py:291
+#: ../adapters/stringinterp.py:300
 msgid "The booking folder title"
 msgstr "Il titolo della cartella prenotazioni"
 
-#: ../adapters/stringinterp.py:211
+#: ../adapters/stringinterp.py:220
 msgid "The booking human readable date"
 msgstr "La data di prenotazione in formato leggibile"
 
-#: ../adapters/stringinterp.py:177
+#: ../adapters/stringinterp.py:186
 msgid "The booking office contact fax."
 msgstr "Il Fax per contattare l'ufficio"
 
-#: ../adapters/stringinterp.py:167
+#: ../adapters/stringinterp.py:176
 msgid "The booking office contact pec address."
 msgstr "L'indirizzo PEC per contattare l'ufficio"
 
-#: ../adapters/stringinterp.py:157
+#: ../adapters/stringinterp.py:166
 msgid "The booking office contact phone."
 msgstr "Il telefono per contattare l'ufficio"
 
-#: ../adapters/stringinterp.py:250
+#: ../adapters/stringinterp.py:259
 msgid "The booking operator url"
 msgstr "L'url della prenotazione per gli operatori"
 
@@ -450,11 +450,11 @@ msgstr "L'url della prenotazione per gli operatori"
 msgid "The booking print url."
 msgstr "L'url per stampare la prenotazione"
 
-#: ../adapters/stringinterp.py:259
+#: ../adapters/stringinterp.py:268
 msgid "The booking refuse message"
 msgstr "Il messaggio di rifiuto della prenotazione"
 
-#: ../adapters/stringinterp.py:280
+#: ../adapters/stringinterp.py:289
 msgid "The booking requirements url"
 msgstr "L'url per il cosa server"
 
@@ -466,11 +466,11 @@ msgstr "L'orario di fine prenotazione"
 msgid "The booking type."
 msgstr "La tipologia della prenotazione."
 
-#: ../adapters/stringinterp.py:238
+#: ../adapters/stringinterp.py:247
 msgid "The booking url with delete token"
 msgstr "L'url della prenotazione con il token per la cancellazione"
 
-#: ../adapters/stringinterp.py:199
+#: ../adapters/stringinterp.py:208
 msgid "The complete address information of the office whereuser book a reservation"
 msgstr "L'indirizzo completo dell'ufficio presso cui si prenota"
 
@@ -478,11 +478,15 @@ msgstr "L'indirizzo completo dell'ufficio presso cui si prenota"
 msgid "The email address of the user who made the reservation."
 msgstr "L'indirizzo email dell'utente che ha fatto la prenotazione"
 
+#: ../adapters/stringinterp.py:157
+msgid "The fiscal code of the user who made the reservation."
+msgstr ""
+
 #: ../adapters/stringinterp.py:28
 msgid "The gate booked."
 msgstr "La postazione prenotata."
 
-#: ../adapters/stringinterp.py:187
+#: ../adapters/stringinterp.py:196
 msgid "The information to reach the office where user book a reservation"
 msgstr "Le informazioni per raggiungere l'ufficio presso cui si prenota"
 
@@ -706,7 +710,7 @@ msgid "booking_additional_fields_schema_title"
 msgstr "Campi aggiuntivi"
 
 #. Default: "Booking canceled: "
-#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:398
+#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:400
 msgid "booking_canceled_mail_subject_part"
 msgstr "Prenotazione cancellata: "
 
@@ -819,6 +823,11 @@ msgstr "Attenzione: hai superato il massimo di {limit} prenotazioni per la tipol
 #: ../browser/templates/prenotazione_macros.pt:111
 msgid "bookings_not_in_agenda"
 msgstr "Prenotazioni non in agenda"
+
+#. Default: "No search parameters were passed."
+#: ../restapi/services/bookings/search.py:101
+msgid "bookings_search_empty_query_warning"
+msgstr "Nessun parametro di ricerca è stato passato."
 
 #. Default: "Set message text for all available notification events. Remember that SMS has a 160 characters limit. Depending on your gateway service, it can split messages, if you exceed that limit."
 #: ../behaviors/booking_folder/notifications/sms/__init__.py:165
@@ -1091,22 +1100,22 @@ msgid "history_appio_transition_sent"
 msgstr "Inviata notifica AppIO per il cambio di stato della prenotazione: ${transition}"
 
 #. Default: "Email notification was sent to booking manager"
-#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:291
+#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:293
 msgid "history_email_manager_notification_sent"
 msgstr "Inviata notifica email al Gestore delle prenotazioni"
 
 #. Default: "Email message about the booking reschedule was sent"
-#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:160
+#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:162
 msgid "history_email_reschedule_sent"
 msgstr "Inviata notifica email per lo spostamento della prenotazione"
 
 #. Default: "Email message about the ${transition} transition was sent"
-#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:196
+#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:198
 msgid "history_email_transition_sent"
 msgstr "Inviata notifica email per il cambio di stato della prenotazione: ${transition}"
 
 #. Default: "Email reminder was sent"
-#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:246
+#: ../behaviors/booking_folder/notifications/email/notification_email_message.py:248
 msgid "history_reminder_sent"
 msgstr "Inviata notifica email per il promemoria"
 
