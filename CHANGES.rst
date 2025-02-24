@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.8.7 (unreleased)
+2.8.7 (2025-02-24)
 ------------------
 
 - @bookings endpoint returns 400 if no search parameters are passed.
