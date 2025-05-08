@@ -913,15 +913,26 @@ class PrenotazioniContextState(BrowserView):
             return []
         allowed_review_states = ["pending", "confirmed", PAUSE_SLOT]
         # all slots
-        slots = self.get_existing_slots_in_day_folder(booking_date)
-        # the ones in the interval
-        slots = [slot for slot in slots if slot in interval]
-        # the one with the allowed review_state
-        slots = [
-            slot
-            for slot in slots
-            if self.get_state(slot.context) in allowed_review_states
-        ]
+        all_slots = self.get_existing_slots_in_day_folder(booking_date)
+        slots = []
+        for slot in all_slots:
+            if self.get_state(slot.context) not in allowed_review_states:
+                continue
+
+            # check if the slot is in the interval.
+            # can be completely inside or
+            # can be partially inside (start or end). For example if the booking has been created
+            # with a differnt interval configuration.
+            start_condition = (
+                interval.lower_value <= slot.lower_value
+                and slot.lower_value <= interval.upper_value
+            )
+            end_condition = (
+                interval.lower_value <= slot.upper_value
+                and slot.upper_value <= interval.upper_value
+            )
+            if start_condition or end_condition:
+                slots.append(slot)
         return sorted(slots)
 
     @memoize
@@ -949,7 +960,7 @@ class PrenotazioniContextState(BrowserView):
                 slots_by_gate.setdefault(slot.gate, []).append(slot)
         return slots_by_gate
 
-    @memoize
+    # @memoizes
     def get_free_slots(self, booking_date, period="day"):
         """This will return the free slots divided by gate
 

@@ -5,7 +5,8 @@ Changelog
 2.8.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix get_busy_slots_in_period method to handle also borderline bookings (for example that starts inside a slot, but ends after).
+  [cekk]
 
 
 2.8.7 (2025-02-24)
