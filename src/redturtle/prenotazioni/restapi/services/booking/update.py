@@ -13,7 +13,6 @@ import json
 
 class UpdateBooking(ContentPatch):
     def reply(self, *args, **kwargs):
-
         self.handle_additional_fields()
 
         return super().reply(*args, **kwargs)
