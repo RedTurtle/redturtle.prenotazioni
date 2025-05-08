@@ -197,7 +197,6 @@ class TestPrenotazioniContextState(unittest.TestCase):
         """
         Test that busy slots are correctly calculated when the week_table changes after some bookings.
         """
-        import pdb; pdb.set_trace()
         # add a new 45 min type
         api.content.create(
             type="PrenotazioneType",
