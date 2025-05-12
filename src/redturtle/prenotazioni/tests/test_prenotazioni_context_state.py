@@ -192,3 +192,111 @@ class TestPrenotazioniContextState(unittest.TestCase):
         logout()
         login(self.portal, "jdoe")
         self.assertIsNone(self.prenotazioni_context_state.maximum_bookable_date)
+
+    def test_get_busy_slots_in_period_handle_borderline_slots(self):
+        """
+        Test that busy slots are correctly calculated when the week_table changes after some bookings.
+        """
+        # add a new 45 min type
+        api.content.create(
+            type="PrenotazioneType",
+            title="Type B",
+            duration=45,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
+        booker = IBooker(self.folder_prenotazioni)
+
+        today = date.today()
+
+        # populate today with some bookings
+        aq_parent(
+            booker.book(
+                {
+                    "booking_date": datetime(today.year, today.month, today.day, 7, 00),
+                    "booking_type": "Type A",
+                    "title": "foo",
+                }
+            )
+        )
+        aq_parent(
+            booker.book(
+                {
+                    "booking_date": datetime(today.year, today.month, today.day, 7, 30),
+                    "booking_type": "Type A",
+                    "title": "foo",
+                }
+            )
+        )
+        aq_parent(
+            booker.book(
+                {
+                    "booking_date": datetime(today.year, today.month, today.day, 8, 00),
+                    "booking_type": "Type B",
+                    "title": "foo",
+                }
+            )
+        )
+
+        # now change week_table to stop gates ad 8:30 (and we have the last booking at 8:00-8:45)
+        self.folder_prenotazioni.week_table = [
+            {
+                "day": "Lunedì",
+                "morning_start": "0700",
+                "morning_end": "0830",
+                "afternoon_start": None,
+                "afternoon_end": None,
+            },
+            {
+                "day": "Martedì",
+                "morning_start": "0700",
+                "morning_end": "0830",
+                "afternoon_start": None,
+                "afternoon_end": None,
+            },
+            {
+                "day": "Mercoledì",
+                "morning_start": "0700",
+                "morning_end": "0830",
+                "afternoon_start": None,
+                "afternoon_end": None,
+            },
+            {
+                "day": "Giovedì",
+                "morning_start": "0700",
+                "morning_end": "0830",
+                "afternoon_start": None,
+                "afternoon_end": None,
+            },
+            {
+                "day": "Venerdì",
+                "morning_start": "0700",
+                "morning_end": "0830",
+                "afternoon_start": None,
+                "afternoon_end": None,
+            },
+            {
+                "day": "Sabato",
+                "morning_start": "0700",
+                "morning_end": "0830",
+                "afternoon_start": None,
+                "afternoon_end": None,
+            },
+            {
+                "day": "Domenica",
+                "morning_start": "0700",
+                "morning_end": "0830",
+                "afternoon_start": None,
+                "afternoon_end": None,
+            },
+        ]
+
+        res = self.prenotazioni_context_state.get_busy_slots_in_period(today)
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res[0].start(), "07:00")
+        self.assertEqual(res[0].stop(), "07:30")
+        self.assertEqual(res[1].start(), "07:30")
+        self.assertEqual(res[1].stop(), "08:00")
+        self.assertEqual(res[2].start(), "08:00")
+        self.assertEqual(res[2].stop(), "08:45")

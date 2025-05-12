@@ -912,10 +912,10 @@ class PrenotazioniContextState(BrowserView):
         if interval.start() == "" and interval.stop() == "":
             return []
         allowed_review_states = ["pending", "confirmed", PAUSE_SLOT]
-        # all slots
+
         slots = self.get_existing_slots_in_day_folder(booking_date)
         # the ones in the interval
-        slots = [slot for slot in slots if slot in interval]
+        slots = [slot for slot in slots if slot.overlaps(interval)]
         # the one with the allowed review_state
         slots = [
             slot
