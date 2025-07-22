@@ -30,7 +30,7 @@ APPIO_CONFIG = load_yaml_config()
 
 
 @implementer(IVocabularyFactory)
-class VocPrenotazioneTypeGatesFactory(object):
+class VocServicesFactory(object):
     """ """
 
     def __call__(self, context):
@@ -48,4 +48,4 @@ class VocPrenotazioneTypeGatesFactory(object):
         return SimpleVocabulary(terms)
 
 
-VocPrenotazioneTypeGatesFactory = VocPrenotazioneTypeGatesFactory()
+VocServices = VocServicesFactory()

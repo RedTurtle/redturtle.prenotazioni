@@ -60,7 +60,7 @@
   <!-- Utilities -->
   <utility
       name="redturtle.prenotazioni.appio_services"
-      component=".voc_service_keys.VocPrenotazioneTypeGatesFactory"
+      component=".voc_service_keys.VocServices"
       />
 
 </configure>

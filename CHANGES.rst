@@ -5,7 +5,8 @@ Changelog
 2.8.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- fix vocabuulary class names
+  [mamico]
 
 
 2.8.8 (2025-05-12)
