@@ -24,7 +24,7 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: install pyroma
-        run: pip install pyroma
+        run: pip install pyroma==4.2
 
       - name: run pyroma
         run: pyroma -n 10 -d .

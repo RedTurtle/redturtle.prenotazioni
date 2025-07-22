@@ -62,16 +62,6 @@ class IPrenotazioneType(model.Schema):
         ),
     )
 
-    # gates = schema.List(
-    #     title=_("gates_label", default="Gates"),
-    #     description=_("gates_help", default="Put gates here (one per line)."),
-    #     required=True,
-    #     value_type=schema.Choice(
-    #         vocabulary="redturtle.prenotazioni.VocPrenotazioneTypeGates"
-    #     ),
-    #     default=[],
-    # )
-
     booking_details_help_text = RichText(
         required=False,
         title=_("booking_details_help_text_label", default="Booking detail help text"),
