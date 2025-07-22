@@ -18,6 +18,8 @@ from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.testing import (
     REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING,
 )
+from unittest.mock import MagicMock
+from unittest.mock import patch
 from zope.component import getGlobalSiteManager
 from zope.component import queryUtility
 from zope.event import notify
@@ -28,7 +30,6 @@ from zope.interface.interfaces import IObjectEvent
 import email
 import pytz
 import unittest
-from unittest.mock import MagicMock, patch
 
 
 @implementer(IObjectEvent)
