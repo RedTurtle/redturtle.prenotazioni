@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from plone import api
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingAPPIoMessage
@@ -14,29 +13,6 @@ from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
 
-# TODO: ramcache ?
-def app_io_allowed_for(fiscalcode, service_code):
-    """Check if the user is allowed to receive App IO notifications for the given service code"""
-    if not fiscalcode:
-        return False
-
-    if not service_code:
-        return False
-
-    term = getUtility(IVocabularyFactory, "redturtle.prenotazioni.appio_services")(
-        api.portal.get()
-    ).getTerm(service_code)
-
-    api_key = term and term.value or None
-
-    if not api_key:
-        logger.warning("No App IO API key found for service code %s", service_code)
-        return False
-
-    appio_api = Api(secret=api_key)
-    return appio_api.is_service_activated(fiscalcode)
-
-
 @implementer(IBookingNotificationSender)
 @adapter(IBookingAPPIoMessage, IPrenotazione, IRedturtlePrenotazioniLayer)
 class BookingTransitionAPPIoSender:
@@ -44,6 +20,9 @@ class BookingTransitionAPPIoSender:
         self.message_adapter = message_adapter
         self.booking = booking
         self.request = request
+
+    def get_api(self, api_key, storage=logstorage):
+        return Api(secret=api_key, storage=storage)
 
     def send(self) -> bool:
         from .. import write_message_to_object_history
@@ -82,11 +61,9 @@ class BookingTransitionAPPIoSender:
                 )
                 return False
 
-            appio_api = Api(secret=api_key, storage=logstorage)
+            appio_api = self.get_api(api_key)
 
-            # XXX: qui si usa supervisor perchè nei test c'è un mock su questo
-            # if not api.is_service_activated(self.booking.fiscalcode):
-            if not supervisor.app_io_allowed_for(self.booking.fiscalcode, service_code):
+            if not appio_api.is_service_activated(self.booking.fiscalcode):
                 logger.info(
                     "App IO service %s is not activated for fiscal code %s",
                     service_code,
