@@ -5,7 +5,9 @@ Changelog
 2.8.9 (unreleased)
 ------------------
 
-- fix vocabuulary class names
+- fix vocabulary class names
+  [mamico]
+- expose get_api method in App IO Sender adapter for future customizations
   [mamico]
 
 

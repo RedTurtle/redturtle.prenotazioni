@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.appio.voc_service_keys import (
+    API_KEYS,
+)
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingAPPIoMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
@@ -51,7 +54,13 @@ class BookingTransitionAPPIoSender:
                 IVocabularyFactory, "redturtle.prenotazioni.appio_services"
             )(self.booking).getTerm(service_code)
 
-            api_key = term and term.value or None
+            if term and term.vauee in API_KEYS:
+                api_key = API_KEYS[term.value]
+            elif term:
+                # backward compatibility
+                api_key = term.value
+            else:
+                api_key = None
 
             if not api_key:
                 logger.warning(
