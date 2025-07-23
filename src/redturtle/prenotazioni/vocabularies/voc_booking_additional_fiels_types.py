@@ -6,6 +6,7 @@ from zope.schema import TextLine
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+from zope.globalrequest import getRequest
 
 
 class SimpleTermFieldType(SimpleTerm):
@@ -34,7 +35,7 @@ class BookingAdditionalFieldsTypesVocabulary(object):
                             "label_booking_additional_field_textline",
                             default="Text line",
                         ),
-                        context=context,
+                        context=getRequest(),
                     ),
                     field_validator=TextLine().validate,
                 )
