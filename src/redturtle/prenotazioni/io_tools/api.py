@@ -13,7 +13,6 @@ from . import logger
 # from pkg_resources import resource_filename
 # from bravado.swagger_model import load_file
 from bravado.client import SwaggerClient
-from bravado.config import RequestConfig
 from bravado.exception import HTTPForbidden
 from bravado.requests_client import RequestsClient
 from datetime import datetime

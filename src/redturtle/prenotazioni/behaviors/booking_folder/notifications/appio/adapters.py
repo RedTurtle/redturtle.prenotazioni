@@ -14,6 +14,7 @@ from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
+
 import os
 
 
@@ -80,11 +81,10 @@ class BookingTransitionAPPIoSender:
             # XXX: debug
             if fiscalcode == "admin" or APPIO_DUMMY_CF:
                 fiscalcode = "AAAAAA00A00A000A"
-        
+
             fiscalcode = fiscalcode.upper()
             if fiscalcode.startswith("TINIT-"):
                 fiscalcode = fiscalcode[6:]
-
 
             if not appio_api.is_service_activated(fiscalcode):
                 logger.info(
