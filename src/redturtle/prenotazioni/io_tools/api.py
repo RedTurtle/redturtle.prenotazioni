@@ -13,6 +13,7 @@ from . import logger
 # from pkg_resources import resource_filename
 # from bravado.swagger_model import load_file
 from bravado.client import SwaggerClient
+from bravado.config import RequestConfig
 from bravado.exception import HTTPForbidden
 from bravado.requests_client import RequestsClient
 from datetime import datetime
@@ -44,23 +45,23 @@ PERMANENT_STATUS = (PROCESSED, REJECTED, FAILED)
 
 
 class Api(object):
-    def __init__(self, secret, storage=None):
+    def __init__(self, secret, storage=None, headers={}, spec=None, timeout=1.0):
         self.storage = storage
         http_client = RequestsClient()
         http_client.session.headers = {
             "Ocp-Apim-Subscription-Key": f"{secret}",
             "Content-Type": "application/json",
+            **headers,
         }
-
-        # TODO: cache delle specifiche openapi
-        self.api = SwaggerClient.from_url(
-            "https://raw.githubusercontent.com/teamdigitale/io-functions-services/master/openapi/index.yaml",
-            http_client=http_client,
-        )
-        # api = SwaggerClient.from_spec(
-        #     load_file(resource_filename('io_tools', 'spec.yaml')),
-        #     http_client=http_client,
-        # )
+        # TODO: gestire timeout !
+        if spec:
+            self.api = SwaggerClient.from_spec(spec, http_client=http_client)
+        else:
+            # TODO: cache delle specifiche openapi
+            self.api = SwaggerClient.from_url(
+                "https://raw.githubusercontent.com/teamdigitale/io-functions-services/master/openapi/index.yaml",
+                http_client=http_client,
+            )
 
     def update_message_status(
         self,
