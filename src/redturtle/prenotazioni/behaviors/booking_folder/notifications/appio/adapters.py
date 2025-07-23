@@ -14,6 +14,10 @@ from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
+import os
+
+
+APPIO_DUMMY_CF = os.getenv("APPIO_DUMMY_CF")
 
 
 @implementer(IBookingNotificationSender)
@@ -72,16 +76,26 @@ class BookingTransitionAPPIoSender:
 
             appio_api = self.get_api(api_key)
 
-            if not appio_api.is_service_activated(self.booking.fiscalcode):
+            fiscalcode = self.booking.fiscalcode
+            # XXX: debug
+            if fiscalcode == "admin" or APPIO_DUMMY_CF:
+                fiscalcode = "AAAAAA00A00A000A"
+        
+            fiscalcode = fiscalcode.upper()
+            if fiscalcode.startswith("TINIT-"):
+                fiscalcode = fiscalcode[6:]
+
+
+            if not appio_api.is_service_activated(fiscalcode):
                 logger.info(
                     "App IO service %s is not activated for fiscal code %s",
                     service_code,
-                    self.booking.fiscalcode,
+                    fiscalcode,
                 )
                 return False
 
             msgid = appio_api.send_message(
-                fiscal_code=self.booking.fiscalcode,
+                fiscal_code=fiscalcode,
                 subject=subject,
                 body=message,
             )
