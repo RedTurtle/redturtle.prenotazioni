@@ -54,7 +54,7 @@ class BookingTransitionAPPIoSender:
                 IVocabularyFactory, "redturtle.prenotazioni.appio_services"
             )(self.booking).getTerm(service_code)
 
-            if term and term.vauee in API_KEYS:
+            if term and term.value in API_KEYS:
                 api_key = API_KEYS[term.value]
             elif term:
                 # backward compatibility
