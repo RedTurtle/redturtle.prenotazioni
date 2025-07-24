@@ -8,6 +8,9 @@ from bravado_core.spec import urlparse
 from bravado_core.spec import yaml
 
 
+RESTAPI_TIMEOUT = 1.0
+
+
 def get_ref_handlers(self):
     return build_http_handlers(self.http_client)
 
@@ -27,7 +30,7 @@ def build_http_handlers(http_client):
             "method": "GET",
             "url": uri,
         }
-        response = http_client.request(request_params).result()
+        response = http_client.request(request_params).result(timeout=RESTAPI_TIMEOUT)
         content_type = response.headers.get("content-type", "").lower()
         if is_yaml(uri, content_type):
             # XXX: response.content vs. response.text

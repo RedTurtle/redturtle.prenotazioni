@@ -77,9 +77,13 @@ class BookingTransitionAPPIoSender:
 
             appio_api = self.get_api(api_key)
 
+            if not appio_api:
+                logger.error("appio api unavailable")
+                return False
+
             fiscalcode = self.booking.fiscalcode
             # XXX: debug
-            if fiscalcode == "admin" or APPIO_DUMMY_CF:
+            if APPIO_DUMMY_CF:
                 fiscalcode = "AAAAAA00A00A000A"
 
             fiscalcode = fiscalcode.upper()
@@ -98,6 +102,7 @@ class BookingTransitionAPPIoSender:
                 fiscal_code=fiscalcode,
                 subject=subject,
                 body=message,
+                trim_text=True,
             )
 
             if not msgid:

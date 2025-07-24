@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-A message is conceptually very similar to an email and, in its simplest form, is composed of the following attributes:
+A message is conceptually very similar to an email and, in its simplest form, is composed of the
+following attributes:
 
     A required subject: a short description of the topic.
     A required markdown body: a Markdown representation of the body (see below on what Markdown tags are allowed).
@@ -9,14 +10,21 @@ A message is conceptually very similar to an email and, in its simplest form, is
 
 """
 from . import logger
-
-# from pkg_resources import resource_filename
-# from bravado.swagger_model import load_file
+from .monkey import RESTAPI_TIMEOUT
 from bravado.client import SwaggerClient
 from bravado.exception import HTTPForbidden
 from bravado.requests_client import RequestsClient
+from bravado_core.spec import is_yaml
 from datetime import datetime
+from jsonschema.exceptions import ValidationError
+from plone.memoize import forever
 from pytz import timezone
+
+import http.client as http_client
+import logging
+import os
+import requests
+import yaml
 
 
 # STATUS INTERNI A QUESTA API
@@ -43,8 +51,43 @@ FAILED = "FAILED"
 PERMANENT_STATUS = (PROCESSED, REJECTED, FAILED)
 
 
+if os.environ.get("DEBUG_APPIO"):
+    requests_log = logging.getLogger("requests.packages.urllib3")
+    requests_log.setLevel(logging.DEBUG)
+    requests_log.propagate = True
+    bravado_log = logging.getLogger("bravado.client")
+    bravado_log.setLevel(logging.DEBUG)
+    bravado_log.propagate = True
+    http_client.HTTPConnection.debuglevel = 1
+
+# non ho trovato un modo generico per passare il timeout a bravado
+# *DEVE* essere passato alla chiamata delle api con
+# ....result(timeout=RESTAPI_TIMEOUT)
+# ....response(timeout=RESTAPI_TIMEOUT)
+
+SPEC_URL = "https://raw.githubusercontent.com/teamdigitale/io-functions-services/master/openapi/index.yaml"
+
+
+@forever.memoize
+def get_spec(url):
+    response = requests.get(url, timeout=RESTAPI_TIMEOUT)
+    content_type = response.headers.get("content-type", "").lower()
+    if is_yaml(content_type) or url.endswith(".yaml"):
+        spec_dict = yaml.safe_load(response.content)
+    else:
+        spec_dict = response.json()
+    return spec_dict
+
+
+try:
+    logger.info("loading spec from %s (cache warm)", SPEC_URL)
+    get_spec(SPEC_URL)
+except Exception as e:
+    logger.error("error loading spec: %s", e)
+
+
 class Api(object):
-    def __init__(self, secret, storage=None, headers={}, spec=None, timeout=1.0):
+    def __init__(self, secret, storage=None, headers={}, spec=None):
         self.storage = storage
         http_client = RequestsClient()
         http_client.session.headers = {
@@ -52,15 +95,9 @@ class Api(object):
             "Content-Type": "application/json",
             **headers,
         }
-        # TODO: gestire timeout !
-        if spec:
-            self.api = SwaggerClient.from_spec(spec, http_client=http_client)
-        else:
-            # TODO: cache delle specifiche openapi
-            self.api = SwaggerClient.from_url(
-                "https://raw.githubusercontent.com/teamdigitale/io-functions-services/master/openapi/index.yaml",
-                http_client=http_client,
-            )
+        if not spec:
+            spec = get_spec(SPEC_URL)
+        self.api = SwaggerClient.from_spec(spec, http_client=http_client)
 
     def update_message_status(
         self,
@@ -91,8 +128,15 @@ class Api(object):
                 return False
         return False
 
-    def send_message(
-        self, fiscal_code, subject, body, payment_data=None, due_date=None, key=None
+    def send_message(  # noqa: C901
+        self,
+        fiscal_code,
+        subject,
+        body,
+        payment_data=None,
+        due_date=None,
+        key=None,
+        trim_text=False,
     ):
         """[summary]
 
@@ -111,12 +155,24 @@ class Api(object):
             logger.warning(
                 "la lunghezza dell'oggetto del messaggio deve stare tra i 10 e i 120 caratteri"
             )
-            return None
+            if trim_text:
+                if len(subject) < 10:
+                    subject = subject + ("-" * (10 - len(subject)))
+                else:
+                    subject = subject[:120]
+            else:
+                return None
         if len(body) < 80 or len(body) > 10000:
             logger.warning(
                 "la lunghezza del contenuto del messaggio deve stare tra i 80 e i 10.000 caratteri"
             )
-            return None
+            if trim_text:
+                if len(body) < 80:
+                    body = body + ("-" * (80 - len(body)))
+                else:
+                    body = body[:10000]
+            else:
+                return None
         if due_date and not isinstance(due_date, datetime):
             logger.warning(
                 "il campo con la data, se valorizzato, deve essere di tipo datetime"
@@ -201,15 +257,32 @@ class Api(object):
     def get_profile(self, fiscal_code):
         try:
             return (
-                self.api.profiles.getProfile(fiscal_code=fiscal_code).response().result
+                self.api.profiles.getProfile(fiscal_code=fiscal_code)
+                .response(timeout=RESTAPI_TIMEOUT)
+                .result
             )
         except HTTPForbidden:
             logger.error(
                 "profile for user %s not found (access forbidden to api)", fiscal_code
             )
 
+        except ValidationError as e:
+            if hasattr(e, "instance"):
+                logger.error(
+                    "validation error getting profile for user %s: %s",
+                    fiscal_code,
+                    e.instance,
+                )
+            else:
+                logger.exception(
+                    "validation error getting profile for user %s", fiscal_code
+                )
+
+        # TODO: tracciare le eccezioni più comuni e gestirle poi singolarmente
+        # TODO: valutare un approccio più generale per gestire le eccezioni (decoratore?)
+        # bravado.http_future.RequestsFutureAdapterConnectionError
         except Exception:
-            logger.warning("profile for user %s not found (generic error)", fiscal_code)
+            logger.exception("profile for user %s not found", fiscal_code)
 
         return None
 
@@ -223,19 +296,33 @@ class Api(object):
 
         try:
             return getattr(
-                self.api.profiles.getProfileByPOST(payload=fiscal_code).result(),
+                self.api.profiles.getProfileByPOST(payload=fiscal_code).result(
+                    timeout=RESTAPI_TIMEOUT
+                ),
                 "sender_allowed",
                 False,
             )
 
         except HTTPForbidden:
             logger.error(
-                "subsctiprion not found for user %s (access forbidden to api)",
+                "subscription not found for user %s (access forbidden to api)",
                 fiscal_code,
             )
 
+        except ValidationError as e:
+            if hasattr(e, "instance"):
+                logger.error(
+                    "validation error getting profile for user %s: %s",
+                    fiscal_code,
+                    e.instance,
+                )
+            else:
+                logger.exception(
+                    "validation error getting profile for user %s", fiscal_code
+                )
+
         except Exception:
-            logger.warning(
-                "subsctiprion not found for user %s (generic error)",
+            logger.exception(
+                "subscription not found for user %s",
                 fiscal_code,
             )

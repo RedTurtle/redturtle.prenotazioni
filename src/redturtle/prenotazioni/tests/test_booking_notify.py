@@ -304,5 +304,6 @@ class TestAppioNotify(unittest.TestCase):
                     "You can see details and print a reminder following this "
                     f"[http://nohost/plone/prenota-foo/@@prenotazione_print?uid={booking.UID()}](link)."
                 ),
+                "trim_text": True,
             },
         )
