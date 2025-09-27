@@ -2,10 +2,15 @@ Changelog
 =========
 
 
-2.8.9 (unreleased)
+2.9.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- fix vocabulary class names
+  [mamico]
+- expose get_api method in App IO Sender adapter for future customizations
+  [mamico]
+- timeout in app io restapi
+  [mamico]
 
 
 2.8.8 (2025-05-12)

@@ -93,7 +93,7 @@ msgstr "Cartella anno prenotazioni"
 
 #: ../behaviors/booking_folder/notifications/appio/configure.zcml:17
 msgid "Booking folder notification appio"
-msgstr "Notifiche AppIo"
+msgstr "Notifiche App IO per Cartella Prenotazioni"
 
 #: ../behaviors/booking_folder/notifications/email/configure.zcml:17
 msgid "Booking folder notification email"

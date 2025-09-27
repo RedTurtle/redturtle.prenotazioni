@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from redturtle.prenotazioni import _
+from zope.globalrequest import getRequest
+from zope.i18n import translate
 from zope.interface import implementer
 from zope.schema import TextLine
 from zope.schema.interfaces import IVocabularyFactory
@@ -28,11 +30,12 @@ class BookingAdditionalFieldsTypesVocabulary(object):
                 SimpleTermFieldType(
                     "text",
                     "text",
-                    context.translate(
+                    translate(
                         _(
                             "label_booking_additional_field_textline",
                             default="Text line",
-                        )
+                        ),
+                        context=getRequest(),
                     ),
                     field_validator=TextLine().validate,
                 )

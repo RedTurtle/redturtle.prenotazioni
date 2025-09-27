@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from plone import api
 from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.behaviors.booking_folder.notifications.appio.voc_service_keys import (
+    API_KEYS,
+)
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingAPPIoMessage
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
@@ -13,28 +15,10 @@ from zope.component import getUtility
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
+import os
 
-# TODO: ramcache ?
-def app_io_allowed_for(fiscalcode, service_code):
-    """Check if the user is allowed to receive App IO notifications for the given service code"""
-    if not fiscalcode:
-        return False
 
-    if not service_code:
-        return False
-
-    term = getUtility(IVocabularyFactory, "redturtle.prenotazioni.appio_services")(
-        api.portal.get()
-    ).getTerm(service_code)
-
-    api_key = term and term.value or None
-
-    if not api_key:
-        logger.warning("No App IO API key found for service code %s", service_code)
-        return False
-
-    appio_api = Api(secret=api_key)
-    return appio_api.is_service_activated(fiscalcode)
+APPIO_DUMMY_CF = os.getenv("APPIO_DUMMY_CF")
 
 
 @implementer(IBookingNotificationSender)
@@ -44,6 +28,9 @@ class BookingTransitionAPPIoSender:
         self.message_adapter = message_adapter
         self.booking = booking
         self.request = request
+
+    def get_api(self, api_key, storage=logstorage):
+        return Api(secret=api_key, storage=storage)
 
     def send(self) -> bool:
         from .. import write_message_to_object_history
@@ -72,7 +59,13 @@ class BookingTransitionAPPIoSender:
                 IVocabularyFactory, "redturtle.prenotazioni.appio_services"
             )(self.booking).getTerm(service_code)
 
-            api_key = term and term.value or None
+            if term and term.value in API_KEYS:
+                api_key = API_KEYS[term.value]
+            elif term:
+                # backward compatibility
+                api_key = term.value
+            else:
+                api_key = None
 
             if not api_key:
                 logger.warning(
@@ -82,22 +75,34 @@ class BookingTransitionAPPIoSender:
                 )
                 return False
 
-            appio_api = Api(secret=api_key, storage=logstorage)
+            appio_api = self.get_api(api_key)
 
-            # XXX: qui si usa supervisor perchè nei test c'è un mock su questo
-            # if not api.is_service_activated(self.booking.fiscalcode):
-            if not supervisor.app_io_allowed_for(self.booking.fiscalcode, service_code):
+            if not appio_api:
+                logger.error("appio api unavailable")
+                return False
+
+            fiscalcode = self.booking.fiscalcode
+            # XXX: debug
+            if APPIO_DUMMY_CF:
+                fiscalcode = "AAAAAA00A00A000A"
+
+            fiscalcode = fiscalcode.upper()
+            if fiscalcode.startswith("TINIT-"):
+                fiscalcode = fiscalcode[6:]
+
+            if not appio_api.is_service_activated(fiscalcode):
                 logger.info(
                     "App IO service %s is not activated for fiscal code %s",
                     service_code,
-                    self.booking.fiscalcode,
+                    fiscalcode,
                 )
                 return False
 
             msgid = appio_api.send_message(
-                fiscal_code=self.booking.fiscalcode,
+                fiscal_code=fiscalcode,
                 subject=subject,
                 body=message,
+                trim_text=True,
             )
 
             if not msgid:

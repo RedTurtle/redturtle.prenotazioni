@@ -5,6 +5,8 @@ from datetime import timedelta
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.schema import SchemaInvalidatedEvent
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.behaviors.booking_folder.notifications.sms.adapters import (
     BookingNotificationSender,
@@ -16,7 +18,11 @@ from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.testing import (
     REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING,
 )
+from unittest.mock import MagicMock
+from unittest.mock import patch
 from zope.component import getGlobalSiteManager
+from zope.component import queryUtility
+from zope.event import notify
 from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
@@ -187,4 +193,117 @@ class TestBookingNotify(unittest.TestCase):
         self.assertIn(
             self.email_message,
             mail.get_payload()[0].get_payload(),
+        )
+
+
+class TestAppioNotify(unittest.TestCase):
+    layer = REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING
+    maxDiff = None
+    timezone = "Europe/Rome"
+
+    def dt_local_to_utc(self, value):
+        return pytz.timezone(self.timezone).localize(value).astimezone(pytz.utc)
+
+    def setUp(self):
+        self.app = self.layer["app"]
+        self.portal = self.layer["portal"]
+        self.mailhost = self.portal.MailHost
+        self.email_subject = "Testing subject"
+        self.email_message = "Testing message"
+
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+        # Add AppIO behavior to the PrenotazioniFolder
+        fti = queryUtility(IDexterityFTI, name="PrenotazioniFolder")
+        behaviors = list(fti.behaviors)
+        behaviors.append("redturtle.prenotazioni.behavior.notification_appio")
+        fti.behaviors = tuple(behaviors)
+        # invalidate schema cache
+        notify(SchemaInvalidatedEvent("PrenotazioniFolder"))
+
+        from redturtle.prenotazioni.behaviors.booking_folder.notifications.appio import (
+            voc_service_keys,
+        )
+
+        voc_service_keys.APPIO_CONFIG = [
+            {
+                "key": "appio_test",
+                "name": "AppIO Test",
+            }
+        ]
+        self.folder_prenotazioni = api.content.create(
+            container=self.portal,
+            type="PrenotazioniFolder",
+            title="Prenota foo",
+            description="",
+            daData=date.today(),
+            gates=["Gate A"],
+            service_code="appio_test",
+        )
+
+        api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
+        self.today_8_0 = self.dt_local_to_utc(
+            datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
+        )
+        self.tomorrow_8_0 = self.today_8_0 + timedelta(1)
+        week_table = self.folder_prenotazioni.week_table
+        for data in week_table:
+            data["morning_start"] = "0700"
+            data["morning_end"] = "1000"
+        self.folder_prenotazioni.week_table = week_table
+
+        api.portal.set_registry_record(
+            "plone.portal_timezone",
+            self.timezone,
+        )
+
+    def test_appio_notification_on_create(self):
+        self.folder_prenotazioni.notifications_appio_enabled = True
+        self.folder_prenotazioni.notify_on_submit = True
+
+        tomorrow_8_0 = self.dt_local_to_utc(
+            datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
+        )
+        booker = IBooker(self.folder_prenotazioni)
+        mock_client = MagicMock()
+        mock_client.is_service_activated.return_value = True
+        mock_client.send_message.return_value = True
+
+        with patch(
+            "redturtle.prenotazioni.behaviors.booking_folder.notifications.appio.adapters.BookingTransitionAPPIoSender.get_api",
+            return_value=mock_client,
+        ):
+            booking = booker.book(
+                {
+                    "booking_date": tomorrow_8_0,
+                    "booking_type": "Type A",
+                    "title": "foo",
+                    "phone": "123456789",
+                }
+            )
+
+        self.assertTrue(mock_client.is_service_activated.called)
+        self.assertTrue(mock_client.send_message.called)
+        self.assertEqual(len(mock_client.send_message.call_args[0]), 0)
+        self.assertEqual(
+            mock_client.send_message.call_args[1],
+            {
+                "fiscal_code": "TEST_USER_1_",
+                "subject": "[Prenota foo] Booking created",
+                "body": (
+                    f'Booking Type A for {tomorrow_8_0.strftime("%b %d, %Y")} at 08:00 '
+                    "has been created.<br/>"
+                    "<br/>"
+                    "You can see details and print a reminder following this "
+                    f"[http://nohost/plone/prenota-foo/@@prenotazione_print?uid={booking.UID()}](link)."
+                ),
+                "trim_text": True,
+            },
         )
