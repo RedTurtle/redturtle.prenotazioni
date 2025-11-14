@@ -19,8 +19,9 @@ class AvailableSlots(Service):
 
         If not, the search will start from current date until the end of current month.
 
-        If you pass the `first_available` flag the site will search in all the available time range of the Bookging Folder or in the next year
-        and obtain the first one if exits, note that this option is only allowed for Booking Managers
+        If you pass the `first_available` flag the site will search in all the available time 
+        range of the Bookging Folder or in the next year and obtain the first one if exits,
+        note that this option is only allowed for Booking Managers
         """
         # XXX: nocache also for anonymous
         self.request.response.setHeader("Cache-Control", "no-cache")
@@ -41,6 +42,8 @@ class AvailableSlots(Service):
             start = datetime.date.fromisoformat(start)
         else:
             start = datetime.date.today()
+        if first_available and self.context.daData and start < self.context.daData:
+            start = self.context.daData
 
         if end:
             end = datetime.date.fromisoformat(end)
