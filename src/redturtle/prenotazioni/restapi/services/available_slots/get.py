@@ -19,7 +19,7 @@ class AvailableSlots(Service):
 
         If not, the search will start from current date until the end of current month.
 
-        If you pass the `first_available` flag the site will search in all the available time 
+        If you pass the `first_available` flag the site will search in all the available time
         range of the Bookging Folder or in the next year and obtain the first one if exits,
         note that this option is only allowed for Booking Managers
         """
