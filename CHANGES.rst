@@ -5,6 +5,8 @@ Changelog
 2.9.0 (unreleased)
 ------------------
 
+- fix first_available when startddate is in the future
+  [mamico]
 - fix vocabulary class names
   [mamico]
 - expose get_api method in App IO Sender adapter for future customizations
