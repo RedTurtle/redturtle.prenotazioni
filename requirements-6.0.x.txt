@@ -1,2 +1,1 @@
 -r https://dist.plone.org/release/6.0-latest/requirements.txt
-collective.z3cform.datagridfield>=3.0.0
