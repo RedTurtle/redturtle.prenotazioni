@@ -13,9 +13,11 @@ from zope.interface import invariant
 
 def get_time_range_duration_minutes(start_time, end_time):
     """Return the interval between two time values in minutes."""
-    start_minutes = start_time.hour * 60 + start_time.minute
-    end_minutes = end_time.hour * 60 + end_time.minute
-    return end_minutes - start_minutes
+    start_hour = int(start_time) // 100
+    start_minute = int(start_time) % 100
+    end_hour = int(end_time) // 100
+    end_minute = int(end_time) % 100
+    return (end_hour * 60 + end_minute) - (start_hour * 60 + start_minute)
 
 
 class IBookingAdditionalFieldsSchema(model.Schema):
@@ -63,13 +65,15 @@ class IPrenotazioneType(model.Schema):
 
     # Se start_time ed end_time sono valorizzati, duration viene calcolato automaticamente
     # come intervallo temporale espresso in minuti.
-    start_time = schema.Time(
+    start_time = schema.Choice(
         title=_("booking_type_start_time_label", default="Start Time"),
         required=False,
+        vocabulary="redturtle.prenotazioni.VocOreInizio",
     )
-    end_time = schema.Time(
+    end_time = schema.Choice(
         title=_("booking_type_end_time_label", default="End Time"),
         required=False,
+        vocabulary="redturtle.prenotazioni.VocOreInizio",
     )
 
     @invariant
