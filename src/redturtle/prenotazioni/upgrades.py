@@ -43,7 +43,6 @@ from zope.component import queryUtility
 import logging
 import pytz
 
-
 logger = logging.getLogger(__name__)
 
 DEFAULT_PROFILE = "profile-redturtle.prenotazioni:default"

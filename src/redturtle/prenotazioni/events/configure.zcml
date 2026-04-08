@@ -45,10 +45,10 @@
       />
 
   <subscriber
-     for="redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType
-         zope.lifecycleevent.IObjectCreatedEvent"
-     handler=".prenotazione_type.update_duration_from_time_range"
-     />
+      for="redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType
+           zope.lifecycleevent.IObjectCreatedEvent"
+      handler=".prenotazione_type.update_duration_from_time_range"
+      />
 
   <subscriber
       for="redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType
@@ -57,9 +57,9 @@
       />
 
   <subscriber
-     for="redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType
-         zope.lifecycleevent.IObjectModifiedEvent"
-     handler=".prenotazione_type.update_duration_from_time_range"
-     />
+      for="redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType
+           zope.lifecycleevent.IObjectModifiedEvent"
+      handler=".prenotazione_type.update_duration_from_time_range"
+      />
 
 </configure>

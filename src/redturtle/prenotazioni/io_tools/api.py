@@ -26,7 +26,6 @@ import os
 import requests
 import yaml
 
-
 # STATUS INTERNI A QUESTA API
 PROFILE_NOT_FOUND = "PROFILE_NOT_FOUND"
 QUEUED = "QUEUED"
