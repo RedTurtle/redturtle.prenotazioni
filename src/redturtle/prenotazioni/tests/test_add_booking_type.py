@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from AccessControl.unauthorized import Unauthorized
 from datetime import date
+from datetime import time
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 
 import unittest
 
@@ -63,3 +66,30 @@ class TestAddBookingType(unittest.TestCase):
         )
 
         self.assertEqual(obj.getId(), "type-a")
+
+    def test_duration_autoset_from_time_range_on_create(self):
+        obj = api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            container=self.folder_prenotazioni,
+            gates=["all"],
+            start_time=time(9, 0),
+            end_time=time(10, 30),
+        )
+
+        self.assertEqual(obj.duration, "90")
+
+    def test_duration_autoset_from_time_range_on_edit(self):
+        obj = api.content.create(
+            type="PrenotazioneType",
+            title="Type A",
+            duration=30,
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
+        obj.start_time = time(11, 0)
+        obj.end_time = time(12, 15)
+        notify(ObjectModifiedEvent(obj))
+
+        self.assertEqual(obj.duration, "75")

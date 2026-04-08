@@ -8,6 +8,14 @@ from plone.supermodel import model
 from redturtle.prenotazioni import _
 from zope import schema
 from zope.interface import implementer
+from zope.interface import invariant
+
+
+def get_time_range_duration_minutes(start_time, end_time):
+    """Return the interval between two time values in minutes."""
+    start_minutes = start_time.hour * 60 + start_time.minute
+    end_minutes = end_time.hour * 60 + end_time.minute
+    return end_minutes - start_minutes
 
 
 class IBookingAdditionalFieldsSchema(model.Schema):
@@ -49,9 +57,67 @@ class IPrenotazioneType(model.Schema):
 
     duration = schema.Choice(
         title=_("booking_type_duration_label", default="Duration value"),
-        required=True,
+        required=False,
         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
     )
+
+    # Se start_time ed end_time sono valorizzati, duration viene calcolato automaticamente
+    # come intervallo temporale espresso in minuti.
+    start_time = schema.Time(
+        title=_("booking_type_start_time_label", default="Start Time"),
+        required=False,
+    )
+    end_time = schema.Time(
+        title=_("booking_type_end_time_label", default="End Time"),
+        required=False,
+    )
+
+    @invariant
+    def validate_time_range(data):
+
+        # 1. Se si specifica solo uno dei campi "start_time" e "end_time" non va bene
+        if (data.start_time and not data.end_time) or (
+            not data.start_time and data.end_time
+        ):
+            raise schema.ValidationError(
+                _(
+                    "booking_type_duration_or_time_error",
+                    default="You have to specify both start and end time, or leave both empty.",
+                )
+            )
+
+        # 2. Se si specificano entrambi allora "duration" deve corrispondere all'intervallo
+        #    temporale fra di loro oppure essere vuota
+        if data.start_time and data.end_time:
+            duration_minutes = get_time_range_duration_minutes(
+                data.start_time,
+                data.end_time,
+            )
+
+            if duration_minutes <= 0:
+                raise schema.ValidationError(
+                    _(
+                        "booking_type_invalid_time_range_error",
+                        default="End time must be greater than start time.",
+                    )
+                )
+
+            if data.duration and int(data.duration) != duration_minutes:
+                raise schema.ValidationError(
+                    _(
+                        "booking_type_duration_or_time_mismatch_error",
+                        default="Duration value doesn't match the provided time range.",
+                    )
+                )
+
+        # 3. Deve essere specificato almeno un valore fra "duration" e "start_time"/"end_time"
+        if not data.start_time and not data.end_time and not data.duration:
+            raise schema.ValidationError(
+                _(
+                    "booking_type_duration_or_time_required_error",
+                    default="You have to specify a duration value or a time range.",
+                )
+            )
 
     requirements = RichText(
         required=False,
