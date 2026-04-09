@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
+from plone import api
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
@@ -22,7 +23,6 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 import re
-
 
 try:
     from plone.app.dexterity import textindexer
@@ -597,9 +597,12 @@ class PrenotazioniFolder(Container):
         return self.notBeforeDays
 
     def get_booking_types(self) -> Generator[PrenotazioneType, None, None]:
-        return self.listFolderContents(
-            contentFilter={"portal_type": "PrenotazioneType"}
-        )
+        return [
+            b.getObject()
+            for b in api.content.find(
+                context=self, depth=1, portal_type="PrenotazioneType"
+            )
+        ]
 
     def get_notification_flags(self):
         return {

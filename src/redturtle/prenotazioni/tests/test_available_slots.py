@@ -20,7 +20,6 @@ import pytz
 import transaction
 import unittest
 
-
 DATE_STR = "2023-05-14"
 
 

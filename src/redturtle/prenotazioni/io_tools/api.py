@@ -9,6 +9,7 @@ following attributes:
     An optional due_date: a due date that let the recipient add a reminder when receiving the message. The format for all dates is ISO8601 with time information and UTC timezone (ie. "2018-10-13T00:00:00.000Z").
 
 """
+
 from . import logger
 from .monkey import RESTAPI_TIMEOUT
 from bravado.client import SwaggerClient
@@ -25,7 +26,6 @@ import logging
 import os
 import requests
 import yaml
-
 
 # STATUS INTERNI A QUESTA API
 PROFILE_NOT_FOUND = "PROFILE_NOT_FOUND"
