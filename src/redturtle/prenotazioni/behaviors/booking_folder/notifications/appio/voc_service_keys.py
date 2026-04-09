@@ -13,6 +13,11 @@ logger = getLogger(__name__)
 
 
 def load_yaml_config():
+    """
+    Syntax:
+    - key: servizio_abc
+      name: Servizio Abc
+    """
     filepath = os.environ.get("APPIO_CONFIG_FILE")
     if not filepath:
         return []
@@ -27,6 +32,11 @@ def load_yaml_config():
 
 
 APPIO_CONFIG = load_yaml_config()
+
+
+API_KEYS = {
+    item["key"]: item["api_key"] for item in APPIO_CONFIG if item.get("api_key")
+}
 
 
 @implementer(IVocabularyFactory)

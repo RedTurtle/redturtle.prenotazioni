@@ -2,10 +2,18 @@ Changelog
 =========
 
 
-2.8.9 (unreleased)
+2.9.0 (unreleased)
 ------------------
 
-- fix vocabuulary class names
+- fix vocabulary class names
+  [mamico]
+- fix first_available when startddate is in the future
+  [mamico]
+- fix vocabulary class names
+  [mamico]
+- expose get_api method in App IO Sender adapter for future customizations
+  [mamico]
+- timeout in app io restapi
   [mamico]
 
 

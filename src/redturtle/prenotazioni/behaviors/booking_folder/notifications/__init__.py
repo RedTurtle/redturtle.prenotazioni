@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from .appio.adapters import app_io_allowed_for
 from functools import wraps
 from Products.CMFCore.utils import getToolByName
 from redturtle.prenotazioni import _
@@ -62,9 +61,6 @@ class BookingNotificationSupervisorUtility:
             return False
 
         return True
-
-    def app_io_allowed_for(sefl, fiscalcode, service_code):
-        return app_io_allowed_for(fiscalcode, service_code=service_code)
 
     def is_sms_message_allowed(self, booking):
         if not getattr(

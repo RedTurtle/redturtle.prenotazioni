@@ -29,6 +29,7 @@ def send_notification_on_transition(context, event) -> None:
         flags["submit"] = False
 
     if event.transition and flags.get(event.transition.__name__):
+        # TODO: convert getMultiAdapter to queryMultiAdapter
         message_adapter = getMultiAdapter(
             (context, event),
             IBookingAPPIoMessage,

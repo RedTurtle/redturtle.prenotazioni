@@ -309,10 +309,62 @@ class TestAvailableSlots(unittest.TestCase):
                         datetime(current_year, next_month, monday, 7, 0)
                     )
                 )
-
                 break
 
         self.assertEqual(expected, response.json()["items"])
+
+    @freeze_time("2025-11-20")
+    def test_first_available_when_opening_is_in_the_future(self):
+        api_manager_session = RelativeSession(self.portal_url)
+        api_manager_session.headers.update({"Accept": "application/json"})
+        api_manager_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
+
+        # slot only in monday 07:00-10:00
+        now = date.today()
+        self.assertEqual(now.weekday(), 3)  # tuesday
+
+        response = api_manager_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@available-slots?first_available=true"
+        )
+        # monday 2025-11-24
+        next_monday = datetime(2025, 11, 24, 7, 0)
+        self.assertEqual([self.dt_local_to_json(next_monday)], response.json()["items"])
+
+        # Change opening data
+        self.folder_prenotazioni.daData = now + timedelta(days=7)  # thuesday 2025-11-27
+        transaction.commit()
+
+        response = api_manager_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@available-slots?first_available=true"
+        )
+        # monday 2025-12-01
+        next_monday = datetime(2025, 12, 1, 7, 0)
+        self.assertEqual([self.dt_local_to_json(next_monday)], response.json()["items"])
+
+    @freeze_time("2025-11-20")
+    def test_first_available_with_start(self):
+        api_manager_session = RelativeSession(self.portal_url)
+        api_manager_session.headers.update({"Accept": "application/json"})
+        api_manager_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
+
+        # slot only in monday 07:00-10:00
+        now = date.today()
+        self.assertEqual(now.weekday(), 3)  # tuesday
+
+        response = api_manager_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@available-slots?first_available=true"
+        )
+        # monday 2025-11-24
+        next_monday = datetime(2025, 11, 24, 7, 0)
+        self.assertEqual([self.dt_local_to_json(next_monday)], response.json()["items"])
+
+        # use start data
+        response = api_manager_session.get(
+            f"{self.folder_prenotazioni.absolute_url()}/@available-slots?first_available=true&start=2025-11-27"
+        )
+        # monday 2025-12-01
+        next_monday = datetime(2025, 12, 1, 7, 0)
+        self.assertEqual([self.dt_local_to_json(next_monday)], response.json()["items"])
 
     @freeze_time(DATE_STR)
     def test_if_first_available_and_no_booking_manager_permission(

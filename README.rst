@@ -864,9 +864,12 @@ appio_config_keys.yaml::
 
     - name: Service3
       key: ABC312
+      api_key: scret123
 
 The file path is being taken from the **APPIO_CONFIG_FILE** env var.
 This variable can be configured automatically in the buildout using the following config.
+
+Backward comptability: if `api_key` is missing, `key` is used also as a secret.
 
 buildout.cfg::
 

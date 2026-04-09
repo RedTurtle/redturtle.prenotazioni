@@ -1,5 +1,6 @@
 
-E' possibile testare l'invio di un messaggio inserendo il secret fornito da https://developer.io.italia.it/openapi.html e un codice fiscale.
+E' possibile testare l'invio di un messaggio inserendo il secret fornito da
+https://developer.io.italia.it/openapi.html e un codice fiscale.
 
 ::
 
