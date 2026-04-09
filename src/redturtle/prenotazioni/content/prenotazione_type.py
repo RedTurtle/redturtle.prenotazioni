@@ -68,19 +68,34 @@ class IPrenotazioneType(model.Schema):
         title=_("booking_type_duration_label", default="Duration value"),
         required=False,
         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
+        description=_(
+            "booking_type_duration_help",
+            default="The duration of the booking in minutes. If start and end time are specified, this value will be overridden.",
+        ),
     )
 
-    # Se start_time ed end_time sono valorizzati, duration viene calcolato automaticamente
+    # Se start_time ed end_time sono valorizzati, "duration" viene calcolato automaticamente
     # come intervallo temporale espresso in minuti.
+    # L'esistenza di questi campi permette di gestire tipologie di prenotazione con tempi fissati
+    # all'interno della giornata (es. 9:00-9:30) invece di far scegliere al sistema l'orario di prenotazione
+    # guardando solo la durata
     start_time = schema.Choice(
         title=_("booking_type_start_time_label", default="Start Time"),
         required=False,
         vocabulary="redturtle.prenotazioni.VocOreInizio",
+        description=_(
+            "prenotazione_type_start_time_help",
+            default="The fixed start time for this booking type. If specified, the end time must be specified as well.",
+        ),
     )
     end_time = schema.Choice(
         title=_("booking_type_end_time_label", default="End Time"),
         required=False,
         vocabulary="redturtle.prenotazioni.VocOreInizio",
+        description=_(
+            "prenotazione_type_end_time_help",
+            default="The fixed end time for this booking type. If specified, the start time must be specified as well.",
+        ),
     )
 
     @invariant
