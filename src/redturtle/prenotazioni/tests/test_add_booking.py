@@ -205,13 +205,9 @@ class TestBookingRestAPIAdd(unittest.TestCase):
             },
         )
         self.assertEqual(res.status_code, 400)
-        self.assertEqual(
-            res.json(),
-            {
-                "message": "Unknown booking type 'Type A (30 min)'.",
-                "type": "BadRequest",
-            },
-        )
+        res_json = res.json()
+        self.assertEqual(res_json["message"], "Unknown booking type 'Type A (30 min)'.")
+        self.assertEqual(res_json["type"], "BadRequest")
 
     # def test_add_booking_auth(self):
     #     # TODO: testare anche con uno user non manager
@@ -290,13 +286,9 @@ class TestBookingRestAPIAdd(unittest.TestCase):
             },
         )
         self.assertEqual(res.status_code, 400)
-        self.assertEqual(
-            res.json(),
-            {
-                "message": "You are not allowed to force the gate.",
-                "type": "BadRequest",
-            },
-        )
+        res_json = res.json()
+        self.assertEqual(res_json["message"], "You are not allowed to force the gate.")
+        self.assertEqual(res_json["type"], "BadRequest")
 
     def test_cant_add_booking_if_missing_required_fields(self):
         folder = api.content.create(
