@@ -12,12 +12,19 @@ from zope.interface import invariant
 
 
 def get_time_range_duration_minutes(start_time, end_time):
-    """Return the interval between two time values in minutes."""
-    start_hour = int(start_time) // 100
-    start_minute = int(start_time) % 100
-    end_hour = int(end_time) // 100
-    end_minute = int(end_time) % 100
-    return (end_hour * 60 + end_minute) - (start_hour * 60 + start_minute)
+    """Return the interval between two time values in minutes.
+
+    start_time e end_time sono stringe nella forma "HHMM"
+    """
+    if isinstance(start_time, str) and len(start_time) == 4 and start_time.isdigit():
+        start = int(start_time[:2]) * 60 + int(start_time[2:])
+    else:
+        ValueError(f"invalid start_time {start_time}")
+    if isinstance(end_time, str) and len(end_time) == 4 and end_time.isdigit():
+        end = int(end_time[:2]) * 60 + int(end_time[2:])
+    else:
+        ValueError(f"invalid start_time {start_time}")
+    return end - start
 
 
 class IBookingAdditionalFieldsSchema(model.Schema):

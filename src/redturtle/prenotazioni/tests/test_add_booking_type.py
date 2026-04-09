@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from AccessControl.unauthorized import Unauthorized
 from datetime import date
-from datetime import time
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import setRoles
@@ -73,8 +72,8 @@ class TestAddBookingType(unittest.TestCase):
             title="Type A",
             container=self.folder_prenotazioni,
             gates=["all"],
-            start_time=time(9, 0),
-            end_time=time(10, 30),
+            start_time="0900",
+            end_time="1030",
         )
 
         self.assertEqual(obj.duration, "90")
@@ -88,8 +87,8 @@ class TestAddBookingType(unittest.TestCase):
             gates=["all"],
         )
 
-        obj.start_time = time(11, 0)
-        obj.end_time = time(12, 15)
+        obj.start_time = "1100"
+        obj.end_time = "1215"
         notify(ObjectModifiedEvent(obj))
 
         self.assertEqual(obj.duration, "75")
