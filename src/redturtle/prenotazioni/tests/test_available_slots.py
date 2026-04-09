@@ -319,9 +319,14 @@ class TestAvailableSlots(unittest.TestCase):
         api_manager_session.headers.update({"Accept": "application/json"})
         api_manager_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
 
+        # setUp runs outside freeze_time so daData=date.today() gets the real date;
+        # reset it here to a date before the frozen "today"
+        self.folder_prenotazioni.daData = date(2025, 11, 1)
+        transaction.commit()
+
         # slot only in monday 07:00-10:00
         now = date.today()
-        self.assertEqual(now.weekday(), 3)  # tuesday
+        self.assertEqual(now.weekday(), 3)  # thursday
 
         response = api_manager_session.get(
             f"{self.folder_prenotazioni.absolute_url()}/@available-slots?first_available=true"
@@ -347,9 +352,14 @@ class TestAvailableSlots(unittest.TestCase):
         api_manager_session.headers.update({"Accept": "application/json"})
         api_manager_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
 
+        # setUp runs outside freeze_time so daData=date.today() gets the real date;
+        # reset it here to a date before the frozen "today"
+        self.folder_prenotazioni.daData = date(2025, 11, 1)
+        transaction.commit()
+
         # slot only in monday 07:00-10:00
         now = date.today()
-        self.assertEqual(now.weekday(), 3)  # tuesday
+        self.assertEqual(now.weekday(), 3)  # thursday
 
         response = api_manager_session.get(
             f"{self.folder_prenotazioni.absolute_url()}/@available-slots?first_available=true"
