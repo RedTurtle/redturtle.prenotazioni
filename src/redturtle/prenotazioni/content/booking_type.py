@@ -3,5 +3,4 @@
 # BBB
 from .prenotazione_type import PrenotazioneType
 
-
 BookingType = PrenotazioneType

@@ -28,7 +28,6 @@ from zope.interface import Interface
 import os
 import qrcode
 
-
 CTE = os.environ.get("MAIL_CONTENT_TRANSFER_ENCODING", None)
 
 
