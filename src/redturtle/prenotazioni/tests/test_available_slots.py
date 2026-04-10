@@ -559,6 +559,92 @@ class TestAvailableSlots(unittest.TestCase):
         type_b_len = len(response.json()["items"])
         self.assertTrue(type_a_len > type_b_len)
 
+    @freeze_time(DATE_STR)
+    def test_booking_type_with_fixed_time_returns_only_that_slot(self):
+        """
+        When a PrenotazioneType has start_time and end_time, @available-slots
+        must return only slots whose time matches start_time, across all days in
+        the requested range.
+        """
+        # The week_table has monday open 07:00-10:00.
+        # We create a type fixed at 08:00-08:30 (start_time="0800", end_time="0830").
+        api.content.create(
+            type="PrenotazioneType",
+            title="Type Fixed",
+            duration=30,
+            start_time="0800",
+            end_time="0830",
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+        now = date.today()
+        next_month = now.month + 1
+        current_year = now.year
+
+        self.folder_prenotazioni.daData = now
+        transaction.commit()
+
+        response = self.api_session.get(
+            "{}/@available-slots?booking_type=Type Fixed&start={}&end={}".format(
+                self.folder_prenotazioni.absolute_url(),
+                json_compatible(date(current_year, next_month, 1)),
+                json_compatible(date(current_year, next_month, 28)),
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+        items = response.json()["items"]
+
+        # Every returned slot must be at 08:00 local time
+        self.assertGreater(len(items), 0, "Expected at least one slot")
+        tz = pytz.timezone(self.timezone)
+        for item in items:
+            local_dt = datetime.fromisoformat(item).astimezone(tz)
+            self.assertEqual(
+                (local_dt.hour, local_dt.minute),
+                (8, 0),
+                f"Slot {item} is not at 08:00 local time",
+            )
+
+        # Slots at other hours (e.g. 07:00, 09:00) must NOT appear
+        unexpected_07 = self.dt_local_to_json(
+            datetime(current_year, next_month, 5, 7, 0)  # any monday in the range
+        )
+        self.assertNotIn(unexpected_07, items)
+
+    @freeze_time(DATE_STR)
+    def test_booking_type_without_fixed_time_returns_multiple_slots(self):
+        """
+        When a PrenotazioneType has no start_time/end_time, the endpoint must
+        return all available slots as usual.
+        """
+        now = date.today()
+        next_month = now.month + 1
+        current_year = now.year
+
+        self.folder_prenotazioni.daData = now
+        transaction.commit()
+
+        response = self.api_session.get(
+            "{}/@available-slots?booking_type=Type A&start={}&end={}".format(
+                self.folder_prenotazioni.absolute_url(),
+                json_compatible(date(current_year, next_month, 1)),
+                json_compatible(date(current_year, next_month, 7)),
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+        items = response.json()["items"]
+
+        # With a 07:00-10:00 window and 30-min slots, multiple hours should appear
+        tz = pytz.timezone(self.timezone)
+        hours_found = {
+            datetime.fromisoformat(item).astimezone(tz).hour for item in items
+        }
+        self.assertGreater(
+            len(hours_found),
+            1,
+            "Expected slots at more than one hour when no fixed time is set",
+        )
+
     def test_cacheability(self):
         response = self.api_session.get(
             "{}/@available-slots".format(self.folder_prenotazioni.absolute_url())

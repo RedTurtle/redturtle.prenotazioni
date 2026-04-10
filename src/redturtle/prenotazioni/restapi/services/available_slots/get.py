@@ -68,7 +68,19 @@ class AvailableSlots(Service):
             )
             raise BadRequest(msg)
         booking_type = self.request.form.get("booking_type")
+        fixed_start_time = None
         if booking_type:
+            booking_type_obj = next(
+                (
+                    t
+                    for t in self.context.get_booking_types()
+                    if t.title == booking_type
+                ),
+                None,
+            )
+            if booking_type_obj and booking_type_obj.start_time:
+                st = booking_type_obj.start_time
+                fixed_start_time = st[:2] + ":" + st[2:]
             slot_min_size = (
                 prenotazioni_context_state.get_booking_type_duration(booking_type) * 60
             )
@@ -95,6 +107,11 @@ class AvailableSlots(Service):
                 if not info.get("url", ""):
                     continue
                 if not past_slots and not info.get("future"):
+                    continue
+                if (
+                    fixed_start_time is not None
+                    and info.get("title") != fixed_start_time
+                ):
                     continue
 
                 response["items"].append(json_compatible(info.get("booking_date", "")))
