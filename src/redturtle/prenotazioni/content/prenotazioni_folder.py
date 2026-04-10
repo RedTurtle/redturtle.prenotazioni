@@ -23,7 +23,6 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 import re
 
-
 try:
     from plone.app.dexterity import textindexer
 except ImportError:
@@ -600,6 +599,9 @@ class PrenotazioniFolder(Container):
         return self.listFolderContents(
             contentFilter={"portal_type": "PrenotazioneType"}
         )
+
+    def get_booking_type(self, booking_type):
+        return {i.title: i for i in self.get_booking_types()}.get(booking_type, None)
 
     def get_notification_flags(self):
         return {
