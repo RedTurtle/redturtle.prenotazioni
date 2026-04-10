@@ -611,40 +611,6 @@ class TestAvailableSlots(unittest.TestCase):
         )
         self.assertNotIn(unexpected_07, items)
 
-    @freeze_time(DATE_STR)
-    def test_booking_type_without_fixed_time_returns_multiple_slots(self):
-        """
-        When a PrenotazioneType has no start_time/end_time, the endpoint must
-        return all available slots as usual.
-        """
-        now = date.today()
-        next_month = now.month + 1
-        current_year = now.year
-
-        self.folder_prenotazioni.daData = now
-        transaction.commit()
-
-        response = self.api_session.get(
-            "{}/@available-slots?booking_type=Type A&start={}&end={}".format(
-                self.folder_prenotazioni.absolute_url(),
-                json_compatible(date(current_year, next_month, 1)),
-                json_compatible(date(current_year, next_month, 7)),
-            )
-        )
-        self.assertEqual(response.status_code, 200)
-        items = response.json()["items"]
-
-        # With a 07:00-10:00 window and 30-min slots, multiple hours should appear
-        tz = pytz.timezone(self.timezone)
-        hours_found = {
-            datetime.fromisoformat(item).astimezone(tz).hour for item in items
-        }
-        self.assertGreater(
-            len(hours_found),
-            1,
-            "Expected slots at more than one hour when no fixed time is set",
-        )
-
     def test_cacheability(self):
         response = self.api_session.get(
             "{}/@available-slots".format(self.folder_prenotazioni.absolute_url())

@@ -600,6 +600,9 @@ class PrenotazioniFolder(Container):
             contentFilter={"portal_type": "PrenotazioneType"}
         )
 
+    def get_booking_type(self, booking_type):
+        return {i.title: i for i in self.get_booking_types()}.get(booking_type, None)
+
     def get_notification_flags(self):
         return {
             action: getattr(self, f"notify_on_{action}", False)

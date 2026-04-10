@@ -70,14 +70,7 @@ class AvailableSlots(Service):
         booking_type = self.request.form.get("booking_type")
         fixed_start_time = None
         if booking_type:
-            booking_type_obj = next(
-                (
-                    t
-                    for t in self.context.get_booking_types()
-                    if t.title == booking_type
-                ),
-                None,
-            )
+            booking_type_obj = self.context.get_booking_type(booking_type)
             if booking_type_obj and booking_type_obj.start_time:
                 st = booking_type_obj.start_time
                 fixed_start_time = st[:2] + ":" + st[2:]
