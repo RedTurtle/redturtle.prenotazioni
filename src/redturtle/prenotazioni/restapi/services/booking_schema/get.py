@@ -58,24 +58,19 @@ class BookingSchema(Service):
                 fields.append(field)
         return fields
 
-    def reply(self):
-        """
-        Return the schema for the booking form.
-
-        """
-
-        # validation
-        if not self.request.form.get("booking_date", None):
-            msg = api.portal.translate(
-                _(
-                    "schema_missing_date",
-                    default="You need to provide a booking date to get the schema and available types.",
-                )
+    def validate_request(self):
+        if self.request.form.get("booking_date", None):
+            return
+        msg = api.portal.translate(
+            _(
+                "schema_missing_date",
+                default="You need to provide a booking date to get the schema and available types.",
             )
-            raise BadRequest(msg)
+        )
+        raise BadRequest(msg)
 
+    def get_default_field_list(self):
         current_user = None
-
         if not api.user.is_anonymous():
             current_user = api.user.get_current()
 
@@ -126,8 +121,14 @@ class BookingSchema(Service):
                 }
             )
 
+        return fields_list
+
+    def reply(self):
+        """Return the schema for the booking form."""
+        self.validate_request()
+
         return {
-            "fields": fields_list,
+            "fields": self.get_default_field_list(),
             "booking_types": self.get_booking_types(),
         }
 
