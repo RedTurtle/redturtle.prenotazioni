@@ -1,0 +1,27 @@
+name: Check Changelog
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  verify-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if CHANGES.rst was modified
+        id: check_file
+        run: |
+          # Confronta il branch corrente con il target della PR (es. main)
+          if git diff --name-only origin/${{ github.base_ref }}...origin/${{ github.head_ref }} | grep -q "CHANGES.rst"; then
+            echo "Changelog updated!"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "Errore: Non hai aggiornato il file CHANGELOG.md!"
+            echo "changed=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
