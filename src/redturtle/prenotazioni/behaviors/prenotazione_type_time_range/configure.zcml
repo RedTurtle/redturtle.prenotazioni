@@ -5,7 +5,7 @@
     >
 
   <plone:behavior
-      name="redturtle.prenotazioni.behavior.prenotazione_type_time_range"
+      name="redturtle.prenotazioni.prenotazione_type_time_range"
       title="PrenotazioneType fixed time range"
       description="Start/end time fields and validation for booking type"
       factory=".prenotazione_type_time_range.PrenotazioneTypeTimeRange"
