@@ -5,6 +5,7 @@
     >
 
   <include package=".booking_folder" />
+  <include package=".prenotazione_type_time_range" />
 
   <include
       package="plone.behavior"

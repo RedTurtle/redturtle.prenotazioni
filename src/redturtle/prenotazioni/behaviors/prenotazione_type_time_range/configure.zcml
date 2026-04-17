@@ -1,0 +1,35 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="redturtle.prenotazioni"
+    >
+
+  <plone:behavior
+      name="redturtle.prenotazioni.behavior.prenotazione_type_time_range"
+      title="PrenotazioneType fixed time range"
+      description="Start/end time fields and validation for booking type"
+      factory=".prenotazione_type_time_range.PrenotazioneTypeTimeRange"
+      provides=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange"
+      for="redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType"
+      marker=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange"
+      />
+
+  <subscriber
+      for=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange
+           zope.lifecycleevent.IObjectCreatedEvent"
+      handler=".prenotazione_type_time_range.update_duration_from_time_range"
+      />
+
+  <subscriber
+      for=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange
+           zope.lifecycleevent.IObjectAddedEvent"
+      handler=".prenotazione_type_time_range.update_duration_from_time_range"
+      />
+
+  <subscriber
+      for=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange
+           zope.lifecycleevent.IObjectModifiedEvent"
+      handler=".prenotazione_type_time_range.update_duration_from_time_range"
+      />
+
+</configure>

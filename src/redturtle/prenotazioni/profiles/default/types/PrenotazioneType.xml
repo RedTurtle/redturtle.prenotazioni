@@ -39,6 +39,7 @@
     <element value="plone.app.dexterity.behaviors.metadata.ICategorization" />
     <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
     <element value="plone.app.lockingbehavior.behaviors.ILocking" />
+    <element value="redturtle.prenotazioni.behaviors.prenotazione_type_time_range.prenotazione_type_time_range.IPrenotazioneTypeTimeRange" />
   </property>
 
   <!-- View information -->
