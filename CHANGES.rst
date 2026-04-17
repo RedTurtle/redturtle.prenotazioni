@@ -13,6 +13,10 @@ Changelog
   [mamico]
 - timeout in app io restapi
   [mamico]
+- add new fields to PrenotazioneType: start_time, end_time, with event driven update of duration
+  [fedevancin]
+- add fixed times functionality to PrenotazioneType with @available-slots endpoint support
+  [fedevancin]
 
 
 2.8.8 (2025-05-12)
