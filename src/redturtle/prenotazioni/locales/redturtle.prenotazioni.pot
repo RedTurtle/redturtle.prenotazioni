@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2026-04-09 14:21+0000\n"
+"POT-Creation-Date: 2026-04-22 09:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,6 +54,10 @@ msgstr ""
 
 #: ../browser/templates/prenotazione.pt:29
 msgid "Attention"
+msgstr ""
+
+#: ../behaviors/pending_cleanup/configure.zcml:14
+msgid "Automatic cleanup options for old pending bookings."
 msgstr ""
 
 #: ../browser/bookings_export.py:222
@@ -338,12 +342,20 @@ msgstr ""
 msgid "Pause table"
 msgstr ""
 
+#: ../behaviors/pending_cleanup/configure.zcml:14
+msgid "Pending bookings cleanup"
+msgstr ""
+
 #: ../browser/prenotazione_add.py:219
 msgid "Please provide a booking date"
 msgstr ""
 
 #: ../profiles/default/types/Prenotazione.xml
 msgid "Prenotazione"
+msgstr ""
+
+#: ../behaviors/prenotazione_type_time_range/configure.zcml:15
+msgid "PrenotazioneType fixed time range"
 msgstr ""
 
 #: ../profiles/default/types/PrenotazioniDay.xml
@@ -401,6 +413,10 @@ msgstr ""
 
 #: ../content/prenotazione.py:170
 msgid "Sportello a cui presentarsi"
+msgstr ""
+
+#: ../behaviors/prenotazione_type_time_range/configure.zcml:15
+msgid "Start/end time fields and validation for booking type"
 msgstr ""
 
 #: ../content/prenotazioni_folder.py:113
@@ -671,42 +687,42 @@ msgid "booked_prenotation_message"
 msgstr ""
 
 #. Default: "Descrizione"
-#: ../content/prenotazione_type.py:58
+#: ../content/prenotazione_type.py:57
 msgid "booking_additional_field_description"
 msgstr ""
 
 #. Default: "Label"
-#: ../content/prenotazione_type.py:43
+#: ../content/prenotazione_type.py:42
 msgid "booking_additional_field_label"
 msgstr ""
 
 #. Default: "id"
-#: ../content/prenotazione_type.py:34
+#: ../content/prenotazione_type.py:33
 msgid "booking_additional_field_name"
 msgstr ""
 
 #. Default: "Additional field id must be unique"
-#: ../content/prenotazione_type.py:37
+#: ../content/prenotazione_type.py:36
 msgid "booking_additional_field_name_help"
 msgstr ""
 
 #. Default: "Required"
-#: ../content/prenotazione_type.py:53
+#: ../content/prenotazione_type.py:52
 msgid "booking_additional_field_required"
 msgstr ""
 
 #. Default: "Tipo"
-#: ../content/prenotazione_type.py:48
+#: ../content/prenotazione_type.py:47
 msgid "booking_additional_field_type"
 msgstr ""
 
 #. Default: "This schema is being used for the additional booking fields"
-#: ../content/prenotazione_type.py:173
+#: ../content/prenotazione_type.py:101
 msgid "booking_additional_fields_schema_description"
 msgstr ""
 
 #. Default: "Booking additional fields schema"
-#: ../content/prenotazione_type.py:167
+#: ../content/prenotazione_type.py:95
 msgid "booking_additional_fields_schema_title"
 msgstr ""
 
@@ -731,12 +747,12 @@ msgid "booking_deleted_success"
 msgstr ""
 
 #. Default: "Booking detail help text"
-#: ../content/prenotazione_type.py:159
+#: ../content/prenotazione_type.py:87
 msgid "booking_details_help_text_label"
 msgstr ""
 
 #. Default: "This field will be visualized as \"Details\" helptext during the booking steps"
-#: ../content/prenotazione_type.py:160
+#: ../content/prenotazione_type.py:88
 msgid "booking_details_help_text_label_help"
 msgstr ""
 
@@ -760,37 +776,37 @@ msgid "booking_refused"
 msgstr ""
 
 #. Default: "The duration of the booking in minutes. If start and end time are specified, this value will be overridden."
-#: ../content/prenotazione_type.py:71
+#: ../content/prenotazione_type.py:70
 msgid "booking_type_duration_help"
 msgstr ""
 
 #. Default: "Duration value"
-#: ../content/prenotazione_type.py:68
+#: ../content/prenotazione_type.py:67
 msgid "booking_type_duration_label"
 msgstr ""
 
 #. Default: "You have to specify both start and end time, or leave both empty."
-#: ../content/prenotazione_type.py:109
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:52
 msgid "booking_type_duration_or_time_error"
 msgstr ""
 
 #. Default: "Duration value doesn't match the provided time range."
-#: ../content/prenotazione_type.py:133
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:76
 msgid "booking_type_duration_or_time_mismatch_error"
 msgstr ""
 
 #. Default: "You have to specify a duration value or a time range."
-#: ../content/prenotazione_type.py:142
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:85
 msgid "booking_type_duration_or_time_required_error"
 msgstr ""
 
 #. Default: "End Time"
-#: ../content/prenotazione_type.py:92
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:35
 msgid "booking_type_end_time_label"
 msgstr ""
 
 #. Default: "End time must be greater than start time."
-#: ../content/prenotazione_type.py:125
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:68
 msgid "booking_type_invalid_time_range_error"
 msgstr ""
 
@@ -800,17 +816,17 @@ msgid "booking_type_name"
 msgstr ""
 
 #. Default: "List of requirements to recieve the service"
-#: ../content/prenotazione_type.py:151
+#: ../content/prenotazione_type.py:79
 msgid "booking_type_requirements_help"
 msgstr ""
 
 #. Default: "Requirements"
-#: ../content/prenotazione_type.py:150
+#: ../content/prenotazione_type.py:78
 msgid "booking_type_requirements_labled"
 msgstr ""
 
 #. Default: "Start Time"
-#: ../content/prenotazione_type.py:83
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:26
 msgid "booking_type_start_time_label"
 msgstr ""
 
@@ -1874,6 +1890,61 @@ msgstr ""
 msgid "pending"
 msgstr ""
 
+#. Default: "Bookings pending for more than this number of days will be processed."
+#: ../behaviors/pending_cleanup/pending_cleanup.py:34
+msgid "pending_bookings_cleanup_days_help"
+msgstr ""
+
+#. Default: "Pending days threshold"
+#: ../behaviors/pending_cleanup/pending_cleanup.py:30
+msgid "pending_bookings_cleanup_days_label"
+msgstr ""
+
+#. Default: "If enabled, matched bookings are deleted. If disabled, they are only moved to canceled state."
+#: ../behaviors/pending_cleanup/pending_cleanup.py:48
+msgid "pending_bookings_cleanup_delete_help"
+msgstr ""
+
+#. Default: "Delete instead of cancel"
+#: ../behaviors/pending_cleanup/pending_cleanup.py:44
+msgid "pending_bookings_cleanup_delete_label"
+msgstr ""
+
+#. Default: "Enable automatic processing of bookings that remain pending for too long."
+#: ../behaviors/pending_cleanup/pending_cleanup.py:21
+msgid "pending_bookings_cleanup_enabled_help"
+msgstr ""
+
+#. Default: "Auto-manage old pending bookings"
+#: ../behaviors/pending_cleanup/pending_cleanup.py:17
+msgid "pending_bookings_cleanup_enabled_label"
+msgstr ""
+
+#. Default: "Configure automatic handling for old pending bookings."
+#: ../behaviors/pending_cleanup/pending_cleanup.py:75
+msgid "pending_bookings_cleanup_fieldset_help"
+msgstr ""
+
+#. Default: "Pending Bookings Cleanup"
+#: ../behaviors/pending_cleanup/pending_cleanup.py:71
+msgid "pending_bookings_cleanup_fieldset_label"
+msgstr ""
+
+#. Default: "Send cancellation notifications to affected users when bookings are processed."
+#: ../behaviors/pending_cleanup/pending_cleanup.py:61
+msgid "pending_bookings_cleanup_notify_users_help"
+msgstr ""
+
+#. Default: "Notify affected users"
+#: ../behaviors/pending_cleanup/pending_cleanup.py:57
+msgid "pending_bookings_cleanup_notify_users_label"
+msgstr ""
+
+#. Default: "You are not allowed to run pending cleanup"
+#: ../restapi/services/pending_cleanup/service.py:21
+msgid "pending_cleanup_unauthorized"
+msgstr ""
+
 #. Default: "Please select a time slot"
 #: ../browser/prenotazione_add.py:278
 msgid "please_pick_a_date"
@@ -1885,12 +1956,12 @@ msgid "prenotation_slot_message"
 msgstr ""
 
 #. Default: "The fixed end time for this booking type. If specified, the start time must be specified as well."
-#: ../content/prenotazione_type.py:95
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:38
 msgid "prenotazione_type_end_time_help"
 msgstr ""
 
 #. Default: "The fixed start time for this booking type. If specified, the end time must be specified as well."
-#: ../content/prenotazione_type.py:86
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:29
 msgid "prenotazione_type_start_time_help"
 msgstr ""
 
@@ -1987,7 +2058,7 @@ msgid "result_number"
 msgstr ""
 
 #. Default: "You need to provide a booking date to get the schema and available types."
-#: ../restapi/services/booking_schema/get.py:70
+#: ../restapi/services/booking_schema/get.py:65
 msgid "schema_missing_date"
 msgstr ""
 

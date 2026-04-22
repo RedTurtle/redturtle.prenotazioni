@@ -17,6 +17,12 @@ Changelog
   [fedevancin]
 - add fixed times functionality to PrenotazioneType with @available-slots endpoint support
   [fedevancin]
+- add cron utility to automatically process old pending bookings (cancel or delete, depending on folder settings) after a configurable amount of time
+  [fedevancin]
+- add behavior (disabled by default) for PrenotazioneType to configure the pending bookings cleanup utility
+  [fedevancin]
+- add endpoints to manage the pending bookings cleanup
+  [fedevancin]
 
 
 2.8.8 (2025-05-12)

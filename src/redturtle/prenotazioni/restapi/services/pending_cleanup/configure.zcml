@@ -1,0 +1,38 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    >
+
+  <plone:service
+      method="GET"
+      factory=".service.PendingCleanupSite"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="redturtle.prenotazioni.ManagePrenotazioni"
+      name="@cleanup-pending-bookings"
+      />
+
+  <plone:service
+      method="POST"
+      factory=".service.PendingCleanupSite"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="redturtle.prenotazioni.ManagePrenotazioni"
+      name="@cleanup-pending-bookings"
+      />
+
+  <plone:service
+      method="GET"
+      factory=".service.PendingCleanupFolder"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      permission="redturtle.prenotazioni.ManagePrenotazioni"
+      name="@cleanup-pending-bookings"
+      />
+
+  <plone:service
+      method="POST"
+      factory=".service.PendingCleanupFolder"
+      for="redturtle.prenotazioni.content.prenotazioni_folder.IPrenotazioniFolder"
+      permission="redturtle.prenotazioni.ManagePrenotazioni"
+      name="@cleanup-pending-bookings"
+      />
+
+</configure>

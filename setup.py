@@ -92,5 +92,6 @@ setup(
     [console_scripts]
     app_io = redturtle.prenotazioni.scripts.app_io:main
     notify_upcoming_bookings = redturtle.prenotazioni.scripts.notify_upcoming_bookings:main
+    cleanup_pending_bookings = redturtle.prenotazioni.scripts.cleanup_pending_bookings:main
     """,
 )
