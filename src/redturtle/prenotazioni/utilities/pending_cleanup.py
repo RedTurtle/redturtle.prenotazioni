@@ -2,6 +2,7 @@
 from DateTime import DateTime
 from plone import api
 from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.content.prenotazioni_folder import IPrenotazioniFolder
 
 
 def _get_folder_settings(folder):
@@ -120,7 +121,9 @@ def cleanup_pending_bookings_in_site(dry_run=False):
         "items": [],
     }
 
-    for folder_brain in api.content.find(portal_type="PrenotazioniFolder"):
+    for folder_brain in api.content.find(
+        object_provides=IPrenotazioniFolder.__identifier__
+    ):
         folder = folder_brain.getObject()
         result = cleanup_pending_bookings_in_folder(folder, dry_run=dry_run)
 
