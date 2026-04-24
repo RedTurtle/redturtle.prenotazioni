@@ -17,8 +17,12 @@ from zope.interface import provider
 class IPrenotazioneTypeTimeRange(model.Schema):
     """Fixed time range fields for PrenotazioneType."""
 
+<<<<<<< HEAD
     # Il campo duration è sovrascitto qui per togliere il requisito di essere
     # obbligatorio (TODO: da verificare meglio),
+=======
+    # Il campo duration è sovrascitto qui per togliere il requisito di essere obbligatorio,
+>>>>>>> b338d9b (fix tests)
     # visto che se start_time ed end_time sono valorizzati allora duration viene calcolato
     # automaticamente e non è necessario specificarlo.
     # E per peremettere di avere il validatore invariant.
@@ -27,11 +31,16 @@ class IPrenotazioneTypeTimeRange(model.Schema):
         required=False,
         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
         description=_(
+<<<<<<< HEAD
             "booking_type_duration__with_start_end_help",
             default=(
                 "The duration of the booking in minutes. "
                 "If start and end time are specified, this value will be overridden.",
             ),
+=======
+            "booking_type_duration_help",
+            default="The duration of the booking in minutes. If start and end time are specified, this value will be overridden.",
+>>>>>>> b338d9b (fix tests)
         ),
     )
 

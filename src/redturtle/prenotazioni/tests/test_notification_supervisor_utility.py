@@ -17,8 +17,14 @@ from redturtle.prenotazioni.testing import (
 import pytz
 import unittest
 
+from freezegun import freeze_time
 
+<<<<<<< HEAD
 @freeze_time("2023-05-22 10:00:00", ignore=["ZODB", "transaction"])
+=======
+
+@freeze_time("2023-05-22")
+>>>>>>> b338d9b (fix tests)
 class TestBookingNotificationSupervisorUtility(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING
     timezone = "Europe/Rome"
