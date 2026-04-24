@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from datetime import timedelta
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
@@ -13,8 +14,6 @@ from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 
 import transaction
 import unittest
-
-from freezegun import freeze_time
 
 
 @freeze_time("2023-05-22 10:00:00", ignore=["ZODB", "transaction"])

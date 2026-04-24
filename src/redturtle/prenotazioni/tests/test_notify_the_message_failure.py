@@ -2,6 +2,7 @@
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
+from freezegun import freeze_time
 from functools import partial
 from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
@@ -17,8 +18,6 @@ from zope.globalrequest import getRequest
 import pytz
 import transaction
 import unittest
-
-from freezegun import freeze_time
 
 
 @freeze_time("2023-05-22 10:00:00", ignore=["ZODB", "transaction"])

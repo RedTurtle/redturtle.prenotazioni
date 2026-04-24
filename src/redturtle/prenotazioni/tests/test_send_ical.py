@@ -5,6 +5,7 @@ from collective.contentrules.mailfromfield.actions.mail import MailFromFieldActi
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -20,8 +21,6 @@ from zope.interface.interfaces import IObjectEvent
 import base64
 import email
 import unittest
-
-from freezegun import freeze_time
 
 
 @implementer(IObjectEvent)
