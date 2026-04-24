@@ -14,6 +14,8 @@ from zope.interface.interfaces import IObjectEvent
 import pytz
 import unittest
 
+from freezegun import freeze_time
+
 
 @implementer(IObjectEvent)
 class DummyEvent(object):
@@ -21,6 +23,7 @@ class DummyEvent(object):
         self.object = object
 
 
+@freeze_time("2023-05-22")
 class TestEmailToManagers(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
     timezone = "Europe/Rome"

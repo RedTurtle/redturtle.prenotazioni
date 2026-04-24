@@ -18,7 +18,10 @@ import pytz
 import transaction
 import unittest
 
+from freezegun import freeze_time
 
+
+@freeze_time("2023-05-22")
 class TestNotifyTheMessageFailure(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
     timezone = "Europe/Rome"

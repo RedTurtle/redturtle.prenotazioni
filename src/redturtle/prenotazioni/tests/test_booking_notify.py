@@ -31,6 +31,8 @@ import email
 import pytz
 import unittest
 
+from freezegun import freeze_time
+
 
 @implementer(IObjectEvent)
 class DummyEvent(object):
@@ -38,6 +40,7 @@ class DummyEvent(object):
         self.object = object
 
 
+@freeze_time("2023-05-22")
 class TestBookingNotify(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING
     maxDiff = None
@@ -196,6 +199,7 @@ class TestBookingNotify(unittest.TestCase):
         )
 
 
+@freeze_time("2023-05-22")
 class TestAppioNotify(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING
     maxDiff = None

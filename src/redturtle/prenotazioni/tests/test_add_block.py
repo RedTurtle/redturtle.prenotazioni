@@ -14,7 +14,10 @@ from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 import transaction
 import unittest
 
+from freezegun import freeze_time
 
+
+@freeze_time("2023-05-22")
 class TestBookingRestAPIAddBlock(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 

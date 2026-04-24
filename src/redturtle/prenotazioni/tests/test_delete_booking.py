@@ -15,7 +15,10 @@ from zExceptions import NotFound
 import transaction
 import unittest
 
+from freezegun import freeze_time
 
+
+@freeze_time("2023-05-22")
 class TestDeleteBooking(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 
