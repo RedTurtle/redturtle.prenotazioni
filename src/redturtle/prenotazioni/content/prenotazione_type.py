@@ -72,7 +72,7 @@ class IPrenotazioneType(model.Schema):
         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
         description=_(
             "booking_type_duration_help",
-            default="The duration of the booking in minutes."
+            default="The duration of the booking in minutes.",
             # questa seconda parte di descrizione è relativ aal duration quando è usato
             # con start e end time.
             # If start and end time are specified, this value will be overridden.",
