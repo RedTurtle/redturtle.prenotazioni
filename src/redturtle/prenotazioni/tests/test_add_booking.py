@@ -69,7 +69,7 @@ class TestBookingRestAPIInfo(unittest.TestCase):
         )
 
 
-@freeze_time(DATE_STR)
+@freeze_time(DATE_STR, ignore=["ZODB", "transaction"])
 class TestBookingRestAPIAdd(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
@@ -624,7 +624,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.status_code, 204)
 
 
-@freeze_time(DATE_STR)
+@freeze_time(DATE_STR, ignore=["ZODB", "transaction"])
 class TestPrenotazioniIntegrationTesting(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 

@@ -16,7 +16,7 @@ import unittest
 from freezegun import freeze_time
 
 
-@freeze_time("2023-05-22")
+@freeze_time("2023-05-22 10:00:00", ignore=["ZODB", "transaction"])
 class TestStringInterp(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
     maxDiff = None

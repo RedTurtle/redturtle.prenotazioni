@@ -17,7 +17,8 @@ from zope.interface import provider
 class IPrenotazioneTypeTimeRange(model.Schema):
     """Fixed time range fields for PrenotazioneType."""
 
-    # Il campo duration è sovrascitto qui per togliere il requisito di essere obbligatorio,
+    # Il campo duration è sovrascitto qui per togliere il requisito di essere
+    # obbligatorio (TODO: da verificare meglio),
     # visto che se start_time ed end_time sono valorizzati allora duration viene calcolato
     # automaticamente e non è necessario specificarlo.
     # E per peremettere di avere il validatore invariant.
