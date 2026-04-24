@@ -44,4 +44,22 @@
       handler=".prenotazione.autoconfirm"
       />
 
+  <subscriber
+      for=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange
+           zope.lifecycleevent.IObjectCreatedEvent"
+      handler=".events.prenotazione_type.update_duration_from_time_range"
+      />
+
+  <subscriber
+      for=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange
+           zope.lifecycleevent.IObjectAddedEvent"
+      handler=".events.prenotazione_type.update_duration_from_time_range"
+      />
+
+  <subscriber
+      for=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange
+           zope.lifecycleevent.IObjectModifiedEvent"
+      handler=".events.prenotazione_type.update_duration_from_time_range"
+      />
+
 </configure>

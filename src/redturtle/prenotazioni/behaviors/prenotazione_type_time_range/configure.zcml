@@ -14,22 +14,4 @@
       marker=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange"
       />
 
-  <subscriber
-      for=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange
-           zope.lifecycleevent.IObjectCreatedEvent"
-      handler=".prenotazione_type_time_range.update_duration_from_time_range"
-      />
-
-  <subscriber
-      for=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange
-           zope.lifecycleevent.IObjectAddedEvent"
-      handler=".prenotazione_type_time_range.update_duration_from_time_range"
-      />
-
-  <subscriber
-      for=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange
-           zope.lifecycleevent.IObjectModifiedEvent"
-      handler=".prenotazione_type_time_range.update_duration_from_time_range"
-      />
-
 </configure>
