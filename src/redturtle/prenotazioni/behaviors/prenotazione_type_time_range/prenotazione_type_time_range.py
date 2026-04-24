@@ -27,8 +27,11 @@ class IPrenotazioneTypeTimeRange(model.Schema):
         required=False,
         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
         description=_(
-            "booking_type_duration_help",
-            default="The duration of the booking in minutes. If start and end time are specified, this value will be overridden.",
+            "booking_type_duration__with_start_end_help",
+            default=(
+                "The duration of the booking in minutes. "
+                "If start and end time are specified, this value will be overridden.",
+            ),
         ),
     )
 
@@ -43,7 +46,10 @@ class IPrenotazioneTypeTimeRange(model.Schema):
         vocabulary="redturtle.prenotazioni.VocOreInizio",
         description=_(
             "prenotazione_type_start_time_help",
-            default="The fixed start time for this booking type. If specified, the end time must be specified as well.",
+            default=(
+                "The fixed start time for this booking type. "
+                "If specified, the end time must be specified as well.",
+            ),
         ),
     )
     end_time = schema.Choice(
@@ -52,7 +58,10 @@ class IPrenotazioneTypeTimeRange(model.Schema):
         vocabulary="redturtle.prenotazioni.VocOreInizio",
         description=_(
             "prenotazione_type_end_time_help",
-            default="The fixed end time for this booking type. If specified, the start time must be specified as well.",
+            default=(
+                "The fixed end time for this booking type. "
+                "If specified, the start time must be specified as well.",
+            ),
         ),
     )
 
@@ -66,12 +75,15 @@ class IPrenotazioneTypeTimeRange(model.Schema):
             raise schema.ValidationError(
                 _(
                     "booking_type_duration_or_time_error",
-                    default="You have to specify both start and end time, or leave both empty.",
+                    default=(
+                        "You have to specify both start and end time, or "
+                        "leave both empty.",
+                    ),
                 )
             )
 
-        # 2. Se si specificano entrambi allora "duration" deve corrispondere all'intervallo
-        #    temporale fra di loro oppure essere vuota
+        # 2. Se si specificano entrambi allora "duration" deve corrispondere
+        #    all'intervallotemporale fra di loro oppure essere vuota
         if data.start_time and data.end_time:
             duration_minutes = get_time_range_duration_minutes(
                 data.start_time,
@@ -94,7 +106,8 @@ class IPrenotazioneTypeTimeRange(model.Schema):
                     )
                 )
 
-        # 3. Deve essere specificato almeno un valore fra "duration" e "start_time"/"end_time"
+        # 3. Deve essere specificato almeno un valore fra "duration" e
+        #    "start_time"/"end_time"
         if not data.start_time and not data.end_time and not data.duration:
             raise schema.ValidationError(
                 _(
