@@ -65,7 +65,7 @@ class IPrenotazioneType(model.Schema):
 
     duration = schema.Choice(
         title=_("booking_type_duration_label", default="Duration value"),
-        required=False,
+        required=True,
         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
         description=_(
             "booking_type_duration_help",

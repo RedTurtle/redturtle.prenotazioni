@@ -17,6 +17,20 @@ from zope.interface import provider
 class IPrenotazioneTypeTimeRange(model.Schema):
     """Fixed time range fields for PrenotazioneType."""
 
+    # Il campo duration è sovrascitto qui per togliere il requisito di essere obbligatorio,
+    # visto che se start_time ed end_time sono valorizzati allora duration viene calcolato
+    # automaticamente e non è necessario specificarlo.
+    # E per peremettere di avere il validatore invariant.
+    duration = schema.Choice(
+        title=_("booking_type_duration_label", default="Duration value"),
+        required=False,
+        vocabulary="redturtle.prenotazioni.VocDurataIncontro",
+        description=_(
+            "booking_type_duration_help",
+            default="The duration of the booking in minutes. If start and end time are specified, this value will be overridden.",
+        ),
+    )
+
     # Se start_time ed end_time sono valorizzati, "duration" viene calcolato automaticamente
     # come intervallo temporale espresso in minuti.
     # L'esistenza di questi campi permette di gestire tipologie di prenotazione con tempi fissati
@@ -91,7 +105,7 @@ class IPrenotazioneTypeTimeRange(model.Schema):
 
 @implementer(IPrenotazioneTypeTimeRange)
 @adapter(IDexterityContent)
-class PrenotazioneTypeTimeRange(object):
+class PrenotazioneTypeTimeRange:
     """Behavior adapter for fixed time range fields."""
 
     def __init__(self, context):
