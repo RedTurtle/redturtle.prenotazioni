@@ -21,8 +21,6 @@ Changelog
   [fedevancin]
 - add behavior (disabled by default) for PrenotazioneType to configure the pending bookings cleanup utility
   [fedevancin]
-- add endpoints to manage the pending bookings cleanup
-  [fedevancin]
 
 
 2.8.8 (2025-05-12)
