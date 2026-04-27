@@ -51,15 +51,33 @@
       />
 
   <subscriber
+     for="redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType
+         zope.lifecycleevent.IObjectCreatedEvent"
+     handler=".prenotazione_type.update_duration_from_time_range"
+     />
+
+  <subscriber
       for="redturtle.prenotazioni.behaviors.prenotazione_type_time_range.prenotazione_type_time_range.IPrenotazioneTypeTimeRange
            zope.lifecycleevent.IObjectAddedEvent"
       handler=".prenotazione_type.update_duration_from_time_range"
       />
 
   <subscriber
+     for="redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType
+         zope.lifecycleevent.IObjectAddedEvent"
+     handler=".prenotazione_type.update_duration_from_time_range"
+     />
+
+  <subscriber
       for="redturtle.prenotazioni.behaviors.prenotazione_type_time_range.prenotazione_type_time_range.IPrenotazioneTypeTimeRange
            zope.lifecycleevent.IObjectModifiedEvent"
       handler=".prenotazione_type.update_duration_from_time_range"
       />
+
+  <subscriber
+     for="redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType
+         zope.lifecycleevent.IObjectModifiedEvent"
+     handler=".prenotazione_type.update_duration_from_time_range"
+     />
 
 </configure>
