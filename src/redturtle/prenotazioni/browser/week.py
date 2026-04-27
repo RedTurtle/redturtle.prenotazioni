@@ -16,7 +16,6 @@ from zope.schema.vocabulary import getVocabularyRegistry
 
 import time
 
-
 TIPOLOGIA_PRENOTAZIONE_NAME = "TipologiaPrenotazione"
 TIPOLOGIA_PRENOTAZIONE_NAME_COOKIE = "TipologiaPrenotazione_cookie"
 

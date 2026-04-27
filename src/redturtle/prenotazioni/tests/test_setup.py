@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
+
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -9,7 +10,6 @@ from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TE
 from zope.component import getUtility
 
 import unittest
-
 
 try:
     from Products.CMFPlone.utils import get_installer

@@ -5,7 +5,6 @@ from zope.interface import Interface
 
 import importlib.metadata
 
-
 HASH = importlib.metadata.version("redturtle.prenotazioni")
 
 

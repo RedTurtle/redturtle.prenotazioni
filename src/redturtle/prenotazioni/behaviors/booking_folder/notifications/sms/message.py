@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """SMS Notification Templates"""
+
 from plone import api
 from plone.stringinterp.interfaces import IContextWrapper
 from plone.stringinterp.interfaces import IStringInterpolator
