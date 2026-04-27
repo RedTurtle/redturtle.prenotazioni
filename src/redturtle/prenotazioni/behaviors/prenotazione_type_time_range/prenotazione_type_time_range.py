@@ -17,6 +17,24 @@ from zope.interface import provider
 class IPrenotazioneTypeTimeRange(model.Schema):
     """Fixed time range fields for PrenotazioneType."""
 
+    # Il campo duration è sovrascitto qui per togliere il requisito di essere
+    # obbligatorio (TODO: da verificare meglio),
+    # visto che se start_time ed end_time sono valorizzati allora duration viene calcolato
+    # automaticamente e non è necessario specificarlo.
+    # E per peremettere di avere il validatore invariant.
+    duration = schema.Choice(
+        title=_("booking_type_duration_label", default="Duration value"),
+        required=False,
+        vocabulary="redturtle.prenotazioni.VocDurataIncontro",
+        description=_(
+            "booking_type_duration__with_start_end_help",
+            default=(
+                "The duration of the booking in minutes. "
+                "If start and end time are specified, this value will be overridden.",
+            ),
+        ),
+    )
+
     # Se start_time ed end_time sono valorizzati, "duration" viene calcolato automaticamente
     # come intervallo temporale espresso in minuti.
     # L'esistenza di questi campi permette di gestire tipologie di prenotazione con tempi fissati
@@ -28,7 +46,10 @@ class IPrenotazioneTypeTimeRange(model.Schema):
         vocabulary="redturtle.prenotazioni.VocOreInizio",
         description=_(
             "prenotazione_type_start_time_help",
-            default="The fixed start time for this booking type. If specified, the end time must be specified as well.",
+            default=(
+                "The fixed start time for this booking type. "
+                "If specified, the end time must be specified as well.",
+            ),
         ),
     )
     end_time = schema.Choice(
@@ -37,7 +58,10 @@ class IPrenotazioneTypeTimeRange(model.Schema):
         vocabulary="redturtle.prenotazioni.VocOreInizio",
         description=_(
             "prenotazione_type_end_time_help",
-            default="The fixed end time for this booking type. If specified, the start time must be specified as well.",
+            default=(
+                "The fixed end time for this booking type. "
+                "If specified, the start time must be specified as well.",
+            ),
         ),
     )
 
@@ -51,12 +75,15 @@ class IPrenotazioneTypeTimeRange(model.Schema):
             raise schema.ValidationError(
                 _(
                     "booking_type_duration_or_time_error",
-                    default="You have to specify both start and end time, or leave both empty.",
+                    default=(
+                        "You have to specify both start and end time, or "
+                        "leave both empty.",
+                    ),
                 )
             )
 
-        # 2. Se si specificano entrambi allora "duration" deve corrispondere all'intervallo
-        #    temporale fra di loro oppure essere vuota
+        # 2. Se si specificano entrambi allora "duration" deve corrispondere
+        #    all'intervallotemporale fra di loro oppure essere vuota
         if data.start_time and data.end_time:
             duration_minutes = get_time_range_duration_minutes(
                 data.start_time,
@@ -79,7 +106,8 @@ class IPrenotazioneTypeTimeRange(model.Schema):
                     )
                 )
 
-        # 3. Deve essere specificato almeno un valore fra "duration" e "start_time"/"end_time"
+        # 3. Deve essere specificato almeno un valore fra "duration" e
+        #    "start_time"/"end_time"
         if not data.start_time and not data.end_time and not data.duration:
             raise schema.ValidationError(
                 _(
@@ -91,22 +119,8 @@ class IPrenotazioneTypeTimeRange(model.Schema):
 
 @implementer(IPrenotazioneTypeTimeRange)
 @adapter(IDexterityContent)
-class PrenotazioneTypeTimeRange(object):
+class PrenotazioneTypeTimeRange:
     """Behavior adapter for fixed time range fields."""
 
     def __init__(self, context):
         self.context = context
-
-
-def update_duration_from_time_range(obj, event):
-    """Keep duration aligned with start/end time when both are provided."""
-    start_time = getattr(obj, "start_time", None)
-    end_time = getattr(obj, "end_time", None)
-
-    if not start_time or not end_time:
-        return
-
-    duration_minutes = get_time_range_duration_minutes(start_time, end_time)
-    computed_duration = str(duration_minutes)
-    if getattr(obj, "duration", None) != computed_duration:
-        obj.duration = computed_duration

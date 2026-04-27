@@ -2,6 +2,7 @@
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -14,6 +15,7 @@ import pytz
 import unittest
 
 
+@freeze_time("2023-05-22 10:00:00", ignore=["ZODB", "transaction"])
 class TestStringInterp(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
     maxDiff = None

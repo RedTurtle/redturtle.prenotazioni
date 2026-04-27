@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 """Console script for io_tools."""
+
 from .api import Api
 
 import click

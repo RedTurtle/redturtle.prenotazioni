@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from plone.dexterity.schema import SchemaInvalidatedEvent
+from zope.event import notify
+
 WEEK_TABLE_SCHEMA = [
     {
         "day": "Lunedì",
@@ -50,3 +53,16 @@ WEEK_TABLE_SCHEMA = [
         "afternoon_end": None,
     },
 ]
+
+
+PRENOTAZIONE_TYPE_TIME_RANGE_BEHAVIOR = "prenotazione_type_time_range"
+
+
+def enable_prenotazione_type_time_range_behavior(portal):
+    fti = portal.portal_types["PrenotazioneType"]
+    behaviors = tuple(fti.behaviors or ())
+    if PRENOTAZIONE_TYPE_TIME_RANGE_BEHAVIOR not in behaviors:
+        fti.behaviors = behaviors + (PRENOTAZIONE_TYPE_TIME_RANGE_BEHAVIOR,)
+
+    # Ensure tests see updated schema/behaviors immediately.
+    notify(SchemaInvalidatedEvent("PrenotazioneType"))

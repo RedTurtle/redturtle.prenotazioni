@@ -71,8 +71,9 @@ class AvailableSlots(Service):
         fixed_start_time = None
         if booking_type:
             booking_type_obj = self.context.get_booking_type(booking_type)
-            if booking_type_obj and booking_type_obj.start_time:
-                st = booking_type_obj.start_time
+            start_time = getattr(booking_type_obj, "start_time", None)
+            if start_time:
+                st = start_time
                 fixed_start_time = st[:2] + ":" + st[2:]
             slot_min_size = (
                 prenotazioni_context_state.get_booking_type_duration(booking_type) * 60

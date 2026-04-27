@@ -55,7 +55,7 @@ def hm2DT(day, hm, tzinfo=None):
         return None
     if len(hm) == 4 and ":" not in hm:
         hm = f"{hm[:2]}:{hm[2:]}"
-    (h, m) = map(int, hm.split(":"))
+    h, m = map(int, hm.split(":"))
     # better performance but don't care of daylight saving time transitions.
     # return pytz.datetime.datetime(day.year, dtake core of ay.month, day.day, h, m, tzinfo=tzinfo)
     return tzinfo.localize(datetime.combine(day, time(h, m)))

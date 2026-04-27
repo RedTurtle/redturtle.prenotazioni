@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2026-04-22 09:48+0000\n"
+"POT-Creation-Date: 2026-04-24 14:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -714,14 +714,14 @@ msgid "booking_additional_field_type"
 msgstr ""
 
 #. Default: "This schema is being used for the additional booking fields"
-#: ../content/prenotazione_type.py:101
+#: ../content/prenotazione_type.py:107
 msgid "booking_additional_fields_schema_description"
 msgstr ""
 
 #. Default: "Booking additional fields schema"
-#: ../content/prenotazione_type.py:95
+#: ../content/prenotazione_type.py:101
 msgid "booking_additional_fields_schema_title"
-msgstr ""
+msgstr "Booking additional fields schema"
 
 #. Default: "Booking canceled: "
 #: ../behaviors/booking_folder/notifications/email/notification_email_message.py:399
@@ -744,12 +744,12 @@ msgid "booking_deleted_success"
 msgstr ""
 
 #. Default: "Booking detail help text"
-#: ../content/prenotazione_type.py:87
+#: ../content/prenotazione_type.py:93
 msgid "booking_details_help_text_label"
 msgstr ""
 
 #. Default: "This field will be visualized as \"Details\" helptext during the booking steps"
-#: ../content/prenotazione_type.py:88
+#: ../content/prenotazione_type.py:94
 msgid "booking_details_help_text_label_help"
 msgstr ""
 
@@ -773,37 +773,43 @@ msgid "booking_refused"
 msgstr ""
 
 #. Default: "The duration of the booking in minutes. If start and end time are specified, this value will be overridden."
-#: ../content/prenotazione_type.py:70
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:29
+msgid "booking_type_duration__with_start_end_help"
+msgstr ""
+
+#. Default: "The duration of the booking in minutes."
+#: ../content/prenotazione_type.py:73
 msgid "booking_type_duration_help"
 msgstr ""
 
 #. Default: "Duration value"
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:26
 #: ../content/prenotazione_type.py:67
 msgid "booking_type_duration_label"
 msgstr ""
 
 #. Default: "You have to specify both start and end time, or leave both empty."
-#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:52
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:76
 msgid "booking_type_duration_or_time_error"
 msgstr ""
 
 #. Default: "Duration value doesn't match the provided time range."
-#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:76
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:103
 msgid "booking_type_duration_or_time_mismatch_error"
 msgstr ""
 
 #. Default: "You have to specify a duration value or a time range."
-#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:85
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:113
 msgid "booking_type_duration_or_time_required_error"
 msgstr ""
 
 #. Default: "End Time"
-#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:35
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:56
 msgid "booking_type_end_time_label"
 msgstr ""
 
 #. Default: "End time must be greater than start time."
-#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:68
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:95
 msgid "booking_type_invalid_time_range_error"
 msgstr ""
 
@@ -813,17 +819,17 @@ msgid "booking_type_name"
 msgstr ""
 
 #. Default: "List of requirements to recieve the service"
-#: ../content/prenotazione_type.py:79
+#: ../content/prenotazione_type.py:85
 msgid "booking_type_requirements_help"
 msgstr ""
 
 #. Default: "Requirements"
-#: ../content/prenotazione_type.py:78
+#: ../content/prenotazione_type.py:84
 msgid "booking_type_requirements_labled"
 msgstr ""
 
 #. Default: "Start Time"
-#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:26
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:44
 msgid "booking_type_start_time_label"
 msgstr ""
 
@@ -1133,17 +1139,17 @@ msgid "help_visible_booking_fields"
 msgstr ""
 
 #. Default: "AppIO reminder was sent"
-#: ../behaviors/booking_folder/notifications/appio/notfication_appio_message.py:106
+#: ../behaviors/booking_folder/notifications/appio/notfication_appio_message.py:107
 msgid "history_appio_reminder_sent"
 msgstr ""
 
 #. Default: "AppIO message about the booking reschedule was sent"
-#: ../behaviors/booking_folder/notifications/appio/notfication_appio_message.py:34
+#: ../behaviors/booking_folder/notifications/appio/notfication_appio_message.py:35
 msgid "history_appio_reschedule_sent"
 msgstr ""
 
 #. Default: "AppIO message about the ${transition} transition was sent."
-#: ../behaviors/booking_folder/notifications/appio/notfication_appio_message.py:72
+#: ../behaviors/booking_folder/notifications/appio/notfication_appio_message.py:73
 msgid "history_appio_transition_sent"
 msgstr ""
 
@@ -1168,22 +1174,22 @@ msgid "history_reminder_sent"
 msgstr ""
 
 #. Default: "SMS reminder was sent"
-#: ../behaviors/booking_folder/notifications/sms/message.py:99
+#: ../behaviors/booking_folder/notifications/sms/message.py:100
 msgid "history_sms_reminder_sent"
 msgstr ""
 
 #. Default: "SMS removed notification was sent"
-#: ../behaviors/booking_folder/notifications/sms/message.py:119
+#: ../behaviors/booking_folder/notifications/sms/message.py:120
 msgid "history_sms_removed_sent"
 msgstr ""
 
 #. Default: "SMS message about the booking reschedule was sent"
-#: ../behaviors/booking_folder/notifications/sms/message.py:48
+#: ../behaviors/booking_folder/notifications/sms/message.py:49
 msgid "history_sms_reschedule_sent"
 msgstr ""
 
 #. Default: "SMS message about the ${transition} transition was sent"
-#: ../behaviors/booking_folder/notifications/sms/message.py:75
+#: ../behaviors/booking_folder/notifications/sms/message.py:76
 msgid "history_sms_transition_sent"
 msgstr ""
 
@@ -1953,12 +1959,12 @@ msgid "prenotation_slot_message"
 msgstr ""
 
 #. Default: "The fixed end time for this booking type. If specified, the start time must be specified as well."
-#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:38
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:59
 msgid "prenotazione_type_end_time_help"
 msgstr ""
 
 #. Default: "The fixed start time for this booking type. If specified, the end time must be specified as well."
-#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:29
+#: ../behaviors/prenotazione_type_time_range/prenotazione_type_time_range.py:47
 msgid "prenotazione_type_start_time_help"
 msgstr ""
 

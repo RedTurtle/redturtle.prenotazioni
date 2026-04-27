@@ -65,11 +65,14 @@ class IPrenotazioneType(model.Schema):
 
     duration = schema.Choice(
         title=_("booking_type_duration_label", default="Duration value"),
+        # TODO: dovrebbe essere generalmente required tranno quando c'è il beavhior
+        #  con start_time ed end_time, ma l'override del campo
+        # pare non funzionare come ci aspettiamo, da verificare meglio
         required=False,
         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
         description=_(
             "booking_type_duration_help",
-            default="The duration of the booking in minutes. If start and end time are specified, this value will be overridden.",
+            default="The duration of the booking in minutes.",
         ),
     )
 
