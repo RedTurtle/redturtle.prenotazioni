@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
+from plone import api
 from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.autoform import directives as form
@@ -596,9 +597,12 @@ class PrenotazioniFolder(Container):
         return self.notBeforeDays
 
     def get_booking_types(self) -> Generator[PrenotazioneType, None, None]:
-        return self.listFolderContents(
-            contentFilter={"portal_type": "PrenotazioneType"}
-        )
+        return [
+            b.getObject()
+            for b in api.content.find(
+                context=self, depth=1, portal_type="PrenotazioneType"
+            )
+        ]
 
     def get_booking_type(self, booking_type):
         for i in self.get_booking_types():
