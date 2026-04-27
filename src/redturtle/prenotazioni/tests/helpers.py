@@ -2,7 +2,6 @@
 from plone.dexterity.schema import SchemaInvalidatedEvent
 from zope.event import notify
 
-
 WEEK_TABLE_SCHEMA = [
     {
         "day": "Lunedì",
