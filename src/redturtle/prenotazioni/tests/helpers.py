@@ -50,3 +50,14 @@ WEEK_TABLE_SCHEMA = [
         "afternoon_end": None,
     },
 ]
+
+
+PRENOTAZIONE_TYPE_TIME_RANGE_BEHAVIOR = "prenotazione_type_time_range"
+
+
+def enable_prenotazione_type_time_range_behavior(portal):
+    fti = portal.portal_types["PrenotazioneType"]
+    behaviors = tuple(fti.behaviors or ())
+    if PRENOTAZIONE_TYPE_TIME_RANGE_BEHAVIOR in behaviors:
+        return
+    fti.behaviors = behaviors + (PRENOTAZIONE_TYPE_TIME_RANGE_BEHAVIOR,)

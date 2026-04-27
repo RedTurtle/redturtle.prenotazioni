@@ -14,6 +14,9 @@ from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.tests.helpers import (
+    enable_prenotazione_type_time_range_behavior,
+)
 
 import calendar
 import pytz
@@ -568,6 +571,8 @@ class TestAvailableSlots(unittest.TestCase):
         """
         # The week_table has monday open 07:00-10:00.
         # We create a type fixed at 08:00-08:30 (start_time="0800", end_time="0830").
+        enable_prenotazione_type_time_range_behavior(self.portal)
+
         api.content.create(
             type="PrenotazioneType",
             title="Type Fixed",
