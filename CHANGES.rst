@@ -5,7 +5,9 @@ Changelog
 2.9.0 (unreleased)
 ------------------
 
-- fix first_available when startddate is in the future
+- Plone 6.1 support
+  [mamico]
+- fix first_available when startdate is in the future
   [mamico]
 - fix vocabulary class names
   [mamico]
