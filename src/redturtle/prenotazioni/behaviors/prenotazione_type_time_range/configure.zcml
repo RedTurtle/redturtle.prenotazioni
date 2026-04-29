@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="redturtle.prenotazioni"
+    >
+
+  <plone:behavior
+      name="prenotazione_type_time_range"
+      title="PrenotazioneType fixed time range"
+      description="Start/end time fields and validation for booking type"
+      factory=".prenotazione_type_time_range.PrenotazioneTypeTimeRange"
+      provides=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange"
+      for="redturtle.prenotazioni.content.prenotazione_type.IPrenotazioneType"
+      marker=".prenotazione_type_time_range.IPrenotazioneTypeTimeRange"
+      />
+
+</configure>

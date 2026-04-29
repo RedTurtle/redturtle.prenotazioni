@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from datetime import timedelta
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
@@ -15,6 +16,7 @@ import transaction
 import unittest
 
 
+@freeze_time("2023-05-22 10:00:00", ignore=["ZODB", "transaction"])
 class TestBookingRestAPIAddBlock(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 

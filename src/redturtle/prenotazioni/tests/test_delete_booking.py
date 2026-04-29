@@ -3,6 +3,7 @@ from AccessControl import Unauthorized
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
+from freezegun import freeze_time
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
@@ -16,6 +17,7 @@ import transaction
 import unittest
 
 
+@freeze_time("2023-05-22 10:00:00", ignore=["ZODB", "transaction"])
 class TestDeleteBooking(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
 

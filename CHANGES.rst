@@ -15,6 +15,12 @@ Changelog
   [mamico]
 - timeout in app io restapi
   [mamico]
+- add new fields to PrenotazioneType: start_time, end_time, with event driven update of duration
+  [fedevancin]
+- add fixed times functionality to PrenotazioneType with @available-slots endpoint support
+  [fedevancin]
+- fixed an email link bug in the booking notification template
+  [fedevancin]
 
 
 2.8.8 (2025-05-12)

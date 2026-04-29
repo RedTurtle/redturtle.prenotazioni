@@ -2,6 +2,7 @@
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
+from freezegun import freeze_time
 from functools import partial
 from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
@@ -19,6 +20,7 @@ import transaction
 import unittest
 
 
+@freeze_time("2023-05-22 10:00:00", ignore=["ZODB", "transaction"])
 class TestNotifyTheMessageFailure(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
     timezone = "Europe/Rome"

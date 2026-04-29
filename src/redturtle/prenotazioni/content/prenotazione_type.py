@@ -10,6 +10,22 @@ from zope import schema
 from zope.interface import implementer
 
 
+def get_time_range_duration_minutes(start_time, end_time):
+    """Return the interval between two time values in minutes.
+
+    start_time e end_time sono stringe nella forma "HHMM"
+    """
+    if isinstance(start_time, str) and len(start_time) == 4 and start_time.isdigit():
+        start = int(start_time[:2]) * 60 + int(start_time[2:])
+    else:
+        ValueError(f"invalid start_time {start_time}")
+    if isinstance(end_time, str) and len(end_time) == 4 and end_time.isdigit():
+        end = int(end_time[:2]) * 60 + int(end_time[2:])
+    else:
+        ValueError(f"invalid start_time {start_time}")
+    return end - start
+
+
 class IBookingAdditionalFieldsSchema(model.Schema):
     # TODO: definire un validatore per fare in modo che il nome sia unico e
     #       che non contenga caratteri strani non ammessi
@@ -49,8 +65,15 @@ class IPrenotazioneType(model.Schema):
 
     duration = schema.Choice(
         title=_("booking_type_duration_label", default="Duration value"),
-        required=True,
+        # TODO: dovrebbe essere generalmente required tranno quando c'è il beavhior
+        #  con start_time ed end_time, ma l'override del campo
+        # pare non funzionare come ci aspettiamo, da verificare meglio
+        required=False,
         vocabulary="redturtle.prenotazioni.VocDurataIncontro",
+        description=_(
+            "booking_type_duration_help",
+            default="The duration of the booking in minutes.",
+        ),
     )
 
     requirements = RichText(

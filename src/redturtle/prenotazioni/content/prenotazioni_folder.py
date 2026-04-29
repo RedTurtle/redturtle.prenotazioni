@@ -604,6 +604,12 @@ class PrenotazioniFolder(Container):
             )
         ]
 
+    def get_booking_type(self, booking_type):
+        for i in self.get_booking_types():
+            if i.title == booking_type:
+                return i
+        return None
+
     def get_notification_flags(self):
         return {
             action: getattr(self, f"notify_on_{action}", False)
