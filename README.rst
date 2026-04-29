@@ -299,12 +299,20 @@ There are some endpoints useful to use this tool also with external frontends (l
 Scheduling cleanup
 ------------------
 
-The package provides a console script named ``cleanup_pending_bookings``.
-After buildout, schedule it with cron using your instance environment.
+The package provides a cleanup script at
+``src/redturtle/prenotazioni/scripts/cleanup_pending_bookings.py``.
+After buildout, schedule it with cron using your instance environment and
+run it through ``bin/instance``.
 
 Cleanup rules are configured per ``PrenotazioniFolder`` through the
 ``Pending bookings cleanup`` behavior and are disabled by default.
 If a folder has not enabled these behavior options, that folder is skipped.
+
+Example of usage (cleanup every day at 01:30):
+30 1 * * * bin/instance -OPlone run src/redturtle.prenotazioni/src/redturtle/prenotazioni/scripts/cleanup_pending_bookings.py --commit >> /path/to/logs/cleanup_pending_bookings.log 2>&1
+
+For a dry-run, without deleting any booking, just omit the ``--commit`` flag:
+30 1 * * * bin/instance -OPlone run src/redturtle.prenotazioni/src/redturtle.prenotazioni/scripts/cleanup_pending_bookings.py >> /path/to/logs/cleanup_pending_bookings.log 2>&1
 
 Recommended production setup:
 
@@ -841,7 +849,7 @@ It is supposed to be ran once a day otherwise, duplicate emails will be sent.
 
 Usage::
 
-    bin/instance1 -OPlone run bin/notify_upcoming_bookings
+    bin/instance1 -OPlone run src/redturtle.prenotazioni/src/redturtle/prenotazioni/scripts/notify_upcoming_bookings.py
 
 Buildout config example::
 
@@ -854,7 +862,7 @@ Buildout config example::
     [notify-upcoming-bookings]
     recipe = z3c.recipe.usercrontab
     times = 0 3 * * *
-    command = flock -n ${buildout:directory}/var/notify_upcoming_bookings.lock ${buildout:directory}/bin/${buildout:cron_instance} -OPlone run bin/notify_upcoming_bookings >> ${buildout:directory}/var/log/notify_upcoming_bookings.log 2>&1
+    command = flock -n ${buildout:directory}/var/notify_upcoming_bookings.lock ${buildout:directory}/bin/${buildout:cron_instance} -OPlone run ${buildout:directory}/src/redturtle.prenotazioni/src/redturtle/prenotazioni/scripts/notify_upcoming_bookings.py >> ${buildout:directory}/var/log/notify_upcoming_bookings.log 2>&1
 
 
 

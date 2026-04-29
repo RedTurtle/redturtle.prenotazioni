@@ -13,6 +13,24 @@ import argparse
 import sys
 
 
+def _get_script_args(argv=None):
+    args = list(sys.argv[1:] if argv is None else argv)
+
+    # ``bin/instance run`` injects ``-c <script>`` before the script arguments.
+    if len(args) >= 2 and args[0] == "-c":
+        return args[2:]
+
+    return args
+
+
+def _emit(level, message, *args):
+    log_method = getattr(logger, level)
+    log_method(message, *args)
+
+    rendered_message = message % args if args else message
+    print(rendered_message, flush=True)
+
+
 def _transition_to_canceled(booking, notify_users):
     folder = booking.getPrenotazioniFolder()
     original_notify_on_cancel = bool(getattr(folder, "notify_on_cancel", False))
@@ -28,8 +46,10 @@ def _transition_to_canceled(booking, notify_users):
         try:
             api.content.transition(obj=booking, transition="cancel")
         except InvalidParameterError:
-            logger.warning(
-                f"Booking {booking.absolute_url()} cannot be canceled from current state."
+            _emit(
+                "warning",
+                "Booking %s cannot be canceled from current state.",
+                booking.absolute_url(),
             )
             return False
         booking.reindexObject(idxs=["review_state"])
@@ -63,7 +83,8 @@ def cleanup_pending_bookings_in_folder(folder):
         return results
 
     if settings["days"] <= 0:
-        logger.warning(
+        _emit(
+            "warning",
             "Pending cleanup is enabled for %s but threshold is invalid (%s).",
             results["folder_path"],
             settings["days"],
@@ -135,16 +156,17 @@ def main():
         default=False,
         help="Commit the transaction at the end.",
     )
-    args = parser.parse_args(sys.argv[1:])
+    args = parser.parse_args(_get_script_args())
 
     with api.env.adopt_roles(roles=["Manager"]):
         if args.path:
             folder = api.content.get(path=args.path)
             if folder is None:
-                logger.error("No object found at path: %s", args.path)
+                _emit("error", "No object found at path: %s", args.path)
                 return
             if not IPrenotazioniFolder.providedBy(folder):
-                logger.error(
+                _emit(
+                    "error",
                     "Object at %s is not a PrenotazioniFolder (got %s).",
                     args.path,
                     folder.__class__.__name__,
@@ -160,7 +182,8 @@ def main():
         else:
             stats = cleanup_pending_bookings_in_site()
 
-    logger.info(
+    _emit(
+        "info",
         "Pending cleanup done. Folders=%s matched=%s canceled=%s deleted=%s",
         stats["folders"],
         stats["matched"],
