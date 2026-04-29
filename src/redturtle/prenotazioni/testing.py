@@ -14,7 +14,6 @@ import plone.app.caching
 import plone.restapi
 import redturtle.prenotazioni
 
-
 try:
     import collective.dexteritytextindexer
 

@@ -19,7 +19,6 @@ from zope.i18nmessageid import MessageFactory
 import dateutil
 import pytz
 
-
 logger = getLogger("redturtle.prenotazioni")
 _ = MessageFactory("redturtle.prenotazioni")
 

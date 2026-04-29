@@ -24,7 +24,6 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 import re
 
-
 try:
     from plone.app.dexterity import textindexer
 except ImportError:

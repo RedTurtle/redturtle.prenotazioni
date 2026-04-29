@@ -21,7 +21,6 @@ from zope.schema.interfaces import IVocabularyFactory
 
 import json
 
-
 # src/redturtle/prenotazioni/browser/prenotazione_add.py
 
 
