@@ -22,6 +22,7 @@ Changelog
 - add cron utility to automatically process old pending bookings (cancel or delete, depending on folder settings) after a configurable amount of time
   [fedevancin]
 - add behavior (disabled by default) for PrenotazioneType to configure the pending bookings cleanup utility
+- fixed an email link bug in the booking notification template
   [fedevancin]
 
 
