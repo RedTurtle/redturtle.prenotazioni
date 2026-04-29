@@ -7,6 +7,7 @@ from bravado_core.spec import url2pathname
 from bravado_core.spec import urlparse
 from bravado_core.spec import yaml
 
+
 RESTAPI_TIMEOUT = 1.0
 
 

@@ -24,6 +24,7 @@ from zope.schema import Text
 from zope.schema import TextLine
 from zope.schema.interfaces import IVocabularyFactory
 
+
 DEFAULT_REQUIRED_FIELDS = []
 
 

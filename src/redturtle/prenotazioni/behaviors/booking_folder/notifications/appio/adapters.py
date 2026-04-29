@@ -17,6 +17,7 @@ from zope.schema.interfaces import IVocabularyFactory
 
 import os
 
+
 APPIO_DUMMY_CF = os.getenv("APPIO_DUMMY_CF")
 
 

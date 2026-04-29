@@ -13,6 +13,7 @@ from zope.publisher.interfaces import IPublishTraverse
 import logging
 import os
 
+
 logger = logging.getLogger(__name__)
 SEE_OWN_ANONYMOUS_BOOKINGS = os.environ.get("SEE_OWN_ANONYMOUS_BOOKINGS") in {
     "True",

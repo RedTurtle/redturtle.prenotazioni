@@ -8,6 +8,7 @@ from redturtle.prenotazioni.utilities import handle_exception_by_log
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
 
+
 notify_the_message_failure = partial(notify_the_message_failure, gateway_type="Email")
 
 

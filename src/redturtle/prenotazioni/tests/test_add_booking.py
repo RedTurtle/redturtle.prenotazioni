@@ -23,6 +23,7 @@ from zope.interface import Interface
 import transaction
 import unittest
 
+
 DATE_STR = "2023-05-14"
 
 
@@ -69,11 +70,7 @@ class TestBookingRestAPIInfo(unittest.TestCase):
         )
 
 
-<<<<<<< HEAD
 @freeze_time(DATE_STR, ignore=["ZODB", "transaction"])
-=======
-@freeze_time(DATE_STR)
->>>>>>> b338d9b (fix tests)
 class TestBookingRestAPIAdd(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
@@ -620,11 +617,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.status_code, 204)
 
 
-<<<<<<< HEAD
 @freeze_time(DATE_STR, ignore=["ZODB", "transaction"])
-=======
-@freeze_time(DATE_STR)
->>>>>>> b338d9b (fix tests)
 class TestPrenotazioniIntegrationTesting(unittest.TestCase):
     layer = REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 

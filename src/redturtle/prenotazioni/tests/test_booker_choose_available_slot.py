@@ -14,6 +14,7 @@ from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 import transaction
 import unittest
 
+
 DATE_STR = "2023-12-05"  # because it's a monday
 
 

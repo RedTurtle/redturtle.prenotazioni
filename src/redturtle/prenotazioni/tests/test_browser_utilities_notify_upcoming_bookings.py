@@ -17,6 +17,7 @@ from zope.globalrequest import getRequest
 import pytz
 import unittest
 
+
 TESTING_TIME = datetime(year=2023, month=11, day=23, hour=10, minute=0)
 NOTIFICAION_GAP = 3
 
