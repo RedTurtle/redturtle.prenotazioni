@@ -296,37 +296,6 @@ Rest API
 
 There are some endpoints useful to use this tool also with external frontends (like Volto).
 
-Pending cleanup endpoint
-------------------------
-
-Use this endpoint to inspect or execute the pending-bookings cleanup.
-
-GET (dry-run by default)::
-
-        curl -H 'Accept: application/json' \
-            http://localhost:8080/Plone/++api++/@cleanup-pending-bookings
-
-GET supports a ``dry_run`` query parameter (default is ``1``). Use POST for execution,
-or set ``dry_run=0`` explicitly if you need to execute with GET.
-
-POST (execute)::
-
-        curl -X POST -H 'Accept: application/json' \
-            http://localhost:8080/Plone/++api++/@cleanup-pending-bookings
-
-GET with explicit execution (not recommended)::
-
-        curl -H 'Accept: application/json' \
-            'http://localhost:8080/Plone/++api++/@cleanup-pending-bookings?dry_run=0'
-
-The endpoint is restricted to users with ``redturtle.prenotazioni: Manage Prenotazioni`` permission.
-
-You can also run it on a single Booking Folder::
-
-        curl -H 'Accept: application/json' \
-            http://localhost:8080/Plone/my-booking-folder/++api++/@cleanup-pending-bookings
-
-
 Scheduling cleanup
 ------------------
 
@@ -336,10 +305,6 @@ After buildout, schedule it with cron using your instance environment.
 Cleanup rules are configured per ``PrenotazioniFolder`` through the
 ``Pending bookings cleanup`` behavior and are disabled by default.
 If a folder has not enabled these behavior options, that folder is skipped.
-
-Example (daily at 01:30)::
-
-        30 1 * * * /path/to/instance/bin/cleanup_pending_bookings >> /var/log/plone/cleanup_pending_bookings.log 2>&1
 
 Recommended production setup:
 

@@ -32,6 +32,20 @@ class BookingsSearch(Service):
             request.set("userid", userid)
         return self
 
+    @staticmethod
+    def _build_date_range(start_date, end_date):
+        if start_date and end_date:
+            range_value = "min:max"
+        elif start_date:
+            range_value = "min"
+        else:
+            range_value = "max"
+
+        return {
+            "query": [DateTime(value) for value in [start_date, end_date] if value],
+            "range": range_value,
+        }
+
     def query(self):
         sort_on = self.request.get("sort_on") or "Date"
         sort_order = self.request.get("sort_order") or "descending"
@@ -74,10 +88,7 @@ class BookingsSearch(Service):
             end_date = f"{end_date}T23:59:59"
 
         if start_date or end_date:
-            query["Date"] = {
-                "query": [DateTime(i) for i in [start_date, end_date] if i],
-                "range": f"{start_date and 'min' or ''}{start_date and end_date and ':' or ''}{end_date and 'max' or ''}",  # noqa: E501
-            }
+            query["Date"] = self._build_date_range(start_date, end_date)
 
         if modified_after:
             query["modified"] = {"query": DateTime(modified_after), "range": "min"}
@@ -131,7 +142,7 @@ class BookingsSearch(Service):
                         ISerializeToPrenotazioneSearchableItem,
                     )(fullobjects=fullobjects)
                 )
-            except:  # noqa: E722
+            except Exception:
                 logger.exception("error with %s", brain.getPath())
         response["items"] = items
         response["items_total"] = len(response["items"])
