@@ -309,17 +309,16 @@ Cleanup rules are configured per ``PrenotazioniFolder`` through the
 If a folder has not enabled these behavior options, that folder is skipped.
 
 Example of usage (cleanup every day at 01:30):
-30 1 * * * bin/instance -OPlone run src/redturtle.prenotazioni/src/redturtle/prenotazioni/scripts/cleanup_pending_bookings.py --commit >> /path/to/logs/cleanup_pending_bookings.log 2>&1
+30 1 * * * bin/instance -OPlone run bin/cleanup_pending_bookings --commit >> /path/to/logs/cleanup_pending_bookings.log 2>&1
 
 For a dry-run, without deleting any booking, just omit the ``--commit`` flag:
-30 1 * * * bin/instance -OPlone run src/redturtle.prenotazioni/src/redturtle.prenotazioni/scripts/cleanup_pending_bookings.py >> /path/to/logs/cleanup_pending_bookings.log 2>&1
+30 1 * * * bin/instance -OPlone run bin/cleanup_pending_bookings >> /path/to/logs/cleanup_pending_bookings.log 2>&1
 
 Recommended production setup:
 
 - run it at least once per day
 - keep logs for auditing
 - run after backup snapshots if possible
-- test first using the REST dry-run endpoint before enabling destructive mode
 
 @booking
 --------
