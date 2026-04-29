@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-from plone import api
 from plone.restapi.deserializer import json_body
 from plone.restapi.services.content.update import ContentPatch
-from redturtle.prenotazioni import _
 from redturtle.prenotazioni.restapi.services.booking.additional_fields import (
     validate_booking_additional_fields,
 )
-from zExceptions import BadRequest
 
 import json
 
