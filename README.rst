@@ -849,7 +849,7 @@ It is supposed to be ran once a day otherwise, duplicate emails will be sent.
 
 Usage::
 
-    bin/instance1 -OPlone run src/redturtle.prenotazioni/src/redturtle/prenotazioni/scripts/notify_upcoming_bookings.py
+    bin/instance1 -OPlone run bin/notify_upcoming_bookings
 
 Buildout config example::
 
@@ -862,7 +862,7 @@ Buildout config example::
     [notify-upcoming-bookings]
     recipe = z3c.recipe.usercrontab
     times = 0 3 * * *
-    command = flock -n ${buildout:directory}/var/notify_upcoming_bookings.lock ${buildout:directory}/bin/${buildout:cron_instance} -OPlone run ${buildout:directory}/src/redturtle.prenotazioni/src/redturtle/prenotazioni/scripts/notify_upcoming_bookings.py >> ${buildout:directory}/var/log/notify_upcoming_bookings.log 2>&1
+    command = flock -n ${buildout:directory}/var/notify_upcoming_bookings.lock ${buildout:directory}/bin/${buildout:cron_instance} -OPlone run bin/notify_upcoming_bookings >> ${buildout:directory}/var/log/notify_upcoming_bookings.log 2>&1
 
 
 
