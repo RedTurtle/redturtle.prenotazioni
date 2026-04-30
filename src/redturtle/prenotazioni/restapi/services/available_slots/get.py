@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from plone import api
+from plone.i18n.normalizer.interfaces import IURLNormalizer
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.services import Service
 from redturtle.prenotazioni import _
-from zope.component import getUtility
-from plone.i18n.normalizer.interfaces import IURLNormalizer
 from zExceptions import BadRequest
+from zope.component import getUtility
 
 import calendar
 import datetime
