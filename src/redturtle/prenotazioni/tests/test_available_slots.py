@@ -616,6 +616,44 @@ class TestAvailableSlots(unittest.TestCase):
         )
         self.assertNotIn(unexpected_07, items)
 
+    @freeze_time(DATE_STR)
+    def test_booking_type_with_fixed_time_slug_param_returns_only_that_slot(self):
+        """Support booking_type passed as content id/slug (not only title)."""
+        enable_prenotazione_type_time_range_behavior(self.portal)
+
+        typ = api.content.create(
+            type="PrenotazioneType",
+            title="Type Fixed",
+            duration=30,
+            start_time="0800",
+            end_time="0830",
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+        now = date.today()
+        next_month = now.month + 1
+        current_year = now.year
+
+        self.folder_prenotazioni.daData = now
+        transaction.commit()
+
+        response = self.api_session.get(
+            "{}/@available-slots?booking_type={}&start={}&end={}".format(
+                self.folder_prenotazioni.absolute_url(),
+                typ.getId(),
+                json_compatible(date(current_year, next_month, 1)),
+                json_compatible(date(current_year, next_month, 28)),
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+        items = response.json()["items"]
+
+        self.assertGreater(len(items), 0, "Expected at least one slot")
+        tz = pytz.timezone(self.timezone)
+        for item in items:
+            local_dt = datetime.fromisoformat(item).astimezone(tz)
+            self.assertEqual((local_dt.hour, local_dt.minute), (8, 0))
+
     def test_cacheability(self):
         response = self.api_session.get(
             "{}/@available-slots".format(self.folder_prenotazioni.absolute_url())
