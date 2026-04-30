@@ -4,6 +4,8 @@ from plone import api
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.services import Service
 from redturtle.prenotazioni import _
+from zope.component import getUtility
+from plone.i18n.normalizer.interfaces import IURLNormalizer
 from zExceptions import BadRequest
 
 import calendar
@@ -11,6 +13,39 @@ import datetime
 
 
 class AvailableSlots(Service):
+    def _resolve_booking_type(self, booking_type):
+        """Resolve booking type value to a PrenotazioneType object.
+
+        Accept title (legacy), id/slug, or UID.
+        """
+        if not booking_type:
+            return None
+
+        if isinstance(booking_type, (list, tuple)):
+            booking_type = booking_type[0] if booking_type else None
+        if not booking_type:
+            return None
+
+        booking_type = str(booking_type).strip()
+        booking_type_cf = booking_type.casefold()
+        normalizer = getUtility(IURLNormalizer)
+
+        for typ in self.context.get_booking_types():
+            title = typ.title or ""
+            title_cf = title.casefold()
+            title_slug = normalizer.normalize(title)
+            if (
+                title == booking_type
+                or typ.getId() == booking_type
+                or title_cf == booking_type_cf
+                or title_slug == booking_type
+            ):
+                return typ
+            uid = getattr(typ, "UID", None)
+            if callable(uid) and uid() == booking_type:
+                return typ
+        return None
+
     def reply(self):
         """
         Finds all the available slots in a month.
@@ -70,13 +105,17 @@ class AvailableSlots(Service):
         booking_type = self.request.form.get("booking_type")
         fixed_start_time = None
         if booking_type:
-            booking_type_obj = self.context.get_booking_type(booking_type)
+            booking_type_obj = self._resolve_booking_type(booking_type)
+            booking_type_name = (
+                booking_type_obj and booking_type_obj.title or booking_type
+            )
             start_time = getattr(booking_type_obj, "start_time", None)
             if start_time:
                 st = start_time
                 fixed_start_time = st[:2] + ":" + st[2:]
             slot_min_size = (
-                prenotazioni_context_state.get_booking_type_duration(booking_type) * 60
+                prenotazioni_context_state.get_booking_type_duration(booking_type_name)
+                * 60
             )
         else:
             slot_min_size = 0

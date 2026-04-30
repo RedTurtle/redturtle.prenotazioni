@@ -55,6 +55,10 @@ msgstr "Applica le restrizioni al Gestore Prenotazioni."
 msgid "Attention"
 msgstr "Attenzione!"
 
+#: ../behaviors/pending_cleanup/configure.zcml:14
+msgid "Automatic cleanup options for old pending bookings."
+msgstr "Opzioni di pulizia automatica per le prenotazioni in attesa troppo vecchie."
+
 #: ../browser/bookings_export.py:222
 msgid "Badly composed `booking_creation_from` value"
 msgstr "Il valore del campo `booking_creation_from` è composto male."
@@ -336,6 +340,10 @@ msgstr "Le pause devono essere comprese tra l'orario di inizio o di termine dell
 #: ../content/prenotazioni_folder.py:326
 msgid "Pause table"
 msgstr "Schedulazione delle pause"
+
+#: ../behaviors/pending_cleanup/configure.zcml:14
+msgid "Pending bookings cleanup"
+msgstr "Pulizia prenotazioni in attesa"
 
 #: ../browser/prenotazione_add.py:219
 msgid "Please provide a booking date"
@@ -1904,6 +1912,61 @@ msgstr "Inizio pausa"
 #. Default: "In attesa"
 msgid "pending"
 msgstr "In attesa"
+
+#. Default: "Bookings pending for more than this number of days will be processed."
+#: ../behaviors/pending_cleanup/pending_cleanup.py:34
+msgid "pending_bookings_cleanup_days_help"
+msgstr "Le prenotazioni in attesa da piu di questo numero di giorni verranno elaborate."
+
+#. Default: "Pending days threshold"
+#: ../behaviors/pending_cleanup/pending_cleanup.py:30
+msgid "pending_bookings_cleanup_days_label"
+msgstr "Soglia giorni in attesa"
+
+#. Default: "If enabled, matched bookings are deleted. If disabled, they are only moved to canceled state."
+#: ../behaviors/pending_cleanup/pending_cleanup.py:48
+msgid "pending_bookings_cleanup_delete_help"
+msgstr "Se abilitato, le prenotazioni corrispondenti vengono eliminate. Se disabilitato, vengono solo spostate nello stato annullato."
+
+#. Default: "Delete instead of cancel"
+#: ../behaviors/pending_cleanup/pending_cleanup.py:44
+msgid "pending_bookings_cleanup_delete_label"
+msgstr "Elimina invece di annullare"
+
+#. Default: "Enable automatic processing of bookings that remain pending for too long."
+#: ../behaviors/pending_cleanup/pending_cleanup.py:21
+msgid "pending_bookings_cleanup_enabled_help"
+msgstr "Abilita l'elaborazione automatica delle prenotazioni che restano in attesa troppo a lungo."
+
+#. Default: "Auto-manage old pending bookings"
+#: ../behaviors/pending_cleanup/pending_cleanup.py:17
+msgid "pending_bookings_cleanup_enabled_label"
+msgstr "Gestisci automaticamente le vecchie prenotazioni in attesa"
+
+#. Default: "Configure automatic handling for old pending bookings."
+#: ../behaviors/pending_cleanup/pending_cleanup.py:75
+msgid "pending_bookings_cleanup_fieldset_help"
+msgstr "Configura la gestione automatica delle prenotazioni in attesa troppo vecchie."
+
+#. Default: "Pending Bookings Cleanup"
+#: ../behaviors/pending_cleanup/pending_cleanup.py:71
+msgid "pending_bookings_cleanup_fieldset_label"
+msgstr "Pulizia Prenotazioni in Attesa"
+
+#. Default: "Send cancellation notifications to affected users when bookings are processed."
+#: ../behaviors/pending_cleanup/pending_cleanup.py:61
+msgid "pending_bookings_cleanup_notify_users_help"
+msgstr "Invia notifiche di annullamento agli utenti coinvolti quando le prenotazioni vengono elaborate."
+
+#. Default: "Notify affected users"
+#: ../behaviors/pending_cleanup/pending_cleanup.py:57
+msgid "pending_bookings_cleanup_notify_users_label"
+msgstr "Notifica gli utenti coinvolti"
+
+#. Default: "You are not allowed to run pending cleanup"
+#: ../restapi/services/pending_cleanup/service.py:21
+msgid "pending_cleanup_unauthorized"
+msgstr "Non sei autorizzato a eseguire la pulizia delle prenotazioni in attesa"
 
 #. Default: "Please select a time slot"
 #: ../browser/prenotazione_add.py:278

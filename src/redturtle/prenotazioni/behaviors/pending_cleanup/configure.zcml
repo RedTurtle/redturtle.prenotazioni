@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="redturtle.prenotazioni"
+    >
+
+  <plone:behavior
+      name="pending_bookings_cleanup"
+      title="Pending bookings cleanup"
+      description="Automatic cleanup options for old pending bookings."
+      factory=".pending_cleanup.PendingBookingsCleanup"
+      provides=".pending_cleanup.IPendingBookingsCleanup"
+      marker=".pending_cleanup.IPendingBookingsCleanup"
+      />
+
+</configure>
