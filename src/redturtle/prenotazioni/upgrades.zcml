@@ -385,5 +385,15 @@
         handler=".upgrades.update_rolemap"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="redturtle.prenotazioni:default"
+      source="2011"
+      destination="2012"
+      >
+    <genericsetup:upgradeStep
+        title="Add booking end time to notification email messages"
+        handler=".upgrades.to_2012"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

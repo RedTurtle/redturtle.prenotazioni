@@ -519,3 +519,46 @@ def to_2009(context):
 
 def to_2010(context):
     update_rolemap(context)
+
+
+def update_notification_messages_with_time_range(context):
+    """Add booking end time to notification email messages on all PrenotazioniFolder objects.
+
+    Replaces 'at ${booking_time}' with 'from ${booking_time} to ${booking_time_end}'
+    in move, refuse and cancel messages.
+    For confirm messages, adds date/time info if not already present.
+    """
+    fields_with_at_time = [
+        "notify_on_move_message",
+        "notify_on_refuse_message",
+        "notify_on_cancel_message",
+    ]
+
+    for brain in api.portal.get_tool("portal_catalog")(
+        portal_type="PrenotazioniFolder"
+    ):
+        obj = brain.getObject()
+        logger.info(f"Updating notification messages with time range on <{brain.UID}>")
+
+        for field in fields_with_at_time:
+            value = getattr(obj, field, None)
+            if value and "at ${booking_time}" in value:
+                setattr(
+                    obj,
+                    field,
+                    value.replace(
+                        "at ${booking_time}",
+                        "from ${booking_time} to ${booking_time_end}",
+                    ),
+                )
+
+        confirm_msg = getattr(obj, "notify_on_confirm_message", None)
+        if confirm_msg and "${booking_time}" not in confirm_msg:
+            obj.notify_on_confirm_message = confirm_msg.replace(
+                "has been confirmed.",
+                "on ${booking_date} from ${booking_time} to ${booking_time_end} has been confirmed.",
+            )
+
+
+def to_2012(context):
+    update_notification_messages_with_time_range(context)
