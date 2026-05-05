@@ -1,11 +1,12 @@
 # -*- coding: UTF-8 -*-
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
+import unittest
+from datetime import date, datetime, timedelta
+
+import pytz
 from freezegun import freeze_time
 from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_ID, setRoles
+
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.behaviors.booking_folder.notifications import (
     BookingNotificationSupervisorUtility,
@@ -13,9 +14,6 @@ from redturtle.prenotazioni.behaviors.booking_folder.notifications import (
 from redturtle.prenotazioni.testing import (
     REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING,
 )
-
-import pytz
-import unittest
 
 
 @freeze_time("2023-05-22 10:00:00", ignore=["ZODB", "transaction"])

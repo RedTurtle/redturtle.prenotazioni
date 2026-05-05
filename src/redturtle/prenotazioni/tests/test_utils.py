@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from redturtle.prenotazioni import datetime_with_tz
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+import unittest
 
 import pytz
-import unittest
+
+from redturtle.prenotazioni import datetime_with_tz
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 
 
 class TestUtils(unittest.TestCase):

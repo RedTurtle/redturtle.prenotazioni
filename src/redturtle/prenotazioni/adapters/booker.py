@@ -1,13 +1,19 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from datetime import timedelta
+import math
+from datetime import datetime, timedelta
+from random import choice
+
 from DateTime import DateTime
 from plone import api
 from plone.memoize.instance import memoize
-from random import choice
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni import datetime_with_tz
-from redturtle.prenotazioni import logger
+from six.moves.urllib.parse import parse_qs, urlparse
+from zope.annotation.interfaces import IAnnotations
+from zope.component import Interface, getMultiAdapter
+from zope.event import notify
+from zope.interface import implementer
+from ZTUtils.Lazy import LazyMap
+
+from redturtle.prenotazioni import _, datetime_with_tz, logger
 from redturtle.prenotazioni.adapters.booking_code import IBookingCodeGenerator
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.behaviors.booking_folder.notifications.email.events import (
@@ -15,21 +21,12 @@ from redturtle.prenotazioni.behaviors.booking_folder.notifications.email.events 
 )
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
 from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
-from redturtle.prenotazioni.exceptions import BookerException
-from redturtle.prenotazioni.exceptions import BookingsLimitExceded
-from redturtle.prenotazioni.interfaces import IBookingEmailMessage
-from redturtle.prenotazioni.interfaces import IBookingNotificationSender
+from redturtle.prenotazioni.exceptions import BookerException, BookingsLimitExceded
+from redturtle.prenotazioni.interfaces import (
+    IBookingEmailMessage,
+    IBookingNotificationSender,
+)
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
-from six.moves.urllib.parse import parse_qs
-from six.moves.urllib.parse import urlparse
-from zope.annotation.interfaces import IAnnotations
-from zope.component import getMultiAdapter
-from zope.component import Interface
-from zope.event import notify
-from zope.interface import implementer
-from ZTUtils.Lazy import LazyMap
-
-import math
 
 
 class IBooker(Interface):
@@ -106,7 +103,9 @@ class Booker(object):
 
         return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(**query)
 
-    def get_available_gate(self, booking_date, booking_expiration_date=None):
+    def get_available_gate(
+        self, booking_date, booking_expiration_date=None, ignore_pauses=False
+    ):
         """
         Find which gate are free to serve this booking and choose randomly
         one of the less busy
@@ -115,7 +114,9 @@ class Booker(object):
         # if not self.prenotazioni.get_gates():
         #     return ""
         available_gates = self.prenotazioni.get_free_gates_in_slot(
-            booking_date, booking_expiration_date
+            booking_date,
+            booking_expiration_date,
+            ignore_pauses=ignore_pauses,
         )
         if len(available_gates) == 0:
             return None
@@ -160,6 +161,58 @@ class Booker(object):
             msg = _("Sorry, you can not book this slot for now.")
             raise BookerException(api.portal.translate(msg))
 
+    def _get_booking_type_obj(self, booking_type_value):
+        for item in self.context.get_booking_types():
+            if item.title == booking_type_value or item.getId() == booking_type_value:
+                return item
+        return None
+
+    def _booking_type_has_fixed_start_end(self, booking_type):
+        start_time = getattr(booking_type, "start_time", None)
+        end_time = getattr(booking_type, "end_time", None)
+        return bool(start_time and end_time)
+
+    def _normalize_fixed_start_time(self, booking_date_value, booking_type_value):
+        booking_type = self._get_booking_type_obj(booking_type_value)
+        if not booking_type or not self._booking_type_has_fixed_start_end(booking_type):
+            return datetime_with_tz(booking_date_value)
+
+        booking_date_raw = str(booking_date_value)
+        expected_hhmm = str(getattr(booking_type, "start_time"))
+        expected_hhmm_colon = f"{expected_hhmm[:2]}:{expected_hhmm[2:]}"
+
+        if "T" not in booking_date_raw:
+            msg = _(
+                "fixed_booking_type_invalid_start_time",
+                default=(
+                    "Start time '${start_time}' is required for booking type "
+                    "'${booking_type}'."
+                ),
+                mapping={
+                    "start_time": expected_hhmm_colon,
+                    "booking_type": booking_type.title,
+                },
+            )
+            raise BookerException(api.portal.translate(msg))
+
+        booking_date_dt = datetime_with_tz(booking_date_raw)
+        if booking_date_dt.strftime("%H%M") != expected_hhmm:
+            msg = _(
+                "fixed_booking_type_invalid_start_time",
+                default=(
+                    "Start time '${start_time}' is required for booking type "
+                    "'${booking_type}'."
+                ),
+                mapping={
+                    "start_time": expected_hhmm_colon,
+                    "booking_type": booking_type.title,
+                },
+            )
+            raise BookerException(api.portal.translate(msg))
+
+        normalized = f"{booking_date_dt.date().isoformat()}T{expected_hhmm_colon}:00"
+        return datetime_with_tz(normalized)
+
     def generate_params(self, data, force_gate, duration):
         # remove empty fields
         params = {k: v for k, v in data.items() if v}
@@ -184,8 +237,11 @@ class Booker(object):
         if force_gate:
             gate = force_gate
         else:
+            ignore_pauses = self.prenotazioni.booking_type_ignores_pauses(booking_type)
             available_gate = self.get_available_gate(
-                params["booking_date"], params["booking_expiration_date"]
+                params["booking_date"],
+                params["booking_expiration_date"],
+                ignore_pauses=ignore_pauses,
             )
             if available_gate:
                 gate = available_gate
@@ -337,9 +393,11 @@ class Booker(object):
         """
         Move a booking in a new slot
         """
-        data["booking_date"] = booking_date = datetime_with_tz(data["booking_date"])
-
         data["booking_type"] = booking.getBooking_type()
+        data["booking_date"] = booking_date = self._normalize_fixed_start_time(
+            data["booking_date"], data["booking_type"]
+        )
+
         conflict_manager = self.prenotazioni.conflict_manager
         current_data = booking.getBooking_date()
         current = {

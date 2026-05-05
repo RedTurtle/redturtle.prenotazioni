@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from email.utils import formataddr
-from email.utils import parseaddr
+from email.utils import formataddr, parseaddr
+
 from plone import api
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from redturtle.prenotazioni.adapters.booker import IBooker
 from zope.component import getUtility
+
+from redturtle.prenotazioni.adapters.booker import IBooker
 
 
 def reallocate_gate(obj):

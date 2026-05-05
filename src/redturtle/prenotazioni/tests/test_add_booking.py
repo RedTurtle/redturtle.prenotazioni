@@ -1,27 +1,35 @@
 # -*- coding: utf-8 -*-
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
+import unittest
+from datetime import date, datetime, timedelta
+
+import transaction
 from freezegun import freeze_time
 from plone import api
-from plone.app.testing import login
-from plone.app.testing import logout
-from plone.app.testing import setRoles
-from plone.app.testing import SITE_OWNER_NAME
-from plone.app.testing import SITE_OWNER_PASSWORD
-from plone.app.testing import TEST_USER_ID
+from plone.app.testing import (
+    SITE_OWNER_NAME,
+    SITE_OWNER_PASSWORD,
+    TEST_USER_ID,
+    login,
+    logout,
+    setRoles,
+)
 from plone.autoform.interfaces import MODES_KEY
+from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
+from zope.interface import Interface
+
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.exceptions.booker import BookerException
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
-from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
-from zope.interface import Interface
-
-import transaction
-import unittest
+from redturtle.prenotazioni.testing import (
+    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
+    REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING,
+)
+from redturtle.prenotazioni.tests.helpers import (
+    WEEK_TABLE_SCHEMA,
+    enable_prenotazione_type_time_range_behavior,
+)
+from redturtle.prenotazioni.utilities.dateutils import hm2DT
 
 DATE_STR = "2023-05-14"
 
@@ -138,7 +146,7 @@ class TestBookingRestAPIAdd(unittest.TestCase):
             },
         )
 
-        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.status_code, 200, res.json())
         self.assertEqual(res.json()["booking_date"], booking_date)
         self.assertEqual(res.json()["booking_expiration_date"], booking_expiration_date)
         self.assertEqual(res.json()["booking_type"], "Type A")
@@ -146,6 +154,137 @@ class TestBookingRestAPIAdd(unittest.TestCase):
         self.assertEqual(res.json()["title"], "Mario Rossi")
         self.assertEqual(res.json()["email"], "mario.rossi@example")
         self.assertEqual(res.json()["id"], "mario-rossi")
+
+    def test_add_booking_anonymous_fixed_time_range_ignores_lunch_gap(self):
+        enable_prenotazione_type_time_range_behavior(self.portal)
+
+        week_table = self.folder_prenotazioni.week_table
+        week_table[0]["morning_start"] = "0800"
+        week_table[0]["morning_end"] = "1300"
+        week_table[0]["afternoon_start"] = "1400"
+        week_table[0]["afternoon_end"] = "1800"
+        self.folder_prenotazioni.week_table = week_table
+
+        booking_type = api.content.create(
+            type="PrenotazioneType",
+            title="Type Full Day",
+            duration=600,
+            start_time="0800",
+            end_time="1800",
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.transition(obj=booking_type, transition="publish")
+
+        transaction.commit()
+
+        self.api_session.auth = None
+        booking_day = date.today() + timedelta(1)
+        booking_date = json_compatible(hm2DT(booking_day, "0800"))
+        booking_expiration_date = json_compatible(hm2DT(booking_day, "1800"))
+
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": booking_date,
+                "booking_type": "Type Full Day",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+            },
+        )
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["booking_date"], booking_date)
+        self.assertEqual(res.json()["booking_expiration_date"], booking_expiration_date)
+        self.assertEqual(res.json()["booking_type"], "Type Full Day")
+
+    def test_add_booking_anonymous_fixed_time_range_rejects_missing_start_time(self):
+        enable_prenotazione_type_time_range_behavior(self.portal)
+
+        week_table = self.folder_prenotazioni.week_table
+        week_table[0]["morning_start"] = "0800"
+        week_table[0]["morning_end"] = "1300"
+        week_table[0]["afternoon_start"] = "1400"
+        week_table[0]["afternoon_end"] = "1800"
+        self.folder_prenotazioni.week_table = week_table
+
+        booking_type = api.content.create(
+            type="PrenotazioneType",
+            title="Type Full Day",
+            duration=600,
+            start_time="0800",
+            end_time="1800",
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.transition(obj=booking_type, transition="publish")
+        transaction.commit()
+
+        self.api_session.auth = None
+        booking_day = date.today() + timedelta(1)
+
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": booking_day.isoformat(),
+                "booking_type": "Type Full Day",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+            },
+        )
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(
+            res.json()["message"],
+            "Start time '08:00' is required for booking type 'Type Full Day'.",
+        )
+
+    def test_add_booking_anonymous_fixed_time_range_rejects_wrong_start_time(self):
+        enable_prenotazione_type_time_range_behavior(self.portal)
+
+        week_table = self.folder_prenotazioni.week_table
+        week_table[0]["morning_start"] = "0800"
+        week_table[0]["morning_end"] = "1300"
+        week_table[0]["afternoon_start"] = "1400"
+        week_table[0]["afternoon_end"] = "1800"
+        self.folder_prenotazioni.week_table = week_table
+
+        booking_type = api.content.create(
+            type="PrenotazioneType",
+            title="Type Full Day",
+            duration=600,
+            start_time="0800",
+            end_time="1800",
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.transition(obj=booking_type, transition="publish")
+        transaction.commit()
+
+        self.api_session.auth = None
+        booking_day = date.today() + timedelta(1)
+
+        res = self.api_session.post(
+            self.folder_prenotazioni.absolute_url() + "/@booking",
+            json={
+                "booking_date": f"{booking_day.isoformat()}T09:00:00+00:00",
+                "booking_type": "Type Full Day",
+                "fields": [
+                    {"name": "title", "value": "Mario Rossi"},
+                    {"name": "email", "value": "mario.rossi@example"},
+                ],
+            },
+        )
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(
+            res.json()["message"],
+            "Start time '08:00' is required for booking type 'Type Full Day'.",
+        )
 
     def test_add_booking_anonymous_over_validity_dates(self):
         self.folder_prenotazioni.aData = date.today() - timedelta(days=1)

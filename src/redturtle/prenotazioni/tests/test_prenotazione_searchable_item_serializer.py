@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
-from datetime import date
-from datetime import timedelta
+import unittest
+from datetime import date, timedelta
+
 from dateutil import parser
 from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_ID, setRoles
 from plone.restapi.serializer.converters import json_compatible
-from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 
-import unittest
+from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 
 
 class TestPrenotazioniSearch(unittest.TestCase):

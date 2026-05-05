@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from datetime import timedelta
+import unittest
+from datetime import datetime, timedelta
+
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
-
-import unittest
 
 
 class TestBaseSlot(unittest.TestCase):

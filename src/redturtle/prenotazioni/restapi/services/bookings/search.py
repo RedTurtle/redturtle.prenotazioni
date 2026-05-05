@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
+import logging
+import os
+
 from DateTime import DateTime
 from plone import api
 from plone.restapi.services import Service
-from redturtle.prenotazioni import _
-from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
-from zExceptions import BadRequest
-from zExceptions import Unauthorized
+from zExceptions import BadRequest, Unauthorized
 from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
-import logging
-import os
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
 
 logger = logging.getLogger(__name__)
 SEE_OWN_ANONYMOUS_BOOKINGS = os.environ.get("SEE_OWN_ANONYMOUS_BOOKINGS") in {

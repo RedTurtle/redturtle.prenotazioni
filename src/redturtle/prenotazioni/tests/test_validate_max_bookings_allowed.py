@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+import unittest
+
+from zope.interface import Invalid
+
 from redturtle.prenotazioni.content.prenotazioni_folder import (
     validate_max_bookings_allowed,
 )
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
-from zope.interface import Invalid
-
-import unittest
 
 
 class Testf_validate_max_bookings_allowed(unittest.TestCase):

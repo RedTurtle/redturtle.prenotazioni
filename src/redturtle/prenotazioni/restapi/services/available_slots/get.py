@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
+import calendar
+import datetime
 from datetime import timedelta
+
 from plone import api
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.services import Service
-from redturtle.prenotazioni import _
 from zExceptions import BadRequest
 from zope.component import getUtility
 
-import calendar
-import datetime
+from redturtle.prenotazioni import _
 
 
 class AvailableSlots(Service):
@@ -104,15 +105,19 @@ class AvailableSlots(Service):
             raise BadRequest(msg)
         booking_type = self.request.form.get("booking_type")
         fixed_start_time = None
+        ignore_pauses = False
         if booking_type:
             booking_type_obj = self._resolve_booking_type(booking_type)
             booking_type_name = (
                 booking_type_obj and booking_type_obj.title or booking_type
             )
             start_time = getattr(booking_type_obj, "start_time", None)
+            end_time = getattr(booking_type_obj, "end_time", None)
             if start_time:
                 st = start_time
                 fixed_start_time = st[:2] + ":" + st[2:]
+            if start_time and end_time:
+                ignore_pauses = True
             slot_min_size = (
                 prenotazioni_context_state.get_booking_type_duration(booking_type_name)
                 * 60
@@ -136,6 +141,7 @@ class AvailableSlots(Service):
                     slot,
                     slot_min_size=slot_min_size,
                     bypass_user_restrictions=bypass_user_restrictions,
+                    ignore_pauses=ignore_pauses,
                 )
                 if not info.get("url", ""):
                     continue

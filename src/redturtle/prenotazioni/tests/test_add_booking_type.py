@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
-from AccessControl.unauthorized import Unauthorized
+import unittest
 from datetime import date
+
+from AccessControl.unauthorized import Unauthorized
 from plone import api
-from plone.app.testing import login
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
-from redturtle.prenotazioni.tests.helpers import (
-    enable_prenotazione_type_time_range_behavior,
-)
-from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
+from plone.app.testing import TEST_USER_ID, login, setRoles
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 
-import unittest
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
+from redturtle.prenotazioni.tests.helpers import (
+    WEEK_TABLE_SCHEMA,
+    enable_prenotazione_type_time_range_behavior,
+)
 
 
 class TestAddBookingType(unittest.TestCase):

@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from datetime import time
-from datetime import timedelta
-from plone.app.event.base import default_timezone
-from plone.memoize import forever
-from redturtle.prenotazioni import tznow
+from datetime import datetime, time, timedelta
 
 # import pytz
 import six
+from plone.app.event.base import default_timezone
+from plone.memoize import forever
+
+from redturtle.prenotazioni import tznow
 
 # Born to be monkeypatched for the tests
 TIMEZONE_CACHE = True

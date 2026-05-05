@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
-from .. import notify_the_message_failure
-from . import INotificationAppIO
 from functools import partial
-from redturtle.prenotazioni.interfaces import IBookingAPPIoMessage
-from redturtle.prenotazioni.interfaces import IBookingNotificationSender
-from redturtle.prenotazioni.utilities import handle_exception_by_log
+
 from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
+
+from redturtle.prenotazioni.interfaces import (
+    IBookingAPPIoMessage,
+    IBookingNotificationSender,
+)
+from redturtle.prenotazioni.utilities import handle_exception_by_log
+
+from .. import notify_the_message_failure
+from . import INotificationAppIO
 
 
 def booking_folder_provides_current_behavior(booking):

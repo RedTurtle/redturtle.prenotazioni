@@ -3,12 +3,12 @@ from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
-from redturtle.prenotazioni import _
 from zope import schema
 from zope.component import adapter
-from zope.interface import implementer
-from zope.interface import provider
+from zope.interface import implementer, provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
+
+from redturtle.prenotazioni import _
 
 
 @provider(IContextAwareDefaultFactory)
@@ -46,7 +46,7 @@ def notify_on_confirm_message_default_factory(context):
     return api.portal.translate(
         _(
             "notify_on_confirm_message_default_value",
-            "The booking ${booking_type} for ${title} has been confirmed."
+            "The booking ${booking_type} for ${title} on ${booking_date} from ${booking_time} to ${booking_time_end} has been confirmed."
             "<br/><br/>You can see details and print a reminder following this <a href=${booking_print_url}>link</a>.",
         )
     )
@@ -68,7 +68,7 @@ def notify_on_move_message_default_factory(context):
         _(
             "notify_on_move_message_default_value",
             "The booking scheduling for ${booking_type} was modified."
-            "<br/><br/>The new one is on ${booking_date} at ${booking_time}."
+            "<br/><br/>The new one is on ${booking_date} from ${booking_time} to ${booking_time_end}."
             "<br/><br/>You can see details and print a reminder following this <a href=${booking_print_url}>link</a>.",
         )
     )
@@ -89,7 +89,7 @@ def notify_on_refuse_message_default_factory(context):
     return api.portal.translate(
         _(
             "notify_on_refuse_message_default_value",
-            "The booking ${booking_type} of ${booking_date} at ${booking_time} was refused.",
+            "The booking ${booking_type} of ${booking_date} from ${booking_time} to ${booking_time_end} was refused.",
         )
     )
 
@@ -109,7 +109,7 @@ def notify_on_cancel_message_default_factory(context):
     return api.portal.translate(
         _(
             "notify_on_cancel_message_default_value",
-            "The booking ${booking_type} of ${booking_date} at ${booking_time} was canceled.",
+            "The booking ${booking_type} of ${booking_date} from ${booking_time} to ${booking_time_end} was canceled.",
         )
     )
 

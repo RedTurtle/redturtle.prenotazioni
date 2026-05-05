@@ -3,10 +3,11 @@ from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
-from redturtle.prenotazioni.adapters.booker import BookerException
-from redturtle.prenotazioni.adapters.booker import IBooker
 from zExceptions import BadRequest
 from zope.interface import alsoProvides
+
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni.adapters.booker import BookerException, IBooker
 
 
 class MoveBooking(Service):
@@ -22,6 +23,23 @@ class MoveBooking(Service):
         """
         data = json_body(self.request)
         booking_id = data.get("booking_id", None)
+        if not booking_id:
+            msg = api.portal.translate(
+                _(
+                    "Required input '${field}' is missing.",
+                    mapping=dict(field="booking_id"),
+                )
+            )
+            raise BadRequest(msg)
+
+        if not data.get("booking_date"):
+            msg = api.portal.translate(
+                _(
+                    "Required input '${field}' is missing.",
+                    mapping=dict(field="booking_date"),
+                )
+            )
+            raise BadRequest(msg)
 
         booking = api.content.get(UID=booking_id)
 

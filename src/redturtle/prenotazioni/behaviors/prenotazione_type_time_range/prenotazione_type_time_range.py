@@ -2,15 +2,14 @@
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
+from zope import schema
+from zope.component import adapter
+from zope.interface import implementer, invariant, provider
+
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.content.prenotazione_type import (
     get_time_range_duration_minutes,
 )
-from zope import schema
-from zope.component import adapter
-from zope.interface import implementer
-from zope.interface import invariant
-from zope.interface import provider
 
 
 @provider(IFormFieldProvider)

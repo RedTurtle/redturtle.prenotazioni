@@ -1,20 +1,18 @@
 # -*- coding: UTF-8 -*-
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
+import email
+import unittest
+from datetime import date, datetime, timedelta
+
+import pytz
 from freezegun import freeze_time
 from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_ID, setRoles
+from zope.event import notify
+
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.events import BookingReminderEvent
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
-from zope.event import notify
-
-import email
-import pytz
-import unittest
 
 
 @freeze_time("2023-05-22 10:00:00", ignore=["ZODB", "transaction"])

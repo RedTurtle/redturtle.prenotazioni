@@ -3,6 +3,7 @@ from plone import api
 from plone.memoize.view import memoize
 from plone.protect.authenticator import createToken
 from Products.Five.browser import BrowserView
+
 from redturtle.prenotazioni.config import MIN_IN_DAY
 from redturtle.prenotazioni.utilities.urls import urlify
 

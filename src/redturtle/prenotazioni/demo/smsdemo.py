@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 from plone import api
+from zope.component import adapter
+from zope.interface import implementer
+
 from redturtle.prenotazioni.behaviors.booking_folder.notifications.sms.adapters import (
     BookingNotificationSender,
 )
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.demo import logger
 from redturtle.prenotazioni.demo.interfaces import IRedturtlePrenotazioniStagingLayer
-from redturtle.prenotazioni.interfaces import IBookingNotificationSender
-from redturtle.prenotazioni.interfaces import IBookingSMSMessage
-from zope.component import adapter
-from zope.interface import implementer
+from redturtle.prenotazioni.interfaces import (
+    IBookingNotificationSender,
+    IBookingSMSMessage,
+)
 
 
 @implementer(IBookingNotificationSender)

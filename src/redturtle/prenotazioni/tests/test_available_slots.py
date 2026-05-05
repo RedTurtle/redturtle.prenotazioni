@@ -1,27 +1,28 @@
 # -*- coding: utf-8 -*-
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
+import calendar
+import unittest
+from datetime import date, datetime, timedelta
+
+import pytz
+import transaction
 from dateutil import relativedelta
 from freezegun import freeze_time
 from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import SITE_OWNER_NAME
-from plone.app.testing import SITE_OWNER_PASSWORD
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_PASSWORD
+from plone.app.testing import (
+    SITE_OWNER_NAME,
+    SITE_OWNER_PASSWORD,
+    TEST_USER_ID,
+    TEST_USER_PASSWORD,
+    setRoles,
+)
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
+
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 from redturtle.prenotazioni.tests.helpers import (
     enable_prenotazione_type_time_range_behavior,
 )
-
-import calendar
-import pytz
-import transaction
-import unittest
 
 DATE_STR = "2023-05-14"
 
@@ -653,6 +654,48 @@ class TestAvailableSlots(unittest.TestCase):
         for item in items:
             local_dt = datetime.fromisoformat(item).astimezone(tz)
             self.assertEqual((local_dt.hour, local_dt.minute), (8, 0))
+
+    @freeze_time(DATE_STR)
+    def test_booking_type_with_fixed_time_range_ignores_lunch_gap(self):
+        enable_prenotazione_type_time_range_behavior(self.portal)
+
+        week_table = self.folder_prenotazioni.week_table
+        week_table[0]["morning_start"] = "0800"
+        week_table[0]["morning_end"] = "1300"
+        week_table[0]["afternoon_start"] = "1400"
+        week_table[0]["afternoon_end"] = "1800"
+        self.folder_prenotazioni.week_table = week_table
+
+        api.content.create(
+            type="PrenotazioneType",
+            title="Type Full Day",
+            duration=600,
+            start_time="0800",
+            end_time="1800",
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+
+        now = date.today()
+        next_month = now.month + 1
+        current_year = now.year
+
+        self.folder_prenotazioni.daData = now
+        transaction.commit()
+
+        response = self.api_session.get(
+            "{}/@available-slots?booking_type=Type Full Day&start={}&end={}".format(
+                self.folder_prenotazioni.absolute_url(),
+                json_compatible(date(current_year, next_month, 1)),
+                json_compatible(date(current_year, next_month, 28)),
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+
+        self.assertIn(
+            self.dt_local_to_json(datetime(current_year, next_month, 5, 8, 0)),
+            response.json()["items"],
+        )
 
     def test_cacheability(self):
         response = self.api_session.get(

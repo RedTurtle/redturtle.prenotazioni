@@ -1,22 +1,21 @@
 # -*- coding: utf-8 -*-
+import json
+
 from plone import api
-from plone.restapi.interfaces import IFieldSerializer
-from plone.restapi.interfaces import ISerializeToJson
+from plone.restapi.interfaces import IFieldSerializer, ISerializeToJson
 from plone.restapi.serializer.converters import json_compatible
 from Products.CMFCore.utils import getToolByName
-from redturtle.prenotazioni import logger
-from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.content.prenotazione_type import IPrenotazioneType
-from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
-from zope.component import adapter
-from zope.component import getMultiAdapter
+from zope.component import adapter, getMultiAdapter
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface.interfaces import ComponentLookupError
 from zope.publisher.interfaces import IRequest
 from zope.schema import getFields
 
-import json
+from redturtle.prenotazioni import logger
+from redturtle.prenotazioni.content.prenotazione import IPrenotazione
+from redturtle.prenotazioni.content.prenotazione_type import IPrenotazioneType
+from redturtle.prenotazioni.interfaces import ISerializeToPrenotazioneSearchableItem
 
 
 def get_booking_wf_state_title(context):

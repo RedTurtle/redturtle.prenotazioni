@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+
+import six
 from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
-from redturtle.prenotazioni.adapters.slot import BaseSlot
 from six.moves import range
 from zope.component import Interface
 from zope.interface import implementer
 
-import six
+from redturtle.prenotazioni.adapters.slot import BaseSlot
 
 
 class IConflictManager(Interface):
@@ -127,7 +128,12 @@ class ConflictManager(object):
         """
         booking_date = data.get("booking_date", "")
         slot = self.get_choosen_slot(data)
-        availability = self.prenotazioni.get_free_slots(booking_date)
+        ignore_pauses = self.prenotazioni.booking_type_ignores_pauses(
+            data.get("booking_type", "")
+        )
+        availability = self.prenotazioni.get_free_slots(
+            booking_date, ignore_pauses=ignore_pauses
+        )
 
         if exclude:
             availability = self.add_exclude(exclude, availability)
