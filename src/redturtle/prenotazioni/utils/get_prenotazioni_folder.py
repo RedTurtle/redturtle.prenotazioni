@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_chain, aq_inner
-
-from redturtle.prenotazioni.content.prenotazioni_folder import (
-    IPrenotazioniFolder,
-    PrenotazioniFolder,
-)
+from Acquisition import aq_chain
+from Acquisition import aq_inner
+from redturtle.prenotazioni.content.prenotazioni_folder import IPrenotazioniFolder
+from redturtle.prenotazioni.content.prenotazioni_folder import PrenotazioniFolder
 
 
 # Camel case due to legacy

@@ -1,19 +1,21 @@
 # -*- coding: UTF-8 -*-
-import unittest
-from datetime import date, datetime, timedelta
-
-import pytz
+from .helpers import WEEK_TABLE_SCHEMA
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 from freezegun import freeze_time
 from plone import api
-from plone.app.testing import TEST_USER_ID, setRoles
-from zope.component import adapter, provideHandler
-from zope.globalrequest import getRequest
-
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.interfaces import IBookingReminderEvent
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from zope.component import adapter
+from zope.component import provideHandler
+from zope.globalrequest import getRequest
 
-from .helpers import WEEK_TABLE_SCHEMA
+import pytz
+import unittest
 
 TESTING_TIME = datetime(year=2023, month=11, day=23, hour=10, minute=0)
 NOTIFICAION_GAP = 3

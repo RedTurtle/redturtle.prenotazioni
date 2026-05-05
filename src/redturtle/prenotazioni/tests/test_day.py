@@ -1,24 +1,22 @@
 # -*- coding: UTF-8 -*-
-import unittest
-from datetime import date, timedelta
-
-import pytz
+from datetime import date
+from datetime import timedelta
 from freezegun import freeze_time
 from plone import api
-from plone.app.testing import (
-    SITE_OWNER_NAME,
-    SITE_OWNER_PASSWORD,
-    TEST_USER_ID,
-    setRoles,
-)
+from plone.app.testing import setRoles
+from plone.app.testing import SITE_OWNER_NAME
+from plone.app.testing import SITE_OWNER_PASSWORD
+from plone.app.testing import TEST_USER_ID
 from plone.restapi.testing import RelativeSession
+from redturtle.prenotazioni import tznow
+from redturtle.prenotazioni.adapters.booker import IBooker
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
 from transaction import commit
 from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
-from redturtle.prenotazioni import tznow
-from redturtle.prenotazioni.adapters.booker import IBooker
-from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+import pytz
+import unittest
 
 
 @implementer(IObjectEvent)

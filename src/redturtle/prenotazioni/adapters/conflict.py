@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-
-import six
 from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
+from redturtle.prenotazioni.adapters.slot import BaseSlot
 from six.moves import range
 from zope.component import Interface
 from zope.interface import implementer
 
-from redturtle.prenotazioni.adapters.slot import BaseSlot
+import six
 
 
 class IConflictManager(Interface):

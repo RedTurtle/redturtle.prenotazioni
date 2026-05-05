@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
-import unittest
-from datetime import date, datetime, timedelta
-
-import transaction
 from AccessControl import Unauthorized
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 from freezegun import freeze_time
 from plone import api
-from plone.app.testing import TEST_USER_ID, login, logout, setRoles
-from zExceptions import NotFound
-
+from plone.app.testing import login
+from plone.app.testing import logout
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from zExceptions import NotFound
+
+import transaction
+import unittest
 
 
 @freeze_time("2023-05-22 10:00:00", ignore=["ZODB", "transaction"])

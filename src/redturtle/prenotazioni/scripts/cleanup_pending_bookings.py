@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 """Cleanup old pending bookings script."""
 
-import argparse
-import sys
-
 from DateTime import DateTime
 from plone import api
 from plone.api.exc import InvalidParameterError
-from transaction import commit
-
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.content.prenotazioni_folder import IPrenotazioniFolder
+from transaction import commit
+
+import argparse
+import sys
 
 
 def _get_script_args(argv=None):

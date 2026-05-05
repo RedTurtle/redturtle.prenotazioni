@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-import json
-
 from plone import api
 from plone.restapi.deserializer import json_body
 from plone.restapi.services.content.update import ContentPatch
+from redturtle.prenotazioni import _
 from zExceptions import BadRequest
 from zope.component import getUtility
 from zope.schema._bootstrapinterfaces import ValidationError
 from zope.schema.interfaces import IVocabularyFactory
 
-from redturtle.prenotazioni import _
+import json
 
 
 class UpdateBooking(ContentPatch):

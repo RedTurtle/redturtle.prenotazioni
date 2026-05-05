@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
-import csv
-import datetime
-
 from plone import api
 from Products.Five import BrowserView
-from six import StringIO
-from zExceptions import BadRequest
-
 from redturtle.prenotazioni import _
 from redturtle.prenotazioni.restapi.serializers.adapters.prenotazione import (
     get_booking_wf_state_title,
 )
 from redturtle.prenotazioni.utilities.dateutils import get_default_timezone
+from six import StringIO
+from zExceptions import BadRequest
+
+import csv
+import datetime
 
 
 class BookingsExport(BrowserView):

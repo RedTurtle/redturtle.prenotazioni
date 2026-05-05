@@ -5,7 +5,8 @@ from Products.CMFPlone import PloneMessageFactory as __
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from zope.i18n import translate
-from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 class PrenotazioniPortalState(BrowserView):

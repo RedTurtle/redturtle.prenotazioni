@@ -1,34 +1,36 @@
 # -*- coding: UTF-8 -*-
-import email
-import unittest
-from datetime import date, datetime, timedelta
-from unittest.mock import MagicMock, patch
-
-import pytz
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 from freezegun import freeze_time
 from plone import api
-from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.schema import SchemaInvalidatedEvent
-from zope.component import getGlobalSiteManager, queryUtility
-from zope.event import notify
-from zope.globalrequest import getRequest
-from zope.interface import implementer
-from zope.interface.interfaces import IObjectEvent
-
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.behaviors.booking_folder.notifications.sms.adapters import (
     BookingNotificationSender,
 )
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.interfaces import (
-    IBookingNotificationSender,
-    IBookingSMSMessage,
-    IRedturtlePrenotazioniLayer,
-)
+from redturtle.prenotazioni.interfaces import IBookingNotificationSender
+from redturtle.prenotazioni.interfaces import IBookingSMSMessage
+from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.testing import (
     REDTURTLE_PRENOTAZIONI_API_INTEGRATION_TESTING,
 )
+from unittest.mock import MagicMock
+from unittest.mock import patch
+from zope.component import getGlobalSiteManager
+from zope.component import queryUtility
+from zope.event import notify
+from zope.globalrequest import getRequest
+from zope.interface import implementer
+from zope.interface.interfaces import IObjectEvent
+
+import email
+import pytz
+import unittest
 
 
 @implementer(IObjectEvent)

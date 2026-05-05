@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
+from redturtle.prenotazioni.vocabularies.voc_ore_inizio import VocOreInizio
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
-
-from redturtle.prenotazioni.vocabularies.voc_ore_inizio import VocOreInizio
 
 
 @implementer(IVocabularyFactory)

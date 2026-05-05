@@ -1,23 +1,21 @@
 # -*- coding: utf-8 -*-
-import os
-
-from zope.component import adapter, getUtility
-from zope.interface import implementer
-from zope.schema.interfaces import IVocabularyFactory
-
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.behaviors.booking_folder.notifications.appio.voc_service_keys import (
     API_KEYS,
 )
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
-from redturtle.prenotazioni.interfaces import (
-    IBookingAPPIoMessage,
-    IBookingNotificationSender,
-    IBookingNotificatorSupervisorUtility,
-    IRedturtlePrenotazioniLayer,
-)
+from redturtle.prenotazioni.interfaces import IBookingAPPIoMessage
+from redturtle.prenotazioni.interfaces import IBookingNotificationSender
+from redturtle.prenotazioni.interfaces import IBookingNotificatorSupervisorUtility
+from redturtle.prenotazioni.interfaces import IRedturtlePrenotazioniLayer
 from redturtle.prenotazioni.io_tools.api import Api
 from redturtle.prenotazioni.io_tools.storage import logstorage
+from zope.component import adapter
+from zope.component import getUtility
+from zope.interface import implementer
+from zope.schema.interfaces import IVocabularyFactory
+
+import os
 
 APPIO_DUMMY_CF = os.getenv("APPIO_DUMMY_CF")
 

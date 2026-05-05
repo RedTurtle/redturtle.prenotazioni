@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
-import unittest
-from datetime import date, datetime, timedelta
-from unittest import mock
-
+from .helpers import WEEK_TABLE_SCHEMA
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 from freezegun import freeze_time
 from plone import api
-from plone.app.testing import TEST_USER_ID, setRoles
-
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.scripts.cleanup_pending_bookings import (
     cleanup_pending_bookings_in_site,
-    main,
 )
+from redturtle.prenotazioni.scripts.cleanup_pending_bookings import main
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_FUNCTIONAL_TESTING
+from unittest import mock
 
-from .helpers import WEEK_TABLE_SCHEMA
+import unittest
 
 
 class TestCleanupPendingBookings(unittest.TestCase):

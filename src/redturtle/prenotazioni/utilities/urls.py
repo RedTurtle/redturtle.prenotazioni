@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-import six
 from six.moves.urllib.parse import urlencode
+
+import six
 
 
 def urlify(url="", paths=[], params={}):

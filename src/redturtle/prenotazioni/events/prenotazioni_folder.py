@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from plone.app.contentrules.rule import get_assignments
 from plone.contentrules.engine.assignments import RuleAssignment
-from plone.contentrules.engine.interfaces import IRuleAssignmentManager, IRuleStorage
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import getUtility
 
 

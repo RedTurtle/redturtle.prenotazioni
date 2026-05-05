@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from plone.registry.interfaces import IRegistry
-from zope.component import getUtility
-
 from redturtle.prenotazioni import logger
+from zope.component import getUtility
 
 
 def send_email(msg):

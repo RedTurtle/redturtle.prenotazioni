@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 from datetime import datetime
-
 from io_tools.storage import Storage as Base
 from pony import orm
 

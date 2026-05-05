@@ -10,23 +10,22 @@ following attributes:
 
 """
 
-import http.client as http_client
-import logging
-import os
-from datetime import datetime
-
-import requests
-import yaml
+from . import logger
+from .monkey import RESTAPI_TIMEOUT
 from bravado.client import SwaggerClient
 from bravado.exception import HTTPForbidden
 from bravado.requests_client import RequestsClient
 from bravado_core.spec import is_yaml
+from datetime import datetime
 from jsonschema.exceptions import ValidationError
 from plone.memoize import forever
 from pytz import timezone
 
-from . import logger
-from .monkey import RESTAPI_TIMEOUT
+import http.client as http_client
+import logging
+import os
+import requests
+import yaml
 
 # STATUS INTERNI A QUESTA API
 PROFILE_NOT_FOUND = "PROFILE_NOT_FOUND"

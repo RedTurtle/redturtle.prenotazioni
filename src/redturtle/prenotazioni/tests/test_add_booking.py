@@ -1,35 +1,32 @@
 # -*- coding: utf-8 -*-
-import unittest
-from datetime import date, datetime, timedelta
-
-import transaction
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 from freezegun import freeze_time
 from plone import api
-from plone.app.testing import (
-    SITE_OWNER_NAME,
-    SITE_OWNER_PASSWORD,
-    TEST_USER_ID,
-    login,
-    logout,
-    setRoles,
-)
+from plone.app.testing import login
+from plone.app.testing import logout
+from plone.app.testing import setRoles
+from plone.app.testing import SITE_OWNER_NAME
+from plone.app.testing import SITE_OWNER_PASSWORD
+from plone.app.testing import TEST_USER_ID
 from plone.autoform.interfaces import MODES_KEY
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
-from zope.interface import Interface
-
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.exceptions.booker import BookerException
-from redturtle.prenotazioni.testing import (
-    REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING,
-    REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING,
-)
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_INTEGRATION_TESTING
 from redturtle.prenotazioni.tests.helpers import (
-    WEEK_TABLE_SCHEMA,
     enable_prenotazione_type_time_range_behavior,
 )
+from redturtle.prenotazioni.tests.helpers import WEEK_TABLE_SCHEMA
 from redturtle.prenotazioni.utilities.dateutils import hm2DT
+from zope.interface import Interface
+
+import transaction
+import unittest
 
 DATE_STR = "2023-05-14"
 

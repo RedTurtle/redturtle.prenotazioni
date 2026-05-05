@@ -1,19 +1,13 @@
 # -*- coding: utf-8 -*-
-import math
-from datetime import datetime, timedelta
-from random import choice
-
+from datetime import datetime
+from datetime import timedelta
 from DateTime import DateTime
 from plone import api
 from plone.memoize.instance import memoize
-from six.moves.urllib.parse import parse_qs, urlparse
-from zope.annotation.interfaces import IAnnotations
-from zope.component import Interface, getMultiAdapter
-from zope.event import notify
-from zope.interface import implementer
-from ZTUtils.Lazy import LazyMap
-
-from redturtle.prenotazioni import _, datetime_with_tz, logger
+from random import choice
+from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
+from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.adapters.booking_code import IBookingCodeGenerator
 from redturtle.prenotazioni.adapters.slot import BaseSlot
 from redturtle.prenotazioni.behaviors.booking_folder.notifications.email.events import (
@@ -21,12 +15,21 @@ from redturtle.prenotazioni.behaviors.booking_folder.notifications.email.events 
 )
 from redturtle.prenotazioni.config import VERIFIED_BOOKING
 from redturtle.prenotazioni.content.prenotazione import VACATION_TYPE
-from redturtle.prenotazioni.exceptions import BookerException, BookingsLimitExceded
-from redturtle.prenotazioni.interfaces import (
-    IBookingEmailMessage,
-    IBookingNotificationSender,
-)
+from redturtle.prenotazioni.exceptions import BookerException
+from redturtle.prenotazioni.exceptions import BookingsLimitExceded
+from redturtle.prenotazioni.interfaces import IBookingEmailMessage
+from redturtle.prenotazioni.interfaces import IBookingNotificationSender
 from redturtle.prenotazioni.prenotazione_event import MovedPrenotazione
+from six.moves.urllib.parse import parse_qs
+from six.moves.urllib.parse import urlparse
+from zope.annotation.interfaces import IAnnotations
+from zope.component import getMultiAdapter
+from zope.component import Interface
+from zope.event import notify
+from zope.interface import implementer
+from ZTUtils.Lazy import LazyMap
+
+import math
 
 
 class IBooker(Interface):
