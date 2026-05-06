@@ -655,7 +655,7 @@ class TestAvailableSlots(unittest.TestCase):
             self.assertEqual((local_dt.hour, local_dt.minute), (8, 0))
 
     @freeze_time(DATE_STR)
-    def test_booking_type_with_fixed_time_range_ignores_lunch_gap(self):
+    def test_booking_type_with_fixed_time_range_rejects_lunch_gap(self):
         enable_prenotazione_type_time_range_behavior(self.portal)
 
         week_table = self.folder_prenotazioni.week_table
@@ -690,11 +690,48 @@ class TestAvailableSlots(unittest.TestCase):
             )
         )
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["items"], [])
 
-        self.assertIn(
-            self.dt_local_to_json(datetime(current_year, next_month, 5, 8, 0)),
-            response.json()["items"],
+    @freeze_time(DATE_STR)
+    def test_booking_type_with_fixed_time_range_rejects_pause_overlap(self):
+        enable_prenotazione_type_time_range_behavior(self.portal)
+
+        week_table = self.folder_prenotazioni.week_table
+        week_table[0]["morning_start"] = "0800"
+        week_table[0]["morning_end"] = "1800"
+        week_table[0]["afternoon_start"] = None
+        week_table[0]["afternoon_end"] = None
+        self.folder_prenotazioni.week_table = week_table
+        self.folder_prenotazioni.pause_table = [
+            {"day": "0", "pause_start": "1200", "pause_end": "1230"}
+        ]
+
+        api.content.create(
+            type="PrenotazioneType",
+            title="Type Full Day",
+            duration=600,
+            start_time="0800",
+            end_time="1800",
+            container=self.folder_prenotazioni,
+            gates=["all"],
         )
+
+        now = date.today()
+        next_month = now.month + 1
+        current_year = now.year
+
+        self.folder_prenotazioni.daData = now
+        transaction.commit()
+
+        response = self.api_session.get(
+            "{}/@available-slots?booking_type=Type Full Day&start={}&end={}".format(
+                self.folder_prenotazioni.absolute_url(),
+                json_compatible(date(current_year, next_month, 1)),
+                json_compatible(date(current_year, next_month, 28)),
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["items"], [])
 
     def test_cacheability(self):
         response = self.api_session.get(

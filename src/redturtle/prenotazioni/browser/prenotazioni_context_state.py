@@ -425,7 +425,6 @@ class PrenotazioniContextState(BrowserView):
         day,
         slot_min_size=0,
         bypass_user_restrictions=False,
-        ignore_pauses=False,
     ):
         """Get all the booking urls divided by gate
 
@@ -455,7 +454,7 @@ class PrenotazioniContextState(BrowserView):
             return urls
         if self.maximum_bookable_date and day > self.maximum_bookable_date.date():
             return urls
-        slots_by_gate = self.get_free_slots(day, ignore_pauses=ignore_pauses)
+        slots_by_gate = self.get_free_slots(day)
         for gate in slots_by_gate:
             slots = slots_by_gate[gate]
             for slot in slots:
@@ -473,7 +472,6 @@ class PrenotazioniContextState(BrowserView):
         day,
         slot_min_size=0,
         bypass_user_restrictions=False,
-        ignore_pauses=False,
     ):
         """Get all the booking urls
 
@@ -485,16 +483,15 @@ class PrenotazioniContextState(BrowserView):
             day,
             slot_min_size,
             bypass_user_restrictions=bypass_user_restrictions,
-            ignore_pauses=ignore_pauses,
         )
         urls = {}
         for url in itertools.chain.from_iterable(urls_by_gate.values()):
             urls[url["title"]] = url
         return sorted(urls.values(), key=lambda x: x["title"])
 
-    def is_slot_busy(self, day, slot, ignore_pauses=False):
+    def is_slot_busy(self, day, slot):
         """Check if a slot is busy (i.e. the is no free slot overlapping it)"""
-        free_slots = self.get_free_slots(day, ignore_pauses=ignore_pauses)
+        free_slots = self.get_free_slots(day)
         for gate in free_slots:
             for free_slot in free_slots[gate]:
                 intersection = slot.intersect(free_slot)
@@ -510,7 +507,6 @@ class PrenotazioniContextState(BrowserView):
         slot,
         slot_min_size=0,
         bypass_user_restrictions=False,
-        ignore_pauses=False,
     ):
         """Returns, the the booking url for an anonymous user
 
@@ -524,11 +520,10 @@ class PrenotazioniContextState(BrowserView):
             day,
             slot_min_size,
             bypass_user_restrictions=bypass_user_restrictions,
-            ignore_pauses=ignore_pauses,
         )
         if not all_booking_urls:
             # If not the slot can be unavailable or busy
-            if self.is_slot_busy(day, slot, ignore_pauses=ignore_pauses):
+            if self.is_slot_busy(day, slot):
                 return self.busy_slot_booking_url
             else:
                 return self.unavailable_slot_booking_url
@@ -638,9 +633,7 @@ class PrenotazioniContextState(BrowserView):
                     gates.add(gate)
         return gates
 
-    def get_free_gates_in_slot(
-        self, booking_date, booking_end_date=None, ignore_pauses=False
-    ):
+    def get_free_gates_in_slot(self, booking_date, booking_end_date=None):
         """
         The gates not associated to a Prenotazione object for booking_date
 
@@ -648,9 +641,7 @@ class PrenotazioniContextState(BrowserView):
         """
         date_slot = BaseSlot(start=booking_date, stop=booking_end_date)
         available = set()
-        for gate, slots in self.get_free_slots(
-            booking_date, ignore_pauses=ignore_pauses
-        ).items():
+        for gate, slots in self.get_free_slots(booking_date).items():
             for slot in slots:
                 if date_slot in slot:
                     available.add(gate)
@@ -973,7 +964,7 @@ class PrenotazioniContextState(BrowserView):
         return slots_by_gate
 
     @memoize
-    def get_free_slots(self, booking_date, period="day", ignore_pauses=False):
+    def get_free_slots(self, booking_date, period="day"):
         """This will return the free slots divided by gate
 
         :param booking_date: a datetime object
@@ -989,9 +980,7 @@ class PrenotazioniContextState(BrowserView):
         gates_by_period = day_intervals_by_gate.get(period, {}).get("gates", {})
         availability = {}
         for gate, interval in gates_by_period.items():
-            if period == "day" and ignore_pauses:
-                intervals = [interval]
-            elif period == "day":
+            if period == "day":
                 intervals = [
                     day_intervals_by_gate.get("morning", {}).get("gates", {})[gate],
                     day_intervals_by_gate.get("afternoon", {}).get("gates", {})[gate],
@@ -1001,38 +990,29 @@ class PrenotazioniContextState(BrowserView):
             slots_by_gate = self.get_busy_slots(booking_date, period)
             availability.setdefault(gate, [])
             all_gate_slots = slots_by_gate.get(gate, [])
-            if ignore_pauses:
-                gate_slots = [
-                    x
-                    for x in all_gate_slots
-                    if x.context.portal_type != PAUSE_PORTAL_TYPE
-                ]
-            else:
-                pauses_slots = [
-                    x
-                    for x in all_gate_slots
-                    if x.context.portal_type == PAUSE_PORTAL_TYPE
-                ]
-                booking_slots = [
-                    x
-                    for x in all_gate_slots
-                    if x.context.portal_type != PAUSE_PORTAL_TYPE
-                ]
-                gate_slots = []
-                gate_slots.extend(pauses_slots)
-                for slot in booking_slots:
-                    skip = False
-                    for pause in pauses_slots:
-                        if slot in pause:
-                            # edge-case when there is a slot created inside a pause range.
-                            # probably this is because the slot (booking) has been created before
-                            # someone set the pause.
-                            # the booking should be listed, but its slot can't appear here because
-                            # could mess free slots calc.
-                            skip = True
-                            break
-                    if not skip:
-                        gate_slots.append(slot)
+
+            pauses_slots = [
+                x for x in all_gate_slots if x.context.portal_type == PAUSE_PORTAL_TYPE
+            ]
+            booking_slots = [
+                x for x in all_gate_slots if x.context.portal_type != PAUSE_PORTAL_TYPE
+            ]
+            gate_slots = []
+            gate_slots.extend(pauses_slots)
+            for slot in booking_slots:
+                skip = False
+                for pause in pauses_slots:
+                    if slot in pause:
+                        # edge-case when there is a slot created inside a pause range.
+                        # probably this is because the slot (booking) has been created before
+                        # someone set the pause.
+                        # the booking should be listed, but its slot can't appear here because
+                        # could mess free slots calc.
+                        skip = True
+                        break
+                if not skip:
+                    gate_slots.append(slot)
+
             for interval in intervals:
                 if interval:
                     if interval.upper_value and interval.lower_value:
@@ -1112,13 +1092,8 @@ class PrenotazioniContextState(BrowserView):
         return None
 
     def booking_type_ignores_pauses(self, booking_type):
-        booking_type = self.resolve_booking_type(booking_type)
-        if not booking_type:
-            return False
-        return bool(
-            getattr(booking_type, "start_time", None)
-            and getattr(booking_type, "end_time", None)
-        )
+        # Fixed time ranges must still respect pauses and day gaps.
+        return False
 
     def get_booking_type_duration(self, booking_type):
         """Return the seconds for this booking_type"""

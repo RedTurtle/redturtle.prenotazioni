@@ -127,12 +127,7 @@ class ConflictManager(object):
         """
         booking_date = data.get("booking_date", "")
         slot = self.get_choosen_slot(data)
-        ignore_pauses = self.prenotazioni.booking_type_ignores_pauses(
-            data.get("booking_type", "")
-        )
-        availability = self.prenotazioni.get_free_slots(
-            booking_date, ignore_pauses=ignore_pauses
-        )
+        availability = self.prenotazioni.get_free_slots(booking_date)
 
         if exclude:
             availability = self.add_exclude(exclude, availability)

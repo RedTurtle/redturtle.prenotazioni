@@ -106,9 +106,7 @@ class Booker(object):
 
         return api.portal.get_tool("portal_catalog").unrestrictedSearchResults(**query)
 
-    def get_available_gate(
-        self, booking_date, booking_expiration_date=None, ignore_pauses=False
-    ):
+    def get_available_gate(self, booking_date, booking_expiration_date=None):
         """
         Find which gate are free to serve this booking and choose randomly
         one of the less busy
@@ -119,7 +117,6 @@ class Booker(object):
         available_gates = self.prenotazioni.get_free_gates_in_slot(
             booking_date,
             booking_expiration_date,
-            ignore_pauses=ignore_pauses,
         )
         if len(available_gates) == 0:
             return None
@@ -240,11 +237,9 @@ class Booker(object):
         if force_gate:
             gate = force_gate
         else:
-            ignore_pauses = self.prenotazioni.booking_type_ignores_pauses(booking_type)
             available_gate = self.get_available_gate(
                 params["booking_date"],
                 params["booking_expiration_date"],
-                ignore_pauses=ignore_pauses,
             )
             if available_gate:
                 gate = available_gate
