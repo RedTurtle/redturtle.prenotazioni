@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.9.0 (unreleased)
+2.9.0 (2026-06-09)
 ------------------
 
 - Plone 6.1 support
