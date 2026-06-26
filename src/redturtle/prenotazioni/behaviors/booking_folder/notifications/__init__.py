@@ -4,7 +4,6 @@ from Products.CMFCore.utils import getToolByName
 from redturtle.prenotazioni import _
 from zope.annotation.interfaces import IAnnotations
 
-
 # Annotation key used to collect, on the current request, the notifications
 # that have actually been sent while handling it. This allows endpoints (ie.
 # @booking-notify) to report back to the caller which notifications were sent.
