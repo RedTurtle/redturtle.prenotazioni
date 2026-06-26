@@ -4,6 +4,12 @@ from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.services import Service
 from Products.DCWorkflow.events import AfterTransitionEvent
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni.behaviors.booking_folder.notifications import (
+    get_sent_notifications,
+)
+from redturtle.prenotazioni.behaviors.booking_folder.notifications import (
+    reset_sent_notifications,
+)
 from zExceptions import BadRequest
 from zope.event import notify
 from zope.interface import alsoProvides
@@ -37,6 +43,8 @@ class NotifyUserAboutBookingConfirm(Service):
             },
         )()
 
+        reset_sent_notifications(self.request)
+
         notify(
             AfterTransitionEvent(
                 workflow=None,
@@ -49,4 +57,9 @@ class NotifyUserAboutBookingConfirm(Service):
             )
         )
 
-        return ""
+        sent = get_sent_notifications(self.request)
+
+        return {
+            "sent": sent,
+            "sent_count": len(sent),
+        }
