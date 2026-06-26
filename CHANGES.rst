@@ -5,7 +5,8 @@ Changelog
 2.9.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- L'endpoint "invia notifiche" riotrna informazioni sulle notifiche realmente inviate.
+  [mamico]
 
 
 2.9.0 (2026-06-09)

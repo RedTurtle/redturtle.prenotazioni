@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from .. import record_sent_notification
 from .. import write_message_to_object_history
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
@@ -42,4 +43,10 @@ class BookingTransitionEmailSender:
             send_email(message)
             write_message_to_object_history(
                 self.booking, message=self.message_adapter.message_history
+            )
+            record_sent_notification(
+                self.request,
+                gateway="email",
+                recipient=message.get("To", "") or message.get("Bcc", ""),
+                message=self.message_adapter.message_history,
             )

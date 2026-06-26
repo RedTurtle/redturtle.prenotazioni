@@ -32,6 +32,7 @@ class BookingTransitionAPPIoSender:
         return Api(secret=api_key, storage=storage)
 
     def send(self) -> bool:
+        from .. import record_sent_notification
         from .. import write_message_to_object_history
 
         supervisor = getUtility(IBookingNotificatorSupervisorUtility)
@@ -117,6 +118,12 @@ class BookingTransitionAPPIoSender:
 
             write_message_to_object_history(
                 self.booking, self.message_adapter.message_history
+            )
+            record_sent_notification(
+                self.request,
+                gateway="appio",
+                recipient=fiscalcode,
+                message=self.message_adapter.message_history,
             )
 
             return True
