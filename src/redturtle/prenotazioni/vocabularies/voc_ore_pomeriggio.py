@@ -9,7 +9,6 @@ class VocOrePomeriggio(VocOreInizio):
     """ """
 
     HOURS = [f"{i:02}" for i in range(14, 21)]
-    # MINUTES = [f"{i:02}" for i in range(0, 60, 5)]
 
     def __call__(self, context):
         return super(VocOrePomeriggio, self).__call__(context)
