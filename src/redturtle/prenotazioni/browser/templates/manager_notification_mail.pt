@@ -62,6 +62,6 @@
 
   <p i18n:translate="label_new_booking_notify_link">
   Go to the booking to see more details and manage it:
-    <a href="#" i18n:name="url" i18n:translate="label_booking_link_word" tal:attributes="href booking_url">booking</a>
+    <a href="${booking_url}" i18n:name="url" i18n:translate="label_booking_link_word">booking</a>
   </p>
 </tal:root>
