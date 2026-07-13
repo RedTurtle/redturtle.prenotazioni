@@ -1352,6 +1352,11 @@ msgstr ""
 msgid "label_new_booking_notify_link"
 msgstr ""
 
+#. Default: "booking"
+#: ../browser/templates/manager_notification_mail.pt:65
+msgid "label_booking_link_word"
+msgstr ""
+
 #. Default: "Required booking fields"
 #: ../content/prenotazioni_folder.py:188
 msgid "label_required_booking_fields"
