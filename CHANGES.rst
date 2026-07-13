@@ -21,7 +21,7 @@ Changelog
   [fedevancin]
 - fixed an email link bug in the booking notification template
   [fedevancin]
-
+- fixed a format problem in an operator mail link
 
 2.8.8 (2025-05-12)
 ------------------
