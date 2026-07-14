@@ -5,7 +5,7 @@ Changelog
 2.9.1 (unreleased)
 ------------------
 
-- Updated afternoon time range.
+- Added separate vocabulary to better handle afternoon time range.
   [daniele]
 
 2.9.0 (2026-06-09)
