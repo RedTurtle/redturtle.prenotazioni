@@ -7,6 +7,9 @@ Changelog
 
 - Added separate vocabulary to better handle afternoon time range.
   [daniele]
+- fixed a format problem in an operator mail link
+  [fedevancin]
+
 
 2.9.0 (2026-06-09)
 ------------------
