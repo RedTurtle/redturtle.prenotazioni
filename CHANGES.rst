@@ -7,7 +7,6 @@ Changelog
 
 - Added separate vocabulary to better handle afternoon time range.
   [daniele]
-- Nothing changed yet.
 
 
 2.9.0 (2026-06-09)
