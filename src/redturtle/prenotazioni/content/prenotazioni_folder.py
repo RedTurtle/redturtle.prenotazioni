@@ -87,13 +87,13 @@ class IWeekTableRow(model.Schema):
 
     afternoon_start = schema.Choice(
         title=_("afternoon_start_label", default="Start time in the afternoon"),
-        vocabulary="redturtle.prenotazioni.VocOreInizio",
+        vocabulary="redturtle.prenotazioni.VocOrePomeriggio",
         required=False,
     )
 
     afternoon_end = schema.Choice(
         title=_("afternoon_end_label", default="End time in the afternoon"),
-        vocabulary="redturtle.prenotazioni.VocOreInizio",
+        vocabulary="redturtle.prenotazioni.VocOrePomeriggio",
         required=False,
     )
 
