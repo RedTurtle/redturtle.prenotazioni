@@ -7,6 +7,8 @@ Changelog
 
 - Added separate vocabulary to better handle afternoon time range.
   [daniele]
+- fixed a format problem in an operator mail link
+  [fedevancin]
 
 
 2.9.0 (2026-06-09)
@@ -28,8 +30,7 @@ Changelog
   [fedevancin]
 - fixed an email link bug in the booking notification template
   [fedevancin]
-- fixed a format problem in an operator mail link
-  [fedevancin]
+
 
 2.8.8 (2025-05-12)
 ------------------
