@@ -606,7 +606,7 @@ class PrenotazioniFolder(Container):
 
     def get_booking_type(self, booking_type):
         for i in self.get_booking_types():
-            if i.title == booking_type:
+            if i.title == booking_type or i.getId() == booking_type:
                 return i
         return None
 

@@ -7,6 +7,8 @@ Changelog
 
 - Added separate vocabulary to better handle afternoon time range.
   [daniele]
+- Added a more secure check for both title and id for the BookingType ct.
+  [fedevancin]
 - fixed a format problem in an operator mail link
   [fedevancin]
 
