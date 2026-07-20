@@ -9,6 +9,9 @@ Changelog
   [daniele]
 - Added a more secure check for both title and id for the BookingType ct.
   [fedevancin]
+- fixed a format problem in an operator mail link
+  [fedevancin]
+
 
 2.9.0 (2026-06-09)
 ------------------

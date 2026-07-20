@@ -1352,7 +1352,12 @@ msgstr "Postazione"
 #. Default: "Go to the booking to see more details and manage it: ${url}"
 #: ../browser/templates/manager_notification_mail.pt:65
 msgid "label_new_booking_notify_link"
-msgstr "Vai alla <a href=\"${url}\">prenotazione</a> per gestirla e vedere maggiori dettagli"
+msgstr "Vai alla ${url} per gestirla e vedere maggiori dettagli"
+
+#. Default: "booking"
+#: ../browser/templates/manager_notification_mail.pt:65
+msgid "label_booking_link_word"
+msgstr "prenotazione"
 
 #. Default: "Required booking fields"
 #: ../content/prenotazioni_folder.py:188
