@@ -11,7 +11,8 @@ Changelog
   [fedevancin]
 - fixed a format problem in an operator mail link
   [fedevancin]
-
+- fixed eggs path in local buildout.cfg
+  [daniele]
 
 2.9.0 (2026-06-09)
 ------------------
