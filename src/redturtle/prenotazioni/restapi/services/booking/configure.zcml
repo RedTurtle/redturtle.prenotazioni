@@ -13,7 +13,7 @@
 
 
   <!-- TODO: sarebbe meglio aggiungere un permesso redturtle.prenotazioni.AddBooking
-        da assegnare di default anche agli anonimi e usare quello anzichè zope2.View
+        da assegnare di default anche agli anonimi e usare quello non zope2.View
     -->
   <plone:service
       method="POST"
