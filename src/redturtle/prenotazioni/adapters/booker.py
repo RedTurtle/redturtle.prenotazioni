@@ -115,7 +115,8 @@ class Booker(object):
         # if not self.prenotazioni.get_gates():
         #     return ""
         available_gates = self.prenotazioni.get_free_gates_in_slot(
-            booking_date, booking_expiration_date
+            booking_date,
+            booking_expiration_date,
         )
         if len(available_gates) == 0:
             return None
@@ -160,6 +161,58 @@ class Booker(object):
             msg = _("Sorry, you can not book this slot for now.")
             raise BookerException(api.portal.translate(msg))
 
+    def _get_booking_type_obj(self, booking_type_value):
+        for item in self.context.get_booking_types():
+            if item.title == booking_type_value or item.getId() == booking_type_value:
+                return item
+        return None
+
+    def _booking_type_has_fixed_start_end(self, booking_type):
+        start_time = getattr(booking_type, "start_time", None)
+        end_time = getattr(booking_type, "end_time", None)
+        return bool(start_time and end_time)
+
+    def _normalize_fixed_start_time(self, booking_date_value, booking_type_value):
+        booking_type = self._get_booking_type_obj(booking_type_value)
+        if not booking_type or not self._booking_type_has_fixed_start_end(booking_type):
+            return datetime_with_tz(booking_date_value)
+
+        booking_date_raw = str(booking_date_value)
+        expected_hhmm = str(getattr(booking_type, "start_time"))
+        expected_hhmm_colon = f"{expected_hhmm[:2]}:{expected_hhmm[2:]}"
+
+        if "T" not in booking_date_raw:
+            msg = _(
+                "fixed_booking_type_invalid_start_time",
+                default=(
+                    "Start time '${start_time}' is required for booking type "
+                    "'${booking_type}'."
+                ),
+                mapping={
+                    "start_time": expected_hhmm_colon,
+                    "booking_type": booking_type.title,
+                },
+            )
+            raise BookerException(api.portal.translate(msg))
+
+        booking_date_dt = datetime_with_tz(booking_date_raw)
+        if booking_date_dt.strftime("%H%M") != expected_hhmm:
+            msg = _(
+                "fixed_booking_type_invalid_start_time",
+                default=(
+                    "Start time '${start_time}' is required for booking type "
+                    "'${booking_type}'."
+                ),
+                mapping={
+                    "start_time": expected_hhmm_colon,
+                    "booking_type": booking_type.title,
+                },
+            )
+            raise BookerException(api.portal.translate(msg))
+
+        normalized = f"{booking_date_dt.date().isoformat()}T{expected_hhmm_colon}:00"
+        return datetime_with_tz(normalized)
+
     def generate_params(self, data, force_gate, duration):
         # remove empty fields
         params = {k: v for k, v in data.items() if v}
@@ -185,7 +238,8 @@ class Booker(object):
             gate = force_gate
         else:
             available_gate = self.get_available_gate(
-                params["booking_date"], params["booking_expiration_date"]
+                params["booking_date"],
+                params["booking_expiration_date"],
             )
             if available_gate:
                 gate = available_gate
@@ -337,9 +391,11 @@ class Booker(object):
         """
         Move a booking in a new slot
         """
-        data["booking_date"] = booking_date = datetime_with_tz(data["booking_date"])
-
         data["booking_type"] = booking.getBooking_type()
+        data["booking_date"] = booking_date = self._normalize_fixed_start_time(
+            data["booking_date"], data["booking_type"]
+        )
+
         conflict_manager = self.prenotazioni.conflict_manager
         current_data = booking.getBooking_date()
         current = {

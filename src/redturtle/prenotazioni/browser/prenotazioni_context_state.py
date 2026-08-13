@@ -421,7 +421,10 @@ class PrenotazioniContextState(BrowserView):
         return urls
 
     def get_all_booking_urls_by_gate(
-        self, day, slot_min_size=0, bypass_user_restrictions=False
+        self,
+        day,
+        slot_min_size=0,
+        bypass_user_restrictions=False,
     ):
         """Get all the booking urls divided by gate
 
@@ -465,7 +468,10 @@ class PrenotazioniContextState(BrowserView):
         return urls
 
     def get_all_booking_urls(
-        self, day, slot_min_size=0, bypass_user_restrictions=False
+        self,
+        day,
+        slot_min_size=0,
+        bypass_user_restrictions=False,
     ):
         """Get all the booking urls
 
@@ -474,7 +480,9 @@ class PrenotazioniContextState(BrowserView):
         slot_min_size: seconds
         """
         urls_by_gate = self.get_all_booking_urls_by_gate(
-            day, slot_min_size, bypass_user_restrictions=bypass_user_restrictions
+            day,
+            slot_min_size,
+            bypass_user_restrictions=bypass_user_restrictions,
         )
         urls = {}
         for url in itertools.chain.from_iterable(urls_by_gate.values()):
@@ -494,7 +502,11 @@ class PrenotazioniContextState(BrowserView):
 
     @memoize
     def get_anonymous_booking_url(
-        self, day, slot, slot_min_size=0, bypass_user_restrictions=False
+        self,
+        day,
+        slot,
+        slot_min_size=0,
+        bypass_user_restrictions=False,
     ):
         """Returns, the the booking url for an anonymous user
 
@@ -505,7 +517,9 @@ class PrenotazioniContextState(BrowserView):
         """
         # First we check if we have booking urls
         all_booking_urls = self.get_all_booking_urls(
-            day, slot_min_size, bypass_user_restrictions=bypass_user_restrictions
+            day,
+            slot_min_size,
+            bypass_user_restrictions=bypass_user_restrictions,
         )
         if not all_booking_urls:
             # If not the slot can be unavailable or busy
@@ -976,6 +990,7 @@ class PrenotazioniContextState(BrowserView):
             slots_by_gate = self.get_busy_slots(booking_date, period)
             availability.setdefault(gate, [])
             all_gate_slots = slots_by_gate.get(gate, [])
+
             pauses_slots = [
                 x for x in all_gate_slots if x.context.portal_type == PAUSE_PORTAL_TYPE
             ]
@@ -997,6 +1012,7 @@ class PrenotazioniContextState(BrowserView):
                         break
                 if not skip:
                     gate_slots.append(slot)
+
             for interval in intervals:
                 if interval:
                     if interval.upper_value and interval.lower_value:
@@ -1065,6 +1081,19 @@ class PrenotazioniContextState(BrowserView):
             for typ in self.context.get_booking_types()
             if typ.duration
         }
+
+    def resolve_booking_type(self, booking_type):
+        if type(booking_type) is PrenotazioneType:
+            return booking_type
+
+        if type(booking_type) is str:
+            return self.context.get_booking_type(booking_type)
+
+        return None
+
+    def booking_type_ignores_pauses(self, booking_type):
+        # Fixed time ranges must still respect pauses and day gaps.
+        return False
 
     def get_booking_type_duration(self, booking_type):
         """Return the seconds for this booking_type"""
