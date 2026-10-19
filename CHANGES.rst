@@ -5,6 +5,9 @@ Changelog
 2.9.1 (unreleased)
 ------------------
 
+- Bookings export: skip and log a warning for stale catalog brains whose
+  object no longer exists.
+  [fedevancin]
 - Added separate vocabulary to better handle afternoon time range.
   [daniele]
 - Added a more secure check for both title and id for the BookingType ct.
