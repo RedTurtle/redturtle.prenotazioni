@@ -296,6 +296,30 @@ Rest API
 
 There are some endpoints useful to use this tool also with external frontends (like Volto).
 
+Scheduling cleanup
+------------------
+
+The package provides a cleanup script at
+``src/redturtle/prenotazioni/scripts/cleanup_pending_bookings.py``.
+After buildout, schedule it with cron using your instance environment and
+run it through ``bin/instance``.
+
+Cleanup rules are configured per ``PrenotazioniFolder`` through the
+``Pending bookings cleanup`` behavior and are disabled by default.
+If a folder has not enabled these behavior options, that folder is skipped.
+
+Example of usage (cleanup every day at 01:30):
+30 1 * * * bin/instance -OPlone run bin/cleanup_pending_bookings --commit >> /path/to/logs/cleanup_pending_bookings.log 2>&1
+
+For a dry-run, without deleting any booking, just omit the ``--commit`` flag:
+30 1 * * * bin/instance -OPlone run bin/cleanup_pending_bookings >> /path/to/logs/cleanup_pending_bookings.log 2>&1
+
+Recommended production setup:
+
+- run it at least once per day
+- keep logs for auditing
+- run after backup snapshots if possible
+
 @booking
 --------
 

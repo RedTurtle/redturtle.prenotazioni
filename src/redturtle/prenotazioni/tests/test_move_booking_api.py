@@ -13,6 +13,9 @@ from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.testing import RelativeSession
 from redturtle.prenotazioni.adapters.booker import IBooker
 from redturtle.prenotazioni.testing import REDTURTLE_PRENOTAZIONI_API_FUNCTIONAL_TESTING
+from redturtle.prenotazioni.tests.helpers import (
+    enable_prenotazione_type_time_range_behavior,
+)
 
 import pytz
 import transaction
@@ -240,3 +243,79 @@ class TestMoveBookingApi(unittest.TestCase):
 
         self.assertNotEqual(response["modification_date"], old_modified)
         self.assertGreater(response["modification_date"], old_modified)
+
+    def test_move_booking_fixed_time_range_rejects_missing_start_time(self):
+        enable_prenotazione_type_time_range_behavior(self.portal)
+        booking_type = api.content.create(
+            type="PrenotazioneType",
+            title="Type Full Day",
+            duration=30,
+            start_time="0800",
+            end_time="0830",
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.transition(obj=booking_type, transition="publish")
+
+        booking = self.booker.book(
+            {
+                "booking_date": self.today,
+                "booking_type": "Type Full Day",
+                "title": "foo",
+            }
+        )
+        uid = booking.UID()
+        transaction.commit()
+
+        tomorrow = self.today + timedelta(days=1)
+        response = self.api_session_admin.post(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
+            json={
+                "booking_id": uid,
+                "booking_date": tomorrow.date().isoformat(),
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(
+            response.json()["message"],
+            "Start time '08:00' is required for booking type 'Type Full Day'.",
+        )
+
+    def test_move_booking_fixed_time_range_rejects_wrong_start_time(self):
+        enable_prenotazione_type_time_range_behavior(self.portal)
+        booking_type = api.content.create(
+            type="PrenotazioneType",
+            title="Type Full Day",
+            duration=30,
+            start_time="0800",
+            end_time="0830",
+            container=self.folder_prenotazioni,
+            gates=["all"],
+        )
+        api.content.transition(obj=booking_type, transition="publish")
+
+        booking = self.booker.book(
+            {
+                "booking_date": self.today,
+                "booking_type": "Type Full Day",
+                "title": "foo",
+            }
+        )
+        uid = booking.UID()
+        transaction.commit()
+
+        tomorrow = self.today + timedelta(days=1)
+        response = self.api_session_admin.post(
+            f"{self.folder_prenotazioni.absolute_url()}/@booking-move",
+            json={
+                "booking_id": uid,
+                "booking_date": f"{tomorrow.date().isoformat()}T09:00:00+00:00",
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(
+            response.json()["message"],
+            "Start time '08:00' is required for booking type 'Type Full Day'.",
+        )

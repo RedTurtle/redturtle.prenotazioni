@@ -5,6 +5,7 @@ from plone.restapi.deserializer import json_body
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.interfaces import ISerializeToJsonSummary
 from redturtle.prenotazioni import _
+from redturtle.prenotazioni import datetime_with_tz
 from redturtle.prenotazioni import logger
 from redturtle.prenotazioni.adapters.booker import BookerException
 from redturtle.prenotazioni.adapters.booker import IBooker
@@ -107,6 +108,49 @@ class AddBooking(BookingSchema):
         except Exception:
             logger.exception("Error while saving %s field %s for %s", value, field, obj)
 
+    def _booking_type_has_fixed_start_end(self, booking_type):
+        start_time = getattr(booking_type, "start_time", None)
+        end_time = getattr(booking_type, "end_time", None)
+        return bool(start_time and end_time)
+
+    def _raise_fixed_start_time_error(self, booking_type, expected_hhmm_colon):
+        msg = api.portal.translate(
+            _(
+                "fixed_booking_type_invalid_start_time",
+                default=(
+                    "Start time '${start_time}' is required for booking type "
+                    "'${booking_type}'."
+                ),
+                mapping={
+                    "start_time": expected_hhmm_colon,
+                    "booking_type": booking_type.title,
+                },
+            )
+        )
+        raise BadRequest(msg)
+
+    def _validate_or_fill_fixed_start_time(self, data, booking_type):
+        if not self._booking_type_has_fixed_start_end(booking_type):
+            return
+
+        booking_date = data.get("booking_date")
+        start_time = getattr(booking_type, "start_time", None)
+        expected_hhmm = str(start_time)
+        expected_hhmm_colon = f"{expected_hhmm[:2]}:{expected_hhmm[2:]}"
+
+        if "T" not in booking_date:
+            self._raise_fixed_start_time_error(booking_type, expected_hhmm_colon)
+
+        booking_date_dt = datetime_with_tz(booking_date)
+
+        if booking_date_dt.strftime("%H%M") != expected_hhmm:
+            self._raise_fixed_start_time_error(booking_type, expected_hhmm_colon)
+
+        # Always set to fixed start time
+        data["booking_date"] = (
+            f"{booking_date_dt.date().isoformat()}T{expected_hhmm_colon}:00"
+        )
+
     def validate(self):
         data = json_body(self.request)
         data_fields = {field["name"]: field["value"] for field in data["fields"]}
@@ -115,16 +159,15 @@ class AddBooking(BookingSchema):
             msg = api.portal.translate(_("You are not allowed to force the gate."))
             raise BadRequest(msg)
 
-        # campi che non sono nei data_fields
-        for field in ("booking_date", "booking_type"):
-            if not data.get(field):
-                msg = api.portal.translate(
-                    _(
-                        "Required input '${field}' is missing.",
-                        mapping=dict(field=field),
-                    )
+        # booking_type is always required
+        if not data.get("booking_type"):
+            msg = api.portal.translate(
+                _(
+                    "Required input '${field}' is missing.",
+                    mapping=dict(field="booking_type"),
                 )
-                raise BadRequest(msg)
+            )
+            raise BadRequest(msg)
 
         if data["booking_type"] in [VACATION_TYPE]:
             if not api.user.has_permission(
@@ -141,6 +184,34 @@ class AddBooking(BookingSchema):
             # TODO: check permission for special booking_types ?
             return data, data_fields
 
+        booking_type = next(
+            (
+                _t
+                for _t in self.context.get_booking_types()
+                if _t.title == data["booking_type"]
+            ),
+            None,
+        )
+
+        if not booking_type:
+            msg = api.portal.translate(
+                _(
+                    "Unknown booking type '${booking_type}'.",
+                    mapping=dict(booking_type=data["booking_type"]),
+                )
+            )
+            raise BadRequest(msg)
+
+        # booking_date is always required
+        if not data.get("booking_date"):
+            msg = api.portal.translate(
+                _(
+                    "Required input '${field}' is missing.",
+                    mapping=dict(field="booking_date"),
+                )
+            )
+            raise BadRequest(msg)
+
         for field in self.required_fields:
             if not data_fields.get(field):
                 msg = api.portal.translate(
@@ -151,16 +222,7 @@ class AddBooking(BookingSchema):
                 )
                 raise BadRequest(msg)
 
-        if data["booking_type"] not in [
-            _t.title for _t in self.context.get_booking_types()
-        ]:
-            msg = api.portal.translate(
-                _(
-                    "Unknown booking type '${booking_type}'.",
-                    mapping=dict(booking_type=data["booking_type"]),
-                )
-            )
-            raise BadRequest(msg)
+        self._validate_or_fill_fixed_start_time(data, booking_type)
 
         # booking.additional_fields validation below
         additional_fields = data.get("additional_fields") or []
@@ -176,13 +238,6 @@ class AddBooking(BookingSchema):
         field_types_validators = {
             i.value: i.field_validator for i in field_types_vocabulary
         }
-
-        booking_type = list(
-            filter(
-                lambda i: i.title == data["booking_type"],
-                self.context.get_booking_types(),
-            )
-        )[0]
 
         for field_schema in booking_type.booking_additional_fields_schema or []:
             field = list(
