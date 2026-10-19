@@ -11,6 +11,9 @@ from zExceptions import BadRequest
 
 import csv
 import datetime
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class BookingsExport(BrowserView):
@@ -115,12 +118,10 @@ class BookingsExport(BrowserView):
         """
         return self.context.REQUEST.RESPONSE.setHeader(*args)
 
-    def brain2row(self, brain):
+    def booking2row(self, booking):
         """
-        returns a generator with the booking data
+        returns a dictionary with the booking data
         """
-        booking = brain.getObject()
-
         return {
             api.portal.translate(_("csv_export_uid", default="UID")): booking.UID(),
             api.portal.translate(
@@ -167,7 +168,18 @@ class BookingsExport(BrowserView):
     def get_csv_rows(self):
         """Return the csv rows as a dictionary"""
         for brain in self.brains:
-            yield self.brain2row(brain)
+            try:
+                booking = brain.getObject()
+            except (KeyError, AttributeError):
+                # stale catalog entry: the object no longer exists, skip it
+                # instead of breaking the whole export
+                logger.warning(
+                    "Bookings export: skipping stale catalog brain %s "
+                    "(object not found). It should be unindexed.",
+                    brain.getPath(),
+                )
+                continue
+            yield self.booking2row(booking)
 
     def get_csv(self):
         """Get a csv out of the view brains"""
