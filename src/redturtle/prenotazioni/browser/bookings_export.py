@@ -118,12 +118,6 @@ class BookingsExport(BrowserView):
         """
         return self.context.REQUEST.RESPONSE.setHeader(*args)
 
-    def brain2row(self, brain):
-        """
-        returns a dictionary with the booking data
-        """
-        return self.booking2row(brain.getObject())
-
     def booking2row(self, booking):
         """
         returns a dictionary with the booking data
