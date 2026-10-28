@@ -180,9 +180,15 @@ class TestBookingNotify(unittest.TestCase):
 
         self.assertFalse(self.mailhost.messages)
 
-        self.view.reply()
+        result = self.view.reply()
 
         self.assertEqual(len(self.mailhost.messages), 1)
+
+        # the endpoint reports back the notifications that have been sent
+        self.assertEqual(result["sent_count"], 1)
+        self.assertEqual(len(result["sent"]), 1)
+        self.assertEqual(result["sent"][0]["gateway"], "email")
+        self.assertEqual(result["sent"][0]["recipient"], "jdoe@redturtle.it")
 
         mail = email.message_from_bytes(self.mailhost.messages[0])
 

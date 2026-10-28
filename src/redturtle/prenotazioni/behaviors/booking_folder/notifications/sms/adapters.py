@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from .. import record_sent_notification
 from .. import write_message_to_object_history
 from redturtle.prenotazioni.content.prenotazione import IPrenotazione
 from redturtle.prenotazioni.interfaces import IBookingNotificationSender
@@ -35,4 +36,10 @@ class BookingNotificationSender:
     def write_message_to_booking_history(self):
         write_message_to_object_history(
             self.booking, self.message_adapter.message_history
+        )
+        record_sent_notification(
+            self.request,
+            gateway="sms",
+            recipient=getattr(self.booking, "phone", ""),
+            message=self.message_adapter.message_history,
         )

@@ -621,19 +621,50 @@ also the bookings created by anonymous users with the same fiscalcode of the aut
 @booking-notify
 ---------------
 
-Endpoint that fires the confirm email to user
+Endpoint that (re)fires the *confirm* notifications for a booking (email, SMS and App IO,
+according to the booking folder configuration).
 
+This is a back-office endpoint: it requires the ``redturtle.prenotazioni.ManagePrenotazioni``
+permission (roles ``Manager``, ``Site Administrator``, ``Bookings Manager``). It is not
+accessible to the citizen/booking owner. If the user is not logged in the endpoint returns a
+401 error; if logged in without the permission it returns a 403.
 
 Example::
 
    curl -i http://localhost:8080/Plone/booking_folder/@booking-notify/<booking UID> \
      -H 'Accept: application/json'
 
+The response reports which notifications have actually been sent while handling the request,
+so the operator can verify the outcome. ``sent`` is the list of sent notifications (empty if
+none was sent, e.g. when the related gateways are disabled on the folder or the booking has no
+matching recipient), ``sent_count`` is its length.
 
-If the user is not logged in, the endpoint will return a 401 error.
+Each item of ``sent`` contains:
+
+- **gateway**: the channel used (``email``, ``sms`` or ``appio``)
+- **recipient**: the recipient the notification was sent to (email address, phone number or
+  fiscal code, depending on the gateway)
+- **message**: a human readable description of the message that was sent
 
 Response::
+
     HTTP 200 OK
+
+    {
+        "sent": [
+            {
+                "gateway": "email",
+                "recipient": "mario.rossi@example.com",
+                "message": "Confirm notification sent to mario.rossi@example.com"
+            },
+            {
+                "gateway": "sms",
+                "recipient": "+39333000000",
+                "message": "Confirm notification sent via sms"
+            }
+        ],
+        "sent_count": 2
+    }
 
 
 @day-busy-slots
