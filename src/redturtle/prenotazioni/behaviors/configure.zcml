@@ -5,6 +5,7 @@
     >
 
   <include package=".booking_folder" />
+  <include package=".pending_cleanup" />
   <include package=".prenotazione_type_time_range" />
 
   <include
