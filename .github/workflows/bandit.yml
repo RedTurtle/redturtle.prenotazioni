@@ -13,7 +13,8 @@ jobs:
       contents: read
     steps:
       - name: Perform Bandit Analysis
-        uses: PyCQA/bandit-action@8a1b30610f61f3f792fe7556e888c9d7dffa52de  # @v1.0.0
+        uses: PyCQA/bandit-action@7925d472505a4ec09ef471b22fe99c26fee47443  # main (adds python-version input; v1.0.x hardcode old Python)
         with:
             targets: ./src
+            python-version: '3.11'
 
