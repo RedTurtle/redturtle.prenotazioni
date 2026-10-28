@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.9.1 (unreleased)
+2.9.1 (2026-10-28)
 ------------------
 
 - Bookings export: skip and log a warning for stale catalog brains whose
